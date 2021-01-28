@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".activities.VerifyGSTActivity">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/gst"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <EditText
+            android:id="@+id/gstEDT"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/gstNumber"
+            android:padding="10dp"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnRegister"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="@dimen/login_margin_top"
+        android:layout_marginEnd="5dp"
+        android:background="@color/colorPrimary"
+        android:onClick="updateGST"
+        android:text="Submit"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

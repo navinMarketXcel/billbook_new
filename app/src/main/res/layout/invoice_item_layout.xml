@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llForHeader"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="9">
+
+    <TextView
+        android:id="@+id/tvProductName"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3.5"
+        android:textSize="10dp"
+        android:background="@drawable/card_lined"
+        android:ellipsize="end"
+
+        android:gravity="start"
+        android:padding="5dp"
+        android:singleLine="false"
+        android:inputType="textMultiLine"
+        android:text="PRODUCT"
+        android:textColor="@color/color_black"
+
+        />
+
+
+    <TextView
+        android:id="@+id/tvQTY"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/card_lined"
+        android:ellipsize="end"
+        android:inputType="textMultiLine"
+
+        android:gravity="start"
+        android:textSize="10dp"
+        android:padding="5dp"
+        android:singleLine="false"
+        android:text="QTY"
+
+        android:textColor="@color/color_black"
+
+        />
+
+    <TextView
+        android:id="@+id/tvRate"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textSize="10dp"
+        android:background="@drawable/card_lined"
+        android:ellipsize="end"
+        android:inputType="textMultiLine"
+        android:singleLine="false"
+        android:gravity="start"
+        android:padding="5dp"
+        android:text="PRICEerwerwerwerwer"
+        android:textColor="@color/color_black" />
+
+    <TextView
+        android:id="@+id/SGSTValue"
+        android:layout_width="0dp"
+        android:textSize="10dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/card_lined"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:inputType="textMultiLine"
+
+        android:padding="5dp"
+        android:singleLine="false"
+        android:text="SGST"
+
+        android:textColor="@color/color_black" />
+
+    <TextView
+        android:id="@+id/CGSTValue"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/card_lined"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:inputType="textMultiLine"
+
+        android:textSize="10dp"
+        android:padding="5dp"
+        android:singleLine="false"
+        android:text="CGST"
+
+        android:textColor="@color/color_black" />
+
+    <TextView
+        android:id="@+id/IGSTValue"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/card_lined"
+        android:ellipsize="end"
+        android:inputType="textMultiLine"
+android:visibility="gone"
+        android:gravity="start"
+        android:padding="5dp"
+        android:textSize="10dp"
+        android:singleLine="false"
+        android:text="SGST"
+
+        android:textColor="@color/color_black" />
+
+    <TextView
+        android:id="@+id/tvAmount"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1.5"
+        android:background="@drawable/card_lined"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:inputType="textMultiLine"
+
+        android:textSize="10dp"
+        android:padding="5dp"
+        android:singleLine="false"
+        android:text="120,000,00,0.0000"
+
+        android:textColor="@color/color_black" />
+</LinearLayout>

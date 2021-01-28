@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_otp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:focusableInTouchMode="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/card_edge"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.billbook.app.utils.CircleCheckBox
+                android:id="@+id/checkBoxGSTRed"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_margin="2dp"
+                app:borderThickness="1dp"
+                app:circleBorderColor="#cf000a"
+                app:innerCircleColor="#cf000a"
+                app:innerCircleRadius="13dp"
+                app:outerCircleColor="#64cf001c"
+                app:outerCircleRadius="2dp"
+                app:showOuterCircle="true"
+                app:textColor="#000000"
+                app:tickColor="#ffffff"
+                app:tickThickness="1dp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.billbook.app.utils.CircleCheckBox
+                android:id="@+id/checkBoxGSTGreen"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_margin="2dp"
+                app:borderThickness="1dp"
+                app:circleBorderColor="#00CFAD"
+                app:innerCircleColor="#00CFAD"
+                app:innerCircleRadius="13dp"
+                app:outerCircleColor="#6400CFAD"
+                app:outerCircleRadius="2dp"
+                app:showOuterCircle="true"
+                app:textColor="#000000"
+                app:tickColor="#ffffff"
+                app:tickThickness="1dp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".activities.SelectOtherCategoriesActivity">
+
+    <TextView
+        android:id="@+id/titleQues"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:text="Select the product category in which you deal in."
+        android:textColor="@android:color/black"
+        android:textStyle="bold"></TextView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/categorySelectionRV"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/otherCat"
+        app:layout_constraintTop_toBottomOf="@+id/titleQues"></android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/otherCat"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnNext">
+
+        <EditText
+            android:id="@+id/otherCatEdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/memberCode"
+            android:singleLine="true" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnNext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="@dimen/login_margin_top"
+        android:layout_marginEnd="5dp"
+        android:background="@color/login_bg_color"
+        android:onClick="gotoOTP"
+        android:text="Next"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</android.support.constraint.ConstraintLayout>

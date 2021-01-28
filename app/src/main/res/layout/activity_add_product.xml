@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/common_screen_padding"
+    tools:context=".activities.AddProductActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/common_screen_padding"
+        tools:context=".activities.AddProductActivity">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="25dp">
+
+                <Button
+                    android:id="@+id/btnScan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:paddingTop="@dimen/add_product_save_btn_padding_top"
+                    android:paddingBottom="@dimen/add_product_save_btn_padding_top"
+                    android:text="Scan Product"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/add_product_save_btn_size"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/select_category"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/add_product_text_size"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spinnerCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/add_product_spinner_height"
+                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
+                    android:background="@drawable/spinnerbg">
+
+                </Spinner>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/add_product_textview_margin_top"
+                    android:text="@string/select_brand"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/add_product_text_size"
+                    android:textStyle="bold" />
+
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/spinnerBrand"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/add_product_spinner_height"
+                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
+                    android:background="@drawable/spinnerbg">
+
+                </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
+
+                <TextView
+                    android:layout_width="182dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/add_product_textview_margin_top"
+                    android:text="@string/select_product"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/add_product_text_size"
+                    android:textStyle="bold" />
+
+
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/spinnerProduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/add_product_spinner_height"
+                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
+                    android:background="@drawable/spinnerbg">
+
+                </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
+
+
+                <TextView
+                    android:layout_width="182dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/add_product_textview_margin_top"
+                    android:text="@string/select_distributor"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/add_product_text_size"
+                    android:textStyle="bold" />
+
+
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/spinnerDistributor"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/add_product_spinner_height"
+                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
+                    android:background="@drawable/spinnerbg">
+
+                </com.toptoche.searchablespinnerlibrary.SearchableSpinner>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/add_product_textview_margin_top"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/product_count"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/add_product_text_size"
+                        android:textStyle="bold" />
+
+
+                    <EditText
+                        android:id="@+id/edtProductCount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/edt_border"
+                        android:gravity="left|center_vertical"
+                        android:hint="@string/enter_count"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorPrimary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/add_product_textview_margin_top"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/product_price"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/add_product_text_size"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtProductPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/edt_border"
+                        android:gravity="left|center_vertical"
+                        android:hint="@string/enter_price"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorPrimary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/add_product_textview_margin_top"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/selling_price"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/add_product_text_size"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/edtSellingPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:background="@drawable/edt_border"
+                        android:gravity="left|center_vertical"
+                        android:hint="@string/enter_selling_price"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:padding="5dp"
+                        android:textColor="@color/colorPrimary" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/camera"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/card_lined"
+                    android:onClick="startCamera"
+                    android:padding="5dp"
+                    android:src="@android:drawable/ic_menu_camera" />
+
+                <Button
+                    android:id="@+id/btnAddDistributor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/add_product_save_btn_margin_top"
+                    android:background="@color/colorAccent"
+                    android:onClick="addDistributor"
+                    android:paddingTop="@dimen/add_product_save_btn_padding_top"
+                    android:paddingBottom="@dimen/add_product_save_btn_padding_top"
+                    android:text="Add Distributor"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/add_product_save_btn_size"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/add_product_save_btn_margin_top"
+                    android:background="@color/colorAccent"
+                    android:paddingTop="@dimen/add_product_save_btn_padding_top"
+                    android:paddingBottom="@dimen/add_product_save_btn_padding_top"
+                    android:text="Submit"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/add_product_save_btn_size"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</ScrollView>

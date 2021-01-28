@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.ExpenseActivity">
+    <TableRow
+        android:id="@+id/expenseHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        >
+
+        <TextView
+            android:layout_weight="2.5"
+            android:layout_width="0dp"
+            android:text="Date"
+            android:padding="5dp"
+
+            android:gravity="center"
+            android:background="@drawable/edt_border"
+            android:layout_height="wrap_content"
+            ></TextView>
+        <TextView
+            android:layout_weight="4.5"
+            android:layout_width="0dp"
+            android:padding="5dp"
+
+            android:text="Expense"
+            android:gravity="center"
+            android:background="@drawable/edt_border"
+            android:layout_height="wrap_content"
+            ></TextView>
+        <TextView
+            android:layout_weight="3"
+            android:layout_width="0dp"
+            android:text="Amount"
+            android:gravity="center"
+            android:padding="5dp"
+            android:background="@drawable/edt_border"
+            android:layout_height="wrap_content"
+            ></TextView>
+    </TableRow>
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/expenseHeader"
+        android:id="@+id/expensesRV"
+        android:layout_width="match_parent"
+        android:layout_above="@+id/syncText"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/syncText"
+        android:layout_above="@+id/addExpense"
+        android:text="There are some expenses to be synced. Please check your internet and restrat the application."
+        android:layout_width="match_parent"
+        android:textSize="8dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/red_btn_bg_pressed_color"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <Button
+        android:id="@+id/addExpense"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:text="Add New Expense"
+        android:onClick="gotoAddExpense"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edtredbg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingTop="10dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="10dp">
+
+    <TextView
+        android:id="@+id/tvForOther"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please Add other categori here"
+        android:textColor="@color/colorPrimary"
+        android:textSize="21dp" />
+
+    <EditText
+        android:id="@+id/edtOther"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/edtredbg"
+        android:hint="Enter here"
+        android:maxLines="1" />
+
+    <Button
+        android:id="@+id/btnSubmit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/colorAccent"
+        android:text="@string/submit"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+</LinearLayout>

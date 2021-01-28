@@ -1,0 +1,1351 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".activities.BillingActivity">
+
+
+        <LinearLayout
+            android:id="@+id/ll_root"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:elevation="2dp"
+                app:contentPadding="10dp"
+                card_view:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvVendorName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:freezesText="true"
+                        android:gravity="center"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:text="Tushar Electronics"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvStoreAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="JM Road, Pune 53"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvGSTNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="GST NO :"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:elevation="2dp"
+                app:contentPadding="10dp"
+                card_view:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="left"
+                        android:text="@string/details_of_receiver_bill"
+                        android:textColor="@color/color_black"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:visibility="gone"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:text="@string/invoice_no"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtInvoiceNo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:padding="5dp"
+                                android:text="778899"
+                                android:textSize="15sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:text="@string/invoice_date"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/txtInvoiceDate"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:onClick="showDatePickerDialog"
+                                android:padding="5dp"
+                                android:text="22-03-2018"
+                                android:textSize="15sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="4"
+                                android:text="@string/name"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+
+                            <EditText
+                                android:id="@+id/edtName"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:background="@drawable/edt_background"
+                                android:hint="@string/enter_name"
+                                android:inputType="text"
+                                android:maxLength="50"
+                                android:padding="5dp"
+                                android:singleLine="true"
+                                android:textSize="15sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="4"
+                                android:text="Email"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+
+                            <EditText
+                                android:id="@+id/edtEmail"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:background="@drawable/edt_background"
+                                android:hint="@string/email"
+                                android:inputType="text"
+                                android:maxLength="50"
+                                android:padding="5dp"
+                                android:singleLine="true"
+                                android:textSize="15sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:text="@string/address"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:id="@+id/edtAddress"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:background="@drawable/edt_background"
+                                android:hint="@string/enter_address"
+                                android:inputType="text"
+                                android:maxLength="100"
+                                android:padding="5dp"
+                                android:singleLine="true"
+                                android:textSize="15sp" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:text="@string/state"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <!--<EditText
+                                android:id="@+id/edtState"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:background="@drawable/edt_background"
+                                android:hint="@string/enter_state"
+                                android:inputType="text"
+                                android:maxLength="50"
+                                android:padding="5dp"
+                                android:singleLine="true"
+                                android:textSize="15sp"
+                                />-->
+
+                            <Spinner
+                                android:id="@+id/spinnerState"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/add_product_spinner_height"
+                                android:layout_marginTop="@dimen/add_product_spinner_margin_top"
+                                android:layout_weight="6"
+                                android:background="@drawable/spinnerbggray" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:text="@string/city"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:id="@+id/edtCity"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:background="@drawable/edt_background"
+                                android:hint="@string/enter_city"
+                                android:inputType="text"
+                                android:maxLength="100"
+                                android:padding="5dp"
+                                android:singleLine="true"
+                                android:textSize="15sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:text="@string/mobile_no"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:id="@+id/edtMobNo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:background="@drawable/edt_background"
+                                android:hint="@string/enter_mob_no"
+                                android:inputType="phone"
+                                android:maxLength="10"
+                                android:padding="5dp"
+                                android:singleLine="true"
+                                android:textSize="15sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:text="@string/paymentMethod"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <Spinner
+                                android:id="@+id/paymentMethod1"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/add_product_spinner_height"
+                                android:layout_weight="6"
+                                android:background="@drawable/spinnerbg"
+                                android:entries="@array/paymentMethod"
+                                android:hint="@string/enter_mob_no"
+                                android:inputType="phone"
+                                android:maxLength="10"
+                                android:padding="5dp"
+                                android:singleLine="true"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:text="@string/paymentMethod1Title"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:id="@+id/paymentValue1"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="6"
+                                android:background="@drawable/edt_background"
+                                android:hint="@string/paymentValue1"
+                                android:inputType="phone"
+                                android:maxLength="10"
+                                android:padding="5dp"
+                                android:singleLine="true"
+                                android:textSize="15sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:text="@string/paymentMethod1"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+                            <Spinner
+                                android:id="@+id/paymentMethod2"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/add_product_spinner_height"
+                                android:layout_weight="6"
+                                android:background="@drawable/spinnerbg"
+                                android:entries="@array/paymentMethod"
+                                android:hint="@string/enter_mob_no"
+                                android:inputType="phone"
+                                android:maxLength="10"
+                                android:padding="5dp"
+                                android:singleLine="true"
+                                android:textSize="15sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:elevation="2dp"
+                app:contentPadding="10dp"
+                card_view:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="5.5"
+                            android:ellipsize="end"
+                            android:gravity="left|center_vertical"
+                            android:text="@string/name_of_models_services"
+                            android:textColor="@color/color_black"
+                            android:textSize="17dp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageButton
+
+                                android:id="@+id/ibSearchProduct"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:background="@color/float_transparent"
+                                android:padding="5dp"
+                                android:visibility="visible"
+                                app:srcCompat="@mipmap/ic_search" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Search\n Product" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageButton
+                                android:id="@+id/ibScanProduct"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5"
+                                android:background="@color/float_transparent"
+                                android:padding="5dp"
+                                app:srcCompat="@mipmap/ic_san" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Scan \n Product" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageButton
+                                android:id="@+id/ibAddProducts"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:background="@color/float_transparent"
+                                android:padding="5dp"
+                                app:srcCompat="@mipmap/add_icon"
+                                tools:ignore="RtlHardcoded" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Add\n Product" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtSwipe"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="Swipe Left(Update) Or Swipe Right(Delete) Model"
+                            android:visibility="gone" />
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recyclerViewBillingProducts"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scrollbars="vertical" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+
+            <LinearLayout
+                android:id="@+id/ll_extra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/card_edge"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+
+                    android:id="@+id/ll_IMEI"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="10">
+
+
+                    <EditText
+                        android:id="@+id/edtIMEI"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="7"
+                        android:background="@drawable/card_edge"
+                        android:enabled="false"
+                        android:hint="Enter IMEI No"
+                        android:inputType="number"
+                        android:padding="5dp" />
+
+                    <ImageButton
+                        android:id="@+id/ibScanIMEI"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.5"
+                        android:background="@null"
+                        android:src="@drawable/ic_scan" />
+
+
+                    <Button
+                        android:id="@+id/ibAddIMEI"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:background="@color/float_transparent"
+                        android:padding="5dp"
+                        android:text="Done"
+                        android:textColor="@color/colorPrimary"
+                        tools:ignore="RtlHardcoded" />
+
+
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+
+                    android:id="@+id/mRecyclerViewExtraInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical" />
+
+
+                <View
+                    android:id="@+id/dividerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/color_gray"
+                    android:visibility="gone" />
+
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/card_edge"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtSRNoOrDesc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:padding="5dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:elevation="2dp"
+                app:contentPadding="10dp"
+                card_view:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:orientation="horizontal"
+                                android:weightSum="5">
+
+
+                                <com.billbook.app.utils.CircleCheckBox
+                                    android:id="@+id/checkBoxDiscount"
+                                    android:layout_width="0dp"
+                                    android:layout_height="28dp"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    app:borderThickness="1dp"
+                                    app:circleBorderColor="@color/colorPrimary"
+                                    app:innerCircleColor="@color/colorPrimary"
+                                    app:innerCircleRadius="13dp"
+                                    app:outerCircleColor="#cada4315"
+                                    app:outerCircleRadius="2dp"
+                                    app:showOuterCircle="true"
+                                    app:textColor="#000000"
+                                    app:tickColor="#ffffff"
+                                    app:tickThickness="1dp" />
+
+
+                                <EditText
+                                    android:id="@+id/edtDiscount"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="3"
+                                    android:background="@drawable/edt_background"
+                                    android:hint="Enter Discount"
+                                    android:inputType="numberDecimal"
+                                    android:padding="5dp"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edt_background"
+                                    android:gravity="center"
+                                    android:padding="2dp"
+                                    android:text="Rs"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:weightSum="5">
+
+
+                                <com.billbook.app.utils.CircleCheckBox
+                                    android:id="@+id/checkBoxEdtGST"
+                                    android:layout_width="0dp"
+                                    android:layout_height="28dp"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    app:borderThickness="1dp"
+                                    app:circleBorderColor="@color/colorPrimary"
+                                    app:innerCircleColor="@color/colorPrimary"
+                                    app:innerCircleRadius="13dp"
+                                    app:outerCircleColor="#cada4315"
+                                    app:outerCircleRadius="2dp"
+                                    app:showOuterCircle="true"
+                                    app:textColor="#000000"
+                                    app:tickColor="#ffffff"
+                                    app:tickThickness="1dp" />
+
+
+                                <EditText
+                                    android:id="@+id/edtGST"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="3"
+                                    android:background="@drawable/edt_background"
+                                    android:hint="Enter CGST"
+                                    android:inputType="numberDecimal"
+                                    android:padding="5dp"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edt_background"
+                                    android:gravity="center"
+                                    android:padding="2dp"
+                                    android:text="%"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/color_gray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="4">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="2dp"
+                                android:orientation="horizontal"
+                                android:weightSum="5">
+
+
+                                <com.billbook.app.utils.CircleCheckBox
+                                    android:id="@+id/IGSTCheckbox"
+                                    android:layout_width="0dp"
+                                    android:layout_height="28dp"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    app:borderThickness="1dp"
+                                    app:circleBorderColor="@color/colorPrimary"
+                                    app:innerCircleColor="@color/colorPrimary"
+                                    app:innerCircleRadius="13dp"
+                                    app:outerCircleColor="#cada4315"
+                                    app:outerCircleRadius="2dp"
+                                    app:showOuterCircle="true"
+                                    app:textColor="#000000"
+                                    app:tickColor="#ffffff"
+                                    app:tickThickness="1dp" />
+
+
+                                <EditText
+                                    android:id="@+id/edtIGST"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="3"
+                                    android:background="@drawable/edt_background"
+                                    android:enabled="false"
+                                    android:hint="Enter IGST"
+                                    android:inputType="numberDecimal"
+                                    android:padding="5dp"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edt_background"
+                                    android:gravity="center"
+                                    android:padding="2dp"
+                                    android:text="%"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:weightSum="5">
+
+
+                                <com.billbook.app.utils.CircleCheckBox
+                                    android:id="@+id/SGSTCheckbox"
+                                    android:layout_width="0dp"
+                                    android:layout_height="28dp"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    android:visibility="gone"
+                                    app:borderThickness="1dp"
+                                    app:circleBorderColor="@color/colorPrimary"
+                                    app:innerCircleColor="@color/colorPrimary"
+                                    app:innerCircleRadius="13dp"
+                                    app:outerCircleColor="#cada4315"
+                                    app:outerCircleRadius="2dp"
+                                    app:showOuterCircle="true"
+                                    app:textColor="#000000"
+                                    app:tickColor="#ffffff"
+                                    app:tickThickness="1dp" />
+
+                                <EditText
+                                    android:id="@+id/edtSGST"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="3"
+                                    android:background="@drawable/edt_background"
+                                    android:enabled="false"
+                                    android:hint="Enter SGST"
+                                    android:inputType="numberDecimal"
+                                    android:padding="5dp"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edt_background"
+                                    android:gravity="center"
+                                    android:padding="2dp"
+                                    android:text="%"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:weightSum="5">
+
+
+                                <com.billbook.app.utils.CircleCheckBox
+                                    android:id="@+id/CGSTCheckbox"
+                                    android:layout_width="0dp"
+                                    android:layout_height="28dp"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    android:visibility="gone"
+                                    app:borderThickness="1dp"
+                                    app:circleBorderColor="@color/colorPrimary"
+                                    app:innerCircleColor="@color/colorPrimary"
+                                    app:innerCircleRadius="13dp"
+                                    app:outerCircleColor="#cada4315"
+                                    app:outerCircleRadius="2dp"
+                                    app:showOuterCircle="true"
+                                    app:textColor="#000000"
+                                    app:tickColor="#ffffff"
+                                    app:tickThickness="1dp" />
+
+                                <EditText
+                                    android:id="@+id/edtCGST"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="3"
+                                    android:background="@drawable/edt_background"
+                                    android:enabled="false"
+                                    android:hint="Enter SGST"
+                                    android:inputType="numberDecimal"
+                                    android:padding="5dp"
+                                    android:textSize="15sp" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="2dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/edt_background"
+                                    android:gravity="center"
+                                    android:padding="2dp"
+                                    android:text="%"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/color_gray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:gravity="end"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:gravity="end"
+                            android:padding="5dp"
+                            android:text="@string/amount_before_tax_rs"
+                            android:textColor="@color/color_black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvAmountBeforeTax"
+
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:background="@drawable/edt_background"
+                            android:gravity="end"
+                            android:padding="5dp"
+                            android:text="6250"
+                            android:textSize="15sp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:gravity="end"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:gravity="end"
+                            android:padding="5dp"
+                            android:text="@string/sgst"
+                            android:textColor="@color/color_black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvSGST"
+
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:background="@drawable/edt_background"
+                            android:gravity="end"
+                            android:padding="5dp"
+                            android:text="125"
+                            android:textSize="15sp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="2dp"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:gravity="end"
+                            android:padding="5dp"
+
+                            android:text="@string/discount"
+                            android:textColor="@color/color_black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtDiscountTotal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:background="@drawable/edt_background"
+                            android:gravity="end"
+                            android:padding="5dp"
+                            android:text="0"
+                            android:textSize="15sp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:gravity="end"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:gravity="end"
+                            android:padding="5dp"
+                            android:text="@string/gst"
+                            android:textColor="@color/color_black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtGSTTotal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:background="@drawable/edt_background"
+                            android:gravity="end"
+                            android:padding="5dp"
+                            android:text="0"
+                            android:textSize="15sp"
+                            tools:ignore="RtlHardcoded" />
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:gravity="end"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:gravity="end"
+                            android:padding="5dp"
+                            android:text="@string/kgst"
+                            android:textColor="@color/color_black"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvKGST"
+
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:background="@drawable/edt_background"
+                            android:gravity="end"
+                            android:padding="5dp"
+                            android:text="125"
+                            android:textSize="15sp" />
+
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/color_gray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="horizontal"
+                        android:weightSum="10">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="6"
+                            android:gravity="end"
+                            android:padding="5dp"
+                            android:text="@string/total_rs"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvTotal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:gravity="end"
+                            android:padding="5dp"
+                            android:text="0"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <RelativeLayout
+                android:id="@+id/ibGSTType"
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="end"
+                android:layout_margin="5dp"
+                android:background="@drawable/card_edge"
+                android:padding="5dp"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Bill Type If You Want"
+                    android:textColor="@color/color_black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="center"
+                    android:background="@color/white"
+                    android:src="@drawable/ic_down" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_Sr"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="10">
+
+
+            <EditText
+                android:id="@+id/edtSR"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8.5"
+                android:background="@drawable/card_edge"
+                android:hint="Enter Description"
+                android:inputType="text"
+                android:padding="5dp" />
+
+
+            <Button
+                android:id="@+id/ibAddSr"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:background="@color/float_transparent"
+                android:padding="5dp"
+                android:text="Done"
+                android:textColor="@color/colorPrimary"
+                tools:ignore="RtlHardcoded" />
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/colorAccent"
+            android:text="@string/submit"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

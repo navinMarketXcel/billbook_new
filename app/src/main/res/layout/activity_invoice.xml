@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.InvoiceActivity">
+
+    <LinearLayout
+        android:id="@+id/llForHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/titleCategory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Category"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/titleBrand"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Brand"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/titleProduct"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Product"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/titleQty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Qty"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+
+            />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Price"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorAccent"
+        android:text="Submit"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/llForTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnSave"
+        android:layout_weight="5"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvTotal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Total :"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="0.0 Rs."
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewInvoice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/llForTotal"
+        android:layout_below="@+id/llForHeader">
+
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout><!--
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.InvoiceActivity">
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/titleCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Category"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@id/titleBrand"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/titleBrand"
+        android:layout_width="0dp"
+        android:text="Brand"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/titleProduct"
+        app:layout_constraintStart_toEndOf="@id/titleCategory"
+        />
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/titleProduct"
+        android:layout_width="0dp"
+        android:text="Product"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/titleQty"
+        app:layout_constraintStart_toEndOf="@id/titleBrand"
+
+        />
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/titleQty"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Qty"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/price"
+        app:layout_constraintStart_toEndOf="@id/titleProduct"
+        />
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/titleQty"
+        />
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/billingRV"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+</android.support.v7.widget.RecyclerView>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/totalTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="Total"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/totalAmount"
+        app:layout_constraintStart_toStartOf="parent" />
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/totalAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="100 RS"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/totalTV" />
+</android.support.constraint.ConstraintLayout>-->

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+        <color name="colorPrimary">#1d4388</color>
+    <color name="colorPrimaryDark">#1e4388</color>
+    <color name="colorAccent">#4b4b4b</color>
+    <color name="color_gray">#DCDCDC</color>
+    <color name="color_black">#000000</color>
+    <color name="login_bg_color">#fd8469</color>
+    <color name="color_common_text_home">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="grey">#4b4b4b</color>
+    <color name="mdtp_accent_color">#1d4388</color>
+    <color name="mdtp_accent_color_dark">#1e4388</color>
+</resources>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.SearchInvoiceActivity">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:elevation="2dp"
+
+        app:contentPadding="10dp"
+        card_view:cardCornerRadius="5dp">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <EditText
+                android:id="@+id/edtMobileNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/edt_background"
+                android:hint="Enter Mobile No Or Customer Name"
+                android:inputType="text"
+                android:maxLength="10"
+                android:padding="5dp" />
+
+           <TextView
+               android:id="@+id/toAndFromDate"
+               android:layout_width="match_parent"
+               android:enabled="true"
+               android:focusable="false"
+               android:drawableLeft="@drawable/ic_calendar_today"
+               android:editable="true"
+               android:drawablePadding="5dp"
+               android:onClick="showDatePickerDialog"
+               android:padding="15dp"
+                android:hint="Select Date"
+               android:layout_marginLeft="5dp"
+               android:layout_marginRight="5dp"
+               android:layout_marginBottom="10dp"
+
+               android:layout_marginTop="10dp"
+               android:background="@drawable/edt_background"
+               android:layout_height="wrap_content">
+
+           </TextView>
+            <Button
+                android:id="@+id/btnSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:background="@color/colorPrimary"
+                android:text="@string/search"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:elevation="2dp"
+        app:contentPadding="10dp"
+        card_view:cardCornerRadius="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/tvRecordNotFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Records Not Found." />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewInvoice"
+                android:layout_width="match_parent"
+                android:layout_above="@+id/downloadAll"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+            <Button
+                android:layout_alignParentBottom="true"
+                android:id="@+id/downloadAll"
+                android:textColor="@color/white"
+                android:layout_marginTop="10dp"
+                android:onClick="downloadInvoice"
+                android:background="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:text="Download Selected Invoices"
+                android:layout_height="wrap_content"></Button>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

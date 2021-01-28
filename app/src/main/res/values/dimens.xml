@@ -1,0 +1,33 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="pass_margin_top">18dp</dimen>
+    <dimen name="username_width">250dp</dimen>
+    <dimen name="user_icon_margin_bottom">16dp</dimen>
+    <dimen name="login_margin_top">20dp</dimen>
+    <dimen name="user_image_width">106dp</dimen>
+    <!--Home -->
+    <dimen name="common_screen_padding">10dp</dimen>
+    <dimen name="common_tab_width">130dp</dimen>
+    <dimen name="common_tab_image_width">80dp</dimen>
+    <dimen name="common_tab_text_size">13.5dp</dimen>
+    <dimen name="common_tab_text_marginTop">12dp</dimen>
+
+
+    <!--add product-->
+    <dimen name="add_product_textview_margin_top">15dp</dimen>
+    <dimen name="add_product_layout_margin_top">40dp</dimen>
+    <dimen name="add_product_layout_margin_left">40dp</dimen>
+    <dimen name="add_product_layout_margin_right">50dp</dimen>
+    <dimen name="add_product_text_size">14dp</dimen>
+    <dimen name="add_product_spinner_height">40dp</dimen>
+    <dimen name="add_product_spinner_margin_top">10dp</dimen>
+    <dimen name="add_product_save_btn_size">16dp</dimen>
+    <dimen name="add_product_save_btn_padding_top">5dp</dimen>
+    <dimen name="add_product_save_btn_margin_top">15dp</dimen>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+
+</resources>

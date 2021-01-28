@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="paymentMethod">
+        <item>Select Payment Mode</item>
+        <item>Cash</item>
+        <item>Credit Card</item>
+        <item>Debit Card</item>
+        <item>Digital Wallet</item>
+        <item>UPI</item>
+        <item>Finance</item>
+    </string-array>
+
+    <string-array name="gst_type">
+        <item>CGST/SGST (Local customer)</item>
+        <item>IGST (Central/outstation customer)</item>
+    </string-array>
+
+    <string-array name="gstPercentage">
+        <item>Select GST</item>
+        <item>0</item>
+        <item>5</item>
+        <item>12</item>
+        <item>18</item>
+        <item>28</item>
+    </string-array>
+
+    <string-array name="shopStatus1">
+        <item>Select Shop Status</item>
+        <item>Propertiership</item>
+        <item>Partnership</item>
+        <item>Private Limited</item>
+    </string-array>
+    <string-array name="shopStatus2">
+        <item>Stand Alone Store</item>
+        <item>Local Chain Store</item>
+        <item>National Chain Store</item>
+    </string-array>
+    <string-array name="categories">
+        <item>Telecom</item>
+        <item>Consumer Electronics (TV, Refrigerator, Washing machine)</item>
+        <item>Electrical Appliances</item>
+        <item>IT</item>
+        <item>Battery and Inverter</item>
+        <item>Tyre</item>
+        <item>Optics</item>
+        <item>Others</item>
+    </string-array>
+    <string-array name="quantity">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+
+    </string-array>
+
+    <string-array name="states">
+        <item>Select State</item>
+        <item>Andaman &amp; Nicobar Islands</item>
+        <item>Andhra Pradesh</item>
+        <item>Arunachal Pradesh</item>
+        <item>Assam &amp; north east</item>
+        <item>Assam</item>
+        <item>Bihar</item>
+        <item>Chattisgarh</item>
+        <item>Chhattisgarh</item>
+        <item>Dadra &amp; Nagar Havel</item>
+        <item>Daman &amp; Diu</item>
+        <item>Delhi</item>
+        <item>Goa</item>
+        <item>Gujarat</item>
+        <item>Haryana</item>
+        <item>Himachal Pradesh</item>
+        <item>Jammu &amp; Kashmir</item>
+        <item>Jharkhand</item>
+        <item>Karnataka</item>
+        <item>Kerala</item>
+        <item>Lakshadweep</item>
+        <item>Madhya Pradesh</item>
+        <item>Maharashtra</item>
+        <item>Manipur</item>
+        <item>Meghalaya</item>
+        <item>Mizoram</item>
+        <item>Nagaland</item>
+        <item>Orissa</item>
+        <item>Puducherry</item>
+        <item>Punjab</item>
+        <item>Rajasthan</item>
+        <item>Sikkim</item>
+        <item>Tamil Nadu</item>
+        <item>Telangana</item>
+        <item>Tripura</item>
+        <item>Tripura</item>
+        <item>Uttar Pradesh</item>
+        <item>Uttarakhand</item>
+        <item>West bengal</item>
+
+    </string-array>
+</resources>

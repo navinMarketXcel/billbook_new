@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.DayBookActivity">
+<android.support.v7.widget.CardView
+    android:id="@+id/dateLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        >
+        <TextView
+            android:id="@+id/startDate"
+            android:text="Start Date - 12 Aug 2020"
+            android:layout_width="0dp"
+            android:padding="5dp"
+            android:onClick="startDate"
+            android:layout_margin="5dp"
+            android:background="@drawable/card_lined"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            ></TextView>
+        <TextView
+            android:layout_weight="5"
+            android:id="@+id/endDate"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:onClick="endDate"
+            android:background="@drawable/card_lined"
+            android:text="End Date - 12 Aug 2020"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            ></TextView>
+
+    </TableRow>
+
+</android.support.v7.widget.CardView>
+    <Button
+        android:id="@+id/getDaybook"
+        android:visibility="gone"
+android:layout_below="@+id/dateLayout"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:onClick="getDayBookData"
+        android:text="Get Day Book"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content"></Button>
+    <TableRow
+        android:id="@+id/daybookh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_lined"
+        android:weightSum="13"
+        android:orientation="horizontal"
+        android:layout_below="@id/getDaybook"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            android:text="Transaction"
+            ></TextView>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="3"
+
+            android:layout_height="wrap_content"
+            android:text="INCOME"
+            ></TextView>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="3"
+
+            android:layout_height="wrap_content"
+            android:text="EXPENSE"
+            ></TextView>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="3"
+
+            android:layout_height="wrap_content"
+            android:text="DATE"
+            ></TextView>
+    </TableRow>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/dayBookRV"
+        android:layout_above="@+id/totalExpense"
+        android:layout_below="@+id/daybookh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_above="@+id/exportReport"
+        android:background="@drawable/card_lined"
+        android:id="@+id/totalExpense"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="PROFIT :"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+    </TextView>
+    <Button
+        android:id="@+id/exportReport"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:text="Export Report"
+        android:onClick="sendReportBtnClick"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"
+        android:layout_height="wrap_content"></Button>
+</RelativeLayout>

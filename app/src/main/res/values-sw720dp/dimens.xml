@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="pass_margin_top">25dp</dimen>
+    <dimen name="username_width">340dp</dimen>
+    <dimen name="user_icon_margin_bottom">28dp</dimen>
+    <dimen name="login_margin_top">20dp</dimen>
+    <dimen name="user_image_width">160dp</dimen>
+    <!--Home -->
+    <dimen name="common_screen_padding">18dp</dimen>
+    <dimen name="common_tab_width">220dp</dimen>
+    <dimen name="common_tab_image_width">120dp</dimen>
+    <dimen name="common_tab_text_size">12.5dp</dimen>
+    <dimen name="common_tab_text_marginTop">12dp</dimen>
+
+
+    <!--add product-->
+    <dimen name="add_product_textview_margin_top">20dp</dimen>
+    <dimen name="add_product_layout_margin_top">40dp</dimen>
+    <dimen name="add_product_layout_margin_left">40dp</dimen>
+    <dimen name="add_product_layout_margin_right">50dp</dimen>
+    <dimen name="add_product_text_size">18dp</dimen>
+    <dimen name="add_product_spinner_height">65dp</dimen>
+    <dimen name="add_product_spinner_margin_top">15dp</dimen>
+    <dimen name="add_product_save_btn_size">25dp</dimen>
+    <dimen name="add_product_save_btn_padding_top">20dp</dimen>
+    <dimen name="add_product_save_btn_margin_top">50dp</dimen>
+</resources>

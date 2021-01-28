@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "829729662644",
+    "firebase_url": "https://billbook-ab68c.firebaseio.com",
+    "project_id": "billbook-ab68c",
+    "storage_bucket": "billbook-ab68c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:829729662644:android:da90db898d2a45785a19e1",
+        "android_client_info": {
+          "package_name": "com.billbook.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "829729662644-ev2b680kjvd5ckrff9sqsg0k8qlmqcjf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.billbook.app",
+            "certificate_hash": "83b378b133fe8591946f010d9ef533ac9e460e7f"
+          }
+        },
+        {
+          "client_id": "829729662644-lrn8scj9l5bhooq566lecunb29fsjhob.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2dthL6aM8Fs21lo2UpZ5SiY-qOIAU5QE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "829729662644-lrn8scj9l5bhooq566lecunb29fsjhob.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
