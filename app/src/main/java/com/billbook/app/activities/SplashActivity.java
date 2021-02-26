@@ -117,7 +117,7 @@ private void startSplash(){
 
                         int buildVersion = BuildConfig.VERSION_CODE;
                         if (buildVersion != versionCode) {
-                            DialogUtils.showToast(SplashActivity.this, "Build is outdated. Please download new build");
+                            DialogUtils.showToast(SplashActivity.this, "To continue, please update the app to latest version.");
                             final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                             try {
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));

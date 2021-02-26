@@ -95,7 +95,7 @@ public class OTPActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        startPhoneNumberVerification("+91"+mobilNo);
+//        startPhoneNumberVerification("+91"+mobilNo);
     }
 
     private void setData(){
@@ -112,7 +112,8 @@ public class OTPActivity extends AppCompatActivity {
             }
 
             DialogUtils.startProgressDialog(this, "");
-            verifyPhoneNumberWithCode(mVerificationId,otpEdt.getText().toString());
+            verifyOTP();
+//            verifyPhoneNumberWithCode(mVerificationId,otpEdt.getText().toString());
         }else{
             DialogUtils.showToast(this,"OTP should be of 6 digits");
         }
@@ -121,8 +122,9 @@ public class OTPActivity extends AppCompatActivity {
          //call API to do resend OTP
         if(!fromEditProfile)
         Util.postEvents("Registration","Resend OTP",this.getApplicationContext());
-        DialogUtils.startProgressDialog(this.getApplicationContext(),"Resending OTP");
-        resendVerificationCode("+91"+mobilNo,mResendToken);
+        DialogUtils.startProgressDialog(OTPActivity.this,"Resending OTP");
+//        resendVerificationCode("+91"+mobilNo,mResendToken);
+        resendOtp();
     }
 
 
@@ -142,15 +144,62 @@ public class OTPActivity extends AppCompatActivity {
 
     private void verifyOTP(){
 //        DialogUtils.startProgressDialog(this, "");
+            ApiInterface apiService =
+                    ApiClient.getClient().create(ApiInterface.class);
+            Map<String, String> headerMap = new HashMap<>();
+            Map<String, String> req = new HashMap<>();
+            req.put("mobileNo", mobilNo);
+            req.put("otp", otpEdt.getText().toString());
+            headerMap.put("Content-Type", "application/json");
+
+            Call<Object> call = apiService.verifyOTP((HashMap<String, String>) req);
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    DialogUtils.stopProgressDialog();
+                    try {
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                        Log.v("RESP", body.toString());
+                        if (body.has("data")) {
+                            if (fromEditProfile) {
+                                Intent intent = new Intent();
+                                intent.putExtra("OTP_VERIFIED", true);
+                                setResult(RESULT_OK, intent);
+                                OTPActivity.this.finish();
+                            }else{
+                                if (body.getJSONObject("data").has("userid")) {
+                                    ((MyApplication) getApplication()).saveUserDetails(body.getJSONObject("data").toString());
+                                    gotoHomeScreen();
+                                }else {
+                                    gotoRegistration();
+                                }
+                            }
+                        } else {
+                            DialogUtils.showToast(OTPActivity.this, "OTP not correct");
+                        }
+                    } catch (JSONException e) {
+                        DialogUtils.showToast(OTPActivity.this, "Please check your OTP");
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    DialogUtils.stopProgressDialog();
+                    DialogUtils.showToast(OTPActivity.this, "Failed to get OTP");
+                }
+            });
+
+    }
+    private void resendOtp(){
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
         Map<String, String> req = new HashMap<>();
         req.put("mobileNo",mobilNo);
-        req.put("otp",OTP);
         headerMap.put("Content-Type", "application/json");
 
-        Call<Object> call = apiService.verifyOTP((HashMap<String, String>) req);
+        Call<Object> call = apiService.getOTP((HashMap<String, String>) req);
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -158,11 +207,10 @@ public class OTPActivity extends AppCompatActivity {
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     Log.v("RESP",body.toString());
-                    if(body.getJSONObject("data").has("userid")){
-                        ((MyApplication)getApplication()).saveUserDetails(body.getJSONObject("data").toString());
-                        gotoHomeScreen();
-                    }else{
-                        gotoRegistration();
+                    if(body.getJSONObject("data").getString("otp").length() > 0){
+                        DialogUtils.showToast(OTPActivity.this,"OTP sent.");
+                    }else {
+                        DialogUtils.showToast(OTPActivity.this,"Failed to send OTP");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -172,7 +220,7 @@ public class OTPActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 DialogUtils.stopProgressDialog();
-                DialogUtils.showToast(OTPActivity.this,"Failed to get OTP");
+                DialogUtils.showToast(OTPActivity.this,"Failed to send OTP");
             }
         });
 
