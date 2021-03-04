@@ -2,10 +2,12 @@ package com.billbook.app.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.billbook.app.database.models.User;
 import com.billbook.app.services.SyncService;
 import com.billbook.app.utils.Util;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -42,6 +45,8 @@ import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import jaiman.nitin.com.customclickableemailphonetextview.ClickPattern;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,6 +66,8 @@ public class HomeActivity extends AppCompatActivity
     private JSONObject userProfile;
     private FirebaseAnalytics mFirebaseAnalytics;
     private TextView syncText;
+    private JSONObject profile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,7 +167,11 @@ updateGST();
     }
 
     private void initUI() {
-
+        try {
+            profile= new JSONObject (((MyApplication)getApplication()).getUserDetails());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         btnManageInventory = findViewById(R.id.btnManageInventory);
         btnBilling = findViewById(R.id.btnBilling);
         btnSellingDetails = findViewById(R.id.btnSellingDetails);
@@ -477,7 +488,7 @@ updateGST();
                         @Override
                         public void positiveButtonClick() {
                             // 1 will be when use has entered his/her GST number
-                            MyApplication.setShowGstPopup(0);
+//                            MyApplication.setShowGstPopup(0);
                             MyApplication.setGSTFilled();
                             Intent intent = new Intent(HomeActivity.this, EditProfileActivity.class);
                             startActivity(intent);
@@ -486,12 +497,54 @@ updateGST();
 
                         @Override
                         public void negativeButtonClick() {
-                            MyApplication.setShowGstPopup(0);
+                            sendGstUpdateStatus(0);
+//                            MyApplication.setShowGstPopup(0);
                             MyApplication.setGSTFilled();
                         }
                     });
         }
     }
+
+    private void sendGstUpdateStatus(int gstStatus) {
+        try {
+            DialogUtils.startProgressDialog(this, "");
+            ApiInterface apiService =
+                    ApiClient.getClient().create(ApiInterface.class);
+
+            Map<String, Integer> map = new HashMap<>();
+            map.put("isGST", gstStatus);
+            long userid = profile.getLong("userid");
+            Call<Object> call = apiService.updateUserGstStatus(userid, map);
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    DialogUtils.stopProgressDialog();
+                    try {
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                        Log.v("RESP", body.toString());
+                        if (body.getBoolean("status")) {
+                            MyApplication.saveUserDetails(body.getJSONObject("data").toString());
+                        } else {
+                            DialogUtils.showToast(HomeActivity.this, "Failed update GST");
+                        }
+
+                    } catch (JSONException e) {
+                        DialogUtils.showToast(HomeActivity.this, "Failed update GST");
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    DialogUtils.stopProgressDialog();
+                    DialogUtils.showToast(HomeActivity.this, "Failed update profile to server");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void isGSTVerified() {
 //    boolean test = MyApplication.getIsGSTVeeditProfilerifies();
         if (!MyApplication.getIsGSTVerifies()) {
