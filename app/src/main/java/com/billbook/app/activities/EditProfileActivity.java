@@ -249,6 +249,11 @@ public class EditProfileActivity extends AppCompatActivity {
             profile.put("shopName",shopNameEdt.getText().toString());
             profile.put("mobileNo",phoneNoEdt.getText().toString());
             profile.put("gstNo",gstNoEdt.getText().toString());
+            if(!gstNoEdt.getText().toString().isEmpty())
+                MyApplication.setShowGstPopup(1);
+            else{
+                MyApplication.setShowGstPopup(0);
+            }
             profile.put("state",states.getText().toString());
             profile.put("city", cityEdt.getText().toString());
             MyApplication.saveUserDetails(profile.toString());

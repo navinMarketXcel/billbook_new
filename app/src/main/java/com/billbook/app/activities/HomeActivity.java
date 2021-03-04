@@ -471,11 +471,13 @@ updateGST();
     }
     private void updateGST() {
 //    boolean test = MyApplication.getIsGSTVeeditProfilerifies();
-        if(!MyApplication.getGSTFilled() ){
+        if(MyApplication.showGstPopup() == -1 ){
             DialogUtils.showAlertDialog(this, "Yes", "No",
                     "Do you have a GST number?", new DialogUtils.DialogClickListener() {
                         @Override
                         public void positiveButtonClick() {
+                            // 1 will be when use has entered his/her GST number
+                            MyApplication.setShowGstPopup(0);
                             MyApplication.setGSTFilled();
                             Intent intent = new Intent(HomeActivity.this, EditProfileActivity.class);
                             startActivity(intent);
@@ -484,6 +486,7 @@ updateGST();
 
                         @Override
                         public void negativeButtonClick() {
+                            MyApplication.setShowGstPopup(0);
                             MyApplication.setGSTFilled();
                         }
                     });

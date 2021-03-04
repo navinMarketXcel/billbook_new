@@ -168,7 +168,11 @@ public class OTPActivity extends AppCompatActivity {
                                 OTPActivity.this.finish();
                             }else{
                                 if (body.getJSONObject("data").has("userid")) {
+                                    Log.v("GST", body.toString());
                                     ((MyApplication) getApplication()).saveUserDetails(body.getJSONObject("data").toString());
+                                    // Set it here and in registration too.
+                                    if(body.getJSONObject("data").has("isGST"))
+                                       ((MyApplication) getApplication()).setShowGstPopup((Integer) body.getJSONObject("data").get("isGST"));
                                     gotoHomeScreen();
                                 }else {
                                     gotoRegistration();

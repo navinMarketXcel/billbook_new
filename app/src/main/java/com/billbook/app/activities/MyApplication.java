@@ -77,6 +77,25 @@ public class MyApplication extends Application {
         editor.commit();
 
     }
+
+    public static void setShowGstPopup(int value) {
+        // -1 : show, 1 & 0 : don't show
+        SharedPreferences sharedPref =
+                context.getSharedPreferences(context.getString(R.string.preference_file_key),
+                        context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(context.getString(R.string.showGstPopup), value);
+        editor.commit();
+    }
+
+    public static int showGstPopup() {
+        SharedPreferences sharedPref =
+                context.getSharedPreferences(context.getString(R.string.preference_file_key),
+                        context.MODE_PRIVATE);
+        int showGstPopupValue = sharedPref.getInt(context.getString(R.string.showGstPopup), -1);
+        return showGstPopupValue;
+    }
+
     public static boolean getGSTFilled() {
 
         SharedPreferences sharedPref = context.getSharedPreferences(
