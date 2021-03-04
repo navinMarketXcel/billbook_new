@@ -219,7 +219,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             addItem(itemNameET.getText().toString(),
                     Float.parseFloat(itemPriceET.getText().toString()),
                     Float.parseFloat(gstPercentage.getSelectedItemPosition()>0?gstPercentage.getSelectedItem().toString():"0")
-                    ,Integer.parseInt(itemQtyET.getText().toString()),
+                    ,Float.parseFloat(itemQtyET.getText().toString()),
                     true,
                     imeiNo.getText().toString(),
                     hsnNo.getText().toString());
@@ -251,7 +251,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             e.printStackTrace();
         }
     }
-    public void addItem(final String modelName, final float price,final float gst,final int quantity, boolean isNew,String imei,String hsnNo){
+    public void addItem(final String modelName, final float price,final float gst,final float quantity, boolean isNew,String imei,String hsnNo){
 
          NewInvoiceModels newInvoiceModel = isNew?new NewInvoiceModels():newInvoiceModels.get(editPosition);
         setTotal(newInvoiceModel,false);
@@ -371,7 +371,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         addItem(modelName.getText().toString(),
                                 Float.parseFloat(priceEt.getText().toString()),
                                 Float.parseFloat(gstPercentage.getSelectedItemPosition()>0?gstPercentage.getSelectedItem().toString():"0")
-                                ,Integer.parseInt(quantityEt.getText().toString()),
+                                ,Float.parseFloat(quantityEt.getText().toString()),
                                  this.newInvoiceModel == null ?true:false,
                                 imeiNo.getText().toString(),
                                 hsnNo.getText().toString());
@@ -561,7 +561,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }else if(itemPriceET.getText().toString().isEmpty()|| Float.parseFloat(itemPriceET.getText().toString())==0){
             DialogUtils.showToast(this,"Please enter price");
             return false;
-        }else if(itemQtyET.getText().toString().isEmpty() || Integer.parseInt(itemQtyET.getText().toString())==0){
+        }else if(itemQtyET.getText().toString().isEmpty() || Float.parseFloat(itemQtyET.getText().toString())==0){
             DialogUtils.showToast(this,"Please enter quantity");
             return false;
         }else if(isGSTAvailable && gstPercentage.getSelectedItemPosition()==0){

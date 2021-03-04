@@ -25,6 +25,24 @@
         <item>28</item>
     </string-array>
 
+    <string-array name="measurementUnit">
+        <item>Pcs</item>
+        <item>Kg</item>
+        <item>Lt</item>
+        <item>Ml</item>
+        <item>Mg</item>
+        <item>Ton</item>
+        <item>Cm</item>
+        <item>In</item>
+        <item>Ft</item>
+        <item>Mtr</item>
+        <item>Yds</item>
+        <item>Km</item>
+        <item>Sq ft</item>
+        <item>Sq Mt</item>
+        <item>Pairs</item>
+        <item>Doz</item>
+    </string-array>
     <string-array name="shopStatus1">
         <item>Select Shop Status</item>
         <item>Propertiership</item>

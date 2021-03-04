@@ -28,7 +28,7 @@ public class NewInvoiceModels implements Serializable {
 
     @SerializedName("quantity")
     @ColumnInfo(name = "quantity")
-    private int quantity;
+    private float quantity;
 
     @SerializedName("price")
     @ColumnInfo(name = "price")
@@ -90,11 +90,11 @@ public class NewInvoiceModels implements Serializable {
         this.id = id;
     }
 
-    public int getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 
