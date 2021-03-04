@@ -249,11 +249,10 @@ public class EditProfileActivity extends AppCompatActivity {
             profile.put("shopName",shopNameEdt.getText().toString());
             profile.put("mobileNo",phoneNoEdt.getText().toString());
             profile.put("gstNo",gstNoEdt.getText().toString());
-            if(!gstNoEdt.getText().toString().isEmpty())
-                MyApplication.setShowGstPopup(1);
-            else{
-                MyApplication.setShowGstPopup(0);
-            }
+
+            MyApplication.setShowGstPopup(!gstNoEdt.getText().toString().isEmpty() ? 1 : 0);
+            sendGstUpdateStatus(!gstNoEdt.getText().toString().isEmpty() ? 1 : 0);
+
             profile.put("state",states.getText().toString());
             profile.put("city", cityEdt.getText().toString());
             MyApplication.saveUserDetails(profile.toString());
@@ -350,6 +349,47 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
+    private void sendGstUpdateStatus(int gstStatus) {
+        try {
+//            DialogUtils.startProgressDialog(this, "");
+            ApiInterface apiService =
+                    ApiClient.getClient().create(ApiInterface.class);
+
+            Map<String, Integer> map = new HashMap<>();
+            map.put("isGST", gstStatus);
+            long userid = profile.getLong("userid");
+            Call<Object> call = apiService.updateUserGstStatus(userid, map);
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+//                    DialogUtils.stopProgressDialog();
+                    try {
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                        Log.v("RESP", body.toString());
+                        if (body.getBoolean("status")) {
+//                            MyApplication.saveUserDetails(body.getJSONObject("data").toString());
+                        } else {
+                            DialogUtils.showToast(EditProfileActivity.this, "Failed update GST");
+                        }
+
+                    } catch (JSONException e) {
+                        DialogUtils.showToast(EditProfileActivity.this, "Failed update GST");
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+//                    DialogUtils.stopProgressDialog();
+                    DialogUtils.showToast(EditProfileActivity.this, "Failed update profile to server");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private void updateUserAPI(){
         if(picturePath != null){
             DialogUtils.startProgressDialog(this, "");
@@ -416,6 +456,7 @@ public class EditProfileActivity extends AppCompatActivity {
             RequestBody gstNo = RequestBody.create(MediaType.parse("multipart/form-data"), gstNoEdt.getText().toString());
             RequestBody state = RequestBody.create(MediaType.parse("multipart/form-data"), states.getText().toString());
             RequestBody city = RequestBody.create(MediaType.parse("multipart/form-data"), cityEdt.getText().toString());
+
 
             Map<String, RequestBody> map = new HashMap<>();
             map.put("email",email);
