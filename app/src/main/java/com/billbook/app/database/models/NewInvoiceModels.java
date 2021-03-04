@@ -22,6 +22,10 @@ public class NewInvoiceModels implements Serializable {
     @ColumnInfo(name = "id")
     private int id;
 
+    @SerializedName("measurementId")
+    @ColumnInfo(name = "measurementId")
+    private int measurementId;
+
     @SerializedName("name")
     @ColumnInfo(name = "name")
     private String name;
@@ -192,6 +196,15 @@ public class NewInvoiceModels implements Serializable {
                 ", is_active=" + is_active +
                 ", user=" + user +
                 ", serial_no='" + serial_no + '\'' +
+                ", measurement_id=" + measurementId +
                 '}';
+    }
+
+    public int getMeasurementId() {
+        return measurementId;
+    }
+
+    public void setMeasurementId(int measurementId) {
+        this.measurementId = measurementId;
     }
 }

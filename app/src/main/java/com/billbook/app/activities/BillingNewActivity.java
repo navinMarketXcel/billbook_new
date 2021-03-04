@@ -87,8 +87,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private EditText edtName,edtMobNo,edtAddress,edtGST,itemPriceET,itemQtyET,imeiNo,hsnNo;
     private AutoCompleteTextView itemNameET;
     private Gson gson = new Gson();
-    private Spinner gstPercentage,gstType;
-    private List<String> gstTypeList;
+    private Spinner gstPercentage,gstType,measurementUnit;
+    private List<String> gstTypeList, measurementUnitTypeList;
     private JSONObject profile;
     private boolean isGSTAvailable;
     private int editPosition=-1;
@@ -130,6 +130,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         edtAddress = findViewById(R.id.edtAddress);
         edtGST = findViewById(R.id.edtGST);
         gstPerLayout = findViewById(R.id.gstPerLayout);
+        measurementUnit = findViewById(R.id.unit);
         nextBtn = findViewById(R.id.nextBtn);
         gstTitle= findViewById(R.id.gstTitle);
         DateFormat formatter =
@@ -143,6 +144,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         newBillingAdapter = new NewBillingAdapter(newInvoiceModels,this,isGSTAvailable);
         invoiceItems.setAdapter(newBillingAdapter);
         gstTypeList=  Arrays.asList (getResources().getStringArray(R.array.gst_type));
+        measurementUnitTypeList=  Arrays.asList (getResources().getStringArray(R.array.measurementUnit));
         gstTypeLayout = findViewById(R.id.gstTypeLayout);
         cardItemList= findViewById(R.id.cardItemList);
         layoutBillItem_initial=findViewById(R.id.layoutBillItem_initial);
@@ -215,6 +217,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     public void addItem(View view){
         if(addItemVerify()) {
+            Log.v("UNIT", "ADD Item");
+            Log.v("UNIT", measurementUnit.getSelectedItemPosition() + " ");
             Util.postEvents("Add Item","Add Item",this.getApplicationContext());
             addItem(itemNameET.getText().toString(),
                     Float.parseFloat(itemPriceET.getText().toString()),
@@ -222,7 +226,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     ,Float.parseFloat(itemQtyET.getText().toString()),
                     true,
                     imeiNo.getText().toString(),
-                    hsnNo.getText().toString());
+                    hsnNo.getText().toString(),
+                    measurementUnit.getSelectedItemPosition());
             cardItemList.setVisibility(View.VISIBLE);
             layoutBillItem_initial.setVisibility(View.GONE);
         }
@@ -251,7 +256,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             e.printStackTrace();
         }
     }
-    public void addItem(final String modelName, final float price,final float gst,final float quantity, boolean isNew,String imei,String hsnNo){
+    public void addItem(final String modelName, final float price,final float gst,final float quantity, boolean isNew,String imei,String hsnNo, final int measurementUnitId){
 
          NewInvoiceModels newInvoiceModel = isNew?new NewInvoiceModels():newInvoiceModels.get(editPosition);
         setTotal(newInvoiceModel,false);
@@ -266,6 +271,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
          newInvoiceModel.setTotalAmount(quantity * price);
         newInvoiceModel.setImei(imei);
         newInvoiceModel.setGstType(gstTypeList.get(gstType.getSelectedItemPosition()));
+        Log.v("UNIT", measurementUnitId + " ");
+        newInvoiceModel.setMeasurementId(measurementUnitId);
         if(isNew)
          newInvoiceModels.add(newInvoiceModel);
          setTotal(newInvoiceModel,true);
@@ -306,7 +313,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         private EditText priceEt,quantityEt,imeiNo,hsnNo;
         private AutoCompleteTextView modelName;
         private TextView gstLabelTV;
-        private Spinner gstPercentage;
+        private Spinner gstPercentage, measurementUnitSpinner;
         private TextInputLayout priceEdtInputLayout;
         private NewInvoiceModels newInvoiceModel;
         public CustomDialogClass(Activity a, NewInvoiceModels newInvoiceModel) {
@@ -332,6 +339,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             imeiNo= findViewById(R.id.imeiNo);
             gstLabelTV = findViewById(R.id.gstLabelTV);
             hsnNo= findViewById(R.id.hsnNo);
+            measurementUnitSpinner = findViewById(R.id.unit);
             priceEdtInputLayout =  findViewById(R.id.priceEdtInputLayout);
             modelName.setAdapter(modelAdapter);
             if(isGSTAvailable) {
@@ -358,6 +366,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 hsnNo.setText(newInvoiceModel.getSerial_no());
                 imeiNo.setText(newInvoiceModel.getImei());
                 List<String> gstPList =  Arrays.asList (getResources().getStringArray(R.array.gstPercentage));
+                List<String> unitList = Arrays.asList(getResources().getStringArray(R.array.measurementUnit));
+                Log.v("UNIT", "why is it not coming");
+                Log.v("UNIT", this.newInvoiceModel.getMeasurementId() + " ");
+                measurementUnitSpinner.setSelection(this.newInvoiceModel.getMeasurementId());
 //                Log.v("TAG", "test::"+);
                 gstPercentage.setSelection(gstPList.indexOf((int)this.newInvoiceModel.getGst()+""));
             }
@@ -368,13 +380,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             switch (v.getId()) {
                 case R.id.add:
                     if(verifyData()){
+                        Log.v("UNIT", "probably from Modal");
+                        Log.v("UNIT", measurementUnitSpinner.getSelectedItemPosition() +  " ");
                         addItem(modelName.getText().toString(),
                                 Float.parseFloat(priceEt.getText().toString()),
                                 Float.parseFloat(gstPercentage.getSelectedItemPosition()>0?gstPercentage.getSelectedItem().toString():"0")
                                 ,Float.parseFloat(quantityEt.getText().toString()),
                                  this.newInvoiceModel == null ?true:false,
                                 imeiNo.getText().toString(),
-                                hsnNo.getText().toString());
+                                hsnNo.getText().toString(),
+                                measurementUnitSpinner.getSelectedItemPosition());
                         dismiss();
                     }
                     break;
