@@ -201,10 +201,10 @@ public class NewInvoiceModels implements Serializable {
     }
 
     public int getMeasurementId() {
-        return measurementId;
+        return measurementId-1;
     }
 
     public void setMeasurementId(int measurementId) {
-        this.measurementId = measurementId;
+        this.measurementId = measurementId+1;
     }
 }

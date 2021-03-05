@@ -1,5 +1,6 @@
 package com.billbook.app.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,8 @@ import com.billbook.app.database.models.NewInvoiceModels;
 import com.billbook.app.utils.Util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.MyViewHolder>  {
     private static final String TAG = "BilliADP";
@@ -21,11 +24,14 @@ public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.My
     private Context context;
     private onItemClick onItemClick;
     private boolean isGSTAvailable;
+    private List<String> measurementUnitTypeList;
     public NewBillingAdapter(ArrayList<NewInvoiceModels> newInvoiceModels, Context context, boolean isGSTAvailable) {
         this.newInvoiceModels = newInvoiceModels;
         this.context = context;
         onItemClick = (NewBillingAdapter.onItemClick) context;
         this.isGSTAvailable=isGSTAvailable;
+
+        this.measurementUnitTypeList=  Arrays.asList (context.getResources().getStringArray(R.array.measurementUnit));
     }
 
     @NonNull
@@ -37,11 +43,12 @@ public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(@NonNull NewBillingAdapter.MyViewHolder myViewHolder, final int position) {
+    public void onBindViewHolder(@NonNull NewBillingAdapter.MyViewHolder myViewHolder, @SuppressLint("RecyclerView") final int position) {
         NewInvoiceModels newInvoiceModel = newInvoiceModels.get(position);
         myViewHolder.tvSrNoTv.setText(""+(position+1));
         myViewHolder.itemNameHdTv.setText(newInvoiceModel.getName());
-        myViewHolder.quantityHdTv.setText(""+newInvoiceModel.getQuantity());
+        String quantity = newInvoiceModel.getQuantity() + " " + measurementUnitTypeList.get(newInvoiceModel.getMeasurementId());
+        myViewHolder.quantityHdTv.setText(quantity);
         myViewHolder.totalHdTv.setText(Util.formatDecimalValue(newInvoiceModel.getTotalAmount()));
         myViewHolder.priceHdTv.setText(Util.formatDecimalValue(newInvoiceModel.getPrice()));
         if(isGSTAvailable){
