@@ -48,7 +48,7 @@ public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.My
         myViewHolder.tvSrNoTv.setText(""+(position+1));
         myViewHolder.itemNameHdTv.setText(newInvoiceModel.getName());
         String quantity = newInvoiceModel.getQuantity() + "";
-        if(measurementUnitTypeList.get(newInvoiceModel.getMeasurementId()) != null){
+        if(newInvoiceModel.getMeasurementId() > -1){
             quantity += " " + measurementUnitTypeList.get(newInvoiceModel.getMeasurementId());
         }
         myViewHolder.quantityHdTv.setText(quantity);
