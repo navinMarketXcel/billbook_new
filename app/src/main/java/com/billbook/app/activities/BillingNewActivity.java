@@ -653,15 +653,19 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             BillingNewActivity.this.finish();
 
                     }
-                    else
+                    else{
+                        Util.postEvents("Make Bill Fail","Make Bill Fail",getApplicationContext());
                         DialogUtils.showToast(BillingNewActivity.this,"Failed save invoice server");
+                    }
                 } catch (JSONException e) {
+                    Util.postEvents("Make Bill Fail","Make Bill Fail",getApplicationContext());
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
+                Util.postEvents("Make Bill Fail","Make Bill Fail",getApplicationContext());
                 DialogUtils.stopProgressDialog();
                 DialogUtils.showToast(BillingNewActivity.this,"Failed save invoice server");
             }
