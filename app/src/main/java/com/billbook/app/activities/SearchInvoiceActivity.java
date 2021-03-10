@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -53,7 +54,7 @@ import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 
-public class SearchInvoiceActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, OnDownloadClick {
+public class SearchInvoiceActivity extends AppCompatActivity implements View.OnClickListener,SearchInvoiceListAdapterNew.SearchInvoiceItemClickListener, DatePickerDialog.OnDateSetListener, OnDownloadClick {
     private static final String TAG = "SearchInvoiceActivity";
     private SearchInvoiceListAdapterNew searchInvoiceListAdapter;
     private RecyclerView recyclerViewInvoice;
@@ -132,7 +133,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewInvoice.setLayoutManager(mLayoutManager);
         recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
-        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoices);
+        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoices, this);
         recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
         setTitle("Search Bill");
         DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
@@ -189,7 +190,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         if (body.getJSONObject("data").getJSONObject("invoices").has("count") && body.getJSONObject("data").getJSONObject("invoices").getInt("count")>0) {
                             invoices = body.getJSONObject("data").getJSONObject("invoices").getJSONArray("rows");
                             Log.d(TAG, "Invoice Body::" + body);
-                            searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices);
+                            searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices, SearchInvoiceActivity.this);
                             recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
                         }else if( body.getJSONObject("data").getJSONObject("invoices").getInt("count")==0){
                             DialogUtils.showToast(SearchInvoiceActivity.this,"No record found");
@@ -351,4 +352,24 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onSaveButtonClick(int invoicePosition) {
+
+        Log.v("Invoice", "Saving invoice");
+        Util.postEvents("Save","Save",getApplicationContext());
+        try {
+            JSONObject currentInvoice = invoices.getJSONObject(invoicePosition);
+            Intent i = new Intent(Intent.ACTION_VIEW);
+
+
+            if(currentInvoice.get("pdfLink")!=null) {
+                i.setData(Uri.parse(currentInvoice.getString("pdfLink")));
+                this.startActivity(i);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

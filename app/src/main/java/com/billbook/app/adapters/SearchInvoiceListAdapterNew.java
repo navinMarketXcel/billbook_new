@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -53,19 +52,24 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
     private JSONArray requestInvoiceArrayList;
     private Context context;
+    private SearchInvoiceItemClickListener invoiceItemClickListener;
 
-    public SearchInvoiceListAdapterNew(Context context, JSONArray categoryArrayList) {
+    public SearchInvoiceListAdapterNew(Context context, JSONArray categoryArrayList, SearchInvoiceItemClickListener invoiceItemClickListener) {
         this.context = context;
         this.requestInvoiceArrayList = categoryArrayList;
+        this.invoiceItemClickListener = invoiceItemClickListener;
     }
 
     @Override
     public SearchInvoiceListAdapterNew.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.searchinvoice_item_layout, parent, false);
-        return new SearchInvoiceListAdapterNew.MyViewHolder(itemView);
+        return new SearchInvoiceListAdapterNew.MyViewHolder(itemView, invoiceItemClickListener);
     }
 
+    public interface SearchInvoiceItemClickListener{
+        void onSaveButtonClick(int invoicePosition);
+    }
     @Override
     public void onBindViewHolder(SearchInvoiceListAdapterNew.MyViewHolder holder, final int position) {
 
@@ -103,26 +107,6 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                     }
                 }
             });
-
-
-
-                holder.saveInv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Util.postEvents("Save","Save",context.getApplicationContext());
-
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        try {
-                            if(requestInvoice.getString("pdfLink")!=null) {
-                                i.setData(Uri.parse(requestInvoice.getString("pdfLink")));
-                                context.startActivity(i);
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
 
             if (requestInvoice.getBoolean("is_active")) {
                 holder.cancelInvBItn.setVisibility(View.VISIBLE);
@@ -217,13 +201,6 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
-
     }
 
     @Override
@@ -256,15 +233,15 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         return dateToday;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView tvInvoiceValue, tvInvoiceCustNameValue, tvQuantityValue, tvTotalAmtValue, tvInvoiceDateValue;
         public Button saveInv,cancelInvBItn,cancelledBill,edit;
         private CheckBox download;
         private CardView card_view;
         private LinearLayout llMain;
+        private SearchInvoiceItemClickListener searchInvoiceItemClickListener;
 
-
-        public MyViewHolder(View view) {
+        public MyViewHolder(View view, SearchInvoiceItemClickListener searchInvoiceItemClickListener) {
             super(view);
             tvInvoiceValue = view.findViewById(R.id.tvInvoiceValue);
             tvInvoiceCustNameValue = view.findViewById(R.id.tvInvoiceCustNameValue);
@@ -275,8 +252,14 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             cancelInvBItn = view.findViewById(R.id.cancelInvBItn);
             cancelledBill = view.findViewById(R.id.cancelledBill);
             edit = view.findViewById(R.id.edit);
+            this.searchInvoiceItemClickListener = searchInvoiceItemClickListener;
             download =view.findViewById(R.id.download);
+            saveInv.setOnClickListener(this);
+        }
 
+        @Override
+        public void onClick(View v) {
+            searchInvoiceItemClickListener.onSaveButtonClick(getAdapterPosition());
         }
     }
 
