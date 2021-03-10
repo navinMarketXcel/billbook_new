@@ -69,6 +69,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     private Date to,from;
     private int hasWriteStoragePermission;
     private final int REQUEST_CODE_ASK_PERMISSIONS =111;
+    private final int REQUEST_CODE_ASK_PERMISSIONS_SAVE_INVOICE =112;
+    private int saveInvoiceId = -1;
     DateFormat formatter1 =
             new SimpleDateFormat("dd MMM yyyy");
     DateFormat formatter2 =
@@ -289,11 +291,11 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
            startDownloadingInvoices();
         }
         else{
-            checkPermission();
+            checkPermission(REQUEST_CODE_ASK_PERMISSIONS);
         }
     }
 
-    private void checkPermission(){
+    private void checkPermission(int PERMISSION_CODE){
         if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED) {
             DialogUtils.showAlertDialog(SearchInvoiceActivity.this, "Allow", "Deny", "For downloading invoice we need write access to storage", new DialogUtils.DialogClickListener() {
                 @Override
@@ -302,13 +304,13 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                        REQUEST_CODE_ASK_PERMISSIONS);
+                                       PERMISSION_CODE);
                             }
                             return;
                         }
 
                         requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                REQUEST_CODE_ASK_PERMISSIONS);
+                                PERMISSION_CODE);
                     }
                 }
 
@@ -329,11 +331,21 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     // Permission Granted
                     hasWriteStoragePermission = PackageManager.PERMISSION_GRANTED;
                     startDownloadingInvoices();
-                    Log.v("WRITE", "Now start downloading invoices");
                 } else {
                     // Permission Denied
                     hasWriteStoragePermission = PackageManager.PERMISSION_DENIED;
-                    DialogUtils.showToast(this, "WRITE_EXTERNAL Permission Denied");
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            REQUEST_CODE_ASK_PERMISSIONS);
+                }
+                break;
+            case REQUEST_CODE_ASK_PERMISSIONS_SAVE_INVOICE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    hasWriteStoragePermission = PackageManager.PERMISSION_GRANTED;
+                   saveInvoice();
+                } else {
+                    // Permission Denied
+                    hasWriteStoragePermission = PackageManager.PERMISSION_DENIED;
                     requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             REQUEST_CODE_ASK_PERMISSIONS);
                 }
@@ -353,15 +365,12 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    @Override
-    public void onSaveButtonClick(int invoicePosition) {
+    private void saveInvoice(){
 
-        Log.v("Invoice", "Saving invoice");
         Util.postEvents("Save","Save",getApplicationContext());
         try {
-            JSONObject currentInvoice = invoices.getJSONObject(invoicePosition);
+            JSONObject currentInvoice = invoices.getJSONObject(saveInvoiceId);
             Intent i = new Intent(Intent.ACTION_VIEW);
-
 
             if(currentInvoice.get("pdfLink")!=null) {
                 i.setData(Uri.parse(currentInvoice.getString("pdfLink")));
@@ -369,6 +378,16 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+    @Override
+    public void onSaveButtonClick(int invoicePosition) {
+        saveInvoiceId = invoicePosition;
+        Log.v("Invoice", "Saving invoice");
+        if(hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED){
+            saveInvoice();
+        }else{
+            checkPermission(REQUEST_CODE_ASK_PERMISSIONS_SAVE_INVOICE);
         }
     }
 
