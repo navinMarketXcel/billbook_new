@@ -305,7 +305,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     }
                 } else {
                     // Permission Denied
-                   DialogUtils.showToast(this, "WRITE_EXTERNAL Permission Denied");
+//                   DialogUtils.showToast(this, "WRITE_EXTERNAL Permission Denied");
                 }
                 break;
             default:

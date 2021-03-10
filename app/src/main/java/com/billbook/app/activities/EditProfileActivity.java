@@ -507,7 +507,7 @@ public class EditProfileActivity extends AppCompatActivity {
                    DialogUtils.showToast(this,"Permission granted");
                 } else {
                     // Permission Denied
-                    DialogUtils.showToast(this, "WRITE_EXTERNAL Permission Denied");
+//                    DialogUtils.showToast(this, "WRITE_EXTERNAL Permission Denied");
                 }
                 break;
             default:
