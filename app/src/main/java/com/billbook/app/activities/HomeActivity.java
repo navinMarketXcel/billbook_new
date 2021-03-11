@@ -488,7 +488,8 @@ updateGST();
                         @Override
                         public void positiveButtonClick() {
                             // 1 will be when use has entered his/her GST number
-//                            MyApplication.setShowGstPopup(0);
+                            MyApplication.setShowGstPopup(1);
+                            sendGstUpdateStatus(1);
                             MyApplication.setGSTFilled();
                             Intent intent = new Intent(HomeActivity.this, EditProfileActivity.class);
                             startActivity(intent);
@@ -498,7 +499,7 @@ updateGST();
                         @Override
                         public void negativeButtonClick() {
                             sendGstUpdateStatus(0);
-//                            MyApplication.setShowGstPopup(0);
+                            MyApplication.setShowGstPopup(0);
                             MyApplication.setGSTFilled();
                         }
                     });

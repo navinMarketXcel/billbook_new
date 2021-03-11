@@ -168,7 +168,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         else
             serialNumber = MyApplication.getInVoiceNumberForNonGst();
         bill_no.setText("Bill Number:"+serialNumber);
-        GSTError.setVisibility(MyApplication.showGstPopup() == 1 ? serialNumber <= 2 ? View.VISIBLE : View.GONE : View.GONE);
+        GSTError.setVisibility(MyApplication.showGstPopup() > 0 ? serialNumber <= 2 ? View.VISIBLE : View.GONE : View.GONE);
         if(isGSTAvailable){
             gstType.setVisibility(View.VISIBLE);
             gstPercentage.setVisibility(View.VISIBLE);

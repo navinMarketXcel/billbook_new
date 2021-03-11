@@ -172,7 +172,6 @@ public class OTPActivity extends AppCompatActivity {
                                     ((MyApplication) getApplication()).saveUserDetails(body.getJSONObject("data").toString());
                                     // Set it here and in registration too.
                                     if(body.getJSONObject("data").has("isGST")) {
-                                        Log.v("GST", body.getJSONObject("data").get("isGST").toString());
                                         Double newData = new Double((Double) body.getJSONObject("data").get("isGST"));
                                         int k = newData.intValue();
                                         ((MyApplication) getApplication()).setShowGstPopup(k);
