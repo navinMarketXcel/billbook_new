@@ -272,7 +272,10 @@ public class RegistrationActivity extends AppCompatActivity {
                         ((MyApplication)getApplication()).saveUserDetails(body.getJSONObject("data").toString());
                     ((MyApplication)getApplication()).saveUserToken(token);
 
-                        startHomeActivity();
+                    if(body.getJSONObject("data").has("isGST"))
+                        ((MyApplication) getApplication()).setShowGstPopup((Integer) body.getJSONObject("data").get("isGST"));
+
+                    startHomeActivity();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

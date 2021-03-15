@@ -132,6 +132,9 @@ public interface ApiInterface {
     @PATCH("user/{id}/")
     Call<User> updateUser(@HeaderMap Map<String, String> headers, @Path("id") int userId, @Body Map<String, String> gst_no);
 
+    @PUT ("users/{id}")
+    Call<Object> updateUserGstStatus(@Path("id") long userId,@Body Map<String, Integer> gst_no);
+
     @GET("send_report/")
     Call<Object> getLedgerDetails(@HeaderMap Map<String, String> headers, @Query("from") long from, @Query("to") long to, @Query("send") int send, @Query("category") long category, @Query("brand") long brand);
 

@@ -69,7 +69,7 @@
             android:hint="@string/enter_price"
             android:inputType="numberDecimal"
             android:maxLength="50"
-
+            android:layout_marginRight="10dp"
             android:textColor="@color/grey"
             android:padding="5dp"
             android:singleLine="true"
@@ -129,15 +129,30 @@
             android:id="@+id/itemQtyET"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="6"
+            android:layout_weight="3"
             android:background="@drawable/edt_background"
             android:hint="@string/enter_quantities"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:maxLength="50"
+            android:layout_marginEnd="10dp"
             android:textColor="@color/grey"
             android:padding="5dp"
             android:singleLine="true"
             android:textSize="15sp" />
+        <Spinner
+            android:id="@+id/unit"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="3"
+            android:background="@drawable/spinnerbg"
+            android:entries="@array/measurementUnit"
+            android:inputType="phone"
+            android:maxLength="4"
+            android:fadeScrollbars="false"
+            style="@style/mySpinnerForUnit"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textSize="11dp" />
     </TableRow>
     <TableRow
         android:layout_width="match_parent"

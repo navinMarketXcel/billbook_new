@@ -22,13 +22,17 @@ public class NewInvoiceModels implements Serializable {
     @ColumnInfo(name = "id")
     private int id;
 
+    @SerializedName("measurementId")
+    @ColumnInfo(name = "measurementId")
+    private int measurementId;
+
     @SerializedName("name")
     @ColumnInfo(name = "name")
     private String name;
 
     @SerializedName("quantity")
     @ColumnInfo(name = "quantity")
-    private int quantity;
+    private float quantity;
 
     @SerializedName("price")
     @ColumnInfo(name = "price")
@@ -90,11 +94,11 @@ public class NewInvoiceModels implements Serializable {
         this.id = id;
     }
 
-    public int getQuantity() {
+    public float getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(float quantity) {
         this.quantity = quantity;
     }
 
@@ -192,6 +196,15 @@ public class NewInvoiceModels implements Serializable {
                 ", is_active=" + is_active +
                 ", user=" + user +
                 ", serial_no='" + serial_no + '\'' +
+                ", measurement_id=" + measurementId +
                 '}';
+    }
+
+    public int getMeasurementId() {
+        return measurementId-1;
+    }
+
+    public void setMeasurementId(int measurementId) {
+        this.measurementId = measurementId+1;
     }
 }
