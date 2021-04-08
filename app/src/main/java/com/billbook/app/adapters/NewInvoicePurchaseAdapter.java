@@ -12,6 +12,7 @@ import com.billbook.app.R;
 import com.billbook.app.database.models.NewInvoiceModels;
 import com.billbook.app.utils.Util;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -21,10 +22,12 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
     private NewInvoicePurchaseAdapter.OnItemClickListener mItemClickListener;
     private List<NewInvoiceModels> listItems;
     private boolean isGSTAvailable;
+    private List<String> measurementUnitList;
     public NewInvoicePurchaseAdapter(Context context, List<NewInvoiceModels> listItems,boolean isGSTAvailable) {
         this.listItems = listItems;
         this.mContext = context;
         this.isGSTAvailable=isGSTAvailable;
+        this.measurementUnitList = Arrays.asList(context.getResources().getStringArray(R.array.measurementUnit));
     }
 
     public void setOnItemClickListener(final NewInvoicePurchaseAdapter.OnItemClickListener mItemClickListener) {
@@ -45,8 +48,11 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
         holder.tvProductName.setText(listItems.get(position).getName() +
                 (listItems.get(position).getSerial_no().length()>0?" HSN - "+listItems.get(position).getSerial_no():"")+
                 (listItems.get(position).getImei().length()>0?" ,IMEI/Serial Number - "+listItems.get(position).getImei():""));
-
-        holder.tvQTY.setText(String.valueOf(listItems.get(position).getQuantity()));
+        String qtyString = String.valueOf(listItems.get(position).getQuantity());
+        if(listItems.get(position).getMeasurementId() > -1){
+            qtyString += " " + measurementUnitList.get(listItems.get(position).getMeasurementId());
+        }
+        holder.tvQTY.setText(qtyString);
         holder.tvRate.setText(Util.formatDecimalValue( listItems.get(position).getPrice()));
         holder.tvAmount.setText(Util.formatDecimalValue( listItems.get(position).getTotalAmount()));
         if (listItems.get(position).getGst()>0 || isGSTAvailable) {

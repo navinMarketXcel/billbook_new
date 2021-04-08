@@ -313,7 +313,7 @@ private void startSplash(){
 
                 } else {
                     // Permission Denied
-                    DialogUtils.showToast(this, "WRITE_EXTERNAL Permission Denied");
+//                    DialogUtils.showToast(this, "WRITE_EXTERNAL Permission Denied");
                     requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             REQUEST_CODE_ASK_PERMISSIONS);
                 }

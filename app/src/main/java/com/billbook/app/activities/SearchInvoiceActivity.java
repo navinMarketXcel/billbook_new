@@ -1,12 +1,18 @@
 package com.billbook.app.activities;
 
+import android.Manifest;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -48,7 +54,7 @@ import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 
-public class SearchInvoiceActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, OnDownloadClick {
+public class SearchInvoiceActivity extends AppCompatActivity implements View.OnClickListener,SearchInvoiceListAdapterNew.SearchInvoiceItemClickListener, DatePickerDialog.OnDateSetListener, OnDownloadClick {
     private static final String TAG = "SearchInvoiceActivity";
     private SearchInvoiceListAdapterNew searchInvoiceListAdapter;
     private RecyclerView recyclerViewInvoice;
@@ -61,6 +67,10 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     private int userid;
     private JSONArray invoices = new JSONArray();
     private Date to,from;
+    private int hasWriteStoragePermission;
+    private final int REQUEST_CODE_ASK_PERMISSIONS =111;
+    private final int REQUEST_CODE_ASK_PERMISSIONS_SAVE_INVOICE =112;
+    private int saveInvoiceId = -1;
     DateFormat formatter1 =
             new SimpleDateFormat("dd MMM yyyy");
     DateFormat formatter2 =
@@ -74,6 +84,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         startSpotLight(edtMobileNo, "Mobile No", "Enter Mobile no.");
 
+         hasWriteStoragePermission =
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
     private void getInvoicesCall(){
         Map<String, String> body = new HashMap<>();
@@ -123,7 +135,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewInvoice.setLayoutManager(mLayoutManager);
         recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
-        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoices);
+        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoices, this);
         recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
         setTitle("Search Bill");
         DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
@@ -180,7 +192,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         if (body.getJSONObject("data").getJSONObject("invoices").has("count") && body.getJSONObject("data").getJSONObject("invoices").getInt("count")>0) {
                             invoices = body.getJSONObject("data").getJSONObject("invoices").getJSONArray("rows");
                             Log.d(TAG, "Invoice Body::" + body);
-                            searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices);
+                            searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices, SearchInvoiceActivity.this);
                             recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
                         }else if( body.getJSONObject("data").getJSONObject("invoices").getInt("count")==0){
                             DialogUtils.showToast(SearchInvoiceActivity.this,"No record found");
@@ -247,13 +259,14 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         toAndFromDate.setText(date +date1);
     }
 
-    public void downloadInvoice(View v) {
+    private void startDownloadingInvoices() {
+        Log.v("WRITE", "Downloading Invoices.....");
         Util.postEvents("Download Selected Invoices","Download Selected Invoices",this.getApplicationContext());
 
         for (int i=0;i<invoices.length();i++){
             try {
-            if(invoices.getJSONObject(i).has("download") && invoices.getJSONObject(i).getBoolean("download")) {
-                DownloadManager.Request r = null;
+                if(invoices.getJSONObject(i).has("download") && invoices.getJSONObject(i).getBoolean("download")) {
+                    DownloadManager.Request r = null;
                     if (invoices.getJSONObject(i).getString("pdfLink") != null && invoices.getJSONObject(i).getString("pdfLink").startsWith("http")) {
                         r = new DownloadManager.Request(Uri.parse(invoices.getJSONObject(i).getString("pdfLink")));
                         r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Invoice_" + invoices.getJSONObject(i).getLong("id"));
@@ -262,13 +275,84 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
                         dm.enqueue(r);
                     }
-            }
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }
         DialogUtils.showToast(this,"Downloading started");
+    }
+    public void downloadInvoice(View v) {
+        // check to see if we have permission to storage
+//        checkPermission();
+        Log.v("WRITE", hasWriteStoragePermission + " " );
+        if(hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED){
+           startDownloadingInvoices();
+        }
+        else{
+            checkPermission(REQUEST_CODE_ASK_PERMISSIONS);
+        }
+    }
+
+    private void checkPermission(int PERMISSION_CODE){
+        if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED) {
+            DialogUtils.showAlertDialog(SearchInvoiceActivity.this, "Allow", "Deny", "For downloading invoice we need write access to storage", new DialogUtils.DialogClickListener() {
+                @Override
+                public void positiveButtonClick() {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                       PERMISSION_CODE);
+                            }
+                            return;
+                        }
+
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                PERMISSION_CODE);
+                    }
+                }
+
+                @Override
+                public void negativeButtonClick() {
+                }
+            });
+            return;
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    hasWriteStoragePermission = PackageManager.PERMISSION_GRANTED;
+                    startDownloadingInvoices();
+                } else {
+                    // Permission Denied
+                    hasWriteStoragePermission = PackageManager.PERMISSION_DENIED;
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            REQUEST_CODE_ASK_PERMISSIONS);
+                }
+                break;
+            case REQUEST_CODE_ASK_PERMISSIONS_SAVE_INVOICE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    hasWriteStoragePermission = PackageManager.PERMISSION_GRANTED;
+                   saveInvoice();
+                } else {
+                    // Permission Denied
+                    hasWriteStoragePermission = PackageManager.PERMISSION_DENIED;
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            REQUEST_CODE_ASK_PERMISSIONS);
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
 
@@ -280,4 +364,31 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             e.printStackTrace();
         }
     }
+
+    private void saveInvoice(){
+
+        Util.postEvents("Save","Save",getApplicationContext());
+        try {
+            JSONObject currentInvoice = invoices.getJSONObject(saveInvoiceId);
+            Intent i = new Intent(Intent.ACTION_VIEW);
+
+            if(currentInvoice.get("pdfLink")!=null) {
+                i.setData(Uri.parse(currentInvoice.getString("pdfLink")));
+                this.startActivity(i);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    @Override
+    public void onSaveButtonClick(int invoicePosition) {
+        saveInvoiceId = invoicePosition;
+        Log.v("Invoice", "Saving invoice");
+        if(hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED){
+            saveInvoice();
+        }else{
+            checkPermission(REQUEST_CODE_ASK_PERMISSIONS_SAVE_INVOICE);
+        }
+    }
+
 }
