@@ -691,12 +691,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                                 no = MyApplication.getInVoiceNumber();
                             else
                                 no = MyApplication.getInVoiceNumberForNonGst();
-                            if(Integer.parseInt(invSerialNo.getText().toString())<no){
-                                DialogUtils.showToast(c,"Bill number already exists");
-                            }else{
-                                serialNumber = Integer.parseInt(invSerialNo.getText().toString());
-                                bill_no.setText("Bill Number:"+invSerialNo.getText().toString());
-                            }
+//                            if(Integer.parseInt(invSerialNo.getText().toString())<no){
+//                                DialogUtils.showToast(c,"Bill number already exists");
+//                            }else{
+//                            }
+                            serialNumber = Integer.parseInt(invSerialNo.getText().toString());
+                            bill_no.setText("Bill Number:"+invSerialNo.getText().toString());
                         }
                         dismiss();
                     break;
