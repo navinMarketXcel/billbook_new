@@ -255,8 +255,9 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             if(invoices.getJSONObject(i).has("download") && invoices.getJSONObject(i).getBoolean("download")) {
                 DownloadManager.Request r = null;
                     if (invoices.getJSONObject(i).getString("pdfLink") != null && invoices.getJSONObject(i).getString("pdfLink").startsWith("http")) {
-                        r = new DownloadManager.Request(Uri.parse(invoices.getJSONObject(i).getString("pdfLink")));
-                        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Invoice_" + invoices.getJSONObject(i).getLong("id"));
+                        String downloadLink = invoices.getJSONObject(i).getString("pdfLink").replace("http", "https");
+                        r = new DownloadManager.Request(Uri.parse(downloadLink));
+                        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Invoice_" + invoices.getJSONObject(i).getLong("id") + ".pdf");
                         r.allowScanningByMediaScanner();
                         r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                         DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
