@@ -250,8 +250,16 @@ public class EditProfileActivity extends AppCompatActivity {
             profile.put("mobileNo",phoneNoEdt.getText().toString());
             profile.put("gstNo",gstNoEdt.getText().toString());
 
-            MyApplication.setShowGstPopup(!gstNoEdt.getText().toString().isEmpty() ? 1 : 0);
-            sendGstUpdateStatus(!gstNoEdt.getText().toString().isEmpty() ? 1 : 0);
+            if (!gstNoEdt.getText().toString().isEmpty()) {
+                sendGstUpdateStatus(2);
+                MyApplication.setShowGstPopup(2);
+            }else{
+                int k = MyApplication.showGstPopup();
+                // k = 2 User was GST user but now what ?
+                // is he still gst user or wants to be gst user and not enter gst status
+                sendGstUpdateStatus(k == 2 ? 1 : k);
+                MyApplication.setShowGstPopup(k == 2 ? 1 : k);
+            }
 
             profile.put("state",states.getText().toString());
             profile.put("city", cityEdt.getText().toString());
