@@ -1,6 +1,7 @@
 package com.billbook.app.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -64,6 +65,10 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
+    public void goToPrivacyPolicy(View v){
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://thebillbook.com/privacypolicy.html"));
+        startActivity(i);
+    }
     public void gotoToTermsAndConsitions(View v){
         Intent intent = new Intent(this,TermsAndConditionActivity.class);
         startActivityForResult(intent,01);

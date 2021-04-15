@@ -314,6 +314,14 @@
        </TableRow>
 
 
+       <TextView
+           android:id="@+id/privacyPolicy"
+           android:layout_height="wrap_content"
+           android:layout_width="wrap_content"
+           android:onClick="goToPrivacyPolicy"
+           android:layout_gravity="center"
+           android:text="Privacy Policy"
+           android:layout_marginTop="12sp"/>
    </LinearLayout>
 </ScrollView>
 
