@@ -350,7 +350,7 @@
                                     android:layout_height="match_parent"
                                     android:layout_weight="6"
                                     android:hint="@string/enter_mob_no"
-                                    android:maxLength="10"
+                                    android:maxLength="20"
                                     android:padding="5dp"
                                     android:gravity="left"
                                     android:inputType="textMultiLine"
