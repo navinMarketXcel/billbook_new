@@ -1,6 +1,7 @@
 package com.billbook.app.activities;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -19,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -240,23 +242,25 @@ public class EditProfileActivity extends AppCompatActivity {
                         .into(profileImg);
             }
 
-            if (profile.has("companyLogo") && profile.getString("companyLogo") != null){
+            if (profile.has("companyLogo")){
+                String companyLogoPath = profile.getString("companyLogo");
                 btnAddCompanyLogo.setVisibility(View.GONE);
                 tvCompanyTitle.setVisibility(View.VISIBLE);
                 companyLogoImg.setVisibility(View.VISIBLE);
                 Picasso.get()
-                        .load(profile.getString("companyLogo"))
+                        .load(companyLogoPath.replace("http", "https"))
                         .placeholder(R.drawable.man_new)
                         .error(R.drawable.man_new)
                         .into(companyLogoImg);
             }
 
-            if (profile.has("signatureImage") && profile.getString("signatureImage") != null){
+            if (profile.has("signatureImage")) {
+                String profilePath = profile.getString("signatureImage");
                 btnAddSignature.setVisibility(View.GONE);
                 tvSignatureTitle.setVisibility(View.VISIBLE);
                 signatureImg.setVisibility(View.VISIBLE);
                 Picasso.get()
-                        .load(profile.getString("signatureImage"))
+                        .load(profilePath.replace("http", "https"))
                         .placeholder(R.drawable.man_new)
                         .error(R.drawable.man_new)
                         .into(signatureImg);
@@ -527,6 +531,10 @@ public class EditProfileActivity extends AppCompatActivity {
 
         File profileFile = null, companyFile = null, signatureFile = null;
         MultipartBody.Part profileFilePart = null, companyFilePart = null, signatureFilePart=null;
+
+        ContentResolver cR = this.getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+
         Call<Object> call = null;
         if (picturePath != null) {
             profileFile= new File(picturePath);
@@ -537,8 +545,9 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
         if(companyImagePath !=null){
+            String type = mime.getExtensionFromMimeType(cR.getType(companyImagePath));
             ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(companyImagePath, "r", null);
-            File newCompanyFile = new File(getCacheDir(), "companyLogo");
+            File newCompanyFile = new File(getCacheDir(), "companyLogo." + type);
             FileInputStream fileInputStream = new FileInputStream(parcelFileDescriptor.getFileDescriptor());
             FileOutputStream fileOutputStream = new FileOutputStream(newCompanyFile);
             IOUtils.copyStream(fileInputStream, fileOutputStream);
@@ -550,15 +559,17 @@ public class EditProfileActivity extends AppCompatActivity {
 
         }
         if(signatureImagePath!=null){
+
+            String type = mime.getExtensionFromMimeType(cR.getType(signatureImagePath));
+
             ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(signatureImagePath, "r", null);
-            File newSignatureFile= new File(getCacheDir(), "companyLogo");
+            File newSignatureFile= new File(getCacheDir(), "signature." + type);
             FileInputStream fileInputStream = new FileInputStream(parcelFileDescriptor.getFileDescriptor());
             FileOutputStream fileOutputStream = new FileOutputStream(newSignatureFile);
             IOUtils.copyStream(fileInputStream, fileOutputStream);
 
 //            signatureFile = new File(signatureImagePath);
             RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), newSignatureFile);
-
             signatureFilePart= MultipartBody.Part.createFormData("signatureImage",newSignatureFile.getName(),
                     requestBody);
         }
