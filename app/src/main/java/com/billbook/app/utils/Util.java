@@ -10,6 +10,8 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 
@@ -246,4 +248,11 @@ public class Util {
         params.putString(eventName.replaceAll(" ", "_"), value);
         MyApplication.getFirebaseAnalytics(context).logEvent(eventName.replaceAll(" ", "_"),params);
     }
+
+    public static boolean checkFileSizeInMB(File fileToCheck, Double upperLimit){
+        double sizeOfFile = fileToCheck.length() / (1024 * 1024) * 1.0;
+        return sizeOfFile < upperLimit;
+    }
+
+
 }
