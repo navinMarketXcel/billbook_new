@@ -10,9 +10,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
         android:layout_height="wrap_content"
         android:layout_above="@+id/updateBtn"
+        android:layout_alignParentTop="true"
         android:layout_marginBottom="10dp"
         android:layout_weight="9">
 
@@ -21,22 +21,24 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:gravity="center"
             android:layout_marginRight="10dp"
             android:background="@android:color/white"
+            android:gravity="center"
             android:orientation="vertical"
             tools:context=".activities.EditProfileActivity">
 
-<de.hdodenhof.circleimageview.CircleImageView
-    android:id="@+id/profileImage"
-    android:layout_margin="7dp"
-    android:layout_width="50dp"
-    android:visibility="gone"
-    android:onClick="openGallery"
-    android:src="@drawable/man_new"
-    android:layout_height="50dp">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="7dp"
+                android:src="@drawable/man_new"
+                android:visibility="gone">
 
-</de.hdodenhof.circleimageview.CircleImageView>
+            </de.hdodenhof.circleimageview.CircleImageView>
+
+
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/shopNameTxtInp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -50,9 +52,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/shopName"
-                    android:textSize="13dp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textSize="13dp" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/addressTxtInput"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -67,9 +70,10 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/shopAddress"
                     android:inputType="text"
-                    android:textSize="13dp"
-                    android:singleLine="false" />
+                    android:singleLine="false"
+                    android:textSize="13dp" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/phonenoTxtInput"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -84,31 +88,31 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/enter_contact__no"
                     android:inputType="number"
-                    android:textSize="13dp"
                     android:maxLength="10"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textSize="13dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-<!--            <com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
-<!--                android:id="@+id/city"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:textColor="@color/grey"-->
-<!--                android:textSize="13dp"-->
-<!--                android:layout_marginTop="@dimen/add_product_spinner_margin_top"-->
-<!--                android:hint="@string/enter_city"-->
-<!--                android:background="@drawable/spinnerbggray"  />-->
-<!--            <com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
-<!--                android:id="@+id/state"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:textColor="@color/grey"-->
-<!--                android:textSize="13dp"-->
-<!--                android:layout_marginTop="@dimen/add_product_spinner_margin_top"-->
-<!--                android:hint="@string/enter_city"-->
-<!--                android:background="@drawable/spinnerbggray"  />-->
+            <!--            <com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
+            <!--                android:id="@+id/city"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="5dp"-->
+            <!--                android:textColor="@color/grey"-->
+            <!--                android:textSize="13dp"-->
+            <!--                android:layout_marginTop="@dimen/add_product_spinner_margin_top"-->
+            <!--                android:hint="@string/enter_city"-->
+            <!--                android:background="@drawable/spinnerbggray"  />-->
+            <!--            <com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
+            <!--                android:id="@+id/state"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_margin="5dp"-->
+            <!--                android:textColor="@color/grey"-->
+            <!--                android:textSize="13dp"-->
+            <!--                android:layout_marginTop="@dimen/add_product_spinner_margin_top"-->
+            <!--                android:hint="@string/enter_city"-->
+            <!--                android:background="@drawable/spinnerbggray"  />-->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/cityTxtInput"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -118,16 +122,17 @@
                 android:layout_marginTop="@dimen/pass_margin_top">
 
                 <EditText
-                android:id="@+id/city"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:textColor="@color/grey"
-                android:textSize="13dp"
-                android:layout_marginTop="@dimen/add_product_spinner_margin_top"
-                android:hint="@string/enter_city"
-                android:background="@drawable/spinnerbggray"  />
+                    android:id="@+id/city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
+                    android:background="@drawable/spinnerbggray"
+                    android:hint="@string/enter_city"
+                    android:textColor="@color/grey"
+                    android:textSize="13dp" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/stateTxtInput"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -135,16 +140,17 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_marginTop="@dimen/pass_margin_top">
-            <EditText
-                android:id="@+id/state"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:textColor="@color/grey"
-                android:textSize="13dp"
-                android:layout_marginTop="@dimen/add_product_spinner_margin_top"
-                android:hint="@string/enter_state"
-               android:background="@drawable/spinnerbggray"  />
+
+                <EditText
+                    android:id="@+id/state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
+                    android:background="@drawable/spinnerbggray"
+                    android:hint="@string/enter_state"
+                    android:textColor="@color/grey"
+                    android:textSize="13dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -160,11 +166,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/pinCode"
-                    android:textSize="13dp"
-                    android:maxLength="6"
                     android:inputType="number"
-                    android:singleLine="true" />
+                    android:maxLength="6"
+                    android:singleLine="true"
+                    android:textSize="13dp" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailTxtInput"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -178,9 +185,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
-                    android:textSize="13dp"
                     android:inputType="textEmailAddress"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textSize="13dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -189,9 +196,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:visibility="gone"
+                android:layout_marginTop="@dimen/pass_margin_top"
 
-                android:layout_marginTop="@dimen/pass_margin_top">
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/firstName"
@@ -208,8 +215,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/pass_margin_top">
+                android:layout_marginTop="@dimen/pass_margin_top"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/lastName"
@@ -221,19 +228,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-
-
-
-
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/ledgerPasswordInpTxt"
-                android:visibility="gone"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_marginTop="@dimen/pass_margin_top">
+                android:layout_marginTop="@dimen/pass_margin_top"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/ledgerPassword"
@@ -249,9 +251,9 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_margin="5dp"
-                android:layout_marginTop="@dimen/pass_margin_top">
+                android:layout_marginTop="@dimen/pass_margin_top"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/ledgerConfirmPassword"
@@ -268,8 +270,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/pass_margin_top">
+                android:layout_marginTop="@dimen/pass_margin_top"
+                android:visibility="gone">
 
                 <EditText
                     android:id="@+id/ledgerNewPassword"
@@ -293,9 +295,95 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter GST No (optional)"
-                    android:textSize="13dp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textSize="13dp" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_addCompanyLogo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:tag="company_logo"
+                android:layout_marginTop="@dimen/login_margin_top"
+                android:layout_weight="1"
+                android:visibility="visible"
+                android:onClick="showImageOptions"
+                android:background="@color/colorPrimary"
+                android:text="+ Add Company logo"
+                android:textColor="@android:color/white"
+                />
+            <TextView
+                android:id="@+id/tv_companyLogo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/login_margin_top"
+                android:text="Company Logo"/>
+            <ImageView
+                android:id="@+id/iv_company"
+                android:layout_width="match_parent"
+                android:contentDescription="Company Logo"
+                android:visibility="gone"
+                android:tag="company_logo"
+                android:onClick="showImageOptions"
+                android:layout_height="100dp"
+                />
+
+            <Button
+                android:id="@+id/btn_addSignature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/login_margin_top"
+                android:layout_weight="1"
+                android:tag="signature"
+                android:visibility="visible"
+                android:onClick="showImageOptions"
+                android:background="@color/colorPrimary"
+                android:text="+ Add Signature"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="@dimen/login_margin_top"/>
+
+            <TextView
+                android:id="@+id/tv_signature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/login_margin_top"
+                android:visibility="gone"
+                android:text="Signature"/>
+            <ImageView
+                android:id="@+id/iv_signature"
+                android:layout_width="match_parent"
+                android:contentDescription="Company Logo"
+                android:visibility="gone"
+                android:tag="signature"
+                android:onClick="showImageOptions"
+                android:layout_marginBottom="@dimen/login_margin_top"
+                android:layout_height="100dp"
+                />
+            <!--            <LinearLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="100dp"-->
+            <!--                android:orientation="horizontal">-->
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/iv_company"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:contentDescription="Company Logo"-->
+            <!--                    android:layout_marginEnd="10dp"-->
+            <!--                    android:tag="company_logo"-->
+            <!--                    android:onClick="showImageOptions"-->
+            <!--                    android:layout_height="match_parent"-->
+            <!--                    android:layout_weight="0.3"/>-->
+            <!--                <ImageView-->
+            <!--                    android:id="@+id/iv_signature"-->
+            <!--                    android:layout_width="0dp"-->
+            <!--                    android:tag="signature_logo"-->
+            <!--                    android:contentDescription="Signature Image"-->
+            <!--                    android:onClick="showImageOptions"-->
+            <!--                    android:layout_height="match_parent"-->
+            <!--                    android:layout_weight="0.7"/>-->
+            <!--            </LinearLayout>-->
+
+
         </LinearLayout>
     </ScrollView>
 
@@ -303,9 +391,9 @@
         android:id="@+id/updateBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/login_margin_top"
         android:layout_weight="1"
-        android:layout_alignParentBottom="true"
         android:background="@color/colorPrimary"
         android:onClick="updateUserProfile"
         android:text="Update Profile"
