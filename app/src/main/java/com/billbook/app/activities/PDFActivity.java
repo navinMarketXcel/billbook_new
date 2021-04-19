@@ -232,7 +232,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 Picasso.get()
                         .load(imageURL.replace("http", "https"))
                         .resize(100, 100)
-                        .centerCrop()
                         .into(shopImage, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
@@ -266,7 +265,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             Picasso.get()
                     .load(signatureURL.replace("http", "https"))
                     .resize(250, 100)
-                    .centerInside()
                     .into(signatureImage, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
