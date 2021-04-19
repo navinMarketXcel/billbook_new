@@ -215,6 +215,7 @@
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -292,12 +293,12 @@
             android:layout_marginTop="10dp"
             android:gravity="left"
             android:padding="5dp"
-            android:visibility="gone"
             android:singleLine="false"
             android:text="Terms and Conditions"
             android:textColor="@color/color_black"
+            android:textStyle="bold"
 
-            android:textStyle="bold" />
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="match_parent"
@@ -305,22 +306,46 @@
             android:layout_marginTop="10dp"
             android:gravity="left"
             android:padding="5dp"
-            android:visibility="gone"
             android:singleLine="false"
             android:text="1. Good once sold can not be taken back.\n2. All disputes are subject to state jurisdiction.\n3. Software generated bill so signature is not required"
             android:textColor="@color/color_black"
+            android:textStyle="normal"
 
-            android:textStyle="normal" />
+            android:visibility="gone" />
+
         <TextView
+            android:id="@+id/tv_signature"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_weight="4"
             android:background="@drawable/card_lined"
             android:gravity="right|bottom"
             android:padding="5dp"
+            android:visibility="visible"
             android:text="Signature"
             android:textColor="@color/color_black"
             android:textStyle="bold" />
 
+        <ImageView
+            android:id="@+id/iv_signature"
+            android:layout_width="250dp"
+            android:layout_gravity="end"
+            android:layout_height="100dp"
+            android:tag="Signature image"
+            android:contentDescription="Signature Image"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_signatureIfImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:background="@drawable/card_lined"
+            android:gravity="right|bottom"
+            android:padding="5dp"
+            android:text="Signature"
+            android:textColor="@color/color_black"
+            android:textStyle="bold"
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>
