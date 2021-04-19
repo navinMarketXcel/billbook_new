@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".activities.VerifyGSTActivity">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/gst"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:hint="@string/gstNumber"
             android:padding="10dp"
             android:singleLine="true" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnRegister"

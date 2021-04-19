@@ -229,7 +229,7 @@
                    android:background="@drawable/card_edge"
                    android:singleLine="true" />
            </TableRow>
-           <android.support.design.widget.TextInputLayout
+           <com.google.android.material.textfield.TextInputLayout
                android:id="@+id/firstName"
                android:visibility="gone"
                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -243,9 +243,9 @@
                    android:layout_height="wrap_content"
                    android:hint="@string/firstName"
                    android:singleLine="true" />
-           </android.support.design.widget.TextInputLayout>
+           </com.google.android.material.textfield.TextInputLayout>
 
-           <android.support.design.widget.TextInputLayout
+           <com.google.android.material.textfield.TextInputLayout
                android:id="@+id/lastName"
                android:visibility="gone"
                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -259,10 +259,10 @@
                    android:layout_height="wrap_content"
                    android:hint="@string/lastName"
                    android:singleLine="true" />
-           </android.support.design.widget.TextInputLayout>
+           </com.google.android.material.textfield.TextInputLayout>
 
 
-           <android.support.design.widget.TextInputLayout
+           <com.google.android.material.textfield.TextInputLayout
                android:id="@+id/mobileNo"
                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                android:layout_width="match_parent"
@@ -271,14 +271,14 @@
                android:layout_margin="5dp">
 
 
-           </android.support.design.widget.TextInputLayout>
+           </com.google.android.material.textfield.TextInputLayout>
 
 
 
 
 
 
-           <android.support.design.widget.TextInputLayout
+           <com.google.android.material.textfield.TextInputLayout
                android:id="@+id/pinCode"
                android:visibility="gone"
                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -288,7 +288,7 @@
                android:layout_margin="5dp">
 
 
-           </android.support.design.widget.TextInputLayout>
+           </com.google.android.material.textfield.TextInputLayout>
 
        </LinearLayout>
        <TableRow
