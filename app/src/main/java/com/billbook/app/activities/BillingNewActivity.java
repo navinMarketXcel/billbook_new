@@ -361,11 +361,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 hsnNo.setText(newInvoiceModel.getSerial_no());
                 imeiNo.setText(newInvoiceModel.getImei());
                 List<String> gstPList =  Arrays.asList (getResources().getStringArray(R.array.gstPercentage));
-                List<String> unitList = Arrays.asList(getResources().getStringArray(R.array.measurementUnit));
-                Log.v("UNIT", "why is it not coming");
-                Log.v("UNIT", this.newInvoiceModel.getMeasurementId() + " ");
                 measurementUnitSpinner.setSelection(this.newInvoiceModel.getMeasurementId());
-//                Log.v("TAG", "test::"+);
                 gstPercentage.setSelection(gstPList.indexOf((int)this.newInvoiceModel.getGst()+""));
             }
         }
@@ -375,8 +371,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             switch (v.getId()) {
                 case R.id.add:
                     if(verifyData()){
-                        Log.v("UNIT", "probably from Modal");
-                        Log.v("UNIT", measurementUnitSpinner.getSelectedItemPosition() +  " ");
                         addItem(modelName.getText().toString(),
                                 Float.parseFloat(priceEt.getText().toString()),
                                 Float.parseFloat(gstPercentage.getSelectedItemPosition()>0?gstPercentage.getSelectedItem().toString():"0")
