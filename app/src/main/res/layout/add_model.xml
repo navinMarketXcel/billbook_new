@@ -96,7 +96,7 @@
         <EditText
             android:id="@+id/quantity"
             android:textSize="11dp"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/enter_quantities"
