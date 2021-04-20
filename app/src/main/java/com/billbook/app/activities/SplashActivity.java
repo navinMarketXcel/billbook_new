@@ -111,10 +111,10 @@ private void startSplash(){
                     body = new JSONObject(new Gson().toJson(response.body()));
                     Log.d(TAG, "Version Body::" + body);
                     if (body.getBoolean("status") && body.has("data") && !body.isNull("data")) {
-                        int versionCode = body.getJSONObject("data").getInt("versionNo");
+                        String versionName= body.getJSONObject("data").getString("versionName");
 
-                        int buildVersion = BuildConfig.VERSION_CODE;
-                        if (buildVersion != versionCode) {
+                        String buildVersion = BuildConfig.VERSION_NAME;
+                        if (!buildVersion.equals(versionName)) {
                             DialogUtils.showToast(SplashActivity.this, "To continue, please update the app to latest version.");
                             final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                             try {
