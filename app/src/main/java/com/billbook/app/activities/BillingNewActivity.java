@@ -483,8 +483,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         startPDFActivity();
     }
     private void startPDFActivity(){
+        String eventName = isEdit ? "Make Bill Edit" : "Make Bill";
         if(verify()) {
-            Util.postEvents("Make Bill","Make Bill",this.getApplicationContext());
+            Util.postEvents(eventName,eventName,this.getApplicationContext());
             JSONObject requestObj = new JSONObject();
             try {
                 requestObj.put("customerName", edtName.getText().toString());
