@@ -519,6 +519,7 @@ public class EditProfileActivity extends AppCompatActivity {
         RequestBody gstNo = RequestBody.create(MediaType.parse("multipart/form-data"), gstNoEdt.getText().toString());
         RequestBody state = RequestBody.create(MediaType.parse("multipart/form-data"), states.getText().toString());
         RequestBody city = RequestBody.create(MediaType.parse("multipart/form-data"), cityEdt.getText().toString());
+        RequestBody pincodeP = RequestBody.create(MediaType.parse("multipart/form-data"), pincode.getText().toString());
 
         Map<String, RequestBody> map = new HashMap<>();
         map.put("email", email);
@@ -526,6 +527,7 @@ public class EditProfileActivity extends AppCompatActivity {
         map.put("shopName", shopName);
         map.put("mobileNo", mobileNo);
         map.put("gstNo", gstNo);
+        map.put("pincode", pincodeP);
         map.put("state", state);
         map.put("city", city);
 
