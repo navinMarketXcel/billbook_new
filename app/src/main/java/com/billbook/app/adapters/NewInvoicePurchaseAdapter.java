@@ -2,6 +2,8 @@ package com.billbook.app.adapters;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,10 +55,12 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             qtyString += " " + measurementUnitList.get(listItems.get(position).getMeasurementId());
         }
         holder.tvQTY.setText(qtyString);
-        holder.tvRate.setText(Util.formatDecimalValue( listItems.get(position).getPrice()));
+//        holder.tvRate.setText(Util.formatDecimalValue( listItems.get(position).getPrice()));
         holder.tvAmount.setText(Util.formatDecimalValue( listItems.get(position).getTotalAmount()));
         if (listItems.get(position).getGst()>0 || isGSTAvailable) {
             float gstVlaue = listItems.get(position).getTotalAmount() - listItems.get(position).getGstAmount();
+            float gst = 1 + (listItems.get(position).getGst() / 100);
+            holder.tvRate.setText(Util.formatDecimalValue( listItems.get(position).getPrice() / gst));
             if(this.isGSTAvailable){
                 if(listItems.get(position).getGstType() != null && listItems.get(position).getGstType().equals("IGST (Central/outstation customer)")) {
                     holder.CGSTValue.setVisibility(View.GONE);
@@ -83,6 +87,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             }
         }
         else {
+            holder.tvRate.setText(Util.formatDecimalValue( listItems.get(position).getPrice()));
             holder.CGSTValue.setVisibility(View.GONE);
             holder.IGSTValue.setVisibility(View.GONE);
             holder.SGSTValue.setVisibility(View.GONE);
