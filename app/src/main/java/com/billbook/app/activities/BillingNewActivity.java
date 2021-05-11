@@ -747,11 +747,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 else
                     serialNumber = invoice.getInt("nonGstBillNo");
                 bill_no.setText("Bill Number: "+serialNumber);
-                bill_no.setEnabled(false);
+//                bill_no.setEnabled(false);
 
                 invoiceDateStr = Util.getFormatedDate(invoice.getString("invoiceDate"));
                 bill_date.setText("Bill Date: "+invoiceDateStr);
-                bill_date.setEnabled(false);
+//                bill_date.setEnabled(false);
 
                 edtName.setText(invoice.getString("customerName"));
                 edtAddress.setText(invoice.getString("customerAddress"));
