@@ -390,15 +390,15 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             }
         }
 
-        private boolean verifyData(){
-            if(modelName.getText().length() == 0){
-                DialogUtils.showToast(c,"Please enter product name");
+        private boolean verifyData() {
+            if(modelName.getText().toString().isEmpty()){
+                DialogUtils.showToast(c,"Please enter item name");
                 return false;
-            } else if(quantityEt.getText().length() ==0){
-                DialogUtils.showToast(c,"Please enter quantity");
-                return false;
-            } else if(priceEt.getText().length() ==0){
+            }else if(priceEt.getText().toString().isEmpty()|| Float.parseFloat(priceEt.getText().toString())==0){
                 DialogUtils.showToast(c,"Please enter price");
+                return false;
+            }else if(quantityEt.getText().toString().isEmpty() || Float.parseFloat(quantityEt.getText().toString())==0){
+                DialogUtils.showToast(c,"Please enter quantity");
                 return false;
             }else if(isGSTAvailable && gstPercentage.getSelectedItemPosition()==0){
                 DialogUtils.showToast(c,"Please select GST %");
