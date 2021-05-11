@@ -75,7 +75,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private boolean isGSTAvailable;
     private LinearLayout gstTotalLayout, totalAmountBeforeTaxLayout, custGstLayout;
     private TextView padding1, padding2, padding3, label, paddingLabel, mobileNoRetailer, GSTTitle, signatureText,
-            tvVendorName, tvStoreAddress, customer_gst;
+            tvVendorName, tvStoreAddress, customer_gst, tv_preTax;
     private ImageView shopImage, signatureImage;
     private JSONObject invoiceServer;
     private int invID = 0;
@@ -95,6 +95,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private void initUI() {
         txtInvoiceDate = findViewById(R.id.txtInvoiceDate);
         txtInvoiceNo = findViewById(R.id.txtInvoiceNo);
+        tv_preTax = findViewById(R.id.tv_preTax);
         edtName = findViewById(R.id.edtName);
         edtAddress = findViewById(R.id.edtAddress);
         signatureTextIfImage = findViewById(R.id.tv_signatureIfImage);
@@ -157,6 +158,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
 
             invID = invoiceServer.getJSONObject("invoice").getInt("id");
+
+            tv_preTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
 
             if (requestInv.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
                 IGST.setVisibility(View.GONE);

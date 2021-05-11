@@ -537,6 +537,22 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_preTax"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/card_lined"
+                            android:ellipsize="end"
+                            android:gravity="start"
+                            android:padding="5dp"
+                            android:singleLine="true"
+                            android:text="PRE TAX"
+                            android:textSize="10dp"
+                            android:visibility="gone"
+                            android:textColor="@color/color_black"
+                            android:textStyle="bold" />
+
+                        <TextView
                             android:id="@+id/SGST"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
