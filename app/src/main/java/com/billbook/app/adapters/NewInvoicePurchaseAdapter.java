@@ -50,13 +50,16 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
         holder.tvProductName.setText(listItems.get(position).getName() +
                 (listItems.get(position).getSerial_no().length()>0?" HSN - "+listItems.get(position).getSerial_no():"")+
                 (listItems.get(position).getImei().length()>0?" ,IMEI/Serial Number - "+listItems.get(position).getImei():""));
+
         String qtyString = String.valueOf(listItems.get(position).getQuantity());
         if(listItems.get(position).getMeasurementId() > -1){
             qtyString += " " + measurementUnitList.get(listItems.get(position).getMeasurementId());
         }
         holder.tvQTY.setText(qtyString);
-//        holder.tvRate.setText(Util.formatDecimalValue( listItems.get(position).getPrice()));
         holder.tvAmount.setText(Util.formatDecimalValue( listItems.get(position).getTotalAmount()));
+
+        holder.llForHeader.setWeightSum(isGSTAvailable ? (float)10.5 : 9);
+
         if (listItems.get(position).getGst()>0 || isGSTAvailable) {
             holder.preTaxValue.setVisibility(View.VISIBLE);
             float gstVlaue = listItems.get(position).getTotalAmount() - listItems.get(position).getGstAmount();
@@ -99,7 +102,6 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
                     0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
         }
 
-
     }
 
 
@@ -114,10 +116,11 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvProductName, SGSTValue, CGSTValue, IGSTValue, tvQTY, tvRate, tvAmount, preTaxValue;
-
+        LinearLayout llForHeader;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            llForHeader = itemView.findViewById(R.id.llForHeader);
             tvProductName = (TextView) itemView.findViewById(R.id.tvProductName);
             tvQTY = (TextView) itemView.findViewById(R.id.tvQTY);
             preTaxValue = itemView.findViewById(R.id.tv_preTaxValue);

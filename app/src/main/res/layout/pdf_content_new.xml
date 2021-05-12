@@ -484,8 +484,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
-
-                        android:weightSum="9">
+                        android:weightSum="11">
 
 
                         <TextView
@@ -540,7 +539,7 @@
                             android:id="@+id/tv_preTax"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="1.5"
                             android:background="@drawable/card_lined"
                             android:ellipsize="end"
                             android:gravity="start"
@@ -548,7 +547,6 @@
                             android:singleLine="true"
                             android:text="PRE TAX"
                             android:textSize="10dp"
-                            android:visibility="gone"
                             android:textColor="@color/color_black"
                             android:textStyle="bold" />
 
@@ -637,7 +635,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:orientation="horizontal"
-                        android:weightSum="9">
+                        android:weightSum="10">
 
 
                         <TextView
@@ -655,6 +653,7 @@
                             android:textStyle="bold"
 
                             />
+
 
                         <TextView
                             android:layout_width="0dp"
@@ -684,6 +683,21 @@
                             android:textColor="@color/color_black"
                             android:textStyle="bold" />
 
+                        <TextView
+                            android:id="@+id/paddingLabelGst"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.5"
+                            android:background="@drawable/card_lined"
+                            android:ellipsize="end"
+                            android:gravity="start"
+                            android:padding="5dp"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textColor="@color/color_black"
+                            android:textStyle="bold"
+
+                            />
                         <TextView
                             android:id="@+id/padding1"
                             android:layout_width="0dp"

@@ -73,8 +73,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private Button btnSubmit, btnPrint, closeBtn;
     private JSONObject profile;
     private boolean isGSTAvailable;
-    private LinearLayout gstTotalLayout, totalAmountBeforeTaxLayout, custGstLayout;
-    private TextView padding1, padding2, padding3, label, paddingLabel, mobileNoRetailer, GSTTitle, signatureText,
+    private LinearLayout gstTotalLayout, totalAmountBeforeTaxLayout, custGstLayout, llForHeader, footer;
+    private TextView padding1, padding2, padding3, label, paddingLabel,padding8, mobileNoRetailer, GSTTitle, signatureText,
             tvVendorName, tvStoreAddress, customer_gst, tv_preTax;
     private ImageView shopImage, signatureImage;
     private JSONObject invoiceServer;
@@ -101,6 +101,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         signatureTextIfImage = findViewById(R.id.tv_signatureIfImage);
         signatureText = findViewById(R.id.tv_signature);
         edtMobNo = findViewById(R.id.edtMobNo);
+        footer = findViewById(R.id.footer);
         tvAmountBeforeTax = findViewById(R.id.tvAmountBeforeTax);
         tvTotal = findViewById(R.id.tvTotal);
         tvGSTNo = findViewById(R.id.tvGSTNo);
@@ -130,6 +131,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         GSTTitle = findViewById(R.id.GSTTitle);
         shopImage = findViewById(R.id.shopImage);
         signatureImage = findViewById(R.id.iv_signature);
+
+        llForHeader = findViewById(R.id.llForHeader);
+        padding8 = findViewById(R.id.paddingLabelGst);
     }
 
     private void setData() {
@@ -160,6 +164,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             invID = invoiceServer.getJSONObject("invoice").getInt("id");
 
             tv_preTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+            llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+            footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+            padding8.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
 
             if (requestInv.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
                 IGST.setVisibility(View.GONE);
