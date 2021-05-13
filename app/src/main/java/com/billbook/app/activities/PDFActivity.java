@@ -75,7 +75,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private boolean isGSTAvailable;
     private LinearLayout gstTotalLayout, totalAmountBeforeTaxLayout, custGstLayout, llForHeader, footer;
     private TextView padding1, padding2, padding3, label, paddingLabel,padding8, mobileNoRetailer, GSTTitle, signatureText,
-            tvVendorName, tvStoreAddress, customer_gst, tv_preTax;
+            tvVendorName, tvStoreAddress, customer_gst, tv_preTax, tvAdditionalData;
     private ImageView shopImage, signatureImage;
     private JSONObject invoiceServer;
     private int invID = 0;
@@ -134,13 +134,15 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
         llForHeader = findViewById(R.id.llForHeader);
         padding8 = findViewById(R.id.paddingLabelGst);
+        tvAdditionalData = findViewById(R.id.tv_additionalDetails);
     }
 
     private void setData() {
         try {
             requestInv = new JSONObject(getIntent().getExtras().getString("invoice"));
             invoiceServer = new JSONObject(getIntent().getExtras().getString("invoiceServer"));
-
+            Log.i(TAG, "setData: Request INV ==> " + requestInv);
+            Log.i(TAG, "setData: Invoice Server ==> " + invoiceServer);
             profile = new JSONObject(MyApplication.getUserDetails());
             if (profile.has("gstNo") && profile.getString("gstNo") != null && !profile.getString("gstNo").isEmpty()) {
                 isGSTAvailable = true;
@@ -167,6 +169,11 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
             footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
             padding8.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+
+            if(profile.has("additionalData") && profile.getString("additionalData").length()!=0){
+                tvAdditionalData.setVisibility(View.VISIBLE);
+                tvAdditionalData.setText(requestInv.getString("additionalData"));
+            }
 
             if (requestInv.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
                 IGST.setVisibility(View.GONE);

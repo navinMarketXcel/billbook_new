@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.billbook.app.R;
@@ -63,6 +64,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText emailEdt, addressEdt, phoneNoEdt, pincode, firstNameOfDealerEdt, lastNameOfDealerEdt,
             ledgerPasswordEdt, shopNameEdt, gstNoEdt, ledgerNewPasswordEdt, ledgerConfirmPassword;
     private JSONObject profile;
+    private LinearLayout ll_signature, ll_company;
     private ImageView profileImg, signatureImg, companyLogoImg;
     //    private SearchableSpinner states,city;
     private Button btnAddCompanyLogo, btnAddSignature;
@@ -149,7 +151,8 @@ public class EditProfileActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         SCREEN_WIDTH = displayMetrics.widthPixels;
 
-
+        ll_company = findViewById(R.id.ll_company);
+        ll_signature = findViewById(R.id.ll_signature);
        /* city.setTitle("Select City");
         states.setTitle("Select State");
         stateList.addAll( Arrays.asList(getResources().getStringArray(R.array.states)));
@@ -244,6 +247,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
             if (profile.has("companyLogo")){
                 String companyLogoPath = profile.getString("companyLogo");
+                ll_company.setVisibility(View.VISIBLE);
                 btnAddCompanyLogo.setVisibility(View.GONE);
                 tvCompanyTitle.setVisibility(View.VISIBLE);
                 companyLogoImg.setVisibility(View.VISIBLE);
@@ -259,6 +263,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 btnAddSignature.setVisibility(View.GONE);
                 tvSignatureTitle.setVisibility(View.VISIBLE);
                 signatureImg.setVisibility(View.VISIBLE);
+                ll_signature.setVisibility(View.VISIBLE);
                 Picasso.get()
                         .load(profilePath.replace("http", "https"))
                         .placeholder(R.drawable.man_new)
@@ -657,5 +662,17 @@ public class EditProfileActivity extends AppCompatActivity {
 //        });
     }
 
+    public void onDelete(View v){
+        switch (v.getId()){
+            case R.id.bt_company_delete:
+                Log.i(TAG, "onDelete: Company");
+                break;
+            case R.id.bt_signature_delete:
+                Log.i(TAG, "onDelete: Sign");
+                break;
+            default:
+                Log.i(TAG, "onDelete: HTAfslskj");
 
+        }
+    }
 }
