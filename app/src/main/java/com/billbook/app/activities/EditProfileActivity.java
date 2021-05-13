@@ -61,7 +61,7 @@ import retrofit2.Response;
 public class EditProfileActivity extends AppCompatActivity {
     private final String TAG = "EditProfile";
     private Handler handler = new Handler();
-    private EditText emailEdt, addressEdt, phoneNoEdt, pincode, firstNameOfDealerEdt, lastNameOfDealerEdt,
+    private EditText etAdditionalDetails, emailEdt, addressEdt, phoneNoEdt, pincode, firstNameOfDealerEdt, lastNameOfDealerEdt,
             ledgerPasswordEdt, shopNameEdt, gstNoEdt, ledgerNewPasswordEdt, ledgerConfirmPassword;
     private JSONObject profile;
     private LinearLayout ll_signature, ll_company;
@@ -125,6 +125,7 @@ public class EditProfileActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        etAdditionalDetails = findViewById(R.id.etAdditionalDetails);
         btnAddCompanyLogo = findViewById(R.id.btn_addCompanyLogo);
         btnAddSignature = findViewById(R.id.btn_addSignature);
         signatureImg = findViewById(R.id.iv_signature);
@@ -235,6 +236,7 @@ public class EditProfileActivity extends AppCompatActivity {
             states.setText(profile.getString("state"));
             cityEdt.setText(profile.getString("city"));
             userid = profile.getLong("userid");
+            etAdditionalDetails.setText(profile.has("additionalData") ? profile.getString("additionalData") : "");
             if (profile.has("profileImage") && profile.getString("profileImage") != null){
                 Picasso.get()
                         .load(profile.getString("profileImage"))
@@ -525,6 +527,7 @@ public class EditProfileActivity extends AppCompatActivity {
         RequestBody state = RequestBody.create(MediaType.parse("multipart/form-data"), states.getText().toString());
         RequestBody city = RequestBody.create(MediaType.parse("multipart/form-data"), cityEdt.getText().toString());
         RequestBody pincodeP = RequestBody.create(MediaType.parse("multipart/form-data"), pincode.getText().toString());
+        RequestBody addData = RequestBody.create(MediaType.parse("multipart/form-data"), etAdditionalDetails.getText().toString());
 
         Map<String, RequestBody> map = new HashMap<>();
         map.put("email", email);
@@ -535,6 +538,7 @@ public class EditProfileActivity extends AppCompatActivity {
         map.put("pincode", pincodeP);
         map.put("state", state);
         map.put("city", city);
+        map.put("additionalData", addData);
 
         File profileFile = null, companyFile = null, signatureFile = null;
         MultipartBody.Part profileFilePart = null, companyFilePart = null, signatureFilePart=null;

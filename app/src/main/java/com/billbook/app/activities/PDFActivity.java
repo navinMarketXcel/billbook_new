@@ -169,10 +169,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
             footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
             padding8.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-
+            Log.i("GATE", "setData: PD==> " + profile);
             if(profile.has("additionalData") && profile.getString("additionalData").length()!=0){
                 tvAdditionalData.setVisibility(View.VISIBLE);
-                tvAdditionalData.setText(requestInv.getString("additionalData"));
+                tvAdditionalData.setText(profile.getString("additionalData"));
             }
 
             if (requestInv.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
