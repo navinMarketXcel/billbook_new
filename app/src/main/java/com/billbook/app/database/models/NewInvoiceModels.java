@@ -76,6 +76,13 @@ public class NewInvoiceModels implements Serializable {
     @ColumnInfo(name = "invoiceid")
     private int invoiceid;
 
+    public int getInvoiceid() {
+        return invoiceid;
+    }
+
+    public void setInvoiceid(int invoiceid) {
+        this.invoiceid = invoiceid;
+    }
 
     @NonNull
     public int getLocalId() {
@@ -201,10 +208,10 @@ public class NewInvoiceModels implements Serializable {
     }
 
     public int getMeasurementId() {
-        return measurementId-1;
+        return measurementId - 1;
     }
 
     public void setMeasurementId(int measurementId) {
-        this.measurementId = measurementId+1;
+        this.measurementId = measurementId + 1;
     }
 }

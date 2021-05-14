@@ -91,6 +91,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private JSONObject profile;
     private boolean isGSTAvailable;
     private int editPosition=-1;
+    private int invoiceIdIfEdit = -1;
     private int serialNumber=0;
     private boolean isEdit=false;
     private JSONObject invoice;
@@ -256,6 +257,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
          NewInvoiceModels newInvoiceModel = isNew?new NewInvoiceModels():newInvoiceModels.get(editPosition);
         setTotal(newInvoiceModel,false);
         calculateAmountBeforeGST(newInvoiceModel,false);
+        newInvoiceModel.setInvoiceid(invoiceIdIfEdit);
          newInvoiceModel.setName(modelName);
          newInvoiceModel.setIs_active(true);
          newInvoiceModel.setPrice(price);
@@ -748,7 +750,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     serialNumber = invoice.getInt("nonGstBillNo");
                 bill_no.setText("Bill Number: "+serialNumber);
 //                bill_no.setEnabled(false);
-
+                invoiceIdIfEdit = invoice.getInt("id");
                 invoiceDateStr = Util.getFormatedDate(invoice.getString("invoiceDate"));
                 bill_date.setText("Bill Date: "+invoiceDateStr);
 //                bill_date.setEnabled(false);

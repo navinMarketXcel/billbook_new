@@ -36,6 +36,7 @@ import com.billbook.app.utils.Util;
 import com.google.android.gms.common.util.IOUtils;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,6 +59,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.view.View.GONE;
+
 public class EditProfileActivity extends AppCompatActivity {
     private final String TAG = "EditProfile";
     private Handler handler = new Handler();
@@ -67,7 +70,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private LinearLayout ll_signature, ll_company;
     private ImageView profileImg, signatureImg, companyLogoImg;
     //    private SearchableSpinner states,city;
-    private Button btnAddCompanyLogo, btnAddSignature;
+    private Button btnAddCompanyLogo, btnAddSignature, btnDeleteCompanyLogo, btnDeleteSignatureImage;
     private EditText states, cityEdt;
     private String picturePath;
     private TextView tvCompanyTitle, tvSignatureTitle;
@@ -154,6 +157,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
         ll_company = findViewById(R.id.ll_company);
         ll_signature = findViewById(R.id.ll_signature);
+        btnDeleteCompanyLogo = findViewById(R.id.bt_company_delete);
+        btnDeleteSignatureImage = findViewById(R.id.bt_signature_delete);
        /* city.setTitle("Select City");
         states.setTitle("Select State");
         stateList.addAll( Arrays.asList(getResources().getStringArray(R.array.states)));
@@ -237,7 +242,7 @@ public class EditProfileActivity extends AppCompatActivity {
             cityEdt.setText(profile.getString("city"));
             userid = profile.getLong("userid");
             etAdditionalDetails.setText(profile.has("additionalData") ? profile.getString("additionalData") : "");
-            if (profile.has("profileImage") && profile.getString("profileImage") != null){
+            if (profile.has("profileImage") && profile.getString("profileImage") != null) {
                 Picasso.get()
                         .load(profile.getString("profileImage"))
                         .placeholder(R.drawable.man_new)
@@ -247,10 +252,11 @@ public class EditProfileActivity extends AppCompatActivity {
                         .into(profileImg);
             }
 
-            if (profile.has("companyLogo")){
+            if (profile.has("companyLogo")) {
                 String companyLogoPath = profile.getString("companyLogo");
                 ll_company.setVisibility(View.VISIBLE);
-                btnAddCompanyLogo.setVisibility(View.GONE);
+                btnDeleteCompanyLogo.setVisibility(View.VISIBLE);
+                btnAddCompanyLogo.setVisibility(GONE);
                 tvCompanyTitle.setVisibility(View.VISIBLE);
                 companyLogoImg.setVisibility(View.VISIBLE);
                 Picasso.get()
@@ -262,7 +268,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
             if (profile.has("signatureImage")) {
                 String profilePath = profile.getString("signatureImage");
-                btnAddSignature.setVisibility(View.GONE);
+                btnDeleteSignatureImage.setVisibility(View.VISIBLE);
+                btnAddSignature.setVisibility(GONE);
                 tvSignatureTitle.setVisibility(View.VISIBLE);
                 signatureImg.setVisibility(View.VISIBLE);
                 ll_signature.setVisibility(View.VISIBLE);
@@ -326,7 +333,7 @@ public class EditProfileActivity extends AppCompatActivity {
             if (!gstNoEdt.getText().toString().isEmpty()) {
                 sendGstUpdateStatus(2);
                 MyApplication.setShowGstPopup(2);
-            }else{
+            } else {
                 int k = MyApplication.showGstPopup();
                 // k = 2 User was GST user but now what ?
                 // is he still gst user or wants to be gst user and not enter gst status
@@ -401,17 +408,16 @@ public class EditProfileActivity extends AppCompatActivity {
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
             Uri selectedImage = data.getData();
 
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(selectedImage,
                     filePathColumn, null, null, null);
 
             if (cursor == null || cursor.getCount() < 1) {
-                if(cursor!=null){
-                    DialogUtils.showToast(EditProfileActivity.this,"Unable to select image");
+                if (cursor != null) {
+                    DialogUtils.showToast(EditProfileActivity.this, "Unable to select image");
 //                    Log.d(TAG, "onActivityResult: NUll cursor....." + cursor.getCount());
-                }
-                else{
-                    DialogUtils.showToast(EditProfileActivity.this,"Unable to select image");
+                } else {
+                    DialogUtils.showToast(EditProfileActivity.this, "Unable to select image");
 //                    Log.d(TAG, "onActivityResult: Cursor is null");
                 }
                 return; // no cursor or no record. DO YOUR ERROR HANDLING
@@ -420,9 +426,9 @@ public class EditProfileActivity extends AppCompatActivity {
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 
-            if(columnIndex < 0) // no column index
+            if (columnIndex < 0) // no column index
             {
-                DialogUtils.showToast(EditProfileActivity.this,"Not supported application");
+                DialogUtils.showToast(EditProfileActivity.this, "Not supported application");
 //                Log.d(TAG, "onActivityResult: Column index going brr....");
                 return; // DO YOUR ERROR HANDLING
             }
@@ -433,11 +439,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
             File selectedImageFile = new File(path);
 
-            if(selectedImageFile.exists() && Util.checkFileSizeInMB(selectedImageFile, MAX_FILE_SIZE_LIMIT)){
+            if (selectedImageFile.exists() && Util.checkFileSizeInMB(selectedImageFile, MAX_FILE_SIZE_LIMIT)) {
 //                launchImageEditActivity(selectedImage);
                 setImage(selectedImage);
-            }else{
-                DialogUtils.showToast(EditProfileActivity.this,"Max file size limit " + (int)MAX_FILE_SIZE_LIMIT + "MB" );
+            } else {
+                DialogUtils.showToast(EditProfileActivity.this, "Max file size limit " + (int) MAX_FILE_SIZE_LIMIT + "MB");
             }
 //            Log.v(TAG,"Path ->"+picturePath);
 //
@@ -456,13 +462,17 @@ public class EditProfileActivity extends AppCompatActivity {
     private void setImage(Uri uri) {
         ImageView loadImageHere = null;
         if (whereToShowImage == 0) {
+            ll_company.setVisibility(View.VISIBLE);
             tvCompanyTitle.setVisibility(View.VISIBLE);
-            btnAddCompanyLogo.setVisibility(View.GONE);
+            btnDeleteCompanyLogo.setVisibility(GONE);
+            btnAddCompanyLogo.setVisibility(GONE);
             loadImageHere = companyLogoImg;
             companyImagePath = uri;
         } else if (whereToShowImage == 1) {
+            ll_signature.setVisibility(View.VISIBLE);
             tvSignatureTitle.setVisibility(View.VISIBLE);
-            btnAddSignature.setVisibility(View.GONE);
+            btnDeleteSignatureImage.setVisibility(GONE);
+            btnAddSignature.setVisibility(GONE);
             loadImageHere = signatureImg;
             signatureImagePath = uri;
         }
@@ -541,21 +551,21 @@ public class EditProfileActivity extends AppCompatActivity {
         map.put("additionalData", addData);
 
         File profileFile = null, companyFile = null, signatureFile = null;
-        MultipartBody.Part profileFilePart = null, companyFilePart = null, signatureFilePart=null;
+        MultipartBody.Part profileFilePart = null, companyFilePart = null, signatureFilePart = null;
 
         ContentResolver cR = this.getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
 
         Call<Object> call = null;
         if (picturePath != null) {
-            profileFile= new File(picturePath);
+            profileFile = new File(picturePath);
             RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), profileFile);
 
-            profileFilePart= MultipartBody.Part.createFormData("profileImage", profileFile.getName(),
+            profileFilePart = MultipartBody.Part.createFormData("profileImage", profileFile.getName(),
                     requestBody);
         }
 
-        if(companyImagePath !=null){
+        if (companyImagePath != null) {
             String type = mime.getExtensionFromMimeType(cR.getType(companyImagePath));
             ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(companyImagePath, "r", null);
             File newCompanyFile = new File(getCacheDir(), "companyLogo." + type);
@@ -564,25 +574,36 @@ public class EditProfileActivity extends AppCompatActivity {
             IOUtils.copyStream(fileInputStream, fileOutputStream);
 
 //            companyFile = new File(companyImagePath);
-            RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"),newCompanyFile);
+            RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), newCompanyFile);
 
-            companyFilePart = MultipartBody.Part.createFormData("companyLogo",newCompanyFile.getName(), requestBody);
+            companyFilePart = MultipartBody.Part.createFormData("companyLogo", newCompanyFile.getName(), requestBody);
 
         }
-        if(signatureImagePath!=null){
+        if (signatureImagePath != null) {
 
             String type = mime.getExtensionFromMimeType(cR.getType(signatureImagePath));
 
             ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(signatureImagePath, "r", null);
-            File newSignatureFile= new File(getCacheDir(), "signature." + type);
+            File newSignatureFile = new File(getCacheDir(), "signature." + type);
             FileInputStream fileInputStream = new FileInputStream(parcelFileDescriptor.getFileDescriptor());
             FileOutputStream fileOutputStream = new FileOutputStream(newSignatureFile);
             IOUtils.copyStream(fileInputStream, fileOutputStream);
 
 //            signatureFile = new File(signatureImagePath);
             RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), newSignatureFile);
-            signatureFilePart= MultipartBody.Part.createFormData("signatureImage",newSignatureFile.getName(),
+            signatureFilePart = MultipartBody.Part.createFormData("signatureImage", newSignatureFile.getName(),
                     requestBody);
+        }
+
+
+        RequestBody isImage= RequestBody.create(MediaType.parse("multipart/form-data"), "1");
+        if(companyFilePart!=null)
+        {
+            map.put("isCompanyLogo", isImage);
+        }
+        if(signatureFilePart!=null)
+        {
+            map.put("isSignatureImage", isImage);
         }
         call = apiService.updateUser(headerMap, userid, profileFilePart, map, companyFilePart, signatureFilePart);
         call.enqueue(new Callback<Object>() {
@@ -666,13 +687,56 @@ public class EditProfileActivity extends AppCompatActivity {
 //        });
     }
 
-    public void onDelete(View v){
-        switch (v.getId()){
+    private void deletePic(String from) {
+
+        DialogUtils.startProgressDialog(this, "");
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+        Map<String, String> headerMap = new HashMap<>();
+
+        RequestBody isPic = RequestBody.create(MediaType.parse("multipart/form-data"), "0");
+
+        Map<String, RequestBody> map = new HashMap<>();
+        map.put(from, isPic);
+
+        Call<Object> call = null;
+
+        call = apiService.updateUser(headerMap, userid, null, map, null, null);
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                DialogUtils.stopProgressDialog();
+                try {
+                    JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                    Log.v("RESP", body.toString());
+                    if (body.getBoolean("status")) {
+                        MyApplication.saveUserDetails(body.getJSONObject("data").toString());
+                        recreate();
+                    } else {
+                        DialogUtils.showToast(EditProfileActivity.this, "Failed update profile to server");
+                    }
+
+                } catch (JSONException e) {
+                    DialogUtils.showToast(EditProfileActivity.this, "Failed to send");
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                DialogUtils.stopProgressDialog();
+                DialogUtils.showToast(EditProfileActivity.this, "Failed update profile to server");
+            }
+        });
+    }
+
+    public void onDelete(View v) {
+        switch (v.getId()) {
             case R.id.bt_company_delete:
-                Log.i(TAG, "onDelete: Company");
+                deletePic("isCompanyLogo");
                 break;
             case R.id.bt_signature_delete:
-                Log.i(TAG, "onDelete: Sign");
+                deletePic("isSignatureImage");
                 break;
             default:
                 Log.i(TAG, "onDelete: HTAfslskj");
