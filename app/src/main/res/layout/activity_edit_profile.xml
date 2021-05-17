@@ -308,8 +308,8 @@
                 <EditText
                     android:id="@+id/etAdditionalDetails"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/enter_additional_details"
+                    android:layout_height="80dp"
+                    android:hint="@string/enter_banking_branch_or_other_details"
                     android:singleLine="false"
                     android:textSize="13dp" />
             </com.google.android.material.textfield.TextInputLayout>
