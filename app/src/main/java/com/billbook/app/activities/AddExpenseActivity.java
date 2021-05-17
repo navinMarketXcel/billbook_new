@@ -97,8 +97,8 @@ public class AddExpenseActivity extends AppCompatActivity {
             DialogUtils.showToast(this,"Expense name can not be empty");
             return;
         }
-        else if(expenseAmount.getText().toString().isEmpty()){
-            DialogUtils.showToast(this,"Expense amount can not be empty");
+        else if(expenseAmount.getText().toString().isEmpty() || Float.parseFloat(expenseAmount.getText().toString())==0){
+            DialogUtils.showToast(this,"Expense amount can not be 0 or empty");
             return;
         }
         else if(selectDate.getText().toString().isEmpty()){
