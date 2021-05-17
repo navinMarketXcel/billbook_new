@@ -432,19 +432,19 @@ public class EditProfileActivity extends AppCompatActivity {
 //                Log.d(TAG, "onActivityResult: Column index going brr....");
                 return; // DO YOUR ERROR HANDLING
             }
+            else {
+                String path = cursor.getString(columnIndex);
 
-            String path = cursor.getString(columnIndex);
+                cursor.close(); // close cursor
 
-            cursor.close(); // close cursor
+                File selectedImageFile = new File(path);
 
-            File selectedImageFile = new File(path);
-
-            if (selectedImageFile.exists() && Util.checkFileSizeInMB(selectedImageFile, MAX_FILE_SIZE_LIMIT)) {
+                if (selectedImageFile.exists() && Util.checkFileSizeInMB(selectedImageFile, MAX_FILE_SIZE_LIMIT)) {
 //                launchImageEditActivity(selectedImage);
-                setImage(selectedImage);
-            } else {
-                DialogUtils.showToast(EditProfileActivity.this, "Max file size limit " + (int) MAX_FILE_SIZE_LIMIT + "MB");
-            }
+                    setImage(selectedImage);
+                } else {
+                    DialogUtils.showToast(EditProfileActivity.this, "Max file size limit " + (int) MAX_FILE_SIZE_LIMIT + "MB");
+                }
 //            Log.v(TAG,"Path ->"+picturePath);
 //
 //            Picasso.get()
@@ -452,6 +452,7 @@ public class EditProfileActivity extends AppCompatActivity {
 //                    .resize(70, 70)
 //                    .centerCrop()
 //                    .into(profileImg);
+            }
         } else if (requestCode == OTP_VERIFIED && resultCode == RESULT_OK
                 && null != data) {
             if (data.getBooleanExtra("OTP_VERIFIED", false))
