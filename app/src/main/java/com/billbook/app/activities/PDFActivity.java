@@ -315,7 +315,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        setData();
+//        setData();
     }
 
     private void createPdfWrapper() throws FileNotFoundException {
