@@ -442,7 +442,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void uploadPDF() {
-        DialogUtils.startProgressDialog(this, "");
+//        DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
@@ -453,7 +453,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                DialogUtils.stopProgressDialog();
+//                DialogUtils.stopProgressDialog();
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     Log.v("RESP", body.toString());
@@ -470,7 +470,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                DialogUtils.stopProgressDialog();
+//                DialogUtils.stopProgressDialog();
                 DialogUtils.showToast(PDFActivity.this, "Failed upload pdf to server");
             }
         });
