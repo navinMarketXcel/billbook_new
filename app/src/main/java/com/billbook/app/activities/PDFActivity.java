@@ -315,7 +315,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-//        setData();
     }
 
     private void createPdfWrapper() throws FileNotFoundException {
@@ -364,7 +363,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
         filepath = filepath + "/" + edtName.getText().toString() + "_" + today + ".pdf";
         pdfFile = pdfWriter.exportPDF(filepath);
-
         if (invID > 0)
             uploadPDF();
         else
@@ -378,7 +376,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                                            int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CODE_ASK_PERMISSIONS:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission Granted
                     try {
                         createPdfWrapper();
@@ -435,10 +433,15 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void openPDF() {
-        Uri uri = FileProvider.getUriForFile(PDFActivity.this, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivity(intent);
+        try{
+            Uri uri = FileProvider.getUriForFile(PDFActivity.this, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivity(intent);
+        }catch (Exception e){
+            DialogUtils.showToast(this, "Storage permission not given");
+            e.printStackTrace();
+        }
     }
 
     private void uploadPDF() {

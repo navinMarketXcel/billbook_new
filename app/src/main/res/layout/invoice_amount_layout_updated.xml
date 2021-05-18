@@ -361,7 +361,7 @@
             android:paddingEnd="5dp"
             android:paddingTop="50dp"
             android:paddingBottom="10dp"
-            android:visibility="visible"
+            android:visibility="gone"
             tools:text="Additional Details \n Find shop here"
             android:textColor="@color/color_black"/>
     </LinearLayout>
