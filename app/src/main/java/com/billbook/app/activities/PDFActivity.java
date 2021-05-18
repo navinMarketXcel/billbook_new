@@ -342,33 +342,36 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void createPdf() throws FileNotFoundException {
-        String extStorageState = Environment.getExternalStorageState();
+        try{
+            String extStorageState = Environment.getExternalStorageState();
+            
+            File docsFolder = new File(getExternalCacheDir() + "/Documents");
+            if (!docsFolder.exists()) {
+                docsFolder.mkdir();
+                Log.i(TAG, "Created a new directory for PDF");
+            }
 
+            Date date = Calendar.getInstance().getTime();
 
-        File docsFolder = new File(getExternalCacheDir() + "/Documents");
-        if (!docsFolder.exists()) {
-            docsFolder.mkdir();
-            Log.i(TAG, "Created a new directory for PDF");
-        }
+            // Display a date in day, month, year format
+            DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            String today = formatter.format(date);
 
-        Date date = Calendar.getInstance().getTime();
+            PdfWriter pdfWriter =
+                    new PdfWriter(PDFActivity.this, (ViewGroup) findViewById(R.id.ll_root));
+            filepath = docsFolder.getAbsolutePath();
 
-        // Display a date in day, month, year format
-        DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-        String today = formatter.format(date);
-
-        PdfWriter pdfWriter =
-                new PdfWriter(PDFActivity.this, (ViewGroup) findViewById(R.id.ll_root));
-        filepath = docsFolder.getAbsolutePath();
-
-        filepath = filepath + "/" + edtName.getText().toString() + "_" + today + ".pdf";
-        pdfFile = pdfWriter.exportPDF(filepath);
-        if (invID > 0)
-            uploadPDF();
-        else
-            saveInvoiceOffline();
+            filepath = filepath + "/" + edtName.getText().toString() + "_" + today + ".pdf";
+            pdfFile = pdfWriter.exportPDF(filepath);
+            if (invID > 0)
+                uploadPDF();
+            else
+                saveInvoiceOffline();
 
 //        openPDF();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -434,12 +437,18 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
     private void openPDF() {
         try{
-            Uri uri = FileProvider.getUriForFile(PDFActivity.this, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivity(intent);
+            int hasWriteStoragePermission =
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+            if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED) {
+                DialogUtils.showToast(this, "Storage permission not given");
+            } else {
+                Uri uri = FileProvider.getUriForFile(PDFActivity.this, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(intent);
+            }
         }catch (Exception e){
-            DialogUtils.showToast(this, "Storage permission not given");
             e.printStackTrace();
         }
     }

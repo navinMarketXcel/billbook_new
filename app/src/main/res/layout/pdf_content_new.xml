@@ -545,7 +545,7 @@
                             android:gravity="start"
                             android:padding="5dp"
                             android:singleLine="true"
-                            android:text="PRE TAX"
+                            android:text="PRE TAX AMOUNT"
                             android:textSize="10dp"
                             android:textColor="@color/color_black"
                             android:textStyle="bold" />
