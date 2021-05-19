@@ -213,4 +213,6 @@ public interface ApiInterface {
     @POST ("searchInvoice")
     Call<Object> searchInvoice(@HeaderMap Map<String, String> headers, @Body Map<String, String> body);
 
+    @POST ("loggerAPI")
+    Call<Object> loggerAPI(@Body JSONObject body);
 }
