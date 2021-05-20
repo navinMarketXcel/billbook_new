@@ -140,7 +140,8 @@
         <EditText
             android:id="@+id/imeiNo"
             android:textSize="11dp"
-            android:inputType="text|number"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
+            android:inputType="textCapCharacters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/IMEI_enter"
