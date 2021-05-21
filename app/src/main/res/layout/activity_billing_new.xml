@@ -98,18 +98,14 @@
 
 
                 <EditText
+                    style="@style/etAlphaNumeric"
                     android:id="@+id/edtName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
-                    android:background="@drawable/edt_background"
                     android:hint="@string/enter_name"
-                    android:inputType="text"
                     android:maxLength="50"
-                    android:textColor="@color/grey"
-                    android:padding="5dp"
-                    android:singleLine="true"
-                    android:textSize="15sp" />
+                    />
 
             </LinearLayout>
             <LinearLayout

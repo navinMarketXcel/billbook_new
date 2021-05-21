@@ -48,11 +48,12 @@
 
                 <EditText
                     android:id="@+id/shopName"
+                    style="@style/etAlphaNumeric"
+                    android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/shopName"
-                    android:singleLine="true"
-                    android:textSize="13dp" />
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -65,12 +66,13 @@
 
                 <EditText
                     android:id="@+id/address"
+                    style="@style/etAlphaNumeric"
+                    android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/shopAddress"
-                    android:inputType="text"
                     android:singleLine="false"
-                    android:textSize="13dp" />
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -86,10 +88,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/enter_contact__no"
-                    android:inputType="number"
+                    android:inputType="phone"
                     android:maxLength="10"
                     android:singleLine="true"
-                    android:textSize="13dp" />
+                    android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!--            <com.toptoche.searchablespinnerlibrary.SearchableSpinner-->
@@ -122,14 +124,14 @@
 
                 <EditText
                     android:id="@+id/city"
+                    style="@style/editText"
+                    android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_marginTop="@dimen/add_product_spinner_margin_top"
-                    android:background="@drawable/spinnerbggray"
                     android:hint="@string/enter_city"
-                    android:textColor="@color/grey"
-                    android:textSize="13dp" />
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -144,12 +146,12 @@
                     android:id="@+id/state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/editText"
+                    android:padding="16dp"
                     android:layout_margin="5dp"
                     android:layout_marginTop="@dimen/add_product_spinner_margin_top"
-                    android:background="@drawable/spinnerbggray"
                     android:hint="@string/enter_state"
-                    android:textColor="@color/grey"
-                    android:textSize="13dp" />
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -168,7 +170,7 @@
                     android:inputType="number"
                     android:maxLength="6"
                     android:singleLine="true"
-                    android:textSize="13dp" />
+                    android:textSize="13sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -308,10 +310,11 @@
                 <EditText
                     android:id="@+id/etAdditionalDetails"
                     android:layout_width="match_parent"
+                    style="@style/etAlphaNumeric"
                     android:layout_height="80dp"
                     android:hint="@string/enter_banking_branch_or_other_details"
                     android:singleLine="false"
-                    android:textSize="13dp" />
+                    />
             </com.google.android.material.textfield.TextInputLayout>
             <TextView
                 android:layout_height="wrap_content"
