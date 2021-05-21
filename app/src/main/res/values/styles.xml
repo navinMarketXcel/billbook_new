@@ -72,12 +72,6 @@
         <item name="android:singleLine">true</item>
     </style>
 
-    <style name="etExtra" parent="editText">
-        <item name="android:inputType">text</item>
-        <item name="android:digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789()/.;'"' </item>
-        <item name="android:singleLine">true</item>
-    </style>
-
     <style name="etDecimal" parent="editText">
         <item name="android:inputType">numberDecimal</item>
         <item name="android:singleLine">true</item>
