@@ -20,11 +20,12 @@
 
         <AutoCompleteTextView
             android:id="@+id/modelName"
-            android:textSize="11dp"
+            style="@style/etAlphaNumeric"
+            android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/item_name_d"
-            android:singleLine="true" />
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -41,12 +42,11 @@
 
         <EditText
             android:id="@+id/priceEdt"
-            android:textSize="11dp"
-            android:inputType="numberDecimal"
+            style="@style/etDecimal"
+            android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:singleLine="true" />
+            />
     </com.google.android.material.textfield.TextInputLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -95,12 +95,12 @@
 
         <EditText
             android:id="@+id/quantity"
-            android:textSize="11dp"
-            android:inputType="numberDecimal"
+            style="@style/etDecimal"
+            android:padding="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/enter_quantities"
-            android:singleLine="true" />
+            />
     </com.google.android.material.textfield.TextInputLayout>
         <Spinner
             android:id="@+id/unit"
@@ -139,13 +139,12 @@
 
         <EditText
             android:id="@+id/imeiNo"
-            android:textSize="11dp"
-            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
-            android:inputType="textCapCharacters"
+            style="@style/etAlphaNumeric"
+            android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/IMEI_enter"
-            android:singleLine="true" />
+            />
     </com.google.android.material.textfield.TextInputLayout>
     <ImageView
         android:id="@+id/btnScan"

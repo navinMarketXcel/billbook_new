@@ -58,8 +58,12 @@
         <item name="android:textColor">@color/grey</item>
         <item name="android:textSize">15sp</item>
         <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="etNormalText" parent="editText">
         <item name="android:inputType">text</item>
-        <item name="android:digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz </item>
+        <item name="android:digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 </item>
+        <item name="android:singleLine">true</item>
     </style>
 
     <style name="etAlphaNumeric" parent="editText">
@@ -68,6 +72,11 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <style name="etExtra" parent="editText">
+        <item name="android:inputType">text</item>
+        <item name="android:digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789()/.;'"' </item>
+        <item name="android:singleLine">true</item>
+    </style>
 
     <style name="etDecimal" parent="editText">
         <item name="android:inputType">numberDecimal</item>
