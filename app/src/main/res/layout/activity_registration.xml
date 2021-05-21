@@ -41,16 +41,14 @@
                    android:layout_height="wrap_content"
                    ></TextView>
                <EditText
+                   style="@style/etAlphaNumeric"
                    android:layout_weight="2"
                    android:id="@+id/shopNameEdt"
                    android:layout_width="0dp"
-                   android:textSize="13dp"
                    android:layout_margin="5dp"
-                   android:textColor="@color/grey"
                    android:layout_height="35dp"
                    android:hint="@string/shopName"
-                   android:background="@drawable/card_edge"
-                   android:singleLine="true" />
+                   />
            </TableRow>
 
 
@@ -73,16 +71,14 @@
                    ></TextView>
 
                <EditText
+                   style="@style/etAlphaNumeric"
                    android:layout_weight="2"
                    android:id="@+id/shopAddressEdt"
                    android:layout_width="0dp"
                    android:layout_margin="5dp"
-                   android:textSize="13dp"
-                   android:textColor="@color/grey"
                    android:hint="@string/shopAddress"
                    android:layout_height="35dp"
-                   android:background="@drawable/card_edge"
-                   android:singleLine="true" />
+                   />
            </TableRow>
            <TableRow
                android:layout_width="match_parent"
@@ -131,15 +127,13 @@
                    android:layout_height="wrap_content"
                    ></TextView>
                <AutoCompleteTextView
+                   style="@style/editText"
                    android:id="@+id/city"
                    android:layout_weight="2"
                    android:layout_width="0dp"
                    android:layout_height="@dimen/add_product_spinner_height"
-                   android:textColor="@color/grey"
                    android:hint="@string/enter_city"
-                   android:background="@drawable/card_edge"
                    android:layout_margin="5dp"
-                   android:textSize="13dp"
                    android:entries="@array/states"
                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
                    />
@@ -170,15 +164,13 @@
                    android:layout_height="wrap_content"
                    ></TextView>
                <AutoCompleteTextView
+                   style="@style/editText"
                    android:id="@+id/state"
                    android:layout_weight="2"
                    android:layout_width="0dp"
                    android:layout_height="@dimen/add_product_spinner_height"
-                   android:textColor="@color/grey"
                    android:hint="@string/enter_state"
-                   android:background="@drawable/card_edge"
                    android:layout_margin="5dp"
-                   android:textSize="13dp"
                    android:entries="@array/states"
                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
                    />
@@ -284,7 +276,6 @@
                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-
                android:layout_margin="5dp">
 
 
