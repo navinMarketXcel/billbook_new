@@ -311,7 +311,7 @@
                     android:id="@+id/etAdditionalDetails"
                     android:layout_width="match_parent"
                     style="@style/editText"
-                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789()/.; "
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789()/.;\n "
                     android:layout_height="80dp"
                     android:hint="@string/enter_banking_branch_or_other_details"
                     android:singleLine="false"
