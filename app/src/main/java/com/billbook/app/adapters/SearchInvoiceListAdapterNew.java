@@ -113,9 +113,16 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         try {
-                            if(requestInvoice.getString("pdfLink")!=null) {
+                            if(requestInvoice.has("pdfLink") && requestInvoice.getString("pdfLink")!=null) {
                                 i.setData(Uri.parse(requestInvoice.getString("pdfLink")));
                                 context.startActivity(i);
+                            }
+                            else{
+                                Util.postEvents("Edit","Edit",context.getApplicationContext());
+                                Intent intent = new Intent(context, BillingNewActivity.class);
+                                intent.putExtra("edit",true);
+                                intent.putExtra("invoice",requestInvoice.toString());
+                                context.startActivity(intent);
                             }
 
                         } catch (JSONException e) {
