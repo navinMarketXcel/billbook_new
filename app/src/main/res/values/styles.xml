@@ -68,7 +68,7 @@
 
     <style name="etAlphaNumeric" parent="editText">
         <item name="android:inputType">text</item>
-        <item name="android:digits">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz0123456789</item>
+        <item name="android:digits">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz0123456789\u003c\u003e\u0027\u0022\u0026\u002c\002e\u2010\u0028\u0029\u0064\u0023\u002a\u003b\u003a\u0040\u005c\u007c\u002e\u2010\u005f</item>
         <item name="android:singleLine">true</item>
     </style>
 
