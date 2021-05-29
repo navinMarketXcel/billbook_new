@@ -62,13 +62,13 @@
 
     <style name="etNormalText" parent="editText">
         <item name="android:inputType">text</item>
-        <item name="android:digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 </item>
+        <item name="android:digits">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz0123456789</item>
         <item name="android:singleLine">true</item>
     </style>
 
     <style name="etAlphaNumeric" parent="editText">
         <item name="android:inputType">text</item>
-        <item name="android:digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 </item>
+        <item name="android:digits">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz0123456789</item>
         <item name="android:singleLine">true</item>
     </style>
 
