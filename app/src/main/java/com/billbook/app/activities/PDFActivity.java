@@ -144,12 +144,13 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             Log.i(TAG, "setData: Request INV ==> " + requestInv);
             Log.i(TAG, "setData: Invoice Server ==> " + invoiceServer);
             profile = new JSONObject(MyApplication.getUserDetails());
-            if (profile.has("gstNo") && profile.getString("gstNo") != null && !profile.getString("gstNo").isEmpty()) {
+            if (requestInv.has("gstType") && !requestInv.getString("gstType").isEmpty()) {
                 isGSTAvailable = true;
                 gstTotalLayout.setVisibility(View.VISIBLE);
                 totalAmountBeforeTaxLayout.setVisibility(View.VISIBLE);
                 invoiceNumber = invoiceServer.getJSONObject("invoice").getInt("gstBillNo");
             } else {
+                isGSTAvailable = false;
                 TextView taxorBillTv = findViewById(R.id.taxorBillTv);
                 taxorBillTv.setText("Bill");
                 gstTotalLayout.setVisibility(View.GONE);
@@ -165,11 +166,12 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
             invID = invoiceServer.getJSONObject("invoice").getInt("id");
 
+            Log.i(TAG, "setData: GST => " + isGSTAvailable);
             tv_preTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
             llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
             footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
             padding8.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-            Log.i("GATE", "setData: PD==> " + profile);
+
             if(profile.has("additionalData") && profile.getString("additionalData").length()!=0){
                 tvAdditionalData.setVisibility(View.VISIBLE);
                 tvAdditionalData.setText(profile.getString("additionalData"));
