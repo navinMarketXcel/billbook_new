@@ -52,4 +52,28 @@
         <item name="android:textSize">11dp</item>
         <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
     </style>
+
+    <style name="editText">
+        <item name="android:background">@drawable/edt_background</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="etNormalText" parent="editText">
+        <item name="android:inputType">text</item>
+        <item name="android:digits">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz0123456789</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="etAlphaNumeric" parent="editText">
+        <item name="android:inputType">text</item>
+        <item name="android:digits">ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz0123456789/.-!\u003c\u003e\u0027\u0022\u0026\u002c\002e\u2010\u0028\u0029\u0064\u0023\u002a\u003b\u003a\u0040\u005c\u007c\u002e\u2010\u005f\u2212</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="etDecimal" parent="editText">
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:singleLine">true</item>
+    </style>
 </resources>

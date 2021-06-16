@@ -1,8 +1,8 @@
 package com.billbook.app.viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.billbook.app.database.models.Purchase;
 import com.billbook.app.repository.AppRepository;

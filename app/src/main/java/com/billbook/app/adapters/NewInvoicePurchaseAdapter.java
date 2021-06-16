@@ -1,7 +1,9 @@
 package com.billbook.app.adapters;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,43 +55,51 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             qtyString += " " + measurementUnitList.get(listItems.get(position).getMeasurementId());
         }
         holder.tvQTY.setText(qtyString);
-        holder.tvRate.setText(Util.formatDecimalValue( listItems.get(position).getPrice()));
         holder.tvAmount.setText(Util.formatDecimalValue( listItems.get(position).getTotalAmount()));
+
+        holder.llForHeader.setWeightSum(isGSTAvailable ? (float)10.5 : 9);
+
         if (listItems.get(position).getGst()>0 || isGSTAvailable) {
+            holder.preTaxValue.setVisibility(View.VISIBLE);
             float gstVlaue = listItems.get(position).getTotalAmount() - listItems.get(position).getGstAmount();
-           if(this.isGSTAvailable){
-               if(listItems.get(position).getGstType() != null && listItems.get(position).getGstType().equals("IGST (Central/outstation customer)")) {
-                   holder.CGSTValue.setVisibility(View.GONE);
-                   holder.SGSTValue.setVisibility(View.GONE);
-                   holder.IGSTValue.setVisibility(View.VISIBLE);
-                   holder.IGSTValue.setText(Util.formatDecimalValue(gstVlaue));
-                   holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
-                           0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
-               }else if(listItems.get(position).getGstType() != null && listItems.get(position).getGstType().equals("CGST/SGST (Local customer)")){
-                   holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
-                           0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
-                   holder.CGSTValue.setVisibility(View.VISIBLE);
-                   holder.SGSTValue.setVisibility(View.VISIBLE);
-                   holder.IGSTValue.setVisibility(View.GONE);
-                   holder.CGSTValue.setText(Util.formatDecimalValue( gstVlaue / 2));
-                   holder.SGSTValue.setText(Util.formatDecimalValue( gstVlaue / 2));
-               }else {
-                   holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
-                           0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
-                   holder.CGSTValue.setVisibility(View.GONE);
-                   holder.IGSTValue.setVisibility(View.GONE);
-                   holder.SGSTValue.setVisibility(View.GONE);
-               }
-           }
+            float gst = 1 + (listItems.get(position).getGst() / 100);
+            float preTaxSingleValue =  listItems.get(position).getPrice() / gst;
+            holder.tvRate.setText(Util.formatDecimalValue(preTaxSingleValue));
+            holder.preTaxValue.setText(Util.formatDecimalValue(preTaxSingleValue * listItems.get(position).getQuantity()));
+
+            if(this.isGSTAvailable){
+                if(listItems.get(position).getGstType() != null && listItems.get(position).getGstType().equals("IGST (Central/outstation customer)")) {
+                    holder.CGSTValue.setVisibility(View.GONE);
+                    holder.SGSTValue.setVisibility(View.GONE);
+                    holder.IGSTValue.setVisibility(View.VISIBLE);
+                    holder.IGSTValue.setText(Util.formatDecimalValue(gstVlaue));
+                    holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
+                            0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
+                }else if(listItems.get(position).getGstType() != null && listItems.get(position).getGstType().equals("CGST/SGST (Local customer)")){
+                    holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
+                            0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
+                    holder.CGSTValue.setVisibility(View.VISIBLE);
+                    holder.SGSTValue.setVisibility(View.VISIBLE);
+                    holder.IGSTValue.setVisibility(View.GONE);
+                    holder.CGSTValue.setText(Util.formatDecimalValue( gstVlaue / 2));
+                    holder.SGSTValue.setText(Util.formatDecimalValue( gstVlaue / 2));
+                }else {
+                    holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
+                            0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
+                    holder.CGSTValue.setVisibility(View.GONE);
+                    holder.IGSTValue.setVisibility(View.GONE);
+                    holder.SGSTValue.setVisibility(View.GONE);
+                }
+            }
         }
         else {
+            holder.tvRate.setText(Util.formatDecimalValue( listItems.get(position).getPrice()));
             holder.CGSTValue.setVisibility(View.GONE);
             holder.IGSTValue.setVisibility(View.GONE);
             holder.SGSTValue.setVisibility(View.GONE);
             holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                     0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
         }
-
 
     }
 
@@ -104,13 +114,15 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tvProductName, SGSTValue, CGSTValue, IGSTValue, tvQTY, tvRate, tvAmount;
-
+        TextView tvProductName, SGSTValue, CGSTValue, IGSTValue, tvQTY, tvRate, tvAmount, preTaxValue;
+        LinearLayout llForHeader;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            llForHeader = itemView.findViewById(R.id.llForHeader);
             tvProductName = (TextView) itemView.findViewById(R.id.tvProductName);
             tvQTY = (TextView) itemView.findViewById(R.id.tvQTY);
+            preTaxValue = itemView.findViewById(R.id.tv_preTaxValue);
             tvRate = (TextView) itemView.findViewById(R.id.tvRate);
 //            tvDiscount = (TextView) itemView.findViewById(R.id.tvItemDiscount);
             SGSTValue = (TextView) itemView.findViewById(R.id.SGSTValue);
@@ -118,8 +130,8 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             CGSTValue = (TextView) itemView.findViewById(R.id.CGSTValue);
             tvAmount = (TextView) itemView.findViewById(R.id.tvAmount);
 //            if (showGst)
-                tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
-                        0, LinearLayout.LayoutParams.MATCH_PARENT, 3f));
+            tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
+                    0, LinearLayout.LayoutParams.MATCH_PARENT, 3f));
 //            else
 //                tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
 //                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 6f));

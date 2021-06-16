@@ -205,7 +205,14 @@ public interface ApiInterface {
     @PUT ("users/{userid}")
     Call<Object> updateUser(@HeaderMap Map<String, String> headers, @Path("userid") long userid, @Part MultipartBody.Part pdf, @PartMap Map<String,RequestBody> params);
 
+
+    @Multipart
+    @PUT ("users/{userid}")
+    Call<Object> updateUser(@HeaderMap Map<String, String> headers, @Path("userid") long userid, @Part MultipartBody.Part pdf, @PartMap Map<String,RequestBody> params, @Part MultipartBody.Part signaturePdf, @Part MultipartBody.Part companyImagePdf);
+
     @POST ("searchInvoice")
     Call<Object> searchInvoice(@HeaderMap Map<String, String> headers, @Body Map<String, String> body);
 
+    @POST ("loggerAPI")
+    Call<Object> loggerAPI(@Body JSONObject body);
 }

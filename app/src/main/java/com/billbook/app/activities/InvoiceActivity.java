@@ -1,14 +1,14 @@
 package com.billbook.app.activities;
 
-import android.arch.lifecycle.Observer;
+import androidx.lifecycle.Observer;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -96,7 +96,7 @@ public class InvoiceActivity extends AppCompatActivity {
 
         //searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(onQueryTextListener);
-        mSearchAutoComplete = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        mSearchAutoComplete = searchView.findViewById(R.id.search_src_text);
         mSearchAutoComplete.setDropDownBackgroundResource(R.drawable.search_bg);
         mSearchAutoComplete.setDropDownAnchor(R.id.action_search);
 
