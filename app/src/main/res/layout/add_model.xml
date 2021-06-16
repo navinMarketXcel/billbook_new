@@ -20,7 +20,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/modelName"
-            style="@style/etAlphaNumeric"
+            style="@style/editText"
             android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -41,7 +41,7 @@
                    android:layout_height="wrap_content"
                    ></TextView>
                <EditText
-                   style="@style/etAlphaNumeric"
+                   style="@style/editText"
                    android:layout_weight="2"
                    android:id="@+id/shopNameEdt"
                    android:layout_width="0dp"
@@ -71,7 +71,7 @@
                    ></TextView>
 
                <EditText
-                   style="@style/etAlphaNumeric"
+                   style="@style/editText"
                    android:layout_weight="2"
                    android:id="@+id/shopAddressEdt"
                    android:layout_width="0dp"

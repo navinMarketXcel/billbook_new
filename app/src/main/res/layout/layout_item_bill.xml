@@ -26,7 +26,7 @@
 
 
     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-        style="@style/etAlphaNumeric"
+        style="@style/editText"
         android:id="@+id/itemNameET"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
