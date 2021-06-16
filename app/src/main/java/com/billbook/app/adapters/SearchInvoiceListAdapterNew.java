@@ -5,8 +5,9 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import android.net.Uri;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,6 +108,33 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                     }
                 }
             });
+
+
+
+                holder.saveInv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Util.postEvents("Save","Save",context.getApplicationContext());
+
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        try {
+                            if(requestInvoice.has("pdfLink") && requestInvoice.getString("pdfLink")!=null) {
+                                i.setData(Uri.parse(requestInvoice.getString("pdfLink")));
+                                context.startActivity(i);
+                            }
+                            else{
+                                Util.postEvents("Edit","Edit",context.getApplicationContext());
+                                Intent intent = new Intent(context, BillingNewActivity.class);
+                                intent.putExtra("edit",true);
+                                intent.putExtra("invoice",requestInvoice.toString());
+                                context.startActivity(intent);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
             if (requestInvoice.getBoolean("is_active")) {
                 holder.cancelInvBItn.setVisibility(View.VISIBLE);

@@ -16,7 +16,7 @@
         android:layout_marginTop="100dp"
         android:layout_marginRight="24dp">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
                 android:orientation="vertical"
                 android:padding="24dp">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_username"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
@@ -52,9 +52,9 @@
                         android:hint="@string/enter_ur_mob_no"
 
                         android:singleLine="true" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_layout_password"
                     android:visibility="gone"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -70,7 +70,7 @@
                         android:hint="@string/passward"
                         android:inputType="textPassword"
                         android:singleLine="true" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
                     android:id="@+id/btnLogin"
@@ -108,7 +108,7 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="17sp" />
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"

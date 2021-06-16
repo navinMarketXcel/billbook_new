@@ -1,7 +1,7 @@
 package com.billbook.app.database;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.RoomDatabase;
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
 
 import com.billbook.app.database.daos.BrandDao;
 import com.billbook.app.database.daos.CategoriesDao;

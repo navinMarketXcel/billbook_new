@@ -3,18 +3,18 @@ package com.billbook.app.activities;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import com.google.android.material.textfield.TextInputLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -29,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.billbook.app.utils.Util;
-import com.github.mikephil.charting.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -92,6 +91,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private JSONObject profile;
     private boolean isGSTAvailable;
     private int editPosition=-1;
+    private int invoiceIdIfEdit = -1;
     private int serialNumber=0;
     private boolean isEdit=false;
     private JSONObject invoice;
@@ -168,7 +168,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         else
             serialNumber = MyApplication.getInVoiceNumberForNonGst();
         bill_no.setText("Bill Number:"+serialNumber);
-        GSTError.setVisibility(MyApplication.showGstPopup() > 0 ? serialNumber <= 2 ? View.VISIBLE : View.GONE : View.GONE);
+        int showGstPopup = MyApplication.showGstPopup();
+        GSTError.setVisibility(showGstPopup != 2 ? serialNumber < 3 ? View.VISIBLE : View.GONE : View.GONE);
         if(isGSTAvailable){
             gstType.setVisibility(View.VISIBLE);
             gstPercentage.setVisibility(View.VISIBLE);
@@ -257,6 +258,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
          NewInvoiceModels newInvoiceModel = isNew?new NewInvoiceModels():newInvoiceModels.get(editPosition);
         setTotal(newInvoiceModel,false);
         calculateAmountBeforeGST(newInvoiceModel,false);
+        newInvoiceModel.setInvoiceid(invoiceIdIfEdit);
          newInvoiceModel.setName(modelName);
          newInvoiceModel.setIs_active(true);
          newInvoiceModel.setPrice(price);
@@ -362,11 +364,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 hsnNo.setText(newInvoiceModel.getSerial_no());
                 imeiNo.setText(newInvoiceModel.getImei());
                 List<String> gstPList =  Arrays.asList (getResources().getStringArray(R.array.gstPercentage));
-                List<String> unitList = Arrays.asList(getResources().getStringArray(R.array.measurementUnit));
-                Log.v("UNIT", "why is it not coming");
-                Log.v("UNIT", this.newInvoiceModel.getMeasurementId() + " ");
                 measurementUnitSpinner.setSelection(this.newInvoiceModel.getMeasurementId());
-//                Log.v("TAG", "test::"+);
                 gstPercentage.setSelection(gstPList.indexOf((int)this.newInvoiceModel.getGst()+""));
             }
         }
@@ -376,8 +374,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             switch (v.getId()) {
                 case R.id.add:
                     if(verifyData()){
-                        Log.v("UNIT", "probably from Modal");
-                        Log.v("UNIT", measurementUnitSpinner.getSelectedItemPosition() +  " ");
                         addItem(modelName.getText().toString(),
                                 Float.parseFloat(priceEt.getText().toString()),
                                 Float.parseFloat(gstPercentage.getSelectedItemPosition()>0?gstPercentage.getSelectedItem().toString():"0")
@@ -397,15 +393,15 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             }
         }
 
-        private boolean verifyData(){
-            if(modelName.getText().length() == 0){
-                DialogUtils.showToast(c,"Please enter product name");
+        private boolean verifyData() {
+            if(modelName.getText().toString().isEmpty()){
+                DialogUtils.showToast(c,"Please enter item name");
                 return false;
-            } else if(quantityEt.getText().length() ==0){
-                DialogUtils.showToast(c,"Please enter quantity");
-                return false;
-            } else if(priceEt.getText().length() ==0){
+            }else if(priceEt.getText().toString().isEmpty()|| Float.parseFloat(priceEt.getText().toString())==0){
                 DialogUtils.showToast(c,"Please enter price");
+                return false;
+            }else if(quantityEt.getText().toString().isEmpty() || Float.parseFloat(quantityEt.getText().toString())==0){
+                DialogUtils.showToast(c,"Please enter quantity");
                 return false;
             }else if(isGSTAvailable && gstPercentage.getSelectedItemPosition()==0){
                 DialogUtils.showToast(c,"Please select GST %");
@@ -490,8 +486,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         startPDFActivity();
     }
     private void startPDFActivity(){
+        String eventName = isEdit ? "Make Bill Edit" : "Make Bill";
         if(verify()) {
-            Util.postEvents("Make Bill","Make Bill",this.getApplicationContext());
+            Util.postEvents(eventName,eventName,this.getApplicationContext());
             JSONObject requestObj = new JSONObject();
             try {
                 requestObj.put("customerName", edtName.getText().toString());
@@ -650,18 +647,21 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                     }
                     else{
-                        Util.postEvents("Make Bill Fail","Make Bill Fail",getApplicationContext());
+                        Util.postEvents("Make Bill Fail","Make Bill Fail:elseStatus",getApplicationContext());
+                        Util.logErrorApi("/v1/invoice", invoice, "/invoice => status :false", null ,body);
                         DialogUtils.showToast(BillingNewActivity.this,"Failed save invoice server");
                     }
                 } catch (JSONException e) {
-                    Util.postEvents("Make Bill Fail","Make Bill Fail",getApplicationContext());
+                    Util.logErrorApi("/v1/invoice", invoice, null,e.toString() ,null);
+                    Util.postEvents("Make Bill Fail","Make Bill Fail:catch",getApplicationContext());
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                Util.postEvents("Make Bill Fail","Make Bill Fail",getApplicationContext());
+                Util.postEvents("Make Bill Fail","Make Bill Fail:onFailure",getApplicationContext());
+                Util.logErrorApi("/v1/invoice", invoice, t.toString(),null ,null);
                 DialogUtils.stopProgressDialog();
                 DialogUtils.showToast(BillingNewActivity.this,"Failed save invoice server");
             }
@@ -709,8 +709,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //                            if(Integer.parseInt(invSerialNo.getText().toString())<no){
 //                                DialogUtils.showToast(c,"Bill number already exists");
 //                            }else{
-//                                serialNumber = Integer.parseInt(invSerialNo.getText().toString());
-//                                bill_no.setText("Bill Number:"+invSerialNo.getText().toString());
 //                            }
                             serialNumber = Integer.parseInt(invSerialNo.getText().toString());
                             bill_no.setText("Bill Number:"+invSerialNo.getText().toString());
@@ -755,11 +753,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 else
                     serialNumber = invoice.getInt("nonGstBillNo");
                 bill_no.setText("Bill Number: "+serialNumber);
-                bill_no.setEnabled(false);
-
+//                bill_no.setEnabled(false);
+                invoiceIdIfEdit = invoice.getInt("id");
                 invoiceDateStr = Util.getFormatedDate(invoice.getString("invoiceDate"));
                 bill_date.setText("Bill Date: "+invoiceDateStr);
-                bill_date.setEnabled(false);
+//                bill_date.setEnabled(false);
 
                 edtName.setText(invoice.getString("customerName"));
                 edtAddress.setText(invoice.getString("customerAddress"));

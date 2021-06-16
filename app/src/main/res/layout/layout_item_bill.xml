@@ -25,18 +25,14 @@
         android:textStyle="bold" />
 
 
-    <android.support.v7.widget.AppCompatAutoCompleteTextView
+    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+        style="@style/editText"
         android:id="@+id/itemNameET"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="6"
-        android:background="@drawable/edt_background"
         android:hint="@string/item_name"
-        android:inputType="text"
-        android:textColor="@color/grey"
-        android:padding="5dp"
-        android:singleLine="true"
-        android:textSize="15sp" />
+        />
 </TableRow>
 
     <TableRow
@@ -61,19 +57,14 @@
 
 
         <EditText
+            style="@style/etDecimal"
             android:id="@+id/itemPriceET"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:background="@drawable/edt_background"
             android:hint="@string/enter_price"
-            android:inputType="numberDecimal"
             android:maxLength="50"
-            android:layout_marginRight="10dp"
-            android:textColor="@color/grey"
-            android:padding="5dp"
-            android:singleLine="true"
-            android:textSize="15sp" />
+             />
     </TableRow>
     <TableRow
         android:id="@+id/gstPerLayout"
@@ -126,19 +117,15 @@
 
 
         <EditText
+            style="@style/etDecimal"
             android:id="@+id/itemQtyET"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:background="@drawable/edt_background"
             android:hint="@string/enter_quantities"
-            android:inputType="numberDecimal"
             android:maxLength="50"
-            android:layout_marginEnd="10dp"
-            android:textColor="@color/grey"
-            android:padding="5dp"
-            android:singleLine="true"
-            android:textSize="15sp" />
+            android:layout_marginEnd="2dp"
+            />
         <Spinner
             android:id="@+id/unit"
             android:layout_width="0dp"
@@ -176,18 +163,15 @@
 
 
         <EditText
+            style="@style/etAlphaNumeric"
             android:id="@+id/imeiNo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:background="@drawable/edt_background"
             android:hint="@string/IMEI_enter"
-            android:inputType="text|number"
             android:maxLength="50"
-            android:textColor="@color/grey"
-            android:padding="5dp"
             android:singleLine="true"
-            android:textSize="15sp" />
+            />
         <ImageView
             android:id="@+id/btnScan"
             android:padding="5dp"
@@ -221,18 +205,16 @@
 
 
         <EditText
+            style="@style/editText"
             android:id="@+id/hsnNo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:background="@drawable/edt_background"
             android:hint="@string/enter_hsnNo"
             android:inputType="number"
             android:maxLength="6"
-            android:textColor="@color/grey"
-            android:padding="5dp"
             android:singleLine="true"
-            android:textSize="15sp" />
+            />
     </TableRow>
     <Button
         android:id="@+id/addItem"

@@ -1,10 +1,11 @@
 package com.billbook.app.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +16,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.billbook.app.utils.Util;
-import com.github.mikephil.charting.utils.Utils;
 import com.google.gson.Gson;
 import com.billbook.app.R;
 import com.billbook.app.networkcommunication.ApiClient;
@@ -64,6 +64,10 @@ public class RegistrationActivity extends AppCompatActivity {
 
     }
 
+    public void goToPrivacyPolicy(View v){
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://thebillbook.com/privacypolicy.html"));
+        startActivity(i);
+    }
     public void gotoToTermsAndConsitions(View v){
         Intent intent = new Intent(this,TermsAndConditionActivity.class);
         startActivityForResult(intent,01);

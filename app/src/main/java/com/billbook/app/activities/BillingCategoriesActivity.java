@@ -1,14 +1,14 @@
 package com.billbook.app.activities;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -121,7 +121,7 @@ public class BillingCategoriesActivity extends AppCompatActivity {
 
         //searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(onQueryTextListener);
-        mSearchAutoComplete = searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        mSearchAutoComplete = searchView.findViewById(R.id.search_src_text);
 
 
     }

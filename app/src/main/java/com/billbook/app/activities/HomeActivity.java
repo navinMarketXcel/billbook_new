@@ -2,26 +2,23 @@ package com.billbook.app.activities;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.navigation.NavigationView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.billbook.app.database.models.User;
 import com.billbook.app.services.SyncService;
 import com.billbook.app.utils.Util;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -45,8 +42,6 @@ import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import jaiman.nitin.com.customclickableemailphonetextview.ClickPattern;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -487,7 +482,6 @@ updateGST();
                     "Do you have a GST number?", new DialogUtils.DialogClickListener() {
                         @Override
                         public void positiveButtonClick() {
-                            // 1 will be when use has entered his/her GST number
                             MyApplication.setShowGstPopup(1);
                             sendGstUpdateStatus(1);
                             MyApplication.setGSTFilled();

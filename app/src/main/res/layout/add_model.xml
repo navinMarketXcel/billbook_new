@@ -8,7 +8,7 @@
     android:background="@color/white"
     android:layout_height="wrap_content"
     tools:context=".activities.BillingNewActivity">
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,14 +20,15 @@
 
         <AutoCompleteTextView
             android:id="@+id/modelName"
-            android:textSize="11dp"
+            style="@style/editText"
+            android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/item_name_d"
-            android:singleLine="true" />
-    </android.support.design.widget.TextInputLayout>
+            />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/priceEdtInputLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
@@ -41,13 +42,12 @@
 
         <EditText
             android:id="@+id/priceEdt"
-            android:textSize="11dp"
-            android:inputType="numberDecimal"
+            style="@style/etDecimal"
+            android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:singleLine="true" />
-    </android.support.design.widget.TextInputLayout>
+            />
+    </com.google.android.material.textfield.TextInputLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -82,7 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_weight="6"
@@ -95,13 +95,13 @@
 
         <EditText
             android:id="@+id/quantity"
-            android:textSize="11dp"
-            android:inputType="number"
+            style="@style/etDecimal"
+            android:padding="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/enter_quantities"
-            android:singleLine="true" />
-    </android.support.design.widget.TextInputLayout>
+            />
+    </com.google.android.material.textfield.TextInputLayout>
         <Spinner
             android:id="@+id/unit"
             android:layout_marginLeft="10dp"
@@ -126,7 +126,7 @@
         android:weightSum="10"
         android:gravity="left|center"
         >
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -139,26 +139,27 @@
 
         <EditText
             android:id="@+id/imeiNo"
-            android:textSize="11dp"
-            android:inputType="text|number"
+            style="@style/etAlphaNumeric"
+            android:padding="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/IMEI_enter"
-            android:singleLine="true" />
-    </android.support.design.widget.TextInputLayout>
+            />
+    </com.google.android.material.textfield.TextInputLayout>
     <ImageView
         android:id="@+id/btnScan"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:padding="5dp"
         android:layout_marginRight="10dp"
+        android:onClick="scanCode"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_scanning"
         ></ImageView>
     </TableRow>
 
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -177,7 +178,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/enter_hsnNo"
             android:singleLine="true" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scollviewSendPDF"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -29,32 +29,40 @@
                 android:layout_gravity="center"
                 android:background="@drawable/card_lined"
                 android:elevation="2dp">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/taxorBillTv"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Tax Invoice "
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-                    <ImageView
-                        android:id="@+id/shopImage"
-                        android:visibility="gone"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"></ImageView>
+                        android:layout_marginTop="5dp"
+                        android:layout_marginStart="5dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/shopImage"
+                            android:visibility="visible"
+                            android:padding="5dp"
+                            android:layout_gravity="start"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"/>
+                        <TextView
+                            android:id="@+id/taxorBillTv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Tax Invoice "
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
                     <TextView
                         android:id="@+id/tvVendorName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="true"
-                        android:layout_marginTop="20dp"
                         android:focusableInTouchMode="true"
                         android:freezesText="true"
                         android:gravity="center"
@@ -100,8 +108,6 @@
                         android:layout_height="1dp"
                         android:background="@color/material_blue_grey_95"></View>
                 </LinearLayout>
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -350,7 +356,7 @@
                                     android:layout_height="match_parent"
                                     android:layout_weight="6"
                                     android:hint="@string/enter_mob_no"
-                                    android:maxLength="10"
+                                    android:maxLength="20"
                                     android:padding="5dp"
                                     android:gravity="left"
                                     android:inputType="textMultiLine"
@@ -478,8 +484,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
-
-                        android:weightSum="9">
+                        android:weightSum="11">
 
 
                         <TextView
@@ -526,6 +531,21 @@
                             android:padding="5dp"
                             android:singleLine="true"
                             android:text="RATE"
+                            android:textSize="10dp"
+                            android:textColor="@color/color_black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_preTax"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:background="@drawable/card_lined"
+                            android:ellipsize="end"
+                            android:gravity="start"
+                            android:padding="5dp"
+                            android:singleLine="true"
+                            android:text="PRE TAX AMOUNT"
                             android:textSize="10dp"
                             android:textColor="@color/color_black"
                             android:textStyle="bold" />
@@ -601,7 +621,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerViewInvoiceProducts"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -615,7 +635,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:orientation="horizontal"
-                        android:weightSum="9">
+                        android:weightSum="10">
 
 
                         <TextView
@@ -633,6 +653,7 @@
                             android:textStyle="bold"
 
                             />
+
 
                         <TextView
                             android:layout_width="0dp"
@@ -662,6 +683,21 @@
                             android:textColor="@color/color_black"
                             android:textStyle="bold" />
 
+                        <TextView
+                            android:id="@+id/paddingLabelGst"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.5"
+                            android:background="@drawable/card_lined"
+                            android:ellipsize="end"
+                            android:gravity="start"
+                            android:padding="5dp"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textColor="@color/color_black"
+                            android:textStyle="bold"
+
+                            />
                         <TextView
                             android:id="@+id/padding1"
                             android:layout_width="0dp"
@@ -743,9 +779,7 @@
                     android:orientation="vertical">
 
                     <include
-
                         layout="@layout/invoice_amount_layout_updated" />
-
 
                 </LinearLayout>
 
@@ -801,4 +835,4 @@
     </LinearLayout>
 
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

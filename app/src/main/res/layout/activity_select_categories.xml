@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -26,12 +26,12 @@
         app:layout_constraintBottom_toTopOf="@+id/categorySelectionRV"
         app:layout_constraintTop_toBottomOf="@+id/titleQues" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categorySelectionRV"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/btnNext"
-        app:layout_constraintTop_toBottomOf="@+id/selectAllCategories"></android.support.v7.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/selectAllCategories"></androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/btnNext"
@@ -45,4 +45,4 @@
         android:text="Next"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent" />
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
