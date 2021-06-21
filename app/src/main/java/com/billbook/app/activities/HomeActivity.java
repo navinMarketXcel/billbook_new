@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,6 +49,7 @@ import retrofit2.Response;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
+import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends AppCompatActivity
         implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
@@ -58,10 +60,12 @@ public class HomeActivity extends AppCompatActivity
     private NavigationView navigationView;
     private TextView tvName;
     private TextView tvEmail;
+    private ImageView iv;
     private JSONObject userProfile;
     private FirebaseAnalytics mFirebaseAnalytics;
     private TextView syncText;
     private JSONObject profile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +166,7 @@ updateGST();
     }
 
     private void initUI() {
+
         try {
             profile= new JSONObject (((MyApplication)getApplication()).getUserDetails());
         } catch (JSONException e) {
@@ -174,6 +179,8 @@ updateGST();
         btnSearchInvoice = findViewById(R.id.btnSearchInvoice);
         syncText = findViewById(R.id.syncText);
         mToolbar = findViewById(R.id.toolbar);
+
+
         setSupportActionBar(mToolbar);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -202,8 +209,20 @@ updateGST();
 
         tvName = navigationView.getHeaderView(0).findViewById(R.id.tvName);
         tvEmail = navigationView.getHeaderView(0).findViewById(R.id.tvEmail);
+        iv = navigationView.getHeaderView(0).findViewById(R.id.imageViewxx);
         if(userProfile != null) {
             try {
+                if (userProfile.has("companyLogo") && userProfile.getString("companyLogo") != null) {
+                    String companyLogoPath = userProfile.getString("companyLogo");
+                    Picasso.get()
+                            .load(companyLogoPath.replace("http", "https"))
+                            .placeholder(R.drawable.man_new)
+                            .error(R.drawable.man_new)
+                            .resize(70, 70)
+                            .centerCrop()
+                            .into(iv);
+                }
+
                 tvName.setText(userProfile.getString("shopName"));
                 tvEmail.setText(userProfile.getString("shopAddr"));
             } catch (JSONException e) {
@@ -391,6 +410,17 @@ updateGST();
         super.onResume();
 
         try {
+            iv = navigationView.getHeaderView(0).findViewById(R.id.imageViewxx);
+            if (userProfile.has("companyLogo") && userProfile.getString("companyLogo") != null) {
+                String companyLogoPath = userProfile.getString("companyLogo");
+                Picasso.get()
+                        .load(companyLogoPath.replace("http", "https"))
+                        .placeholder(R.drawable.man_new)
+                        .error(R.drawable.man_new)
+                        .resize(70, 70)
+                        .centerCrop()
+                        .into(iv);
+            }
             getLatestInvoice(userProfile.getString("userid"));
         } catch (JSONException e) {
             e.printStackTrace();
