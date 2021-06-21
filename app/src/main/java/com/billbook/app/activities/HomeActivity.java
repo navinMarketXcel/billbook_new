@@ -212,7 +212,7 @@ updateGST();
         iv = navigationView.getHeaderView(0).findViewById(R.id.imageViewxx);
         if(userProfile != null) {
             try {
-                updateDrwaerProfileImg();
+                updateDrawerProfileImg();
                 tvName.setText(userProfile.getString("shopName"));
                 tvEmail.setText(userProfile.getString("shopAddr"));
             } catch (JSONException e) {
@@ -400,7 +400,7 @@ updateGST();
         super.onResume();
         try {
             userProfile= new JSONObject (((MyApplication)getApplication()).getUserDetails());
-            updateDrwaerProfileImg();
+            updateDrawerProfileImg();
             getLatestInvoice(userProfile.getString("userid"));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -409,7 +409,7 @@ updateGST();
 
     }
 
-    public void updateDrwaerProfileImg(){
+    public void updateDrawerProfileImg(){
         try{
             if (userProfile.has("companyLogo") && userProfile.getString("companyLogo") != null) {
                 String companyLogoPath = userProfile.getString("companyLogo");
