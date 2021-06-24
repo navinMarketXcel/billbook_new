@@ -195,6 +195,9 @@ public interface ApiInterface {
     @PUT ("updateInvoice/{id}")
     Call<Object> updateInvoice(@HeaderMap Map<String, String> headers, @Path("id") long id,@Body JsonObject object);
 
+    @GET("getInvoiceUrl/{id}")
+    Call<Object>getCutlyUrl(@HeaderMap Map<String, String> headers,@Path("id") int id);
+
     @PUT ("daybook/{userid}")
     Call<Object> getDayBook(@HeaderMap Map<String, String> headers, @Path("userid") int userid,@Body JsonObject object);
 
