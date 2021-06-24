@@ -212,17 +212,7 @@ updateGST();
         iv = navigationView.getHeaderView(0).findViewById(R.id.imageViewxx);
         if(userProfile != null) {
             try {
-                if (userProfile.has("companyLogo") && userProfile.getString("companyLogo") != null) {
-                    String companyLogoPath = userProfile.getString("companyLogo");
-                    Picasso.get()
-                            .load(companyLogoPath.replace("http", "https"))
-                            .placeholder(R.drawable.man_new)
-                            .error(R.drawable.man_new)
-                            .resize(70, 70)
-                            .centerCrop()
-                            .into(iv);
-                }
-
+                updateDrawerProfileImg();
                 tvName.setText(userProfile.getString("shopName"));
                 tvEmail.setText(userProfile.getString("shopAddr"));
             } catch (JSONException e) {
@@ -408,9 +398,19 @@ updateGST();
     @Override
     protected void onResume() {
         super.onResume();
-
         try {
-            iv = navigationView.getHeaderView(0).findViewById(R.id.imageViewxx);
+            userProfile= new JSONObject (((MyApplication)getApplication()).getUserDetails());
+            updateDrawerProfileImg();
+            getLatestInvoice(userProfile.getString("userid"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        startSpotLight(btnBilling, "Billing", "This will be used for billing.");
+
+    }
+
+    public void updateDrawerProfileImg(){
+        try{
             if (userProfile.has("companyLogo") && userProfile.getString("companyLogo") != null) {
                 String companyLogoPath = userProfile.getString("companyLogo");
                 Picasso.get()
@@ -421,13 +421,12 @@ updateGST();
                         .centerCrop()
                         .into(iv);
             }
-            getLatestInvoice(userProfile.getString("userid"));
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-        startSpotLight(btnBilling, "Billing", "This will be used for billing.");
-
+        catch (JSONException e){
+            e.fillInStackTrace();
+        }
     }
+
 
     private void getLatestInvoice(String userid) {
         ApiInterface apiService =
