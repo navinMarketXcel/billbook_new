@@ -27,6 +27,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.billbook.app.BuildConfig;
 import com.billbook.app.R;
@@ -346,7 +348,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private void createPdf() throws FileNotFoundException {
         try{
             String extStorageState = Environment.getExternalStorageState();
-            
+
             File docsFolder = new File(getExternalCacheDir() + "/Documents");
             if (!docsFolder.exists()) {
                 docsFolder.mkdir();
@@ -417,25 +419,65 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    public void fetchCutlyLinkfromApi(){
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Map<String, String> headerMap = new HashMap<>();
+        Call<Object> call = null;
+        call = apiService.getCutlyUrl(headerMap,invID);
+
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                try{
+                    if(response.code()==200){
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                        JSONObject data = body.getJSONObject("data");
+
+                        if(data.has("pdfLink")&&data.getString("pdfLink")!=null){ createWhatsppsmsToShare(data.getString("pdfLink")); }
+                        else{ createWhatsppsmsToShare(invoiceServer.getString("pdfLink")); }
+                    }
+                    else{ createWhatsppsmsToShare(invoiceServer.getString("pdfLink")); }
+
+                }
+                catch(Exception e)
+                { e.printStackTrace(); }
+            }
+            @Override
+            public void onFailure(Call<Object> call, Throwable throwable) {
+                DialogUtils.showToast(PDFActivity.this, "Please Check Your Internet Connection");
+            }
+        });
+    }
+
     private void shareOnWhatsApp() {
         try {
+
             if (requestInv.has("customerMobileNo") && requestInv.getString("customerMobileNo") != null
                     && invoiceServer.has("pdfLink") && invoiceServer.getString("pdfLink") != null && invID > 0) {
-                String smsBody = "Dear user"
-                        + ", Your total payable amount is "
-                        + requestInv.getDouble("totalAmount")
-                        + " and your invoice is at " + invoiceServer.getString("pdfLink");
-
-                Util.sendWhatsAppMessage(requestInv.getString("customerMobileNo"), this, smsBody);
+                fetchCutlyLinkfromApi();
             } else if (invID < 0) {
                 Util.sendWhatsAppMessageasPDF(requestInv.getString("customerMobileNo"), this, pdfFile);
             } else {
                 DialogUtils.showToast(this, "customer mobile number is not entered while creating bill");
             }
         } catch (JSONException e) {
-
+            e.printStackTrace();
         }
     }
+
+    public void createWhatsppsmsToShare(String url){
+        try{
+            String smsBody = "Dear user"
+                    + ", Your total payable amount is "
+                    + requestInv.getDouble("totalAmount")
+                    + " and your invoice is at " + url;
+
+            Util.sendWhatsAppMessage(requestInv.getString("customerMobileNo"), this, smsBody);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     private void openPDF() {
         try{
@@ -454,7 +496,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             e.printStackTrace();
         }
     }
-
     private void uploadPDF() {
 //        DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
