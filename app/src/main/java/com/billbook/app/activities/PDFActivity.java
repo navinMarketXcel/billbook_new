@@ -419,7 +419,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    public void fetchPDFfromApi(){
+    public void fetchCutlyLinkfromApi(){
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
         Call<Object> call = null;
@@ -454,7 +454,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
             if (requestInv.has("customerMobileNo") && requestInv.getString("customerMobileNo") != null
                     && invoiceServer.has("pdfLink") && invoiceServer.getString("pdfLink") != null && invID > 0) {
-                fetchPDFfromApi();
+                fetchCutlyLinkfromApi();
             } else if (invID < 0) {
                 Util.sendWhatsAppMessageasPDF(requestInv.getString("customerMobileNo"), this, pdfFile);
             } else {
