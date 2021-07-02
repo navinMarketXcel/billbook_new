@@ -1,12 +1,17 @@
 package com.billbook.app.activities;
 
 import android.app.DatePickerDialog;
+import android.app.DownloadManager;
 import android.graphics.Color;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -167,6 +172,7 @@ public class DayBookActivity extends AppCompatActivity {
                 DialogUtils.stopProgressDialog();
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+
                     if(body.getBoolean("status")){
                         totalIn =0;
                         totalOut =0;
@@ -232,12 +238,24 @@ public class DayBookActivity extends AppCompatActivity {
     }
     public void sendReportBtnClick(View v){
         Util.postEvents("Export Report","Export Report",this.getApplicationContext());
-
+        Log.i("email",email);
         if(email==null || email.isEmpty())
             DialogUtils.showToast(this,"Please update your email id in profile");
             else
             sendReport(startDateStr,endDateStr,email);
     }
+
+    public void startDownloading(String downloadLink,String path){
+        DownloadManager.Request r = null;
+        r = new DownloadManager.Request(Uri.parse(downloadLink));
+        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, path);
+        r.allowScanningByMediaScanner();
+        r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        dm.enqueue(r);
+    }
+
+
     public void sendReport(String startdate, String endDate,String email){
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
@@ -260,12 +278,21 @@ public class DayBookActivity extends AppCompatActivity {
                     DialogUtils.stopProgressDialog();
                     try {
                         JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                        if(body.getBoolean("status")){
-                            DialogUtils.showToast(DayBookActivity.this,"Report sent over the email");
-                        }else{
-                            DialogUtils.showToast(DayBookActivity.this,"Failed to send the email");
 
+                        if(body.getBoolean("status")){ DialogUtils.showToast(DayBookActivity.this,"Report sent over the email"); }
+                        else{ DialogUtils.showToast(DayBookActivity.this,"Failed to send the email"); }
+
+
+                        if(body.has("data")){
+                            JSONObject data = body.getJSONObject("data");
+                            String downloadLink = data.getString("dayBookLink").replace("http", "https");
+                            String path = data.getString("dayBookLink").replace("http://devapi.thebillbook.com/daybooks/", "");
+                            if(downloadLink!=null){
+                                startDownloading(downloadLink.toString(),path);
+                                DialogUtils.showToast(DayBookActivity.this,"Daybook Downloaded");
+                            }
                         }
+                        else DialogUtils.showToast(DayBookActivity.this,"Try again later");
 
                     } catch (JSONException e) {
                         e.printStackTrace();
