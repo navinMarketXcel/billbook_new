@@ -1,12 +1,16 @@
 package com.billbook.app.activities;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.DownloadManager;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -282,8 +286,10 @@ public class DayBookActivity extends AppCompatActivity {
                         if(body.getBoolean("status")){ DialogUtils.showToast(DayBookActivity.this,"Report sent over the email"); }
                         else{ DialogUtils.showToast(DayBookActivity.this,"Failed to send the email"); }
 
-
-                        if(body.has("data")){
+                        if(ActivityCompat.checkSelfPermission(DayBookActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                            DialogUtils.showToast(DayBookActivity.this,"Please give permission to storage");
+                        }
+                        else if(body.has("data")){
                             JSONObject data = body.getJSONObject("data");
                             String downloadLink = data.getString("dayBookLink").replace("http", "https");
                             String path = data.getString("dayBookLink").replace("http://devapi.thebillbook.com/daybooks/", "");
