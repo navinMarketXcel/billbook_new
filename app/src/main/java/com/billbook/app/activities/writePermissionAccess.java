@@ -29,6 +29,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class writePermissionAccess extends AppCompatActivity {
     private Button storagePermissionBtn;
 
@@ -36,6 +38,10 @@ public class writePermissionAccess extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_permission_access);
+        setTitle("Billing Permission");
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         initUI();
 
         storagePermissionBtn.setOnClickListener(new Button.OnClickListener(){
@@ -44,6 +50,12 @@ public class writePermissionAccess extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
