@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.writePermissionAccess">
+    tools:context=".activities.StoragePermissionRequestActivity">
 
 
     <LinearLayout
@@ -12,41 +12,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="5dp"
-        tools:layout_editor_absoluteX="35dp"
+        tools:layout_editor_absoluteX="match_parent"
         android:layout_centerHorizontal="true"
-        tools:layout_editor_absoluteY="164dp">
+        android:gravity="center"
+        tools:layout_editor_absoluteY="match_parent">
 
 
         <TextView
             android:id="@+id/storagePermissiontext"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="248dp"
-            android:layout_marginBottom="20dp"
-            android:text="Please give permission to storage access"
+            android:text="@string/StoragePermission"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/storagePermissionButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.206"
-            android:gravity="center"
-            tools:layout_editor_absoluteX="87dp" />
+            android:gravity="center"/>
 
         <Button
             android:id="@+id/storagePermissionButton"
-            android:layout_width="140dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:background="@color/colorPrimary"
             android:padding="2dp"
-            android:paddingStart="2dp"
-            android:paddingLeft="2dp"
-            android:paddingTop="2dp"
-            android:paddingEnd="2dp"
-            android:paddingRight="2dp"
-            android:paddingBottom="2dp"
-            android:text="Give Permission"
+            android:text="@string/PermissionRequestButton"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 

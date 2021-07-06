@@ -26,7 +26,7 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:allowBackup"
         tools:targetApi="honeycomb">
-        <activity android:name=".activities.writePermissionAccess"></activity>
+        <activity android:name=".activities.StoragePermissionRequestActivity"></activity>
         <activity
             android:name=".activities.DayBookActivity"
             android:screenOrientation="portrait"

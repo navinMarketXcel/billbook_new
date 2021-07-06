@@ -220,7 +220,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void internalStoragePermission(){
         try{
             if(checkPermission()==true){ return;}
-            else{ startActivity(new Intent(getApplicationContext(), writePermissionAccess.class)); }
+            else{ startActivity(new Intent(getApplicationContext(), StoragePermissionRequestActivity.class)); }
         }
         catch (Exception e){
             e.printStackTrace();
