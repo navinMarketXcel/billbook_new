@@ -45,6 +45,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -167,96 +168,94 @@ public class DayBookActivity extends AppCompatActivity {
             jsonObject.put("startDate",startdate);
             jsonObject.put("endDate",endDate);
             JsonObject req = new JsonParser().parse(jsonObject.toString()).getAsJsonObject();
-        Call<Object> call = null;
+            Call<Object> call = null;
             call = apiService.getDayBook(headerMap,userId,req);
 
-        call.enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                DialogUtils.stopProgressDialog();
-                try {
-                    JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    DialogUtils.stopProgressDialog();
+                    try {
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
 
-                    if(body.getBoolean("status")){
-                        totalIn =0;
-                        totalOut =0;
-                        dayBookArrayList = new ArrayList<>();
-                        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                        JSONArray invoices = body.getJSONObject("data").getJSONArray("invoices");
-                        for(int i=0;i<invoices.length();i++){
-                            DayBook dayBook = new DayBook();
-                            dayBook.setName("Invoice "+ ( invoices.getJSONObject(i).getString("gstType").isEmpty()?
-                                    invoices.getJSONObject(i).getInt("nonGstBillNo"):
-                            invoices.getJSONObject(i).getInt("gstBillNo")));
-                            dayBook.setAmount(invoices.getJSONObject(i).getInt("totalAmount"));
-                            dayBook.setDate(myFormat.parse(invoices.getJSONObject(i).getString("invoiceDate")));
-                            dayBook.setExpense(false);
-                            dayBookArrayList.add(dayBook);
-                            Log.v("BEFORE TOTALIN::", ""+totalIn);
-                            totalIn =totalIn+dayBook.getAmount();
-                            Log.v("AFTER TOTALIN::", ""+totalIn);
+                        if(body.getBoolean("status")){
+                            totalIn =0;
+                            totalOut =0;
+                            dayBookArrayList = new ArrayList<>();
+                            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                            JSONArray invoices = body.getJSONObject("data").getJSONArray("invoices");
+                            for(int i=0;i<invoices.length();i++){
+                                DayBook dayBook = new DayBook();
+                                dayBook.setName("Invoice "+ ( invoices.getJSONObject(i).getString("gstType").isEmpty()?
+                                        invoices.getJSONObject(i).getInt("nonGstBillNo"):
+                                        invoices.getJSONObject(i).getInt("gstBillNo")));
+                                dayBook.setAmount(invoices.getJSONObject(i).getInt("totalAmount"));
+                                dayBook.setDate(myFormat.parse(invoices.getJSONObject(i).getString("invoiceDate")));
+                                dayBook.setExpense(false);
+                                dayBookArrayList.add(dayBook);
+                                Log.v("BEFORE TOTALIN::", ""+totalIn);
+                                totalIn =totalIn+dayBook.getAmount();
+                                Log.v("AFTER TOTALIN::", ""+totalIn);
 
-                        }
-                        JSONArray expenseList = body.getJSONObject("data").getJSONArray("expenseList");
-                        SimpleDateFormat myFormat1 = new SimpleDateFormat("yyyy-MM-dd");
-                        for(int i=0;i<expenseList.length();i++){
-                            DayBook dayBook = new DayBook();
-                            dayBook.setName(expenseList.getJSONObject(i).getString("name"));
-                            dayBook.setAmount(expenseList.getJSONObject(i).getInt("amount"));
-                            dayBook.setDate(myFormat1.parse(expenseList.getJSONObject(i).getString("expenseDate")));
-                            dayBook.setExpense(true);
-                            dayBookArrayList.add(dayBook);
-                            totalOut =totalOut+dayBook.getAmount();
-                        }
-                        Collections.sort(dayBookArrayList, new Comparator<DayBook>() {
-                            public int compare(DayBook o1, DayBook o2) {
-                                return o1.getDate().getTime()< o2.getDate().getTime() ? -1 : 1;
                             }
-                        });
-                        int profit=(totalIn-totalOut);
-                        totalExpenseTV.setText("PROFIT : " + Util.formatDecimalValue((float)totalIn-totalOut));
-                        if(profit>0)
-                            totalExpenseTV.setTextColor(Color.GREEN);
-                        else
-                            totalExpenseTV.setTextColor(Color.RED);
-                        dayBookAdapter = new DayBookAdapter(DayBookActivity.this,dayBookArrayList);
-                        dayBookRV.setAdapter(dayBookAdapter);
+                            JSONArray expenseList = body.getJSONObject("data").getJSONArray("expenseList");
+                            SimpleDateFormat myFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+                            for(int i=0;i<expenseList.length();i++){
+                                DayBook dayBook = new DayBook();
+                                dayBook.setName(expenseList.getJSONObject(i).getString("name"));
+                                dayBook.setAmount(expenseList.getJSONObject(i).getInt("amount"));
+                                dayBook.setDate(myFormat1.parse(expenseList.getJSONObject(i).getString("expenseDate")));
+                                dayBook.setExpense(true);
+                                dayBookArrayList.add(dayBook);
+                                totalOut =totalOut+dayBook.getAmount();
+                            }
+                            Collections.sort(dayBookArrayList, new Comparator<DayBook>() {
+                                public int compare(DayBook o1, DayBook o2) {
+                                    return o1.getDate().getTime()< o2.getDate().getTime() ? -1 : 1;
+                                }
+                            });
+                            int profit=(totalIn-totalOut);
+                            totalExpenseTV.setText("PROFIT : " + Util.formatDecimalValue((float)totalIn-totalOut));
+                            if(profit>0)
+                                totalExpenseTV.setTextColor(Color.GREEN);
+                            else
+                                totalExpenseTV.setTextColor(Color.RED);
+                            dayBookAdapter = new DayBookAdapter(DayBookActivity.this,dayBookArrayList);
+                            dayBookRV.setAdapter(dayBookAdapter);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                DialogUtils.stopProgressDialog();
-                DialogUtils.showToast(DayBookActivity.this,"Failed to save expense data");
-            }
-        });
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    DialogUtils.stopProgressDialog();
+                    DialogUtils.showToast(DayBookActivity.this,"Failed to save expense data");
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
     public void sendReportBtnClick(View v){
         Util.postEvents("Export Report","Export Report",this.getApplicationContext());
-        Log.i("email",email);
-        if(email==null || email.isEmpty())
-            DialogUtils.showToast(this,"Please update your email id in profile");
-            else
-            sendReport(startDateStr,endDateStr,email);
+        sendReport(startDateStr,endDateStr,email);
     }
 
-    public void startDownloading(String downloadLink,String path){
-        DownloadManager.Request r = null;
-        r = new DownloadManager.Request(Uri.parse(downloadLink));
-        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, path);
-        r.allowScanningByMediaScanner();
-        r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        dm.enqueue(r);
+    public void startDownloading(List<String> downloadLink, String path){
+        for(int i = 0;i<downloadLink.size();i++){
+            DownloadManager.Request r = null;
+            r = new DownloadManager.Request(Uri.parse(downloadLink.get(i)));
+            r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, path);
+            r.allowScanningByMediaScanner();
+            r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+            dm.enqueue(r);
+        }
     }
 
 
@@ -292,9 +291,11 @@ public class DayBookActivity extends AppCompatActivity {
                         else if(body.has("data")){
                             JSONObject data = body.getJSONObject("data");
                             String downloadLink = data.getString("dayBookLink").replace("http", "https");
-                            String path = data.getString("dayBookLink").replace("http://devapi.thebillbook.com/daybooks/", "");
+                            String path = data.getString("dayBookLink").split("/")[4];
                             if(downloadLink!=null){
-                                startDownloading(downloadLink.toString(),path);
+                                List<String>downloadList = new ArrayList<String>();
+                                downloadList.add(downloadLink.toString());
+                                startDownloading(downloadList,path);
                                 DialogUtils.showToast(DayBookActivity.this,"Daybook Downloaded");
                             }
                         }
