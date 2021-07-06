@@ -3,55 +3,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.billbook.app">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- <uses-permission android:name="android.permission.SEND_SMS" /> -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- <uses-permission android:name="android.permission.ACCESS_FIN/E_LOCATION" /> -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:name="com.billbook.app.activities.MyApplication"
+        android:name=".activities.MyApplication"
         android:allowBackup="false"
         android:debuggable="false"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/bill_book"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/app_icon_updated_round"
         android:supportsRtl="true"
         android:testOnly="false"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:allowBackup"
         tools:targetApi="honeycomb">
-        <activity android:name="com.billbook.app.activities.DayBookActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-        <activity android:name="com.billbook.app.activities.PDFActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-        <activity android:name="com.billbook.app.activities.CancelInvoiceActivityNew"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".activities.writePermissionAccess"></activity>
         <activity
-            android:name="com.billbook.app.activities.BillingNewActivity"
+            android:name=".activities.DayBookActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name="com.billbook.app.activities.AddExpenseActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-        <activity android:name="com.billbook.app.activities.ExpenseActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-        <activity android:name="com.billbook.app.activities.VerifyGSTActivity" />
-
-        <activity android:name="com.billbook.app.activities.AddDistributorActivity" />
-
-        <activity android:name="com.billbook.app.activities.SelectSenderActivity" />
-        <activity android:name="com.billbook.app.activities.SendMarketingSMSActivity" />
-        <activity android:name="com.billbook.app.activities.BarGraph" />
-        <activity android:name="com.billbook.app.activities.CancelInvoiceActivity" />
         <activity
-            android:name="com.billbook.app.activities.SplashActivity"
+            android:name=".activities.PDFActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:theme="@style/AppTheme.Launcher">
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activities.CancelInvoiceActivityNew"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activities.BillingNewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activities.AddExpenseActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activities.ExpenseActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".activities.VerifyGSTActivity" />
+        <activity android:name=".activities.AddDistributorActivity" />
+        <activity android:name=".activities.SelectSenderActivity" />
+        <activity android:name=".activities.SendMarketingSMSActivity" />
+        <activity android:name=".activities.BarGraph" />
+        <activity android:name=".activities.CancelInvoiceActivity" />
+        <activity
+            android:name=".activities.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Launcher"
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,144 +69,142 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.billbook.app.activities.HomeActivity"
+            android:name=".activities.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.billbook.app.activities.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name="com.billbook.app.activities.CategoriesActivity"
+            android:name=".activities.CategoriesActivity"
             android:label="@string/categories"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.BrandActivity"
+            android:name=".activities.BrandActivity"
             android:label="@string/brands"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.ProductListActivity"
+            android:name=".activities.ProductListActivity"
             android:label="@string/Products"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.billbook.app.activities.UserProfileActivity"
+            android:name=".activities.UserProfileActivity"
             android:label="@string/user_profile"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.InvoiceActivity"
+            android:name=".activities.InvoiceActivity"
             android:label="@string/billing"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.ShopDetailActivity"
+            android:name=".activities.ShopDetailActivity"
             android:label="@string/shop_details"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.BillingActivity"
+            android:name=".activities.BillingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.BillingCategoriesActivity"
+            android:name=".activities.BillingCategoriesActivity"
             android:label="Select Category"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.BillingProductListActivity"
+            android:name=".activities.BillingProductListActivity"
             android:label="Select Model"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.BillingBrandActivity"
+            android:name=".activities.BillingBrandActivity"
             android:label="Select Brand"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.ScannerActivity"
+            android:name=".activities.ScannerActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.BillingAllProductListActivity"
+            android:name=".activities.BillingAllProductListActivity"
             android:label="Select Model"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.BillingAddProductActivity"
+            android:name=".activities.BillingAddProductActivity"
             android:label="Billing"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.BillingScannedProductActivity"
+            android:name=".activities.BillingScannedProductActivity"
             android:label="Billing"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.ManageCategoriesActivity"
+            android:name=".activities.ManageCategoriesActivity"
             android:label="Billing"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.SendPDFActivity"
+            android:name=".activities.SendPDFActivity"
             android:label="Share Invoice"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
-            android:name="com.billbook.app.activities.SellingDetailActivity"
+            android:name=".activities.SellingDetailActivity"
             android:label="@string/ledger_detail"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.billbook.app.activities.SyncActivity"
+            android:name=".activities.SyncActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.billbook.app.activities.ForgotPasswordActivity"
+            android:name=".activities.ForgotPasswordActivity"
             android:label="Forgot Password"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.billbook.app.activities.ChangePasswordActivity"
+            android:name=".activities.ChangePasswordActivity"
             android:label="Change Password"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.billbook.app.activities.InvoiceDetailsActivity"
+            android:name=".activities.InvoiceDetailsActivity"
             android:label="Invoice Details"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="com.billbook.app.activities.HelpActivity"
+            android:name=".activities.HelpActivity"
             android:label="Help"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.billbook.app.activities.ReportActivity"
+            android:name=".activities.ReportActivity"
             android:screenOrientation="portrait" />
-
         <activity
-            android:name="com.billbook.app.activities.LedgerLoginActivity"
+            android:name=".activities.LedgerLoginActivity"
             android:label="@string/getsalesreport" />
         <activity
-            android:name="com.billbook.app.activities.SearchInvoiceActivity"
+            android:name=".activities.SearchInvoiceActivity"
             android:label="Search Invoice"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:screenOrientation="portrait" />
-        <activity android:name="com.billbook.app.activities.EditProfileActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-        <activity android:name="com.billbook.app.activities.RegistrationActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activities.EditProfileActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
-
-        <activity android:name="com.billbook.app.activities.OTPActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activities.RegistrationActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"/> <!-- <receiver android:name=".receivers.AlarmReceiver"> -->
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".activities.OTPActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" /> <!-- <receiver android:name=".receivers.AlarmReceiver"> -->
         <!-- <intent-filter> -->
         <!-- <action android:name="com.marketexcel.mobicloud.AlarmReceiver" /> -->
         <!-- </intent-filter> -->
         <!-- </receiver> -->
-        <activity android:name="com.billbook.app.activities.SelectCategoriesActivity" />
-        <activity android:name="com.billbook.app.activities.TermsAndConditionActivity" />
-        <activity android:name="com.billbook.app.activities.SelectOtherCategoriesActivity" />
-        <activity android:name="com.billbook.app.activities.ManageBrandsActivity" />
-        <activity android:name="com.billbook.app.activities.ManageProductsActivity" />
+        <activity android:name=".activities.SelectCategoriesActivity" />
+        <activity android:name=".activities.TermsAndConditionActivity" />
+        <activity android:name=".activities.SelectOtherCategoriesActivity" />
+        <activity android:name=".activities.ManageBrandsActivity" />
+        <activity android:name=".activities.ManageProductsActivity" />
+
         <provider
-            android:name="com.billbook.app.GenericFileProvider"
+            android:name=".GenericFileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true"
@@ -206,24 +214,19 @@
                 android:resource="@xml/provider_paths"
                 tools:replace="android:resource" />
         </provider>
-        <receiver android:name="com.billbook.app.receivers.BootReceiver">
+
+        <receiver android:name=".receivers.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <service
-            android:name="com.billbook.app.services.LocationService"
+            android:name=".services.LocationService"
             android:exported="false" />
         <service
-            android:name="com.billbook.app.services.SyncService"
+            android:name=".services.SyncService"
             android:enabled="true" />
-    </application> <!-- <uses-permission android:name="android.permission.SEND_SMS" /> -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-<!--    <uses-permission android:name="android.permission.ACCESS_FIN/E_LOCATION" />-->
-
-    <uses-permission android:name="android.permission.INTERNET" />
+    </application>
 
 </manifest>
