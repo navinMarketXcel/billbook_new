@@ -55,7 +55,7 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        checkPermission();
+        //checkPermission();a
 //
 //        Bundle params = new Bundle();
 //        params.putString("test", "test");
