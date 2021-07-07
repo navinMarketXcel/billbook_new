@@ -16,6 +16,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.Settings;
 
@@ -71,8 +72,11 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
 
                         @Override
                         public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-
-                            Snackbar snackbar = Snackbar.make(v,"please give permission",Snackbar.LENGTH_LONG);
+                            Snackbar snackbar = Snackbar.make(v,"Please give permission",Snackbar.LENGTH_LONG);
+                            snackbar.setDuration(2000);
+                            snackbar.setActionTextColor(Color.YELLOW);
+                            View sb =  snackbar.getView();
+                            sb.setBackgroundColor(Color.parseColor("#1d4388"));
                             snackbar.setAction("Allow", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
