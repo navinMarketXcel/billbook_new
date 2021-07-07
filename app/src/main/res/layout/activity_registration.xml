@@ -316,6 +316,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="gotoToTermsAndConsitions"
                 android:text="@string/termsandcondition"
+                android:textColor="@color/colorPrimary"
                 android:textAlignment="center"
                 >
             </TextView>
