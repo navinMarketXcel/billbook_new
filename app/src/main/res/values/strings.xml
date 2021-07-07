@@ -353,8 +353,9 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="cust_gst_no">Customer GST no(optional)</string>
     <string name="enter_additional_details">Enter Additional Details</string>
     <string name="enter_banking_branch_or_other_details">Enter Banking, Branch or other details</string>
-    <string name="StoragePermission">Please give permission to storage access</string>
-    <string name="PermissionRequestButton">Give Permission</string>
+    <string name="termsandcondition">Terms of Use</string>
+    <string name="privacy_policy"><![CDATA[& Privacy Policy]]></string>
+    <string name="tncmessage">By continuing you agree to</string>
     <string-array name="dayFilter_array">
 
         <item>1 days</item>

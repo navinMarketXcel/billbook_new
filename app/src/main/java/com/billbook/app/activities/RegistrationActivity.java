@@ -42,7 +42,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private final String TAG = "RegistrationActivity";
     private EditText userNameEdt, shopNameEdt, firstName, lastName, shopAddr, mobileNo,pinCodeEdt;
 
-    private TextView agreeTermsAndConditionText;
     private ArrayList<String> stateList = new ArrayList<>();
     private ArrayList<String> citiesList = new ArrayList<>();
     private ArrayAdapter<String> cityAdpater;
@@ -52,7 +51,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private String mobileNoText,OTP;
     private CheckBox termsCondition;
     private AutoCompleteTextView states,city;
-    String text = "<font color='#4b4b4b'>I accept the</font><font color='#1d4388'>Terms & Conditions</font>";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,13 +88,11 @@ public class RegistrationActivity extends AppCompatActivity {
         shopNameEdt = findViewById(R.id.shopNameEdt);
         shopAddr = findViewById(R.id.shopAddressEdt);
         mobileNo = findViewById(R.id.mobileNoEdt);
-        agreeTermsAndConditionText = findViewById(R.id.agreeTermsAndConditionText);
         mobileNo.setText(mobileNoText);
         states = findViewById(R.id.state);
         pinCodeEdt = findViewById(R.id.pinCodeEdt);
-        termsCondition = findViewById(R.id.agreeTermsAndCondition);
+//        termsCondition = findViewById(R.id.agreeTermsAndCondition);
         city = findViewById(R.id.city);
-        agreeTermsAndConditionText.setText(Html.fromHtml(text), CheckBox.BufferType.SPANNABLE);
 
        /* city.setTitle("Select City");
         states.setTitle("Select State");
