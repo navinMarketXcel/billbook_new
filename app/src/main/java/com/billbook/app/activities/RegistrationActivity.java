@@ -47,9 +47,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private ArrayAdapter<String> cityAdpater;
     private ArrayAdapter<String> stateAdpater;
     private JSONArray citiesJSONArray = null;
-    private Handler handler;
     private String mobileNoText,OTP;
-    private CheckBox termsCondition;
     private AutoCompleteTextView states,city;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,53 +66,20 @@ public class RegistrationActivity extends AppCompatActivity {
     }
     public void gotoToTermsAndConsitions(View v){
         Intent intent = new Intent(this,TermsAndConditionActivity.class);
-        startActivityForResult(intent,01);
-    }
-    @Override
-    protected void onActivityResult(int requestCode,
-                                    int resultCode,
-                                    Intent intent) {
-        if (requestCode == 01 &&
-                resultCode == RESULT_OK) {
-            termsCondition.setChecked(true);
-        }
+        startActivity(intent);
     }
 
     private void initUI() {
         mobileNoText = getIntent().getExtras().getString("mobileNo");
         OTP = getIntent().getExtras().getString("otp");
         userNameEdt = findViewById(R.id.userNameEdt);
-        handler = new Handler();
         shopNameEdt = findViewById(R.id.shopNameEdt);
         shopAddr = findViewById(R.id.shopAddressEdt);
         mobileNo = findViewById(R.id.mobileNoEdt);
         mobileNo.setText(mobileNoText);
         states = findViewById(R.id.state);
         pinCodeEdt = findViewById(R.id.pinCodeEdt);
-//        termsCondition = findViewById(R.id.agreeTermsAndCondition);
         city = findViewById(R.id.city);
-
-       /* city.setTitle("Select City");
-        states.setTitle("Select State");
-        stateList.addAll( Arrays.asList(getResources().getStringArray(R.array.states)));
-        states.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-              if(position ==0){
-                      citiesList.clear();
-                      citiesList.add("Select City");
-                      cityAdpater.notifyDataSetChanged();
-              } else{
-                  loadCities();
-              }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
     }
 
     private void initAdapter() {
@@ -148,17 +113,8 @@ public class RegistrationActivity extends AppCompatActivity {
        }else if (city.getText().toString().isEmpty()) {
            DialogUtils.showToast(this, "Please select city");
            return false;
-       } /*else if (stateList.get(states.getSelectedItemPosition()).isEmpty()) {
-            DialogUtils.showToast(this, "Please select State");
-            return false;
-        }else if (citiesList.get(city.getSelectedItemPosition()).isEmpty()) {
-           DialogUtils.showToast(this, "Please select city");
-           return false;
-       }*/ else if(pinCodeEdt.getText().toString().length()<6){
+       } else if(pinCodeEdt.getText().toString().length()<6){
            DialogUtils.showToast(this, "Please enter valid pin code");
-           return false;
-       }else if(!termsCondition.isChecked()){
-           DialogUtils.showToast(this, "Please accept Terms & Conditions");
            return false;
        }
         else return true;
@@ -168,9 +124,6 @@ public class RegistrationActivity extends AppCompatActivity {
         if(validateData()){
             Map<String, String> headerMap = new HashMap<>();
             headerMap.put("shopName",shopNameEdt.getText().toString());
-//            headerMap.put("shopAddr",shopAddr.getText().toString() +" "+ stateList.get(states.getSelectedItemPosition())
-//                    + ", "+citiesList.get(city.getSelectedItemPosition())+" - "
-//                    +pinCodeEdt.getText().toString());
             headerMap.put("shopAddr",shopAddr.getText().toString());
             headerMap.put("mobileNo",mobileNo.getText().toString());
             headerMap.put("state",states.getText().toString());
