@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.billbook.app.R;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -39,7 +40,7 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
 
         storagePermissionBtn.setOnClickListener(new Button.OnClickListener(){
             public void onClick(View v){
-                askForPermission();
+                askForPermission(v);
             }
         });
 
@@ -58,7 +59,7 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
         storagePermissionBtn = findViewById(R.id.storagePermissionButton);
     }
 
-    public void askForPermission(){
+    public void askForPermission(View v){
         try{
             Dexter.withContext(this)
                     .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -70,11 +71,19 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
 
                         @Override
                         public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                            Intent intent = new Intent();
-                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                            Uri uri = Uri.fromParts("package",getPackageName(),null);
-                            intent.setData(uri);
-                            startActivity(intent);
+
+                            Snackbar snackbar = Snackbar.make(v,"please give permission",Snackbar.LENGTH_LONG);
+                            snackbar.setAction("Allow", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent();
+                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                    Uri uri = Uri.fromParts("package",getPackageName(),null);
+                                    intent.setData(uri);
+                                    startActivity(intent);
+                                }
+                            });
+                            snackbar.show();
                         }
 
                         @Override
