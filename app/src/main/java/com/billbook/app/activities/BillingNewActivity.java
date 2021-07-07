@@ -1,11 +1,15 @@
 package com.billbook.app.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import androidx.annotation.Nullable;
 import com.google.android.material.textfield.TextInputLayout;
@@ -93,6 +97,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private int editPosition=-1;
     private int invoiceIdIfEdit = -1;
     private int serialNumber=0;
+    private int hasWriteStoragePermission;
     private boolean isEdit=false;
     private JSONObject invoice;
     private Button nextBtn;
@@ -106,6 +111,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         checkIsEdit();
         getModelData();
+        internalStoragePermission();
         initUI();
         loadDataForInvoice();
     }
@@ -204,6 +210,23 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
 
     }
+
+    public boolean checkPermission(){
+        hasWriteStoragePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if(hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED){ return true;}
+        else{return false; }
+    }
+
+    public void internalStoragePermission(){
+        try{
+            if(checkPermission()==true){ return;}
+            else{ startActivity(new Intent(getApplicationContext(), StoragePermissionRequestActivity.class)); }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     public void updateBillNo (View v){
         new BillNumberUpdateDialog(this).show();
     }
@@ -795,6 +818,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         new IntentIntegrator(this).setOrientationLocked(false)
                 .initiateScan(); // `this` is the current Activity
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(checkPermission()==false)finish();
     }
 
     @Override
