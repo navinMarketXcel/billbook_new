@@ -5,7 +5,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -40,15 +42,16 @@ import retrofit2.Response;
 
 public class RegistrationActivity extends AppCompatActivity {
     private final String TAG = "RegistrationActivity";
-    private EditText userNameEdt, shopNameEdt, firstName, lastName, shopAddr, mobileNo,pinCodeEdt;
+    private EditText userNameEdt, shopNameEdt, firstName, lastName, shopAddr, mobileNo, pinCodeEdt;
 
     private ArrayList<String> stateList = new ArrayList<>();
     private ArrayList<String> citiesList = new ArrayList<>();
     private ArrayAdapter<String> cityAdpater;
     private ArrayAdapter<String> stateAdpater;
     private JSONArray citiesJSONArray = null;
-    private String mobileNoText,OTP;
-    private AutoCompleteTextView states,city;
+    private String mobileNoText, OTP;
+    private AutoCompleteTextView states, city;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,16 +59,15 @@ public class RegistrationActivity extends AppCompatActivity {
         setTitle("Registration");
         initUI();
         initAdapter();
-
-
     }
 
-    public void goToPrivacyPolicy(View v){
+    public void goToPrivacyPolicy(View v) {
         Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://thebillbook.com/privacypolicy.html"));
         startActivity(i);
     }
-    public void gotoToTermsAndConsitions(View v){
-        Intent intent = new Intent(this,TermsAndConditionActivity.class);
+
+    public void gotoToTermsAndConsitions(View v) {
+        Intent intent = new Intent(this, TermsAndConditionActivity.class);
         startActivity(intent);
     }
 
@@ -84,13 +86,13 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void initAdapter() {
         citiesList.add("Select City");
-        cityAdpater =  new ArrayAdapter<String>(
+        cityAdpater = new ArrayAdapter<String>(
                 RegistrationActivity.this,
                 R.layout.spinner_item, citiesList);
         city.setAdapter(cityAdpater);
 
 
-        stateAdpater =  new ArrayAdapter<String>(
+        stateAdpater = new ArrayAdapter<String>(
                 RegistrationActivity.this,
                 R.layout.spinner_item, stateList);
         states.setAdapter(stateAdpater);
@@ -98,47 +100,46 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private boolean validateData() {
-       if (shopNameEdt.getText().toString().isEmpty()) {
+        if (shopNameEdt.getText().toString().isEmpty()) {
             DialogUtils.showToast(this, "Shop name can not be empty.");
             return false;
-        }  else if (shopAddr.getText().toString().isEmpty()) {
+        } else if (shopAddr.getText().toString().isEmpty()) {
             DialogUtils.showToast(this, "Shop address can not be empty.");
             return false;
         } else if (mobileNo.getText().toString().isEmpty() || mobileNo.getText().toString().length() < 10) {
             DialogUtils.showToast(this, "Please enter valid mobile number");
             return false;
-        }else if (states.getText().toString().isEmpty()) {
-           DialogUtils.showToast(this, "Please select State");
-           return false;
-       }else if (city.getText().toString().isEmpty()) {
-           DialogUtils.showToast(this, "Please select city");
-           return false;
-       } else if(pinCodeEdt.getText().toString().length()<6){
-           DialogUtils.showToast(this, "Please enter valid pin code");
-           return false;
-       }
-        else return true;
+        } else if (states.getText().toString().isEmpty()) {
+            DialogUtils.showToast(this, "Please select State");
+            return false;
+        } else if (city.getText().toString().isEmpty()) {
+            DialogUtils.showToast(this, "Please select city");
+            return false;
+        } else if (pinCodeEdt.getText().toString().length() < 6) {
+            DialogUtils.showToast(this, "Please enter valid pin code");
+            return false;
+        } else return true;
     }
 
     public void registerUser(View view) {
-        if(validateData()){
+        if (validateData()) {
             Map<String, String> headerMap = new HashMap<>();
-            headerMap.put("shopName",shopNameEdt.getText().toString());
-            headerMap.put("shopAddr",shopAddr.getText().toString());
-            headerMap.put("mobileNo",mobileNo.getText().toString());
-            headerMap.put("state",states.getText().toString());
-            headerMap.put("city",city.getText().toString());
-            headerMap.put("pincode",pinCodeEdt.getText().toString());
-            headerMap.put("otp",OTP);
+            headerMap.put("shopName", shopNameEdt.getText().toString());
+            headerMap.put("shopAddr", shopAddr.getText().toString());
+            headerMap.put("mobileNo", mobileNo.getText().toString());
+            headerMap.put("state", states.getText().toString());
+            headerMap.put("city", city.getText().toString());
+            headerMap.put("pincode", pinCodeEdt.getText().toString());
+            headerMap.put("otp", OTP);
             register(headerMap);
         }
     }
-    private void startHomeActivity(){
-        Intent intent = new Intent(this,HomeActivity.class);
+
+    private void startHomeActivity() {
+        Log.i(TAG, "startHomeActivity:");
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
-
-
 
 
     private void loadCities() {
@@ -163,7 +164,7 @@ public class RegistrationActivity extends AppCompatActivity {
                         Collections.sort(citiesList, String.CASE_INSENSITIVE_ORDER);
 
                     }
-                    citiesList.add(0,"Select City");
+                    citiesList.add(0, "Select City");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -201,8 +202,8 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
 
-    private void register(Map<String, String> req){
-        Util.postEvents("Registration","Registration ",this.getApplicationContext());
+    private void register(Map<String, String> req) {
+        Util.postEvents("Registration", "Registration ", this.getApplicationContext());
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -217,16 +218,18 @@ public class RegistrationActivity extends AppCompatActivity {
                 DialogUtils.stopProgressDialog();
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                    Log.v("RESP",body.toString());
-                    Headers headerList = response.headers();
-                    String token = headerList.get("authorization");
-                    body.put("token",token);
-                    Log.v("token::",token);
-                        ((MyApplication)getApplication()).saveUserDetails(body.getJSONObject("data").toString());
-                    ((MyApplication)getApplication()).saveUserToken(token);
+                    Log.v("RESP", body.toString());
+                    // UserToken now comes in body object
+//                    Headers headerList = response.headers();
+//                    String token = headerList.get("authorization");
+//                    body.put("token",token);
+                    JSONObject data = body.getJSONObject("data");
+                    String userToken = data.getString("userToken");
+                    MyApplication.saveUserDetails(data.toString());
+                    MyApplication.saveUserToken(userToken);
 
-                    if(body.getJSONObject("data").has("isGST"))
-                        ((MyApplication) getApplication()).setShowGstPopup((Integer) body.getJSONObject("data").get("isGST"));
+                    if (body.getJSONObject("data").has("isGST"))
+                        MyApplication.setShowGstPopup((Integer) data.get("isGST"));
 
                     startHomeActivity();
                 } catch (JSONException e) {
@@ -237,7 +240,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 DialogUtils.stopProgressDialog();
-                DialogUtils.showToast(RegistrationActivity.this,"Failed to get OTP");
+                DialogUtils.showToast(RegistrationActivity.this, "Failed to get OTP");
             }
         });
 
