@@ -242,9 +242,12 @@ public class EditProfileActivity extends AppCompatActivity {
             cityEdt.setText(profile.getString("city"));
             userid = profile.getLong("userid");
             etAdditionalDetails.setText(profile.has("additionalData") ? profile.getString("additionalData") : "");
+
             if (profile.has("profileImage") && profile.getString("profileImage") != null) {
+                String profileImageLink = profile.getString("profileImage");
+                profileImageLink = profileImageLink.replaceAll("\\/", "/");
                 Picasso.get()
-                        .load(profile.getString("profileImage"))
+                        .load(profile.getString("profileImage").replace("\\/","/"))
                         .placeholder(R.drawable.man_new)
                         .error(R.drawable.man_new)
                         .resize(70, 70)
@@ -254,13 +257,16 @@ public class EditProfileActivity extends AppCompatActivity {
 
             if (profile.has("companyLogo")) {
                 String companyLogoPath = profile.getString("companyLogo");
+                companyLogoPath = companyLogoPath.replaceAll("\\/", "/");
+
                 ll_company.setVisibility(View.VISIBLE);
                 btnDeleteCompanyLogo.setVisibility(View.VISIBLE);
                 btnAddCompanyLogo.setVisibility(GONE);
                 tvCompanyTitle.setVisibility(View.VISIBLE);
                 companyLogoImg.setVisibility(View.VISIBLE);
+
                 Picasso.get()
-                        .load(companyLogoPath.replace("http", "https"))
+                        .load(companyLogoPath)
                         .placeholder(R.drawable.man_new)
                         .error(R.drawable.man_new)
                         .into(companyLogoImg);
@@ -268,13 +274,16 @@ public class EditProfileActivity extends AppCompatActivity {
 
             if (profile.has("signatureImage")) {
                 String profilePath = profile.getString("signatureImage");
+                profilePath = profilePath.replaceAll("\\/", "/");
+
                 btnDeleteSignatureImage.setVisibility(View.VISIBLE);
                 btnAddSignature.setVisibility(GONE);
                 tvSignatureTitle.setVisibility(View.VISIBLE);
                 signatureImg.setVisibility(View.VISIBLE);
                 ll_signature.setVisibility(View.VISIBLE);
+
                 Picasso.get()
-                        .load(profilePath.replace("http", "https"))
+                        .load(profilePath)
                         .placeholder(R.drawable.man_new)
                         .error(R.drawable.man_new)
                         .into(signatureImg);

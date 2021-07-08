@@ -399,7 +399,7 @@ updateGST();
     protected void onResume() {
         super.onResume();
         try {
-            userProfile= new JSONObject (((MyApplication)getApplication()).getUserDetails());
+            userProfile= new JSONObject (MyApplication.getUserDetails());
             updateDrawerProfileImg();
             getLatestInvoice(userProfile.getString("userid"));
         } catch (JSONException e) {
@@ -413,8 +413,10 @@ updateGST();
         try{
             if (userProfile.has("companyLogo") && userProfile.getString("companyLogo") != null) {
                 String companyLogoPath = userProfile.getString("companyLogo");
+                companyLogoPath = companyLogoPath.replaceAll("\\/", "/");
+
                 Picasso.get()
-                        .load(companyLogoPath.replace("http", "https"))
+                        .load(companyLogoPath)
                         .placeholder(R.drawable.man_new)
                         .error(R.drawable.man_new)
                         .resize(70, 70)
