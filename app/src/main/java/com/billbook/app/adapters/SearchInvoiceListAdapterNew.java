@@ -36,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -242,13 +243,14 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
     public String getFormatedDate(String sDate1) {
         String dateToday;
         try {
-
             SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"); //this format changeable
             dateFormatter.setTimeZone(TimeZone.getDefault());
             Date date = dateFormatter.parse(sDate1);
+
             @SuppressLint("SimpleDateFormat") DateFormat formatter =
                     new SimpleDateFormat("dd MMM yyyy");
-            dateToday = formatter.format(date.getTime()+TimeZone.getDefault().getRawOffset());
+//            dateToday = formatter.format(date.getTime()+TimeZone.getDefault().getRawOffset());
+            dateToday = formatter.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
             Date date = Calendar.getInstance().getTime();
@@ -256,7 +258,6 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             @SuppressLint("SimpleDateFormat") DateFormat formatter =
                     new SimpleDateFormat("dd MMM yyyy");
             dateToday = formatter.format(date);
-
         }
         return dateToday;
     }
