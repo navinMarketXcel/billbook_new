@@ -1,5 +1,7 @@
 package com.billbook.app.networkcommunication;
 
+import com.billbook.app.BuildConfig;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -8,9 +10,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
 
 //    public static final String BASE_URL = "http://192.168.1.102:3033/v1/";
-    public static final String BASE_URL = "https://api.thebillbook.com/v1/";
+//    public static final String BASE_URL = "https://api.thebillbook.com/v1/";
 //    public static final String BASE_URL = "https://devapi.thebillbook.com/v1/";
 //    public static final String BASE_URL = "https://7defe631e808.ngrok.io/v1/";
+    public static final String BASE_URL = BuildConfig.BASE_URL;
+
     private static Retrofit retrofit = null;
 
 

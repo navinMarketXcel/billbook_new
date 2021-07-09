@@ -11,9 +11,15 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
-        release {
-            minifyEnabled false
+        debug{
+            buildConfigField "String", "BASE_URL", '"https://devapi.thebillbook.com/v1/"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+        }
+        release {
+            buildConfigField "String", "BASE_URL", '"https://api.thebillbook.com/v1/"'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            minifyEnabled false
         }
     }
     compileOptions {
