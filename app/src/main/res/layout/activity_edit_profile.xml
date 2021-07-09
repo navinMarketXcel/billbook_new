@@ -426,7 +426,7 @@
                     android:id="@+id/iv_signature"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:contentDescription="Company Logo"
+                    android:contentDescription="Signature Logo"
                     />
 
                 <LinearLayout
@@ -437,7 +437,7 @@
                     <Button
                         android:layout_width="0sp"
                         android:layout_height="wrap_content"
-                        android:tag="company_logo"
+                        android:tag="signature_logo"
                         android:layout_weight="1"
                         android:background="@color/colorPrimary"
                         android:onClick="showImageOptions"

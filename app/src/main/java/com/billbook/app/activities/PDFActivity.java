@@ -243,7 +243,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 GSTTitle.setText("GST" + (items.get(0).getGstType().equals("CGST/SGST (Local customer)") ? " (SGST/CGST)" : " (IGST)"));
 
 
-            imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;
+            imageURL = profile.has("companyLogo") ? profile.getString("companyLogo").replaceAll("\\/", "/") : null;
             if (imageURL == null) {
                 shopImage.setVisibility(View.GONE);
                 loadAndSetSignatureImage();
@@ -251,7 +251,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             else {
                 shopImage.setVisibility(View.VISIBLE);
                 Picasso.get()
-                        .load(imageURL.replace("http", "https"))
+                        .load(imageURL)
                         .resize(100, 100)
                         .into(shopImage, new com.squareup.picasso.Callback() {
                             @Override
@@ -274,7 +274,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private void loadAndSetSignatureImage() {
         String signatureURL = null;
         try {
-            signatureURL = profile.has("signatureImage") ? profile.getString("signatureImage") : null;
+            signatureURL = profile.has("signatureImage") ? profile.getString("signatureImage").replaceAll("\\/","/") : null;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -284,7 +284,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             signatureTextIfImage.setVisibility(View.VISIBLE);
 //                signatureText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             Picasso.get()
-                    .load(signatureURL.replace("http", "https"))
+                    .load(signatureURL)
                     .resize(250, 100)
                     .into(signatureImage, new com.squareup.picasso.Callback() {
                         @Override
