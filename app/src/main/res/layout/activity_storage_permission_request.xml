@@ -24,6 +24,8 @@
             android:layout_height="wrap_content"
             android:text="@string/storage_permission_label"
             android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
             app:layout_constraintBottom_toTopOf="@+id/storagePermissionButton"
             app:layout_constraintTop_toTopOf="parent"
             android:gravity="center"/>
@@ -35,7 +37,7 @@
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:background="@color/colorPrimary"
-            android:padding="2dp"
+            android:padding="8dp"
             android:text="@string/permission_button_text"
             android:textColor="@android:color/white"
             android:textStyle="bold" />

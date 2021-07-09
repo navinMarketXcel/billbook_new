@@ -39,8 +39,8 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
 
         initUI();
 
-        storagePermissionBtn.setOnClickListener(new Button.OnClickListener(){
-            public void onClick(View v){
+        storagePermissionBtn.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
                 askForPermission(v);
             }
         });
@@ -54,14 +54,16 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() { finish(); }
+    public void onBackPressed() {
+        finish();
+    }
 
-    public void initUI(){
+    public void initUI() {
         storagePermissionBtn = findViewById(R.id.storagePermissionButton);
     }
 
-    public void askForPermission(View v){
-        try{
+    public void askForPermission(View v) {
+        try {
             Dexter.withContext(this)
                     .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .withListener(new PermissionListener() {
@@ -72,17 +74,17 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
 
                         @Override
                         public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                            Snackbar snackbar = Snackbar.make(v,"Please give permission",Snackbar.LENGTH_LONG);
-                            snackbar.setDuration(2000);
+                            Snackbar snackbar = Snackbar.make(v, "Please give permission", Snackbar.LENGTH_LONG);
+                            snackbar.setDuration(5000);
                             snackbar.setActionTextColor(Color.YELLOW);
-                            View sb =  snackbar.getView();
-                            sb.setBackgroundColor(Color.parseColor("#1d4388"));
+                            View sb = snackbar.getView();
+                            sb.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                             snackbar.setAction("Allow", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent();
                                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    Uri uri = Uri.fromParts("package",getPackageName(),null);
+                                    Uri uri = Uri.fromParts("package", getPackageName(), null);
                                     intent.setData(uri);
                                     startActivity(intent);
                                 }
@@ -95,8 +97,7 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
                             permissionToken.continuePermissionRequest();
                         }
                     }).check();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -104,6 +105,7 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED)finish();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            finish();
     }
 }

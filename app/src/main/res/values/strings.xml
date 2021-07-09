@@ -353,7 +353,7 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="cust_gst_no">Customer GST no(optional)</string>
     <string name="enter_additional_details">Enter Additional Details</string>
     <string name="enter_banking_branch_or_other_details">Enter Banking, Branch or other details</string>
-    <string name="storage_permission_label">We need storage permission to proceed further</string>
+    <string name="storage_permission_label">We need storage permission to save your bills and expenses on phone</string>
     <string name="permission_button_text">Give Permission</string>
     <string name="termsandcondition">Terms of Use</string>
     <string name="privacy_policy"><![CDATA[& Privacy Policy]]></string>
