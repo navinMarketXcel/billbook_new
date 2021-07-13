@@ -275,7 +275,7 @@ public class Util {
         return sizeOfFile < upperLimit;
     }
 
-    public static void logErrorApi(String api, JSONObject frontendPayload, String frontendError, String catchError, JSONObject backendResponse) {
+    public static void logErrorApi(String api, JsonObject frontendPayload, String frontendError, String catchError, JsonObject backendResponse) {
         try {
             ApiInterface apiService =
                     ApiClient.getClient().create(ApiInterface.class);
