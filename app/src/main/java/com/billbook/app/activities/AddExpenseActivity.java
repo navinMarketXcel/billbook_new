@@ -1,14 +1,14 @@
 package com.billbook.app.activities;
 
 import android.app.DatePickerDialog;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatAutoCompleteTextView;
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +16,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.billbook.app.utils.Util;
-import com.github.mikephil.charting.utils.Utils;
 import com.google.gson.Gson;
 import com.billbook.app.R;
 import com.billbook.app.adapters.ExpenseAdapter;
@@ -98,8 +97,8 @@ public class AddExpenseActivity extends AppCompatActivity {
             DialogUtils.showToast(this,"Expense name can not be empty");
             return;
         }
-        else if(expenseAmount.getText().toString().isEmpty()){
-            DialogUtils.showToast(this,"Expense amount can not be empty");
+        else if(expenseAmount.getText().toString().isEmpty() || Float.parseFloat(expenseAmount.getText().toString())==0){
+            DialogUtils.showToast(this,"Expense amount can not be 0 or empty");
             return;
         }
         else if(selectDate.getText().toString().isEmpty()){

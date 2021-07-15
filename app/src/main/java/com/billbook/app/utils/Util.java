@@ -8,23 +8,47 @@ import android.icu.text.DecimalFormat;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v4.content.FileProvider;
+import android.util.Log;
 
+import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
+
+import com.billbook.app.activities.BillingNewActivity;
 import com.billbook.app.activities.MyApplication;
+import com.billbook.app.activities.PDFActivity;
+import com.billbook.app.database.models.Model;
+import com.billbook.app.networkcommunication.ApiClient;
+import com.billbook.app.networkcommunication.ApiInterface;
+import com.billbook.app.networkcommunication.DialogUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Util {
 
@@ -187,11 +211,11 @@ public class Util {
     }
 
 
-    public static void sendWhatsAppMessageasPDF(String number, Context context,  File file) {
+    public static void sendWhatsAppMessageasPDF(String number, Context context, File file) {
         Intent sendIntent = new Intent("android.intent.action.MAIN");
         context.startActivity(Intent.createChooser(sendIntent, "Share Invoice By"));
         sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
-        sendIntent.putExtra("jid", "91"+number + "@s.whatsapp.net");
+        sendIntent.putExtra("jid", "91" + number + "@s.whatsapp.net");
         sendIntent.putExtra("test", "test whatsapp.net");//phone number without "+" prefix
         sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         sendIntent.setType("application/pdf");
@@ -201,7 +225,6 @@ public class Util {
                         file);
         sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
         context.startActivity(sendIntent);
-
 
 
     }
@@ -235,15 +258,64 @@ public class Util {
         return dateToday;
     }
 
-    public static String formatDecimalValue(float val){
+    public static String formatDecimalValue(float val) {
         String pattern = "##,##,###.##";
         java.text.DecimalFormat decimalFormat = new java.text.DecimalFormat(pattern);
         return decimalFormat.format(val);
     }
 
-    public static void postEvents (String eventName, String value,Context context){
+    public static void postEvents(String eventName, String value, Context context) {
         Bundle params = new Bundle();
         params.putString(eventName.replaceAll(" ", "_"), value);
-        MyApplication.getFirebaseAnalytics(context).logEvent(eventName.replaceAll(" ", "_"),params);
+        MyApplication.getFirebaseAnalytics(context).logEvent(eventName.replaceAll(" ", "_"), params);
     }
+
+    public static boolean checkFileSizeInMB(File fileToCheck, Double upperLimit) {
+        double sizeOfFile = fileToCheck.length() / (1024 * 1024) * 1.0;
+        return sizeOfFile < upperLimit;
+    }
+
+    public static void logErrorApi(String api, JsonObject frontendPayload, String frontendError, String catchError, JsonObject backendResponse) {
+        try {
+            ApiInterface apiService =
+                    ApiClient.getClient().create(ApiInterface.class);
+
+            JSONObject requestObj = new JSONObject();
+
+            requestObj.put("api", api);
+            requestObj.put("frontendPayload", frontendPayload);
+            requestObj.put("frontendError", frontendError);
+            requestObj.put("catchError", catchError);
+            requestObj.put("backendResponse", backendResponse);
+
+
+            Call<Object> call = null;
+            call = apiService.loggerAPI(requestObj);
+
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    try {
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                        Log.v("RESP", body.toString());
+                        if (body.getBoolean("status")) {
+                            Log.i(TAG, "instance initializer: Success Error reported");
+                        } else {
+                            Log.i(TAG, "instance initializer: Fail Error reported");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    Log.e(TAG, "onFailure : error reporting Fail");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

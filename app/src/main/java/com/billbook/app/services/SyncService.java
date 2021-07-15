@@ -4,17 +4,13 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 
-import com.billbook.app.activities.AddExpenseActivity;
 import com.billbook.app.activities.MyApplication;
-import com.billbook.app.activities.PDFActivity;
-import com.billbook.app.database.models.Expense;
 import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
-import com.billbook.app.repository.AppRepository;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -131,9 +127,11 @@ public class SyncService extends Service {
 
             headerMap.put("Content-Type", "application/json");
             JSONObject inv = (JSONObject) invoices.remove(0);
-            JsonObject req = new JsonParser().parse(inv.toString()).getAsJsonObject();
+
             if(inv.has("pdfLink"))
-            filePath = inv.remove("pdfLink").toString();
+                filePath = inv.remove("pdfLink").toString();
+
+            JsonObject req = new JsonParser().parse(inv.toString()).getAsJsonObject();
 
             Call<Object> call = apiService.invoice(req);
 

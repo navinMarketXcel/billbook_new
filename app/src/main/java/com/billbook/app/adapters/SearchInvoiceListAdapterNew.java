@@ -6,8 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,19 +54,24 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
     private JSONArray requestInvoiceArrayList;
     private Context context;
+    private SearchInvoiceItemClickListener invoiceItemClickListener;
 
-    public SearchInvoiceListAdapterNew(Context context, JSONArray categoryArrayList) {
+    public SearchInvoiceListAdapterNew(Context context, JSONArray categoryArrayList, SearchInvoiceItemClickListener invoiceItemClickListener) {
         this.context = context;
         this.requestInvoiceArrayList = categoryArrayList;
+        this.invoiceItemClickListener = invoiceItemClickListener;
     }
 
     @Override
     public SearchInvoiceListAdapterNew.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.searchinvoice_item_layout, parent, false);
-        return new SearchInvoiceListAdapterNew.MyViewHolder(itemView);
+        return new SearchInvoiceListAdapterNew.MyViewHolder(itemView, invoiceItemClickListener);
     }
 
+    public interface SearchInvoiceItemClickListener{
+        void onSaveButtonClick(int invoicePosition);
+    }
     @Override
     public void onBindViewHolder(SearchInvoiceListAdapterNew.MyViewHolder holder, final int position) {
 
@@ -113,9 +119,16 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         try {
-                            if(requestInvoice.getString("pdfLink")!=null) {
+                            if(requestInvoice.has("pdfLink") && requestInvoice.getString("pdfLink")!=null) {
                                 i.setData(Uri.parse(requestInvoice.getString("pdfLink")));
                                 context.startActivity(i);
+                            }
+                            else{
+                                Util.postEvents("Edit","Edit",context.getApplicationContext());
+                                Intent intent = new Intent(context, BillingNewActivity.class);
+                                intent.putExtra("edit",true);
+                                intent.putExtra("invoice",requestInvoice.toString());
+                                context.startActivity(intent);
                             }
 
                         } catch (JSONException e) {
@@ -217,13 +230,6 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
-
     }
 
     @Override
@@ -237,13 +243,14 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
     public String getFormatedDate(String sDate1) {
         String dateToday;
         try {
-
             SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"); //this format changeable
             dateFormatter.setTimeZone(TimeZone.getDefault());
             Date date = dateFormatter.parse(sDate1);
+
             @SuppressLint("SimpleDateFormat") DateFormat formatter =
                     new SimpleDateFormat("dd MMM yyyy");
-            dateToday = formatter.format(date.getTime()+TimeZone.getDefault().getRawOffset());
+//            dateToday = formatter.format(date.getTime()+TimeZone.getDefault().getRawOffset());
+            dateToday = formatter.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
             Date date = Calendar.getInstance().getTime();
@@ -251,20 +258,19 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             @SuppressLint("SimpleDateFormat") DateFormat formatter =
                     new SimpleDateFormat("dd MMM yyyy");
             dateToday = formatter.format(date);
-
         }
         return dateToday;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView tvInvoiceValue, tvInvoiceCustNameValue, tvQuantityValue, tvTotalAmtValue, tvInvoiceDateValue;
         public Button saveInv,cancelInvBItn,cancelledBill,edit;
         private CheckBox download;
         private CardView card_view;
         private LinearLayout llMain;
+        private SearchInvoiceItemClickListener searchInvoiceItemClickListener;
 
-
-        public MyViewHolder(View view) {
+        public MyViewHolder(View view, SearchInvoiceItemClickListener searchInvoiceItemClickListener) {
             super(view);
             tvInvoiceValue = view.findViewById(R.id.tvInvoiceValue);
             tvInvoiceCustNameValue = view.findViewById(R.id.tvInvoiceCustNameValue);
@@ -275,8 +281,14 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             cancelInvBItn = view.findViewById(R.id.cancelInvBItn);
             cancelledBill = view.findViewById(R.id.cancelledBill);
             edit = view.findViewById(R.id.edit);
+            this.searchInvoiceItemClickListener = searchInvoiceItemClickListener;
             download =view.findViewById(R.id.download);
+            saveInv.setOnClickListener(this);
+        }
 
+        @Override
+        public void onClick(View v) {
+            searchInvoiceItemClickListener.onSaveButtonClick(getAdapterPosition());
         }
     }
 
