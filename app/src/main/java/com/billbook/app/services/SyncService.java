@@ -127,9 +127,11 @@ public class SyncService extends Service {
 
             headerMap.put("Content-Type", "application/json");
             JSONObject inv = (JSONObject) invoices.remove(0);
-            JsonObject req = new JsonParser().parse(inv.toString()).getAsJsonObject();
+
             if(inv.has("pdfLink"))
-            filePath = inv.remove("pdfLink").toString();
+                filePath = inv.remove("pdfLink").toString();
+
+            JsonObject req = new JsonParser().parse(inv.toString()).getAsJsonObject();
 
             Call<Object> call = apiService.invoice(req);
 
