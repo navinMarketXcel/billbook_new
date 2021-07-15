@@ -243,10 +243,11 @@ public class DayBookActivity extends AppCompatActivity {
     }
     public void sendReportBtnClick(View v){
         Util.postEvents("Export Report","Export Report",this.getApplicationContext());
-        if(email!=null)
+//        if(email!=null && !email.isEmpty() && email.contains("@"))
+//            Log.i(TAG, "sendReportBtnClick: Email => " + email);
+//        else
+//            DialogUtils.showToast(DayBookActivity.this,"Please update your email address in profile");
         sendReport(startDateStr,endDateStr,email);
-        else
-            DialogUtils.showToast(DayBookActivity.this,"Please update your email address in profile");
 
     }
 
