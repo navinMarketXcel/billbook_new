@@ -487,10 +487,13 @@ public class EditProfileActivity extends AppCompatActivity {
             signatureImagePath = uri;
         }
 
-        loadImageHere.setVisibility(View.VISIBLE);
-        Picasso.get()
-                .load(uri)
-                .into(loadImageHere);
+        if(loadImageHere!=null)
+        {
+            loadImageHere.setVisibility(View.VISIBLE);
+            Picasso.get()
+                    .load(uri)
+                    .into(loadImageHere);
+        }
     }
 
     private void sendGstUpdateStatus(int gstStatus) {
