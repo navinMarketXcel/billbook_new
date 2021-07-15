@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.billbook.app.database.daos.InvoiceItemDao;
+import com.billbook.app.database.models.InvoiceItems;
 import com.google.gson.Gson;
 import com.billbook.app.activities.MyApplication;
 import com.billbook.app.database.models.Brand;
@@ -67,6 +69,9 @@ public class AppRepository {
         }
         return appRepository;
     }
+
+
+
 
     public LiveData<List<Brand>> getAllBrand() {
 
@@ -192,6 +197,32 @@ public class AppRepository {
         });
 
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //invoice items dao
+
+
+    public LiveData<List<InvoiceItems>> getItems() {
+        return MyApplication.getDatabase().invoiceItemDao().getAllItems();
+    }
+
+    public void insert(InvoiceItems invoiceItems) {
+        new InsertNoteAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
+    }
+
+    private static class InsertNoteAsyncTask extends AsyncTask<InvoiceItems, Void, Void> {
+        private InvoiceItemDao invoiceItemDao;
+        private InsertNoteAsyncTask(InvoiceItemDao invoiceItemDao) {
+            this.invoiceItemDao = invoiceItemDao;
+        }
+        @Override
+        protected Void doInBackground(InvoiceItems... invoiceItems) {
+            invoiceItemDao.insert(invoiceItems[0]); //single invoiceitem
+            return null;
+        }
+    }
+
+
 
     //----------------------API CAll-------------------------------------
     public void getCategoriesAPI(int page, final long syncTime) {

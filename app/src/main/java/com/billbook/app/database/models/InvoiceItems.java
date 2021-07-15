@@ -139,6 +139,10 @@ public class InvoiceItems {
         return invoiceid;
     }
 
+    public void setLocalid(int localid) {
+        this.localid = localid;
+    }
+
     public void setMeasurementId(int measurementId) {
         this.measurementId = measurementId;
     }
@@ -189,9 +193,5 @@ public class InvoiceItems {
 
     public void setInvoiceid(int invoiceid) {
         this.invoiceid = invoiceid;
-    }
-
-    public void setLocalid(int localid) {
-        this.localid = localid;
     }
 }

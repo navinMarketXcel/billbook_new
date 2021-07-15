@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 
 import androidx.annotation.Nullable;
 
+import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.databinding.ActivityBillingNewBinding;
 import com.billbook.app.databinding.LayoutItemBillBinding;
 import com.google.android.material.textfield.TextInputLayout;
@@ -208,6 +209,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         if (addItemVerify()) {
             Util.postEvents("Add Item", "Add Item", this.getApplicationContext());
 
+
+
             addItem(billItemBinding.itemNameET.getText().toString(),
                     Float.parseFloat(billItemBinding.itemPriceET.getText().toString()),
                     Float.parseFloat(billItemBinding.gstPercentage.getSelectedItemPosition() > 0 ? billItemBinding.gstPercentage.getSelectedItem().toString() : "0")
@@ -219,8 +222,30 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
             binding.cardItemList.setVisibility(View.VISIBLE);
             binding.layoutBillItemInitial.setVisibility(View.GONE);
+
+            additemtodatabase(billItemBinding.itemNameET.getText().toString(),
+                    Float.parseFloat(billItemBinding.itemPriceET.getText().toString()),
+                    Float.parseFloat(billItemBinding.gstPercentage.getSelectedItemPosition() > 0 ? billItemBinding.gstPercentage.getSelectedItem().toString() : "0")
+                    , Float.parseFloat(billItemBinding.itemQtyET.getText().toString()),
+                    true,
+                    billItemBinding.imeiNo.getText().toString(),
+                    billItemBinding.hsnNo.getText().toString(),
+                    billItemBinding.unit.getSelectedItemPosition());
+
+            binding.cardItemList.setVisibility(View.VISIBLE);
+            binding.layoutBillItemInitial.setVisibility(View.GONE);
+
         }
+
+
     }
+
+    public void additemtodatabase(final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId){
+        if(isEdit)return;
+        //InvoiceItems newinvoiceitem = new InvoiceItems(measurementUnitId, modelName, quantity, price, null, gstAmount, gst, is_active, user, serial_no, String imei,totalAmount,invoiceid);
+
+    }
+
 
     private void getModelData() {
         modelViewModel = ViewModelProviders.of(this).get(ModelViewModel.class);

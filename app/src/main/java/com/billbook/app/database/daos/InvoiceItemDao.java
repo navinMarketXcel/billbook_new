@@ -1,12 +1,17 @@
 package com.billbook.app.database.daos;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.billbook.app.activities.MyApplication;
+import com.billbook.app.database.models.Expense;
 import com.billbook.app.database.models.InvoiceItems;
+
+import java.util.List;
 
 @Dao
 public interface InvoiceItemDao {
@@ -22,5 +27,8 @@ public interface InvoiceItemDao {
 
     @Query("DELETE from invoice_table")
     void deleteAll();
+
+    @Query("SELECT * FROM invoice_table")
+    LiveData<List<InvoiceItems>> getAllItems();
 
 }
