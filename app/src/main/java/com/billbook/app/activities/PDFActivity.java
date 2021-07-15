@@ -538,7 +538,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             if (!MyApplication.getUnSyncedInvoice().isEmpty()) {
                 invoices = new JSONArray(MyApplication.getUnSyncedInvoice());
             }
-//            requestInv.put("pdfLink", filepath);
+            requestInv.put("pdfLink", filepath);
             invoices.put(requestInv);
             MyApplication.saveUnSyncedInvoices(invoices.toString());
         } catch (JSONException e) {
