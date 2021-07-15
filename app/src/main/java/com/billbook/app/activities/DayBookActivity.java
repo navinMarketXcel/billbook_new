@@ -243,7 +243,11 @@ public class DayBookActivity extends AppCompatActivity {
     }
     public void sendReportBtnClick(View v){
         Util.postEvents("Export Report","Export Report",this.getApplicationContext());
+        if(email!=null)
         sendReport(startDateStr,endDateStr,email);
+        else
+            DialogUtils.showToast(DayBookActivity.this,"Please update your email address in profile");
+
     }
 
     public void startDownloading(List<String> downloadLink, String path){
@@ -260,7 +264,7 @@ public class DayBookActivity extends AppCompatActivity {
 
 
     public void sendReport(String startdate, String endDate,String email){
-        DialogUtils.startProgressDialog(this, "");
+        DialogUtils.startProgressDialog(this, "Sending to email");
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
