@@ -290,7 +290,9 @@ public class DayBookActivity extends AppCompatActivity {
                         }
                         else if(body.has("data")){
                             JSONObject data = body.getJSONObject("data");
-                            String downloadLink = data.getString("dayBookLink").replace("http", "https");
+                            String downloadLink = data.getString("dayBookLink");
+                            if(!downloadLink.contains("https://"))
+                                downloadLink = downloadLink.replace("http://", "https://");
                             String path = data.getString("dayBookLink").split("/")[4];
                             if(downloadLink!=null){
                                 List<String>downloadList = new ArrayList<String>();

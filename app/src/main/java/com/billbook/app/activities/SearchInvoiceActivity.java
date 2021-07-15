@@ -261,7 +261,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     }
 
     private void startDownloadingInvoices() {
-        Log.v("WRITE", "Downloading Invoices.....");
         Util.postEvents("Download Selected Invoices","Download Selected Invoices",this.getApplicationContext());
 
         for (int i=0;i<invoices.length();i++){
@@ -269,7 +268,9 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 if(invoices.getJSONObject(i).has("download") && invoices.getJSONObject(i).getBoolean("download")) {
                     DownloadManager.Request r = null;
                     if (invoices.getJSONObject(i).getString("pdfLink") != null && invoices.getJSONObject(i).getString("pdfLink").startsWith("http")) {
-                        String downloadLink = invoices.getJSONObject(i).getString("pdfLink").replace("http", "https");
+                        String downloadLink = invoices.getJSONObject(i).getString("pdfLink");
+                        if(!downloadLink.contains("https://"))
+                            downloadLink = downloadLink.replace("http://", "https://");
                         r = new DownloadManager.Request(Uri.parse(downloadLink));
                         r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Invoice_" + invoices.getJSONObject(i).getLong("id") + ".pdf");
                         r.allowScanningByMediaScanner();
@@ -288,7 +289,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     public void downloadInvoice(View v) {
         // check to see if we have permission to storage
 //        checkPermission();
-        Log.v("WRITE", hasWriteStoragePermission + " " );
         if(hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED){
            startDownloadingInvoices();
         }
