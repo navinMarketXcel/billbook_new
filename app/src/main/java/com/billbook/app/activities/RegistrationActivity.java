@@ -62,8 +62,15 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     public void goToPrivacyPolicy(View v) {
-        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://thebillbook.com/privacypolicy.html"));
-        startActivity(i);
+        try{
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.thebillbook.com/privacypolicy.html"));
+            startActivity(i);
+        }
+        catch(Exception e){
+            DialogUtils.showToast(RegistrationActivity.this,"Browser not installed");
+            e.printStackTrace();
+
+        }
     }
 
     public void gotoToTermsAndConsitions(View v) {
