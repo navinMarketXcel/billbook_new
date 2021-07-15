@@ -860,7 +860,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 if (layoutBillItem_initial.getVisibility() == View.VISIBLE) {
                     imeiNo.setText(imeiNo.getText().toString().isEmpty() ? result.getContents() : imeiNo.getText().toString() + "," + result.getContents());
-                } else if (customDialogClass.isShowing()) {
+                } else if (customDialogClass !=null && customDialogClass.isShowing()) {
                     customDialogClass.imeiNo.setText(imeiNo.getText().toString().isEmpty() ? result.getContents() : imeiNo.getText().toString() + "," + result.getContents());
                 }
             }
