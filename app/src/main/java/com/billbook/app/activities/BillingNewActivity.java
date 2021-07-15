@@ -595,8 +595,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     private boolean verify() {
-        if (newInvoiceModels.size() == 0 && !isEdit) {
-            DialogUtils.showToast(this, "Please add product for billing");
+        if (newInvoiceModels.size() == 0) {
+            DialogUtils.showToast(this, isEdit? "Please add atleast one product" : "Please add product for billing");
             return false;
         } else if (!edtMobNo.getText().toString().isEmpty() && edtMobNo.getText().toString().length() < 10) {
             DialogUtils.showToast(this, "Please enter valid mobile number");
