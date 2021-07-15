@@ -399,7 +399,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             }
             if (this.newInvoiceModel != null) {
                 modelName.setText(this.newInvoiceModel.getName());
-                priceEt.setText(((int) this.newInvoiceModel.getPrice()) + "");
+                priceEt.setText( this.newInvoiceModel.getPrice() + "");
                 quantityEt.setText(this.newInvoiceModel.getQuantity() + "");
                 hsnNo.setText(newInvoiceModel.getSerial_no());
                 imeiNo.setText(newInvoiceModel.getImei());
