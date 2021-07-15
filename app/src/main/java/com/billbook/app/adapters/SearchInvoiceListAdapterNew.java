@@ -120,8 +120,18 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         try {
                             if(requestInvoice.has("pdfLink") && requestInvoice.getString("pdfLink")!=null) {
-                                i.setData(Uri.parse(requestInvoice.getString("pdfLink")));
-                                context.startActivity(i);
+                                String pdfLink = requestInvoice.getString("pdfLink");
+                                if(!pdfLink.contains("https://") && pdfLink.contains("http://"))
+                                {
+                                    pdfLink = pdfLink.replace("http://", "https://");
+                                    i.setData(Uri.parse(pdfLink));
+                                    try{
+                                        context.startActivity(i);
+                                    }catch(Exception e){
+                                        DialogUtils.showToast(context, "Browser not installed");
+                                        e.printStackTrace();
+                                    }
+                                }
                             }
                             else{
                                 Util.postEvents("Edit","Edit",context.getApplicationContext());
