@@ -88,6 +88,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     final String TAG = "BillingNewActivity";
     private ArrayList models = new ArrayList<Model>();
     private ArrayList<NewInvoiceModels> newInvoiceModels = new ArrayList<>();
+    private ArrayList<Integer> invoiceitemid = new ArrayList<>();
     private ModelAdapter modelAdapter;
     private NewBillingAdapter newBillingAdapter;
     private float total, totalBeforeGST;
