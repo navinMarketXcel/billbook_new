@@ -19,6 +19,10 @@ public class InvoiceItemsViewModel extends AndroidViewModel {
         modelList = AppRepository.getInstance().getItems();
     }
 
+    public void insert(InvoiceItems invoiceItems) {
+        AppRepository.getInstance().insert(invoiceItems);
+    }
+
     public LiveData<List<InvoiceItems>> getModels() {
         return modelList;
     }

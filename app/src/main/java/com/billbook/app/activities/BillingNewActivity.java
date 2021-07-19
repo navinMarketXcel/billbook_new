@@ -7,6 +7,7 @@ import android.app.Dialog;
 
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
@@ -18,6 +19,7 @@ import androidx.annotation.Nullable;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.databinding.ActivityBillingNewBinding;
 import com.billbook.app.databinding.LayoutItemBillBinding;
+import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -82,6 +84,7 @@ import retrofit2.Response;
 
 public class BillingNewActivity extends AppCompatActivity implements NewBillingAdapter.onItemClick {
     private ModelViewModel modelViewModel;
+    private InvoiceItemsViewModel invoiceItemViewModel;
     final String TAG = "BillingNewActivity";
     private ArrayList models = new ArrayList<Model>();
     private ArrayList<NewInvoiceModels> newInvoiceModels = new ArrayList<>();
@@ -242,7 +245,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     public void additemtodatabase(final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId){
         if(isEdit)return;
-        //InvoiceItems newinvoiceitem = new InvoiceItems(measurementUnitId, modelName, quantity, price, null, gstAmount, gst, is_active, user, serial_no, String imei,totalAmount,invoiceid);
+        invoiceItemViewModel = new ViewModelProvider(this).get(InvoiceItemsViewModel.class);
+
+        if(isGSTAvailable){
+            InvoiceItems newinvoiceitem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "1", ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit);
+            invoiceItemViewModel.insert(newinvoiceitem);
+        }
+        else{
+            InvoiceItems newinvoiceitem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "0", ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit);
+            invoiceItemViewModel.insert(newinvoiceitem);
+        }
 
     }
 
@@ -400,6 +412,17 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                                 imeiNo.getText().toString(),
                                 hsnNo.getText().toString(),
                                 measurementUnitSpinner.getSelectedItemPosition());
+
+                        additemtodatabase(modelName.getText().toString(),
+                                Float.parseFloat(priceEt.getText().toString()),
+                                Float.parseFloat(gstPercentage.getSelectedItemPosition() > 0 ? gstPercentage.getSelectedItem().toString() : "0")
+                                , Float.parseFloat(billItemBinding.itemQtyET.getText().toString()),
+                                this.newInvoiceModel == null ? true : false,
+                                imeiNo.getText().toString(),
+                                hsnNo.getText().toString(),
+                                measurementUnitSpinner.getSelectedItemPosition());
+
+
                         dismiss();
                     }
                     break;
