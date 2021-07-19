@@ -67,7 +67,11 @@ public class InvoiceItems {
     @ColumnInfo(name = "invoice_id")
     private int invoiceid;
 
-    public InvoiceItems(int measurementId, String name, float quantity, float price, String gstType, float gstAmount, float gst, boolean is_active, int user, String serial_no, String imei, float totalAmount, int invoiceid) {
+    @SerializedName("issync")
+    @ColumnInfo(name="is_sync")
+    private int isSync;
+
+    public InvoiceItems(int measurementId, String name, float quantity, float price, String gstType, float gstAmount, float gst, boolean is_active, int user, String serial_no, String imei, float totalAmount, int invoiceid,int isSync) {
         this.measurementId = measurementId;
         this.name = name;
         this.quantity = quantity;
@@ -81,6 +85,7 @@ public class InvoiceItems {
         this.imei = imei;
         this.totalAmount = totalAmount;
         this.invoiceid = invoiceid;
+        this.isSync = isSync;
     }
 
     public int getLocalid() {
@@ -139,6 +144,10 @@ public class InvoiceItems {
         return invoiceid;
     }
 
+    public int getIsSync() {
+        return isSync;
+    }
+
     public void setLocalid(int localid) {
         this.localid = localid;
     }
@@ -193,5 +202,9 @@ public class InvoiceItems {
 
     public void setInvoiceid(int invoiceid) {
         this.invoiceid = invoiceid;
+    }
+
+    public void setIsSync(int isSync) {
+        this.isSync = isSync;
     }
 }

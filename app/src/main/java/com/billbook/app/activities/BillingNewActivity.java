@@ -249,11 +249,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         invoiceItemViewModel = new ViewModelProvider(this).get(InvoiceItemsViewModel.class);
 
         if(isGSTAvailable){
-            InvoiceItems newinvoiceitem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "1", ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit);
+            InvoiceItems newinvoiceitem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "1", ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,1);
             invoiceItemViewModel.insert(newinvoiceitem);
         }
         else{
-            InvoiceItems newinvoiceitem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "0", ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit);
+            InvoiceItems newinvoiceitem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "0", ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,1);
             invoiceItemViewModel.insert(newinvoiceitem);
         }
 
