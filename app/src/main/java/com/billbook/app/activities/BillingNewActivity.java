@@ -143,7 +143,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         binding.invoiceItems.setLayoutManager(mLayoutManager);
         binding.invoiceItems.setItemAnimator(new DefaultItemAnimator());
-        //newBillingAdapter = new NewBillingAdapter(newInvoiceModels, this, isGSTAvailable);
         newBillingAdapter = new NewBillingAdapter(newInvoiceModels, this, isGSTAvailable);
         binding.invoiceItems.setAdapter(newBillingAdapter);
 
