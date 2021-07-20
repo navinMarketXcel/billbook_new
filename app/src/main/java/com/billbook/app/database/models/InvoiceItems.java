@@ -67,11 +67,15 @@ public class InvoiceItems {
     @ColumnInfo(name = "invoice_id")
     private int invoiceid;
 
+    @SerializedName("databaseid")
+    @ColumnInfo(name = "database_id")
+    private Integer databaseid;
+
     @SerializedName("issync")
     @ColumnInfo(name="is_sync")
     private int isSync;
 
-    public InvoiceItems(int measurementId, String name, float quantity, float price, String gstType, float gstAmount, float gst, boolean is_active, int user, String serial_no, String imei, float totalAmount, int invoiceid,int isSync) {
+    public InvoiceItems(int measurementId, String name, float quantity, float price, String gstType, float gstAmount, float gst, boolean is_active, int user, String serial_no, String imei, float totalAmount, int invoiceid,int isSync, Integer databaseid) {
         this.measurementId = measurementId;
         this.name = name;
         this.quantity = quantity;
@@ -86,6 +90,7 @@ public class InvoiceItems {
         this.totalAmount = totalAmount;
         this.invoiceid = invoiceid;
         this.isSync = isSync;
+        this.databaseid = databaseid;
     }
 
     public int getLocalid() {
@@ -148,6 +153,8 @@ public class InvoiceItems {
         return isSync;
     }
 
+    public Integer getDatabaseid() { return databaseid; }
+
     public void setLocalid(int localid) {
         this.localid = localid;
     }
@@ -207,4 +214,6 @@ public class InvoiceItems {
     public void setIsSync(int isSync) {
         this.isSync = isSync;
     }
+
+    public void setDatabaseid(Integer databaseid) { this.databaseid = databaseid; }
 }

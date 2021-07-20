@@ -88,7 +88,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     final String TAG = "BillingNewActivity";
     private ArrayList models = new ArrayList<Model>();
     private ArrayList<NewInvoiceModels> newInvoiceModels = new ArrayList<>();
-    private ArrayList<Integer> invoiceitemid = new ArrayList<>();
+    private ArrayList<InvoiceItems> invoiceItemModel = new ArrayList<>();
     private ModelAdapter modelAdapter;
     private NewBillingAdapter newBillingAdapter;
     private float total, totalBeforeGST;
@@ -143,6 +143,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         binding.invoiceItems.setLayoutManager(mLayoutManager);
         binding.invoiceItems.setItemAnimator(new DefaultItemAnimator());
+        //newBillingAdapter = new NewBillingAdapter(newInvoiceModels, this, isGSTAvailable);
         newBillingAdapter = new NewBillingAdapter(newInvoiceModels, this, isGSTAvailable);
         binding.invoiceItems.setAdapter(newBillingAdapter);
 
@@ -227,7 +228,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             binding.cardItemList.setVisibility(View.VISIBLE);
             binding.layoutBillItemInitial.setVisibility(View.GONE);
 
-            additemtodatabase(billItemBinding.itemNameET.getText().toString(),
+            addItemToDatabase(billItemBinding.itemNameET.getText().toString(),
                     Float.parseFloat(billItemBinding.itemPriceET.getText().toString()),
                     Float.parseFloat(billItemBinding.gstPercentage.getSelectedItemPosition() > 0 ? billItemBinding.gstPercentage.getSelectedItem().toString() : "0")
                     , Float.parseFloat(billItemBinding.itemQtyET.getText().toString()),
@@ -244,18 +245,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     }
 
-    public void additemtodatabase(final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId){
+    public void addItemToDatabase(final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId){
         if(isEdit)return;
         invoiceItemViewModel = new ViewModelProvider(this).get(InvoiceItemsViewModel.class);
-
-        if(isGSTAvailable){
-            InvoiceItems newinvoiceitem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "1", ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,1);
-            invoiceItemViewModel.insert(newinvoiceitem);
-        }
-        else{
-            InvoiceItems newinvoiceitem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "0", ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,1);
-            invoiceItemViewModel.insert(newinvoiceitem);
-        }
+        InvoiceItems newInvoiceItem;
+        if(isGSTAvailable){ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "1", ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,1,1); }
+        else{ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "0", ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,1,1); }
+        invoiceItemViewModel.insert(newInvoiceItem);
 
     }
 
@@ -414,7 +410,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                                 hsnNo.getText().toString(),
                                 measurementUnitSpinner.getSelectedItemPosition());
 
-                        additemtodatabase(modelName.getText().toString(),
+                        addItemToDatabase(modelName.getText().toString(),
                                 Float.parseFloat(priceEt.getText().toString()),
                                 Float.parseFloat(gstPercentage.getSelectedItemPosition() > 0 ? gstPercentage.getSelectedItem().toString() : "0")
                                 , Float.parseFloat(billItemBinding.itemQtyET.getText().toString()),
