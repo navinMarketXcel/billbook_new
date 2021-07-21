@@ -253,11 +253,19 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         if(isGSTAvailable){ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "1", ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,1,1); }
         else{ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "0", ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,1,1); }
         invoiceItemViewModel.insert(newInvoiceItem);
-        invoiceItemModel.add(newInvoiceItem);
     }
 
     private void getInvoiceItemsFromDatabase(){
         invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
+        invoiceItemViewModel.getInvoices().observe(this, new Observer<List<InvoiceItems>>() {
+            @Override
+            public void onChanged(List<InvoiceItems> invoiceItems) {
+                invoiceItemModel.clear();
+                for(int i =0;i<invoiceItems.size();i++)
+                invoiceItemModel.add(invoiceItems.get(i));
+            }
+        });
+
         try {
             profile = new JSONObject(MyApplication.getUserDetails());
             if (profile.has("gstNo") && profile.getString("gstNo") != null && !profile.getString("gstNo").isEmpty() && !isEdit) {
@@ -322,6 +330,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void itemClick(final int position, boolean isEdit) {
         if (isEdit) {
             editPosition = position;
+            Log.i("aman",String.valueOf(invoiceItemModel.get(position).getLocalid()));
             new CustomDialogClass(this, newInvoiceModels.get(position)).show();
         } else {
             DialogUtils.showAlertDialog(this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {

@@ -9,6 +9,7 @@ import com.billbook.app.database.models.Expense;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.repository.AppRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InvoiceItemsViewModel extends AndroidViewModel {
@@ -23,7 +24,7 @@ public class InvoiceItemsViewModel extends AndroidViewModel {
         AppRepository.getInstance().insert(invoiceItems);
     }
 
-    public LiveData<List<InvoiceItems>> getModels() {
+    public LiveData<List<InvoiceItems>> getInvoices() {
         return modelList;
     }
 

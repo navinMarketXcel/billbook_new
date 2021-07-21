@@ -28,7 +28,7 @@ public interface InvoiceItemDao {
     @Query("DELETE from invoice_table")
     void deleteAll();
 
-    @Query("SELECT * FROM invoice_table")
+    @Query("SELECT * FROM invoice_table WHERE invoice_id = -1")
     LiveData<List<InvoiceItems>> getAllItems();
 
 }
