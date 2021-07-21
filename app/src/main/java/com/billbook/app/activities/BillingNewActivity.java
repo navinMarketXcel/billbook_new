@@ -7,6 +7,7 @@ import android.app.Dialog;
 
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -123,6 +124,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         checkIsEdit();
         getModelData();
+        getInvoiceItemsFromDatabase();
         internalStoragePermission();
         initUI();
         loadDataForInvoice();
@@ -143,7 +145,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         binding.invoiceItems.setLayoutManager(mLayoutManager);
         binding.invoiceItems.setItemAnimator(new DefaultItemAnimator());
-        newBillingAdapter = new NewBillingAdapter(newInvoiceModels, this, isGSTAvailable);
+        newBillingAdapter = new NewBillingAdapter(invoiceItemModel, this, isGSTAvailable);
         binding.invoiceItems.setAdapter(newBillingAdapter);
 
         gstTypeList = Arrays.asList(getResources().getStringArray(R.array.gst_type));
@@ -251,9 +253,20 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         if(isGSTAvailable){ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "1", ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,1,1); }
         else{ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "0", ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,1,1); }
         invoiceItemViewModel.insert(newInvoiceItem);
-
+        invoiceItemModel.add(newInvoiceItem);
     }
 
+    private void getInvoiceItemsFromDatabase(){
+        invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
+        try {
+            profile = new JSONObject(MyApplication.getUserDetails());
+            if (profile.has("gstNo") && profile.getString("gstNo") != null && !profile.getString("gstNo").isEmpty() && !isEdit) {
+                isGSTAvailable = true;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     private void getModelData() {
         modelViewModel = ViewModelProviders.of(this).get(ModelViewModel.class);
@@ -808,7 +821,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 newInvoiceModels = gson.fromJson(invoice.getJSONArray("masterItems").toString(), new TypeToken<List<NewInvoiceModels>>() {
                 }.getType());
-                newBillingAdapter = new NewBillingAdapter(newInvoiceModels, this, isGSTAvailable);
+                newBillingAdapter = new NewBillingAdapter(invoiceItemModel, this, isGSTAvailable);
                 binding.invoiceItems.setAdapter(newBillingAdapter);
                 total = (float) invoice.getDouble("totalAmount");
                 totalBeforeGST = 0;

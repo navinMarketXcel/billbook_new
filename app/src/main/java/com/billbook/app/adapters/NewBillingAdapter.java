@@ -11,6 +11,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.billbook.app.R;
+import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.NewInvoiceModels;
 import com.billbook.app.utils.Util;
 
@@ -20,12 +21,12 @@ import java.util.List;
 
 public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.MyViewHolder>  {
     private static final String TAG = "BilliADP";
-    private ArrayList<NewInvoiceModels> newInvoiceModels;
+    private ArrayList<InvoiceItems> newInvoiceModels;
     private Context context;
     private onItemClick onItemClick;
     private boolean isGSTAvailable;
     private List<String> measurementUnitTypeList;
-    public NewBillingAdapter(ArrayList<NewInvoiceModels> newInvoiceModels, Context context, boolean isGSTAvailable) {
+    public NewBillingAdapter(ArrayList<InvoiceItems> newInvoiceModels, Context context, boolean isGSTAvailable) {
         this.newInvoiceModels = newInvoiceModels;
         this.context = context;
         onItemClick = (NewBillingAdapter.onItemClick) context;
@@ -44,7 +45,7 @@ public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull NewBillingAdapter.MyViewHolder myViewHolder, @SuppressLint("RecyclerView") final int position) {
-        NewInvoiceModels newInvoiceModel = newInvoiceModels.get(position);
+        InvoiceItems newInvoiceModel = newInvoiceModels.get(position);
         myViewHolder.tvSrNoTv.setText(""+(position+1));
         myViewHolder.itemNameHdTv.setText(newInvoiceModel.getName());
         String quantity = newInvoiceModel.getQuantity() + "";
