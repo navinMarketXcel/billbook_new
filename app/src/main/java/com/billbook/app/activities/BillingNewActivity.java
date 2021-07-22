@@ -216,20 +216,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         if (addItemVerify()) {
             Util.postEvents("Add Item", "Add Item", this.getApplicationContext());
 
-
-
-            addItem(billItemBinding.itemNameET.getText().toString(),
-                    Float.parseFloat(billItemBinding.itemPriceET.getText().toString()),
-                    Float.parseFloat(billItemBinding.gstPercentage.getSelectedItemPosition() > 0 ? billItemBinding.gstPercentage.getSelectedItem().toString() : "0")
-                    , Float.parseFloat(billItemBinding.itemQtyET.getText().toString()),
-                    true,
-                    billItemBinding.imeiNo.getText().toString(),
-                    billItemBinding.hsnNo.getText().toString(),
-                    billItemBinding.unit.getSelectedItemPosition());
-
-            binding.cardItemList.setVisibility(View.VISIBLE);
-            binding.layoutBillItemInitial.setVisibility(View.GONE);
-
             addItemToDatabase(billItemBinding.itemNameET.getText().toString(),
                     Float.parseFloat(billItemBinding.itemPriceET.getText().toString()),
                     Float.parseFloat(billItemBinding.gstPercentage.getSelectedItemPosition() > 0 ? billItemBinding.gstPercentage.getSelectedItem().toString() : "0")
@@ -262,6 +248,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         if(isGSTAvailable){ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "1", ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,1,1); }
         else{ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, "0", ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,1,1); }
         invoiceItemViewModel.insert(newInvoiceItem);
+        setTotal(newInvoiceItem, true);
+        calculateAmountBeforeGST(newInvoiceItem, true);
+        newBillingAdapter.notifyDataSetChanged();
     }
 
     private void getInvoiceItemsFromDatabase(){
@@ -309,49 +298,46 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
-    public void addItem(final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId) {
-
-        NewInvoiceModels newInvoiceModel = isNew ? new NewInvoiceModels() : newInvoiceModels.get(editPosition);
-        setTotal(newInvoiceModel, false);
-        calculateAmountBeforeGST(newInvoiceModel, false);
-        newInvoiceModel.setInvoiceid(invoiceIdIfEdit);
-        newInvoiceModel.setName(modelName);
-        newInvoiceModel.setIs_active(true);
-        newInvoiceModel.setPrice(price);
-        newInvoiceModel.setGst(gst);
-        newInvoiceModel.setGstAmount(((price * 100) / (100 + gst)) * quantity);
-        newInvoiceModel.setQuantity(quantity);
-        newInvoiceModel.setSerial_no(hsnNo);
-        newInvoiceModel.setTotalAmount(quantity * price);
-        newInvoiceModel.setImei(imei);
-        newInvoiceModel.setGstType(gstTypeList.get(binding.gstType.getSelectedItemPosition()));
-        Log.v("UNIT", measurementUnitId + " ");
-        newInvoiceModel.setMeasurementId(measurementUnitId);
-        if (isNew)
-            newInvoiceModels.add(newInvoiceModel);
-        setTotal(newInvoiceModel, true);
-        calculateAmountBeforeGST(newInvoiceModel, true);
-        newBillingAdapter.notifyDataSetChanged();
-
-    }
+//    public void addItem(final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId) {
+//
+//        NewInvoiceModels newInvoiceModel = isNew ? new NewInvoiceModels() : newInvoiceModels.get(editPosition);
+//        setTotal(newInvoiceModel, false);
+//        calculateAmountBeforeGST(newInvoiceModel, false);
+//        newInvoiceModel.setInvoiceid(invoiceIdIfEdit);
+//        newInvoiceModel.setName(modelName);
+//        newInvoiceModel.setIs_active(true);
+//        newInvoiceModel.setPrice(price);
+//        newInvoiceModel.setGst(gst);
+//        newInvoiceModel.setGstAmount(((price * 100) / (100 + gst)) * quantity);
+//        newInvoiceModel.setQuantity(quantity);
+//        newInvoiceModel.setSerial_no(hsnNo);
+//        newInvoiceModel.setTotalAmount(quantity * price);
+//        newInvoiceModel.setImei(imei);
+//        newInvoiceModel.setGstType(gstTypeList.get(binding.gstType.getSelectedItemPosition()));
+//        Log.v("UNIT", measurementUnitId + " ");
+//        newInvoiceModel.setMeasurementId(measurementUnitId);
+//        if (isNew)
+//            newInvoiceModels.add(newInvoiceModel);
+//        setTotal(newInvoiceModel, true);
+//        calculateAmountBeforeGST(newInvoiceModel, true);
+//        newBillingAdapter.notifyDataSetChanged();
+//
+//    }
 
     @Override
     public void itemClick(final int position, boolean isEdit) {
         if (isEdit) {
             editPosition = position;
-            Log.i("aman",String.valueOf(invoiceItemModel.get(position).getLocalid()));
             new CustomDialogClass(this, invoiceItemModel.get(position)).show();
         } else {
             DialogUtils.showAlertDialog(this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
                 @Override
                 public void positiveButtonClick() {
-                    NewInvoiceModels newInvoiceModel = newInvoiceModels.remove(position);
-                    setTotal(newInvoiceModel, false);
-                    calculateAmountBeforeGST(newInvoiceModel, false);
-
+                    setTotal(invoiceItemModel.get(position), false);
+                    calculateAmountBeforeGST(invoiceItemModel.get(position), false);
+                    invoiceItemViewModel.delete(invoiceItemModel.get(position));
                     newBillingAdapter.notifyDataSetChanged();
                 }
-
                 @Override
                 public void negativeButtonClick() {
 
@@ -431,17 +417,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             switch (v.getId()) {
                 case R.id.add:
                     if (verifyData()) {
-                        Log.i("okok222222","hello aman");
-//                        addItem(modelName.getText().toString(),
-//                                Float.parseFloat(priceEt.getText().toString()),
-//                                Float.parseFloat(gstPercentage.getSelectedItemPosition() > 0 ? gstPercentage.getSelectedItem().toString() : "0")
-//                                , Float.parseFloat(quantityEt.getText().toString()),
-//                                this.newInvoiceModel == null ? true : false,
-//                                imeiNo.getText().toString(),
-//                                hsnNo.getText().toString(),
-//                                measurementUnitSpinner.getSelectedItemPosition());
-
-
                         addItemToDatabase(modelName.getText().toString(),
                                 Float.parseFloat(priceEt.getText().toString()),
                                 Float.parseFloat(gstPercentage.getSelectedItemPosition() > 0 ? gstPercentage.getSelectedItem().toString() : "0")
@@ -532,22 +507,21 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
-    private void setTotal(NewInvoiceModels newInvoiceModel, boolean add) {
-        total = 0;
-//        if (add)
-//            total = total + newInvoiceModel.getTotalAmount();
-//        else
-//            total = total - newInvoiceModel.getTotalAmount();
+    private void setTotal(InvoiceItems newInvoiceModel, boolean add) {
+        if (add)
+            total = total + newInvoiceModel.getTotalAmount();
+        else
+            total = total - newInvoiceModel.getTotalAmount();
         binding.tvTotal.setText(Util.formatDecimalValue(total));
 
     }
 
-    private void calculateAmountBeforeGST(NewInvoiceModels newInvoiceModel, boolean add) {
+    private void calculateAmountBeforeGST(InvoiceItems newInvoiceModel, boolean add) {
         totalBeforeGST = 0;
-        //        if (add)
-//            totalBeforeGST = totalBeforeGST + newInvoiceModel.getGstAmount();
-//        else
-//            totalBeforeGST = totalBeforeGST - newInvoiceModel.getGstAmount();
+                if (add)
+            totalBeforeGST = totalBeforeGST + newInvoiceModel.getGstAmount();
+        else
+            totalBeforeGST = totalBeforeGST - newInvoiceModel.getGstAmount();
 
         binding.tvAmountBeforeTax.setText(Util.formatDecimalValue(totalBeforeGST));
         binding.tvAmountGST.setText(Util.formatDecimalValue(total - totalBeforeGST));
