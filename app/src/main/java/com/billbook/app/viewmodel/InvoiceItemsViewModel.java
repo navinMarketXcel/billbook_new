@@ -24,6 +24,11 @@ public class InvoiceItemsViewModel extends AndroidViewModel {
         AppRepository.getInstance().insert(invoiceItems);
     }
 
+    public void updateByLocalId(InvoiceItems invoiceItems){
+        AppRepository.getInstance().updateByLocalId(invoiceItems);
+    }
+
+
     public LiveData<List<InvoiceItems>> getInvoices() {
         return modelList;
     }

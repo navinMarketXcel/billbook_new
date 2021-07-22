@@ -210,6 +210,39 @@ public class AppRepository {
         new InsertNoteAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
     }
 
+    public void updateByLocalId(InvoiceItems invoiceItems){
+        new UpdateItemAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
+    }
+
+    private static class UpdateItemAsyncTask extends AsyncTask<InvoiceItems,Void,Void>{
+        private InvoiceItemDao invoiceItemDao;
+        private UpdateItemAsyncTask(InvoiceItemDao invoiceItemDao){
+            this.invoiceItemDao = invoiceItemDao;
+        }
+
+        @Override
+        protected Void doInBackground(InvoiceItems... invoiceItems) {
+            invoiceItemDao.updateByLocalId(
+                    invoiceItems[0].getMeasurementId(),
+                    invoiceItems[0].getName(),
+                    invoiceItems[0].getQuantity(),
+                    invoiceItems[0].getPrice(),
+                    invoiceItems[0].getGstType(),
+                    invoiceItems[0].getGstAmount(),
+                    invoiceItems[0].getGst(),
+                    invoiceItems[0].isIs_active(),
+                    invoiceItems[0].getUser(),
+                    invoiceItems[0].getSerial_no(),
+                    invoiceItems[0].getImei(),
+                    invoiceItems[0].getTotalAmount(),
+                    invoiceItems[0].getInvoiceid(),
+                    invoiceItems[0].getIsSync(),
+                    invoiceItems[0].getDatabaseid()
+                    );
+            return null;
+        }
+    }
+
     private static class InsertNoteAsyncTask extends AsyncTask<InvoiceItems, Void, Void> {
         private InvoiceItemDao invoiceItemDao;
         private InsertNoteAsyncTask(InvoiceItemDao invoiceItemDao) {

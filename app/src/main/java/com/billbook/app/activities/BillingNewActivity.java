@@ -17,6 +17,7 @@ import android.os.AsyncTask;
 
 import androidx.annotation.Nullable;
 
+import com.billbook.app.database.models.Invoice;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.databinding.ActivityBillingNewBinding;
 import com.billbook.app.databinding.LayoutItemBillBinding;
@@ -247,6 +248,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     public void addItemToDatabase(final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId){
+
+        if(isNew==false){
+            int localId = invoiceItemModel.get(editPosition).getLocalid();
+            InvoiceItems newInvoiceItem  = new InvoiceItems(measurementUnitId, modelName, quantity, price, "1", ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,1,localId);
+            invoiceItemViewModel.updateByLocalId(newInvoiceItem);
+            return;
+        }
+
         if(isEdit)return;
         invoiceItemViewModel = new ViewModelProvider(this).get(InvoiceItemsViewModel.class);
         InvoiceItems newInvoiceItem;
@@ -331,7 +340,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         if (isEdit) {
             editPosition = position;
             Log.i("aman",String.valueOf(invoiceItemModel.get(position).getLocalid()));
-            new CustomDialogClass(this, newInvoiceModels.get(position)).show();
+            new CustomDialogClass(this, invoiceItemModel.get(position)).show();
         } else {
             DialogUtils.showAlertDialog(this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
                 @Override
@@ -361,9 +370,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         private TextView gstLabelTV;
         private Spinner gstPercentage, measurementUnitSpinner;
         private TextInputLayout priceEdtInputLayout;
-        private NewInvoiceModels newInvoiceModel;
+        private InvoiceItems newInvoiceModel;
 
-        public CustomDialogClass(Activity a, NewInvoiceModels newInvoiceModel) {
+        public CustomDialogClass(Activity a, InvoiceItems newInvoiceModel) {
             super(a);
             // TODO Auto-generated constructor stub
             this.c = a;
@@ -422,14 +431,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             switch (v.getId()) {
                 case R.id.add:
                     if (verifyData()) {
-                        addItem(modelName.getText().toString(),
-                                Float.parseFloat(priceEt.getText().toString()),
-                                Float.parseFloat(gstPercentage.getSelectedItemPosition() > 0 ? gstPercentage.getSelectedItem().toString() : "0")
-                                , Float.parseFloat(quantityEt.getText().toString()),
-                                this.newInvoiceModel == null ? true : false,
-                                imeiNo.getText().toString(),
-                                hsnNo.getText().toString(),
-                                measurementUnitSpinner.getSelectedItemPosition());
+                        Log.i("okok222222","hello aman");
+//                        addItem(modelName.getText().toString(),
+//                                Float.parseFloat(priceEt.getText().toString()),
+//                                Float.parseFloat(gstPercentage.getSelectedItemPosition() > 0 ? gstPercentage.getSelectedItem().toString() : "0")
+//                                , Float.parseFloat(quantityEt.getText().toString()),
+//                                this.newInvoiceModel == null ? true : false,
+//                                imeiNo.getText().toString(),
+//                                hsnNo.getText().toString(),
+//                                measurementUnitSpinner.getSelectedItemPosition());
+
 
                         addItemToDatabase(modelName.getText().toString(),
                                 Float.parseFloat(priceEt.getText().toString()),
@@ -522,19 +533,21 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     private void setTotal(NewInvoiceModels newInvoiceModel, boolean add) {
-        if (add)
-            total = total + newInvoiceModel.getTotalAmount();
-        else
-            total = total - newInvoiceModel.getTotalAmount();
+        total = 0;
+//        if (add)
+//            total = total + newInvoiceModel.getTotalAmount();
+//        else
+//            total = total - newInvoiceModel.getTotalAmount();
         binding.tvTotal.setText(Util.formatDecimalValue(total));
 
     }
 
     private void calculateAmountBeforeGST(NewInvoiceModels newInvoiceModel, boolean add) {
-        if (add)
-            totalBeforeGST = totalBeforeGST + newInvoiceModel.getGstAmount();
-        else
-            totalBeforeGST = totalBeforeGST - newInvoiceModel.getGstAmount();
+        totalBeforeGST = 0;
+        //        if (add)
+//            totalBeforeGST = totalBeforeGST + newInvoiceModel.getGstAmount();
+//        else
+//            totalBeforeGST = totalBeforeGST - newInvoiceModel.getGstAmount();
 
         binding.tvAmountBeforeTax.setText(Util.formatDecimalValue(totalBeforeGST));
         binding.tvAmountGST.setText(Util.formatDecimalValue(total - totalBeforeGST));
