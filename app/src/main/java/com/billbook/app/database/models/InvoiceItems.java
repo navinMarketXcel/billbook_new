@@ -15,6 +15,10 @@ public class InvoiceItems {
     @ColumnInfo(name = "local_id")
     private int localid;
 
+    @SerializedName("localInvoiceId")
+    @ColumnInfo(name = "localinvoice_id")
+    private int localInvoiceId;
+
     @SerializedName("measurementId")
     @ColumnInfo(name = "measurement_id")
     private int measurementId;
@@ -75,7 +79,7 @@ public class InvoiceItems {
     @ColumnInfo(name="is_sync")
     private int isSync;
 
-    public InvoiceItems(int measurementId, String name, float quantity, float price, String gstType, float gstAmount, float gst, boolean is_active, int user, String serial_no, String imei, float totalAmount, int invoiceid,int isSync, Integer databaseid) {
+    public InvoiceItems(int measurementId, String name, float quantity, float price, String gstType, float gstAmount, float gst, boolean is_active, int user, String serial_no, String imei, float totalAmount, int invoiceid,int isSync, Integer databaseid,int localInvoiceId) {
         this.measurementId = measurementId;
         this.name = name;
         this.quantity = quantity;
@@ -91,6 +95,7 @@ public class InvoiceItems {
         this.invoiceid = invoiceid;
         this.isSync = isSync;
         this.databaseid = databaseid;
+        this.localInvoiceId = localInvoiceId;
     }
 
     public int getLocalid() {
@@ -155,6 +160,10 @@ public class InvoiceItems {
 
     public Integer getDatabaseid() { return databaseid; }
 
+    public int getLocalInvoiceId() {
+        return localInvoiceId;
+    }
+
     public void setLocalid(int localid) {
         this.localid = localid;
     }
@@ -216,4 +225,8 @@ public class InvoiceItems {
     }
 
     public void setDatabaseid(Integer databaseid) { this.databaseid = databaseid; }
+
+    public void setLocalInvoiceId(int localInvoiceId) {
+        this.localInvoiceId = localInvoiceId;
+    }
 }
