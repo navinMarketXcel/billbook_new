@@ -146,8 +146,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         binding.invoiceItems.setLayoutManager(mLayoutManager);
         binding.invoiceItems.setItemAnimator(new DefaultItemAnimator());
-        newBillingAdapter = new NewBillingAdapter(invoiceItemModel, this, isGSTAvailable);
-        binding.invoiceItems.setAdapter(newBillingAdapter);
+//        newBillingAdapter = new NewBillingAdapter(invoiceItemModel, this, isGSTAvailable);
+//        binding.invoiceItems.setAdapter(newBillingAdapter);
 
         gstTypeList = Arrays.asList(getResources().getStringArray(R.array.gst_type));
         measurementUnitTypeList = Arrays.asList(getResources().getStringArray(R.array.measurementUnit));
@@ -202,7 +202,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
-    public void updateBillNo(View v) {
+    @Override
+    protected void onDestroy() {
+        invoiceItemViewModel.deleteAll();
+        super.onDestroy();
+    }
+
+    public void updateBillNo (View v){
         new BillNumberUpdateDialog(this).show();
     }
 
@@ -215,6 +221,17 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void addItem(View view) {
         if (addItemVerify()) {
             Util.postEvents("Add Item", "Add Item", this.getApplicationContext());
+
+//            addItem(itemNameET.getText().toString(),
+//                    Float.parseFloat(itemPriceET.getText().toString()),
+//                    Float.parseFloat(gstPercentage.getSelectedItemPosition()>0?gstPercentage.getSelectedItem().toString():"0")
+//                    ,Float.parseFloat(itemQtyET.getText().toString()),
+//                    true,
+//                    imeiNo.getText().toString(),
+//                    hsnNo.getText().toString(),
+//                    measurementUnit.getSelectedItemPosition());
+//            cardItemList.setVisibility(View.VISIBLE);
+//            layoutBillItem_initial.setVisibility(View.GONE);
 
             addItemToDatabase(billItemBinding.itemNameET.getText().toString(),
                     Float.parseFloat(billItemBinding.itemPriceET.getText().toString()),
@@ -234,7 +251,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     public void addItemToDatabase(final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId){
-
+        if(isEdit) return;
         if(isNew==false){
             int localId = invoiceItemModel.get(editPosition).getLocalid();
             InvoiceItems newInvoiceItem  = new InvoiceItems(measurementUnitId, modelName, quantity, price, "1", ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,1,localId,-1);
@@ -243,7 +260,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             return;
         }
 
-        if(isEdit)return;
         invoiceItemViewModel = new ViewModelProvider(this).get(InvoiceItemsViewModel.class);
         InvoiceItems newInvoiceItem;
         if(isGSTAvailable){ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,1,1,-1); }
@@ -260,6 +276,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         invoiceItemViewModel.getInvoices().observe(this, new Observer<List<InvoiceItems>>() {
             @Override
             public void onChanged(List<InvoiceItems> invoiceItems) {
+                if(!isEdit){
+                    newBillingAdapter = new NewBillingAdapter(invoiceItemModel, BillingNewActivity.this, isGSTAvailable);
+                    binding.invoiceItems.setAdapter(newBillingAdapter);
+                }
+
                 invoiceItemModel.clear();
                 for(int i =0;i<invoiceItems.size();i++)
                 invoiceItemModel.add(invoiceItems.get(i));
@@ -422,7 +443,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 case R.id.add:
                     if (verifyData()) {
 
-                        
+//                        addItem(itemNameET.getText().toString(),
+//                                Float.parseFloat(itemPriceET.getText().toString()),
+//                                Float.parseFloat(gstPercentage.getSelectedItemPosition()>0?gstPercentage.getSelectedItem().toString():"0")
+//                                ,Float.parseFloat(itemQtyET.getText().toString()),
+//                                true,
+//                                imeiNo.getText().toString(),
+//                                hsnNo.getText().toString(),
+//                                measurementUnit.getSelectedItemPosition());
+//                        cardItemList.setVisibility(View.VISIBLE);
+//                        layoutBillItem_initial.setVisibility(View.GONE);
 
                         addItemToDatabase(modelName.getText().toString(),
                                 Float.parseFloat(priceEt.getText().toString()),
@@ -577,7 +607,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //                            cnt++;
 //                    }
 //                }
-                Log.i("aman",items);
+//                Log.i("aman",items);
                 Log.v("TEST", requestObj.toString());
                 if (Util.isNetworkAvailable(this)) {
                     sendInvoice(requestObj);
@@ -824,6 +854,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 invoiceItemModel = gson.fromJson(invoice.getJSONArray("masterItems").toString(), new TypeToken<List<InvoiceItems>>() {
                 }.getType());
+
                 newBillingAdapter = new NewBillingAdapter(invoiceItemModel, this, isGSTAvailable);
                 binding.invoiceItems.setAdapter(newBillingAdapter);
                 total = (float) invoice.getDouble("totalAmount");

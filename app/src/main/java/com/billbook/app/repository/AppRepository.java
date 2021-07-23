@@ -210,12 +210,28 @@ public class AppRepository {
         new InsertNoteAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
     }
 
+    public void deleteAllItems(){
+        new deleteAllItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute();
+    }
+
     public void delete(InvoiceItems invoiceItems){
         new deleteItemAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
     }
 
     public void updateByLocalId(InvoiceItems invoiceItems){
         new UpdateItemAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
+    }
+
+    private static class deleteAllItemsAsyncTask extends AsyncTask<Void,Void,Void>{
+        private InvoiceItemDao invoiceItemDao;
+        private deleteAllItemsAsyncTask(InvoiceItemDao invoiceItemDao){
+            this.invoiceItemDao = invoiceItemDao;
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            invoiceItemDao.deleteAll();
+            return null;
+        }
     }
 
     private static class deleteItemAsyncTask extends AsyncTask<InvoiceItems,Void,Void>{

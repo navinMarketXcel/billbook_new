@@ -32,6 +32,10 @@ public class InvoiceItemsViewModel extends AndroidViewModel {
         AppRepository.getInstance().delete(invoiceItems);
     }
 
+    public void deleteAll(){
+        AppRepository.getInstance().deleteAllItems();
+    }
+
     public LiveData<List<InvoiceItems>> getInvoices() {
         return modelList;
     }
