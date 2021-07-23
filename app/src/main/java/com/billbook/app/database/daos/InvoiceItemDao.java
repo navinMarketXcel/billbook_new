@@ -25,13 +25,13 @@ public interface InvoiceItemDao {
     @Delete
     void delete(InvoiceItems invoiceItem);
 
-    @Query("DELETE from invoice_table WHERE localinvoice_id = -1")
+    @Query("DELETE from invoice_item_table WHERE localinvoice_id = -1")
     void deleteAll();
 
-    @Query("SELECT * FROM invoice_table WHERE localinvoice_id = -1")
+    @Query("SELECT * FROM invoice_item_table WHERE localinvoice_id = -1")
     LiveData<List<InvoiceItems>> getAllItems();
 
-    @Query("UPDATE invoice_table SET measurement_id =:measurementId,name =:name ,quantity =:quantity, price=:price, gst_type=:gstType, gst_amount=:gstAmount,gst=:gst,is_active=:isActive,user=:user,serial_no=:serialNo,imei =:imei,total_amount=:totalAmount,invoice_id=:invoiceId,is_sync=:isSync WHERE local_id=:id")
+    @Query("UPDATE invoice_item_table SET measurement_id =:measurementId,name =:name ,quantity =:quantity, price=:price, gst_type=:gstType, gst_amount=:gstAmount,gst=:gst,is_active=:isActive,user=:user,serial_no=:serialNo,imei =:imei,total_amount=:totalAmount,invoice_id=:invoiceId,is_sync=:isSync WHERE local_id=:id")
     void updateByLocalId(int measurementId, String name, float quantity, float price, String gstType, float gstAmount, float gst, boolean isActive, int user, String serialNo, String imei, float totalAmount, int invoiceId,int isSync,int id);
 
 }
