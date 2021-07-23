@@ -232,6 +232,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //                    measurementUnit.getSelectedItemPosition());
 //            cardItemList.setVisibility(View.VISIBLE);
 //            layoutBillItem_initial.setVisibility(View.GONE);
+//            final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId
 
             addItemToDatabase(billItemBinding.itemNameET.getText().toString(),
                     Float.parseFloat(billItemBinding.itemPriceET.getText().toString()),
@@ -254,7 +255,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         if(isEdit) return;
         if(isNew==false){
             int localId = invoiceItemModel.get(editPosition).getLocalid();
-            InvoiceItems newInvoiceItem  = new InvoiceItems(measurementUnitId, modelName, quantity, price, "1", ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,1,localId,-1);
+            int localInvoiceId = invoiceItemModel.get(editPosition).getLocalInvoiceId();
+            InvoiceItems newInvoiceItem  = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,1,localId,localInvoiceId);
             invoiceItemViewModel.updateByLocalId(newInvoiceItem);
             getInvoiceItemsFromDatabase();
             return;
@@ -262,8 +264,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         invoiceItemViewModel = new ViewModelProvider(this).get(InvoiceItemsViewModel.class);
         InvoiceItems newInvoiceItem;
-        if(isGSTAvailable){ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,1,1,-1); }
-        else{ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,1,1,-1); }
+        if(isGSTAvailable){ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,Util.isNetworkAvailable(BillingNewActivity.this)?1:0,1,-1); }
+        else{ newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,Util.isNetworkAvailable(BillingNewActivity.this)?1:0,1,-1); }
         invoiceItemViewModel.insert(newInvoiceItem);
         setTotal(newInvoiceItem, true);
         calculateAmountBeforeGST(newInvoiceItem, true);
@@ -272,6 +274,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     private void getInvoiceItemsFromDatabase(){
+        //invoiceItemViewModel.deleteAll();
         invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
         invoiceItemViewModel.getInvoices().observe(this, new Observer<List<InvoiceItems>>() {
             @Override
@@ -453,11 +456,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //                                measurementUnit.getSelectedItemPosition());
 //                        cardItemList.setVisibility(View.VISIBLE);
 //                        layoutBillItem_initial.setVisibility(View.GONE);
+//                        final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId
 
                         addItemToDatabase(modelName.getText().toString(),
                                 Float.parseFloat(priceEt.getText().toString()),
                                 Float.parseFloat(gstPercentage.getSelectedItemPosition() > 0 ? gstPercentage.getSelectedItem().toString() : "0")
-                                , Float.parseFloat(billItemBinding.itemQtyET.getText().toString()),
+                                , Float.parseFloat(quantityEt.getText().toString()),
                                 this.newInvoiceModel == null ? true : false,
                                 imeiNo.getText().toString(),
                                 hsnNo.getText().toString(),
