@@ -202,16 +202,16 @@ public class AppRepository {
     //invoice items dao
 
 
-    public LiveData<List<InvoiceItems>> getItems() {
-        return MyApplication.getDatabase().invoiceItemDao().getAllItems();
+    public LiveData<List<InvoiceItems>> getItems(long localInvoiceId) {
+        return MyApplication.getDatabase().invoiceItemDao().getAllItems(localInvoiceId);
     }
 
     public void insert(InvoiceItems invoiceItems) {
         new InsertNoteAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
     }
 
-    public void deleteAllItems(){
-        new deleteAllItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute();
+    public void deleteAllItems(long localInvoiceId){
+        new deleteAllItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId).execute();
     }
 
     public void delete(InvoiceItems invoiceItems){
@@ -224,12 +224,14 @@ public class AppRepository {
 
     private static class deleteAllItemsAsyncTask extends AsyncTask<Void,Void,Void>{
         private InvoiceItemDao invoiceItemDao;
-        private deleteAllItemsAsyncTask(InvoiceItemDao invoiceItemDao){
+        private long localInvoiceId;
+        private deleteAllItemsAsyncTask(InvoiceItemDao invoiceItemDao,long localInvoiceId){
             this.invoiceItemDao = invoiceItemDao;
+            this.localInvoiceId = localInvoiceId;
         }
         @Override
         protected Void doInBackground(Void... voids) {
-            invoiceItemDao.deleteAll();
+            invoiceItemDao.deleteAll(localInvoiceId);
             return null;
         }
     }

@@ -17,7 +17,7 @@ public class InvoiceItemsViewModel extends AndroidViewModel {
 
     public InvoiceItemsViewModel(Application application){
         super(application);
-        modelList = AppRepository.getInstance().getItems();
+        modelList = AppRepository.getInstance().getItems(-1);
     }
 
     public void insert(InvoiceItems invoiceItems) {
@@ -32,12 +32,13 @@ public class InvoiceItemsViewModel extends AndroidViewModel {
         AppRepository.getInstance().delete(invoiceItems);
     }
 
-    public void deleteAll(){
-        AppRepository.getInstance().deleteAllItems();
+    public void deleteAll(long localInvoiceId){
+        AppRepository.getInstance().deleteAllItems(localInvoiceId);
     }
 
-    public LiveData<List<InvoiceItems>> getInvoices() {
-        return modelList;
+    public LiveData<List<InvoiceItems>> getInvoices(long localInvoiceId)
+    {
+        return AppRepository.getInstance().getItems(localInvoiceId);
     }
 
 }
