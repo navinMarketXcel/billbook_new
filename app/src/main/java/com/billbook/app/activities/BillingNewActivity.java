@@ -92,6 +92,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private ArrayList models = new ArrayList<Model>();
 //    private ArrayList<NewInvoiceModels> newInvoiceModels = new ArrayList<>();
     private ArrayList<InvoiceItems> invoiceItemModel = new ArrayList<>();
+    private ArrayList<InvoiceItems> invoiceItemEditModel = new ArrayList<>();
     private ModelAdapter modelAdapter;
     private NewBillingAdapter newBillingAdapter;
     private float total, totalBeforeGST;
@@ -288,12 +289,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         invoiceItemViewModel.getInvoices(localInvoiceId).observe(this, new Observer<List<InvoiceItems>>() {
             @Override
             public void onChanged(List<InvoiceItems> invoiceItems) {
-                if(!isEdit){
                     newBillingAdapter = new NewBillingAdapter(invoiceItemModel, BillingNewActivity.this, isGSTAvailable);
                     binding.invoiceItems.setAdapter(newBillingAdapter);
                     invoiceItemModel.clear();
                     for(int i =0;i<invoiceItems.size();i++)invoiceItemModel.add(invoiceItems.get(i));
-                }
             }
         });
 
@@ -866,11 +865,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 binding.edtGST.setText(invoice.getString("GSTNo"));
                 binding.edtMobNo.setText(invoice.getString("customerMobileNo"));
 
-                invoiceItemModel = gson.fromJson(invoice.getJSONArray("masterItems").toString(), new TypeToken<List<InvoiceItems>>() {
+
+                invoiceItemEditModel = gson.fromJson(invoice.getJSONArray("masterItems").toString(), new TypeToken<List<InvoiceItems>>() {
                 }.getType());
 
-                for(int i = 0;i<invoiceItemModel.size();i++){
-                    InvoiceItems curItem = invoiceItemModel.get(i);
+                for(int i = 0;i<invoiceItemEditModel.size();i++){
+                    InvoiceItems curItem = invoiceItemEditModel.get(i);
 
                     addItemToDatabase(curItem.getName(),
                             curItem.getPrice(),
@@ -883,9 +883,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             );
                 }
 
-
-                newBillingAdapter = new NewBillingAdapter(invoiceItemModel, this, isGSTAvailable);
-                binding.invoiceItems.setAdapter(newBillingAdapter);
+                getInvoiceItemsFromDatabase();
+//                newBillingAdapter = new NewBillingAdapter(invoiceItemModel, this, isGSTAvailable);
+//                binding.invoiceItems.setAdapter(newBillingAdapter);
                 total = (float) invoice.getDouble("totalAmount");
                 totalBeforeGST = 0;
                 if (isGSTAvailable) {
