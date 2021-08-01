@@ -7,7 +7,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.billbook.app.database.daos.InvoiceItemDao;
+import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceItems;
+import com.billbook.app.database.models.InvoiceModel;
 import com.google.gson.Gson;
 import com.billbook.app.activities.MyApplication;
 import com.billbook.app.database.models.Brand;
@@ -290,6 +292,24 @@ public class AppRepository {
         }
     }
 
+
+    //////////////////////////Invoice activity
+    public void insert(InvoiceModel invoiceModel) {
+        new InsertInvoiceAsyncTask(MyApplication.getDatabase().newInvoiceDao()).execute(invoiceModel);
+    }
+
+
+    private static class InsertInvoiceAsyncTask extends AsyncTask<InvoiceModel, Void, Void> {
+        private NewInvoiceDao newInvoiceDao;
+        private InsertInvoiceAsyncTask(NewInvoiceDao newInvoiceDao) {
+            this.newInvoiceDao  = newInvoiceDao;
+        }
+        @Override
+        protected Void doInBackground(InvoiceModel... invoiceModel) {
+            newInvoiceDao.Insert(invoiceModel[0]); //single invoiceItem
+            return null;
+        }
+    }
 
 
     //----------------------API CAll-------------------------------------

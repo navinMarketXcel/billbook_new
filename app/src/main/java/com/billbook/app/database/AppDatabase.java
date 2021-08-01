@@ -14,6 +14,7 @@ import com.billbook.app.database.daos.InventoryDao;
 import com.billbook.app.database.daos.InvoiceDao;
 import com.billbook.app.database.daos.InvoiceItemDao;
 import com.billbook.app.database.daos.ModelDao;
+import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.daos.ProductDao;
 import com.billbook.app.database.daos.PurchaseDao;
 import com.billbook.app.database.daos.UserDao;
@@ -24,6 +25,7 @@ import com.billbook.app.database.models.Expense;
 import com.billbook.app.database.models.Inventory;
 import com.billbook.app.database.models.Invoice;
 import com.billbook.app.database.models.InvoiceItems;
+import com.billbook.app.database.models.InvoiceModel;
 import com.billbook.app.database.models.Model;
 import com.billbook.app.database.models.Product;
 import com.billbook.app.database.models.Purchase;
@@ -31,7 +33,7 @@ import com.billbook.app.database.models.User;
 
 @Database(entities = {
         User.class, Category.class, Brand.class, Product.class, Inventory.class, Invoice.class,
-        Purchase.class, Distributor.class, Model.class, Expense.class,InvoiceItems.class
+        Purchase.class, Distributor.class, Model.class, Expense.class,InvoiceItems.class, InvoiceModel.class
 }, version = 7, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
@@ -55,5 +57,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract ExpenseDao getExpModelDao();
 
     public abstract InvoiceItemDao invoiceItemDao();
+
+    public abstract NewInvoiceDao newInvoiceDao();
 
 }

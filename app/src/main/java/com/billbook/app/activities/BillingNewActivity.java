@@ -20,9 +20,11 @@ import androidx.annotation.Nullable;
 
 import com.billbook.app.database.models.Invoice;
 import com.billbook.app.database.models.InvoiceItems;
+import com.billbook.app.database.models.InvoiceModel;
 import com.billbook.app.databinding.ActivityBillingNewBinding;
 import com.billbook.app.databinding.LayoutItemBillBinding;
 import com.billbook.app.viewmodel.InvoiceItemsViewModel;
+import com.billbook.app.viewmodel.InvoiceViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -93,6 +95,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //    private ArrayList<NewInvoiceModels> newInvoiceModels = new ArrayList<>();
     private ArrayList<InvoiceItems> invoiceItemModel = new ArrayList<>();
     private ArrayList<InvoiceItems> invoiceItemEditModel = new ArrayList<>();
+    private InvoiceModel invoiceModel;
+    private InvoiceViewModel invoiceViewModel;
     private ModelAdapter modelAdapter;
     private NewBillingAdapter newBillingAdapter;
     private float total, totalBeforeGST;
@@ -675,6 +679,34 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         return true;
     }
 
+    void getCurrentInvoice(JSONObject invoice){
+        try{
+            InvoiceModel curInvoice = new InvoiceModel(
+                    invoice.getInt("id"),
+                    invoice.has("customerName")?invoice.getString("customerName"):"",
+                    invoice.has("customerMobileNo")?invoice.getInt("customerMobileNo"):null,
+                    invoice.has("customerAddress")?invoice.getString("customerAddress"):null,
+                    invoice.has("GSTNo")?invoice.getString("GSTNo"):"",
+                    invoice.has("totalAmount")?invoice.getInt("totalAmount"):null,
+                    invoice.has("userid")?invoice.getInt("userid"):null,
+                    invoice.has("invoiceDate")?invoice.getString("invoiceDate"):null,
+                    invoice.has("gstBillNo")?invoice.getInt("gstBillNo"):null,
+                    invoice.has("nonGstBillNo")?invoice.getInt("nonGstBillNo"):null,
+                    invoice.has("gstType")?invoice.getString("gstType"):null,
+                    invoice.has("updatedAt")?invoice.getString("updatedAt"):null,
+                    invoice.has("createdAt")?invoice.getString("createdAt"):null,
+                    1
+                    );
+            invoiceViewModel = new ViewModelProvider(this).get(InvoiceViewModel.class);
+            invoiceViewModel.insert(curInvoice);
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void sendInvoice(final JSONObject invoice) {
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
@@ -705,24 +737,30 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     body = new JSONObject(new Gson().toJson(response.body()));
                     Log.v("RESP", body.toString());
                     if (body.getBoolean("status")) {
-                        if ((body.getJSONObject("data").has("models") &&
-                                body.getJSONObject("data").getJSONArray("models").length() > 0) ||
-                                (isEdit && body.getJSONObject("data").has("masterItems")
-                                        && body.getJSONObject("data").getJSONArray("masterItems").length() > 0)) {
-                            Gson gson = new Gson();
-                            Type listType = new TypeToken<List<Model>>() {
-                            }.getType();
-                            if (!isEdit) {
-                                final List<Model> myModelList = new Gson().fromJson(body.getJSONObject("data").getJSONArray("models").toString(),
-                                        listType);
-                                AsyncTask.execute(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        MyApplication.getDatabase().getModelDao().insertAll(myModelList);
-                                    }
-                                });
-                            }
+                        if(!isEdit){
+                            getCurrentInvoice(body.getJSONObject("data").getJSONObject("invoice"));
                         }
+
+
+//                        if ((body.getJSONObject("data").has("models") &&
+//                                body.getJSONObject("data").getJSONArray("models").length() > 0) ||
+//                                (isEdit && body.getJSONObject("data").has("masterItems")
+//                                        && body.getJSONObject("data").getJSONArray("masterItems").length() > 0)) {
+//                            Gson gson = new Gson();
+//                            Type listType = new TypeToken<List<Model>>() {
+//                            }.getType();
+//                            if (!isEdit) {
+//                                final List<Model> myModelList = new Gson().fromJson(body.getJSONObject("data").getJSONArray("models").toString(),
+//                                        listType);
+//                                AsyncTask.execute(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        MyApplication.getDatabase().getModelDao().insertAll(myModelList);
+//                                    }
+//                                });
+//                            }
+//                        }
+
                         JSONObject object = new JSONObject();
                         if (isEdit) {
                             object.put("invoice", body.getJSONObject("data"));
