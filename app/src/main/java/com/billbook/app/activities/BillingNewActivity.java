@@ -218,11 +218,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        invoiceItemViewModel.deleteAll(localInvoiceId);
-        super.onDestroy();
-    }
+//    @Override
+//    protected void onDestroy() {
+//        invoiceItemViewModel.deleteAll(localInvoiceId);
+//        super.onDestroy();
+//    }
 
     public void updateBillNo (View v){
         new BillNumberUpdateDialog(this).show();
@@ -699,6 +699,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     );
             invoiceViewModel = new ViewModelProvider(this).get(InvoiceViewModel.class);
             invoiceViewModel.insert(curInvoice);
+
+            int id = invoice.getInt("id");
+
+            for(int i = 0;i<invoiceItemModel.size();i++){
+                invoiceItemViewModel = new ViewModelProvider(this).get(InvoiceItemsViewModel.class);
+                invoiceItemViewModel.updateId(id,invoiceItemModel.get(i).getLocalid());
+            }
 
 
         }

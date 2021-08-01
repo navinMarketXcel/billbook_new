@@ -26,6 +26,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.billbook.app.database.models.InvoiceItems;
+import com.billbook.app.repository.AppRepository;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -67,6 +69,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private RecyclerView recyclerViewInvoiceProducts;
     private TextView txtInvoiceDate, signatureTextIfImage, txtInvoiceNo, edtName, edtAddress, edtMobNo, tvAmountBeforeTax, tvTotal, tvGSTNo, SGST, CGST, IGST, totalGST;
     private List<NewInvoiceModels> items;
+    private List<InvoiceItems> curItems;
     private Gson gson = new Gson();
     final private int REQUEST_CODE_ASK_PERMISSIONS = 111;
     private String filepath = null;
@@ -231,8 +234,11 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             tvAmountBeforeTax.setText(Util.formatDecimalValue((float) requestInv.getDouble("totalAmountBeforeGST")));
             tvTotal.setText(Util.formatDecimalValue((float) requestInv.getDouble("totalAmount")));
 
+            curItems = AppRepository.getInstance().getCurrentItems(invID);
+
             items = gson.fromJson(requestInv.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
             }.getType());
+
             NewInvoicePurchaseAdapter newInvoicePurchaseAdapter = new NewInvoicePurchaseAdapter(this, items, isGSTAvailable);
             LinearLayoutManager mLayoutManager =
                     new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
