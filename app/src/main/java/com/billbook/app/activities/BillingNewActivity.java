@@ -623,6 +623,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //                            cnt++;
 //                    }
 //                }
+                getCurrentInvoice(invoice);
                 Log.v("TEST", requestObj.toString());
                 if (Util.isNetworkAvailable(this)) {
                     sendInvoice(requestObj);
@@ -637,6 +638,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     data.put("invoice", requestObj);
                     data.put("items", requestObj.getJSONArray("items"));
                     intent.putExtra("invoiceServer", data.toString());
+                    intent.putExtra("localInvId",localInvoiceId);
 
                     startActivity(intent);
                     if (!isEdit && isGSTAvailable)
@@ -681,16 +683,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     void getCurrentInvoice(JSONObject invoice){
         try{
-            int id = invoice.getInt("id");
+//            int id = invoice.getInt("id");
 
-            for(int i = 0;i<invoiceItemModel.size();i++){
-                invoiceItemViewModel = new ViewModelProvider(this).get(InvoiceItemsViewModel.class);
-                invoiceItemViewModel.updateId(id,invoiceItemModel.get(i).getLocalid());
-            }
-
+//            for(int i = 0;i<invoiceItemModel.size();i++){
+//                invoiceItemViewModel = new ViewModelProvider(this).get(InvoiceItemsViewModel.class);
+//                invoiceItemViewModel.updateId(id,invoiceItemModel.get(i).getLocalid());
+//            }
+//            Log.i("aman",invoice.toString());
 
             InvoiceModel curInvoice = new InvoiceModel(
-                    invoice.getInt("id"),
+                    (int)localInvoiceId,
                     invoice.has("customerName")?invoice.getString("customerName"):"",
                     invoice.has("customerMobileNo")?invoice.getInt("customerMobileNo"):null,
                     invoice.has("customerAddress")?invoice.getString("customerAddress"):null,
@@ -715,6 +717,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     private void sendInvoice(final JSONObject invoice) {
+
+
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
@@ -744,9 +748,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     body = new JSONObject(new Gson().toJson(response.body()));
                     Log.v("RESP", body.toString());
                     if (body.getBoolean("status")) {
-                        if(!isEdit){
-                            getCurrentInvoice(body.getJSONObject("data").getJSONObject("invoice"));
-                        }
+//                        if(!isEdit){
+//                            getCurrentInvoice(body.getJSONObject("data").getJSONObject("invoice"));
+//                        }
 
 
 //                        if ((body.getJSONObject("data").has("models") &&
@@ -777,6 +781,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                         Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
                         intent.putExtra("invoice", invoice.toString());
+                        intent.putExtra("localInvId",localInvoiceId);
                         intent.putExtra("invoiceServer", isEdit ? object.toString() : body.getJSONObject("data").toString());
                         startActivity(intent);
                         if (!isEdit && isGSTAvailable)

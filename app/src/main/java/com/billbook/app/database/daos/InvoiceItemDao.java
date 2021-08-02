@@ -37,6 +37,6 @@ public interface InvoiceItemDao {
     @Query("UPDATE invoice_item_table SET invoice_id =:id WHERE local_id=:curId")
     void updateId(int id,int curId);
 
-    @Query("SELECT * FROM invoice_item_table WHERE invoice_id=:id")
+    @Query("SELECT * FROM invoice_item_table WHERE localinvoice_id=:id")
     List<InvoiceItems>getCurrentItems(long id);
 }

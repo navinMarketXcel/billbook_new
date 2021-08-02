@@ -92,6 +92,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private ImageView shopImage, signatureImage;
     private JSONObject invoiceServer;
     private int invID = 0;
+    private long localInvoiceId=0;
     private int invoiceNumber;
     private String imageURL;
     private boolean hasCompanyLogo = false, hasSignatureLogo = false;
@@ -187,6 +188,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
 
             invID = invoiceServer.getJSONObject("invoice").getInt("id");
+            localInvoiceId = getIntent().getExtras().getLong("localInvId");
 
             Log.i(TAG, "setData: GST => " + isGSTAvailable);
             tv_preTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
@@ -251,11 +253,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             tvAmountBeforeTax.setText(Util.formatDecimalValue((float) requestInv.getDouble("totalAmountBeforeGST")));
             tvTotal.setText(Util.formatDecimalValue((float) requestInv.getDouble("totalAmount")));
 
-//            curItems = invoiceItemViewModel.getCurrentItems(invID);
-//            Log.i("aman",curItems.toString());
-
-             new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),invID,PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts).execute();
-
+            new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId,PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts).execute();
 
             items = gson.fromJson(requestInv.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
             }.getType());
@@ -576,13 +574,13 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
     private static class getCurrentItemsAsyncTask extends AsyncTask<Void,Void,List<InvoiceItems>>{
         private InvoiceItemDao invoiceItemDao;
-        private int invoiceId;
+        private long invoiceId;
         private List<InvoiceItems> curItems;
         private Context context;
         private boolean isGSTAvailable;
         private RecyclerView recyclerViewInvoiceProducts;
 
-        private getCurrentItemsAsyncTask(InvoiceItemDao invoiceItemDao,int invoiceId, Context context,boolean isGSTAvailable,RecyclerView recyclerViewInvoiceProducts){
+        private getCurrentItemsAsyncTask(InvoiceItemDao invoiceItemDao,long invoiceId, Context context,boolean isGSTAvailable,RecyclerView recyclerViewInvoiceProducts){
             this.invoiceItemDao = invoiceItemDao;
             this.invoiceId = invoiceId;
             this.context = context;
