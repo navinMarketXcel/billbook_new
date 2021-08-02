@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -228,8 +229,50 @@ public class AppRepository {
         new UpdateItemAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
     }
 
-    public List<InvoiceItems> getCurrentItems(long invoiceId){
-        return MyApplication.getDatabase().invoiceItemDao().getCurrentItems(invoiceId);
+    public List<InvoiceItems> getCurrentItems(int invoiceId){
+        //List<InvoiceItems> curItem;
+//        getCurrentItemsAsyncTask cur = new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),invoiceId);
+//        cur.execute();
+//        return cur.curItems;
+        try {
+            return  new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),invoiceId).execute().get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.e("aman","not found");
+        return null;
+    }
+
+    private static class getCurrentItemsAsyncTask extends AsyncTask<Void,Void,List<InvoiceItems>>{
+        private InvoiceItemDao invoiceItemDao;
+        private int invoiceId;
+        List<InvoiceItems> curItems;
+
+        private getCurrentItemsAsyncTask(InvoiceItemDao invoiceItemDao,int invoiceId){
+            this.invoiceItemDao = invoiceItemDao;
+            this.invoiceId = invoiceId;
+        }
+
+        @Override
+        protected List<InvoiceItems> doInBackground(Void... voids) {
+            Log.i("aman","in background");
+            curItems = invoiceItemDao.getCurrentItems(invoiceId);
+            Log.i("aman",curItems.toString());
+            return null;
+//            return curItems;
+        }
+
+//        @Override
+//        protected void onPostExecute(List<InvoiceItems> invoiceItems) {
+//            super.onPostExecute(invoiceItems);
+//        }
+
+//        public List<InvoiceItems>getCurItems(){
+//            return this.curItems;
+//        }
+
     }
 
 

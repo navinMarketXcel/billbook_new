@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.billbook.app.R;
+import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.NewInvoiceModels;
 import com.billbook.app.utils.Util;
 
@@ -23,10 +24,11 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
     private Context mContext;
     private NewInvoicePurchaseAdapter.OnItemClickListener mItemClickListener;
     private List<NewInvoiceModels> listItems;
+    private List<InvoiceItems> curItems;
     private boolean isGSTAvailable;
     private List<String> measurementUnitList;
-    public NewInvoicePurchaseAdapter(Context context, List<NewInvoiceModels> listItems,boolean isGSTAvailable) {
-        this.listItems = listItems;
+    public NewInvoicePurchaseAdapter(Context context, List<InvoiceItems> curItems,boolean isGSTAvailable) {
+        this.curItems = curItems;
         this.mContext = context;
         this.isGSTAvailable=isGSTAvailable;
         this.measurementUnitList = Arrays.asList(context.getResources().getStringArray(R.array.measurementUnit));
@@ -47,35 +49,35 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
     @Override
     public void onBindViewHolder(NewInvoicePurchaseAdapter.MyViewHolder holder, int position) {
 
-        holder.tvProductName.setText(listItems.get(position).getName() +
-                (listItems.get(position).getSerial_no().length()>0?" HSN - "+listItems.get(position).getSerial_no():"")+
-                (listItems.get(position).getImei().length()>0?" ,IMEI/Serial Number - "+listItems.get(position).getImei():""));
-        String qtyString = String.valueOf(listItems.get(position).getQuantity());
-        if(listItems.get(position).getMeasurementId() > -1){
-            qtyString += " " + measurementUnitList.get(listItems.get(position).getMeasurementId());
+        holder.tvProductName.setText(curItems.get(position).getName() +
+                (curItems.get(position).getSerial_no().length()>0?" HSN - "+curItems.get(position).getSerial_no():"")+
+                (curItems.get(position).getImei().length()>0?" ,IMEI/Serial Number - "+curItems.get(position).getImei():""));
+        String qtyString = String.valueOf(curItems.get(position).getQuantity());
+        if(curItems.get(position).getMeasurementId() > -1){
+            qtyString += " " + measurementUnitList.get(curItems.get(position).getMeasurementId());
         }
         holder.tvQTY.setText(qtyString);
-        holder.tvAmount.setText(Util.formatDecimalValue( listItems.get(position).getTotalAmount()));
+        holder.tvAmount.setText(Util.formatDecimalValue( curItems.get(position).getTotalAmount()));
 
         holder.llForHeader.setWeightSum(isGSTAvailable ? (float)10.5 : 9);
 
-        if (listItems.get(position).getGst()>0 || isGSTAvailable) {
+        if (curItems.get(position).getGst()>0 || isGSTAvailable) {
             holder.preTaxValue.setVisibility(View.VISIBLE);
-            float gstVlaue = listItems.get(position).getTotalAmount() - listItems.get(position).getGstAmount();
-            float gst = 1 + (listItems.get(position).getGst() / 100);
-            float preTaxSingleValue =  listItems.get(position).getPrice() / gst;
+            float gstVlaue = curItems.get(position).getTotalAmount() - curItems.get(position).getGstAmount();
+            float gst = 1 + (curItems.get(position).getGst() / 100);
+            float preTaxSingleValue =  curItems.get(position).getPrice() / gst;
             holder.tvRate.setText(Util.formatDecimalValue(preTaxSingleValue));
-            holder.preTaxValue.setText(Util.formatDecimalValue(preTaxSingleValue * listItems.get(position).getQuantity()));
+            holder.preTaxValue.setText(Util.formatDecimalValue(preTaxSingleValue * curItems.get(position).getQuantity()));
 
             if(this.isGSTAvailable){
-                if(listItems.get(position).getGstType() != null && listItems.get(position).getGstType().equals("IGST (Central/outstation customer)")) {
+                if(curItems.get(position).getGstType() != null && curItems.get(position).getGstType().equals("IGST (Central/outstation customer)")) {
                     holder.CGSTValue.setVisibility(View.GONE);
                     holder.SGSTValue.setVisibility(View.GONE);
                     holder.IGSTValue.setVisibility(View.VISIBLE);
                     holder.IGSTValue.setText(Util.formatDecimalValue(gstVlaue));
                     holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                             0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
-                }else if(listItems.get(position).getGstType() != null && listItems.get(position).getGstType().equals("CGST/SGST (Local customer)")){
+                }else if(curItems.get(position).getGstType() != null && curItems.get(position).getGstType().equals("CGST/SGST (Local customer)")){
                     holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                             0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
                     holder.CGSTValue.setVisibility(View.VISIBLE);
@@ -93,7 +95,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             }
         }
         else {
-            holder.tvRate.setText(Util.formatDecimalValue( listItems.get(position).getPrice()));
+            holder.tvRate.setText(Util.formatDecimalValue( curItems.get(position).getPrice()));
             holder.CGSTValue.setVisibility(View.GONE);
             holder.IGSTValue.setVisibility(View.GONE);
             holder.SGSTValue.setVisibility(View.GONE);
@@ -106,7 +108,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
 
     @Override
     public int getItemCount() {
-        return listItems.size();
+        return curItems.size();
     }
 
     public interface OnItemClickListener {

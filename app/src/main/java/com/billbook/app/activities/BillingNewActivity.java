@@ -681,6 +681,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     void getCurrentInvoice(JSONObject invoice){
         try{
+            int id = invoice.getInt("id");
+
+            for(int i = 0;i<invoiceItemModel.size();i++){
+                invoiceItemViewModel = new ViewModelProvider(this).get(InvoiceItemsViewModel.class);
+                invoiceItemViewModel.updateId(id,invoiceItemModel.get(i).getLocalid());
+            }
+
+
             InvoiceModel curInvoice = new InvoiceModel(
                     invoice.getInt("id"),
                     invoice.has("customerName")?invoice.getString("customerName"):"",
@@ -699,14 +707,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     );
             invoiceViewModel = new ViewModelProvider(this).get(InvoiceViewModel.class);
             invoiceViewModel.insert(curInvoice);
-
-            int id = invoice.getInt("id");
-
-            for(int i = 0;i<invoiceItemModel.size();i++){
-                invoiceItemViewModel = new ViewModelProvider(this).get(InvoiceItemsViewModel.class);
-                invoiceItemViewModel.updateId(id,invoiceItemModel.get(i).getLocalid());
-            }
-
 
         }
         catch (Exception e){

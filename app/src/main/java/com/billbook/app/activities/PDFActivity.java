@@ -2,9 +2,11 @@ package com.billbook.app.activities;
 
 import android.Manifest;
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 
@@ -14,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,8 +30,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.billbook.app.adapters.NewBillingAdapter;
+import com.billbook.app.database.daos.InvoiceItemDao;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.repository.AppRepository;
+import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -69,7 +76,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private RecyclerView recyclerViewInvoiceProducts;
     private TextView txtInvoiceDate, signatureTextIfImage, txtInvoiceNo, edtName, edtAddress, edtMobNo, tvAmountBeforeTax, tvTotal, tvGSTNo, SGST, CGST, IGST, totalGST;
     private List<NewInvoiceModels> items;
-    private List<InvoiceItems> curItems;
+    private List<InvoiceItems> curItems=null;
+    private InvoiceItemsViewModel invoiceItemViewModel;
     private Gson gson = new Gson();
     final private int REQUEST_CODE_ASK_PERMISSIONS = 111;
     private String filepath = null;
@@ -93,6 +101,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdf);
+        invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
         initUI();
         setData();
     }
@@ -140,6 +149,14 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         llForHeader = findViewById(R.id.llForHeader);
         padding8 = findViewById(R.id.paddingLabelGst);
         tvAdditionalData = findViewById(R.id.tv_additionalDetails);
+    }
+
+    public static void setDataAfterInvoiceItems(List<InvoiceItems> invoiceItems,Context context,boolean isGSTAvailable, RecyclerView recyclerViewInvoiceProducts){
+        NewInvoicePurchaseAdapter newInvoicePurchaseAdapter = new NewInvoicePurchaseAdapter(context, invoiceItems, isGSTAvailable);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        mLayoutManager.setStackFromEnd(true);
+        recyclerViewInvoiceProducts.setLayoutManager(mLayoutManager);
+        recyclerViewInvoiceProducts.setAdapter(newInvoicePurchaseAdapter);
     }
 
     private void setData() {
@@ -234,17 +251,21 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             tvAmountBeforeTax.setText(Util.formatDecimalValue((float) requestInv.getDouble("totalAmountBeforeGST")));
             tvTotal.setText(Util.formatDecimalValue((float) requestInv.getDouble("totalAmount")));
 
-            curItems = AppRepository.getInstance().getCurrentItems(invID);
+//            curItems = invoiceItemViewModel.getCurrentItems(invID);
+//            Log.i("aman",curItems.toString());
+
+             new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),invID,PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts).execute();
+
 
             items = gson.fromJson(requestInv.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
             }.getType());
 
-            NewInvoicePurchaseAdapter newInvoicePurchaseAdapter = new NewInvoicePurchaseAdapter(this, items, isGSTAvailable);
-            LinearLayoutManager mLayoutManager =
-                    new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            mLayoutManager.setStackFromEnd(true);
-            recyclerViewInvoiceProducts.setLayoutManager(mLayoutManager);
-            recyclerViewInvoiceProducts.setAdapter(newInvoicePurchaseAdapter);
+//            NewInvoicePurchaseAdapter newInvoicePurchaseAdapter = new NewInvoicePurchaseAdapter(this, curItems, isGSTAvailable);
+//            LinearLayoutManager mLayoutManager = new LinearLayoutManager(PDFActivity.this, LinearLayoutManager.VERTICAL, false);
+//            mLayoutManager.setStackFromEnd(true);
+//            recyclerViewInvoiceProducts.setLayoutManager(mLayoutManager);
+//            recyclerViewInvoiceProducts.setAdapter(newInvoicePurchaseAdapter);
+
             if (isGSTAvailable)
                 GSTTitle.setText("GST" + (items.get(0).getGstType().equals("CGST/SGST (Local customer)") ? " (SGST/CGST)" : " (IGST)"));
 
@@ -552,4 +573,35 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         }
 
     }
+
+    private static class getCurrentItemsAsyncTask extends AsyncTask<Void,Void,List<InvoiceItems>>{
+        private InvoiceItemDao invoiceItemDao;
+        private int invoiceId;
+        private List<InvoiceItems> curItems;
+        private Context context;
+        private boolean isGSTAvailable;
+        private RecyclerView recyclerViewInvoiceProducts;
+
+        private getCurrentItemsAsyncTask(InvoiceItemDao invoiceItemDao,int invoiceId, Context context,boolean isGSTAvailable,RecyclerView recyclerViewInvoiceProducts){
+            this.invoiceItemDao = invoiceItemDao;
+            this.invoiceId = invoiceId;
+            this.context = context;
+            this.isGSTAvailable = isGSTAvailable;
+            this.recyclerViewInvoiceProducts = recyclerViewInvoiceProducts;
+        }
+
+        @Override
+        protected List<InvoiceItems> doInBackground(Void... voids) {
+            curItems = invoiceItemDao.getCurrentItems(invoiceId);
+            return curItems;
+        }
+
+        @Override
+        protected void onPostExecute(List<InvoiceItems> invoiceItems) {
+            super.onPostExecute(invoiceItems);
+            setDataAfterInvoiceItems(invoiceItems,context,isGSTAvailable,recyclerViewInvoiceProducts);
+        }
+    }
+
+
 }

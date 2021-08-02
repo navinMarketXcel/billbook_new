@@ -20,7 +20,7 @@ public class InvoiceItemsViewModel extends AndroidViewModel {
         modelList = AppRepository.getInstance().getItems(-1);
     }
 
-    List<InvoiceItems> getCurrentItems(long invoiceId){
+    public List<InvoiceItems> getCurrentItems(int invoiceId){
         return AppRepository.getInstance().getCurrentItems(invoiceId);
     }
 
