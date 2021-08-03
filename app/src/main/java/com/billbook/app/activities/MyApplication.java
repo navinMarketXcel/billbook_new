@@ -34,7 +34,7 @@ public class MyApplication extends Application {
     public static JSONObject userProfile;
     public static User user;
     static List<String> stateList = new ArrayList<>();
-    public static long invoiceId = 0;
+    public static long localInvoiceId = 0;
 
     public static List<String> getStateList() {
         return stateList;
@@ -44,15 +44,15 @@ public class MyApplication extends Application {
         return db;
     }
 
-    public static void setInvoiceId(long invoiceId){
+    public static void setLocalInvoiceId(long localInvoiceId){
         SharedPreferences sharedPref = context.getSharedPreferences("MarketExcelAppPref",
                 context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putLong("localInvoiceId", invoiceId);
+        editor.putLong("localInvoiceId", localInvoiceId);
         editor.commit();
     }
 
-    public static long getInvoiceId(){
+    public static long getLocalInvoiceId(){
         SharedPreferences sharedPref = context.getSharedPreferences("MarketExcelAppPref",
                 context.MODE_PRIVATE);
         long localInvoiceId = sharedPref.getLong("localInvoiceId",1);

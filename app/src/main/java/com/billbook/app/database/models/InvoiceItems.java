@@ -15,7 +15,7 @@ public class InvoiceItems {
     @ColumnInfo(name = "local_id")
     private int localid;
 
-    @SerializedName("localInvoiceId")
+    // @SerializedName("localInvoiceId")
     @ColumnInfo(name = "localinvoice_id")
     private long localInvoiceId;
 
@@ -71,11 +71,11 @@ public class InvoiceItems {
     @ColumnInfo(name = "invoice_id")
     private int invoiceid;
 
-    @SerializedName("databaseid")
+    // @SerializedName("databaseid")
     @ColumnInfo(name = "database_id")
     private Integer databaseid;
 
-    @SerializedName("issync")
+    @SerializedName("isSync")
     @ColumnInfo(name="is_sync")
     private int isSync;
 

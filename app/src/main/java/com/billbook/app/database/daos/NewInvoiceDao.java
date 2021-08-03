@@ -21,8 +21,9 @@ public interface NewInvoiceDao {
     @Delete
     void Delete(InvoiceModel invoiceModel);
 
-    @Query("SELECT * from invoice_table")
-    InvoiceModel getAllModel();
+    // Check query againg List<InvoiceModel> or change query
+    // @Query("SELECT * from invoice_table")
+    // InvoiceModel getAllModel();
 
     @Query("SELECT * from invoice_table WHERE id =:id ")
     InvoiceModel getInvoiceById(int id);

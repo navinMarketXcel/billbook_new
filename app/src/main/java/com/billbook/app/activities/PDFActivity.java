@@ -258,11 +258,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             items = gson.fromJson(requestInv.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
             }.getType());
 
-//            NewInvoicePurchaseAdapter newInvoicePurchaseAdapter = new NewInvoicePurchaseAdapter(this, curItems, isGSTAvailable);
-//            LinearLayoutManager mLayoutManager = new LinearLayoutManager(PDFActivity.this, LinearLayoutManager.VERTICAL, false);
-//            mLayoutManager.setStackFromEnd(true);
-//            recyclerViewInvoiceProducts.setLayoutManager(mLayoutManager);
-//            recyclerViewInvoiceProducts.setAdapter(newInvoicePurchaseAdapter);
 
             if (isGSTAvailable)
                 GSTTitle.setText("GST" + (items.get(0).getGstType().equals("CGST/SGST (Local customer)") ? " (SGST/CGST)" : " (IGST)"));

@@ -210,15 +210,15 @@ public class AppRepository {
     }
 
     public void insert(InvoiceItems invoiceItems) {
-        new InsertNoteAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
+        new InsertInvoiceItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
     }
 
     public void deleteAllItems(long localInvoiceId){
-        new deleteAllItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId).execute();
+        new DeleteAllInvoiceItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId).execute();
     }
 
     public void delete(InvoiceItems invoiceItems){
-        new deleteItemAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
+        new DeleteInvoiceItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
     }
 
     public void updateID(int id,int curId){
@@ -226,60 +226,12 @@ public class AppRepository {
     }
 
     public void updateByLocalId(InvoiceItems invoiceItems){
-        new UpdateItemAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
+        new UpdateInvoiceItemsByIdAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
     }
-
-    public List<InvoiceItems> getCurrentItems(int invoiceId){
-        //List<InvoiceItems> curItem;
-//        getCurrentItemsAsyncTask cur = new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),invoiceId);
-//        cur.execute();
-//        return cur.curItems;
-        try {
-            return  new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),invoiceId).execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.e("aman","not found");
-        return null;
-    }
-
-    private static class getCurrentItemsAsyncTask extends AsyncTask<Void,Void,List<InvoiceItems>>{
-        private InvoiceItemDao invoiceItemDao;
-        private int invoiceId;
-        List<InvoiceItems> curItems;
-
-        private getCurrentItemsAsyncTask(InvoiceItemDao invoiceItemDao,int invoiceId){
-            this.invoiceItemDao = invoiceItemDao;
-            this.invoiceId = invoiceId;
-        }
-
-        @Override
-        protected List<InvoiceItems> doInBackground(Void... voids) {
-            Log.i("aman","in background");
-            curItems = invoiceItemDao.getCurrentItems(invoiceId);
-            Log.i("aman",curItems.toString());
-            return null;
-//            return curItems;
-        }
-
-//        @Override
-//        protected void onPostExecute(List<InvoiceItems> invoiceItems) {
-//            super.onPostExecute(invoiceItems);
-//        }
-
-//        public List<InvoiceItems>getCurItems(){
-//            return this.curItems;
-//        }
-
-    }
-
-
-    private static class deleteAllItemsAsyncTask extends AsyncTask<Void,Void,Void>{
+    private static class DeleteAllInvoiceItemsAsyncTask extends AsyncTask<Void,Void,Void>{
         private InvoiceItemDao invoiceItemDao;
         private long localInvoiceId;
-        private deleteAllItemsAsyncTask(InvoiceItemDao invoiceItemDao,long localInvoiceId){
+        private DeleteAllInvoiceItemsAsyncTask(InvoiceItemDao invoiceItemDao,long localInvoiceId){
             this.invoiceItemDao = invoiceItemDao;
             this.localInvoiceId = localInvoiceId;
         }
@@ -306,9 +258,9 @@ public class AppRepository {
         }
     }
 
-    private static class deleteItemAsyncTask extends AsyncTask<InvoiceItems,Void,Void>{
+    private static class DeleteInvoiceItemsAsyncTask extends AsyncTask<InvoiceItems,Void,Void>{
         private InvoiceItemDao invoiceItemDao;
-        private deleteItemAsyncTask(InvoiceItemDao invoiceItemDao){
+        private DeleteInvoiceItemsAsyncTask(InvoiceItemDao invoiceItemDao){
             this.invoiceItemDao = invoiceItemDao;
         }
 
@@ -319,14 +271,15 @@ public class AppRepository {
         }
     }
 
-    private static class UpdateItemAsyncTask extends AsyncTask<InvoiceItems,Void,Void>{
+    private static class UpdateInvoiceItemsByIdAsyncTask extends AsyncTask<InvoiceItems,Void,Void>{
         private InvoiceItemDao invoiceItemDao;
-        private UpdateItemAsyncTask(InvoiceItemDao invoiceItemDao){
+        private UpdateInvoiceItemsByIdAsyncTask(InvoiceItemDao invoiceItemDao){
             this.invoiceItemDao = invoiceItemDao;
         }
 
         @Override
         protected Void doInBackground(InvoiceItems... invoiceItems) {
+            // invoiceItems.update(invoiceItems[0]);
             invoiceItemDao.updateByLocalId(
                     invoiceItems[0].getMeasurementId(),
                     invoiceItems[0].getName(),
@@ -348,9 +301,9 @@ public class AppRepository {
         }
     }
 
-    private static class InsertNoteAsyncTask extends AsyncTask<InvoiceItems, Void, Void> {
+    private static class InsertInvoiceItemsAsyncTask extends AsyncTask<InvoiceItems, Void, Void> {
         private InvoiceItemDao invoiceItemDao;
-        private InsertNoteAsyncTask(InvoiceItemDao invoiceItemDao) {
+        private InsertInvoiceItemsAsyncTask(InvoiceItemDao invoiceItemDao) {
             this.invoiceItemDao = invoiceItemDao;
         }
         @Override
