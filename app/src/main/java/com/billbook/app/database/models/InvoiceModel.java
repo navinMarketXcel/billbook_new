@@ -16,8 +16,8 @@ public class InvoiceModel {
     private int local_id;
 
     //? Local Invoice id ? -> Should we save response ?
-    @ColumnInfo(name = "local_invoice_id")
-    private int local_invoice_id;
+//    @ColumnInfo(name = "local_invoice_id")
+//    private int local_invoice_id;
 
     @SerializedName("id")
     @ColumnInfo(name = "id")

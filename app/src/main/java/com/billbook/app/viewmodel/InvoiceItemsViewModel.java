@@ -36,10 +36,6 @@ public class InvoiceItemsViewModel extends AndroidViewModel {
         AppRepository.getInstance().deleteAllItems(localInvoiceId);
     }
 
-    public void updateId(int id,int curId){
-        AppRepository.getInstance().updateID(id,curId);
-    }
-
     public LiveData<List<InvoiceItems>> getInvoiceItems(long localInvoiceId)
     {
         return AppRepository.getInstance().getItems(localInvoiceId);

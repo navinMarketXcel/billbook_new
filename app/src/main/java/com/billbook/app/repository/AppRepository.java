@@ -221,10 +221,6 @@ public class AppRepository {
         new DeleteInvoiceItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
     }
 
-    public void updateID(int id,int curId){
-        new updateIdItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),id,curId).execute();
-    }
-
     public void updateByLocalId(InvoiceItems invoiceItems){
         new UpdateInvoiceItemsByIdAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
     }
@@ -238,22 +234,6 @@ public class AppRepository {
         @Override
         protected Void doInBackground(Void... voids) {
             invoiceItemDao.deleteAll(localInvoiceId);
-            return null;
-        }
-    }
-    private static class updateIdItemsAsyncTask extends AsyncTask<Void,Void,Void>{
-        private InvoiceItemDao invoiceItemDao;
-        private int id;
-        private int curId;
-
-        private updateIdItemsAsyncTask(InvoiceItemDao invoiceItemDao,int id,int curId){
-            this.invoiceItemDao = invoiceItemDao;
-            this.id = id;
-            this.curId = curId;
-        }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            invoiceItemDao.updateId(id,curId);
             return null;
         }
     }

@@ -135,7 +135,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         checkIsEdit();
 
         if(!isEdit){
-            localInvoiceId = MyApplication.getLocalInvoiceId("localInvoiceId",1);
+            localInvoiceId = MyApplication.getLocalInvoiceId();
             MyApplication.setLocalInvoiceId(localInvoiceId+1);
         }
 
@@ -459,18 +459,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 case R.id.add:
                     if (verifyData()) {
 
-//                        addItem(itemNameET.getText().toString(),
-//                                Float.parseFloat(itemPriceET.getText().toString()),
-//                                Float.parseFloat(gstPercentage.getSelectedItemPosition()>0?gstPercentage.getSelectedItem().toString():"0")
-//                                ,Float.parseFloat(itemQtyET.getText().toString()),
-//                                true,
-//                                imeiNo.getText().toString(),
-//                                hsnNo.getText().toString(),
-//                                measurementUnit.getSelectedItemPosition());
-//                        cardItemList.setVisibility(View.VISIBLE);
-//                        layoutBillItem_initial.setVisibility(View.GONE);
-//                        final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId
-
                         addItemToDatabase(modelName.getText().toString(),
                                 Float.parseFloat(priceEt.getText().toString()),
                                 Float.parseFloat(gstPercentage.getSelectedItemPosition() > 0 ? gstPercentage.getSelectedItem().toString() : "0")
@@ -737,7 +725,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 DialogUtils.stopProgressDialog();
                 JSONObject body = null;
                 try {
-                    body = new JSONObject(new Gson().toJson(response.body()));
+                    JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     Log.v("RESP", body.toString());
                     if (body.getBoolean("status")) {
                         JSONObject object = new JSONObject();
@@ -760,12 +748,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                     } else {
                         Util.postEvents("Make Bill Fail", "Make Bill Fail:elseStatus", getApplicationContext());
-                        Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()));
+                        Util.logErrorApi("/v1/invoice", invoice, "/invoice => status :false", null, body);
                         DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
                     }
                 } catch (JSONException e) {
-                    assert body != null;
-                    Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()));
+                    Util.logErrorApi("/v1/invoice", invoice, null, Arrays.toString(e.getStackTrace()), null);
                     Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
                     e.printStackTrace();
                 }
@@ -774,7 +761,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 Util.postEvents("Make Bill Fail", "Make Bill Fail:onFailure", getApplicationContext());
-                Util.logErrorApi("/v1/invoice", jsonObject, Arrays.toString(t.getStackTrace()), null, null);
+                Util.logErrorApi("/v1/invoice", invoice, Arrays.toString(t.getStackTrace()), null, null);
                 DialogUtils.stopProgressDialog();
                 DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
             }
