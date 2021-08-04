@@ -299,6 +299,10 @@ public class AppRepository {
         new InsertInvoiceAsyncTask(MyApplication.getDatabase().newInvoiceDao()).execute(invoiceModel);
     }
 
+    public LiveData<InvoiceModel> getCurrentInvoice(long localInvoiceID){
+       return MyApplication.getDatabase().newInvoiceDao().getInvoiceById(localInvoiceID);
+    }
+
 
     private static class InsertInvoiceAsyncTask extends AsyncTask<InvoiceModel, Void, Void> {
         private NewInvoiceDao newInvoiceDao;

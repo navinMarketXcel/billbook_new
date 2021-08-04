@@ -1,5 +1,6 @@
 package com.billbook.app.database.daos;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -26,5 +27,6 @@ public interface NewInvoiceDao {
     // InvoiceModel getAllModel();
 
     @Query("SELECT * from invoice_table WHERE id =:id ")
-    InvoiceModel getInvoiceById(int id);
+    LiveData<InvoiceModel> getInvoiceById(long id);
+
 }

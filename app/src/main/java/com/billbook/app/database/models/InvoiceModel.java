@@ -16,8 +16,8 @@ public class InvoiceModel {
     private int local_id;
 
     //? Local Invoice id ? -> Should we save response ?
-//    @ColumnInfo(name = "local_invoice_id")
-//    private int local_invoice_id;
+    //    @ColumnInfo(name = "local_invoice_id")
+    //    private int local_invoice_id;
 
     @SerializedName("id")
     @ColumnInfo(name = "id")
@@ -29,7 +29,7 @@ public class InvoiceModel {
 
     @SerializedName("customerMobileNo")
     @ColumnInfo(name = "customer_mobileNo")
-    private Integer customerMobileNo;
+    private String customerMobileNo;
 
     @SerializedName("customerAddress")
     @ColumnInfo(name = "customer_address")
@@ -63,6 +63,10 @@ public class InvoiceModel {
     @ColumnInfo(name = "gst_type")
     private String gstType;
 
+    @SerializedName("totalAmountBeforeGST")
+    @ColumnInfo(name="totalAmountBeforeGST")
+    private long totalAmountBeforeGST;
+
     @SerializedName("updatedAt")
     @ColumnInfo(name = "updated_at")
     private String updatedAt;
@@ -75,7 +79,7 @@ public class InvoiceModel {
     @ColumnInfo(name = "is_sync")
     private int isSync;
 
-    public InvoiceModel(int id, String customerName, Integer customerMobileNo, String customerAddress, String GSTNo, Integer totalAmount, Integer userid, String invoiceDate, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync) {
+    public InvoiceModel(int id, String customerName, String customerMobileNo, String customerAddress, String GSTNo, Integer totalAmount, Integer userid, String invoiceDate,long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync) {
         this.id = id;
         this.customerName = customerName;
         this.customerMobileNo = customerMobileNo;
@@ -84,6 +88,7 @@ public class InvoiceModel {
         this.totalAmount = totalAmount;
         this.userid = userid;
         this.invoiceDate = invoiceDate;
+        this.totalAmountBeforeGST = totalAmountBeforeGST;
         this.gstBillNo = gstBillNo;
         this.nonGstBillNo = nonGstBillNo;
         this.gstType = gstType;
@@ -104,7 +109,7 @@ public class InvoiceModel {
         return customerName;
     }
 
-    public Integer getCustomerMobileNo() {
+    public String getCustomerMobileNo() {
         return customerMobileNo;
     }
 
@@ -126,6 +131,10 @@ public class InvoiceModel {
 
     public String getInvoiceDate() {
         return invoiceDate;
+    }
+
+    public long getTotalAmountBeforeGST() {
+        return totalAmountBeforeGST;
     }
 
     public int getGstBillNo() {
@@ -164,7 +173,7 @@ public class InvoiceModel {
         this.customerName = customerName;
     }
 
-    public void setCustomerMobileNo(Integer customerMobileNo) {
+    public void setCustomerMobileNo(String customerMobileNo) {
         this.customerMobileNo = customerMobileNo;
     }
 
@@ -186,6 +195,10 @@ public class InvoiceModel {
 
     public void setInvoiceDate(String invoiceDate) {
         this.invoiceDate = invoiceDate;
+    }
+
+    public void setTotalAmountBeforeGST(long totalAmountBeforeGST) {
+        this.totalAmountBeforeGST = totalAmountBeforeGST;
     }
 
     public void setGstBillNo(int gstBillNo) {

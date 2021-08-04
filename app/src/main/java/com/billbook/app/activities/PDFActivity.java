@@ -33,8 +33,10 @@ import android.widget.TextView;
 import com.billbook.app.adapters.NewBillingAdapter;
 import com.billbook.app.database.daos.InvoiceItemDao;
 import com.billbook.app.database.models.InvoiceItems;
+import com.billbook.app.database.models.InvoiceModel;
 import com.billbook.app.repository.AppRepository;
 import com.billbook.app.viewmodel.InvoiceItemsViewModel;
+import com.billbook.app.viewmodel.InvoiceViewModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -78,6 +80,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private List<NewInvoiceModels> items;
     private List<InvoiceItems> curItems=null;
     private InvoiceItemsViewModel invoiceItemViewModel;
+    private InvoiceViewModel invoiceViewModel;
     private Gson gson = new Gson();
     final private int REQUEST_CODE_ASK_PERMISSIONS = 111;
     private String filepath = null;
@@ -102,8 +105,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdf);
+        invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
         invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
         initUI();
+        setProfileData();
         setData();
     }
 
@@ -160,110 +165,229 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         recyclerViewInvoiceProducts.setAdapter(newInvoicePurchaseAdapter);
     }
 
-    private void setData() {
-        try {
-            requestInv = new JSONObject(getIntent().getExtras().getString("invoice"));
-            invoiceServer = new JSONObject(getIntent().getExtras().getString("invoiceServer"));
-            Log.i(TAG, "setData: Request INV ==> " + requestInv);
-            Log.i(TAG, "setData: Invoice Server ==> " + invoiceServer);
+    private void setProfileData(){
+        try{
             profile = new JSONObject(MyApplication.getUserDetails());
-            if (requestInv.has("gstType") && !requestInv.getString("gstType").isEmpty()) {
-                isGSTAvailable = true;
-                gstTotalLayout.setVisibility(View.VISIBLE);
-                totalAmountBeforeTaxLayout.setVisibility(View.VISIBLE);
-                invoiceNumber = invoiceServer.getJSONObject("invoice").getInt("gstBillNo");
-            } else {
-                isGSTAvailable = false;
-                TextView taxorBillTv = findViewById(R.id.taxorBillTv);
-                taxorBillTv.setText("Bill");
-                gstTotalLayout.setVisibility(View.GONE);
-                totalAmountBeforeTaxLayout.setVisibility(View.GONE);
-                invoiceNumber = invoiceServer.getJSONObject("invoice").getInt("nonGstBillNo");
-            }
-            tvVendorName.setText(profile.getString("shopName"));
-            tvStoreAddress.setText(profile.getString("shopAddr") + " " + profile.getString("city")
-                    + " " + profile.getString("state") + " - " + profile.getString("pincode"));
-            tvGSTNo.setText(profile.has("gstNo") ? profile.getString("gstNo") : "");
-            mobileNoRetailer.setText("Mobile No- " + profile.getString("mobileNo"));
-
-
-            invID = invoiceServer.getJSONObject("invoice").getInt("id");
-            localInvoiceId = getIntent().getExtras().getLong("localInvId");
-
-            Log.i(TAG, "setData: GST => " + isGSTAvailable);
-            tv_preTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-            llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
-            footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
-            padding8.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-
             if(profile.has("additionalData") && profile.getString("additionalData").length()!=0){
                 tvAdditionalData.setVisibility(View.VISIBLE);
                 tvAdditionalData.setText(profile.getString("additionalData"));
             }
+            imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
-            if (requestInv.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
-                IGST.setVisibility(View.GONE);
-                CGST.setVisibility(View.VISIBLE);
-                SGST.setVisibility(View.VISIBLE);
-                padding3.setVisibility(View.GONE);
-                label.setLayoutParams(new LinearLayout.LayoutParams(
-                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));
-                paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                        0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
-            } else if (requestInv.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
-                IGST.setVisibility(View.VISIBLE);
-                padding1.setVisibility(View.GONE);
-                padding2.setVisibility(View.GONE);
-                CGST.setVisibility(View.GONE);
-                SGST.setVisibility(View.GONE);
-                label.setLayoutParams(new LinearLayout.LayoutParams(
-                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 4.5f));
-                paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                        0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
-            } else {
-                IGST.setVisibility(View.GONE);
-                CGST.setVisibility(View.GONE);
-                SGST.setVisibility(View.GONE);
-                padding1.setVisibility(View.GONE);
-                padding2.setVisibility(View.GONE);
-                padding3.setVisibility(View.GONE);
-                label.setLayoutParams(new LinearLayout.LayoutParams(
-                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 5.5f));
-                paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                        0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
-            }
-            if (requestInv.getString("GSTNo").isEmpty()) {
-                custGstLayout.setVisibility(View.INVISIBLE);
 
-            } else {
-                custGstLayout.setVisibility(View.VISIBLE);
-                customer_gst.setText(requestInv.getString("GSTNo"));
-            }
-            txtInvoiceDate.setText(requestInv.getString("invoiceDate"));
-            txtInvoiceNo.setText("" + invoiceNumber);
-            float gst = 0;
-            if (isGSTAvailable)
-                gst = Float.parseFloat(requestInv.getString("totalAmount")) -
-                        Float.parseFloat(requestInv.getString("totalAmountBeforeGST"));
-            totalGST.setText(Util.formatDecimalValue(gst));
-            edtName.setText(requestInv.getString("customerName") + " ");
-            edtAddress.setText(requestInv.getString("customerAddress") + " ");
-            edtMobNo.setText(requestInv.getString("customerMobileNo") + " ");
+    private void setData() {
+        try {
+            localInvoiceId = getIntent().getExtras().getLong("localInvId");
+            invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, new Observer<InvoiceModel>() {
+                @Override
+                public void onChanged(InvoiceModel invoiceModel) {
+                    try{
+                        requestInv = new JSONObject(new Gson().toJson(invoiceModel));
+                        invoiceServer = new JSONObject(getIntent().getExtras().getString("invoiceServer"));
+                        Log.i(TAG, "setData: Request INV ==> " + requestInv);
+                        Log.i(TAG, "setData: Invoice Server ==> " + invoiceServer);
+
+                        if (requestInv.has("gstType") && !requestInv.getString("gstType").isEmpty()) {
+                            isGSTAvailable = true;
+                            gstTotalLayout.setVisibility(View.VISIBLE);
+                            totalAmountBeforeTaxLayout.setVisibility(View.VISIBLE);
+                            invoiceNumber = invoiceServer.getJSONObject("invoice").getInt("gstBillNo");
+                        } else {
+                            isGSTAvailable = false;
+                            TextView taxorBillTv = findViewById(R.id.taxorBillTv);
+                            taxorBillTv.setText("Bill");
+                            gstTotalLayout.setVisibility(View.GONE);
+                            totalAmountBeforeTaxLayout.setVisibility(View.GONE);
+                            invoiceNumber = invoiceServer.getJSONObject("invoice").getInt("nonGstBillNo");
+                        }
+
+                        tvVendorName.setText(profile.getString("shopName"));
+                        tvStoreAddress.setText(profile.getString("shopAddr") + " " + profile.getString("city")
+                                + " " + profile.getString("state") + " - " + profile.getString("pincode"));
+                        tvGSTNo.setText(profile.has("gstNo") ? profile.getString("gstNo") : "");
+                        mobileNoRetailer.setText("Mobile No- " + profile.getString("mobileNo"));
+
+
+                        invID = invoiceServer.getJSONObject("invoice").getInt("id");
+
+                        Log.i(TAG, "setData: GST => " + isGSTAvailable);
+                        tv_preTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+                        llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+                        footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+                        padding8.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+
+
+                        if (requestInv.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
+                            IGST.setVisibility(View.GONE);
+                            CGST.setVisibility(View.VISIBLE);
+                            SGST.setVisibility(View.VISIBLE);
+                            padding3.setVisibility(View.GONE);
+                            label.setLayoutParams(new LinearLayout.LayoutParams(
+                                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));
+                            paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                    0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
+                        } else if (requestInv.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
+                            IGST.setVisibility(View.VISIBLE);
+                            padding1.setVisibility(View.GONE);
+                            padding2.setVisibility(View.GONE);
+                            CGST.setVisibility(View.GONE);
+                            SGST.setVisibility(View.GONE);
+                            label.setLayoutParams(new LinearLayout.LayoutParams(
+                                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 4.5f));
+                            paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                    0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
+                        } else {
+                            IGST.setVisibility(View.GONE);
+                            CGST.setVisibility(View.GONE);
+                            SGST.setVisibility(View.GONE);
+                            padding1.setVisibility(View.GONE);
+                            padding2.setVisibility(View.GONE);
+                            padding3.setVisibility(View.GONE);
+                            label.setLayoutParams(new LinearLayout.LayoutParams(
+                                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 5.5f));
+                            paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                    0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
+                        }
+                        if (requestInv.getString("GSTNo").isEmpty()) {
+                            custGstLayout.setVisibility(View.INVISIBLE);
+
+                        } else {
+                            custGstLayout.setVisibility(View.VISIBLE);
+                            customer_gst.setText(requestInv.getString("GSTNo"));
+                        }
+                        txtInvoiceDate.setText(requestInv.getString("invoiceDate"));
+                        txtInvoiceNo.setText("" + invoiceNumber);
+                        float gst = 0;
+                        if (isGSTAvailable)
+                            gst = Float.parseFloat(requestInv.getString("totalAmount")) -
+                                    Float.parseFloat(requestInv.getString("totalAmountBeforeGST"));
+                        totalGST.setText(Util.formatDecimalValue(gst));
+                        edtName.setText(requestInv.getString("customerName") + " ");
+                        edtAddress.setText(requestInv.getString("customerAddress") + " ");
+                        edtMobNo.setText(requestInv.getString("customerMobileNo") + " ");
 //            tvGSTNo.setText(requestInv.getString("GSTNo")+" ");
-            tvAmountBeforeTax.setText(Util.formatDecimalValue((float) requestInv.getDouble("totalAmountBeforeGST")));
-            tvTotal.setText(Util.formatDecimalValue((float) requestInv.getDouble("totalAmount")));
+                        tvAmountBeforeTax.setText(Util.formatDecimalValue((float) requestInv.getDouble("totalAmountBeforeGST")));
+                        tvTotal.setText(Util.formatDecimalValue((float) requestInv.getDouble("totalAmount")));
 
-            new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId,PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts).execute();
+                        new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId,PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts).execute();
 
-            items = gson.fromJson(requestInv.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
-            }.getType());
-
-
-            if (isGSTAvailable)
-                GSTTitle.setText("GST" + (items.get(0).getGstType().equals("CGST/SGST (Local customer)") ? " (SGST/CGST)" : " (IGST)"));
+                        items = gson.fromJson(requestInv.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
+                        }.getType());
 
 
-            imageURL = profile.has("companyLogo") ? profile.getString("companyLogo").replaceAll("\\/", "/") : null;
+                        if (isGSTAvailable)
+                            GSTTitle.setText("GST" + (items.get(0).getGstType().equals("CGST/SGST (Local customer)") ? " (SGST/CGST)" : " (IGST)"));
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+//            requestInv = new JSONObject(getIntent().getExtras().getString("invoice"));
+//            invoiceServer = new JSONObject(getIntent().getExtras().getString("invoiceServer"));
+//            Log.i(TAG, "setData: Request INV ==> " + requestInv);
+//            Log.i(TAG, "setData: Invoice Server ==> " + invoiceServer);
+//            profile = new JSONObject(MyApplication.getUserDetails());
+//            if (requestInv.has("gstType") && !requestInv.getString("gstType").isEmpty()) {
+//                isGSTAvailable = true;
+//                gstTotalLayout.setVisibility(View.VISIBLE);
+//                totalAmountBeforeTaxLayout.setVisibility(View.VISIBLE);
+//                invoiceNumber = invoiceServer.getJSONObject("invoice").getInt("gstBillNo");
+//            } else {
+//                isGSTAvailable = false;
+//                TextView taxorBillTv = findViewById(R.id.taxorBillTv);
+//                taxorBillTv.setText("Bill");
+//                gstTotalLayout.setVisibility(View.GONE);
+//                totalAmountBeforeTaxLayout.setVisibility(View.GONE);
+//                invoiceNumber = invoiceServer.getJSONObject("invoice").getInt("nonGstBillNo");
+//            }
+//            tvVendorName.setText(profile.getString("shopName"));
+//            tvStoreAddress.setText(profile.getString("shopAddr") + " " + profile.getString("city")
+//                    + " " + profile.getString("state") + " - " + profile.getString("pincode"));
+//            tvGSTNo.setText(profile.has("gstNo") ? profile.getString("gstNo") : "");
+//            mobileNoRetailer.setText("Mobile No- " + profile.getString("mobileNo"));
+//
+//
+//            invID = invoiceServer.getJSONObject("invoice").getInt("id");
+//
+//            Log.i(TAG, "setData: GST => " + isGSTAvailable);
+//            tv_preTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+//            llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+//            footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+//            padding8.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+//
+//            if(profile.has("additionalData") && profile.getString("additionalData").length()!=0){
+//                tvAdditionalData.setVisibility(View.VISIBLE);
+//                tvAdditionalData.setText(profile.getString("additionalData"));
+//            }
+//
+//            if (requestInv.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
+//                IGST.setVisibility(View.GONE);
+//                CGST.setVisibility(View.VISIBLE);
+//                SGST.setVisibility(View.VISIBLE);
+//                padding3.setVisibility(View.GONE);
+//                label.setLayoutParams(new LinearLayout.LayoutParams(
+//                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));
+//                paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+//                        0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
+//            } else if (requestInv.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
+//                IGST.setVisibility(View.VISIBLE);
+//                padding1.setVisibility(View.GONE);
+//                padding2.setVisibility(View.GONE);
+//                CGST.setVisibility(View.GONE);
+//                SGST.setVisibility(View.GONE);
+//                label.setLayoutParams(new LinearLayout.LayoutParams(
+//                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 4.5f));
+//                paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+//                        0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
+//            } else {
+//                IGST.setVisibility(View.GONE);
+//                CGST.setVisibility(View.GONE);
+//                SGST.setVisibility(View.GONE);
+//                padding1.setVisibility(View.GONE);
+//                padding2.setVisibility(View.GONE);
+//                padding3.setVisibility(View.GONE);
+//                label.setLayoutParams(new LinearLayout.LayoutParams(
+//                        0, LinearLayout.LayoutParams.WRAP_CONTENT, 5.5f));
+//                paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+//                        0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
+//            }
+//            if (requestInv.getString("GSTNo").isEmpty()) {
+//                custGstLayout.setVisibility(View.INVISIBLE);
+//
+//            } else {
+//                custGstLayout.setVisibility(View.VISIBLE);
+//                customer_gst.setText(requestInv.getString("GSTNo"));
+//            }
+//            txtInvoiceDate.setText(requestInv.getString("invoiceDate"));
+//            txtInvoiceNo.setText("" + invoiceNumber);
+//            float gst = 0;
+//            if (isGSTAvailable)
+//                gst = Float.parseFloat(requestInv.getString("totalAmount")) -
+//                        Float.parseFloat(requestInv.getString("totalAmountBeforeGST"));
+//            totalGST.setText(Util.formatDecimalValue(gst));
+//            edtName.setText(requestInv.getString("customerName") + " ");
+//            edtAddress.setText(requestInv.getString("customerAddress") + " ");
+//            edtMobNo.setText(requestInv.getString("customerMobileNo") + " ");
+////            tvGSTNo.setText(requestInv.getString("GSTNo")+" ");
+//            tvAmountBeforeTax.setText(Util.formatDecimalValue((float) requestInv.getDouble("totalAmountBeforeGST")));
+//            tvTotal.setText(Util.formatDecimalValue((float) requestInv.getDouble("totalAmount")));
+//
+//            new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId,PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts).execute();
+//
+//            items = gson.fromJson(requestInv.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
+//            }.getType());
+//
+//
+//            if (isGSTAvailable)
+//                GSTTitle.setText("GST" + (items.get(0).getGstType().equals("CGST/SGST (Local customer)") ? " (SGST/CGST)" : " (IGST)"));
+//            imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;
             if (imageURL == null) {
                 shopImage.setVisibility(View.GONE);
                 loadAndSetSignatureImage();
@@ -285,7 +409,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                             }
                         });
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

@@ -34,7 +34,7 @@ import com.billbook.app.database.models.User;
 @Database(entities = {
         User.class, Category.class, Brand.class, Product.class, Inventory.class, Invoice.class,
         Purchase.class, Distributor.class, Model.class, Expense.class,InvoiceItems.class, InvoiceModel.class
-}, version = 7, exportSchema = false)
+}, version = 8, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
 
