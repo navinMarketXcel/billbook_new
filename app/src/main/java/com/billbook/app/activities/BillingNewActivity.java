@@ -341,6 +341,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //    }
 
 
+
     @Override
     public void itemClick(final int position, boolean isEdit) {
         if (isEdit) {
