@@ -6,19 +6,31 @@ import androidx.room.Room;
 import androidx.room.migration.Migration;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.billbook.app.R;
 import com.billbook.app.database.AppDatabase;
 import com.billbook.app.database.models.User;
+import com.billbook.app.networkcommunication.ApiClient;
+import com.billbook.app.networkcommunication.ApiInterface;
+import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.Constants;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyApplication extends Application {
     static final Migration MIGRATION_2_3 = new Migration(2, 3) {
@@ -35,6 +47,7 @@ public class MyApplication extends Application {
     public static User user;
     static List<String> stateList = new ArrayList<>();
     public static long localInvoiceId = 0;
+    static List<String> measurementUnits;
 
     public static List<String> getStateList() {
         return stateList;
@@ -59,6 +72,57 @@ public class MyApplication extends Application {
         return localInvoiceId;
     }
 
+    public static List<String> getMeasurementUnits(){
+        return measurementUnits;
+    }
+
+    private void saveMeasurementUnits(List<String>measurementUnits){
+        this.measurementUnits = measurementUnits;
+    }
+
+    private void setMeasurementUnits(){
+        try{
+            ApiInterface apiService =
+                    ApiClient.getClient().create(ApiInterface.class);
+
+            Map<String, String> map = new HashMap<>();
+            Call<Object> call = apiService.measuremntUnit(map);
+
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    DialogUtils.stopProgressDialog();
+                    try {
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                        if (body.getBoolean("status")) {
+                            JSONObject data = body.getJSONObject("data");
+                            JSONArray invoices = data.getJSONArray("invoices");
+                            List<String> measurementUnits = new ArrayList<String>();
+                            for(int i= 0;i<invoices.length();i++){
+                                measurementUnits.add(invoices.getJSONObject(i).getString("measurementAbreviation"));
+                            }
+                            saveMeasurementUnits(measurementUnits);
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    //DialogUtils.stopProgressDialog();
+                    //DialogUtils.showToast(HomeActivity.this, "Failed update profile to server");
+                }
+            });
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
     public static String getUserToken() {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
@@ -75,6 +139,8 @@ public class MyApplication extends Application {
         editor.putString(context.getString(R.string.user_login_token), token);
         editor.commit();
     }
+
+
 
     public static boolean showGST() {
 
@@ -415,7 +481,7 @@ public class MyApplication extends Application {
                 .build();
         context = getApplicationContext();
         formStateList();
-
+        setMeasurementUnits();
     }
 
     private void formStateList() {

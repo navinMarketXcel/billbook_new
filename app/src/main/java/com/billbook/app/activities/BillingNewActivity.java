@@ -121,6 +121,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         initUI();
         loadDataForInvoice();
         getInvoiceItemsFromDatabase();
+        getMeasurementUnit();
     }
 
     @Override
@@ -192,13 +193,18 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        invoiceItemViewModel.deleteAll(localInvoiceId);
-//        super.onDestroy();
-//    }
+    public void getMeasurementUnit(){
+        try{
+            List<String>onlineMeasurementUnit = MyApplication.getMeasurementUnits();
+            if(onlineMeasurementUnit!=null)measurementUnitTypeList = onlineMeasurementUnit;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
-    public void updateBillNo (View v){
+
+    public void updateBillNo(View v) {
         new BillNumberUpdateDialog(this).show();
     }
 
