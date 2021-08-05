@@ -779,6 +779,7 @@
                     android:orientation="vertical">
 
                     <include
+                        android:id="@+id/invoiceAmountLayoutUpdated"
                         layout="@layout/invoice_amount_layout_updated" />
 
                 </LinearLayout>
