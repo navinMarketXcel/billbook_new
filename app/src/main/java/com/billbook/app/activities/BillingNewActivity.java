@@ -872,6 +872,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 invoiceItemEditModel = gson.fromJson(invoice.getJSONArray("masterItems").toString(), new TypeToken<List<InvoiceItems>>() {
                 }.getType());
 
+                invoiceItemViewModel.deleteAll(invoiceIdIfEdit);
+
                 for(int i = 0;i<invoiceItemEditModel.size();i++){
                     InvoiceItems curItem = invoiceItemEditModel.get(i);
                     // addItemToDatabase(curItem);
@@ -887,9 +889,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             );
                 }
 
+                invoiceItemEditModel.clear();
+
                 getInvoiceItemsFromDatabase();
-//                newBillingAdapter = new NewBillingAdapter(invoiceItemsList, this, isGSTAvailable);
-//                binding.invoiceItems.setAdapter(newBillingAdapter);
                 total = (float) invoice.getDouble("totalAmount");
                 totalBeforeGST = 0;
                 if (isGSTAvailable) {
