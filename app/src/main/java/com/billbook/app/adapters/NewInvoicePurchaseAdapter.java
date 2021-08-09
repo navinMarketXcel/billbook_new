@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.billbook.app.R;
+import com.billbook.app.activities.MyApplication;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.NewInvoiceModels;
 import com.billbook.app.utils.Util;
@@ -31,7 +32,10 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
         this.curItems = curItems;
         this.mContext = context;
         this.isGSTAvailable=isGSTAvailable;
-        this.measurementUnitList = Arrays.asList(context.getResources().getStringArray(R.array.measurementUnit));
+        getMeasurementUnit();
+        if(this.measurementUnitList==null){
+            this.measurementUnitList = Arrays.asList(context.getResources().getStringArray(R.array.measurementUnit));
+        }
     }
 
     public void setOnItemClickListener(final NewInvoicePurchaseAdapter.OnItemClickListener mItemClickListener) {
@@ -145,6 +149,16 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             if (mItemClickListener != null) {
                 mItemClickListener.onItemClick(view, getPosition());
             }
+        }
+    }
+
+    public void getMeasurementUnit(){
+        try{
+            List<String>onlineMeasurementUnit = MyApplication.getMeasurementUnits();
+            if(onlineMeasurementUnit!=null)this.measurementUnitList = onlineMeasurementUnit;
+        }
+        catch (Exception e){
+            e.printStackTrace();
         }
     }
 

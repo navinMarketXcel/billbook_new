@@ -80,6 +80,7 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         initUI();
+        Util.setMeasurementUnits();
         try {
             userProfile= new JSONObject (((MyApplication)getApplication()).getUserDetails());
         } catch (JSONException e) {

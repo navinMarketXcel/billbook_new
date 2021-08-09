@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.billbook.app.R;
+import com.billbook.app.activities.MyApplication;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.NewInvoiceModels;
 import com.billbook.app.utils.Util;
@@ -32,6 +35,8 @@ public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.My
         onItemClick = (NewBillingAdapter.onItemClick) context;
         this.isGSTAvailable=isGSTAvailable;
 
+        getMeasurementUnit();
+        if(measurementUnitTypeList==null)
         this.measurementUnitTypeList=  Arrays.asList (context.getResources().getStringArray(R.array.measurementUnit));
     }
 
@@ -102,5 +107,15 @@ public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.My
     }
     public interface  onItemClick {
         public void itemClick(int position,boolean isEdit);
+    }
+
+    public void getMeasurementUnit(){
+        try{
+            List<String>onlineMeasurementUnit = MyApplication.getMeasurementUnits();
+            if(onlineMeasurementUnit!=null)measurementUnitTypeList = onlineMeasurementUnit;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

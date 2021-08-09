@@ -9,6 +9,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.os.AsyncTask;
+
 import androidx.annotation.Nullable;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.InvoiceModel;
@@ -25,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -118,10 +122,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         internalStoragePermission();
         getUSerData();
+        getMeasurementUnit();
         initUI();
         loadDataForInvoice();
         getInvoiceItemsFromDatabase();
-        getMeasurementUnit();
     }
 
     @Override
@@ -141,7 +145,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         binding.invoiceItems.setItemAnimator(new DefaultItemAnimator());
 
         gstTypeList = Arrays.asList(getResources().getStringArray(R.array.gst_type));
-        measurementUnitTypeList = Arrays.asList(getResources().getStringArray(R.array.measurementUnit));
+
+        if(measurementUnitTypeList==null){
+            measurementUnitTypeList = Arrays.asList(getResources().getStringArray(R.array.measurementUnit));
+        }
+
         if (isGSTAvailable)
             serialNumber = MyApplication.getInVoiceNumber();
         else
@@ -164,6 +172,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         billItemBinding.gstPercentageTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         billItemBinding.gstPerLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         billItemBinding.hsnLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+
+        Spinner spinner = (Spinner) billItemBinding.unit;
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, measurementUnitTypeList);
+        spinner.setAdapter(dataAdapter);
+
 
         billItemBinding.gstPercentage.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         if (isGSTAvailable) {
