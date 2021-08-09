@@ -224,7 +224,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     public void addMoreItem(View view) {
         Util.postEvents("Add More Item", "Add More Item", this.getApplicationContext());
-        customDialogClass = new CustomDialogClass(this, null);
+        customDialogClass = new CustomDialogClass(this, null,measurementUnitTypeList);
         customDialogClass.show();
     }
 
@@ -366,7 +366,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void itemClick(final int position, boolean isEdit) {
         if (isEdit) {
             editPosition = position;
-            new CustomDialogClass(this, invoiceItemsList.get(position)).show();
+            new CustomDialogClass(this, invoiceItemsList.get(position),measurementUnitTypeList).show();
         } else {
             DialogUtils.showAlertDialog(this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
                 @Override
@@ -397,12 +397,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         private Spinner gstPercentage, measurementUnitSpinner;
         private TextInputLayout priceEdtInputLayout;
         private InvoiceItems newInvoiceModel;
+        private List<String> measureUnitTypeList;
 
-        public CustomDialogClass(Activity a, InvoiceItems newInvoiceModel) {
+        public CustomDialogClass(Activity a, InvoiceItems newInvoiceModel,List<String> measureUnitTypeList) {
             super(a);
             // TODO Auto-generated constructor stub
             this.c = a;
             this.newInvoiceModel = newInvoiceModel;
+            this.measureUnitTypeList = measureUnitTypeList;
         }
 
         @Override
@@ -424,6 +426,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             measurementUnitSpinner = findViewById(R.id.unit);
             priceEdtInputLayout = findViewById(R.id.priceEdtInputLayout);
             modelName.setAdapter(modelAdapter);
+
+            Spinner spinner = measurementUnitSpinner;
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(BillingNewActivity.this,
+                    android.R.layout.simple_spinner_item, this.measureUnitTypeList);
+            spinner.setAdapter(dataAdapter);
+
+
             if (isGSTAvailable) {
                 hsnNo.setVisibility(View.VISIBLE);
                 priceEdtInputLayout.setHint(getString(R.string.enter_price));
