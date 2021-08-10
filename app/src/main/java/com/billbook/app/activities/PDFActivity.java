@@ -123,53 +123,60 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void initUI() {
-        //txtInvoiceDate = findViewById(R.id.txtInvoiceDate);
-        //txtInvoiceNo = findViewById(R.id.txtInvoiceNo);
-        tv_preTax = findViewById(R.id.tv_preTax);
-        edtName = findViewById(R.id.edtName);
-        edtAddress = findViewById(R.id.edtAddress);
-        signatureTextIfImage = findViewById(R.id.tv_signatureIfImage);
-        signatureText = findViewById(R.id.tv_signature);
-        edtMobNo = findViewById(R.id.edtMobNo);
-        footer = findViewById(R.id.footer);
-        tvAmountBeforeTax = findViewById(R.id.tvAmountBeforeTax);
-        tvTotal = findViewById(R.id.tvTotal);
-        tvGSTNo = findViewById(R.id.tvGSTNo);
+//        txtInvoiceDate = findViewById(R.id.txtInvoiceDate);
+//        txtInvoiceNo = findViewById(R.id.txtInvoiceNo);
+//        tv_preTax = findViewById(R.id.tv_preTax);
+//        edtName = findViewById(R.id.edtName);
+//        edtAddress = findViewById(R.id.edtAddress);
+//        signatureTextIfImage = findViewById(R.id.tv_signatureIfImage);
+//        signatureText = findViewById(R.id.tv_signature);
+//        edtMobNo = findViewById(R.id.edtMobNo);
+//        footer = findViewById(R.id.footer);
+//        tvAmountBeforeTax = findViewById(R.id.tvAmountBeforeTax);
+//        tvTotal = findViewById(R.id.tvTotal);
+//        tvGSTNo = findViewById(R.id.tvGSTNo);
 
-        recyclerViewInvoiceProducts = findViewById(R.id.recyclerViewInvoiceProducts);
+//        recyclerViewInvoiceProducts = pdfBinding.recyclerViewInvoiceProducts;
+//
+//        //recyclerViewInvoiceProducts = findViewById(R.id.recyclerViewInvoiceProducts);
+//
+////        btnPrint = findViewById(R.id.btnPrint);
+//        pdfBinding.btnPrint.setOnClickListener(this);
+//
+////        closeBtn = findViewById(R.id.closeBtn);
+//        pdfBinding.closeBtn.setOnClickListener(this);
+//
+////        btnSubmit = findViewById(R.id.btnSubmit);
+//        pdfBinding.btnSubmit.setOnClickListener(this);
 
-        btnPrint = findViewById(R.id.btnPrint);
-        btnPrint.setOnClickListener(this);
+//        gstTotalLayout = findViewById(R.id.gstTotalLayout);
+//        SGST = findViewById(R.id.SGST);
+//        CGST = findViewById(R.id.CGST);
+//        IGST = findViewById(R.id.IGST);
+//        padding1 = findViewById(R.id.padding1);
+//        padding2 = findViewById(R.id.padding2);
+//        padding3 = findViewById(R.id.padding3);
+//        label = findViewById(R.id.productLabel);
+//        paddingLabel = findViewById(R.id.paddingLabel);
+//        totalGST = findViewById(R.id.totalGST);
+//        totalAmountBeforeTaxLayout = findViewById(R.id.totalAmountBeforeTaxLayout);
+//        tvVendorName = findViewById(R.id.tvVendorName);
+//        tvStoreAddress = findViewById(R.id.tvStoreAddress);
+//        custGstLayout = findViewById(R.id.custGstLayout);
+//        customer_gst = findViewById(R.id.customer_gst);
+//        mobileNoRetailer = findViewById(R.id.mobileNoRetailer);
+//        GSTTitle = findViewById(R.id.GSTTitle);
+//        shopImage = findViewById(R.id.shopImage);
+//        signatureImage = findViewById(R.id.iv_signature);
 
-        closeBtn = findViewById(R.id.closeBtn);
-        closeBtn.setOnClickListener(this);
+//        llForHeader = findViewById(R.id.llForHeader);
+//        padding8 = findViewById(R.id.paddingLabelGst);
+//        tvAdditionalData = findViewById(R.id.tv_additionalDetails);
 
-        btnSubmit = findViewById(R.id.btnSubmit);
-        btnSubmit.setOnClickListener(this);
-
-        gstTotalLayout = findViewById(R.id.gstTotalLayout);
-        SGST = findViewById(R.id.SGST);
-        CGST = findViewById(R.id.CGST);
-        IGST = findViewById(R.id.IGST);
-        padding1 = findViewById(R.id.padding1);
-        padding2 = findViewById(R.id.padding2);
-        padding3 = findViewById(R.id.padding3);
-        label = findViewById(R.id.productLabel);
-        paddingLabel = findViewById(R.id.paddingLabel);
-        totalGST = findViewById(R.id.totalGST);
-        totalAmountBeforeTaxLayout = findViewById(R.id.totalAmountBeforeTaxLayout);
-        tvVendorName = findViewById(R.id.tvVendorName);
-        tvStoreAddress = findViewById(R.id.tvStoreAddress);
-        custGstLayout = findViewById(R.id.custGstLayout);
-        customer_gst = findViewById(R.id.customer_gst);
-        mobileNoRetailer = findViewById(R.id.mobileNoRetailer);
-        GSTTitle = findViewById(R.id.GSTTitle);
-        shopImage = findViewById(R.id.shopImage);
-        signatureImage = findViewById(R.id.iv_signature);
-
-        llForHeader = findViewById(R.id.llForHeader);
-        padding8 = findViewById(R.id.paddingLabelGst);
-        tvAdditionalData = findViewById(R.id.tv_additionalDetails);
+        recyclerViewInvoiceProducts = pdfBinding.recyclerViewInvoiceProducts;
+        pdfBinding.btnPrint.setOnClickListener(this);
+        pdfBinding.closeBtn.setOnClickListener(this);
+        pdfBinding.btnSubmit.setOnClickListener(this);
     }
 
     public static void setDataAfterInvoiceItems(List<InvoiceItems> invoiceItems,Context context,boolean isGSTAvailable, RecyclerView recyclerViewInvoiceProducts){
@@ -274,7 +281,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                             pdfBinding.custGstLayout.setVisibility(View.VISIBLE);
                             pdfBinding.customerGst.setText(requestInv.getString("GSTNo"));
                         }
-                        pdfBinding.txtInvoiceDate.setText(requestInv.getString("invoiceDate"));                        txtInvoiceNo.setText("" + invoiceNumber);
+                        pdfBinding.txtInvoiceDate.setText(requestInv.getString("invoiceDate"));
+                        pdfBinding.txtInvoiceNo.setText("" + invoiceNumber);
                         float gst = 0;
                         if (isGSTAvailable)
                             gst = Float.parseFloat(requestInv.getString("totalAmount")) -
