@@ -268,8 +268,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         if(isNew==false){
             int localId = invoiceItemsList.get(editPosition).getLocalid();
             long curLocalInvoiceId = invoiceItemsList.get(editPosition).getLocalInvoiceId();
+            setTotal(invoiceItemsList.get(editPosition), false);
+            calculateAmountBeforeGST(invoiceItemsList.get(editPosition), false);
             InvoiceItems newInvoiceItem  = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,0,localId,curLocalInvoiceId);
             invoiceItemViewModel.updateByLocalId(newInvoiceItem);
+            setTotal(newInvoiceItem, true);
+            calculateAmountBeforeGST(newInvoiceItem, true);
             return;
         }
 
