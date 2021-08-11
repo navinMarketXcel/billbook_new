@@ -265,12 +265,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             <include
+                android:id="@+id/included_layout_item_bill"
                 android:layout_width="match_parent"
                 layout="@layout/layout_item_bill"
                 android:visibility="visible"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"/>
 
-            </include>
             </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
         android:id="@+id/cardItemList"

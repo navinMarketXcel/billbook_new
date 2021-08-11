@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.billbook.app.database.daos.InvoiceItemDao;
+import com.billbook.app.database.daos.NewInvoiceDao;
+import com.billbook.app.database.models.InvoiceItems;
+import com.billbook.app.database.models.InvoiceModel;
 import com.google.gson.Gson;
 import com.billbook.app.activities.MyApplication;
 import com.billbook.app.database.models.Brand;
@@ -45,6 +49,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -67,6 +72,9 @@ public class AppRepository {
         }
         return appRepository;
     }
+
+
+
 
     public LiveData<List<Brand>> getAllBrand() {
 
@@ -192,6 +200,122 @@ public class AppRepository {
         });
 
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //invoice items dao
+
+
+    public LiveData<List<InvoiceItems>> getItems(long localInvoiceId) {
+        return MyApplication.getDatabase().invoiceItemDao().getAllItems(localInvoiceId);
+    }
+
+    public void insert(InvoiceItems invoiceItems) {
+        new InsertInvoiceItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
+    }
+
+    public void deleteAllItems(long localInvoiceId){
+        new DeleteAllInvoiceItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId).execute();
+    }
+
+    public void delete(InvoiceItems invoiceItems){
+        new DeleteInvoiceItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
+    }
+
+    public void updateByLocalId(InvoiceItems invoiceItems){
+        new UpdateInvoiceItemsByIdAsyncTask(MyApplication.getDatabase().invoiceItemDao()).execute(invoiceItems);
+    }
+    private static class DeleteAllInvoiceItemsAsyncTask extends AsyncTask<Void,Void,Void>{
+        private InvoiceItemDao invoiceItemDao;
+        private long localInvoiceId;
+        private DeleteAllInvoiceItemsAsyncTask(InvoiceItemDao invoiceItemDao,long localInvoiceId){
+            this.invoiceItemDao = invoiceItemDao;
+            this.localInvoiceId = localInvoiceId;
+        }
+        @Override
+        protected Void doInBackground(Void... voids) {
+            invoiceItemDao.deleteAll(localInvoiceId);
+            return null;
+        }
+    }
+
+    private static class DeleteInvoiceItemsAsyncTask extends AsyncTask<InvoiceItems,Void,Void>{
+        private InvoiceItemDao invoiceItemDao;
+        private DeleteInvoiceItemsAsyncTask(InvoiceItemDao invoiceItemDao){
+            this.invoiceItemDao = invoiceItemDao;
+        }
+
+        @Override
+        protected Void doInBackground(InvoiceItems... invoiceItems) {
+            invoiceItemDao.delete(invoiceItems[0]);
+            return null;
+        }
+    }
+
+    private static class UpdateInvoiceItemsByIdAsyncTask extends AsyncTask<InvoiceItems,Void,Void>{
+        private InvoiceItemDao invoiceItemDao;
+        private UpdateInvoiceItemsByIdAsyncTask(InvoiceItemDao invoiceItemDao){
+            this.invoiceItemDao = invoiceItemDao;
+        }
+
+        @Override
+        protected Void doInBackground(InvoiceItems... invoiceItems) {
+            // invoiceItems.update(invoiceItems[0]);
+            invoiceItemDao.updateByLocalId(
+                    invoiceItems[0].getMeasurementId(),
+                    invoiceItems[0].getName(),
+                    invoiceItems[0].getQuantity(),
+                    invoiceItems[0].getPrice(),
+                    invoiceItems[0].getGstType(),
+                    invoiceItems[0].getGstAmount(),
+                    invoiceItems[0].getGst(),
+                    invoiceItems[0].isIs_active(),
+                    invoiceItems[0].getUser(),
+                    invoiceItems[0].getSerial_no(),
+                    invoiceItems[0].getImei(),
+                    invoiceItems[0].getTotalAmount(),
+                    invoiceItems[0].getInvoiceid(),
+                    invoiceItems[0].getIsSync(),
+                    invoiceItems[0].getDatabaseid()
+                    );
+            return null;
+        }
+    }
+
+    private static class InsertInvoiceItemsAsyncTask extends AsyncTask<InvoiceItems, Void, Void> {
+        private InvoiceItemDao invoiceItemDao;
+        private InsertInvoiceItemsAsyncTask(InvoiceItemDao invoiceItemDao) {
+            this.invoiceItemDao = invoiceItemDao;
+        }
+        @Override
+        protected Void doInBackground(InvoiceItems... invoiceItems) {
+            invoiceItemDao.insert(invoiceItems[0]); //single invoiceitem
+            return null;
+        }
+    }
+
+
+    //////////////////////////Invoice activity
+    public void insert(InvoiceModel invoiceModel) {
+        new InsertInvoiceAsyncTask(MyApplication.getDatabase().newInvoiceDao()).execute(invoiceModel);
+    }
+
+    public LiveData<InvoiceModel> getCurrentInvoice(long localInvoiceID){
+       return MyApplication.getDatabase().newInvoiceDao().getInvoiceById(localInvoiceID);
+    }
+
+
+    private static class InsertInvoiceAsyncTask extends AsyncTask<InvoiceModel, Void, Void> {
+        private NewInvoiceDao newInvoiceDao;
+        private InsertInvoiceAsyncTask(NewInvoiceDao newInvoiceDao) {
+            this.newInvoiceDao  = newInvoiceDao;
+        }
+        @Override
+        protected Void doInBackground(InvoiceModel... invoiceModel) {
+            newInvoiceDao.Insert(invoiceModel[0]); //single invoiceItem
+            return null;
+        }
+    }
+
 
     //----------------------API CAll-------------------------------------
     public void getCategoriesAPI(int page, final long syncTime) {
