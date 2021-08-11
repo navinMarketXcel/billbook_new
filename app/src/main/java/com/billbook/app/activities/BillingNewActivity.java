@@ -1,24 +1,15 @@
-ackage com.billbook.app.activities;
+package com.billbook.app.activities;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-
 import androidx.annotation.Nullable;
-
-import com.billbook.app.database.models.Invoice;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.InvoiceModel;
 import com.billbook.app.databinding.ActivityBillingNewBinding;
@@ -26,16 +17,11 @@ import com.billbook.app.databinding.LayoutItemBillBinding;
 import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.billbook.app.viewmodel.InvoiceViewModel;
 import com.google.android.material.textfield.TextInputLayout;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -43,12 +29,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.billbook.app.utils.Util;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -58,19 +41,15 @@ import com.billbook.app.R;
 import com.billbook.app.adapters.ModelAdapter;
 import com.billbook.app.adapters.NewBillingAdapter;
 import com.billbook.app.database.models.Model;
-import com.billbook.app.database.models.NewInvoiceModels;
 import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.viewmodel.ModelViewModel;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -82,7 +61,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -727,7 +705,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 DialogUtils.stopProgressDialog();
                 JSONObject body = null;
                 try {
-                    JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                    body = new JSONObject(new Gson().toJson(response.body()));
                     Log.v("RESP", body.toString());
                     if (body.getBoolean("status")) {
                         JSONObject object = new JSONObject();
@@ -750,11 +728,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                     } else {
                         Util.postEvents("Make Bill Fail", "Make Bill Fail:elseStatus", getApplicationContext());
-                        Util.logErrorApi("/v1/invoice", invoice, "/invoice => status :false", null, body);
+                        Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()));
                         DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
                     }
                 } catch (JSONException e) {
-                    Util.logErrorApi("/v1/invoice", invoice, null, Arrays.toString(e.getStackTrace()), null);
+                    assert body != null;
+                    Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()));
                     Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
                     e.printStackTrace();
                 }
@@ -763,11 +742,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 Util.postEvents("Make Bill Fail", "Make Bill Fail:onFailure", getApplicationContext());
-                Util.logErrorApi("/v1/invoice", invoice, Arrays.toString(t.getStackTrace()), null, null);
+                Util.logErrorApi("/v1/invoice", jsonObject, Arrays.toString(t.getStackTrace()), null, null);
                 DialogUtils.stopProgressDialog();
                 DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
             }
         });
+
     }
 
 
