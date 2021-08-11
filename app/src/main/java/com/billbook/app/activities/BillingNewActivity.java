@@ -9,6 +9,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.os.AsyncTask;
+
 import androidx.annotation.Nullable;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.InvoiceModel;
@@ -25,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -118,6 +122,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         internalStoragePermission();
         getUSerData();
+        getMeasurementUnit();
         initUI();
         loadDataForInvoice();
         getInvoiceItemsFromDatabase();
@@ -140,7 +145,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         binding.invoiceItems.setItemAnimator(new DefaultItemAnimator());
 
         gstTypeList = Arrays.asList(getResources().getStringArray(R.array.gst_type));
-        measurementUnitTypeList = Arrays.asList(getResources().getStringArray(R.array.measurementUnit));
+
+        if(measurementUnitTypeList==null){
+            measurementUnitTypeList = Arrays.asList(getResources().getStringArray(R.array.measurementUnit));
+        }
+
         if (isGSTAvailable)
             serialNumber = MyApplication.getInVoiceNumber();
         else
@@ -163,6 +172,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         billItemBinding.gstPercentageTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         billItemBinding.gstPerLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         billItemBinding.hsnLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+
+        Spinner spinner = (Spinner) billItemBinding.unit;
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, measurementUnitTypeList);
+        spinner.setAdapter(dataAdapter);
+
 
         billItemBinding.gstPercentage.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         if (isGSTAvailable) {
@@ -192,19 +207,24 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        invoiceItemViewModel.deleteAll(localInvoiceId);
-//        super.onDestroy();
-//    }
+    public void getMeasurementUnit(){
+        try{
+            List<String>onlineMeasurementUnit = MyApplication.getMeasurementUnits();
+            if(onlineMeasurementUnit!=null)measurementUnitTypeList = onlineMeasurementUnit;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
-    public void updateBillNo (View v){
+
+    public void updateBillNo(View v) {
         new BillNumberUpdateDialog(this).show();
     }
 
     public void addMoreItem(View view) {
         Util.postEvents("Add More Item", "Add More Item", this.getApplicationContext());
-        customDialogClass = new CustomDialogClass(this, null);
+        customDialogClass = new CustomDialogClass(this, null,measurementUnitTypeList);
         customDialogClass.show();
     }
 
@@ -346,7 +366,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void itemClick(final int position, boolean isEdit) {
         if (isEdit) {
             editPosition = position;
-            new CustomDialogClass(this, invoiceItemsList.get(position)).show();
+            new CustomDialogClass(this, invoiceItemsList.get(position),measurementUnitTypeList).show();
         } else {
             DialogUtils.showAlertDialog(this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
                 @Override
@@ -377,12 +397,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         private Spinner gstPercentage, measurementUnitSpinner;
         private TextInputLayout priceEdtInputLayout;
         private InvoiceItems newInvoiceModel;
+        private List<String> measureUnitTypeList;
 
-        public CustomDialogClass(Activity a, InvoiceItems newInvoiceModel) {
+        public CustomDialogClass(Activity a, InvoiceItems newInvoiceModel,List<String> measureUnitTypeList) {
             super(a);
             // TODO Auto-generated constructor stub
             this.c = a;
             this.newInvoiceModel = newInvoiceModel;
+            this.measureUnitTypeList = measureUnitTypeList;
         }
 
         @Override
@@ -404,6 +426,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             measurementUnitSpinner = findViewById(R.id.unit);
             priceEdtInputLayout = findViewById(R.id.priceEdtInputLayout);
             modelName.setAdapter(modelAdapter);
+
+            Spinner spinner = measurementUnitSpinner;
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(BillingNewActivity.this,
+                    android.R.layout.simple_spinner_item, this.measureUnitTypeList);
+            spinner.setAdapter(dataAdapter);
+
+
             if (isGSTAvailable) {
                 hsnNo.setVisibility(View.VISIBLE);
                 priceEdtInputLayout.setHint(getString(R.string.enter_price));

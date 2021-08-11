@@ -218,4 +218,8 @@ public interface ApiInterface {
 
     @POST ("loggerAPI")
     Call<Object> loggerAPI(@Body JSONObject body);
+
+    @GET("measurements")
+    Call<Object>measuremntUnit(@HeaderMap Map<String,String> headers);
+
 }

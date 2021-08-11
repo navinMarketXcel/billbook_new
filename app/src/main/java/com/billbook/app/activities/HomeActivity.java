@@ -36,8 +36,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -49,6 +52,8 @@ import retrofit2.Response;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
+
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends AppCompatActivity
@@ -75,6 +80,7 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         initUI();
+        Util.setMeasurementUnits();
         try {
             userProfile= new JSONObject (((MyApplication)getApplication()).getUserDetails());
         } catch (JSONException e) {
@@ -604,6 +610,8 @@ updateGST();
         intent.setPackage("com.google.android.youtube");
         startActivity(intent);
     }
+
+
 
     private void sendEvent(){
         if(mFirebaseAnalytics!=null) {
