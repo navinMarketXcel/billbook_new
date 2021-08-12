@@ -88,6 +88,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private List<String> gstTypeList, measurementUnitTypeList;
     private JSONObject profile;
     private boolean isGSTAvailable;
+    private String gstNo;
     private int editPosition = -1;
     private int invoiceIdIfEdit = -1;
     private int serialNumber = 0;
@@ -303,6 +304,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         try {
             profile = new JSONObject(MyApplication.getUserDetails());
             if (profile.has("gstNo") && profile.getString("gstNo") != null && !profile.getString("gstNo").isEmpty() && !isEdit) {
+                gstNo = profile.getString("gstNo");
                 isGSTAvailable = true;
             }
         } catch (JSONException e) {
@@ -567,7 +569,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     private void calculateAmountBeforeGST(InvoiceItems newInvoiceModel, boolean add) {
-        totalBeforeGST = 0;
+        //totalBeforeGST = 0;
                 if (add)
             totalBeforeGST = totalBeforeGST + newInvoiceModel.getGstAmount();
         else
@@ -591,7 +593,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 requestObj.put("customerName", binding.edtName.getText().toString());
                 requestObj.put("customerMobileNo", binding.edtMobNo.getText().toString());
                 requestObj.put("customerAddress", binding.edtAddress.getText().toString());
-                requestObj.put("GSTNo", binding.edtGST.getText().toString());
+                requestObj.put("GSTNo", gstNo);
                 requestObj.put("totalAmount", total);
                 requestObj.put("userid", profile.getString("userid"));
                 requestObj.put("invoiceDate", invoiceDateStr);
@@ -744,6 +746,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             object.put("items", body.getJSONObject("data").getJSONArray("masterItems"));
                         }
 
+                        invoiceViewModel.updateIsSync(localInvoiceId);
 
                         Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
 //                        intent.putExtra("invoice", invoice.toString());
