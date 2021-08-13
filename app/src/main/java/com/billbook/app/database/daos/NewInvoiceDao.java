@@ -29,4 +29,7 @@ public interface NewInvoiceDao {
     @Query("SELECT * from invoice_table WHERE id =:id ")
     LiveData<InvoiceModel> getInvoiceById(long id);
 
+    @Query("UPDATE invoice_table SET is_sync=1 WHERE id=:id")
+    void updateIsSync(long id);
+
 }

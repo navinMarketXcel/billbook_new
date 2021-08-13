@@ -92,10 +92,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private Button btnSubmit, btnPrint, closeBtn;
     private JSONObject profile;
     private boolean isGSTAvailable;
-    private LinearLayout gstTotalLayout, totalAmountBeforeTaxLayout, custGstLayout, llForHeader, footer;
-    private TextView padding1, padding2, padding3, label, paddingLabel,padding8, mobileNoRetailer, GSTTitle, signatureText,
-            tvVendorName, tvStoreAddress, customer_gst, tv_preTax, tvAdditionalData;
-    private ImageView shopImage, signatureImage;
+//    private LinearLayout gstTotalLayout, totalAmountBeforeTaxLayout, custGstLayout, llForHeader, footer;
+//    private TextView padding1, padding2, padding3, label, paddingLabel,padding8, mobileNoRetailer, GSTTitle, signatureText,
+//            tvVendorName, tvStoreAddress, customer_gst, tv_preTax, tvAdditionalData;
+//    private ImageView shopImage, signatureImage;
     private JSONObject invoiceServer;
     private int invID = 0;
     private long localInvoiceId=0;
@@ -418,7 +418,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 Picasso.get()
                         .load(imageURL)
                         .resize(100, 100)
-                        .into(shopImage, new com.squareup.picasso.Callback() {
+                        .into(pdfBinding.shopImage, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
                                 loadAndSetSignatureImage();
@@ -451,7 +451,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             Picasso.get()
                     .load(signatureURL)
                     .resize(250, 100)
-                    .into(signatureImage, new com.squareup.picasso.Callback() {
+                    .into(invoiceAmountLayoutUpdatedBinding.ivSignature, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
                             try {
