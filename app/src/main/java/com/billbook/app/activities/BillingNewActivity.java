@@ -633,15 +633,25 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     invoiceViewModel.updateInvoiceId(localInvoiceId,-1);
                     DialogUtils.showToast(this, "invoice saved in offline mode.");
 
-                    Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
-                    intent.putExtra("invoice", requestObj.toString());
 
                     JSONObject data = new JSONObject();
                     requestObj.put("id", -1);
                     data.put("invoice", requestObj);
                     data.put("items", requestObj.getJSONArray("items"));
-                    intent.putExtra("invoiceServer", data.toString());
+
+                    Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                    //intent.putExtra("invoice", requestObj.toString());
+                    //intent.putExtra("invoiceServer", data.toString());
                     intent.putExtra("localInvId",localInvoiceId);
+                    intent.putExtra("id",-1);
+
+                    if (isGSTAvailable) {
+                        intent.putExtra("gstBillNo", serialNumber);
+                        intent.putExtra("nonGstBillNo", 0);
+                    } else {
+                        intent.putExtra("gstBillNo", 0);
+                        intent.putExtra("nonGstBillNo", serialNumber);
+                    }
 
                     startActivity(intent);
                     if (!isEdit && isGSTAvailable)
@@ -760,7 +770,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         intent.putExtra("id",isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
 
                         intent.putExtra("localInvId",localInvoiceId);
-                        intent.putExtra("invoiceServer", isEdit ? object.toString() : body.getJSONObject("data").toString());
+                        ///intent.putExtra("invoiceServer", isEdit ? object.toString() : body.getJSONObject("data").toString());
                         startActivity(intent);
                         if (!isEdit && isGSTAvailable)
                             MyApplication.setInvoiceNumber(serialNumber + 1);
