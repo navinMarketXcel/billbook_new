@@ -114,7 +114,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         setTitle("Billing");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        checkIsEdit();
 
         if(!isEdit){
             localInvoiceId = MyApplication.getLocalInvoiceId();
@@ -125,6 +124,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         getUSerData();
         getMeasurementUnit();
         initUI();
+        checkIsEdit();
         loadDataForInvoice();
         getInvoiceItemsFromDatabase();
     }
@@ -924,20 +924,20 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             curItem.getMeasurementId()
                             );
                 }
-
-                invoiceItemEditModel.clear();
-
-                getInvoiceItemsFromDatabase();
                 total = (float) invoice.getDouble("totalAmount");
                 totalBeforeGST = 0;
                 if (isGSTAvailable) {
-                    for (int i = 0; i < invoiceItemsList.size(); i++) {
-                        totalBeforeGST = totalBeforeGST + invoiceItemsList.get(i).getGstAmount();
+                    for (int i = 0; i < invoiceItemEditModel.size(); i++) {
+                        totalBeforeGST = totalBeforeGST + invoiceItemEditModel.get(i).getGstAmount();
                     }
 
                 } else {
                     totalBeforeGST = total;
                 }
+
+                invoiceItemEditModel.clear();
+
+                getInvoiceItemsFromDatabase();
 
                 binding.tvAmountBeforeTax.setText(Util.formatDecimalValue(totalBeforeGST));
                 binding.tvAmountGST.setText(Util.formatDecimalValue(total - totalBeforeGST));
