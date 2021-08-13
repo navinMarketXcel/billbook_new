@@ -170,6 +170,11 @@ public class OTPActivity extends AppCompatActivity {
                                 if (body.getJSONObject("data").has("userid")) {
                                     Log.v("GST", body.toString());
                                     ((MyApplication) getApplication()).saveUserDetails(body.getJSONObject("data").toString());
+
+                                    JSONObject data = body.getJSONObject("data");
+                                    String userToken = data.getString("userToken");
+                                    MyApplication.saveUserToken(userToken);
+
                                     // Set it here and in registration too.
                                     if(body.getJSONObject("data").has("isGST")) {
                                         Double newData = new Double((Double) body.getJSONObject("data").get("isGST"));

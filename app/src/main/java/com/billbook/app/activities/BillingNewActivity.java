@@ -593,7 +593,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 requestObj.put("customerName", binding.edtName.getText().toString());
                 requestObj.put("customerMobileNo", binding.edtMobNo.getText().toString());
                 requestObj.put("customerAddress", binding.edtAddress.getText().toString());
-                requestObj.put("GSTNo", gstNo);
+                requestObj.put("GSTNo", binding.edtGST.getText().toString());
                 requestObj.put("totalAmount", total);
                 requestObj.put("userid", profile.getString("userid"));
                 requestObj.put("invoiceDate", invoiceDateStr);
@@ -765,9 +765,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
                     }
                 } catch (JSONException e) {
-                    assert body != null;
-                    Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()));
-                    Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
+                   assert body != null;
+                   Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()));
+                   Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
                     e.printStackTrace();
                 }
             }
