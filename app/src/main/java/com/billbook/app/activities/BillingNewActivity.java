@@ -593,7 +593,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 requestObj.put("customerName", binding.edtName.getText().toString());
                 requestObj.put("customerMobileNo", binding.edtMobNo.getText().toString());
                 requestObj.put("customerAddress", binding.edtAddress.getText().toString());
-                requestObj.put("GSTNo", gstNo);
+                requestObj.put("GSTNo", binding.edtGST.getText().toString());
                 requestObj.put("totalAmount", total);
                 requestObj.put("userid", profile.getString("userid"));
                 requestObj.put("invoiceDate", invoiceDateStr);
