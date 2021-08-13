@@ -629,6 +629,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 if (Util.isNetworkAvailable(this)) {
                     sendInvoice(requestObj);
                 } else {
+                    invoiceViewModel.syncUpdate(localInvoiceId,-1);
                     DialogUtils.showToast(this, "invoice saved in offline mode.");
 
                     Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
@@ -686,6 +687,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         try{
             InvoiceModel curInvoice = new InvoiceModel(
                     (int)localInvoiceId,
+                    0,
                     invoice.has("customerName")?invoice.getString("customerName"):"",
                     invoice.has("customerMobileNo")?invoice.getString("customerMobileNo"):"",
                     invoice.has("customerAddress")?invoice.getString("customerAddress"):"",
@@ -748,8 +750,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                         invoiceViewModel.updateIsSync(localInvoiceId);
 
+                        invoiceViewModel.syncUpdate(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
+
                         Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
 //                        intent.putExtra("invoice", invoice.toString());
+                        intent.putExtra("gstBillNo",isEdit ? object.getJSONObject("invoice").getInt("gstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("gstBillNo"));
+                        intent.putExtra("nonGstBillNo",isEdit ? object.getJSONObject("invoice").getInt("nonGstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("nonGstBillNo"));
+                        intent.putExtra("id",isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
+
                         intent.putExtra("localInvId",localInvoiceId);
                         intent.putExtra("invoiceServer", isEdit ? object.toString() : body.getJSONObject("data").toString());
                         startActivity(intent);
