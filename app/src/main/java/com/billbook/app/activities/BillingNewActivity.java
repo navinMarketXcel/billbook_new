@@ -629,7 +629,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 if (Util.isNetworkAvailable(this)) {
                     sendInvoice(requestObj);
                 } else {
-                    invoiceViewModel.syncUpdate(localInvoiceId,-1);
+                    invoiceViewModel.updateInvoiceId(localInvoiceId,-1);
                     DialogUtils.showToast(this, "invoice saved in offline mode.");
 
                     Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
@@ -686,8 +686,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     void saveInvoiceToLocalDatabase(JSONObject invoice){
         try{
             InvoiceModel curInvoice = new InvoiceModel(
-                    (int)localInvoiceId,
-                    0,
+                    localInvoiceId,
+                    localInvoiceId,
                     invoice.has("customerName")?invoice.getString("customerName"):"",
                     invoice.has("customerMobileNo")?invoice.getString("customerMobileNo"):"",
                     invoice.has("customerAddress")?invoice.getString("customerAddress"):"",
@@ -750,7 +750,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                         invoiceViewModel.updateIsSync(localInvoiceId);
 
-                        invoiceViewModel.syncUpdate(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
+                        invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
 
                         Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
 //                        intent.putExtra("invoice", invoice.toString());

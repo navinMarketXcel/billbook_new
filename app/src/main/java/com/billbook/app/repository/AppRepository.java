@@ -307,7 +307,7 @@ public class AppRepository {
         new UpdateIsSyncInvoiceAsyncTask(MyApplication.getDatabase().newInvoiceDao(),localInvoiceID).execute();
     }
 
-    public void syncUpdate(long localInvoiceId,long invoiceId){
+    public void updateInvoiceId(long localInvoiceId,long invoiceId){
         new SyncUpdateById(MyApplication.getDatabase().newInvoiceDao(),localInvoiceId,invoiceId).execute();
     }
 
@@ -353,7 +353,7 @@ public class AppRepository {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            newInvoiceDao.syncUpdate(localInvoiceId,invoiceId);
+            newInvoiceDao.updateInvoiceId(localInvoiceId,invoiceId);
             return null;
         }
 
