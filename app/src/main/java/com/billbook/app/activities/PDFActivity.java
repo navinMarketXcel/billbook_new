@@ -531,7 +531,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     new PdfWriter(PDFActivity.this, (ViewGroup) findViewById(R.id.ll_root));
             filepath = docsFolder.getAbsolutePath();
 
-            filepath = filepath + "/" + edtName.getText().toString() + "_" + today + ".pdf";
+            filepath = filepath + "/" + pdfBinding.edtName.getText().toString() + "_" + today + ".pdf";
             pdfFile = pdfWriter.exportPDF(filepath);
             if (invID > 0)
                 uploadPDF();
@@ -617,7 +617,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
     private void shareOnWhatsApp() {
         try {
-
             if (requestInv.has("customerMobileNo") && requestInv.getString("customerMobileNo") != null
                     && invoiceServer.has("pdfLink") && invoiceServer.getString("pdfLink") != null && invID > 0) {
                 fetchCutlyLinkfromApi();
