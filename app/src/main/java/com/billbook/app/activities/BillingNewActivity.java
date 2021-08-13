@@ -765,9 +765,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
                     }
                 } catch (JSONException e) {
-                    assert body != null;
-                    Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()));
-                    Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
+                   assert body != null;
+                   Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()));
+                   Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
                     e.printStackTrace();
                 }
             }
