@@ -43,13 +43,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SyncService<invoiceViewModel> extends Service {
+public class SyncService extends Service {
     private static final String TAG = "SyncService";
     private JSONArray invoices;
     private String filePath;
-    private InvoiceViewModel invoiceViewModel;
-    private InvoiceItemsViewModel invoiceItemsViewModel;
-    private List<InvoiceModel> invoiceModelList;
 
     @Override
     public void onCreate() {
@@ -119,8 +116,10 @@ public class SyncService<invoiceViewModel> extends Service {
                     }
                 });
             }
-            //syncInvoices();
-            syncOffLineInvoiceFromDatabase();
+            //to be remove later
+            syncInvoices();
+            //sync invoice from database is not properly tested
+            //syncOffLineInvoiceFromDatabase();
             return null;
         }
 

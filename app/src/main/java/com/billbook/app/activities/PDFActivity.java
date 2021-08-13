@@ -538,6 +538,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         });
     }
 
+    //once syncing starts from database (see SyncService.java class line: 120) , after that there will be no use of this function
     private void saveInvoiceOffline() {
         try {
 
@@ -545,7 +546,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             if (!MyApplication.getUnSyncedInvoice().isEmpty()) {
                 invoices = new JSONArray(MyApplication.getUnSyncedInvoice());
             }
-            invoice.put("pdfLink", filepath);
+            invoice.put("pdfLink", "");
             invoices.put(invoice);
             MyApplication.saveUnSyncedInvoices(invoices.toString());
         } catch (JSONException e) {
