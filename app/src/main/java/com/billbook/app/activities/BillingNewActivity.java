@@ -629,6 +629,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 if (Util.isNetworkAvailable(this)) {
                     sendInvoice(requestObj);
                 } else {
+                    //there is some use of makeing invoiceid = -1 in backend
                     invoiceViewModel.updateInvoiceId(localInvoiceId,-1);
                     DialogUtils.showToast(this, "invoice saved in offline mode.");
 
