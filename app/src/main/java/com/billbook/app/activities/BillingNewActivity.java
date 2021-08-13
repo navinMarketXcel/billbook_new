@@ -872,7 +872,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 Log.v("EditINV", invoice.toString());
                 isGSTAvailable = !invoice.getString("gstType").isEmpty();
                 if (isGSTAvailable)
+                {
+                    String gg = invoice.getString("gstType");
+                    if(gg.equals( gstTypeList.get(0)))
+                    binding.gstType.setSelection(0);
+                    else
+                        binding.gstType.setSelection(1);
                     serialNumber = invoice.getInt("gstBillNo");
+                }
                 else
                     serialNumber = invoice.getInt("nonGstBillNo");
             } catch (JSONException e) {
