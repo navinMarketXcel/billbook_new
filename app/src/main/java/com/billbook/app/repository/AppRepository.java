@@ -307,6 +307,11 @@ public class AppRepository {
         new UpdateIsSyncInvoiceAsyncTask(MyApplication.getDatabase().newInvoiceDao(),localInvoiceID).execute();
     }
 
+    public void updateInvoiceId(long localInvoiceId,long invoiceId){
+        new SyncUpdateById(MyApplication.getDatabase().newInvoiceDao(),localInvoiceId,invoiceId).execute();
+    }
+
+
 
     private static class InsertInvoiceAsyncTask extends AsyncTask<InvoiceModel, Void, Void> {
         private NewInvoiceDao newInvoiceDao;
@@ -333,6 +338,25 @@ public class AppRepository {
             newInvoiceDao.updateIsSync(localInvoiceId);
             return null;
         }
+    }
+
+    private static class SyncUpdateById extends AsyncTask<Void,Void,Void>{
+        private  NewInvoiceDao newInvoiceDao;
+        long invoiceId;
+        long localInvoiceId;
+
+        private SyncUpdateById(NewInvoiceDao newInvoiceDao,long localInvoiceId,long invoiceId){
+            this.newInvoiceDao = newInvoiceDao;
+            this.localInvoiceId = localInvoiceId;
+            this.invoiceId = invoiceId;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            newInvoiceDao.updateInvoiceId(localInvoiceId,invoiceId);
+            return null;
+        }
+
     }
 
 

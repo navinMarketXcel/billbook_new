@@ -10,6 +10,7 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "invoice_table")
 public class InvoiceModel {
 
+    //local id
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "local_id")
@@ -19,9 +20,16 @@ public class InvoiceModel {
     //    @ColumnInfo(name = "local_invoice_id")
     //    private int local_invoice_id;
 
+    //invoice id = backend se id
+    @SerializedName("invoiceId")
+    @ColumnInfo(name = "invoice_id")
+    private long invoiceId;
+
+    //myapplication wala localInvoiceId
     @SerializedName("id")
     @ColumnInfo(name = "id")
-    private int id;
+    private long id;
+
 
     @SerializedName("customerName")
     @ColumnInfo(name = "customer_name")
@@ -43,6 +51,7 @@ public class InvoiceModel {
     @ColumnInfo(name = "total_amount")
     private Integer totalAmount;
 
+    //userid from backend
     @SerializedName("userid")
     @ColumnInfo(name = "userid")
     private Integer userid;
@@ -50,6 +59,7 @@ public class InvoiceModel {
     @SerializedName("invoiceDate")
     @ColumnInfo(name = "invoice_date")
     private String invoiceDate;
+
 
     @SerializedName("gstBillNo")
     @ColumnInfo(name = "gst_billNo")
@@ -63,6 +73,7 @@ public class InvoiceModel {
     @ColumnInfo(name = "gst_type")
     private String gstType;
 
+
     @SerializedName("totalAmountBeforeGST")
     @ColumnInfo(name="totalAmountBeforeGST")
     private long totalAmountBeforeGST;
@@ -75,12 +86,14 @@ public class InvoiceModel {
     @ColumnInfo(name = "created_at")
     private String createdAt;
 
+    //0 for notsync 1 for sync
     @SerializedName("isSync")
     @ColumnInfo(name = "is_sync")
     private int isSync;
 
-    public InvoiceModel(int id, String customerName, String customerMobileNo, String customerAddress, String GSTNo, Integer totalAmount, Integer userid, String invoiceDate,long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync) {
+    public InvoiceModel(long id,long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, Integer totalAmount, Integer userid, String invoiceDate,long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync) {
         this.id = id;
+        this.invoiceId = invoiceId;
         this.customerName = customerName;
         this.customerMobileNo = customerMobileNo;
         this.customerAddress = customerAddress;
@@ -101,8 +114,12 @@ public class InvoiceModel {
         return local_id;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
+    }
+
+    public long getInvoiceId() {
+        return invoiceId;
     }
 
     public String getCustomerName() {
@@ -165,8 +182,12 @@ public class InvoiceModel {
         this.local_id = local_id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public void setInvoiceId(long invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
     public void setCustomerName(String customerName) {

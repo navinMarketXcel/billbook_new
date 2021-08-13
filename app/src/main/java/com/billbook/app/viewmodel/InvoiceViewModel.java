@@ -27,4 +27,9 @@ public class InvoiceViewModel extends AndroidViewModel {
         AppRepository.getInstance().updateIsSync(localInvoiceId);
     }
 
+    public void updateInvoiceId(long localInvoiceId,long invoiceId){
+        AppRepository.getInstance().updateInvoiceId(localInvoiceId,invoiceId);
+    }
+
+
 }
