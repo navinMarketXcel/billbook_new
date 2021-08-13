@@ -211,21 +211,22 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     try{
                         requestInv = new JSONObject(new Gson().toJson(invoiceModel));
                         invoiceServer = new JSONObject(getIntent().getExtras().getString("invoiceServer"));
-                        Log.i(TAG, "setData: Request INV ==> " + requestInv);
-                        Log.i(TAG, "setData: Invoice Server ==> " + invoiceServer);
+//                        Log.i(TAG, "setData: Request INV ==> " + requestInv);
+//                        Log.i(TAG, "setData: Invoice Server ==> " + invoiceServer);
 
                         if (requestInv.has("gstType") && !requestInv.getString("gstType").isEmpty()) {
                             isGSTAvailable = true;
                             invoiceAmountLayoutUpdatedBinding.gstTotalLayout.setVisibility(View.VISIBLE);
                             invoiceAmountLayoutUpdatedBinding.totalAmountBeforeTaxLayout.setVisibility(View.VISIBLE);
-                            invoiceNumber = invoiceServer.getJSONObject("invoice").getInt("gstBillNo");
+                            invoiceNumber = getIntent().getExtras().getInt("gstBillNo");
+
                         } else {
                             isGSTAvailable = false;
                             TextView taxorBillTv = findViewById(R.id.taxorBillTv);
                             taxorBillTv.setText("Bill");
                             invoiceAmountLayoutUpdatedBinding.gstTotalLayout.setVisibility(View.GONE);
                             invoiceAmountLayoutUpdatedBinding.totalAmountBeforeTaxLayout.setVisibility(View.GONE);
-                            invoiceNumber = invoiceServer.getJSONObject("invoice").getInt("nonGstBillNo");
+                            invoiceNumber = getIntent().getExtras().getInt("nonGstBillNo");
                         }
 
                         pdfBinding.tvVendorName.setText(profile.getString("shopName"));
@@ -234,7 +235,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         pdfBinding.tvGSTNo.setText(profile.has("gstNo") ? profile.getString("gstNo") : "");
                         pdfBinding.mobileNoRetailer.setText("Mobile No- " + profile.getString("mobileNo"));
 
-                        invID = invoiceServer.getJSONObject("invoice").getInt("id");
+                        invID = getIntent().getExtras().getInt("id");
 
                         Log.i(TAG, "setData: GST => " + isGSTAvailable);
                         pdfBinding.tvPreTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
