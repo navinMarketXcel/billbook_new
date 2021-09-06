@@ -28,10 +28,12 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
     private List<InvoiceItems> curItems;
     private boolean isGSTAvailable;
     private List<String> measurementUnitList;
-    public NewInvoicePurchaseAdapter(Context context, List<InvoiceItems> curItems,boolean isGSTAvailable) {
+    private String GSTType="";
+    public NewInvoicePurchaseAdapter(Context context, List<InvoiceItems> curItems,boolean isGSTAvailable,String GSTType) {
         this.curItems = curItems;
         this.mContext = context;
         this.isGSTAvailable=isGSTAvailable;
+        this.GSTType = GSTType;
         getMeasurementUnit();
         if(this.measurementUnitList==null){
             this.measurementUnitList = Arrays.asList(context.getResources().getStringArray(R.array.measurementUnit));
@@ -74,14 +76,17 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             holder.preTaxValue.setText(Util.formatDecimalValue(preTaxSingleValue * curItems.get(position).getQuantity()));
 
             if(this.isGSTAvailable){
-                if(curItems.get(position).getGstType() != null && curItems.get(position).getGstType().equals("IGST (Central/outstation customer)")) {
+//                if(curItems.get(position).getGstType() != null && curItems.get(position).getGstType().equals("IGST (Central/outstation customer)")) {
+                if(GSTType.equals("IGST (Central/outstation customer)")){
                     holder.CGSTValue.setVisibility(View.GONE);
                     holder.SGSTValue.setVisibility(View.GONE);
                     holder.IGSTValue.setVisibility(View.VISIBLE);
                     holder.IGSTValue.setText(Util.formatDecimalValue(gstVlaue));
                     holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                             0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
-                }else if(curItems.get(position).getGstType() != null && curItems.get(position).getGstType().equals("CGST/SGST (Local customer)")){
+                }else
+//                    if(curItems.get(position).getGstType() != null && curItems.get(position).getGstType().equals("CGST/SGST (Local customer)")){
+                        if(GSTType.equals("CGST/SGST (Local customer)")){
                     holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                             0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
                     holder.CGSTValue.setVisibility(View.VISIBLE);

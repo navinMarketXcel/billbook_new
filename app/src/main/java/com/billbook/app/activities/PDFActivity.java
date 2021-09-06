@@ -93,6 +93,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private int invID = -1;
     private long localInvoiceId=0;
     private int invoiceNumber;
+    private String GSTType = "";
     private String imageURL;
     private ActivityPdfBinding binding;
     private PdfContentNewBinding pdfBinding;
@@ -122,8 +123,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         pdfBinding.btnSubmit.setOnClickListener(this);
     }
 
-    public static void setDataAfterInvoiceItems(List<InvoiceItems> invoiceItems,Context context,boolean isGSTAvailable, RecyclerView recyclerViewInvoiceProducts){
-        NewInvoicePurchaseAdapter newInvoicePurchaseAdapter = new NewInvoicePurchaseAdapter(context, invoiceItems, isGSTAvailable);
+    public static void setDataAfterInvoiceItems(List<InvoiceItems> invoiceItems,Context context,boolean isGSTAvailable, RecyclerView recyclerViewInvoiceProducts, String GSTType){
+        NewInvoicePurchaseAdapter newInvoicePurchaseAdapter = new NewInvoicePurchaseAdapter(context, invoiceItems, isGSTAvailable,GSTType);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         mLayoutManager.setStackFromEnd(true);
         recyclerViewInvoiceProducts.setLayoutManager(mLayoutManager);
@@ -177,7 +178,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
                         invID = getIntent().getExtras().getInt("id");
 
-                        Log.i(TAG, "setData: GST => " + isGSTAvailable);
+//                        Log.i(TAG, "setData: GST => " + isGSTAvailable);
                         pdfBinding.tvPreTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
                         pdfBinding.llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
                         pdfBinding.footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
@@ -186,6 +187,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
 
                         if (invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
+                            GSTType = "CGST/SGST (Local customer)";
                             pdfBinding.IGST.setVisibility(View.GONE);
                             pdfBinding.CGST.setVisibility(View.VISIBLE);
                             pdfBinding.SGST.setVisibility(View.VISIBLE);
@@ -195,6 +197,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                             pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                     0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
                         } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
+                            GSTType = "IGST (Central/outstation customer)";
                             pdfBinding.IGST.setVisibility(View.VISIBLE);
                             pdfBinding.padding1.setVisibility(View.GONE);
                             pdfBinding.padding2.setVisibility(View.GONE);
@@ -236,11 +239,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         invoiceAmountLayoutUpdatedBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
                         invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
 
-                        new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId,PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts).execute();
+                        new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId,PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts, GSTType).execute();
 
                         items = gson.fromJson(invoice.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
                         }.getType());
-
 
                         if (isGSTAvailable)
                             invoiceAmountLayoutUpdatedBinding.GSTTitle.setText("GST" + (items.get(0).getGstType().equals("CGST/SGST (Local customer)") ? " (SGST/CGST)" : " (IGST)"));
@@ -562,13 +564,15 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         private Context context;
         private boolean isGSTAvailable;
         private RecyclerView recyclerViewInvoiceProducts;
+        private String GSTType;
 
-        private getCurrentItemsAsyncTask(InvoiceItemDao invoiceItemDao,long invoiceId, Context context,boolean isGSTAvailable,RecyclerView recyclerViewInvoiceProducts){
+        private getCurrentItemsAsyncTask(InvoiceItemDao invoiceItemDao,long invoiceId, Context context,boolean isGSTAvailable,RecyclerView recyclerViewInvoiceProducts, String GSTType){
             this.invoiceItemDao = invoiceItemDao;
             this.invoiceId = invoiceId;
             this.context = context;
             this.isGSTAvailable = isGSTAvailable;
             this.recyclerViewInvoiceProducts = recyclerViewInvoiceProducts;
+            this.GSTType = GSTType;
         }
 
         @Override
@@ -580,7 +584,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         @Override
         protected void onPostExecute(List<InvoiceItems> invoiceItems) {
             super.onPostExecute(invoiceItems);
-            setDataAfterInvoiceItems(invoiceItems,context,isGSTAvailable,recyclerViewInvoiceProducts);
+            setDataAfterInvoiceItems(invoiceItems,context,isGSTAvailable,recyclerViewInvoiceProducts, GSTType);
         }
     }
 
