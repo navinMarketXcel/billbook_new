@@ -28,7 +28,7 @@ public interface NewInvoiceDao {
     // @Query("SELECT * from invoice_table")
     // InvoiceModel getAllModel();
 
-    @Query("SELECT * from invoice_table WHERE id =:id ")
+    @Query("SELECT * from invoice_table where id=:id AND local_id = (SELECT MAX(local_id) from invoice_table)")
     LiveData<InvoiceModel> getInvoiceById(long id);
 
     @Query("UPDATE invoice_table SET invoice_id =:invoiceId WHERE id =:localInvoiceId")
