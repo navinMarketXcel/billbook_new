@@ -182,8 +182,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         billItemBinding.gstPercentage.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         if (isGSTAvailable) {
-            billItemBinding.itemPriceET.setHint(R.string.enter_price_without_gst);
-            billItemBinding.priceLblTV.setText(R.string.price);
+            billItemBinding.priceLblTV.setText(R.string.price_including_gst);
+            billItemBinding.itemPriceET.setHint(R.string.enter_price_including_gst);
         }
     }
 
@@ -437,10 +437,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
             if (isGSTAvailable) {
                 hsnNo.setVisibility(View.VISIBLE);
-                priceEdtInputLayout.setHint(getString(R.string.enter_price));
+                priceEdtInputLayout.setHint(getString(R.string.enter_price_including_gst));
             } else {
                 hsnNo.setVisibility(View.GONE);
-                priceEdtInputLayout.setHint(getString(R.string.enter_price_without_gst));
+                priceEdtInputLayout.setHint(getString(R.string.enter_price));
             }
 
 
@@ -934,6 +934,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 total = (float) invoice.getDouble("totalAmount");
                 totalBeforeGST = 0;
                 if (isGSTAvailable) {
+                    billItemBinding.priceLblTV.setText(R.string.price_including_gst);
+                    billItemBinding.itemPriceET.setText(R.string.enter_price_including_gst);
                     for (int i = 0; i < invoiceItemEditModel.size(); i++) {
                         totalBeforeGST = totalBeforeGST + invoiceItemEditModel.get(i).getGstAmount();
                     }

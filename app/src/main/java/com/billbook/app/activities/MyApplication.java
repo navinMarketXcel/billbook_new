@@ -491,6 +491,7 @@ public class MyApplication extends Application {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
         String expenses = sharedPref.getString(context.getString(R.string.inv_pref), "");
+        Log.d("MyApplication", "getUnSyncedInvoice: " + expenses);
         return expenses;
 
     }

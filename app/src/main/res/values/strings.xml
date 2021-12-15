@@ -112,10 +112,10 @@
     <string name="brand">Brand</string>
     <string name="product">Model</string>
     <string name="enter_count">Enter Count</string>
-    <string name="enter_price">Price including GST</string>
+    <string name="enter_price_including_gst">Enter Price including GST</string>
     <string name="bill_no">Enter bill number</string>
-    <string name="enter_price_without_gst">Enter Price </string>
-    <string name="enter_price_new">Price including GST<font color='#ff0000'>*</font> </string>
+    <string name="enter_price">Enter Price </string>
+    <string name="price_including_gst">Price including GST<font color='#ff0000'>*</font> </string>
     <string name="enter_selling_price">Enter Selling Price</string>
     <string name="price">Price<font color='#ff0000'>*</font></string>
 
