@@ -138,7 +138,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 invoiceAmountLayoutUpdatedBinding.tvAdditionalDetails.setVisibility(View.VISIBLE);
                 invoiceAmountLayoutUpdatedBinding.tvAdditionalDetails.setText(profile.getString("additionalData"));
             }
-            imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;
         }
         catch (Exception e){
             e.printStackTrace();
@@ -153,8 +152,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 @Override
                 public void onChanged(InvoiceModel invoiceModel) {
                     try{
-                        invoice = new JSONObject(new Gson().toJson(invoiceModel));
 
+                        invoice = new JSONObject(new Gson().toJson(invoiceModel));
                         if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
                             isGSTAvailable = true;
                             invoiceAmountLayoutUpdatedBinding.gstTotalLayout.setVisibility(View.VISIBLE);
@@ -241,19 +240,19 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
                         new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId,PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts, GSTType).execute();
 
-                        items = gson.fromJson(invoice.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
-                        }.getType());
+//                        items = gson.fromJson(invoice.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
+//                        }.getType());
 
                         if (isGSTAvailable)
                             invoiceAmountLayoutUpdatedBinding.GSTTitle.setText("GST" + (items.get(0).getGstType().equals("CGST/SGST (Local customer)") ? " (SGST/CGST)" : " (IGST)"));
+                        imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;
+
                     }
                     catch (Exception e){
                         e.printStackTrace();
                     }
                 }
             });
-
-
             if (imageURL == null) {
                 pdfBinding.shopImage.setVisibility(View.GONE);
                 loadAndSetSignatureImage();
@@ -275,6 +274,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                             }
                         });
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -300,7 +300,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         @Override
                         public void onSuccess() {
                             try {
-                                if (filepath == null) createPdfWrapper();
+                                if (filepath == null) {
+                                    createPdfWrapper();
+                                }
                             } catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             }
@@ -309,7 +311,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         @Override
                         public void onError(Exception e) {
                             try {
-                                if (filepath == null) createPdfWrapper();
+                                if (filepath == null){
+                                    createPdfWrapper();
+                                }
                             } catch (FileNotFoundException error) {
                                 error.printStackTrace();
                             }
@@ -318,8 +322,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     });
         }else{
             try {
-                if (filepath == null)
+                if (filepath == null){
                     createPdfWrapper();
+                }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -357,6 +362,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
     private void createPdf() throws FileNotFoundException {
         try{
+
             String extStorageState = Environment.getExternalStorageState();
 
             File docsFolder = new File(getExternalCacheDir() + "/Documents");
@@ -376,6 +382,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             filepath = docsFolder.getAbsolutePath();
 
             filepath = filepath + "/" + pdfBinding.edtName.getText().toString() + "_" + today + ".pdf";
+
             pdfFile = pdfWriter.exportPDF(filepath);
             if (invID > 0)
                 uploadPDF();
@@ -557,7 +564,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    private static class getCurrentItemsAsyncTask extends AsyncTask<Void,Void,List<InvoiceItems>>{
+    private class getCurrentItemsAsyncTask extends AsyncTask<Void,Void,List<InvoiceItems>>{
         private InvoiceItemDao invoiceItemDao;
         private long invoiceId;
         private List<InvoiceItems> curItems;
@@ -585,6 +592,12 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         protected void onPostExecute(List<InvoiceItems> invoiceItems) {
             super.onPostExecute(invoiceItems);
             setDataAfterInvoiceItems(invoiceItems,context,isGSTAvailable,recyclerViewInvoiceProducts, GSTType);
+           try{
+               createPdfWrapper();
+           }
+           catch(FileNotFoundException e){
+               e.printStackTrace();
+           }
         }
     }
 
