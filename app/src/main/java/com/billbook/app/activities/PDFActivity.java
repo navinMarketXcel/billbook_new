@@ -382,7 +382,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             filepath = docsFolder.getAbsolutePath();
 
             filepath = filepath + "/" + pdfBinding.edtName.getText().toString() + "_" + today + ".pdf";
-
+            Log.d(TAG, "createPdf: filePath " + filepath);
             pdfFile = pdfWriter.exportPDF(filepath);
             if (invID > 0)
                 uploadPDF();
@@ -528,6 +528,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     Log.v("RESP", body.toString());
+                    Log.d(TAG, "onResponse: pdfActivity " + body);
                     if (body.getBoolean("status")) {
                         invoice.put("pdfLink", body.getJSONObject("data").getString("pdfLink"));
                     } else {
@@ -555,6 +556,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             if (!MyApplication.getUnSyncedInvoice().isEmpty()) {
                 invoices = new JSONArray(MyApplication.getUnSyncedInvoice());
             }
+            invoiceViewModel.updatePdfPath(localInvoiceId,filepath);
             invoice.put("pdfLink", "");
             invoices.put(invoice);
             MyApplication.saveUnSyncedInvoices(invoices.toString());

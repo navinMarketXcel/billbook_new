@@ -712,10 +712,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     invoice.has("gstType")?invoice.getString("gstType"):"",
                     invoice.has("updatedAt")?invoice.getString("updatedAt"):"",
                     invoice.has("createdAt")?invoice.getString("createdAt"):"",
-                    0
+                    0,
+                    invoice.has("pdfPath")?invoice.getString("pdfPath"):""
+
                     );
 
             invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
+            Log.d(TAG, "saveInvoiceToLocalDatabase: " + curInvoice);
             invoiceViewModel.insert(curInvoice);
         }
         catch (Exception e){
@@ -735,6 +738,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         body.put("content", jsonObject);
         Call<Object> call = null;
         if (!isEdit) {
+            Log.d(TAG, "sendInvoice: schema " + jsonObject);
             call = apiService.invoice(jsonObject);
         } else {
             try {

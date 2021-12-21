@@ -304,6 +304,7 @@ public class AppRepository {
     }
 
     public void updateIsSync(long localInvoiceID){
+        Log.d(TAG, "updateIsSync: done " + localInvoiceID);
         new UpdateIsSyncInvoiceAsyncTask(MyApplication.getDatabase().newInvoiceDao(),localInvoiceID).execute();
     }
 
@@ -311,6 +312,9 @@ public class AppRepository {
         new SyncUpdateById(MyApplication.getDatabase().newInvoiceDao(),localInvoiceId,invoiceId).execute();
     }
 
+    public void updatePdfPath(long localInvoiceId, String pdfPath){
+        new UpdatePdfPathById(MyApplication.getDatabase().newInvoiceDao(),localInvoiceId, pdfPath).execute();
+    }
 
 
     private static class InsertInvoiceAsyncTask extends AsyncTask<InvoiceModel, Void, Void> {
@@ -354,6 +358,25 @@ public class AppRepository {
         @Override
         protected Void doInBackground(Void... voids) {
             newInvoiceDao.updateInvoiceId(localInvoiceId,invoiceId);
+            return null;
+        }
+
+    }
+
+    private static class UpdatePdfPathById extends AsyncTask<Void,Void,Void>{
+        private  NewInvoiceDao newInvoiceDao;
+        long localInvoiceId;
+        String pdfPath;
+        private UpdatePdfPathById(NewInvoiceDao newInvoiceDao,long localInvoiceId, String pdfPath){
+            this.newInvoiceDao = newInvoiceDao;
+            this.localInvoiceId = localInvoiceId;
+            this.pdfPath = pdfPath;
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            newInvoiceDao.updatePdfPath(localInvoiceId, pdfPath);
             return null;
         }
 

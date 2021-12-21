@@ -91,7 +91,11 @@ public class InvoiceModel {
     @ColumnInfo(name = "is_sync")
     private int isSync;
 
-    public InvoiceModel(long id,long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, Integer totalAmount, Integer userid, String invoiceDate,long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync) {
+//    @SerializedName("pdfPath")
+    @ColumnInfo(name = "pdf_path")
+    private String pdfPath="";
+
+    public InvoiceModel(long id,long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, Integer totalAmount, Integer userid, String invoiceDate,long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync, String pdfPath) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.customerName = customerName;
@@ -108,6 +112,7 @@ public class InvoiceModel {
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
         this.isSync = isSync;
+        this.pdfPath=pdfPath;
     }
 
     public int getLocal_id() {
@@ -178,6 +183,9 @@ public class InvoiceModel {
         return isSync;
     }
 
+    public String getPdfPath() { return pdfPath; }
+
+    public void setPdfPath(String pdfPath) { this.pdfPath = pdfPath; }
     public void setLocal_id(int local_id) {
         this.local_id = local_id;
     }

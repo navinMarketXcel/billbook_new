@@ -40,4 +40,8 @@ public interface NewInvoiceDao {
     @Query("UPDATE invoice_table SET is_sync=1 WHERE id=:id")
     void updateIsSync(long id);
 
+    @Query("UPDATE invoice_table SET pdf_path =:pdfPath WHERE id =:localInvoiceId")
+    void updatePdfPath(long localInvoiceId,String pdfPath);
+
+
 }

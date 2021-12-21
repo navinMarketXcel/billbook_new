@@ -31,5 +31,8 @@ public class InvoiceViewModel extends AndroidViewModel {
         AppRepository.getInstance().updateInvoiceId(localInvoiceId,invoiceId);
     }
 
+    public void updatePdfPath(long localInvoiceId, String pdfPath){
+        AppRepository.getInstance().updatePdfPath(localInvoiceId, pdfPath);
+    }
 
 }
