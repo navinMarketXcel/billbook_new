@@ -5,16 +5,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
-
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
-
-import com.billbook.app.R;
-import com.billbook.app.activities.BillingNewActivity;
-import com.billbook.app.activities.HomeActivity;
 import com.billbook.app.activities.MyApplication;
-import com.billbook.app.activities.PDFActivity;
 import com.billbook.app.database.daos.InvoiceItemDao;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceItems;
@@ -22,8 +15,6 @@ import com.billbook.app.database.models.InvoiceModel;
 import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
-import com.billbook.app.repository.AppRepository;
-import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.billbook.app.viewmodel.InvoiceViewModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -155,10 +146,6 @@ public class SyncService extends Service {
         @Override
         protected void onPostExecute(List<InvoiceModel> invoiceModelList) {
             super.onPostExecute(invoiceModelList);
-            Intent intent = new Intent(SyncService.this, HomeActivity.class);
-            intent.putExtra("unsyncedInvoiceSize",invoiceModelList.size());
-            startActivity(intent);
-
             for(int i = 0;i<invoiceModelList.size();i++){
                 InvoiceModel curInvoice = invoiceModelList.get(i);
                 new FetchInvoiceItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),curInvoice).execute(curInvoice);

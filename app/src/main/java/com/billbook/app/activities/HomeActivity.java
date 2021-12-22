@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.billbook.app.database.daos.NewInvoiceDao;
@@ -39,8 +40,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -55,8 +54,6 @@ import retrofit2.Response;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
-
-import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends AppCompatActivity
@@ -201,15 +198,15 @@ updateGST();
         btnGetSalesReport.setOnClickListener(this);
         btnSearchInvoice.setOnClickListener(this);
         setAlarm();
+        // for displaying sync message on HomeActivity
+        syncOffLineInvoiceFromDatabase();
         try {
-                JSONArray exp = null;
+            JSONArray exp = null;
             String expString = MyApplication.getUnSyncedExpenses();
             if (expString.length() > 0)
                 exp = new JSONArray(expString);
-                int inv = 0;
-                if(getIntent().hasExtra("unsyncedInvoiceSize"))
-                 inv = Integer.parseInt(String.valueOf(getIntent().getStringExtra("unsyncedInvoiceSize")));
-            if (inv>0 || (exp != null && exp.length()>0))
+
+            if ((exp != null && exp.length() > 0))
                 syncText.setVisibility(View.VISIBLE);
             else
                 syncText.setVisibility(View.INVISIBLE);
@@ -218,6 +215,34 @@ updateGST();
         }
 
     }
+
+    public  void syncOffLineInvoiceFromDatabase(){
+        new HomeActivity.FetchInvoice(MyApplication.getDatabase().newInvoiceDao()).execute();
+    }
+
+
+    private class FetchInvoice extends AsyncTask<Void,Void, List<InvoiceModel>> {
+        NewInvoiceDao newInvoiceDao;
+        private FetchInvoice(NewInvoiceDao newInvoiceDao){
+            this.newInvoiceDao =newInvoiceDao;
+        }
+        @Override
+        protected List<InvoiceModel> doInBackground(Void... voids) {
+            return newInvoiceDao.getAllOffLineInvoice();
+        }
+
+        @Override
+        protected void onPostExecute(List<InvoiceModel> invoiceModelList) {
+            super.onPostExecute(invoiceModelList);
+
+            if (invoiceModelList.size()>0)
+                syncText.setVisibility(View.VISIBLE);
+            else
+                syncText.setVisibility(View.INVISIBLE);
+
+        }
+    }
+
 
     private void setToolbar() {
 
@@ -618,8 +643,6 @@ updateGST();
         intent.setPackage("com.google.android.youtube");
         startActivity(intent);
     }
-
-
 
     private void sendEvent(){
         if(mFirebaseAnalytics!=null) {
