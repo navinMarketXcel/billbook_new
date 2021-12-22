@@ -90,6 +90,22 @@ public class Util {
         return gstAmount;
     }
 
+    public static float calculateDiscountPercentFromAmt(float discountAmt, float total){
+
+        float discountPercent=0;
+        if(total>0) {
+            discountPercent = ((discountAmt / total) * 100);
+        }
+        return discountPercent;
+    }
+
+    public static float calculateDiscountAmtFromPercent(float discountPercent, float total){
+
+        float discountAmt = 0;
+        discountAmt = ((discountPercent*total)/100);
+        return discountAmt;
+    }
+
     public static String getTodaysdate() {
         //2018-09-24T11:13:23.744709Z
         String dateStr;

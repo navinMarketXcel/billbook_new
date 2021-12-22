@@ -49,7 +49,17 @@ public class InvoiceModel {
 
     @SerializedName("totalAmount")
     @ColumnInfo(name = "total_amount")
-    private Integer totalAmount;
+    private float totalAmount;
+
+    // discount  - represents discount Percent
+    @SerializedName("discount")
+    @ColumnInfo(name = "discount")
+    private float discount;
+
+    // discountAmt = totalAmount - discountedAmout i.e amount left after deducting discount
+    @SerializedName("discountAmt")
+    @ColumnInfo(name = "discountAmt")
+    private float discountAmt;
 
     //userid from backend
     @SerializedName("userid")
@@ -95,7 +105,7 @@ public class InvoiceModel {
     @ColumnInfo(name = "pdf_path")
     private String pdfPath="";
 
-    public InvoiceModel(long id,long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, Integer totalAmount, Integer userid, String invoiceDate,long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync, String pdfPath) {
+    public InvoiceModel(long id,long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, float totalAmount, Integer userid, String invoiceDate,long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync, String pdfPath, float discount, float discountAmt) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.customerName = customerName;
@@ -113,6 +123,8 @@ public class InvoiceModel {
         this.createdAt = createdAt;
         this.isSync = isSync;
         this.pdfPath=pdfPath;
+        this.discount = discount;
+        this.discountAmt = discountAmt;
     }
 
     public int getLocal_id() {
@@ -143,7 +155,7 @@ public class InvoiceModel {
         return GSTNo;
     }
 
-    public Integer getTotalAmount() {
+    public Float getTotalAmount() {
         return totalAmount;
     }
 
@@ -185,6 +197,17 @@ public class InvoiceModel {
 
     public String getPdfPath() { return pdfPath; }
 
+    public float getDiscount() {
+        return discount;
+    }
+
+    public float getDiscountAmt() {
+        return discountAmt;
+    }
+
+    public void setDiscount(float discount) { this.discount = discount; }
+
+    public void setDiscountAmt(float discountAmt) { this.discountAmt = discountAmt; }
     public void setPdfPath(String pdfPath) { this.pdfPath = pdfPath; }
     public void setLocal_id(int local_id) {
         this.local_id = local_id;
@@ -214,7 +237,7 @@ public class InvoiceModel {
         this.GSTNo = GSTNo;
     }
 
-    public void setTotalAmount(Integer totalAmount) {
+    public void setTotalAmount(Float totalAmount) {
         this.totalAmount = totalAmount;
     }
 

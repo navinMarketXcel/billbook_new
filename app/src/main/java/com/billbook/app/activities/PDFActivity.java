@@ -236,7 +236,14 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         pdfBinding.edtMobNo.setText(invoice.getString("customerMobileNo") + " ");
 //            tvGSTNo.setText(invoice.getString("GSTNo")+" ");
                         invoiceAmountLayoutUpdatedBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
-                        invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
+//                        invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
+                        float totalAfterDiscount = 0, totalAmount=0;
+                        totalAmount = Float.parseFloat(invoice.getString("totalAmount"));
+                        if(invoice.has("discountAmt"))
+                        totalAfterDiscount =  totalAmount -
+                                ((Float.parseFloat(invoice.getString("discountAmt")))/100);
+                        invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
+                        invoiceAmountLayoutUpdatedBinding.tvDiscount.setText(Util.formatDecimalValue(totalAmount-totalAfterDiscount));
 
                         new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId,PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts, GSTType).execute();
 

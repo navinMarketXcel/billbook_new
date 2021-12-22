@@ -25,6 +25,9 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -81,7 +84,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private InvoiceViewModel invoiceViewModel;
     private ModelAdapter modelAdapter;
     private NewBillingAdapter newBillingAdapter;
-    private float total, totalBeforeGST;
+    private float total = 0, totalBeforeGST = 0, discountPercent = 0, discountAmt = 0;
     private String invoiceDateStr;
     private Date invoiceDate;
     private Gson gson = new Gson();
@@ -185,6 +188,99 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             billItemBinding.priceLblTV.setText(R.string.price_including_gst);
             billItemBinding.itemPriceET.setHint(R.string.enter_price_including_gst);
         }
+
+        // Discount Percentage will have high priority then Discount Amount on recalculation if total price is being edited.
+        binding.edtDiscountPercent.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    String substr;
+                    if (getCurrentFocus() ==  binding.edtDiscountPercent) {
+                        if (s.length() > 0) {
+                            substr = s.toString();
+                            if(substr.endsWith("%"))
+                                substr = substr.substring(0, substr.length() - 1);
+
+                            discountPercent = Float.parseFloat(substr);
+                            discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
+                            binding.edtDiscountAmt.setText(String.valueOf(discountAmt));
+                            if (discountPercent > 100.00)
+                                setEditTextError(binding.edtDiscountPercent, "Discount should be less than 100%");
+                            else
+                                setEditTextError(binding.edtDiscountPercent, "");
+                        } else {
+                            binding.edtDiscountAmt.getText().clear();
+                            discountPercent = 0;
+                            discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
+                        }
+                        setTotalAfterDiscount();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        binding.edtDiscountAmt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    if (getCurrentFocus() == binding.edtDiscountAmt) {
+
+                        if (s.toString().length() > 0) {
+                            discountAmt = Float.parseFloat(s.toString());
+                            discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
+                            binding.edtDiscountPercent.setText(discountPercent + "%");
+
+                            if (discountAmt > total)
+                                setEditTextError(binding.edtDiscountAmt, "Discount value should be less than total");
+                            else
+                                setEditTextError(binding.edtDiscountAmt, "");
+                        } else {
+                            binding.edtDiscountPercent.getText().clear();
+                            discountAmt = 0;
+                            discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
+                        }
+                        setTotalAfterDiscount();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        binding.edtDiscountPercent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(binding.edtDiscountPercent.getText().length()>0)
+                    binding.edtDiscountPercent.setText(discountPercent + "%");
+            }
+        });
+
+    }
+
+    private void setEditTextError(EditText editText, String text) {
+        if (text.length() <= 0)
+            editText.setError(null);
+        else
+            editText.setError(text);
     }
 
     public boolean checkPermission() {
@@ -272,6 +368,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             InvoiceItems newInvoiceItem  = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,0,localId,curLocalInvoiceId);
             invoiceItemViewModel.updateByLocalId(newInvoiceItem);
             setTotal(newInvoiceItem, true);
+            calculateDiscount();
             calculateAmountBeforeGST(newInvoiceItem, true);
             return;
         }
@@ -279,6 +376,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         InvoiceItems newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,0,1,localInvoiceId);
         invoiceItemViewModel.insert(newInvoiceItem);
         setTotal(newInvoiceItem, true);
+        calculateDiscount();
         calculateAmountBeforeGST(newInvoiceItem, true);
     }
 
@@ -377,6 +475,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     calculateAmountBeforeGST(invoiceItemsList.get(position), false);
                     invoiceItemViewModel.delete(invoiceItemsList.get(position));
                     newBillingAdapter.notifyDataSetChanged();
+                    calculateDiscount();
                 }
                 @Override
                 public void negativeButtonClick() {
@@ -478,7 +577,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                                 hsnNo.getText().toString(),
                                 measurementUnitSpinner.getSelectedItemPosition());
 
-
                         dismiss();
                     }
                     break;
@@ -559,6 +657,18 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
+    public void showHideDiscountBilling(View view) {
+        if (binding.discountBillingLayout.getVisibility() == View.VISIBLE) {
+            binding.discountBillingLayout.setVisibility(View.GONE);
+            binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_add_circle, 0);
+        } else {
+            binding.discountBillingLayout.setVisibility(View.VISIBLE);
+            binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
+
+        }
+    }
+
+
     private void setTotal(InvoiceItems newInvoiceModel, boolean add) {
         if (add)
             total = total + newInvoiceModel.getTotalAmount();
@@ -566,6 +676,50 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             total = total - newInvoiceModel.getTotalAmount();
         binding.tvTotal.setText(Util.formatDecimalValue(total));
 
+    }
+
+    private void calculateDiscount() {
+
+        if (binding.edtDiscountPercent.getText().toString().length() > 0) {
+            String substr = binding.edtDiscountPercent.getText().toString();
+            if(substr.endsWith("%")) {
+                substr = substr.substring(0, substr.length() - 1);
+            }
+            discountPercent = Float.valueOf(substr);
+        } else if (binding.edtDiscountAmt.getText().toString().length() > 0) {
+            discountAmt = Float.valueOf(binding.edtDiscountAmt.getText().toString());
+        }
+
+        if (discountAmt > 0 && discountPercent == 0) {
+            discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
+        } else if (discountPercent > 0 && discountAmt == 0) {
+            discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
+        } else {
+            discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
+            discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
+        }
+
+        if (discountAmt > 0) {
+            binding.edtDiscountAmt.setText(String.valueOf(discountAmt));
+        }
+        if (discountPercent > 0) {
+            binding.edtDiscountPercent.setText(discountPercent + "%");
+        }
+
+        setTotalAfterDiscount();
+    }
+
+    private void setTotalAfterDiscount() {
+        if (discountPercent > 100.00) {
+            setEditTextError(binding.edtDiscountPercent, "Discount should be less than 100%");
+        } else if (discountAmt > total) {
+            setEditTextError(binding.edtDiscountAmt, "Discount value should be less than total");
+        } else {
+            float totalAfterDiscount = total - discountAmt;
+            binding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
+            setEditTextError(binding.edtDiscountAmt, "");
+            setEditTextError(binding.edtDiscountPercent, "");
+        }
     }
 
     private void calculateAmountBeforeGST(InvoiceItems newInvoiceModel, boolean add) {
@@ -598,6 +752,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 requestObj.put("userid", profile.getString("userid"));
                 requestObj.put("invoiceDate", invoiceDateStr);
                 requestObj.put("totalAmountBeforeGST", totalBeforeGST);
+                requestObj.put("discount", Util.formatDecimalValue(discountPercent));
+                requestObj.put("discountAmt", total-discountAmt);
+                requestObj.put("totalAmount", total);
+
                 if (isGSTAvailable) {
                     requestObj.put("gstBillNo", serialNumber);
                     requestObj.put("nonGstBillNo", 0);
@@ -673,7 +831,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         } else if (!binding.edtMobNo.getText().toString().isEmpty() && binding.edtMobNo.getText().toString().length() < 10) {
             DialogUtils.showToast(this, "Please enter valid mobile number");
             return false;
+        } else if (discountAmt > total) {
+            DialogUtils.showToast(this, "Please enter valid discount value");
+            return false;
         }
+
         return true;
     }
 
@@ -703,7 +865,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     invoice.has("customerMobileNo")?invoice.getString("customerMobileNo"):"",
                     invoice.has("customerAddress")?invoice.getString("customerAddress"):"",
                     invoice.has("GSTNo")?invoice.getString("GSTNo"):"",
-                    invoice.has("totalAmount")?invoice.getInt("totalAmount"):0,
+                    invoice.has("totalAmount")?(float)invoice.getDouble("totalAmount"):0,
                     invoice.has("userid")?invoice.getInt("userid"):0,
                     invoice.has("invoiceDate")?invoice.getString("invoiceDate"):"",
                     invoice.has("totalAmountBeforeGST")?invoice.getInt("totalAmountBeforeGST"):0,
@@ -713,8 +875,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     invoice.has("updatedAt")?invoice.getString("updatedAt"):"",
                     invoice.has("createdAt")?invoice.getString("createdAt"):"",
                     0,
-                    invoice.has("pdfPath")?invoice.getString("pdfPath"):""
-
+                    invoice.has("pdfPath")?invoice.getString("pdfPath"):"",
+                    invoice.has("discount")?(float)invoice.getDouble("discount"):0,
+                    invoice.has("discountAmt")?(float)invoice.getDouble("discountAmt"):0
                     );
 
             invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
@@ -954,6 +1117,20 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 binding.tvAmountBeforeTax.setText(Util.formatDecimalValue(totalBeforeGST));
                 binding.tvAmountGST.setText(Util.formatDecimalValue(total - totalBeforeGST));
+                // for old invoices if discount key is not present
+                float totalDiscount = 0, discountPercentLocal = 0;
+                if (invoice.has("discount")) {
+                    binding.discountBillingLayout.setVisibility(View.VISIBLE);
+                    binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
+                    discountPercent = (float) invoice.getDouble("discount");
+                    discountPercentLocal = discountPercent;
+                    totalDiscount = ((discountPercentLocal * total) / 100);
+                    discountAmt = totalDiscount;
+                }
+                binding.edtDiscountPercent.setText(discountPercentLocal + "%");
+                binding.edtDiscountAmt.setText(String.valueOf(totalDiscount));
+                binding.tvTotal.setText(Util.formatDecimalValue(total - totalDiscount));
+
                 binding.cardItemList.setVisibility(View.VISIBLE);
                 binding.layoutBillItemInitial.setVisibility(View.GONE);
 
