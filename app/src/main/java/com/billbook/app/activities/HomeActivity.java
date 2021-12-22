@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+
+import com.billbook.app.database.daos.NewInvoiceDao;
+import com.billbook.app.database.models.InvoiceModel;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -199,9 +202,14 @@ updateGST();
         btnSearchInvoice.setOnClickListener(this);
         setAlarm();
         try {
-            JSONArray inv = new JSONArray(MyApplication.getUnSyncedInvoice());
-            JSONArray exp = new JSONArray(MyApplication.getUnSyncedExpenses());
-            if ((inv != null && inv.length() > 0) || (exp != null && exp.length()>0))
+                JSONArray exp = null;
+            String expString = MyApplication.getUnSyncedExpenses();
+            if (expString.length() > 0)
+                exp = new JSONArray(expString);
+                int inv = 0;
+                if(getIntent().hasExtra("unsyncedInvoiceSize"))
+                 inv = Integer.parseInt(String.valueOf(getIntent().getStringExtra("unsyncedInvoiceSize")));
+            if (inv>0 || (exp != null && exp.length()>0))
                 syncText.setVisibility(View.VISIBLE);
             else
                 syncText.setVisibility(View.INVISIBLE);

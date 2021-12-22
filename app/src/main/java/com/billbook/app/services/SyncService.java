@@ -5,14 +5,16 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
+import com.billbook.app.R;
+import com.billbook.app.activities.BillingNewActivity;
+import com.billbook.app.activities.HomeActivity;
 import com.billbook.app.activities.MyApplication;
+import com.billbook.app.activities.PDFActivity;
 import com.billbook.app.database.daos.InvoiceItemDao;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceItems;
@@ -51,12 +53,13 @@ public class SyncService extends Service {
     private JSONArray invoices;
     private String filePath;
     private InvoiceViewModel invoiceViewModel;
+    private TextView syncText;
 
     @Override
     public void onCreate() {
         super.onCreate();
 //        invoiceViewModel = ViewModelProviders.
-        Log.v(TAG, "SyncService onCreate ");
+       invoiceViewModel = new InvoiceViewModel(this.getApplication());
     }
 
     @Override
@@ -71,7 +74,6 @@ public class SyncService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.v(TAG, "SyncService onDestroy ");
     }
 
     @Nullable
@@ -136,7 +138,6 @@ public class SyncService extends Service {
     }
 
     public  void syncOffLineInvoiceFromDatabase(){
-        Log.d(TAG, "syncc syncOffLineInvoiceFromDatabase: done");
         new FetchInvoice(MyApplication.getDatabase().newInvoiceDao()).execute();
     }
 
@@ -148,14 +149,16 @@ public class SyncService extends Service {
         }
         @Override
         protected List<InvoiceModel> doInBackground(Void... voids) {
-            Log.d(TAG, "syncc doInBackground: fetchinvoice done");
             return newInvoiceDao.getAllOffLineInvoice();
         }
 
         @Override
         protected void onPostExecute(List<InvoiceModel> invoiceModelList) {
             super.onPostExecute(invoiceModelList);
-            Log.d(TAG, "syncc onPostExecute: invoiceModelList ");
+            Intent intent = new Intent(SyncService.this, HomeActivity.class);
+            intent.putExtra("unsyncedInvoiceSize",invoiceModelList.size());
+            startActivity(intent);
+
             for(int i = 0;i<invoiceModelList.size();i++){
                 InvoiceModel curInvoice = invoiceModelList.get(i);
                 new FetchInvoiceItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),curInvoice).execute(curInvoice);
@@ -171,24 +174,20 @@ public class SyncService extends Service {
         public String filePath;
 
         FetchInvoiceItemsAsyncTask(InvoiceItemDao invoiceItemDao,InvoiceModel curInvoice){
-            Log.d(TAG, "syncc FetchInvoiceItemsAsyncTask: ");
             this.invoiceItemDao = invoiceItemDao;
             this.curInvoice = curInvoice;
         }
 
         @Override
         protected List<InvoiceItems> doInBackground(InvoiceModel... invoiceModels) {
-            Log.d(TAG, "syncc doInBackground: invoiceModels");
             return invoiceItemDao.getCurrentItems(invoiceModels[0].getId());
         }
         
         @Override
         protected void onPostExecute(List<InvoiceItems> invoiceItemsList) {
-            Log.d(TAG, "syncc onPostExecute: heyyy");
             try {
                 JSONObject requestObj = new JSONObject(new Gson().toJson(this.curInvoice));
                 String items = new Gson().toJson(invoiceItemsList);
-                Log.d(TAG, "syncc onPostExecute:  invoiceItemsList items " + items);
                 requestObj.put("items", new JSONArray(items));
                 ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
                 Map<String, String> headerMap = new HashMap<>();
@@ -206,58 +205,63 @@ public class SyncService extends Service {
                 JsonObject req = new JsonParser().parse(requestObj.toString()).getAsJsonObject();
 
                 Call<Object> call = apiService.invoice(req);
-                Log.d(TAG, "syncc onPostExecute:  invoiceList " + req);
 
                 call.enqueue(new Callback<Object>() {
                     @Override
                     public void onResponse(Call<Object> call, Response<Object> response) {
-                        Log.d(TAG, "syncc onResponse: " + response.body());
-                        if(response.code() ==200) {
-                            Log.d(TAG, "onResponse: curInvoice.getId()" + curInvoice.getId());
-//                            invoiceViewModel.updateIsSync((long) curInvoice.getId());
-                            Log.v("Invoices hyyy", response.body().toString());
-                            try {
-                                JSONObject   body = new JSONObject(new Gson().toJson(response.body()));
-                                if(body.getBoolean("status")){
-                                    // upload pdf
-
-                                    ApiInterface apiService =
-                                            ApiClient.getClient().create(ApiInterface.class);
-                                    Map<String, String> headerMap = new HashMap<>();
-                                    File pdfFile =  new File(filePath).getAbsoluteFile();
-                                    Log.d(TAG, "syncc onResponse: pdfFile " + pdfFile);
-                                    MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", "invoive", RequestBody.create(MediaType.parse("*/*"),pdfFile));
-                                    Log.d(TAG, "syncc uploadPDF: filepart " + filePart);
-
-                                    Call<Object> call1 = apiService.updateInvoicePdf(headerMap, (int) body.getJSONObject("data").getJSONObject("invoice").getLong("id"), filePart);
-                                    call1.enqueue(new Callback<Object>() {
-                                        @Override
-                                        public void onResponse(Call<Object> call, Response<Object> response) {
-                                            Log.d(TAG, "syncc onResponse: filepath " + filePath);
-                                            Log.d(TAG, "syncc onResponse: inner" + response.body());
-                                            DialogUtils.stopProgressDialog();
-                                            try {
-                                                JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                                                Log.v("RESP", body.toString());
-                                                if (body.getBoolean("status")) {
-
-                                                }
-                                                else { }
-                                            }
-                                            catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                        @Override
-                                        public void onFailure(Call<Object> call, Throwable t) { }
-                                    });
-                                }
-
-                            }
-                            catch (JSONException e) {
-                                e.printStackTrace();
+                        JSONObject body = null;
+                        try {
+                            if (response.code() == 200) {
+                                body = new JSONObject(new Gson().toJson(response.body()));
+                                invoiceViewModel.updateIsSync(curInvoice.getId());
+                                invoiceViewModel.updateInvoiceId(curInvoice.getId(),body.getJSONObject("data").getJSONObject("invoice").getInt("id") );
                             }
                         }
+                        catch(JSONException e){
+                            e.printStackTrace();
+                        }
+
+                            // for uploading pdf to server :- to be implemented in later stage
+//                            try {
+//                                JSONObject   body = new JSONObject(new Gson().toJson(response.body()));
+//                                if(body.getBoolean("status")){
+//                                    // upload pdf
+//
+//                                    ApiInterface apiService =
+//                                            ApiClient.getClient().create(ApiInterface.class);
+//                                    Map<String, String> headerMap = new HashMap<>();
+//                                    File pdfFile =  new File(filePath).getAbsoluteFile();
+//                                    Log.d(TAG, "syncc onResponse: pdfFile " + pdfFile);
+//                                    MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", "invoive", RequestBody.create(MediaType.parse("*/*"),pdfFile));
+//
+//                                    Call<Object> call1 = apiService.updateInvoicePdf(headerMap, (int) body.getJSONObject("data").getJSONObject("invoice").getLong("id"), filePart);
+//                                    call1.enqueue(new Callback<Object>() {
+//                                        @Override
+//                                        public void onResponse(Call<Object> call, Response<Object> response) {
+//                                            Log.d(TAG, "syncc onResponse: inner" + response.body());
+//                                            DialogUtils.stopProgressDialog();
+//                                            try {
+//                                                JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+//                                                Log.v("RESP", body.toString());
+//                                                if (body.getBoolean("status")) {
+//
+//                                                }
+//                                                else { }
+//                                            }
+//                                            catch (JSONException e) {
+//                                                e.printStackTrace();
+//                                            }
+//                                        }
+//                                        @Override
+//                                        public void onFailure(Call<Object> call, Throwable t) { }
+//                                    });
+//                                }
+//
+//                            }
+//                            catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+
                     }
 
                     @Override
@@ -272,7 +276,7 @@ public class SyncService extends Service {
 
     }
 
-
+// Not needed in MVVM
     private void syncInvoices(){
 
         String invoicesStr = MyApplication.getUnSyncedInvoice();
