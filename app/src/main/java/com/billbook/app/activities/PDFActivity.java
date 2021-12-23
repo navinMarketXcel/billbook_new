@@ -382,7 +382,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     new PdfWriter(PDFActivity.this, (ViewGroup) findViewById(R.id.ll_root));
             filepath = docsFolder.getAbsolutePath();
 
-            filepath = filepath + "/" + pdfBinding.edtName.getText().toString() + "_" + today + ".pdf";
+                filepath = filepath + "/" + (pdfBinding.edtName.getText().toString().substring(0,pdfBinding.edtName.getText().toString().length()-1)) + invoiceNumber + "_" + today + ".pdf";
+
             Log.d(TAG, "createPdf: filePath " + filepath);
             pdfFile = pdfWriter.exportPDF(filepath);
             if (invID > 0)
@@ -522,6 +523,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", pdfFile.getName(), RequestBody.create(MediaType.parse("*/*"), pdfFile));
 
         Call<Object> call = apiService.updateInvoicePdf(headerMap, invID, filePart);
+        invoiceViewModel.updatePdfPath(localInvoiceId,filepath);
+
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -552,16 +555,15 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     //once syncing starts from database (see SyncService.java class line: 120) , after that there will be no use of this function
     private void saveInvoiceOffline() {
         try {
-
-            JSONArray invoices = new JSONArray();
-            if (!MyApplication.getUnSyncedInvoice().isEmpty()) {
-                invoices = new JSONArray(MyApplication.getUnSyncedInvoice());
-            }
             invoiceViewModel.updatePdfPath(localInvoiceId,filepath);
-            invoice.put("pdfLink", "");
-            invoices.put(invoice);
-            MyApplication.saveUnSyncedInvoices(invoices.toString());
-        } catch (JSONException e) {
+//            JSONArray invoices = new JSONArray();
+//            if (!MyApplication.getUnSyncedInvoice().isEmpty()) {
+//                invoices = new JSONArray(MyApplication.getUnSyncedInvoice());
+//            }
+//            invoice.put("pdfLink", "");
+//            invoices.put(invoice);
+//            MyApplication.saveUnSyncedInvoices(invoices.toString());
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
