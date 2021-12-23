@@ -10,7 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.billbook.app.database.daos.NewInvoiceDao;
-import com.billbook.app.database.models.InvoiceModel;
+import com.billbook.app.database.models.InvoiceModelV2;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -221,21 +221,21 @@ updateGST();
     }
 
 
-    private class FetchInvoice extends AsyncTask<Void,Void, List<InvoiceModel>> {
+    private class FetchInvoice extends AsyncTask<Void,Void, List<InvoiceModelV2>> {
         NewInvoiceDao newInvoiceDao;
         private FetchInvoice(NewInvoiceDao newInvoiceDao){
             this.newInvoiceDao =newInvoiceDao;
         }
         @Override
-        protected List<InvoiceModel> doInBackground(Void... voids) {
+        protected List<InvoiceModelV2> doInBackground(Void... voids) {
             return newInvoiceDao.getAllOffLineInvoice();
         }
 
         @Override
-        protected void onPostExecute(List<InvoiceModel> invoiceModelList) {
-            super.onPostExecute(invoiceModelList);
+        protected void onPostExecute(List<InvoiceModelV2> invoiceModelV2List) {
+            super.onPostExecute(invoiceModelV2List);
 
-            if (invoiceModelList.size()>0)
+            if (invoiceModelV2List.size()>0)
                 syncText.setVisibility(View.VISIBLE);
             else
                 syncText.setVisibility(View.INVISIBLE);

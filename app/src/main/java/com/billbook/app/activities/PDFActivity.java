@@ -1,7 +1,6 @@
 package com.billbook.app.activities;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,28 +21,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.billbook.app.adapters.NewBillingAdapter;
 import com.billbook.app.database.daos.InvoiceItemDao;
 import com.billbook.app.database.models.InvoiceItems;
-import com.billbook.app.database.models.InvoiceModel;
+import com.billbook.app.database.models.InvoiceModelV2;
 import com.billbook.app.databinding.ActivityPdfBinding;
 import com.billbook.app.databinding.InvoiceAmountLayoutUpdatedBinding;
 import com.billbook.app.databinding.PdfContentNewBinding;
-import com.billbook.app.repository.AppRepository;
 import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.billbook.app.viewmodel.InvoiceViewModel;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import com.billbook.app.BuildConfig;
 import com.billbook.app.R;
 import com.billbook.app.adapters.NewInvoicePurchaseAdapter;
@@ -148,12 +139,12 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private void setData() {
         try {
             localInvoiceId = getIntent().getExtras().getLong("localInvId");
-            invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, new Observer<InvoiceModel>() {
+            invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, new Observer<InvoiceModelV2>() {
                 @Override
-                public void onChanged(InvoiceModel invoiceModel) {
+                public void onChanged(InvoiceModelV2 invoiceModelV2) {
                     try{
 
-                        invoice = new JSONObject(new Gson().toJson(invoiceModel));
+                        invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
                         if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
                             isGSTAvailable = true;
                             invoiceAmountLayoutUpdatedBinding.gstTotalLayout.setVisibility(View.VISIBLE);

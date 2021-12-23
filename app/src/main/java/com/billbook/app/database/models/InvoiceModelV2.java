@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "InvoiceTableV2")
-public class InvoiceModel {
+@Entity(tableName = "invoiceTableV2")
+public class InvoiceModelV2 {
 
     //local id
     @PrimaryKey(autoGenerate = true)
@@ -105,7 +105,7 @@ public class InvoiceModel {
     @ColumnInfo(name = "pdf_path")
     private String pdfPath="";
 
-    public InvoiceModel(long id,long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, float totalAmount, Integer userid, String invoiceDate,long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync, String pdfPath, float discount, float totalAfterDiscount) {
+    public InvoiceModelV2(long id, long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, float totalAmount, Integer userid, String invoiceDate, long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync, String pdfPath, float discount, float totalAfterDiscount) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.customerName = customerName;

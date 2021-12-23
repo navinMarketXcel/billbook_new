@@ -9,12 +9,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
-import android.os.AsyncTask;
 
 import androidx.annotation.Nullable;
 import com.billbook.app.database.models.InvoiceItems;
-import com.billbook.app.database.models.InvoiceModel;
+import com.billbook.app.database.models.InvoiceModelV2;
 import com.billbook.app.databinding.ActivityBillingNewBinding;
 import com.billbook.app.databinding.LayoutItemBillBinding;
 import com.billbook.app.viewmodel.InvoiceItemsViewModel;
@@ -80,7 +78,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //    private ArrayList<NewInvoiceModels> newInvoiceModels = new ArrayList<>();
     private ArrayList<InvoiceItems> invoiceItemsList = new ArrayList<>();
     private ArrayList<InvoiceItems> invoiceItemEditModel = new ArrayList<>();
-    private InvoiceModel invoiceModel;
+    private InvoiceModelV2 invoiceModelV2;
     private InvoiceViewModel invoiceViewModel;
     private ModelAdapter modelAdapter;
     private NewBillingAdapter newBillingAdapter;
@@ -857,7 +855,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     void saveInvoiceToLocalDatabase(JSONObject invoice){
         try{
-            InvoiceModel curInvoice = new InvoiceModel(
+            InvoiceModelV2 curInvoice = new InvoiceModelV2(
                     localInvoiceId,
                     localInvoiceId,
                     invoice.has("customerName")?invoice.getString("customerName"):"",

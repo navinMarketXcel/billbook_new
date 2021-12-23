@@ -1,9 +1,6 @@
 package com.billbook.app.database;
 
-import android.content.Context;
-
 import androidx.room.Database;
-import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.billbook.app.database.daos.BrandDao;
@@ -25,7 +22,7 @@ import com.billbook.app.database.models.Expense;
 import com.billbook.app.database.models.Inventory;
 import com.billbook.app.database.models.Invoice;
 import com.billbook.app.database.models.InvoiceItems;
-import com.billbook.app.database.models.InvoiceModel;
+import com.billbook.app.database.models.InvoiceModelV2;
 import com.billbook.app.database.models.Model;
 import com.billbook.app.database.models.Product;
 import com.billbook.app.database.models.Purchase;
@@ -33,7 +30,7 @@ import com.billbook.app.database.models.User;
 
 @Database(entities = {
         User.class, Category.class, Brand.class, Product.class, Inventory.class, Invoice.class,
-        Purchase.class, Distributor.class, Model.class, Expense.class,InvoiceItems.class, InvoiceModel.class
+        Purchase.class, Distributor.class, Model.class, Expense.class,InvoiceItems.class, InvoiceModelV2.class
 }, version = 7, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();

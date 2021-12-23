@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "invoice_item_table")
+@Entity(tableName = "invoiceItemTable")
 public class InvoiceItems {
 
     @PrimaryKey(autoGenerate = true)

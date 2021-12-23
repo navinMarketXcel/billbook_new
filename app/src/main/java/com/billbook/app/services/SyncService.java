@@ -11,7 +11,7 @@ import com.billbook.app.activities.MyApplication;
 import com.billbook.app.database.daos.InvoiceItemDao;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceItems;
-import com.billbook.app.database.models.InvoiceModel;
+import com.billbook.app.database.models.InvoiceModelV2;
 import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
@@ -26,8 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,21 +131,21 @@ public class SyncService extends Service {
     }
 
 
-    private class FetchInvoice extends AsyncTask<Void,Void, List<InvoiceModel>>{
+    private class FetchInvoice extends AsyncTask<Void,Void, List<InvoiceModelV2>>{
         NewInvoiceDao newInvoiceDao;
         private FetchInvoice(NewInvoiceDao newInvoiceDao){
             this.newInvoiceDao =newInvoiceDao;
         }
         @Override
-        protected List<InvoiceModel> doInBackground(Void... voids) {
+        protected List<InvoiceModelV2> doInBackground(Void... voids) {
             return newInvoiceDao.getAllOffLineInvoice();
         }
 
         @Override
-        protected void onPostExecute(List<InvoiceModel> invoiceModelList) {
-            super.onPostExecute(invoiceModelList);
-            for(int i = 0;i<invoiceModelList.size();i++){
-                InvoiceModel curInvoice = invoiceModelList.get(i);
+        protected void onPostExecute(List<InvoiceModelV2> invoiceModelV2List) {
+            super.onPostExecute(invoiceModelV2List);
+            for(int i = 0; i< invoiceModelV2List.size(); i++){
+                InvoiceModelV2 curInvoice = invoiceModelV2List.get(i);
                 new FetchInvoiceItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),curInvoice).execute(curInvoice);
             }
 
@@ -155,19 +153,19 @@ public class SyncService extends Service {
     }
 
 
-    private class FetchInvoiceItemsAsyncTask extends AsyncTask<InvoiceModel,Void,List<InvoiceItems>>{
+    private class FetchInvoiceItemsAsyncTask extends AsyncTask<InvoiceModelV2,Void,List<InvoiceItems>>{
         private InvoiceItemDao invoiceItemDao;
-        private InvoiceModel curInvoice;
+        private InvoiceModelV2 curInvoice;
         public String filePath;
 
-        FetchInvoiceItemsAsyncTask(InvoiceItemDao invoiceItemDao,InvoiceModel curInvoice){
+        FetchInvoiceItemsAsyncTask(InvoiceItemDao invoiceItemDao, InvoiceModelV2 curInvoice){
             this.invoiceItemDao = invoiceItemDao;
             this.curInvoice = curInvoice;
         }
 
         @Override
-        protected List<InvoiceItems> doInBackground(InvoiceModel... invoiceModels) {
-            return invoiceItemDao.getCurrentItems(invoiceModels[0].getId());
+        protected List<InvoiceItems> doInBackground(InvoiceModelV2... invoiceModelV2s) {
+            return invoiceItemDao.getCurrentItems(invoiceModelV2s[0].getId());
         }
         
         @Override
