@@ -239,9 +239,12 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 //                        invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
                         float totalAfterDiscount = 0, totalAmount=0;
                         totalAmount = Float.parseFloat(invoice.getString("totalAmount"));
-                        if(invoice.has("discountAmt"))
-                        totalAfterDiscount =  totalAmount -
-                                ((Float.parseFloat(invoice.getString("discountAmt")))/100);
+                        if(invoice.has("totalAfterDiscount")) {
+                            totalAfterDiscount = (float) invoice.getDouble("totalAfterDiscount");
+                        }
+                        else{
+                            totalAfterDiscount = totalAmount;
+                        }
                         invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
                         invoiceAmountLayoutUpdatedBinding.tvDiscount.setText(Util.formatDecimalValue(totalAmount-totalAfterDiscount));
 

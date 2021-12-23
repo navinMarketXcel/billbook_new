@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "invoice_table")
+@Entity(tableName = "InvoiceTableV2")
 public class InvoiceModel {
 
     //local id
@@ -57,9 +57,9 @@ public class InvoiceModel {
     private float discount;
 
     // discountAmt = totalAmount - discountedAmout i.e amount left after deducting discount
-    @SerializedName("discountAmt")
-    @ColumnInfo(name = "discountAmt")
-    private float discountAmt;
+    @SerializedName("totalAfterDiscount")
+    @ColumnInfo(name = "totalAfterDiscount")
+    private float totalAfterDiscount;
 
     //userid from backend
     @SerializedName("userid")
@@ -105,7 +105,7 @@ public class InvoiceModel {
     @ColumnInfo(name = "pdf_path")
     private String pdfPath="";
 
-    public InvoiceModel(long id,long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, float totalAmount, Integer userid, String invoiceDate,long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync, String pdfPath, float discount, float discountAmt) {
+    public InvoiceModel(long id,long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, float totalAmount, Integer userid, String invoiceDate,long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync, String pdfPath, float discount, float totalAfterDiscount) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.customerName = customerName;
@@ -124,7 +124,7 @@ public class InvoiceModel {
         this.isSync = isSync;
         this.pdfPath=pdfPath;
         this.discount = discount;
-        this.discountAmt = discountAmt;
+        this.totalAfterDiscount = totalAfterDiscount;
     }
 
     public int getLocal_id() {
@@ -155,7 +155,7 @@ public class InvoiceModel {
         return GSTNo;
     }
 
-    public Float getTotalAmount() {
+    public float getTotalAmount() {
         return totalAmount;
     }
 
@@ -201,13 +201,14 @@ public class InvoiceModel {
         return discount;
     }
 
-    public float getDiscountAmt() {
-        return discountAmt;
+    public float getTotalAfterDiscount() {
+        return totalAfterDiscount;
     }
 
     public void setDiscount(float discount) { this.discount = discount; }
 
-    public void setDiscountAmt(float discountAmt) { this.discountAmt = discountAmt; }
+    public void setTotalAfterDiscount(float totalAfterDiscount) { this.totalAfterDiscount = totalAfterDiscount; }
+
     public void setPdfPath(String pdfPath) { this.pdfPath = pdfPath; }
     public void setLocal_id(int local_id) {
         this.local_id = local_id;

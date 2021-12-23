@@ -5,7 +5,7 @@ import java.util.Date;
 public class DayBook {
 
     private String name;
-    private int amount;
+    private float amount;
     private Date date;
     private boolean isExpense;
 
@@ -17,11 +17,11 @@ public class DayBook {
         this.name = name;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 

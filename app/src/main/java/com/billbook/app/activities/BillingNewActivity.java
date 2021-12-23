@@ -748,12 +748,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 requestObj.put("customerMobileNo", binding.edtMobNo.getText().toString());
                 requestObj.put("customerAddress", binding.edtAddress.getText().toString());
                 requestObj.put("GSTNo", binding.edtGST.getText().toString());
-                requestObj.put("totalAmount", total);
                 requestObj.put("userid", profile.getString("userid"));
                 requestObj.put("invoiceDate", invoiceDateStr);
                 requestObj.put("totalAmountBeforeGST", totalBeforeGST);
                 requestObj.put("discount", Util.formatDecimalValue(discountPercent));
-                requestObj.put("discountAmt", total-discountAmt);
+                requestObj.put("totalAfterDiscount", total-discountAmt);
                 requestObj.put("totalAmount", total);
 
                 if (isGSTAvailable) {
@@ -877,7 +876,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     0,
                     invoice.has("pdfPath")?invoice.getString("pdfPath"):"",
                     invoice.has("discount")?(float)invoice.getDouble("discount"):0,
-                    invoice.has("discountAmt")?(float)invoice.getDouble("discountAmt"):0
+                    invoice.has("totalAfterDiscount")?(float)invoice.getDouble("totalAfterDiscount"):0
                     );
 
             invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
@@ -1119,12 +1118,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 binding.tvAmountGST.setText(Util.formatDecimalValue(total - totalBeforeGST));
                 // for old invoices if discount key is not present
                 float totalDiscount = 0, discountPercentLocal = 0;
-                if (invoice.has("discount")) {
+                if (invoice.has("discount") && invoice.has("totalAfterDiscount")) {
                     binding.discountBillingLayout.setVisibility(View.VISIBLE);
                     binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
                     discountPercent = (float) invoice.getDouble("discount");
                     discountPercentLocal = discountPercent;
-                    totalDiscount = ((discountPercentLocal * total) / 100);
+                    totalDiscount = total - discountPercentLocal;
                     discountAmt = totalDiscount;
                 }
                 binding.edtDiscountPercent.setText(discountPercentLocal + "%");
