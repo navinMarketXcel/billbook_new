@@ -53,7 +53,8 @@
     <TextView
         android:id="@+id/syncText"
         android:layout_above="@+id/addExpense"
-        android:text="There are some expenses to be synced. Please check your internet and restrat the application."
+        android:text="There are some expenses to be synced. Please check your internet and restart the application."
+        android:gravity="center"
         android:layout_width="match_parent"
         android:textSize="8dp"
         android:layout_marginTop="5dp"

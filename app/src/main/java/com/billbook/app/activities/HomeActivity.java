@@ -70,7 +70,8 @@ public class HomeActivity extends AppCompatActivity
     private FirebaseAnalytics mFirebaseAnalytics;
     private TextView syncText;
     private JSONObject profile;
-
+    private JSONArray exp = null;
+    private String expString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,8 +202,8 @@ updateGST();
         // for displaying sync message on HomeActivity
         syncOffLineInvoiceFromDatabase();
         try {
-            JSONArray exp = null;
-            String expString = MyApplication.getUnSyncedExpenses();
+             exp = null;
+             expString = MyApplication.getUnSyncedExpenses();
             if (expString.length() > 0)
                 exp = new JSONArray(expString);
 
@@ -235,7 +236,7 @@ updateGST();
         protected void onPostExecute(List<InvoiceModelV2> invoiceModelV2List) {
             super.onPostExecute(invoiceModelV2List);
 
-            if (invoiceModelV2List.size()>0)
+            if (invoiceModelV2List.size()>0 || ((exp != null && exp.length() > 0)))
                 syncText.setVisibility(View.VISIBLE);
             else
                 syncText.setVisibility(View.INVISIBLE);
