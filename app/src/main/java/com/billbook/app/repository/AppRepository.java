@@ -298,12 +298,15 @@ public class AppRepository {
         new InsertInvoiceAsyncTask(MyApplication.getDatabase().newInvoiceDao()).execute(invoiceModelV2);
     }
 
+    public void update(InvoiceModelV2 invoiceModelV2) {
+        new UpdateInvoiceAsyncTask(MyApplication.getDatabase().newInvoiceDao()).execute(invoiceModelV2);
+    }
+
     public LiveData<InvoiceModelV2> getCurrentInvoice(long localInvoiceID){
        return MyApplication.getDatabase().newInvoiceDao().getInvoiceById(localInvoiceID);
     }
 
     public void updateIsSync(long localInvoiceID){
-        Log.d(TAG, "updateIsSync: done " + localInvoiceID);
         new UpdateIsSyncInvoiceAsyncTask(MyApplication.getDatabase().newInvoiceDao(),localInvoiceID).execute();
     }
 
@@ -328,9 +331,21 @@ public class AppRepository {
         }
     }
 
+    private static class UpdateInvoiceAsyncTask extends AsyncTask<InvoiceModelV2, Void, Void> {
+        private NewInvoiceDao newInvoiceDao;
+        private UpdateInvoiceAsyncTask(NewInvoiceDao newInvoiceDao) {
+            this.newInvoiceDao  = newInvoiceDao;
+        }
+        @Override
+        protected Void doInBackground(InvoiceModelV2... invoiceModelV2) {
+            newInvoiceDao.Update(invoiceModelV2[0]); //single invoiceItem
+            return null;
+        }
+    }
+
     private static class UpdateIsSyncInvoiceAsyncTask extends AsyncTask<Void, Void, Void> {
         private NewInvoiceDao newInvoiceDao;
-        long localInvoiceId;
+        private long localInvoiceId;
         private UpdateIsSyncInvoiceAsyncTask(NewInvoiceDao newInvoiceDao,long localInvoiceId) {
             this.newInvoiceDao  = newInvoiceDao;
             this.localInvoiceId = localInvoiceId;

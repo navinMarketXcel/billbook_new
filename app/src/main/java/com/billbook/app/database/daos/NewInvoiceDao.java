@@ -30,6 +30,9 @@ public interface NewInvoiceDao {
     @Query("SELECT * from invoiceTableV2 where id=:id AND local_id = (SELECT MAX(local_id) from invoiceTableV2)")
     LiveData<InvoiceModelV2> getInvoiceById(long id);
 
+    @Query("SELECT * from invoiceTableV2 where invoice_id=:invoiceId")
+    InvoiceModelV2 getCurrentInvoiceByInvoiceId(long invoiceId);
+
     @Query("UPDATE invoiceTableV2 SET invoice_id =:invoiceId WHERE id =:localInvoiceId")
     void updateInvoiceId(long localInvoiceId,long invoiceId);
 

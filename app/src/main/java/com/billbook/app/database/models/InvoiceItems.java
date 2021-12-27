@@ -80,7 +80,7 @@ public class InvoiceItems {
     private int isSync;
 
     public InvoiceItems(int measurementId, String name, float quantity, float price, String gstType, float gstAmount, float gst, boolean is_active, int user, String serial_no, String imei, float totalAmount, int invoiceid,int isSync, Integer databaseid,long localInvoiceId) {
-        this.measurementId = measurementId;
+        this.measurementId = measurementId+1;
         this.name = name;
         this.quantity = quantity;
         this.price = price;
@@ -103,7 +103,7 @@ public class InvoiceItems {
     }
 
     public int getMeasurementId() {
-        return measurementId;
+        return measurementId-1;
     }
 
     public String getName() {
@@ -169,7 +169,7 @@ public class InvoiceItems {
     }
 
     public void setMeasurementId(int measurementId) {
-        this.measurementId = measurementId;
+        this.measurementId = measurementId+1;
     }
 
     public void setName(String name) {

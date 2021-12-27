@@ -7,10 +7,15 @@ import android.app.Dialog;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import androidx.annotation.Nullable;
+
+import com.billbook.app.adapters.NewInvoicePurchaseAdapter;
+import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.InvoiceModelV2;
 import com.billbook.app.databinding.ActivityBillingNewBinding;
@@ -19,6 +24,8 @@ import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.billbook.app.viewmodel.InvoiceViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -55,6 +62,8 @@ import com.google.zxing.integration.android.IntentResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -78,7 +87,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //    private ArrayList<NewInvoiceModels> newInvoiceModels = new ArrayList<>();
     private ArrayList<InvoiceItems> invoiceItemsList = new ArrayList<>();
     private ArrayList<InvoiceItems> invoiceItemEditModel = new ArrayList<>();
-    private InvoiceModelV2 invoiceModelV2;
+    private InvoiceModelV2 currInvoiceToUpdate;
     private InvoiceViewModel invoiceViewModel;
     private ModelAdapter modelAdapter;
     private NewBillingAdapter newBillingAdapter;
@@ -749,7 +758,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 requestObj.put("userid", profile.getString("userid"));
                 requestObj.put("invoiceDate", invoiceDateStr);
                 requestObj.put("totalAmountBeforeGST", totalBeforeGST);
-                requestObj.put("discount", Util.formatDecimalValue(discountPercent));
+                requestObj.put("discount", Float.parseFloat(Util.formatDecimalValue(discountPercent)));
                 requestObj.put("totalAfterDiscount", total-discountAmt);
                 requestObj.put("totalAmount", total);
 
@@ -855,35 +864,93 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     void saveInvoiceToLocalDatabase(JSONObject invoice){
         try{
-            InvoiceModelV2 curInvoice = new InvoiceModelV2(
-                    localInvoiceId,
-                    localInvoiceId,
-                    invoice.has("customerName")?invoice.getString("customerName"):"",
-                    invoice.has("customerMobileNo")?invoice.getString("customerMobileNo"):"",
-                    invoice.has("customerAddress")?invoice.getString("customerAddress"):"",
-                    invoice.has("GSTNo")?invoice.getString("GSTNo"):"",
-                    invoice.has("totalAmount")?(float)invoice.getDouble("totalAmount"):0,
-                    invoice.has("userid")?invoice.getInt("userid"):0,
-                    invoice.has("invoiceDate")?invoice.getString("invoiceDate"):"",
-                    invoice.has("totalAmountBeforeGST")?invoice.getInt("totalAmountBeforeGST"):0,
-                    invoice.has("gstBillNo")?invoice.getInt("gstBillNo"):0,
-                    invoice.has("nonGstBillNo")?invoice.getInt("nonGstBillNo"):0,
-                    invoice.has("gstType")?invoice.getString("gstType"):"",
-                    invoice.has("updatedAt")?invoice.getString("updatedAt"):"",
-                    invoice.has("createdAt")?invoice.getString("createdAt"):"",
-                    0,
-                    invoice.has("pdfPath")?invoice.getString("pdfPath"):"",
-                    invoice.has("discount")?(float)invoice.getDouble("discount"):0,
-                    invoice.has("totalAfterDiscount")?(float)invoice.getDouble("totalAfterDiscount"):0
-                    );
 
-            invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
-            Log.d(TAG, "saveInvoiceToLocalDatabase: " + curInvoice);
-            invoiceViewModel.insert(curInvoice);
+            if(isEdit){
+                new getInvoiceModelByIdAsyncTask(MyApplication.getDatabase().newInvoiceDao(),localInvoiceId,invoice).execute();
+            }
+            else {
+                InvoiceModelV2 curInvoice = new InvoiceModelV2(
+                        localInvoiceId,
+                        localInvoiceId,
+                        invoice.has("customerName") ? invoice.getString("customerName") : "",
+                        invoice.has("customerMobileNo") ? invoice.getString("customerMobileNo") : "",
+                        invoice.has("customerAddress") ? invoice.getString("customerAddress") : "",
+                        invoice.has("GSTNo") ? invoice.getString("GSTNo") : "",
+                        invoice.has("totalAmount") ? (float) invoice.getDouble("totalAmount") : 0,
+                        invoice.has("userid") ? invoice.getInt("userid") : 0,
+                        invoice.has("invoiceDate") ? invoice.getString("invoiceDate") : "",
+                        invoice.has("totalAmountBeforeGST") ? invoice.getInt("totalAmountBeforeGST") : 0,
+                        invoice.has("gstBillNo") ? invoice.getInt("gstBillNo") : 0,
+                        invoice.has("nonGstBillNo") ? invoice.getInt("nonGstBillNo") : 0,
+                        invoice.has("gstType") ? invoice.getString("gstType") : "",
+                        invoice.has("updatedAt") ? invoice.getString("updatedAt") : "",
+                        invoice.has("createdAt") ? invoice.getString("createdAt") : "",
+                        0,
+                        invoice.has("pdfPath") ? invoice.getString("pdfPath") : "",
+                        invoice.has("discount") ? (float) invoice.getDouble("discount") : 0,
+                        invoice.has("totalAfterDiscount") ? (float) invoice.getDouble("totalAfterDiscount") : 0
+                );
+
+                invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
+                invoiceViewModel.insert(curInvoice);
+            }
         }
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+    public void setCurrInvoiceToUpdate(InvoiceModelV2 invoiceModelV2, JSONObject invoice){
+       currInvoiceToUpdate = invoiceModelV2;
+        try {
+                    currInvoiceToUpdate.setCustomerName(invoice.has("customerName") ? invoice.getString("customerName") : "");
+                    currInvoiceToUpdate.setCustomerMobileNo(invoice.has("customerMobileNo") ? invoice.getString("customerMobileNo") : "");
+                    currInvoiceToUpdate.setCustomerAddress(invoice.has("customerAddress") ? invoice.getString("customerAddress") : "");
+                    currInvoiceToUpdate.setGSTNo(invoice.has("GSTNo") ? invoice.getString("GSTNo") : "");
+                    currInvoiceToUpdate.setTotalAmount(invoice.has("totalAmount") ? (float) invoice.getDouble("totalAmount") : 0);
+                    currInvoiceToUpdate.setUserid(invoice.has("userid") ? invoice.getInt("userid") : 0);
+                    currInvoiceToUpdate.setInvoiceDate(invoice.has("invoiceDate") ? invoice.getString("invoiceDate") : "");
+                    currInvoiceToUpdate.setTotalAmountBeforeGST(invoice.has("totalAmountBeforeGST") ? invoice.getInt("totalAmountBeforeGST") : 0);
+                    currInvoiceToUpdate.setGstBillNo( invoice.has("gstBillNo") ? invoice.getInt("gstBillNo") : 0);
+                    currInvoiceToUpdate.setNonGstBillNo( invoice.has("nonGstBillNo") ? invoice.getInt("nonGstBillNo") : 0);
+                    currInvoiceToUpdate.setGstType(invoice.has("gstType") ? invoice.getString("gstType") : "");
+                    currInvoiceToUpdate.setUpdatedAt(invoice.has("updatedAt") ? invoice.getString("updatedAt") : "");
+                    currInvoiceToUpdate.setCreatedAt(invoice.has("createdAt") ? invoice.getString("createdAt") : "");
+                    currInvoiceToUpdate.setIsSync(0);
+                    currInvoiceToUpdate.setPdfPath(invoice.has("pdfPath") ? invoice.getString("pdfPath") : "");
+                    currInvoiceToUpdate.setDiscount( invoice.has("discount") ? (float) invoice.getDouble("discount") : 0);
+                    currInvoiceToUpdate.setTotalAfterDiscount(invoice.has("totalAfterDiscount") ? (float) invoice.getDouble("totalAfterDiscount") : 0);
+
+            invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
+            invoiceViewModel.update(currInvoiceToUpdate);
+
+        }
+        catch(JSONException e){
+            e.printStackTrace();
+        }
+
+    }
+    private class getInvoiceModelByIdAsyncTask extends AsyncTask<Void,Void,InvoiceModelV2> {
+        private NewInvoiceDao newInvoiceDao;
+        private long localInvoiceId;
+        private InvoiceModelV2 currentInvoice;
+        private JSONObject invoice;
+        public getInvoiceModelByIdAsyncTask(NewInvoiceDao newInvoiceDao, long localInvoiceId, JSONObject invoice) {
+            this.newInvoiceDao = newInvoiceDao;
+            this.localInvoiceId = localInvoiceId;
+            this.invoice = invoice;
+        }
+
+        @Override
+        protected InvoiceModelV2 doInBackground(Void... voids) {
+            currentInvoice = newInvoiceDao.getCurrentInvoiceByInvoiceId(localInvoiceId);
+            return currentInvoice;
+        }
+
+        protected void onPostExecute(InvoiceModelV2 invoiceModelV2) {
+            super.onPostExecute(invoiceModelV2);
+            setCurrInvoiceToUpdate(invoiceModelV2,invoice);
+        }
+
     }
 
     private void sendInvoice(final JSONObject invoice) {
@@ -902,6 +969,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             call = apiService.invoice(jsonObject);
         } else {
             try {
+                Log.d(TAG, "sendInvoice: schema " + jsonObject);
+
                 call = apiService.updateInvoice(headerMap, this.invoice.getLong("id"), jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -922,7 +991,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             object.put("invoice", body.getJSONObject("data"));
                             object.put("items", body.getJSONObject("data").getJSONArray("masterItems"));
                         }
-
+// todo: set sync = 1 for edit invoice
                         invoiceViewModel.updateIsSync(localInvoiceId);
 
                         invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
@@ -1121,7 +1190,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
                     discountPercent = (float) invoice.getDouble("discount");
                     discountPercentLocal = discountPercent;
-                    totalDiscount = total - discountPercentLocal;
+                    totalDiscount = total - (float) invoice.getDouble("totalAfterDiscount");
                     discountAmt = totalDiscount;
                 }
                 binding.edtDiscountPercent.setText(discountPercentLocal + "%");
@@ -1137,6 +1206,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         }
     }
+
+
 
     public void scanCode(View v) {
         Util.postEvents("Scan Button", "Scan Button", this.getApplicationContext());
@@ -1170,3 +1241,4 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 }
+

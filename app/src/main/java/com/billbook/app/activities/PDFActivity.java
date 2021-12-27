@@ -145,6 +145,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     try{
 
                         invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
+                        Log.d(TAG, "onChanged: invoice " + invoice);
                         if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
                             isGSTAvailable = true;
                             invoiceAmountLayoutUpdatedBinding.gstTotalLayout.setVisibility(View.VISIBLE);
@@ -245,8 +246,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 //                        }.getType());
 
                         if (isGSTAvailable)
-                            invoiceAmountLayoutUpdatedBinding.GSTTitle.setText("GST" + (items.get(0).getGstType().equals("CGST/SGST (Local customer)") ? " (SGST/CGST)" : " (IGST)"));
-                        imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;
+                            invoiceAmountLayoutUpdatedBinding.GSTTitle.setText("GST " + (invoice.getString("gstType").equals("CGST/SGST (Local customer)") ? "(SGST/CGST)" : "(IGST)"));                        imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;
 
                     }
                     catch (Exception e){
@@ -523,7 +523,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", pdfFile.getName(), RequestBody.create(MediaType.parse("*/*"), pdfFile));
 
         Call<Object> call = apiService.updateInvoicePdf(headerMap, invID, filePart);
-        invoiceViewModel.updatePdfPath(localInvoiceId,filepath);
 
         call.enqueue(new Callback<Object>() {
             @Override
