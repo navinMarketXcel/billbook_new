@@ -109,7 +109,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     private ActivityBillingNewBinding binding;
     private LayoutItemBillBinding billItemBinding;
-    private long localInvoiceId;
+    private long localInvoiceId, id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -788,9 +788,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //                            cnt++;
 //                    }
 //                }
-                saveInvoiceToLocalDatabase(requestObj);
+                if(isEdit) {
+                    new getInvoiceModelByIdAsyncTask(MyApplication.getDatabase().newInvoiceDao(), localInvoiceId, requestObj).execute();
+                }else {
+                    saveInvoiceToLocalDatabase(requestObj);
+                }
                 Log.v("TEST", requestObj.toString());
                 if (Util.isNetworkAvailable(this)) {
+                    if(!isEdit)
                     sendInvoice(requestObj);
                 } else {
                     //there is some use of makeing invoiceid = -1 in backend
@@ -808,6 +813,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     //intent.putExtra("invoiceServer", data.toString());
                     intent.putExtra("localInvId",localInvoiceId);
                     intent.putExtra("id",-1);
+                    intent.putExtra("idForItem",localInvoiceId);
+
 
                     if (isGSTAvailable) {
                         intent.putExtra("gstBillNo", serialNumber);
@@ -864,11 +871,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     void saveInvoiceToLocalDatabase(JSONObject invoice){
         try{
-
-            if(isEdit){
-                new getInvoiceModelByIdAsyncTask(MyApplication.getDatabase().newInvoiceDao(),localInvoiceId,invoice).execute();
-            }
-            else {
                 InvoiceModelV2 curInvoice = new InvoiceModelV2(
                         localInvoiceId,
                         localInvoiceId,
@@ -893,7 +895,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
                 invoiceViewModel.insert(curInvoice);
-            }
         }
         catch (Exception e){
             e.printStackTrace();
@@ -902,26 +903,34 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void setCurrInvoiceToUpdate(InvoiceModelV2 invoiceModelV2, JSONObject invoice){
        currInvoiceToUpdate = invoiceModelV2;
         try {
-                    currInvoiceToUpdate.setCustomerName(invoice.has("customerName") ? invoice.getString("customerName") : "");
-                    currInvoiceToUpdate.setCustomerMobileNo(invoice.has("customerMobileNo") ? invoice.getString("customerMobileNo") : "");
-                    currInvoiceToUpdate.setCustomerAddress(invoice.has("customerAddress") ? invoice.getString("customerAddress") : "");
-                    currInvoiceToUpdate.setGSTNo(invoice.has("GSTNo") ? invoice.getString("GSTNo") : "");
-                    currInvoiceToUpdate.setTotalAmount(invoice.has("totalAmount") ? (float) invoice.getDouble("totalAmount") : 0);
-                    currInvoiceToUpdate.setUserid(invoice.has("userid") ? invoice.getInt("userid") : 0);
-                    currInvoiceToUpdate.setInvoiceDate(invoice.has("invoiceDate") ? invoice.getString("invoiceDate") : "");
-                    currInvoiceToUpdate.setTotalAmountBeforeGST(invoice.has("totalAmountBeforeGST") ? invoice.getInt("totalAmountBeforeGST") : 0);
-                    currInvoiceToUpdate.setGstBillNo( invoice.has("gstBillNo") ? invoice.getInt("gstBillNo") : 0);
-                    currInvoiceToUpdate.setNonGstBillNo( invoice.has("nonGstBillNo") ? invoice.getInt("nonGstBillNo") : 0);
-                    currInvoiceToUpdate.setGstType(invoice.has("gstType") ? invoice.getString("gstType") : "");
-                    currInvoiceToUpdate.setUpdatedAt(invoice.has("updatedAt") ? invoice.getString("updatedAt") : "");
-                    currInvoiceToUpdate.setCreatedAt(invoice.has("createdAt") ? invoice.getString("createdAt") : "");
-                    currInvoiceToUpdate.setIsSync(0);
-                    currInvoiceToUpdate.setPdfPath(invoice.has("pdfPath") ? invoice.getString("pdfPath") : "");
-                    currInvoiceToUpdate.setDiscount( invoice.has("discount") ? (float) invoice.getDouble("discount") : 0);
-                    currInvoiceToUpdate.setTotalAfterDiscount(invoice.has("totalAfterDiscount") ? (float) invoice.getDouble("totalAfterDiscount") : 0);
+            if(currInvoiceToUpdate==null) {
+                saveInvoiceToLocalDatabase(invoice);
+                id = -1;
+            } else {
+                currInvoiceToUpdate.setCustomerName(invoice.has("customerName") ? invoice.getString("customerName") : "");
+                currInvoiceToUpdate.setCustomerMobileNo(invoice.has("customerMobileNo") ? invoice.getString("customerMobileNo") : "");
+                currInvoiceToUpdate.setCustomerAddress(invoice.has("customerAddress") ? invoice.getString("customerAddress") : "");
+                currInvoiceToUpdate.setGSTNo(invoice.has("GSTNo") ? invoice.getString("GSTNo") : "");
+                currInvoiceToUpdate.setTotalAmount(invoice.has("totalAmount") ? (float) invoice.getDouble("totalAmount") : 0);
+                currInvoiceToUpdate.setUserid(invoice.has("userid") ? invoice.getInt("userid") : 0);
+                currInvoiceToUpdate.setInvoiceDate(invoice.has("invoiceDate") ? invoice.getString("invoiceDate") : "");
+                currInvoiceToUpdate.setTotalAmountBeforeGST(invoice.has("totalAmountBeforeGST") ? invoice.getInt("totalAmountBeforeGST") : 0);
+                currInvoiceToUpdate.setGstBillNo(invoice.has("gstBillNo") ? invoice.getInt("gstBillNo") : 0);
+                currInvoiceToUpdate.setNonGstBillNo(invoice.has("nonGstBillNo") ? invoice.getInt("nonGstBillNo") : 0);
+                currInvoiceToUpdate.setGstType(invoice.has("gstType") ? invoice.getString("gstType") : "");
+                currInvoiceToUpdate.setUpdatedAt(invoice.has("updatedAt") ? invoice.getString("updatedAt") : "");
+                currInvoiceToUpdate.setCreatedAt(invoice.has("createdAt") ? invoice.getString("createdAt") : "");
+                currInvoiceToUpdate.setIsSync(0);
+                currInvoiceToUpdate.setPdfPath(invoice.has("pdfPath") ? invoice.getString("pdfPath") : "");
+                currInvoiceToUpdate.setDiscount(invoice.has("discount") ? (float) invoice.getDouble("discount") : 0);
+                currInvoiceToUpdate.setTotalAfterDiscount(invoice.has("totalAfterDiscount") ? (float) invoice.getDouble("totalAfterDiscount") : 0);
 
-            invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
-            invoiceViewModel.update(currInvoiceToUpdate);
+                invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
+                invoiceViewModel.update(currInvoiceToUpdate);
+                id = currInvoiceToUpdate.getId();
+            }
+            sendInvoice(invoice);
+
 
         }
         catch(JSONException e){
@@ -965,11 +974,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         body.put("content", jsonObject);
         Call<Object> call = null;
         if (!isEdit) {
-            Log.d(TAG, "sendInvoice: schema " + jsonObject);
             call = apiService.invoice(jsonObject);
         } else {
             try {
-                Log.d(TAG, "sendInvoice: schema " + jsonObject);
+//                Log.d(TAG, "sendInvoice: schema " + jsonObject);
 
                 call = apiService.updateInvoice(headerMap, this.invoice.getLong("id"), jsonObject);
             } catch (JSONException e) {
@@ -990,9 +998,15 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         if (isEdit) {
                             object.put("invoice", body.getJSONObject("data"));
                             object.put("items", body.getJSONObject("data").getJSONArray("masterItems"));
+                            if(id>0)
+                            invoiceViewModel.updateIsSync(id);
+                            else
+                                invoiceViewModel.updateIsSync(localInvoiceId);
+
                         }
-// todo: set sync = 1 for edit invoice
-                        invoiceViewModel.updateIsSync(localInvoiceId);
+                        else {
+                            invoiceViewModel.updateIsSync(localInvoiceId);
+                        }
 
                         invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
 
@@ -1001,8 +1015,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         intent.putExtra("gstBillNo",isEdit ? object.getJSONObject("invoice").getInt("gstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("gstBillNo"));
                         intent.putExtra("nonGstBillNo",isEdit ? object.getJSONObject("invoice").getInt("nonGstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("nonGstBillNo"));
                         intent.putExtra("id",isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
+                        intent.putExtra("idForItem", isEdit ? (long) object.getJSONObject("invoice").getInt("id"):localInvoiceId);
+                        if(isEdit && id>0) {
+                            intent.putExtra("localInvId", id);
+                        }
+                        else
+                            intent.putExtra("localInvId",localInvoiceId);
 
-                        intent.putExtra("localInvId",localInvoiceId);
                         ///intent.putExtra("invoiceServer", isEdit ? object.toString() : body.getJSONObject("data").toString());
                         startActivity(intent);
                         if (!isEdit && isGSTAvailable)

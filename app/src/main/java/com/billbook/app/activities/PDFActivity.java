@@ -139,13 +139,12 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private void setData() {
         try {
             localInvoiceId = getIntent().getExtras().getLong("localInvId");
-            invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, new Observer<InvoiceModelV2>() {
+            invoiceViewModel.getCurrentInvoice(getIntent().getExtras().getLong("localInvId")).observe(this, new Observer<InvoiceModelV2>() {
                 @Override
                 public void onChanged(InvoiceModelV2 invoiceModelV2) {
                     try{
 
                         invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
-                        Log.d(TAG, "onChanged: invoice " + invoice);
                         if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
                             isGSTAvailable = true;
                             invoiceAmountLayoutUpdatedBinding.gstTotalLayout.setVisibility(View.VISIBLE);
@@ -239,8 +238,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         }
                         invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
                         invoiceAmountLayoutUpdatedBinding.tvDiscount.setText(Util.formatDecimalValue(totalAmount-totalAfterDiscount));
-
-                        new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId,PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts, GSTType).execute();
+                        new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),getIntent().getExtras().getLong("idForItem"),PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts, GSTType).execute();
 
 //                        items = gson.fromJson(invoice.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
 //                        }.getType());
@@ -382,9 +380,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     new PdfWriter(PDFActivity.this, (ViewGroup) findViewById(R.id.ll_root));
             filepath = docsFolder.getAbsolutePath();
 
-                filepath = filepath + "/" + (pdfBinding.edtName.getText().toString().substring(0,pdfBinding.edtName.getText().toString().length()-1)) + invoiceNumber + "_" + today + ".pdf";
+                filepath = filepath + "/" + "Invoice"+ invoiceNumber + "_" + today + ".pdf";
 
-            Log.d(TAG, "createPdf: filePath " + filepath);
             pdfFile = pdfWriter.exportPDF(filepath);
             if (invID > 0)
                 uploadPDF();
@@ -531,7 +528,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     Log.v("RESP", body.toString());
-                    Log.d(TAG, "onResponse: pdfActivity " + body);
                     if (body.getBoolean("status")) {
                         invoice.put("pdfLink", body.getJSONObject("data").getString("pdfLink"));
                     } else {
@@ -554,7 +550,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     //once syncing starts from database (see SyncService.java class line: 120) , after that there will be no use of this function
     private void saveInvoiceOffline() {
         try {
-            invoiceViewModel.updatePdfPath(localInvoiceId,filepath);
+//            invoiceViewModel.updatePdfPath(localInvoiceId,filepath);
 //            JSONArray invoices = new JSONArray();
 //            if (!MyApplication.getUnSyncedInvoice().isEmpty()) {
 //                invoices = new JSONArray(MyApplication.getUnSyncedInvoice());
