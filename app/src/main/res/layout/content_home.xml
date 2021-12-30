@@ -10,12 +10,34 @@
     android:focusableInTouchMode="true">
 
 
+    <!--            android:drawableRight="@drawable/ic_headset_mic"-->
 
+    <Button
+        android:id="@+id/wathcDemo"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/helpLine"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@mipmap/youtube"
+        android:gravity="center_horizontal"
+        android:onClick="startYoutubeActivity" />
+    <Button
+        android:id="@+id/helpLine"
+        android:layout_width="38dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="12dp"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/ic_headset_mic"
+        android:gravity="center_horizontal"
+        android:onClick="startHelpActivity" />
 
-        <RelativeLayout
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/main2"
+            android:layout_marginTop="40dp"
             android:paddingBottom="10dp">
 
 
@@ -39,9 +61,9 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         android:layout_marginLeft="20dp"
                         android:elevation="8dp"
-                        android:layout_margin="10dp"
                         app:contentPadding="4dp">
 
                         <LinearLayout
@@ -51,11 +73,6 @@
                             android:background="@color/colorPrimary"
                             android:gravity="center"
                             android:orientation="vertical">
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="@dimen/common_tab_image_width"
-                                android:layout_height="@dimen/common_tab_image_width"
-                                app:srcCompat="@drawable/ic_receipt_long" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -68,13 +85,19 @@
                                 android:textSize="@dimen/common_tab_text_size"
                                 android:textStyle="bold" />
 
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/common_tab_image_width"
+                                android:layout_height="@dimen/common_tab_image_width"
+                                app:srcCompat="@drawable/ic_receipt_long" />
+
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:elevation="8dp"
                         android:layout_margin="10dp"
+                        android:elevation="8dp"
                         app:contentPadding="4dp">
 
                         <LinearLayout
@@ -84,11 +107,6 @@
                             android:background="@color/colorPrimary"
                             android:gravity="center"
                             android:orientation="vertical">
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="@dimen/common_tab_image_width"
-                                android:layout_height="@dimen/common_tab_image_width"
-                                app:srcCompat="@drawable/ic_trending_down" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -101,6 +119,11 @@
                                 android:textSize="@dimen/common_tab_text_size"
                                 android:textStyle="bold" />
 
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/common_tab_image_width"
+                                android:layout_height="@dimen/common_tab_image_width"
+                                app:srcCompat="@drawable/ic_trending_down" />
+
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
@@ -112,12 +135,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:orientation="horizontal">
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         android:layout_marginLeft="20dp"
                         android:elevation="8dp"
-                        android:layout_margin="10dp"
                         android:visibility="visible"
                         app:contentPadding="4dp">
 
@@ -129,30 +153,31 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="@dimen/common_tab_image_width"
-                                android:layout_height="@dimen/common_tab_image_width"
-                                app:srcCompat="@drawable/ic_search" />
-
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/common_tab_text_marginTop"
                                 android:gravity="center"
-                                android:textAllCaps="true"
                                 android:text="@string/search_invoice"
+                                android:textAllCaps="true"
                                 android:textColor="@color/color_common_text_home"
                                 android:textSize="@dimen/common_tab_text_size"
                                 android:textStyle="bold" />
 
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/common_tab_image_width"
+                                android:layout_height="@dimen/common_tab_image_width"
+                                app:srcCompat="@drawable/ic_search" />
+
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
                         android:elevation="8dp"
                         android:visibility="gone"
-                        android:layout_margin="10dp"
                         app:contentPadding="4dp">
 
                         <LinearLayout
@@ -162,6 +187,18 @@
                             android:background="@color/colorPrimary"
                             android:gravity="center"
                             android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/common_tab_text_marginTop"
+                                android:gravity="center"
+                                android:text="@string/ledger_detail"
+                                android:textAllCaps="true"
+                                android:textColor="@color/color_common_text_home"
+                                android:textSize="@dimen/common_tab_text_size"
+                                android:textStyle="bold" />
+
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="@dimen/common_tab_image_width"
@@ -206,25 +243,14 @@
 
                             </androidx.cardview.widget.CardView>
 
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/common_tab_text_marginTop"
-                                android:gravity="center"
-                                android:text="@string/ledger_detail"
-                                android:textAllCaps="true"
-                                android:textColor="@color/color_common_text_home"
-                                android:textSize="@dimen/common_tab_text_size"
-                                android:textStyle="bold" />
-
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:elevation="8dp"
                         android:layout_margin="10dp"
+                        android:elevation="8dp"
                         android:visibility="visible"
                         app:contentPadding="4dp">
 
@@ -236,21 +262,21 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="@dimen/common_tab_image_width"
-                                android:layout_height="@dimen/common_tab_image_width"
-                                app:srcCompat="@drawable/ic_menu_book" />
-
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/common_tab_text_marginTop"
                                 android:gravity="center"
-                                android:textAllCaps="true"
                                 android:text="@string/sales_report"
+                                android:textAllCaps="true"
                                 android:textColor="@color/color_common_text_home"
                                 android:textSize="@dimen/common_tab_text_size"
                                 android:textStyle="bold" />
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="@dimen/common_tab_image_width"
+                                android:layout_height="@dimen/common_tab_image_width"
+                                app:srcCompat="@drawable/ic_menu_book" />
 
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -262,10 +288,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
-
-
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
 
                 </LinearLayout>
@@ -293,34 +317,34 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_alignParentBottom="true"
         android:gravity="center">
-        <Button
-            android:id="@+id/wathcDemo"
-            android:layout_margin="10dp"
-            android:padding="5dp"
-            android:drawablePadding="5dp"
-            android:text="Watch Demo"
-            android:textSize="14sp"
-            android:textAllCaps="false"
-            android:drawableRight="@mipmap/youtube"
-            android:onClick="startYoutubeActivity"
-            android:background="@drawable/card_edge"
-            android:layout_width="150dp"
-            android:layout_height="50dp" />
-        <Button
-            android:id="@+id/helpLine"
-            android:layout_margin="10dp"
-            android:text="Helpline"
-            android:padding="5dp"
-            android:textAllCaps="false"
-            android:textSize="14sp"
-            android:onClick="startHelpActivity"
-            android:drawableRight="@drawable/ic_headset_mic"
-            android:background="@drawable/card_edge"
-            android:layout_width="150dp"
-            android:layout_height="50dp" />
+<!--        <Button-->
+<!--            android:id="@+id/wathcDemo"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:padding="5dp"-->
+<!--            android:drawablePadding="5dp"-->
+<!--            android:text="Watch Demo"-->
+<!--            android:textSize="14sp"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:drawableRight="@mipmap/youtube"-->
+<!--            android:onClick="startYoutubeActivity"-->
+<!--            android:background="@drawable/card_edge"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="50dp" />-->
+<!--        <Button-->
+<!--            android:id="@+id/helpLine"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:text="Helpline"-->
+<!--            android:padding="5dp"-->
+<!--            android:textAllCaps="false"-->
+<!--            android:textSize="14sp"-->
+<!--            android:onClick="startHelpActivity"-->
+<!--            android:drawableRight="@drawable/ic_headset_mic"-->
+<!--            android:background="@drawable/card_edge"-->
+<!--            android:layout_width="150dp"-->
+<!--            android:layout_height="50dp" />-->
 
 
     </LinearLayout>

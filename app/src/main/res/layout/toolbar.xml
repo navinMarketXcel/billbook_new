@@ -41,6 +41,5 @@
             android:textSize="15dp"
             android:visibility="visible" />
 
-
     </RelativeLayout>
 </androidx.appcompat.widget.Toolbar>

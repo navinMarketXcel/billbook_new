@@ -70,7 +70,6 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
                         @Override
                         public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
                             finish();
-                            startActivity(new Intent(getApplicationContext(), BillingNewActivity.class));
                         }
 
                         @Override
