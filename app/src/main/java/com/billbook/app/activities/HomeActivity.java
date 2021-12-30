@@ -12,6 +12,9 @@ import android.os.Bundle;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceModelV2;
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -20,8 +23,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.billbook.app.services.SyncService;
@@ -54,6 +59,13 @@ import retrofit2.Response;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
+
+import com.inmobi.ads.AdMetaInfo;
+import com.inmobi.ads.InMobiAdRequestStatus;
+import com.inmobi.ads.InMobiBanner;
+import com.inmobi.ads.listeners.BannerAdEventListener;
+import com.inmobi.sdk.InMobiSdk;
+import com.inmobi.sdk.SdkInitializationListener;
 import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends AppCompatActivity
@@ -72,7 +84,9 @@ public class HomeActivity extends AppCompatActivity
     private JSONObject profile;
     private JSONArray exp = null;
     private String expString;
-
+    private InMobiBanner mBannerAd1=null, mBannerAd2=null;
+    // Change placementId values to actual placementId for InMobi BannerAd
+    private long placementId1=0, placementId2=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,7 +101,46 @@ public class HomeActivity extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//    Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"database-name.db").addMigrations(addInvoiceNumber).build();
+        JSONObject consentObject = new JSONObject();
+
+        try{
+        consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE,true);
+        consentObject.put("gdpr","0");
+        consentObject.put(InMobiSdk.IM_GDPR_CONSENT_IAB,"<< CONSENT in IAB Format");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+        InMobiSdk.init(this, "", consentObject, new SdkInitializationListener() {
+            @Override
+            public void onInitializationComplete(@Nullable Error error) {
+                if(null != error){
+                    Log.e(TAG,"InMobi Init Failed " + error.getMessage());
+                }
+                else{
+                    Log.d(TAG, "onInitializationComplete: Complete InMobi");
+                    if(null==mBannerAd1 && null == mBannerAd2){
+                        Log.d(TAG, "onInitializationComplete: mbannerad1 null");
+                        createBannerAd();
+                    }
+                    else if(mBannerAd2==null){
+                        mBannerAd1.load();
+                    }
+                    else if(mBannerAd1==null){
+                        mBannerAd2.load();
+                    }
+                    else{
+                        mBannerAd1.load();
+                        mBannerAd2.load();
+                    }
+
+                }
+            }
+        });
+        
+
+        //    Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"database-name.db").addMigrations(addInvoiceNumber).build();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle =
@@ -130,7 +183,7 @@ public class HomeActivity extends AppCompatActivity
         setToolbar();
 
 //        isGSTVerified();
-updateGST();
+        updateGST();
 //        CustomPartialyClickableTextview customPartialyClickableTextview = (CustomPartialyClickableTextview) findViewById(R.id.txtWhatsAppNumber);
 
         /**
@@ -170,6 +223,104 @@ updateGST();
 //
 //        customPartialyClickableTextview.addClickPattern("phone", phone);
 //    customPartialyClickableTextview.addClickPattern("weblink",weblink);
+    }
+
+    private void createBannerAd(){
+        mBannerAd1 = new InMobiBanner(this, placementId1);
+        mBannerAd2 = new InMobiBanner(this, placementId2);
+        RelativeLayout adContainer = (RelativeLayout) findViewById(R.id.parent);
+        int width = toPixelUnits(320);
+        int height = toPixelUnits(50);
+
+        // mBannerAd1
+        RelativeLayout.LayoutParams bannerLayoutParams1 = new RelativeLayout.LayoutParams(width, height);
+        bannerLayoutParams1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        bannerLayoutParams1.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        mBannerAd1.setAnimationType(InMobiBanner.AnimationType.ROTATE_HORIZONTAL_AXIS);
+        mBannerAd1.setLayoutParams(bannerLayoutParams1);
+        mBannerAd1.setRefreshInterval(20);
+        adContainer.addView(mBannerAd1);
+        Log.d(TAG, "createBannerAd: completed 1");
+        mBannerAd1.load();
+
+        // mBannerAd2
+        RelativeLayout.LayoutParams bannerLayoutParams2 = new RelativeLayout.LayoutParams(width, height);
+        bannerLayoutParams2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        bannerLayoutParams2.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        bannerLayoutParams2.setMargins(0,0,0,toPixelUnits(55));
+        mBannerAd2.setAnimationType(InMobiBanner.AnimationType.ROTATE_HORIZONTAL_AXIS);
+        mBannerAd2.setLayoutParams(bannerLayoutParams2);
+        mBannerAd2.setRefreshInterval(40);
+        adContainer.addView(mBannerAd2);
+
+        mBannerAd2.load();
+        setupBannerAd(mBannerAd2);
+        setupBannerAd(mBannerAd1);
+
+        // to dynamically make space for ad
+//        ViewGroup.LayoutParams main2Lp = ((ViewGroup) main2).getLayoutParams();
+//
+//        if(main2Lp instanceof ViewGroup.MarginLayoutParams){
+//            ((ViewGroup.MarginLayoutParams) main2Lp).bottomMargin = toPixelUnits(50);
+//        }
+//        else{
+//            Log.d(TAG, "setBannerLayoutParams: Not able to set bottom margin");
+//        }
+
+    }
+
+    private void setupBannerAd(InMobiBanner mBannerAd){
+
+        mBannerAd.setListener(new BannerAdEventListener() {
+
+            @Override
+            public void onAdLoadSucceeded(@NonNull InMobiBanner inMobiBanner, @NonNull AdMetaInfo adMetaInfo) {
+                super.onAdLoadSucceeded(inMobiBanner, adMetaInfo);
+                Log.d(TAG, "onAdLoadSucceeded: with bid " + adMetaInfo.getBid());
+            }
+
+            @Override
+            public void onAdLoadFailed(@NonNull InMobiBanner inMobiBanner, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
+                super.onAdLoadFailed(inMobiBanner, inMobiAdRequestStatus);
+                Log.d(TAG, "onAdLoadFailed: Banner ad failed to load with error: " + inMobiAdRequestStatus.getMessage());
+            }
+
+            @Override
+            public void onAdClicked(@NonNull InMobiBanner inMobiBanner, Map<Object, Object> map) {
+                super.onAdClicked(inMobiBanner, map);
+                Log.d(TAG, "onAdClicked: ");
+            }
+            @Override
+            public void onAdDisplayed(@NonNull InMobiBanner inMobiBanner) {
+                super.onAdDisplayed(inMobiBanner);
+                Log.d(TAG, "onAdDisplayed: ");
+            }
+
+            @Override
+            public void onAdDismissed(@NonNull InMobiBanner inMobiBanner) {
+                super.onAdDismissed(inMobiBanner);
+                Log.d(TAG, "onAdDismissed: ");
+            }
+
+            @Override
+            public void onUserLeftApplication(@NonNull InMobiBanner inMobiBanner) {
+                super.onUserLeftApplication(inMobiBanner);
+                Log.d(TAG, "onUserLeftApplication: ");
+            }
+
+            @Override
+            public void onRewardsUnlocked(@NonNull InMobiBanner inMobiBanner, Map<Object, Object> map) {
+                super.onRewardsUnlocked(inMobiBanner, map);
+                Log.d(TAG, "onRewardsUnlocked: ");
+            }
+
+        });
+        mBannerAd.load();
+    }
+
+    private int toPixelUnits(int dipUnit) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round(dipUnit * density);
     }
 
     private void initUI() {
@@ -438,6 +589,7 @@ updateGST();
     @Override
     protected void onResume() {
         super.onResume();
+
         try {
             userProfile= new JSONObject (MyApplication.getUserDetails());
             updateDrawerProfileImg();
@@ -446,7 +598,23 @@ updateGST();
             e.printStackTrace();
         }
         startSpotLight(btnBilling, "Billing", "This will be used for billing.");
-
+        try{
+            if(null==mBannerAd1){
+                setupBannerAd(mBannerAd1);
+            }
+            else{
+                mBannerAd1.load();
+            }
+            if(null==mBannerAd2){
+                setupBannerAd(mBannerAd2);
+            }
+            else{
+                mBannerAd2.load();
+            }
+        }
+        catch(Exception e){
+         e.printStackTrace();
+        }
     }
 
     public void updateDrawerProfileImg(){
