@@ -111,34 +111,32 @@ public class HomeActivity extends AppCompatActivity
         catch(Exception e){
             e.printStackTrace();
         }
+        try {
+            InMobiSdk.init(this, "", consentObject, new SdkInitializationListener() {
+                @Override
+                public void onInitializationComplete(@Nullable Error error) {
+                    if (null != error) {
+                        Log.e(TAG, "InMobi Init Failed " + error.getMessage());
+                    } else {
+                        Log.d(TAG, "onInitializationComplete: Complete InMobi");
+                        if (null == mBannerAd1 && null == mBannerAd2) {
+                            Log.d(TAG, "onInitializationComplete: ");
+                            createBannerAd();
+                        } else if (mBannerAd2 == null) {
+                            mBannerAd1.load();
+                        } else if (mBannerAd1 == null) {
+                            mBannerAd2.load();
+                        } else {
+                            mBannerAd1.load();
+                            mBannerAd2.load();
+                        }
 
-        InMobiSdk.init(this, "", consentObject, new SdkInitializationListener() {
-            @Override
-            public void onInitializationComplete(@Nullable Error error) {
-                if(null != error){
-                    Log.e(TAG,"InMobi Init Failed " + error.getMessage());
+                    }
                 }
-                else{
-                    Log.d(TAG, "onInitializationComplete: Complete InMobi");
-                    if(null==mBannerAd1 && null == mBannerAd2){
-                        Log.d(TAG, "onInitializationComplete: mbannerad1 null");
-                        createBannerAd();
-                    }
-                    else if(mBannerAd2==null){
-                        mBannerAd1.load();
-                    }
-                    else if(mBannerAd1==null){
-                        mBannerAd2.load();
-                    }
-                    else{
-                        mBannerAd1.load();
-                        mBannerAd2.load();
-                    }
-
-                }
-            }
-        });
-
+            });
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
         //    Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"database-name.db").addMigrations(addInvoiceNumber).build();
 
@@ -240,7 +238,6 @@ public class HomeActivity extends AppCompatActivity
         mBannerAd1.setLayoutParams(bannerLayoutParams1);
         mBannerAd1.setRefreshInterval(20);
         adContainer.addView(mBannerAd1);
-        Log.d(TAG, "createBannerAd: completed 1");
         mBannerAd1.load();
 
         // mBannerAd2
@@ -270,52 +267,56 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void setupBannerAd(InMobiBanner mBannerAd){
+        try{
+            mBannerAd.setListener(new BannerAdEventListener() {
 
-        mBannerAd.setListener(new BannerAdEventListener() {
+                @Override
+                public void onAdLoadSucceeded(@NonNull InMobiBanner inMobiBanner, @NonNull AdMetaInfo adMetaInfo) {
+                    super.onAdLoadSucceeded(inMobiBanner, adMetaInfo);
+                    Log.d(TAG, "onAdLoadSucceeded: with bid " + adMetaInfo.getBid());
+                }
 
-            @Override
-            public void onAdLoadSucceeded(@NonNull InMobiBanner inMobiBanner, @NonNull AdMetaInfo adMetaInfo) {
-                super.onAdLoadSucceeded(inMobiBanner, adMetaInfo);
-                Log.d(TAG, "onAdLoadSucceeded: with bid " + adMetaInfo.getBid());
-            }
+                @Override
+                public void onAdLoadFailed(@NonNull InMobiBanner inMobiBanner, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
+                    super.onAdLoadFailed(inMobiBanner, inMobiAdRequestStatus);
+                    Log.d(TAG, "onAdLoadFailed: Banner ad failed to load with error: " + inMobiAdRequestStatus.getMessage());
+                }
 
-            @Override
-            public void onAdLoadFailed(@NonNull InMobiBanner inMobiBanner, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
-                super.onAdLoadFailed(inMobiBanner, inMobiAdRequestStatus);
-                Log.d(TAG, "onAdLoadFailed: Banner ad failed to load with error: " + inMobiAdRequestStatus.getMessage());
-            }
+                @Override
+                public void onAdClicked(@NonNull InMobiBanner inMobiBanner, Map<Object, Object> map) {
+                    super.onAdClicked(inMobiBanner, map);
+                    Log.d(TAG, "onAdClicked: ");
+                }
 
-            @Override
-            public void onAdClicked(@NonNull InMobiBanner inMobiBanner, Map<Object, Object> map) {
-                super.onAdClicked(inMobiBanner, map);
-                Log.d(TAG, "onAdClicked: ");
-            }
-            @Override
-            public void onAdDisplayed(@NonNull InMobiBanner inMobiBanner) {
-                super.onAdDisplayed(inMobiBanner);
-                Log.d(TAG, "onAdDisplayed: ");
-            }
+                @Override
+                public void onAdDisplayed(@NonNull InMobiBanner inMobiBanner) {
+                    super.onAdDisplayed(inMobiBanner);
+                    Log.d(TAG, "onAdDisplayed: ");
+                }
 
-            @Override
-            public void onAdDismissed(@NonNull InMobiBanner inMobiBanner) {
-                super.onAdDismissed(inMobiBanner);
-                Log.d(TAG, "onAdDismissed: ");
-            }
+                @Override
+                public void onAdDismissed(@NonNull InMobiBanner inMobiBanner) {
+                    super.onAdDismissed(inMobiBanner);
+                    Log.d(TAG, "onAdDismissed: ");
+                }
 
-            @Override
-            public void onUserLeftApplication(@NonNull InMobiBanner inMobiBanner) {
-                super.onUserLeftApplication(inMobiBanner);
-                Log.d(TAG, "onUserLeftApplication: ");
-            }
+                @Override
+                public void onUserLeftApplication(@NonNull InMobiBanner inMobiBanner) {
+                    super.onUserLeftApplication(inMobiBanner);
+                    Log.d(TAG, "onUserLeftApplication: ");
+                }
 
-            @Override
-            public void onRewardsUnlocked(@NonNull InMobiBanner inMobiBanner, Map<Object, Object> map) {
-                super.onRewardsUnlocked(inMobiBanner, map);
-                Log.d(TAG, "onRewardsUnlocked: ");
-            }
+                @Override
+                public void onRewardsUnlocked(@NonNull InMobiBanner inMobiBanner, Map<Object, Object> map) {
+                    super.onRewardsUnlocked(inMobiBanner, map);
+                    Log.d(TAG, "onRewardsUnlocked: ");
+                }
 
-        });
-        mBannerAd.load();
+            });
+            mBannerAd.load();
+        }catch(Exception e) {
+           e.printStackTrace();
+        }
     }
 
     private int toPixelUnits(int dipUnit) {
@@ -600,16 +601,16 @@ public class HomeActivity extends AppCompatActivity
         startSpotLight(btnBilling, "Billing", "This will be used for billing.");
         try{
             if(null==mBannerAd1){
-                setupBannerAd(mBannerAd1);
-            }
-            else{
                 mBannerAd1.load();
             }
+            else{
+                setupBannerAd(mBannerAd1);
+            }
             if(null==mBannerAd2){
-                setupBannerAd(mBannerAd2);
+                mBannerAd2.load();
             }
             else{
-                mBannerAd2.load();
+                setupBannerAd(mBannerAd2);
             }
         }
         catch(Exception e){
