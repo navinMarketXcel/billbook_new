@@ -644,7 +644,6 @@ public class HomeActivity extends AppCompatActivity
                 ApiClient.getClient().create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
-
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Authorization", token);
         Map<String, String> body = new HashMap<>();

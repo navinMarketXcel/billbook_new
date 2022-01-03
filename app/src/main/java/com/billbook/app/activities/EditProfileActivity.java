@@ -310,7 +310,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 if (profile.getString("mobileNo").equals(phoneNoEdt.getText().toString())) {
                     updateUserProfile();
                 } else {
-                    startOTPActivity();
+                    getOTP();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -318,15 +318,58 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
     }
+    private void getOTP(){
+        DialogUtils.startProgressDialog(this, "");
+        try {
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+        Map<String, String> headerMap = new HashMap<>();
+        Map<String, String> req = new HashMap<>();
 
-    private void startOTPActivity() {
+        req.put("mobileNo",phoneNoEdt.getText().toString());
+        req.put("isUpdateMobileNo","true");
+        headerMap.put("Content-Type", "application/json");
+
+        Call<Object> call = apiService.getOTP((HashMap<String, String>) req);
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                DialogUtils.stopProgressDialog();
+                Log.d(TAG, "onResponse: " + response.body().toString());
+//
+                try {
+                    JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                    Log.v("RESP",body.toString());
+                    if(body.getJSONObject("data").has("otp"))
+                    startOTPActivity(body.getJSONObject("data").getString("otp"));
+                    else
+                        DialogUtils.showToast(EditProfileActivity.this,"Failed to get OTP");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                DialogUtils.stopProgressDialog();
+                DialogUtils.showToast(EditProfileActivity.this,"Failed to get OTP");
+            }
+        });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    private void startOTPActivity(String otp) {
         try {
             Intent intent = new Intent(this, OTPActivity.class);
             intent.putExtra("fromEditProfile", true);
-            intent.putExtra("mobileNo", profile.getString("mobileNo"));
-            intent.putExtra("OTP", "");
+            intent.putExtra("mobileNo",phoneNoEdt.getText().toString());
+            intent.putExtra("OTP", otp);
             startActivityForResult(intent, OTP_VERIFIED);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -625,9 +668,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 DialogUtils.stopProgressDialog();
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                    Log.v("RESP", body.toString());
                     if (body.getBoolean("status")) {
                         MyApplication.saveUserDetails(body.getJSONObject("data").toString());
+                        MyApplication.saveUserToken(body.getJSONObject("data").getString("userToken"));
                         EditProfileActivity.this.finish();
                     } else {
                         DialogUtils.showToast(EditProfileActivity.this, "Failed update profile to server");
