@@ -139,7 +139,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private void setData() {
         try {
             localInvoiceId = getIntent().getExtras().getLong("localInvId");
-            invoiceViewModel.getCurrentInvoice(getIntent().getExtras().getLong("localInvId")).observe(this, new Observer<InvoiceModelV2>() {
+            invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, new Observer<InvoiceModelV2>() {
                 @Override
                 public void onChanged(InvoiceModelV2 invoiceModelV2) {
                     try{

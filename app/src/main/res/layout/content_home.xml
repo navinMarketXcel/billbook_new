@@ -300,11 +300,11 @@
 
         <TextView
             android:id="@+id/syncText"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Please turn on the Internet to sync your data."
+            android:text="@string/sync_warning_home"
             android:textSize="8dp"
             android:layout_alignParentBottom="true"
             android:textColor="@android:color/holo_red_dark"

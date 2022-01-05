@@ -335,8 +335,6 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 DialogUtils.stopProgressDialog();
-                Log.d(TAG, "onResponse: " + response.body().toString());
-//
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     Log.v("RESP",body.toString());

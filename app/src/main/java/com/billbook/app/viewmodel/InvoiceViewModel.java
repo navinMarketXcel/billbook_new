@@ -17,11 +17,12 @@ public class InvoiceViewModel extends AndroidViewModel {
     public void insert(InvoiceModelV2 invoiceModelV2){
         AppRepository.getInstance().insert(invoiceModelV2);
     }
-
+    // to fetch invoice from local db using invoiceId
     public LiveData<InvoiceModelV2> getCurrentInvoice(long localInvoiceId){
         return AppRepository.getInstance().getCurrentInvoice(localInvoiceId);
     }
 
+    // update existing invoice in local db, if already present
     public void update(InvoiceModelV2 invoiceModelV2){
         AppRepository.getInstance().update(invoiceModelV2);
     }

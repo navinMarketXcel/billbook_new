@@ -150,6 +150,9 @@
 
     <string name="prompt_old_password">Current Password</string>
 
+    <string name="sync_warning_home">Please turn on the Internet to sync your data</string>
+    <string name="sync_warning_expense">There are some expenses to be synced. Please check your internet and restart the application</string>
+
     <string name="search">Search</string>
     <string name="invoice_details">Invoice Details</string>
     <string name="inv_pref">Invoice</string>

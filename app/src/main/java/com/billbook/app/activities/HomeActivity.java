@@ -101,42 +101,7 @@ public class HomeActivity extends AppCompatActivity
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JSONObject consentObject = new JSONObject();
-
-        try{
-        consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE,true);
-        consentObject.put("gdpr","0");
-        consentObject.put(InMobiSdk.IM_GDPR_CONSENT_IAB,"<< CONSENT in IAB Format");
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        try {
-            InMobiSdk.init(this, "", consentObject, new SdkInitializationListener() {
-                @Override
-                public void onInitializationComplete(@Nullable Error error) {
-                    if (null != error) {
-                        Log.e(TAG, "InMobi Init Failed " + error.getMessage());
-                    } else {
-                        Log.d(TAG, "onInitializationComplete: Complete InMobi");
-                        if (null == mBannerAd1 && null == mBannerAd2) {
-                            Log.d(TAG, "onInitializationComplete: ");
-                            createBannerAd();
-                        } else if (mBannerAd2 == null) {
-                            mBannerAd1.load();
-                        } else if (mBannerAd1 == null) {
-                            mBannerAd2.load();
-                        } else {
-                            mBannerAd1.load();
-                            mBannerAd2.load();
-                        }
-
-                    }
-                }
-            });
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        InMobiInitialization();
 
         //    Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"database-name.db").addMigrations(addInvoiceNumber).build();
 
@@ -223,6 +188,42 @@ public class HomeActivity extends AppCompatActivity
 //    customPartialyClickableTextview.addClickPattern("weblink",weblink);
     }
 
+    private void InMobiInitialization() {
+        JSONObject consentObject = new JSONObject();
+
+        try{
+            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE,true);
+            consentObject.put("gdpr","0");
+            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_IAB,"<< CONSENT in IAB Format");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try {
+            InMobiSdk.init(this, "", consentObject, new SdkInitializationListener() {
+                @Override
+                public void onInitializationComplete(@Nullable Error error) {
+                    if (null != error) {
+                    } else {
+                        if (null == mBannerAd1 && null == mBannerAd2) {
+                            createBannerAd();
+                        } else if (mBannerAd2 == null) {
+                            mBannerAd1.load();
+                        } else if (mBannerAd1 == null) {
+                            mBannerAd2.load();
+                        } else {
+                            mBannerAd1.load();
+                            mBannerAd2.load();
+                        }
+
+                    }
+                }
+            });
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void createBannerAd(){
         mBannerAd1 = new InMobiBanner(this, placementId1);
         mBannerAd2 = new InMobiBanner(this, placementId2);
@@ -273,43 +274,36 @@ public class HomeActivity extends AppCompatActivity
                 @Override
                 public void onAdLoadSucceeded(@NonNull InMobiBanner inMobiBanner, @NonNull AdMetaInfo adMetaInfo) {
                     super.onAdLoadSucceeded(inMobiBanner, adMetaInfo);
-                    Log.d(TAG, "onAdLoadSucceeded: with bid " + adMetaInfo.getBid());
                 }
 
                 @Override
                 public void onAdLoadFailed(@NonNull InMobiBanner inMobiBanner, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
                     super.onAdLoadFailed(inMobiBanner, inMobiAdRequestStatus);
-                    Log.d(TAG, "onAdLoadFailed: Banner ad failed to load with error: " + inMobiAdRequestStatus.getMessage());
                 }
 
                 @Override
                 public void onAdClicked(@NonNull InMobiBanner inMobiBanner, Map<Object, Object> map) {
                     super.onAdClicked(inMobiBanner, map);
-                    Log.d(TAG, "onAdClicked: ");
                 }
 
                 @Override
                 public void onAdDisplayed(@NonNull InMobiBanner inMobiBanner) {
                     super.onAdDisplayed(inMobiBanner);
-                    Log.d(TAG, "onAdDisplayed: ");
                 }
 
                 @Override
                 public void onAdDismissed(@NonNull InMobiBanner inMobiBanner) {
                     super.onAdDismissed(inMobiBanner);
-                    Log.d(TAG, "onAdDismissed: ");
                 }
 
                 @Override
                 public void onUserLeftApplication(@NonNull InMobiBanner inMobiBanner) {
                     super.onUserLeftApplication(inMobiBanner);
-                    Log.d(TAG, "onUserLeftApplication: ");
                 }
 
                 @Override
                 public void onRewardsUnlocked(@NonNull InMobiBanner inMobiBanner, Map<Object, Object> map) {
                     super.onRewardsUnlocked(inMobiBanner, map);
-                    Log.d(TAG, "onRewardsUnlocked: ");
                 }
 
             });

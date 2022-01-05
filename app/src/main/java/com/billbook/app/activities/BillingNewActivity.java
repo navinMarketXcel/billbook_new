@@ -8,13 +8,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import androidx.annotation.Nullable;
 
-import com.billbook.app.adapters.NewInvoicePurchaseAdapter;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.InvoiceModelV2;
@@ -63,7 +61,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -109,7 +106,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     private ActivityBillingNewBinding binding;
     private LayoutItemBillBinding billItemBinding;
-    private long localInvoiceId, id;
+    private long localInvoiceId, idInLocalDb;
+    // idInLocalDb = column with name "id" in local db android
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -663,7 +661,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             binding.additionalDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
         }
     }
-
+    // toggle function to show and hide discount
     public void showHideDiscountBilling(View view) {
         if (binding.discountBillingLayout.getVisibility() == View.VISIBLE) {
             binding.discountBillingLayout.setVisibility(View.GONE);
@@ -686,46 +684,54 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     private void calculateDiscount() {
-
-        if (binding.edtDiscountPercent.getText().toString().length() > 0) {
-            String substr = binding.edtDiscountPercent.getText().toString();
-            if(substr.endsWith("%")) {
-                substr = substr.substring(0, substr.length() - 1);
+        try {
+            if (binding.edtDiscountPercent.getText().toString().length() > 0) {
+                String substr = binding.edtDiscountPercent.getText().toString();
+                if (substr.endsWith("%")) {
+                    substr = substr.substring(0, substr.length() - 1);
+                }
+                discountPercent = Float.valueOf(substr);
+            } else if (binding.edtDiscountAmt.getText().toString().length() > 0) {
+                discountAmt = Float.valueOf(binding.edtDiscountAmt.getText().toString());
             }
-            discountPercent = Float.valueOf(substr);
-        } else if (binding.edtDiscountAmt.getText().toString().length() > 0) {
-            discountAmt = Float.valueOf(binding.edtDiscountAmt.getText().toString());
-        }
 
-        if (discountAmt > 0 && discountPercent == 0) {
-            discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
-        } else if (discountPercent > 0 && discountAmt == 0) {
-            discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
-        } else {
-            discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
-            discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
-        }
+            if (discountAmt > 0 && discountPercent == 0) {
+                discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
+            } else if (discountPercent > 0 && discountAmt == 0) {
+                discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
+            } else {
+                discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
+                discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
+            }
 
-        if (discountAmt > 0) {
-            binding.edtDiscountAmt.setText(String.valueOf(discountAmt));
-        }
-        if (discountPercent > 0) {
-            binding.edtDiscountPercent.setText(discountPercent + "%");
-        }
+            if (discountAmt > 0) {
+                binding.edtDiscountAmt.setText(String.valueOf(discountAmt));
+            }
+            if (discountPercent > 0) {
+                binding.edtDiscountPercent.setText(discountPercent + "%");
+            }
 
-        setTotalAfterDiscount();
+            setTotalAfterDiscount();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void setTotalAfterDiscount() {
-        if (discountPercent > 100.00) {
-            setEditTextError(binding.edtDiscountPercent, "Discount should be less than 100%");
-        } else if (discountAmt > total) {
-            setEditTextError(binding.edtDiscountAmt, "Discount value should be less than total");
-        } else {
-            float totalAfterDiscount = total - discountAmt;
-            binding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
-            setEditTextError(binding.edtDiscountAmt, "");
-            setEditTextError(binding.edtDiscountPercent, "");
+        try {
+            if (discountPercent > 100.00) {
+                setEditTextError(binding.edtDiscountPercent, "Discount should be less than 100%");
+            } else if (discountAmt > total) {
+                setEditTextError(binding.edtDiscountAmt, "Discount value should be less than total");
+            } else {
+                float totalAfterDiscount = total - discountAmt;
+                binding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
+                setEditTextError(binding.edtDiscountAmt, "");
+                setEditTextError(binding.edtDiscountPercent, "");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -782,7 +788,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //                if(isEdit && requestObj.getJSONArray("items").length()>0){
 //                    int cnt=0;
 //                    while(requestObj.getJSONArray("items").length()>cnt){
-//                        if(requestObj.getJSONArray("items").getJSONObject(cnt).getInt("id") >0){
+//                        if(requestObj.getJSONArray("items").getJSONObject(cnt).getInt("idInLocalDb") >0){
 //                            requestObj.getJSONArray("items").remove(cnt);
 //                        }else
 //                            cnt++;
@@ -793,7 +799,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 }else {
                     saveInvoiceToLocalDatabase(requestObj);
                 }
-                Log.v("TEST", requestObj.toString());
                 if (Util.isNetworkAvailable(this)) {
                     if(!isEdit)
                     sendInvoice(requestObj);
@@ -900,12 +905,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             e.printStackTrace();
         }
     }
+    // on edit invoice, update the existing entry of the invoice with new values
     public void setCurrInvoiceToUpdate(InvoiceModelV2 invoiceModelV2, JSONObject invoice){
        currInvoiceToUpdate = invoiceModelV2;
         try {
+            // In case entry is not present in local db create new entry, else update existing one
             if(currInvoiceToUpdate==null) {
                 saveInvoiceToLocalDatabase(invoice);
-                id = -1;
+                idInLocalDb = -1;
             } else {
                 currInvoiceToUpdate.setCustomerName(invoice.has("customerName") ? invoice.getString("customerName") : "");
                 currInvoiceToUpdate.setCustomerMobileNo(invoice.has("customerMobileNo") ? invoice.getString("customerMobileNo") : "");
@@ -927,17 +934,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
                 invoiceViewModel.update(currInvoiceToUpdate);
-                id = currInvoiceToUpdate.getId();
+                idInLocalDb = currInvoiceToUpdate.getId();
             }
             sendInvoice(invoice);
-
-
         }
         catch(JSONException e){
             e.printStackTrace();
         }
 
     }
+    // to fetch Invoice present In local database by Id
     private class getInvoiceModelByIdAsyncTask extends AsyncTask<Void,Void,InvoiceModelV2> {
         private NewInvoiceDao newInvoiceDao;
         private long localInvoiceId;
@@ -977,8 +983,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             call = apiService.invoice(jsonObject);
         } else {
             try {
-//                Log.d(TAG, "sendInvoice: schema " + jsonObject);
-
                 call = apiService.updateInvoice(headerMap, this.invoice.getLong("id"), jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -998,8 +1002,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         if (isEdit) {
                             object.put("invoice", body.getJSONObject("data"));
                             object.put("items", body.getJSONObject("data").getJSONArray("masterItems"));
-                            if(id>0)
-                            invoiceViewModel.updateIsSync(id);
+                            if(idInLocalDb >0)
+                            invoiceViewModel.updateIsSync(idInLocalDb);
                             else
                                 invoiceViewModel.updateIsSync(localInvoiceId);
 
@@ -1016,8 +1020,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         intent.putExtra("nonGstBillNo",isEdit ? object.getJSONObject("invoice").getInt("nonGstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("nonGstBillNo"));
                         intent.putExtra("id",isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
                         intent.putExtra("idForItem", isEdit ? (long) object.getJSONObject("invoice").getInt("id"):localInvoiceId);
-                        if(isEdit && id>0) {
-                            intent.putExtra("localInvId", id);
+                        if(isEdit && idInLocalDb >0) {
+                            intent.putExtra("localInvId", idInLocalDb);
                         }
                         else
                             intent.putExtra("localInvId",localInvoiceId);
