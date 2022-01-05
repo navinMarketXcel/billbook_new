@@ -10,6 +10,9 @@ android {
         versionName "1.27.5"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
+        buildConfigField("String", "AccountId",AccountId);
+        buildConfigField("String", "PlacementId1",PlacementId1);
+        buildConfigField("String", "PlacementId2",PlacementId2);
     }
 
     buildFeatures{

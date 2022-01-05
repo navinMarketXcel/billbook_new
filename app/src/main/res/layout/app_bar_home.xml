@@ -10,13 +10,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_anchor="@+id/appBarLayout"
+        app:layout_anchorGravity="center"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+
+        <Button
+            android:id="@+id/helpLine"
+            android:layout_width="31dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="right"
+            android:layout_marginEnd="19dp"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_headset_mic_white"
+            android:gravity="center_horizontal"
+            android:onClick="startHelpActivity" />
+        <Button
+            android:id="@+id/wathcDemo"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/helpLine"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@mipmap/youtube"
+            android:gravity="center_horizontal"
+            android:onClick="startYoutubeActivity" />
+    </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_home" />

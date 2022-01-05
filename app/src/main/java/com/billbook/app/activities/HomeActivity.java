@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.billbook.app.BuildConfig;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceModelV2;
 import com.google.android.material.navigation.NavigationView;
@@ -84,9 +85,10 @@ public class HomeActivity extends AppCompatActivity
     private JSONObject profile;
     private JSONArray exp = null;
     private String expString;
-    private InMobiBanner mBannerAd1=null, mBannerAd2=null;
-    // Change placementId values to actual placementId for InMobi BannerAd
-    private long placementId1=0, placementId2=0;
+    InMobiBanner mBannerAd1,mBannerAd2;
+    // replace with actual placementId from InMobi
+    private long placementId1= Long.parseLong(BuildConfig.PlacementId1);
+    private long placementId2=Long.parseLong(BuildConfig.PlacementId2);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,7 +202,8 @@ public class HomeActivity extends AppCompatActivity
             e.printStackTrace();
         }
         try {
-            InMobiSdk.init(this, "", consentObject, new SdkInitializationListener() {
+            // replace empty string with account Id of InMobi
+            InMobiSdk.init(this, BuildConfig.AccountId, consentObject, new SdkInitializationListener() {
                 @Override
                 public void onInitializationComplete(@Nullable Error error) {
                     if (null != error) {
@@ -248,7 +251,7 @@ public class HomeActivity extends AppCompatActivity
         bannerLayoutParams2.setMargins(0,0,0,toPixelUnits(55));
         mBannerAd2.setAnimationType(InMobiBanner.AnimationType.ROTATE_HORIZONTAL_AXIS);
         mBannerAd2.setLayoutParams(bannerLayoutParams2);
-        mBannerAd2.setRefreshInterval(40);
+        mBannerAd2.setRefreshInterval(30);
         adContainer.addView(mBannerAd2);
 
         mBannerAd2.load();
