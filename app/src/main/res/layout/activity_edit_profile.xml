@@ -153,7 +153,9 @@
                     android:hint="@string/enter_state"
                     />
             </com.google.android.material.textfield.TextInputLayout>
-
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/pincodeLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -171,8 +173,20 @@
                     android:maxLength="6"
                     android:singleLine="true"
                     android:textSize="13sp" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
+    <ProgressBar
+        android:id="@+id/pincodeProgressBar"
+        style="?android:attr/progressBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="15dp"
+        android:layout_gravity="end|center_vertical"
+        android:visibility="visible"
+
+        />
+</FrameLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailTxtInput"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

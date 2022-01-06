@@ -194,15 +194,13 @@
 
                 </TableRow>
 
-
-                <TableRow
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:weightSum="4">
-
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -224,7 +222,35 @@
                         android:singleLine="true"
                         android:textColor="@color/grey"
                         android:textSize="13dp" />
-                </TableRow>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llFetchCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingRight="10dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/displayCity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="10dp"
+                        android:text="Fetching city" />
+
+                    <ProgressBar
+                        android:id="@+id/pincodeProgressBar"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/firstName"
@@ -281,6 +307,7 @@
 
 
                 </com.google.android.material.textfield.TextInputLayout>
+
 
             </LinearLayout>
 

@@ -794,6 +794,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //                            cnt++;
 //                    }
 //                }
+                
                 if(isEdit) {
                     new getInvoiceModelByIdAsyncTask(MyApplication.getDatabase().newInvoiceDao(), localInvoiceId, requestObj).execute();
                 }else {
