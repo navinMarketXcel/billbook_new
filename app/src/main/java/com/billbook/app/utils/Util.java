@@ -262,14 +262,14 @@ public class Util {
             dateFormatter.setTimeZone(TimeZone.getDefault());
             Date date = dateFormatter.parse(sDate1);
             @SuppressLint("SimpleDateFormat") DateFormat formatter =
-                    new SimpleDateFormat("dd MMM yyyy");
+                    new SimpleDateFormat("yyyy-MM-dd");
             dateToday = formatter.format(date.getTime());
         } catch (ParseException e) {
             e.printStackTrace();
             Date date = Calendar.getInstance().getTime();
             // Display a date in day, month, year format
             @SuppressLint("SimpleDateFormat") DateFormat formatter =
-                    new SimpleDateFormat("dd MMM yyyy");
+                    new SimpleDateFormat("yyyy-MM-dd");
             dateToday = formatter.format(date);
 
         }

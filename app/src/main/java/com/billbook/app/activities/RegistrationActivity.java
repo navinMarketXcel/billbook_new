@@ -109,24 +109,17 @@ public class RegistrationActivity extends AppCompatActivity {
 
                             @Override
                             public void onResponse(Call<Object> call, Response<Object> response) {
-                                Log.d(TAG, "onResponse: response " + response);
-                                Log.d(TAG, "onResponse: response.body " + response.body());
                                 try {
                                     if (response.body() == null) {
                                         binding.pinCodeEdt.setError("Invalid PIN Code");
                                         binding.llFetchCity.setVisibility(View.GONE);
-                                        Log.d(TAG, "onResponse: Invalid pincode");
-                                        city=null;
                                     } else {
                                         JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                                         JSONObject data = body.getJSONObject("data");
                                         state = data.getString("state");
                                         city = data.getString("city");
-                                        binding.state.setText(state);
-                                        binding.city.setText(city);
                                         binding.pincodeProgressBar.setVisibility(View.GONE);
                                         binding.displayCity.setText(new StringBuilder().append(city).append(", ").append(state).toString());
-                                        Log.d(TAG, "onResponse: Pincode body " + body);
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -159,13 +152,13 @@ public class RegistrationActivity extends AppCompatActivity {
         cityAdpater = new ArrayAdapter<String>(
                 RegistrationActivity.this,
                 R.layout.spinner_item, citiesList);
-        binding.city.setAdapter(cityAdpater);
+//        binding.city.setAdapter(cityAdpater);
 
 
         stateAdpater = new ArrayAdapter<String>(
                 RegistrationActivity.this,
                 R.layout.spinner_item, stateList);
-        binding.state.setAdapter(stateAdpater);
+//        binding.state.setAdapter(stateAdpater);
 
     }
 
@@ -207,46 +200,46 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
 
-    private void loadCities() {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                DialogUtils.startProgressDialog(RegistrationActivity.this, "");
-            }
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                try {
-                    citiesList.clear();
-                    if (citiesJSONArray == null)
-                        citiesJSONArray = new JSONArray(readJSONFromAsset());
-                    for (int i = 0; i < citiesJSONArray.length(); i++) {
-                        if (binding.state.getText().toString().equalsIgnoreCase(
-                                citiesJSONArray.getJSONObject(i).getString("state"))) {
-                            citiesList.add(citiesJSONArray.getJSONObject(i).getString("name"));
-                        }
-                        Collections.sort(citiesList, String.CASE_INSENSITIVE_ORDER);
-
-                    }
-                    citiesList.add(0, "Select City");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                cityAdpater.notifyDataSetChanged();
-                DialogUtils.stopProgressDialog();
-            }
-
-
-        }.execute();
-    }
+//    private void loadCities() {
+//        new AsyncTask<Void, Void, Void>() {
+//            @Override
+//            protected void onPreExecute() {
+//                super.onPreExecute();
+//                DialogUtils.startProgressDialog(RegistrationActivity.this, "");
+//            }
+//
+//            @Override
+//            protected Void doInBackground(Void... voids) {
+//                try {
+//                    citiesList.clear();
+//                    if (citiesJSONArray == null)
+//                        citiesJSONArray = new JSONArray(readJSONFromAsset());
+//                    for (int i = 0; i < citiesJSONArray.length(); i++) {
+//                        if (binding.state.getText().toString().equalsIgnoreCase(
+//                                citiesJSONArray.getJSONObject(i).getString("state"))) {
+//                            citiesList.add(citiesJSONArray.getJSONObject(i).getString("name"));
+//                        }
+//                        Collections.sort(citiesList, String.CASE_INSENSITIVE_ORDER);
+//
+//                    }
+//                    citiesList.add(0, "Select City");
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                return null;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Void aVoid) {
+//                super.onPostExecute(aVoid);
+//                cityAdpater.notifyDataSetChanged();
+//                DialogUtils.stopProgressDialog();
+//            }
+//
+//
+//        }.execute();
+//    }
 
     public String readJSONFromAsset() {
         String json = null;

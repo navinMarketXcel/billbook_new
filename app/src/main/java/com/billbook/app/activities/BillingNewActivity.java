@@ -145,7 +145,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     private void initUI() {
         DateFormat formatter =
-                new SimpleDateFormat("dd MMM yyyy");
+                new SimpleDateFormat("yyyy-MM-dd");
         invoiceDateStr = formatter.format(new Date());
         binding.billDate.setText("Bill Date: " + invoiceDateStr);
 
@@ -634,7 +634,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     dateToUse = dateToUse + "T00:00:00.001Z";
                     invoiceDate = myFormat.parse(dateToUse);
                     DateFormat formatter =
-                            new SimpleDateFormat("dd MMM yyyy");
+                            new SimpleDateFormat("yyyy-MM-dd");
                     invoiceDateStr = formatter.format(invoiceDate);
                     binding.billDate.setText("Bill Date: " + invoiceDateStr);
                 } catch (ParseException e) {

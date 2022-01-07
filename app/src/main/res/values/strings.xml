@@ -73,7 +73,9 @@
     <string name="nameAndemail">Name &amp; Email</string>
     <string name="address">Address</string>
     <string name="discountBilling">Discount</string>
+    <string name="city_without_asterisk">City</string>
     <string name="city">City<font color='#ff0000'>*</font></string>
+    <string name="state_without_asterisk">State</string>
     <string name="state">State<font color='#ff0000'>*</font></string>
     <string name="mobile_no">Contact Number</string>
     <string name="paymentValue1">Amount</string>

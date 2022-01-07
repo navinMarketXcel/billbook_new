@@ -122,7 +122,7 @@
                 android:layout_margin="5dp"
                 android:layout_marginTop="@dimen/pass_margin_top">
 
-                <EditText
+                <TextView
                     android:id="@+id/city"
                     style="@style/editText"
                     android:padding="16dp"
@@ -130,7 +130,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_marginTop="@dimen/add_product_spinner_margin_top"
-                    android:hint="@string/enter_city"
+                    android:hint="@string/city_without_asterisk"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -142,7 +142,7 @@
                 android:layout_margin="5dp"
                 android:layout_marginTop="@dimen/pass_margin_top">
 
-                <EditText
+                <TextView
                     android:id="@+id/state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -150,43 +150,43 @@
                     android:padding="16dp"
                     android:layout_margin="5dp"
                     android:layout_marginTop="@dimen/add_product_spinner_margin_top"
-                    android:hint="@string/enter_state"
+                    android:hint="@string/state_without_asterisk"
                     />
             </com.google.android.material.textfield.TextInputLayout>
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/pincodeLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginTop="@dimen/pass_margin_top">
 
-                <EditText
-                    android:id="@+id/pincode"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/pincodeProgressBar"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:paddingRight="15dp"
+                    android:visibility="gone" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/pincodeLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/pinCode"
-                    android:inputType="number"
-                    android:maxLength="6"
-                    android:singleLine="true"
-                    android:textSize="13sp" />
+                    android:layout_margin="5dp"
+                    android:layout_marginTop="@dimen/pass_margin_top">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <EditText
+                        android:id="@+id/pincode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/pinCode"
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:singleLine="true"
+                        android:textSize="13sp" />
 
-    <ProgressBar
-        android:id="@+id/pincodeProgressBar"
-        style="?android:attr/progressBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingRight="15dp"
-        android:layout_gravity="end|center_vertical"
-        android:visibility="visible"
-
-        />
-</FrameLayout>
+                </com.google.android.material.textfield.TextInputLayout>
+            </FrameLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailTxtInput"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

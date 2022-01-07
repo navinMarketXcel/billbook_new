@@ -17,6 +17,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.billbook.app.R;
@@ -40,6 +43,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -71,7 +75,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private ImageView profileImg, signatureImg, companyLogoImg;
     //    private SearchableSpinner states,city;
     private Button btnAddCompanyLogo, btnAddSignature, btnDeleteCompanyLogo, btnDeleteSignatureImage;
-    private EditText states, cityEdt;
+    private TextView states, cityEdt;
     private String picturePath;
     private TextView tvCompanyTitle, tvSignatureTitle;
     private ArrayList<String> stateList = new ArrayList<>();
@@ -88,7 +92,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private int SCREEN_WIDTH = 120;
     private final double MAX_FILE_SIZE_LIMIT = 15.0;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 111;
-
+    private ProgressBar pincodeProgressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,6 +163,65 @@ public class EditProfileActivity extends AppCompatActivity {
         ll_signature = findViewById(R.id.ll_signature);
         btnDeleteCompanyLogo = findViewById(R.id.bt_company_delete);
         btnDeleteSignatureImage = findViewById(R.id.bt_signature_delete);
+        pincodeProgressBar = findViewById(R.id.pincodeProgressBar);
+
+        pincode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                states.setText("");
+                cityEdt.setText("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                try {
+                    if (getCurrentFocus() == pincode) {
+                        if (s.length() == 6) {
+                            pincodeProgressBar.setVisibility(View.VISIBLE);
+                            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+                            Map<String, String> req = new HashMap<>();
+                            req.put("pincode", s.toString());
+                            Call<Object> call = apiService.pincode((HashMap<String, String>) req);
+                            call.enqueue(new Callback<Object>() {
+
+                                @Override
+                                public void onResponse(Call<Object> call, Response<Object> response) {
+                                    try {
+                                        if (response.body() == null) {
+                                            pincode.setError("Invalid PIN Code");
+                                            pincodeProgressBar.setVisibility(View.GONE);
+                                        } else {
+                                            JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                                            JSONObject data = body.getJSONObject("data");
+                                            states.setText(data.getString("state"));
+                                            cityEdt.setText(data.getString("city"));
+                                            pincodeProgressBar.setVisibility(View.GONE);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Object> call, Throwable t) {
+                                    pincode.setError("Please Check your Internet Connection!");
+                                    pincodeProgressBar.setVisibility(View.GONE);
+                                }
+                            });
+                        } else if (s.length() > 6) {
+                            pincode.setError("Invalid PIN Code");
+                            pincodeProgressBar.setVisibility(View.GONE);
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
        /* city.setTitle("Select City");
         states.setTitle("Select State");
         stateList.addAll( Arrays.asList(getResources().getStringArray(R.array.states)));
@@ -184,50 +247,50 @@ public class EditProfileActivity extends AppCompatActivity {
         setUserData();
     }
 
-    private void loadCities() {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                DialogUtils.startProgressDialog(EditProfileActivity.this, "");
-            }
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                try {
-                    citiesList.clear();
-                    citiesList.add("Select City");
-                    if (citiesJSONArray == null)
-                        citiesJSONArray = new JSONArray(readJSONFromAsset());
-                    for (int i = 0; i < citiesJSONArray.length(); i++) {
-//                        if (stateList.get(states.getSelectedItemPosition()).equalsIgnoreCase(
-//                                citiesJSONArray.getJSONObject(i).getString("state"))) {
-//                            citiesList.add(citiesJSONArray.getJSONObject(i).getString("name"));
-//                        }
-                        Collections.sort(citiesList, String.CASE_INSENSITIVE_ORDER);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                cityAdapater.notifyDataSetChanged();
-                try {
-                    cityEdt.setSelection(citiesList.indexOf(profile.getString("city")));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                DialogUtils.stopProgressDialog();
-            }
-
-
-        }.execute();
-    }
+//    private void loadCities() {
+//        new AsyncTask<Void, Void, Void>() {
+//            @Override
+//            protected void onPreExecute() {
+//                super.onPreExecute();
+//                DialogUtils.startProgressDialog(EditProfileActivity.this, "");
+//            }
+//
+//            @Override
+//            protected Void doInBackground(Void... voids) {
+//                try {
+//                    citiesList.clear();
+//                    citiesList.add("Select City");
+//                    if (citiesJSONArray == null)
+//                        citiesJSONArray = new JSONArray(readJSONFromAsset());
+//                    for (int i = 0; i < citiesJSONArray.length(); i++) {
+////                        if (stateList.get(states.getSelectedItemPosition()).equalsIgnoreCase(
+////                                citiesJSONArray.getJSONObject(i).getString("state"))) {
+////                            citiesList.add(citiesJSONArray.getJSONObject(i).getString("name"));
+////                        }
+//                        Collections.sort(citiesList, String.CASE_INSENSITIVE_ORDER);
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                return null;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(Void aVoid) {
+//                super.onPostExecute(aVoid);
+//                cityAdapater.notifyDataSetChanged();
+//                try {
+//                    cityEdt.setSelection(citiesList.indexOf(profile.getString("city")));
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                DialogUtils.stopProgressDialog();
+//            }
+//
+//
+//        }.execute();
+//    }
 
     private void setUserData() {
 
@@ -337,9 +400,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 DialogUtils.stopProgressDialog();
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                    Log.v("RESP",body.toString());
                     if(body.getJSONObject("data").has("otp"))
-                    startOTPActivity(body.getJSONObject("data").getString("otp"));
+                         startOTPActivity(body.getJSONObject("data").getString("otp"));
                     else
                         DialogUtils.showToast(EditProfileActivity.this,"Failed to get OTP");
 
@@ -415,11 +477,8 @@ public class EditProfileActivity extends AppCompatActivity {
         } else if (phoneNoEdt.getText().toString().isEmpty() || phoneNoEdt.getText().toString().length() < 10) {
             DialogUtils.showToast(this, "Invalid phone number");
             return false;
-        } else if (states.getText().toString().isEmpty()) {
-            DialogUtils.showToast(this, "State can not be empty");
-            return false;
-        } else if (cityEdt.getText().toString().isEmpty()) {
-            DialogUtils.showToast(this, "City can not be empty");
+        } else if (pincode.getText().toString().length()<6 || pincode.getError() != null || states.getText().toString().isEmpty() || cityEdt.getText().toString().isEmpty()) {
+            DialogUtils.showToast(this, "Invalid Pincode");
             return false;
         }
         return true;
