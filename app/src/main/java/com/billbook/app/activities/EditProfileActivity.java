@@ -193,14 +193,13 @@ public class EditProfileActivity extends AppCompatActivity {
                                     try {
                                         if (response.body() == null) {
                                             pincode.setError("Invalid PIN Code");
-                                            pincodeProgressBar.setVisibility(View.GONE);
                                         } else {
                                             JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                                             JSONObject data = body.getJSONObject("data");
                                             states.setText(data.getString("state"));
                                             cityEdt.setText(data.getString("city"));
-                                            pincodeProgressBar.setVisibility(View.GONE);
                                         }
+                                        pincodeProgressBar.setVisibility(View.GONE);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }

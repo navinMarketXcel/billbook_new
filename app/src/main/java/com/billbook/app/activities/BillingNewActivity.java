@@ -136,7 +136,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         loadDataForInvoice();
         getInvoiceItemsFromDatabase();
     }
-
+    private static final String [] itemsAuto = new String[]{
+            "Apple","Applee","Apax", "Aqua","Aqew","Aqerw", "Banana", "Ball", "Zebra"
+    };
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -186,6 +188,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, measurementUnitTypeList);
         spinner.setAdapter(dataAdapter);
+
+        ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,itemsAuto);
+        billItemBinding.itemNameET.setAdapter(itemAdapter);
 
 
         billItemBinding.gstPercentage.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
