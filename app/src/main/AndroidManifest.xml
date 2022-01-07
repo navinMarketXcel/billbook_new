@@ -195,7 +195,6 @@
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
 
-
         <activity
             android:name=".activities.OTPActivity"
             android:screenOrientation="portrait"

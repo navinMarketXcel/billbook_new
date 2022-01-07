@@ -114,46 +114,6 @@
             <!--                android:layout_marginTop="@dimen/add_product_spinner_margin_top"-->
             <!--                android:hint="@string/enter_city"-->
             <!--                android:background="@drawable/spinnerbggray"  />-->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/cityTxtInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginTop="@dimen/pass_margin_top">
-
-                <TextView
-                    android:id="@+id/city"
-                    style="@style/editText"
-                    android:padding="16dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
-                    android:hint="@string/city_without_asterisk"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/stateTxtInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginTop="@dimen/pass_margin_top">
-
-                <TextView
-                    android:id="@+id/state"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/editText"
-                    android:padding="16dp"
-                    android:layout_margin="5dp"
-                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
-                    android:hint="@string/state_without_asterisk"
-                    />
-            </com.google.android.material.textfield.TextInputLayout>
-
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -187,6 +147,49 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
             </FrameLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/cityTxtInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="@dimen/pass_margin_top">
+
+                <EditText
+                    android:id="@+id/city"
+                    style="@style/editText"
+                    android:enabled="false"
+                    android:padding="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
+                    android:hint="@string/city_without_asterisk"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/stateTxtInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="@dimen/pass_margin_top">
+
+                <EditText
+                    android:id="@+id/state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    style="@style/editText"
+                    android:padding="16dp"
+                    android:layout_margin="5dp"
+                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
+                    android:hint="@string/state_without_asterisk"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailTxtInput"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

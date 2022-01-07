@@ -75,7 +75,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private ImageView profileImg, signatureImg, companyLogoImg;
     //    private SearchableSpinner states,city;
     private Button btnAddCompanyLogo, btnAddSignature, btnDeleteCompanyLogo, btnDeleteSignatureImage;
-    private TextView states, cityEdt;
+    private EditText states, cityEdt;
     private String picturePath;
     private TextView tvCompanyTitle, tvSignatureTitle;
     private ArrayList<String> stateList = new ArrayList<>();
