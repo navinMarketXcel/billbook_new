@@ -225,4 +225,7 @@ public interface ApiInterface {
     @POST("getPincode")
     Call<Object>pincode(@Body HashMap<String,String> body);
 
+    @POST("searchItems")
+    Call<Object>searchItem(@Body HashMap<String,String> body);
+
 }

@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 
 import androidx.annotation.Nullable;
 
+import com.billbook.app.adapters.AutocompleteItemAdapter;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.InvoiceModelV2;
@@ -107,6 +108,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private ActivityBillingNewBinding binding;
     private LayoutItemBillBinding billItemBinding;
     private long localInvoiceId, idInLocalDb;
+    private ArrayList<String> itemsList = new ArrayList<>();
+    private ArrayList<Integer> unitList = new ArrayList<>();
     // idInLocalDb = column with name "id" in local db android
 
     @Override
@@ -132,9 +135,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         getUSerData();
         getMeasurementUnit();
         initUI();
+        searchItemAutoComplete();
         checkIsEdit();
         loadDataForInvoice();
         getInvoiceItemsFromDatabase();
+
     }
     private static final String [] itemsAuto = new String[]{
             "Apple","Applee","Apax", "Aqua","Aqew","Aqerw", "Banana", "Ball", "Zebra"
@@ -188,10 +193,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_spinner_item, measurementUnitTypeList);
         spinner.setAdapter(dataAdapter);
-
-        ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line,itemsAuto);
-        billItemBinding.itemNameET.setAdapter(itemAdapter);
-
 
         billItemBinding.gstPercentage.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         if (isGSTAvailable) {
@@ -285,6 +286,94 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         });
 
     }
+
+    private void searchItemAutoComplete() {
+        try {
+//            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(BillingNewActivity.this, android.R.layout.simple_dropdown_item_1line,itemsList);
+
+            List<String> demo = new ArrayList<String>();
+//            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,demo);
+//            billItemBinding.itemNameET.setAdapter(itemAdapter);
+
+            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+            Map<String, String> req = new HashMap<>();
+            req.put("userid", profile.getString("userid"));
+            final Call<Object>[] call = new Call[]{null};
+
+            billItemBinding.itemNameET.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    Log.d(TAG, "afterTextChanged: " + s);
+                    if (s.length() >= 3) {
+                        req.put("name", s.toString());
+                        Log.d(TAG, "afterTextChanged: call " + call[0]);
+                        if (call[0] != null && call[0].isExecuted()) {
+                            Log.d(TAG, "afterTextChanged: cancelled");
+                            call[0].cancel();
+                            Log.d(TAG, "afterTextChanged: aftercancelled call " + call[0]);
+
+                        }
+                        Log.d(TAG, "afterTextChanged: heyy");
+                        if (call[0] ==null || call[0].isCanceled() || !call[0].isExecuted()) {
+                            Log.d(TAG, "afterTextChanged: executing");
+                           call[0] = apiService.searchItem((HashMap<String, String>) req);
+                             call[0].enqueue(new Callback<Object>() {
+
+                                @Override
+                                public void onResponse(Call<Object> call, Response<Object> response) {
+                                    try {
+                                        if (response.body() != null) {
+                                            JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                                            JSONObject data = body.getJSONObject("data");
+                                            JSONArray items = data.getJSONArray("items");
+                                            Log.d(TAG, "onResponse: body " + body);
+                                            itemsList.clear();
+                                            unitList.clear();
+                                            for(int i=0;i<items.length();i++){
+                                                JSONObject obj = items.getJSONObject(i);
+                                                itemsList.add(obj.getString("name"));
+                                                unitList.add(obj.getInt("measurementId"));
+                                            }
+                                            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(BillingNewActivity.this, android.R.layout.simple_dropdown_item_1line,itemsList);
+                                            billItemBinding.itemNameET.setAdapter(itemAdapter);
+                                            int index =  itemAdapter.getPosition(billItemBinding.itemNameET.getText().toString());
+                                            billItemBinding.unit.setSelection(unitList.get(index));
+                                            itemAdapter.getPosition(billItemBinding.itemNameET.getText().toString());
+//                                            AutocompleteItemAdapter autocompleteItemAdapter = new AutocompleteItemAdapter(BillingNewActivity.this,0,itemsList,unitList);
+//                                            billItemBinding.itemNameET.setAdapter(autocompleteItemAdapter);
+
+//                                           autocompleteItemAdapter.notifyDataSetChanged();
+                                            Log.d(TAG, "onResponse: req" + req + " -- " + itemsList+ " " + unitList);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Object> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                    }
+
+                    }
+
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void setEditTextError(EditText editText, String text) {
         if (text.length() <= 0)
@@ -990,6 +1079,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         } else {
             try {
                 call = apiService.updateInvoice(headerMap, this.invoice.getLong("id"), jsonObject);
+                Log.d(TAG, "sendInvoice: jsonObj " + jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

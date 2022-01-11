@@ -89,6 +89,7 @@ public class SyncService extends Service {
                 headerMap.put("Content-Type", "application/json");
                 JsonArray req = new JsonParser().parse(expense).getAsJsonArray();
                 Call<Object> call = apiService.expensesInBulk(headerMap, req);
+                Log.d(TAG, "doInBackground: expense " + req);
                 call.enqueue(new Callback<Object>() {
                     @Override
                     public void onResponse(Call<Object> call, Response<Object> response) {

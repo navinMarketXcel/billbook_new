@@ -28,8 +28,8 @@ android {
     }
     buildTypes {
         debug{
-
-            buildConfigField "String", "BASE_URL", '"https://devapi.thebillbook.com/v1/"'
+//            buildConfigField "String", "BASE_URL", '"https://devapi.thebillbook.com/v1/"'
+            buildConfigField "String", "BASE_URL", '" https://f96e-103-165-115-12.ngrok.io/v1/"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled false
         }
