@@ -13,7 +13,6 @@ import android.content.pm.PackageManager;
 
 import androidx.annotation.Nullable;
 
-import com.billbook.app.adapters.AutocompleteItemAdapter;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.InvoiceModelV2;
@@ -141,9 +140,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         getInvoiceItemsFromDatabase();
 
     }
-    private static final String [] itemsAuto = new String[]{
-            "Apple","Applee","Apax", "Aqua","Aqew","Aqerw", "Banana", "Ball", "Zebra"
-    };
+
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();
@@ -286,12 +283,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         });
 
     }
-
+// for autocompletion on search Item
     private void searchItemAutoComplete() {
         try {
-//            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(BillingNewActivity.this, android.R.layout.simple_dropdown_item_1line,itemsList);
-
-            List<String> demo = new ArrayList<String>();
 //            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,demo);
 //            billItemBinding.itemNameET.setAdapter(itemAdapter);
 
@@ -311,62 +305,57 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    Log.d(TAG, "afterTextChanged: " + s);
-                    if (s.length() >= 3) {
-                        req.put("name", s.toString());
-                        Log.d(TAG, "afterTextChanged: call " + call[0]);
-                        if (call[0] != null && call[0].isExecuted()) {
-                            Log.d(TAG, "afterTextChanged: cancelled");
-                            call[0].cancel();
-                            Log.d(TAG, "afterTextChanged: aftercancelled call " + call[0]);
+                    try {
+                        if (s.length() >= 2) {
+                            req.put("name", s.toString());
+                            // for cancelling any api call which is enqueued or under execution
+                            if (call[0] != null && call[0].isExecuted()) {
+                                call[0].cancel();
+                            }
+                            if (call[0] == null || call[0].isCanceled() || !call[0].isExecuted()) {
+                                call[0] = apiService.searchItem((HashMap<String, String>) req);
+                                call[0].enqueue(new Callback<Object>() {
 
-                        }
-                        Log.d(TAG, "afterTextChanged: heyy");
-                        if (call[0] ==null || call[0].isCanceled() || !call[0].isExecuted()) {
-                            Log.d(TAG, "afterTextChanged: executing");
-                           call[0] = apiService.searchItem((HashMap<String, String>) req);
-                             call[0].enqueue(new Callback<Object>() {
+                                    @Override
+                                    public void onResponse(Call<Object> call, Response<Object> response) {
+                                        try {
+                                            if (response.body() != null) {
+                                                JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                                                JSONObject data = body.getJSONObject("data");
+                                                JSONArray items = data.getJSONArray("items");
+                                                itemsList.clear();
+                                                unitList.clear();
+                                                for (int i = 0; i < items.length(); i++) {
+                                                    JSONObject obj = items.getJSONObject(i);
+                                                    itemsList.add(obj.getString("name"));
+                                                    unitList.add(obj.getInt("measurementId"));
+                                                }
+                                                ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(BillingNewActivity.this, android.R.layout.simple_dropdown_item_1line, itemsList);
+                                                billItemBinding.itemNameET.setAdapter(itemAdapter);
+                                                itemAdapter.setNotifyOnChange(true);
+                                                itemAdapter.notifyDataSetChanged();
 
-                                @Override
-                                public void onResponse(Call<Object> call, Response<Object> response) {
-                                    try {
-                                        if (response.body() != null) {
-                                            JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                                            JSONObject data = body.getJSONObject("data");
-                                            JSONArray items = data.getJSONArray("items");
-                                            Log.d(TAG, "onResponse: body " + body);
-                                            itemsList.clear();
-                                            unitList.clear();
-                                            for(int i=0;i<items.length();i++){
-                                                JSONObject obj = items.getJSONObject(i);
-                                                itemsList.add(obj.getString("name"));
-                                                unitList.add(obj.getInt("measurementId"));
+                                                int index = itemAdapter.getPosition(billItemBinding.itemNameET.getText().toString());
+                                                if (index >= 0)
+                                                    billItemBinding.unit.setSelection(unitList.get(index) - 1);
                                             }
-                                            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(BillingNewActivity.this, android.R.layout.simple_dropdown_item_1line,itemsList);
-                                            billItemBinding.itemNameET.setAdapter(itemAdapter);
-                                            int index =  itemAdapter.getPosition(billItemBinding.itemNameET.getText().toString());
-                                            billItemBinding.unit.setSelection(unitList.get(index));
-                                            itemAdapter.getPosition(billItemBinding.itemNameET.getText().toString());
-//                                            AutocompleteItemAdapter autocompleteItemAdapter = new AutocompleteItemAdapter(BillingNewActivity.this,0,itemsList,unitList);
-//                                            billItemBinding.itemNameET.setAdapter(autocompleteItemAdapter);
-
-//                                           autocompleteItemAdapter.notifyDataSetChanged();
-                                            Log.d(TAG, "onResponse: req" + req + " -- " + itemsList+ " " + unitList);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
                                         }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
                                     }
-                                }
 
-                                @Override
-                                public void onFailure(Call<Object> call, Throwable t) {
+                                    @Override
+                                    public void onFailure(Call<Object> call, Throwable t) {
 
-                                }
-                            });
+                                    }
+                                });
+                            }
                         }
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
 
-                    }
+                }
 
             });
         } catch (Exception e) {
@@ -1079,7 +1068,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         } else {
             try {
                 call = apiService.updateInvoice(headerMap, this.invoice.getLong("id"), jsonObject);
-                Log.d(TAG, "sendInvoice: jsonObj " + jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
