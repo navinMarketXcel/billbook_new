@@ -99,7 +99,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private int editPosition = -1;
     private int invoiceIdIfEdit = -1;
     private int serialNumber = 0;
-    private int hasWriteStoragePermission;
+    private int hasWriteStoragePermission, isFirstReq = 1;
+    private final int GRANT_STORAGE_PERMISSION =1;
     private boolean isEdit = false;
     private JSONObject invoice;
     private CustomDialogClass customDialogClass;
@@ -385,12 +386,40 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             if (checkPermission() == true) {
                 return;
             } else {
-                startActivity(new Intent(getApplicationContext(), StoragePermissionRequestActivity.class));
+                Intent intent = new Intent(BillingNewActivity.this, StoragePermissionRequestActivity.class);
+                startActivityForResult(intent, GRANT_STORAGE_PERMISSION);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (requestCode == GRANT_STORAGE_PERMISSION && resultCode == RESULT_OK && null != data) {
+            if (data.getBooleanExtra("GRANT_STORAGE_PERMISSION", true)) {
+                isFirstReq = 1;
+            } else {
+                isFirstReq = 0;
+                finish();
+            }
+        } else if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                if (binding.layoutBillItemInitial.getVisibility() == View.VISIBLE) {
+                    billItemBinding.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
+                } else if (customDialogClass.isShowing()) {
+                    customDialogClass.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
+                }
+            }
+
+        }
+    }
+
 
     public void getMeasurementUnit(){
         try{
@@ -1326,26 +1355,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     @Override
     protected void onResume() {
         super.onResume();
-        if (checkPermission() == false) finish();
+       // isFirstReq == 0, to finish() BillingNewActivity only after evaluating the response in onActivityResult if storage permission isn't allowed i.e after executing StoragePermissionRequestActivity
+        if (checkPermission() == false && isFirstReq==0) finish();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() == null) {
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                if (binding.layoutBillItemInitial.getVisibility() == View.VISIBLE) {
-                    billItemBinding.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
-                } else if (customDialogClass.isShowing()) {
-                    customDialogClass.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
-                }
-            }
 
-        }
-    }
 }
 
