@@ -284,13 +284,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         });
 
     }
-// for autocompletion on search Item
+
+    // for autocompletion on search Item (addition of first item)
     private void searchItemAutoComplete() {
         try {
 //            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,demo);
 //            billItemBinding.itemNameET.setAdapter(itemAdapter);
 
-            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
             Map<String, String> req = new HashMap<>();
             req.put("userid", profile.getString("userid"));
             final Call<Object>[] call = new Call[]{null};
@@ -309,62 +309,69 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     try {
                         if (s.length() >= 2) {
                             req.put("name", s.toString());
-                            // for cancelling any api call which is enqueued or under execution
-                            if (call[0] != null && call[0].isExecuted()) {
-                                call[0].cancel();
-                            }
-                            if (call[0] == null || call[0].isCanceled() || !call[0].isExecuted()) {
-                                call[0] = apiService.searchItem((HashMap<String, String>) req);
-                                call[0].enqueue(new Callback<Object>() {
-
-                                    @Override
-                                    public void onResponse(Call<Object> call, Response<Object> response) {
-                                        try {
-                                            if (response.body() != null) {
-                                                JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                                                JSONObject data = body.getJSONObject("data");
-                                                JSONArray items = data.getJSONArray("items");
-                                                itemsList.clear();
-                                                unitList.clear();
-                                                for (int i = 0; i < items.length(); i++) {
-                                                    JSONObject obj = items.getJSONObject(i);
-                                                    itemsList.add(obj.getString("name"));
-                                                    unitList.add(obj.getInt("measurementId"));
-                                                }
-                                                ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(BillingNewActivity.this, android.R.layout.simple_dropdown_item_1line, itemsList);
-                                                billItemBinding.itemNameET.setAdapter(itemAdapter);
-                                                itemAdapter.setNotifyOnChange(true);
-                                                itemAdapter.notifyDataSetChanged();
-
-                                                int index = itemAdapter.getPosition(billItemBinding.itemNameET.getText().toString());
-                                                if (index >= 0)
-                                                    billItemBinding.unit.setSelection(unitList.get(index) - 1);
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Object> call, Throwable t) {
-
-                                    }
-                                });
-                            }
+                            searchItemApiCall(call, (HashMap<String, String>) req,billItemBinding.itemNameET);
                         }
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                 }
 
             });
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    private void searchItemApiCall(Call<Object>[] call, HashMap<String, String> req, AutoCompleteTextView view) {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
+        // for cancelling any api call which is enqueued or under execution
+        if (call[0] != null && call[0].isExecuted()) {
+            call[0].cancel();
+        }
+        if (call[0] == null || call[0].isCanceled() || !call[0].isExecuted()) {
+            call[0] = apiService.searchItem((HashMap<String, String>) req);
+            call[0].enqueue(new Callback<Object>() {
+
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    try {
+                        if (response.body() != null) {
+                            JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                            JSONObject data = body.getJSONObject("data");
+                            JSONArray items = data.getJSONArray("items");
+                            itemsList.clear();
+                            unitList.clear();
+                            for (int i = 0; i < items.length(); i++) {
+                                JSONObject obj = items.getJSONObject(i);
+                                itemsList.add(obj.getString("name"));
+                                unitList.add(obj.getInt("measurementId"));
+                            }
+                            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(BillingNewActivity.this, android.R.layout.simple_dropdown_item_1line, itemsList);
+                            view.setAdapter(itemAdapter);
+//                            itemAdapter.setNotifyOnChange(true);
+//                            itemAdapter.notifyDataSetChanged();
+
+                            int index = itemAdapter.getPosition(billItemBinding.itemNameET.getText().toString());
+                            if (index >= 0)
+                                billItemBinding.unit.setSelection(unitList.get(index) - 1);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+
+                }
+            });
+        }
+
+
+    }
     private void setEditTextError(EditText editText, String text) {
         if (text.length() <= 0)
             editText.setError(null);
@@ -669,7 +676,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             }
             if (this.newInvoiceModel != null) {
                 modelName.setText(this.newInvoiceModel.getName());
-                priceEt.setText( this.newInvoiceModel.getPrice() + "");
+                priceEt.setText(this.newInvoiceModel.getPrice() + "");
                 quantityEt.setText(this.newInvoiceModel.getQuantity() + "");
                 hsnNo.setText(newInvoiceModel.getSerial_no());
                 imeiNo.setText(newInvoiceModel.getImei());
@@ -677,8 +684,45 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 measurementUnitSpinner.setSelection(this.newInvoiceModel.getMeasurementId());
                 gstPercentage.setSelection(gstPList.indexOf((int) this.newInvoiceModel.getGst() + ""));
             }
+            modelNameAutoComplete();
         }
 
+        private void modelNameAutoComplete() {
+            try {
+
+                Map<String, String> req = new HashMap<>();
+                req.put("userid", profile.getString("userid"));
+                final Call<Object>[] call = new Call[]{null};
+
+                modelName.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                        try {
+                            if (s.length() >= 2) {
+                                req.put("name", s.toString());
+                                searchItemApiCall(call, (HashMap<String, String>) req, modelName);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
