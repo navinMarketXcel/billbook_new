@@ -402,7 +402,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     if(body.getJSONObject("data").has("otp"))
                          startOTPActivity(body.getJSONObject("data").getString("otp"));
                     else
-                        DialogUtils.showToast(EditProfileActivity.this,"Failed to get OTP");
+                        DialogUtils.showToast(EditProfileActivity.this,"Mobile number already registered");
 
                 } catch (JSONException e) {
                     e.printStackTrace();

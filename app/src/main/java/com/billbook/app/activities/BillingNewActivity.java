@@ -353,7 +353,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             view.setAdapter(itemAdapter);
 //                            itemAdapter.setNotifyOnChange(true);
 //                            itemAdapter.notifyDataSetChanged();
-
+                            Log.d(TAG, "onResponse: body " + body);
                             int index = itemAdapter.getPosition(billItemBinding.itemNameET.getText().toString());
                             if (index >= 0)
                                 billItemBinding.unit.setSelection(unitList.get(index) - 1);
