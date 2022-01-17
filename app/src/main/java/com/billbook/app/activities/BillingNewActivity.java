@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -76,6 +77,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static java.lang.Math.min;
+
 public class BillingNewActivity extends AppCompatActivity implements NewBillingAdapter.onItemClick {
     private ModelViewModel modelViewModel;
     private InvoiceItemsViewModel invoiceItemViewModel;
@@ -110,6 +113,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private long localInvoiceId, idInLocalDb;
     private ArrayList<String> itemsList = new ArrayList<>();
     private ArrayList<Integer> unitList = new ArrayList<>();
+    ArrayAdapter<String> itemAdapter;
     // idInLocalDb = column with name "id" in local db android
 
     @Override
@@ -302,21 +306,20 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    billItemBinding.itemNameET.showDropDown();
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
                     try {
-                        if (s.length() >= 2) {
+                        if (s.length() > 2) {
                             req.put("name", s.toString());
-                            searchItemApiCall(call, (HashMap<String, String>) req,billItemBinding.itemNameET);
+                            searchItemApiCall(call, (HashMap<String, String>) req,billItemBinding.itemNameET, billItemBinding.unit);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
-
             });
 
         } catch (Exception e) {
@@ -324,14 +327,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
-    private void searchItemApiCall(Call<Object>[] call, HashMap<String, String> req, AutoCompleteTextView view) {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+    private void searchItemApiCall(Call<Object>[] call, HashMap<String, String> req, AutoCompleteTextView view, Spinner unit) {
+        try {
+            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
-        // for cancelling any api call which is enqueued or under execution
-        if (call[0] != null && call[0].isExecuted()) {
-            call[0].cancel();
-        }
-        if (call[0] == null || call[0].isCanceled() || !call[0].isExecuted()) {
             call[0] = apiService.searchItem((HashMap<String, String>) req);
             call[0].enqueue(new Callback<Object>() {
 
@@ -344,19 +343,17 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             JSONArray items = data.getJSONArray("items");
                             itemsList.clear();
                             unitList.clear();
-                            for (int i = 0; i < items.length(); i++) {
+                            for (int i = 0; i < min(items.length(),2); i++) {
                                 JSONObject obj = items.getJSONObject(i);
                                 itemsList.add(obj.getString("name"));
                                 unitList.add(obj.getInt("measurementId"));
                             }
-                            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(BillingNewActivity.this, android.R.layout.simple_dropdown_item_1line, itemsList);
+                            itemAdapter = new ArrayAdapter<String>(BillingNewActivity.this, android.R.layout.simple_dropdown_item_1line, itemsList);
                             view.setAdapter(itemAdapter);
-//                            itemAdapter.setNotifyOnChange(true);
-//                            itemAdapter.notifyDataSetChanged();
-                            Log.d(TAG, "onResponse: body " + body);
+                            itemAdapter.notifyDataSetChanged();
                             int index = itemAdapter.getPosition(billItemBinding.itemNameET.getText().toString());
-                            if (index >= 0)
-                                billItemBinding.unit.setSelection(unitList.get(index) - 1);
+                            if (index >= 0 && unitList.size()>=index+1)
+                                unit.setSelection(unitList.get(index) - 1);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -368,7 +365,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 }
             });
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
 
 
     }
@@ -693,7 +693,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 Map<String, String> req = new HashMap<>();
                 req.put("userid", profile.getString("userid"));
                 final Call<Object>[] call = new Call[]{null};
-
                 modelName.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -701,14 +700,15 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        modelName.showDropDown();
                     }
 
                     @Override
                     public void afterTextChanged(Editable s) {
                         try {
-                            if (s.length() >= 2) {
+                            if (s.length() > 2) {
                                 req.put("name", s.toString());
-                                searchItemApiCall(call, (HashMap<String, String>) req, modelName);
+                                searchItemApiCall(call, (HashMap<String, String>) req, modelName, measurementUnitSpinner);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
