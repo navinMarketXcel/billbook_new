@@ -123,6 +123,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             }
         });
 // If you're calling this from a support Fragment
+        dpd.setMaxDate(now);
         dpd.show(getFragmentManager(), "Datepickerdialog");
     }
     private void initUI() {

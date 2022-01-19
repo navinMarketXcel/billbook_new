@@ -228,4 +228,7 @@ public interface ApiInterface {
     @POST("searchItems")
     Call<Object>searchItem(@Body HashMap<String,String> body);
 
+    @POST("searchMeasurementId")
+    Call<Object>fetchMeasurementIdForItem(@Body HashMap<String,String> body);
+
 }

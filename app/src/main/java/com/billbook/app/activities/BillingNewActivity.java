@@ -35,6 +35,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -228,7 +229,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
                             binding.edtDiscountAmt.setText(String.valueOf(discountAmt));
                             if (discountPercent > 100.00)
-                                setEditTextError(binding.edtDiscountPercent, "Discount should be less than 100%");
+                                setEditTextError(binding.edtDiscountPercent, "Discount should be less than or equal to 100%");
                             else
                                 setEditTextError(binding.edtDiscountPercent, "");
                         } else {
@@ -263,7 +264,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             binding.edtDiscountPercent.setText(discountPercent + "%");
 
                             if (discountAmt > total)
-                                setEditTextError(binding.edtDiscountAmt, "Discount value should be less than total");
+                                setEditTextError(binding.edtDiscountAmt, "Discount value should be less than or equal to total");
                             else
                                 setEditTextError(binding.edtDiscountAmt, "");
                         } else {
@@ -284,6 +285,20 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             public void onFocusChange(View v, boolean hasFocus) {
                 if(binding.edtDiscountPercent.getText().length()>0)
                     binding.edtDiscountPercent.setText(discountPercent + "%");
+            }
+        });
+        
+        billItemBinding.itemNameET.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    HashMap<String,String> req = new HashMap<>();
+                    req.put("userid", profile.getString("userid"));
+                    req.put("name", itemAdapter.getItem(position));
+                    fetchMeasurementIdApiCall(req,billItemBinding.unit);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -314,7 +329,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     try {
                         if (s.length() > 2) {
                             req.put("name", s.toString());
-                            searchItemApiCall(call, (HashMap<String, String>) req,billItemBinding.itemNameET, billItemBinding.unit);
+                            searchItemApiCall(call, (HashMap<String, String>) req,billItemBinding.itemNameET);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -327,7 +342,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
-    private void searchItemApiCall(Call<Object>[] call, HashMap<String, String> req, AutoCompleteTextView view, Spinner unit) {
+    private void searchItemApiCall(Call<Object>[] call, HashMap<String, String> req, AutoCompleteTextView view) {
         try {
             ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
@@ -342,18 +357,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             JSONObject data = body.getJSONObject("data");
                             JSONArray items = data.getJSONArray("items");
                             itemsList.clear();
-                            unitList.clear();
                             for (int i = 0; i < min(items.length(),2); i++) {
                                 JSONObject obj = items.getJSONObject(i);
                                 itemsList.add(obj.getString("name"));
-                                unitList.add(obj.getInt("measurementId"));
                             }
                             itemAdapter = new ArrayAdapter<String>(BillingNewActivity.this, android.R.layout.simple_dropdown_item_1line, itemsList);
                             view.setAdapter(itemAdapter);
                             itemAdapter.notifyDataSetChanged();
-                            int index = itemAdapter.getPosition(billItemBinding.itemNameET.getText().toString());
-                            if (index >= 0 && unitList.size()>=index+1)
-                                unit.setSelection(unitList.get(index) - 1);
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -369,8 +379,37 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             e.printStackTrace();
         }
 
+    }
 
+    private void fetchMeasurementIdApiCall(HashMap<String, String> req, Spinner unit) {
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        Call call = apiService.fetchMeasurementIdForItem((HashMap<String, String>) req);
 
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                try {
+                    JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                    JSONObject data = body.getJSONObject("data");
+                    JSONArray items = data.getJSONArray("items");
+                    if(items.length()>0) {
+                        JSONObject obj = items.getJSONObject(0);
+                        int index = obj.getInt("measurementId");
+                        if (index > 0) {
+                            unit.setSelection(index - 1);
+                        }
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+            }
+        });
     }
     private void setEditTextError(EditText editText, String text) {
         if (text.length() <= 0)
@@ -684,7 +723,22 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 measurementUnitSpinner.setSelection(this.newInvoiceModel.getMeasurementId());
                 gstPercentage.setSelection(gstPList.indexOf((int) this.newInvoiceModel.getGst() + ""));
             }
+
             modelNameAutoComplete();
+            modelName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        HashMap<String, String> req = new HashMap<>();
+                        req.put("userid", profile.getString("userid"));
+                        req.put("name", itemAdapter.getItem(position));
+                        fetchMeasurementIdApiCall(req, measurementUnitSpinner);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
         }
 
         private void modelNameAutoComplete() {
@@ -708,7 +762,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         try {
                             if (s.length() > 2) {
                                 req.put("name", s.toString());
-                                searchItemApiCall(call, (HashMap<String, String>) req, modelName, measurementUnitSpinner);
+                                searchItemApiCall(call, (HashMap<String, String>) req, modelName);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -877,9 +931,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private void setTotalAfterDiscount() {
         try {
             if (discountPercent > 100.00) {
-                setEditTextError(binding.edtDiscountPercent, "Discount should be less than 100%");
+                setEditTextError(binding.edtDiscountPercent, "Discount should be less than or equal to 100%");
             } else if (discountAmt > total) {
-                setEditTextError(binding.edtDiscountAmt, "Discount value should be less than total");
+                setEditTextError(binding.edtDiscountAmt, "Discount value should be less than or equal to total");
             } else {
                 float totalAfterDiscount = total - discountAmt;
                 binding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
