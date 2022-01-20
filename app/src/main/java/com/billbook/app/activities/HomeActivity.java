@@ -629,6 +629,9 @@ public class HomeActivity extends AppCompatActivity
                         .centerCrop()
                         .into(iv);
             }
+            else{
+                iv.setImageResource(R.drawable.man_new);
+            }
         }
         catch (JSONException e){
             e.fillInStackTrace();
