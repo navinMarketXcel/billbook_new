@@ -100,16 +100,18 @@
                 android:layout_height="match_parent">
 
             </androidx.recyclerview.widget.RecyclerView>
+
             <Button
-                android:layout_alignParentBottom="true"
                 android:id="@+id/downloadAll"
-                android:textColor="@color/white"
-                android:layout_marginTop="10dp"
-                android:onClick="downloadInvoice"
-                android:background="@color/colorPrimary"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:onClick="downloadInvoice"
                 android:text="Download Selected Invoices"
-                android:layout_height="wrap_content"></Button>
+                android:textColor="@color/white"></Button>
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

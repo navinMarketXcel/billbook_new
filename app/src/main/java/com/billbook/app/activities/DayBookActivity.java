@@ -237,7 +237,7 @@ public class DayBookActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<Object> call, Throwable t) {
                     DialogUtils.stopProgressDialog();
-                    DialogUtils.showToast(DayBookActivity.this,"Failed to save expense data");
+                    DialogUtils.showToast(DayBookActivity.this,"Failed to load Day Book. Please check your internet connection");
                 }
             });
         } catch (JSONException e) {
@@ -319,7 +319,7 @@ public class DayBookActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<Object> call, Throwable t) {
                     DialogUtils.stopProgressDialog();
-                    DialogUtils.showToast(DayBookActivity.this,"Failed to save expense data");
+                    DialogUtils.showToast(DayBookActivity.this,"Some error occured. Please check your internet connection");
                 }
             });
         } catch (JSONException e) {
