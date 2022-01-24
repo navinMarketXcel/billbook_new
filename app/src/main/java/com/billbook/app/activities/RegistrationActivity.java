@@ -93,6 +93,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 binding.llFetchCity.setVisibility(View.VISIBLE);
                 binding.displayCity.setText("Fetching City");
                 binding.pincodeProgressBar.setVisibility(View.VISIBLE);
+                state=null;
             }
 
             @Override
@@ -172,7 +173,7 @@ public class RegistrationActivity extends AppCompatActivity {
         } else if (binding.mobileNoEdt.getText().toString().isEmpty() || binding.mobileNoEdt.getText().toString().length() < 10) {
             DialogUtils.showToast(this, "Please enter valid mobile number");
             return false;
-       } else if(binding.pinCodeEdt.getText().toString().length()<6 || binding.pinCodeEdt.getError()!=null){
+       } else if(binding.pinCodeEdt.getText().toString().length()<6 || binding.pinCodeEdt.getError()!=null || state==null){
            DialogUtils.showToast(this, "Please enter valid pin code");
            return false;
        }

@@ -177,12 +177,14 @@
     <string name="product_added_successfuly">Product Added Successfully</string>
     <string name="category_added_successfuly">Category Added Successfully</string>
     <string name="brand_added_successfuly">Brand Added Successfully</string>
-    <string name="shopName">Enter Business/Shop Name<font color='#ff0000'>*</font> </string>
+    <string name="shopName">Enter Business/Shop Name </string>
+    <string name="profileShopName">Enter Business/Shop Name<font color='#ff0000'>*</font></string>
     <string name="shopNameEnt">Business/Shop Name<font color='#ff0000'>*</font> </string>
     <string name="item_name">Product/Service Name </string>
     <string name="item_name_d">Product/Service Name </string>
     <string name="item_name_title">Item Name<font color='#ff0000'>*</font> </string>
-    <string name="shopAddress">Enter Business/Shop Address<font color='#ff0000'>*</font></string>
+    <string name="shopAddress">Enter Business/Shop Address</string>
+    <string name="profileShopAddress">Enter Business/Shop Address<font color='#ff0000'>*</font></string>
     <string name="shopAddressEnt">Business/Shop Address<font color='#ff0000'>*</font></string>
     <string name="landLineNo">Enter Land Line Number</string>
     <string name="mobileNo">Enter Mobile Number </string>

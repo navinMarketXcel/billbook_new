@@ -61,7 +61,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     private RecyclerView recyclerViewInvoice;
     private EditText edtMobileNo;
     private TextView tvRecordNotFound,toAndFromDate;
-    private Button btnSearch;
+    private Button btnSearch, downloadAll;
     private ProgressDialog progressDialog;
     private int page=1;
     private JSONObject userProfile;
@@ -139,6 +139,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
         searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoices, this);
         recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+        downloadAll = findViewById(R.id.downloadAll);
         setTitle("Search Bill");
         DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
         recyclerViewInvoice.addItemDecoration(decoration);
@@ -193,6 +194,9 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         if(body.getJSONObject("data").has("invoices"))
                         if (body.getJSONObject("data").getJSONObject("invoices").has("count") && body.getJSONObject("data").getJSONObject("invoices").getInt("count")>0) {
                             invoices = body.getJSONObject("data").getJSONObject("invoices").getJSONArray("rows");
+                            if(invoices.length()>0){
+                                downloadAll.setVisibility(View.VISIBLE);
+                            }
                             Log.d(TAG, "Invoice Body::" + body);
                             searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices, SearchInvoiceActivity.this);
                             recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);

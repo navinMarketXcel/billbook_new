@@ -39,6 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ExpenseActivity extends AppCompatActivity {
+    private static final String TAG = "ExpenseActivity" ;
     private SearchView.SearchAutoComplete mSearchAutoComplete;
     private JSONObject profile;
     private int userid;
@@ -93,7 +94,10 @@ public class ExpenseActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        
         super.onResume();
+        expenses.clear();
+        expenseListAdapter.notifyDataSetChanged();
         getExpenses();
     }
 
@@ -154,12 +158,10 @@ public class ExpenseActivity extends AppCompatActivity {
                             }.getType();
                             List<Expense> myModelList = new Gson().fromJson(body.getJSONObject("data").getJSONArray("rows").toString(),
                                     listType);
-                            expenses.clear();
                             expenses.addAll(myModelList);
                             expenseListAdapter.notifyDataSetChanged();
                             Log.v("RESP", body.toString());
                         }
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
