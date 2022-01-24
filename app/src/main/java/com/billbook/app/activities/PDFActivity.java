@@ -232,7 +232,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     } else {
                         totalAfterDiscount = totalAmount;
                     }
-                    imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;
                     invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
                     invoiceAmountLayoutUpdatedBinding.tvDiscount.setText(Util.formatDecimalValue(totalAmount - totalAfterDiscount));
                     new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(), getIntent().getExtras().getLong("idForItem"), PDFActivity.this, isGSTAvailable, recyclerViewInvoiceProducts, GSTType).execute();
