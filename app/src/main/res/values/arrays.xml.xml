@@ -44,6 +44,9 @@
         <item>Doz</item>
         <item>Week</item>
         <item>Month</item>
+        <item>Gm</item>
+        <item>Box</item>
+        <item>Day</item>
     </string-array>
     <string-array name="shopStatus1">
         <item>Select Shop Status</item>

@@ -56,7 +56,7 @@
     <string name="enter_mob_no">Enter mobile number</string>
     <string name="enter_mob_no_otp">Mobile Number (Optional)</string>
     <string name="enter_ur_mob_no">Enter Your Mobile Number</string>
-    <string name="enter_contact__no">Enter Contact Number<font color='#ff0000'>*</font></string>
+    <string name="enter_contact__no">Enter Contact Number</string>
 
     <string name="enter_rate_if_want">Enter Price</string>
     <string name="enter_quantities">Units sold</string>
@@ -177,13 +177,13 @@
     <string name="product_added_successfuly">Product Added Successfully</string>
     <string name="category_added_successfuly">Category Added Successfully</string>
     <string name="brand_added_successfuly">Brand Added Successfully</string>
-    <string name="shopName">Enter Business/Shop Name<font color='#ff0000'>*</font> </string>
-    <string name="shopNameEnt">Business/Shop Name<font color='#ff0000'>*</font> </string>
+    <string name="shopName">Enter Business/Shop name </string>
+    <string name="shopNameEnt">Business/Shop name <font color='#ff0000'>*</font> </string>
     <string name="item_name">Product/Service Name </string>
     <string name="item_name_d">Product/Service Name </string>
     <string name="item_name_title">Item Name<font color='#ff0000'>*</font> </string>
-    <string name="shopAddress">Enter Business/Shop Address<font color='#ff0000'>*</font></string>
-    <string name="shopAddressEnt">Business/Shop Address<font color='#ff0000'>*</font></string>
+    <string name="shopAddress">Enter Business/Shop Address</string>
+    <string name="shopAddressEnt">Business/Shop Address <font color='#ff0000'>*</font></string>
     <string name="landLineNo">Enter Land Line Number</string>
     <string name="mobileNo">Enter Mobile Number </string>
     <string name="pinCode">Pincode<font color='#ff0000'>*</font></string>
