@@ -131,6 +131,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             }
             imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;
             signatureURL = profile.has("signatureImage") ? profile.getString("signatureImage").replaceAll("\\/","/") : null;
+            loadAndSetCompanyLogo();
+            loadAndSetSignatureImage();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -246,10 +248,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     e.printStackTrace();
                 }
             });
-
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
         }
+
 
     }
     private void loadAndSetCompanyLogo(){
@@ -289,37 +291,36 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     .into(invoiceAmountLayoutUpdatedBinding.ivSignature, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
-                            try {
-                                if (filepath == null) {
-                                    createPdfWrapper();
-                                }
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                if (filepath == null) {
+//                                    createPdfWrapper();
+//                                }
+//                            } catch (FileNotFoundException e) {
+//                                e.printStackTrace();
+//                            }
                         }
 
                         @Override
                         public void onError(Exception e) {
-                            try {
-                                if (filepath == null){
-                                    createPdfWrapper();
-                                }
-                            } catch (FileNotFoundException error) {
-                                error.printStackTrace();
-                            }
-                            e.printStackTrace();
+//                            try {
+//                                if (filepath == null){
+//                                    createPdfWrapper();
+//                                }
+//                            } catch (FileNotFoundException error) {
+//                                error.printStackTrace();
+//                            }
                         }
                     });
         }
-        else{
-            try {
-                if (filepath == null){
-                    createPdfWrapper();
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+//        else{
+//            try {
+//                if (filepath == null){
+//                    createPdfWrapper();
+//                }
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override
@@ -584,8 +585,13 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         protected void onPostExecute(List<InvoiceItems> invoiceItems) {
             super.onPostExecute(invoiceItems);
             setDataAfterInvoiceItems(invoiceItems, context, isGSTAvailable, recyclerViewInvoiceProducts, GSTType);
-            loadAndSetCompanyLogo();
-
+            try {
+                loadAndSetCompanyLogo();
+                loadAndSetSignatureImage();
+                createPdfWrapper();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
