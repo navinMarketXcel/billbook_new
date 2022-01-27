@@ -263,17 +263,14 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     .into(pdfBinding.shopImage, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
-                            loadAndSetSignatureImage();
                         }
                         @Override
                         public void onError(Exception e) {
-                            loadAndSetSignatureImage();
                         }
                     });
         }
         else{
             pdfBinding.shopImage.setVisibility(View.GONE);
-            loadAndSetSignatureImage();
         }
 
     }

@@ -138,10 +138,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         internalStoragePermission();
         getUSerData();
+        checkIsEdit();
         getMeasurementUnit();
         initUI();
         searchItemAutoComplete();
-        checkIsEdit();
         loadDataForInvoice();
         getInvoiceItemsFromDatabase();
 
