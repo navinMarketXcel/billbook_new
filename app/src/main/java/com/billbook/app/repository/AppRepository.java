@@ -2,6 +2,8 @@ package com.billbook.app.repository;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -158,7 +160,7 @@ public class AppRepository {
         return MyApplication.getDatabase().productDao().loadProductByCategoryIdAndBrand(categoryId, brandID);
     }
 
-    public void insertInventory(final Inventory inventoryVal) {
+    public void insertInventory(final Inventory inventoryVal,Context context) {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -194,7 +196,7 @@ public class AppRepository {
                 MyApplication.getDatabase().inventoryDao().insertAll(inventories);
                 Log.v(TAG, "inventory is updated list::" + MyApplication.getDatabase().inventoryDao().getInventoryToUpdate());
 
-                AppRepository.getInstance().postBulkInventoryAPI(MyApplication.getDatabase().inventoryDao().getInventoryToUpdate());
+                AppRepository.getInstance().postBulkInventoryAPI(MyApplication.getDatabase().inventoryDao().getInventoryToUpdate(),context);
             }
         });
 
@@ -399,9 +401,9 @@ public class AppRepository {
 
 
     //----------------------API CAll-------------------------------------
-    public void getCategoriesAPI(int page, final long syncTime) {
+    public void getCategoriesAPI(int page, final long syncTime, Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -433,7 +435,7 @@ public class AppRepository {
                     Log.v(TAG, "pageVal::" + pageVal);
                     int page = Integer.parseInt(pageVal);
                     Log.v(TAG, "page::" + page);
-                    getCategoriesAPI(page, syncTime);
+                    getCategoriesAPI(page, syncTime,context);
                 } else {
                     sendSynchBrodCast(Constants.GET_CATEGORIES);
                     MyApplication.saveGetCategoriesLAST_SYNC_TIMESTAMP(Util.getCurrentLongDate() / 1000);
@@ -460,9 +462,9 @@ public class AppRepository {
     }
 
 
-    public void getBrandAPI(int page, final long syncTime) {
+    public void getBrandAPI(int page, final long syncTime, Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -491,7 +493,7 @@ public class AppRepository {
                     Log.v(TAG, "pageVal::" + pageVal);
                     int page = Integer.parseInt(pageVal);
                     Log.v(TAG, "page::" + page);
-                    getBrandAPI(page, syncTime);
+                    getBrandAPI(page, syncTime,context);
                 } else {
                     sendSynchBrodCast(Constants.GET_BRAND);
                     MyApplication.saveGetBrandLAST_SYNC_TIMESTAMP(Util.getCurrentLongDate() / 1000);
@@ -509,9 +511,9 @@ public class AppRepository {
         });
     }
 
-    public void getBrandAPIofCategory(final int categoryId, int page) {
+    public void getBrandAPIofCategory(final int categoryId, int page, Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -540,7 +542,7 @@ public class AppRepository {
                     Log.v(TAG, "pageVal::" + pageVal);
                     int page = Integer.parseInt(pageVal);
                     Log.v(TAG, "page::" + page);
-                    getBrandAPIofCategory(categoryId, page);
+                    getBrandAPIofCategory(categoryId, page,context);
                 } else {
                     //sendSynchBrodCast(Constants.GET_BRAND);
                     //MyApplication.saveGetBrandLAST_SYNC_TIMESTAMP(Util.getCurrentLongDate()/1000);
@@ -558,9 +560,9 @@ public class AppRepository {
         });
     }
 
-    public void getProductAPI(int page, final long syncTime) {
+    public void getProductAPI(int page, final long syncTime, Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -590,7 +592,7 @@ public class AppRepository {
                     Log.v(TAG, "pageVal::" + pageVal);
                     int page = Integer.parseInt(pageVal);
                     Log.v(TAG, "page::" + page);
-                    getProductAPI(page, syncTime);
+                    getProductAPI(page, syncTime,context);
                 } else {
                     sendSynchBrodCast(Constants.GET_PRODUCT);
                     MyApplication.saveGetProductLAST_SYNC_TIMESTAMP(Util.getCurrentLongDate() / 1000);
@@ -609,9 +611,9 @@ public class AppRepository {
         });
     }
 
-    public void getProductAPIOfBrand(final int brandId, int page) {
+    public void getProductAPIOfBrand(final int brandId, int page, Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -640,7 +642,7 @@ public class AppRepository {
                     Log.v(TAG, "pageVal::" + pageVal);
                     int page = Integer.parseInt(pageVal);
                     Log.v(TAG, "page::" + page);
-                    getProductAPIOfBrand(brandId, page);
+                    getProductAPIOfBrand(brandId, page,context);
                 } else {
                     //sendSynchBrodCast(Constants.GET_PRODUCT);
                     //MyApplication.saveGetProductLAST_SYNC_TIMESTAMP(Util.getCurrentLongDate()/1000);
@@ -659,9 +661,9 @@ public class AppRepository {
         });
     }
 
-    public void getUserInfoAPI() {
+    public void getUserInfoAPI(Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -696,9 +698,9 @@ public class AppRepository {
         });
     }
 
-    public void postBulkInventoryAPI(List<Inventory> inventoryList) {
+    public void postBulkInventoryAPI(List<Inventory> inventoryList, Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -733,7 +735,7 @@ public class AppRepository {
 
     /*public void putInventoryAPI(Inventory inventory) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -758,9 +760,9 @@ public class AppRepository {
     }*/
 
 
-    public void putProductAPI(final Product product) {
+    public void putProductAPI(final Product product, Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -793,9 +795,9 @@ public class AppRepository {
         });
     }
 
-    public void putInvoiceAPI(final WebserviceResponseHandler handledResponse, final RequestInvoice invoice) {
+    public void putInvoiceAPI(final WebserviceResponseHandler handledResponse, final RequestInvoice invoice, Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -830,9 +832,9 @@ public class AppRepository {
         });
     }
 
-    public void getInventoryAPI(int page, final long syncTime) {
+    public void getInventoryAPI(int page, final long syncTime, Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -861,7 +863,7 @@ public class AppRepository {
                     Log.v(TAG, "pageVal::" + pageVal);
                     int page = Integer.parseInt(pageVal);
                     Log.v(TAG, "page::" + page);
-                    getInventoryAPI(page, syncTime);
+                    getInventoryAPI(page, syncTime,context);
                 } else {
                     sendSynchBrodCast(Constants.GET_INVENTORY);
                     MyApplication.saveGetInventoryLAST_SYNC_TIMESTAMP(Util.getCurrentLongDate() / 1000);
@@ -879,9 +881,9 @@ public class AppRepository {
         });
     }
 
-    public void getDistributorAPI(int page, final long syncTime) {
+    public void getDistributorAPI(int page, final long syncTime, Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -909,7 +911,7 @@ public class AppRepository {
                     Log.v(TAG, "pageVal::" + pageVal);
                     int page = Integer.parseInt(pageVal);
                     Log.v(TAG, "page::" + page);
-                    getDistributorAPI(page, syncTime);
+                    getDistributorAPI(page, syncTime,context);
                 } else {
                     MyApplication.saveGetDistributorLAST_SYNC_TIMESTAMP(Util.getCurrentLongDate() / 1000);
                 }
@@ -927,9 +929,9 @@ public class AppRepository {
     }
 
 
-    public void getPurchaseAPI(int page, final long syncTime) {
+    public void getPurchaseAPI(int page, final long syncTime, Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -958,7 +960,7 @@ public class AppRepository {
                     Log.v(TAG, "pageVal::" + pageVal);
                     int page = Integer.parseInt(pageVal);
                     Log.v(TAG, "page::" + page);
-                    getPurchaseAPI(page, syncTime);
+                    getPurchaseAPI(page, syncTime,context);
                 } else {
                     sendSynchBrodCast(Constants.GET_PURCHASE);
                     MyApplication.saveGetPurchaseLAST_SYNC_TIMESTAMP(Util.getCurrentLongDate() / 1000);
@@ -981,10 +983,10 @@ public class AppRepository {
         MyApplication.context.sendBroadcast(intent);
     }
 
-    public MutableLiveData<RequestInvoice> getInvoiceAPIForInvoiceIDAndDate(int invoiceID, final long dateTime) {
+    public MutableLiveData<RequestInvoice> getInvoiceAPIForInvoiceIDAndDate(int invoiceID, final long dateTime,Context context) {
         final MutableLiveData<RequestInvoice> invoice = new MutableLiveData<>();
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -1011,10 +1013,10 @@ public class AppRepository {
         return invoice;
     }
 
-    public void getInvoiceAPI(int page, final long syncTime) {
+    public void getInvoiceAPI(int page, final long syncTime, Context context) {
 
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -1043,7 +1045,7 @@ public class AppRepository {
                     Log.v(TAG, "pageVal::" + pageVal);
                     int page = Integer.parseInt(pageVal);
                     Log.v(TAG, "page::" + page);
-                    getInvoiceAPI(page, syncTime);
+                    getInvoiceAPI(page, syncTime,context);
                 } else {
                     sendSynchBrodCast(Constants.GET_INVOICE);
                     MyApplication.saveGetInvoiceLAST_SYNC_TIMESTAMP(Util.getCurrentLongDate() / 1000);
@@ -1066,7 +1068,7 @@ public class AppRepository {
         MyApplication.getDatabase().inventoryDao().insertAll(inventories);
     }
 
-    public void getCategoriesListOfZeroBrand() {
+    public void getCategoriesListOfZeroBrand(Context context) {
         List<Category> categoryList = new ArrayList<>();
         List<CategoriesBrandCount> categoriesBrandCountList = MyApplication.getDatabase().categoriesDao().getAllEmptyCategories();
         if (categoriesBrandCountList != null) {
@@ -1079,13 +1081,13 @@ public class AppRepository {
 
             if (categoryList.size() > 0) {
                 for (Category category : categoryList) {
-                    getBrandAPIofCategory(category.getId(), 1);
+                    getBrandAPIofCategory(category.getId(), 1,context);
                 }
             }
         }
     }
 
-    public void getBrandListOfZeroProduct() {
+    public void getBrandListOfZeroProduct(Context context) {
         List<Brand> brandList = new ArrayList<>();
         List<BrandProductCount> brandProductCountList = MyApplication.getDatabase().brandDao().getAllEmptyBrand();
         if (brandProductCountList != null) {
@@ -1098,7 +1100,7 @@ public class AppRepository {
             Log.v(TAG, "getBrandListOfZeroProduct::" + brandList);
             if (brandList.size() > 0) {
                 for (Brand brand : brandList) {
-                    getProductAPIOfBrand(brand.getId(), 1);
+                    getProductAPIOfBrand(brand.getId(), 1,context);
                 }
             }
 
@@ -1135,11 +1137,11 @@ public class AppRepository {
         return getProductInfoResponseFromSDKMutableLiveData;
     }
 
-    public MutableLiveData<Integer> SendReportAPI(final long fromTime, final long toTime) {
+    public MutableLiveData<Integer> SendReportAPI(final long fromTime, final long toTime, Context context) {
         final MutableLiveData<Integer> SendReportAPIMutableLiveData = new MutableLiveData<>();
 
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
         Map<String, String> headerMap = new HashMap<>();
@@ -1166,11 +1168,11 @@ public class AppRepository {
     }
 
 
-    public MutableLiveData<ArrayList<RequestInvoice>> SearchInvoiceAPI(final String customer_mobile_no) {
+    public MutableLiveData<ArrayList<RequestInvoice>> SearchInvoiceAPI(final String customer_mobile_no, Context context) {
         final MutableLiveData<ArrayList<RequestInvoice>> SendReportAPIMutableLiveData = new MutableLiveData<>();
 
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -1198,10 +1200,10 @@ public class AppRepository {
         return SendReportAPIMutableLiveData;
     }
 
-    public void postOtherCategoryAPI(Category category) {
+    public void postOtherCategoryAPI(Category category, Context context) {
 
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -1232,10 +1234,10 @@ public class AppRepository {
 
     }
 
-    public void postOtherBrandAPI(Brand brand) {
+    public void postOtherBrandAPI(Brand brand, Context context) {
 
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -1266,10 +1268,10 @@ public class AppRepository {
 
     }
 
-    public void postOtherProductAPI(Product product) {
+    public void postOtherProductAPI(Product product, Context context) {
 
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 
@@ -1298,9 +1300,9 @@ public class AppRepository {
         });
     }
 
-    public void getLedgerDetails(final WebserviceResponseHandler handledResponse, final long fromTime, final long toTime, int categoryId, int models, int send) {
+    public void getLedgerDetails(final WebserviceResponseHandler handledResponse, final long fromTime, final long toTime, int categoryId, int models, int send, Context context) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(context).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 

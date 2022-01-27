@@ -97,7 +97,7 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         initUI();
-        Util.setMeasurementUnits();
+        Util.setMeasurementUnits(this);
         try {
             userProfile= new JSONObject (((MyApplication)getApplication()).getUserDetails());
         } catch (JSONException e) {
@@ -641,7 +641,7 @@ public class HomeActivity extends AppCompatActivity
 
     private void getLatestInvoice(String userid) {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
         Map<String, String> headerMap = new HashMap<>();
@@ -743,7 +743,7 @@ public class HomeActivity extends AppCompatActivity
         try {
             DialogUtils.startProgressDialog(this, "");
             ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
+                    ApiClient.getClient(this).create(ApiInterface.class);
 
             Map<String, Integer> map = new HashMap<>();
             map.put("isGST", gstStatus);

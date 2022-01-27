@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         loginRequest.setUsername(username);
         loginRequest.setPassword(password);
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(this).create(ApiInterface.class);
         Call<LoginResponse> call = apiService.doLogin(loginRequest);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -182,7 +182,7 @@ public class LoginActivity extends AppCompatActivity {
     private void getOTP(){
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
         Map<String, String> req = new HashMap<>();
         req.put("mobileNo",edtUsername.getText().toString());

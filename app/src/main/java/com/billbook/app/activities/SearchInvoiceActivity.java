@@ -177,7 +177,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         if (Util.isNetworkAvailable(SearchInvoiceActivity.this)) {
             progressDialog = DialogUtils.startProgressDialog(SearchInvoiceActivity.this, "");
             ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
+                    ApiClient.getClient(this).create(ApiInterface.class);
 
             String token = MyApplication.getUserToken();
 

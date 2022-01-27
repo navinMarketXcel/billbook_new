@@ -1,9 +1,11 @@
 package com.billbook.app.networkcommunication;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.billbook.app.BuildConfig;
 import com.billbook.app.activities.MyApplication;
+import com.readystatesoftware.chuck.ChuckInterceptor;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,7 +24,7 @@ public class ApiClient {
     private static Retrofit retrofit = null;
 
 
-    public static Retrofit getClient() {
+    public static Retrofit getClient(Context context) {
         if (retrofit == null) {
             OkHttpClient.Builder client = new OkHttpClient.Builder();
 
@@ -31,7 +33,7 @@ public class ApiClient {
                 return chain.proceed(request);
             });
 
-
+            client.addInterceptor(new ChuckInterceptor(context));
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             client.addInterceptor(loggingInterceptor);

@@ -178,7 +178,7 @@ public class BillingProductListAdapter
                             Log.v(TAG, "inserted cate localid::" + localid);
                             product.setLocal_id(localid);
                             if (Util.isNetworkAvailable(context)) {
-                                AppRepository.getInstance().postOtherProductAPI(product);
+                                AppRepository.getInstance().postOtherProductAPI(product,context);
                             }
 
                         }

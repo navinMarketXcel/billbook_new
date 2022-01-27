@@ -76,7 +76,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.MyViewHolder
                             Log.v(TAG, "local_brand_id::" + local_brand_id);
                             brand.setLocal_id(local_brand_id);
                             if (Util.isNetworkAvailable(context)) {
-                                AppRepository.getInstance().postOtherBrandAPI(brand);
+                                AppRepository.getInstance().postOtherBrandAPI(brand,context);
                             }
                         }
                     });

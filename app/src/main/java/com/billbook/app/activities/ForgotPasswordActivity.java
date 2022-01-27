@@ -77,7 +77,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
 
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Call<LoginResponse> call = apiService.doLogin(loginRequest);
         call.enqueue(new Callback<LoginResponse>() {
             @Override

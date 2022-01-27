@@ -141,7 +141,7 @@ public class ExpenseActivity extends AppCompatActivity {
         if(Util.isNetworkAvailable(this)) {
             DialogUtils.startProgressDialog(this, "");
             ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
+                    ApiClient.getClient(this).create(ApiInterface.class);
             Map<String, String> headerMap = new HashMap<>();
 
             headerMap.put("Content-Type", "application/json");

@@ -426,7 +426,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     public void fetchCutlyLinkfromApi(){
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
         Call<Object> call = null;
         call = apiService.getCutlyUrl(headerMap,invID);
@@ -504,7 +504,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private void uploadPDF() {
 //        DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
 //        headerMap.put("Content-Type", "application/json");
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", pdfFile.getName(), RequestBody.create(MediaType.parse("*/*"), pdfFile));
