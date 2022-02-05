@@ -1017,7 +1017,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 } else {
                     //there is some use of makeing invoiceid = -1 in backend
                     invoiceViewModel.updateInvoiceId(localInvoiceId,-1);
-                    DialogUtils.showToast(this, "invoice saved in offline mode.");
+                    DialogUtils.showToast(this, "Invoice saved in offline mode.");
 
 
                     JSONObject data = new JSONObject();

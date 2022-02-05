@@ -48,6 +48,7 @@
         <item>Box</item>
         <item>Day</item>
     </string-array>
+
     <string-array name="shopStatus1">
         <item>Select Shop Status</item>
         <item>Propertiership</item>

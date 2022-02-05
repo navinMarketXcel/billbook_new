@@ -274,7 +274,29 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         }
 
     }
+    private void loadAndSetCompanyLogo(){
+        if(imageURL!=null) {
+            pdfBinding.shopImage.setVisibility(View.VISIBLE);
+            Picasso.get()
+                    .load(imageURL)
+                    .resize(100, 100)
+                    .into(pdfBinding.shopImage, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            loadAndSetSignatureImage();
+                        }
+                        @Override
+                        public void onError(Exception e) {
+                            loadAndSetSignatureImage();
+                        }
+                    });
+        }
+        else{
+            pdfBinding.shopImage.setVisibility(View.GONE);
+            loadAndSetSignatureImage();
+        }
 
+    }
     private void loadAndSetSignatureImage() {
 
         if (signatureURL != null) {
