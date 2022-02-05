@@ -18,6 +18,10 @@ public class InvoiceItems {
     // @SerializedName("localInvoiceId")
     @ColumnInfo(name = "localinvoice_id")
     private long localInvoiceId;
+    
+    //masterItemId --> naming "id" because of backend
+    @ColumnInfo(name = "id")
+    private long id;
 
     @SerializedName("measurementId")
     @ColumnInfo(name = "measurement_id")
@@ -79,7 +83,7 @@ public class InvoiceItems {
     @ColumnInfo(name="is_sync")
     private int isSync;
 
-    public InvoiceItems(int measurementId, String name, float quantity, float price, String gstType, float gstAmount, float gst, boolean is_active, int user, String serial_no, String imei, float totalAmount, int invoiceid,int isSync, Integer databaseid,long localInvoiceId) {
+    public InvoiceItems(int measurementId, String name, float quantity, float price, String gstType, float gstAmount, float gst, boolean is_active, int user, String serial_no, String imei, float totalAmount, int invoiceid,int isSync, Integer databaseid,long localInvoiceId, long id) {
         this.measurementId = measurementId+1;
         this.name = name;
         this.quantity = quantity;
@@ -96,6 +100,7 @@ public class InvoiceItems {
         this.isSync = isSync;
         this.databaseid = databaseid;
         this.localInvoiceId = localInvoiceId;
+        this.id = id;
     }
 
     public int getLocalid() {
@@ -228,5 +233,12 @@ public class InvoiceItems {
 
     public void setLocalInvoiceId(long localInvoiceId) {
         this.localInvoiceId = localInvoiceId;
+    }
+
+    public void setId(long id ){
+        this.id = id;
+    }
+    public  long getId(){
+        return id;
     }
 }
