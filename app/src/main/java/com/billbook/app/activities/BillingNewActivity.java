@@ -138,12 +138,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         internalStoragePermission();
         getUSerData();
-        initUI();
         getMeasurementUnit();
-        searchItemAutoComplete();
+        initUI();
         checkIsEdit();
         loadDataForInvoice();
         getInvoiceItemsFromDatabase();
+        searchItemAutoComplete();
 
     }
 
@@ -229,7 +229,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
                             binding.edtDiscountAmt.setText(String.valueOf(discountAmt));
                             if (discountPercent > 100.00)
-                                setEditTextError(binding.edtDiscountPercent, "Discount should be less than 100%");
+                                setEditTextError(binding.edtDiscountPercent, "Discount should be less than or equal to 100%");
                             else
                                 setEditTextError(binding.edtDiscountPercent, "");
                         } else {
@@ -264,7 +264,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             binding.edtDiscountPercent.setText(discountPercent + "%");
 
                             if (discountAmt > total)
-                                setEditTextError(binding.edtDiscountAmt, "Discount value should be less than total");
+                                setEditTextError(binding.edtDiscountAmt, "Discount value should be less than or equal to total");
                             else
                                 setEditTextError(binding.edtDiscountAmt, "");
                         } else {
@@ -931,9 +931,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private void setTotalAfterDiscount() {
         try {
             if (discountPercent > 100.00) {
-                setEditTextError(binding.edtDiscountPercent, "Discount should be less than 100%");
+                setEditTextError(binding.edtDiscountPercent, "Discount should be less than or equal to 100%");
             } else if (discountAmt > total) {
-                setEditTextError(binding.edtDiscountAmt, "Discount value should be less than total");
+                setEditTextError(binding.edtDiscountAmt, "Discount value should be less than or equal to total");
             } else {
                 float totalAfterDiscount = total - discountAmt;
                 binding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
