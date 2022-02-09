@@ -496,8 +496,12 @@ public class HomeActivity extends AppCompatActivity
                 getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),
                         MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(getString(R.string.user_login_token), " ");
-        editor.commit();
+        editor.clear();
+        editor.apply();
+        finish();
+
+//        editor.putString(getString(R.string.user_login_token), " ");
+//        editor.commit();
 //    MyApplication.saveGetCategoriesLAST_SYNC_TIMESTAMP(0);
 //    MyApplication.saveGetBrandLAST_SYNC_TIMESTAMP(0);
 //    MyApplication.saveGetProductLAST_SYNC_TIMESTAMP(0);
