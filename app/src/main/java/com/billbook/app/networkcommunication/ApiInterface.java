@@ -222,4 +222,13 @@ public interface ApiInterface {
     @GET("measurements")
     Call<Object>measuremntUnit(@HeaderMap Map<String,String> headers);
 
+    @POST("getPincode")
+    Call<Object>pincode(@Body HashMap<String,String> body);
+
+    @POST("searchItems")
+    Call<Object>searchItem(@Body HashMap<String,String> body);
+
+    @POST("searchMeasurementId")
+    Call<Object>fetchMeasurementIdForItem(@Body HashMap<String,String> body);
+
 }

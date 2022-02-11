@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.billbook.app">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- optional - for better targeting of ads, ACCESS_WIFI_STATE and  CHANGE_WIFI_STATE  -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- <uses-permission android:name="android.permission.SEND_SMS" /> -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -188,7 +192,9 @@
         <activity
             android:name=".activities.RegistrationActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+
         <activity
             android:name=".activities.OTPActivity"
             android:screenOrientation="portrait"

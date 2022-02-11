@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "invoice_table")
-public class InvoiceModel {
+@Entity(tableName = "invoiceTableV2")
+public class InvoiceModelV2 {
 
     //local id
     @PrimaryKey(autoGenerate = true)
@@ -49,7 +49,17 @@ public class InvoiceModel {
 
     @SerializedName("totalAmount")
     @ColumnInfo(name = "total_amount")
-    private Integer totalAmount;
+    private float totalAmount;
+
+    // discount  - represents discount Percent
+    @SerializedName("discount")
+    @ColumnInfo(name = "discount")
+    private float discount;
+
+    // discountAmt = totalAmount - discountedAmout i.e amount left after deducting discount
+    @SerializedName("totalAfterDiscount")
+    @ColumnInfo(name = "totalAfterDiscount")
+    private float totalAfterDiscount;
 
     //userid from backend
     @SerializedName("userid")
@@ -91,7 +101,11 @@ public class InvoiceModel {
     @ColumnInfo(name = "is_sync")
     private int isSync;
 
-    public InvoiceModel(long id,long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, Integer totalAmount, Integer userid, String invoiceDate,long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync) {
+//    @SerializedName("pdfPath")
+    @ColumnInfo(name = "pdf_path")
+    private String pdfPath="";
+
+    public InvoiceModelV2(long id, long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, float totalAmount, Integer userid, String invoiceDate, long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync, String pdfPath, float discount, float totalAfterDiscount) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.customerName = customerName;
@@ -108,6 +122,9 @@ public class InvoiceModel {
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
         this.isSync = isSync;
+        this.pdfPath=pdfPath;
+        this.discount = discount;
+        this.totalAfterDiscount = totalAfterDiscount;
     }
 
     public int getLocal_id() {
@@ -138,7 +155,7 @@ public class InvoiceModel {
         return GSTNo;
     }
 
-    public Integer getTotalAmount() {
+    public float getTotalAmount() {
         return totalAmount;
     }
 
@@ -178,6 +195,21 @@ public class InvoiceModel {
         return isSync;
     }
 
+    public String getPdfPath() { return pdfPath; }
+
+    public float getDiscount() {
+        return discount;
+    }
+
+    public float getTotalAfterDiscount() {
+        return totalAfterDiscount;
+    }
+
+    public void setDiscount(float discount) { this.discount = discount; }
+
+    public void setTotalAfterDiscount(float totalAfterDiscount) { this.totalAfterDiscount = totalAfterDiscount; }
+
+    public void setPdfPath(String pdfPath) { this.pdfPath = pdfPath; }
     public void setLocal_id(int local_id) {
         this.local_id = local_id;
     }
@@ -206,7 +238,7 @@ public class InvoiceModel {
         this.GSTNo = GSTNo;
     }
 
-    public void setTotalAmount(Integer totalAmount) {
+    public void setTotalAmount(Float totalAmount) {
         this.totalAmount = totalAmount;
     }
 

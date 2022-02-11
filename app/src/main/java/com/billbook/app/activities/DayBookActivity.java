@@ -62,7 +62,7 @@ public class DayBookActivity extends AppCompatActivity {
     private ArrayList<DayBook> dayBookArrayList = new ArrayList<>();
     private int userId =0;
     private String email;
-    private int totalIn=0, totalOut;
+    private float totalIn=0, totalOut;
     private DayBookAdapter dayBookAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,14 +134,14 @@ public class DayBookActivity extends AppCompatActivity {
                     if(isStartDate) {
                         starDate = myFormat.parse(dateToUse);
                         DateFormat formatter =
-                                new SimpleDateFormat("dd MMM yyyy");
+                                new SimpleDateFormat("yyyy-MM-dd");
                         startDateStr = formatter.format(starDate);
                         startDateTV.setText("Start Date: " + startDateStr);
                         getDayBook(startDateStr,endDateStr);
                     }else{
                         endDate = myFormat.parse(dateToUse);
                         DateFormat formatter =
-                                new SimpleDateFormat("dd MMM yyyy");
+                                new SimpleDateFormat("yyyy-MM-dd");
                         endDateStr = formatter.format(endDate);
                         endDateTV.setText("End Date: " + endDateStr);
                         getDayBook(startDateStr,endDateStr);
@@ -189,7 +189,10 @@ public class DayBookActivity extends AppCompatActivity {
                                 dayBook.setName("Invoice "+ ( invoices.getJSONObject(i).getString("gstType").isEmpty()?
                                         invoices.getJSONObject(i).getInt("nonGstBillNo"):
                                         invoices.getJSONObject(i).getInt("gstBillNo")));
-                                dayBook.setAmount(invoices.getJSONObject(i).getInt("totalAmount"));
+                                if(invoices.getJSONObject(i).has("totalAfterDiscount")&& invoices.getJSONObject(i).getDouble("totalAfterDiscount")!=0)
+                                    dayBook.setAmount((float)invoices.getJSONObject(i).getDouble("totalAfterDiscount"));
+                                else
+                                    dayBook.setAmount((float)invoices.getJSONObject(i).getDouble("totalAmount"));
                                 dayBook.setDate(myFormat.parse(invoices.getJSONObject(i).getString("invoiceDate")));
                                 dayBook.setExpense(false);
                                 dayBookArrayList.add(dayBook);
@@ -214,7 +217,7 @@ public class DayBookActivity extends AppCompatActivity {
                                     return o1.getDate().getTime()< o2.getDate().getTime() ? -1 : 1;
                                 }
                             });
-                            int profit=(totalIn-totalOut);
+                            float profit = (totalIn-totalOut);
                             totalExpenseTV.setText("PROFIT : " + Util.formatDecimalValue((float)totalIn-totalOut));
                             if(profit>0)
                                 totalExpenseTV.setTextColor(Color.GREEN);
@@ -234,7 +237,7 @@ public class DayBookActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<Object> call, Throwable t) {
                     DialogUtils.stopProgressDialog();
-                    DialogUtils.showToast(DayBookActivity.this,"Failed to save expense data");
+                    DialogUtils.showToast(DayBookActivity.this,"Check Internet Connection");
                 }
             });
         } catch (JSONException e) {
@@ -316,7 +319,7 @@ public class DayBookActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<Object> call, Throwable t) {
                     DialogUtils.stopProgressDialog();
-                    DialogUtils.showToast(DayBookActivity.this,"Failed to save expense data");
+                    DialogUtils.showToast(DayBookActivity.this,"Check Internet Connection");
                 }
             });
         } catch (JSONException e) {

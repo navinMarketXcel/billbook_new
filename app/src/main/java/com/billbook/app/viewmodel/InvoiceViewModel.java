@@ -1,12 +1,11 @@
 package com.billbook.app.viewmodel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.billbook.app.database.models.InvoiceModel;
+import com.billbook.app.database.models.InvoiceModelV2;
 import com.billbook.app.repository.AppRepository;
 
 public class InvoiceViewModel extends AndroidViewModel {
@@ -15,12 +14,17 @@ public class InvoiceViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public void insert(InvoiceModel invoiceModel){
-        AppRepository.getInstance().insert(invoiceModel);
+    public void insert(InvoiceModelV2 invoiceModelV2){
+        AppRepository.getInstance().insert(invoiceModelV2);
+    }
+    // to fetch invoice from local db using invoiceId
+    public LiveData<InvoiceModelV2> getCurrentInvoice(long localInvoiceId){
+        return AppRepository.getInstance().getCurrentInvoice(localInvoiceId);
     }
 
-    public LiveData<InvoiceModel> getCurrentInvoice(long localInvoiceId){
-        return AppRepository.getInstance().getCurrentInvoice(localInvoiceId);
+    // update existing invoice in local db, if already present
+    public void update(InvoiceModelV2 invoiceModelV2){
+        AppRepository.getInstance().update(invoiceModelV2);
     }
 
     public void updateIsSync(long localInvoiceId){
@@ -31,5 +35,8 @@ public class InvoiceViewModel extends AndroidViewModel {
         AppRepository.getInstance().updateInvoiceId(localInvoiceId,invoiceId);
     }
 
+    public void updatePdfPath(long localInvoiceId, String pdfPath){
+        AppRepository.getInstance().updatePdfPath(localInvoiceId, pdfPath);
+    }
 
 }

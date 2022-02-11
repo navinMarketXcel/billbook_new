@@ -1,7 +1,6 @@
 package com.billbook.app.activities;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,28 +21,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.billbook.app.adapters.NewBillingAdapter;
 import com.billbook.app.database.daos.InvoiceItemDao;
 import com.billbook.app.database.models.InvoiceItems;
-import com.billbook.app.database.models.InvoiceModel;
+import com.billbook.app.database.models.InvoiceModelV2;
 import com.billbook.app.databinding.ActivityPdfBinding;
 import com.billbook.app.databinding.InvoiceAmountLayoutUpdatedBinding;
 import com.billbook.app.databinding.PdfContentNewBinding;
-import com.billbook.app.repository.AppRepository;
 import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.billbook.app.viewmodel.InvoiceViewModel;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import com.billbook.app.BuildConfig;
 import com.billbook.app.R;
 import com.billbook.app.adapters.NewInvoicePurchaseAdapter;
@@ -94,7 +85,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private long localInvoiceId=0;
     private int invoiceNumber;
     private String GSTType = "";
-    private String imageURL;
+    private String imageURL,signatureURL;
     private ActivityPdfBinding binding;
     private PdfContentNewBinding pdfBinding;
     private InvoiceAmountLayoutUpdatedBinding invoiceAmountLayoutUpdatedBinding;
@@ -139,6 +130,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 invoiceAmountLayoutUpdatedBinding.tvAdditionalDetails.setText(profile.getString("additionalData"));
             }
             imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;
+            signatureURL = profile.has("signatureImage") ? profile.getString("signatureImage").replaceAll("\\/","/") : null;
+            loadAndSetCompanyLogo();
+            loadAndSetSignatureImage();
         }
         catch (Exception e){
             e.printStackTrace();
@@ -149,145 +143,162 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private void setData() {
         try {
             localInvoiceId = getIntent().getExtras().getLong("localInvId");
-            invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, new Observer<InvoiceModel>() {
-                @Override
-                public void onChanged(InvoiceModel invoiceModel) {
-                    try{
-                        invoice = new JSONObject(new Gson().toJson(invoiceModel));
+            invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
+                try {
+                    invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
+                    if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
+                        isGSTAvailable = true;
+                        invoiceAmountLayoutUpdatedBinding.gstTotalLayout.setVisibility(View.VISIBLE);
+                        invoiceAmountLayoutUpdatedBinding.totalAmountBeforeTaxLayout.setVisibility(View.VISIBLE);
+                        invoiceNumber = getIntent().getExtras().getInt("gstBillNo");
 
-                        if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
-                            isGSTAvailable = true;
-                            invoiceAmountLayoutUpdatedBinding.gstTotalLayout.setVisibility(View.VISIBLE);
-                            invoiceAmountLayoutUpdatedBinding.totalAmountBeforeTaxLayout.setVisibility(View.VISIBLE);
-                            invoiceNumber = getIntent().getExtras().getInt("gstBillNo");
+                    } else {
+                        isGSTAvailable = false;
+                        TextView taxorBillTv = findViewById(R.id.taxorBillTv);
+                        taxorBillTv.setText("Bill");
+                        invoiceAmountLayoutUpdatedBinding.gstTotalLayout.setVisibility(View.GONE);
+                        invoiceAmountLayoutUpdatedBinding.totalAmountBeforeTaxLayout.setVisibility(View.GONE);
+                        invoiceNumber = getIntent().getExtras().getInt("nonGstBillNo");
+                    }
 
-                        } else {
-                            isGSTAvailable = false;
-                            TextView taxorBillTv = findViewById(R.id.taxorBillTv);
-                            taxorBillTv.setText("Bill");
-                            invoiceAmountLayoutUpdatedBinding.gstTotalLayout.setVisibility(View.GONE);
-                            invoiceAmountLayoutUpdatedBinding.totalAmountBeforeTaxLayout.setVisibility(View.GONE);
-                            invoiceNumber = getIntent().getExtras().getInt("nonGstBillNo");
-                        }
+                    pdfBinding.tvVendorName.setText(profile.getString("shopName"));
+                    pdfBinding.tvStoreAddress.setText(profile.getString("shopAddr") + " " + profile.getString("city")
+                            + " " + profile.getString("state") + " - " + profile.getString("pincode"));
+                    pdfBinding.tvGSTNo.setText(profile.has("gstNo") ? profile.getString("gstNo") : "");
+                    pdfBinding.mobileNoRetailer.setText("Mobile No- " + profile.getString("mobileNo"));
 
-                        pdfBinding.tvVendorName.setText(profile.getString("shopName"));
-                        pdfBinding.tvStoreAddress.setText(profile.getString("shopAddr") + " " + profile.getString("city")
-                                + " " + profile.getString("state") + " - " + profile.getString("pincode"));
-                        pdfBinding.tvGSTNo.setText(profile.has("gstNo") ? profile.getString("gstNo") : "");
-                        pdfBinding.mobileNoRetailer.setText("Mobile No- " + profile.getString("mobileNo"));
-
-                        invID = getIntent().getExtras().getInt("id");
+                    invID = getIntent().getExtras().getInt("id");
 
 //                        Log.i(TAG, "setData: GST => " + isGSTAvailable);
-                        pdfBinding.tvPreTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-                        pdfBinding.llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
-                        pdfBinding.footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
-                        pdfBinding.paddingLabelGst.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+                    pdfBinding.tvPreTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+                    pdfBinding.llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+                    pdfBinding.footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+                    pdfBinding.paddingLabelGst.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
 
-
-
-                        if (invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
-                            GSTType = "CGST/SGST (Local customer)";
-                            pdfBinding.IGST.setVisibility(View.GONE);
-                            pdfBinding.CGST.setVisibility(View.VISIBLE);
-                            pdfBinding.SGST.setVisibility(View.VISIBLE);
-                            pdfBinding.padding3.setVisibility(View.GONE);
-                            pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));
-                            pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                    0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
-                        } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
-                            GSTType = "IGST (Central/outstation customer)";
-                            pdfBinding.IGST.setVisibility(View.VISIBLE);
-                            pdfBinding.padding1.setVisibility(View.GONE);
-                            pdfBinding.padding2.setVisibility(View.GONE);
-                            pdfBinding.CGST.setVisibility(View.GONE);
-                            pdfBinding.SGST.setVisibility(View.GONE);
-                            pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 4.5f));
-                            pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                    0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
-                        } else {
-                            pdfBinding.IGST.setVisibility(View.GONE);
-                            pdfBinding.CGST.setVisibility(View.GONE);
-                            pdfBinding.SGST.setVisibility(View.GONE);
-                            pdfBinding.padding1.setVisibility(View.GONE);
-                            pdfBinding.padding2.setVisibility(View.GONE);
-                            pdfBinding.padding3.setVisibility(View.GONE);
-                            pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 5.5f));
-                            pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                    0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
-                        }
-                        if (invoice.getString("GSTNo").isEmpty()) {
-                            pdfBinding.custGstLayout.setVisibility(View.INVISIBLE);
-                        } else {
-                            pdfBinding.custGstLayout.setVisibility(View.VISIBLE);
-                            pdfBinding.customerGst.setText(invoice.getString("GSTNo"));
-                        }
-                        pdfBinding.txtInvoiceDate.setText(invoice.getString("invoiceDate"));
-                        pdfBinding.txtInvoiceNo.setText("" + invoiceNumber);
-                        float gst = 0;
-                        if (isGSTAvailable)
-                            gst = Float.parseFloat(invoice.getString("totalAmount")) -
-                                    Float.parseFloat(invoice.getString("totalAmountBeforeGST"));
-                        invoiceAmountLayoutUpdatedBinding.totalGST.setText(Util.formatDecimalValue(gst));
-                        pdfBinding.edtName.setText(invoice.getString("customerName") + " ");
-                        pdfBinding.edtAddress.setText(invoice.getString("customerAddress") + " ");
-                        pdfBinding.edtMobNo.setText(invoice.getString("customerMobileNo") + " ");
+                    if (invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
+                        GSTType = "CGST/SGST (Local customer)";
+                        pdfBinding.IGST.setVisibility(View.GONE);
+                        pdfBinding.CGST.setVisibility(View.VISIBLE);
+                        pdfBinding.SGST.setVisibility(View.VISIBLE);
+                        pdfBinding.padding3.setVisibility(View.GONE);
+                        pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));
+                        pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
+                    } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
+                        GSTType = "IGST (Central/outstation customer)";
+                        pdfBinding.IGST.setVisibility(View.VISIBLE);
+                        pdfBinding.padding1.setVisibility(View.GONE);
+                        pdfBinding.padding2.setVisibility(View.GONE);
+                        pdfBinding.CGST.setVisibility(View.GONE);
+                        pdfBinding.SGST.setVisibility(View.GONE);
+                        pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.WRAP_CONTENT, 4.5f));
+                        pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
+                    } else {
+                        pdfBinding.IGST.setVisibility(View.GONE);
+                        pdfBinding.CGST.setVisibility(View.GONE);
+                        pdfBinding.SGST.setVisibility(View.GONE);
+                        pdfBinding.padding1.setVisibility(View.GONE);
+                        pdfBinding.padding2.setVisibility(View.GONE);
+                        pdfBinding.padding3.setVisibility(View.GONE);
+                        pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.WRAP_CONTENT, 5.5f));
+                        pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
+                    }
+                    if (invoice.getString("GSTNo").isEmpty()) {
+                        pdfBinding.custGstLayout.setVisibility(View.INVISIBLE);
+                    } else {
+                        pdfBinding.custGstLayout.setVisibility(View.VISIBLE);
+                        pdfBinding.customerGst.setText(invoice.getString("GSTNo"));
+                    }
+                    pdfBinding.txtInvoiceDate.setText(invoice.getString("invoiceDate"));
+                    pdfBinding.txtInvoiceNo.setText("" + invoiceNumber);
+                    float gst = 0;
+                    if (isGSTAvailable)
+                        gst = Float.parseFloat(invoice.getString("totalAmount")) -
+                                Float.parseFloat(invoice.getString("totalAmountBeforeGST"));
+                    invoiceAmountLayoutUpdatedBinding.totalGST.setText(Util.formatDecimalValue(gst));
+                    pdfBinding.edtName.setText(invoice.getString("customerName") + " ");
+                    pdfBinding.edtAddress.setText(invoice.getString("customerAddress") + " ");
+                    pdfBinding.edtMobNo.setText(invoice.getString("customerMobileNo") + " ");
 //            tvGSTNo.setText(invoice.getString("GSTNo")+" ");
-                        invoiceAmountLayoutUpdatedBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
-                        invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
-
-                        new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(),localInvoiceId,PDFActivity.this,isGSTAvailable,recyclerViewInvoiceProducts, GSTType).execute();
-
-                        items = gson.fromJson(invoice.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
-                        }.getType());
-
-                        if (isGSTAvailable)
-                            invoiceAmountLayoutUpdatedBinding.GSTTitle.setText("GST" + (items.get(0).getGstType().equals("CGST/SGST (Local customer)") ? " (SGST/CGST)" : " (IGST)"));
+                    invoiceAmountLayoutUpdatedBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
+//                        invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
+                    float totalAfterDiscount = 0, totalAmount = 0;
+                    totalAmount = Float.parseFloat(invoice.getString("totalAmount"));
+                    if (invoice.has("totalAfterDiscount")) {
+                        totalAfterDiscount = (float) invoice.getDouble("totalAfterDiscount");
+                    } else {
+                        totalAfterDiscount = totalAmount;
                     }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
+                    invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
+                    invoiceAmountLayoutUpdatedBinding.tvDiscount.setText(Util.formatDecimalValue(totalAmount - totalAfterDiscount));
+                    new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(), getIntent().getExtras().getLong("idForItem"), PDFActivity.this, isGSTAvailable, recyclerViewInvoiceProducts, GSTType).execute();
+
+//                        items = gson.fromJson(invoice.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
+//                        }.getType());
+
+                    if (isGSTAvailable)
+                        invoiceAmountLayoutUpdatedBinding.GSTTitle.setText("GST " + (invoice.getString("gstType").equals("CGST/SGST (Local customer)") ? "(SGST/CGST)" : "(IGST)"));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             });
-
-
-            if (imageURL == null) {
-                pdfBinding.shopImage.setVisibility(View.GONE);
-                loadAndSetSignatureImage();
-            }
-            else {
-                pdfBinding.shopImage.setVisibility(View.VISIBLE);
-                Picasso.get()
-                        .load(imageURL)
-                        .resize(100, 100)
-                        .into(pdfBinding.shopImage, new com.squareup.picasso.Callback() {
-                            @Override
-                            public void onSuccess() {
-                                loadAndSetSignatureImage();
-                            }
-
-                            @Override
-                            public void onError(Exception e) {
-                                loadAndSetSignatureImage();
-                            }
-                        });
-            }
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
+        }
+
+
+    }
+    private void loadAndSetCompanyLogo(){
+        if(imageURL!=null) {
+            pdfBinding.shopImage.setVisibility(View.VISIBLE);
+            Picasso.get()
+                    .load(imageURL)
+                    .resize(100, 100)
+                    .into(pdfBinding.shopImage, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                        }
+                        @Override
+                        public void onError(Exception e) {
+                        }
+                    });
+        }
+        else{
+            pdfBinding.shopImage.setVisibility(View.GONE);
         }
 
     }
-
+//    private void loadAndSetCompanyLogo(){
+//        if(imageURL!=null) {
+//            pdfBinding.shopImage.setVisibility(View.VISIBLE);
+//            Picasso.get()
+//                    .load(imageURL)
+//                    .resize(100, 100)
+//                    .into(pdfBinding.shopImage, new com.squareup.picasso.Callback() {
+//                        @Override
+//                        public void onSuccess() {
+//                            loadAndSetSignatureImage();
+//                        }
+//                        @Override
+//                        public void onError(Exception e) {
+//                            loadAndSetSignatureImage();
+//                        }
+//                    });
+//        }
+//        else{
+//            pdfBinding.shopImage.setVisibility(View.GONE);
+//            loadAndSetSignatureImage();
+//        }
+//
+//    }
     private void loadAndSetSignatureImage() {
-        String signatureURL = null;
-        try {
-            signatureURL = profile.has("signatureImage") ? profile.getString("signatureImage").replaceAll("\\/","/") : null;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
         if (signatureURL != null) {
             invoiceAmountLayoutUpdatedBinding.tvSignature.setVisibility(View.GONE);
             invoiceAmountLayoutUpdatedBinding.ivSignature.setVisibility(View.VISIBLE);
@@ -299,31 +310,36 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     .into(invoiceAmountLayoutUpdatedBinding.ivSignature, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
-                            try {
-                                if (filepath == null) createPdfWrapper();
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                if (filepath == null) {
+//                                    createPdfWrapper();
+//                                }
+//                            } catch (FileNotFoundException e) {
+//                                e.printStackTrace();
+//                            }
                         }
 
                         @Override
                         public void onError(Exception e) {
-                            try {
-                                if (filepath == null) createPdfWrapper();
-                            } catch (FileNotFoundException error) {
-                                error.printStackTrace();
-                            }
-                            e.printStackTrace();
+//                            try {
+//                                if (filepath == null){
+//                                    createPdfWrapper();
+//                                }
+//                            } catch (FileNotFoundException error) {
+//                                error.printStackTrace();
+//                            }
                         }
                     });
-        }else{
-            try {
-                if (filepath == null)
-                    createPdfWrapper();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
         }
+//        else{
+//            try {
+//                if (filepath == null){
+//                    createPdfWrapper();
+//                }
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override
@@ -357,6 +373,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
     private void createPdf() throws FileNotFoundException {
         try{
+
             String extStorageState = Environment.getExternalStorageState();
 
             File docsFolder = new File(getExternalCacheDir() + "/Documents");
@@ -375,14 +392,15 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     new PdfWriter(PDFActivity.this, (ViewGroup) findViewById(R.id.ll_root));
             filepath = docsFolder.getAbsolutePath();
 
-            filepath = filepath + "/" + pdfBinding.edtName.getText().toString() + "_" + today + ".pdf";
+                filepath = filepath + "/" + "Invoice"+ invoiceNumber + "_" + today + ".pdf";
+
             pdfFile = pdfWriter.exportPDF(filepath);
             if (invID > 0)
                 uploadPDF();
             else
                 saveInvoiceOffline();
 
-//        openPDF();
+            //        openPDF();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -514,6 +532,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", pdfFile.getName(), RequestBody.create(MediaType.parse("*/*"), pdfFile));
 
         Call<Object> call = apiService.updateInvoicePdf(headerMap, invID, filePart);
+
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -522,7 +541,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     Log.v("RESP", body.toString());
                     if (body.getBoolean("status")) {
-                        invoice.put("pdfLink", body.getJSONObject("data").getString("pdfLink"));
+                        invoice.put("pdfLink", body.getJSONObject("data").getJSONObject("invoice").getString("pdfLink"));
                     } else {
                         DialogUtils.showToast(PDFActivity.this, "Failed upload pdf to server");
                     }
@@ -543,21 +562,21 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     //once syncing starts from database (see SyncService.java class line: 120) , after that there will be no use of this function
     private void saveInvoiceOffline() {
         try {
-
-            JSONArray invoices = new JSONArray();
-            if (!MyApplication.getUnSyncedInvoice().isEmpty()) {
-                invoices = new JSONArray(MyApplication.getUnSyncedInvoice());
-            }
-            invoice.put("pdfLink", "");
-            invoices.put(invoice);
-            MyApplication.saveUnSyncedInvoices(invoices.toString());
-        } catch (JSONException e) {
+//            invoiceViewModel.updatePdfPath(localInvoiceId,filepath);
+//            JSONArray invoices = new JSONArray();
+//            if (!MyApplication.getUnSyncedInvoice().isEmpty()) {
+//                invoices = new JSONArray(MyApplication.getUnSyncedInvoice());
+//            }
+//            invoice.put("pdfLink", "");
+//            invoices.put(invoice);
+//            MyApplication.saveUnSyncedInvoices(invoices.toString());
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    private static class getCurrentItemsAsyncTask extends AsyncTask<Void,Void,List<InvoiceItems>>{
+    private class getCurrentItemsAsyncTask extends AsyncTask<Void, Void, List<InvoiceItems>> {
         private InvoiceItemDao invoiceItemDao;
         private long invoiceId;
         private List<InvoiceItems> curItems;
@@ -566,7 +585,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         private RecyclerView recyclerViewInvoiceProducts;
         private String GSTType;
 
-        private getCurrentItemsAsyncTask(InvoiceItemDao invoiceItemDao,long invoiceId, Context context,boolean isGSTAvailable,RecyclerView recyclerViewInvoiceProducts, String GSTType){
+        private getCurrentItemsAsyncTask(InvoiceItemDao invoiceItemDao, long invoiceId, Context context, boolean isGSTAvailable, RecyclerView recyclerViewInvoiceProducts, String GSTType) {
             this.invoiceItemDao = invoiceItemDao;
             this.invoiceId = invoiceId;
             this.context = context;
@@ -584,9 +603,15 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         @Override
         protected void onPostExecute(List<InvoiceItems> invoiceItems) {
             super.onPostExecute(invoiceItems);
-            setDataAfterInvoiceItems(invoiceItems,context,isGSTAvailable,recyclerViewInvoiceProducts, GSTType);
+            setDataAfterInvoiceItems(invoiceItems, context, isGSTAvailable, recyclerViewInvoiceProducts, GSTType);
+            try {
+                loadAndSetCompanyLogo();
+                loadAndSetSignatureImage();
+                createPdfWrapper();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-
 
 }

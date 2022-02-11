@@ -9,7 +9,7 @@ import android.util.Log;
 import com.billbook.app.database.daos.InvoiceItemDao;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceItems;
-import com.billbook.app.database.models.InvoiceModel;
+import com.billbook.app.database.models.InvoiceModelV2;
 import com.google.gson.Gson;
 import com.billbook.app.activities.MyApplication;
 import com.billbook.app.database.models.Brand;
@@ -49,7 +49,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -295,11 +294,15 @@ public class AppRepository {
 
 
     //////////////////////////Invoice activity
-    public void insert(InvoiceModel invoiceModel) {
-        new InsertInvoiceAsyncTask(MyApplication.getDatabase().newInvoiceDao()).execute(invoiceModel);
+    public void insert(InvoiceModelV2 invoiceModelV2) {
+        new InsertInvoiceAsyncTask(MyApplication.getDatabase().newInvoiceDao()).execute(invoiceModelV2);
     }
 
-    public LiveData<InvoiceModel> getCurrentInvoice(long localInvoiceID){
+    public void update(InvoiceModelV2 invoiceModelV2) {
+        new UpdateInvoiceAsyncTask(MyApplication.getDatabase().newInvoiceDao()).execute(invoiceModelV2);
+    }
+
+    public LiveData<InvoiceModelV2> getCurrentInvoice(long localInvoiceID){
        return MyApplication.getDatabase().newInvoiceDao().getInvoiceById(localInvoiceID);
     }
 
@@ -311,23 +314,38 @@ public class AppRepository {
         new SyncUpdateById(MyApplication.getDatabase().newInvoiceDao(),localInvoiceId,invoiceId).execute();
     }
 
+    public void updatePdfPath(long localInvoiceId, String pdfPath){
+        new UpdatePdfPathById(MyApplication.getDatabase().newInvoiceDao(),localInvoiceId, pdfPath).execute();
+    }
 
 
-    private static class InsertInvoiceAsyncTask extends AsyncTask<InvoiceModel, Void, Void> {
+    private static class InsertInvoiceAsyncTask extends AsyncTask<InvoiceModelV2, Void, Void> {
         private NewInvoiceDao newInvoiceDao;
         private InsertInvoiceAsyncTask(NewInvoiceDao newInvoiceDao) {
             this.newInvoiceDao  = newInvoiceDao;
         }
         @Override
-        protected Void doInBackground(InvoiceModel... invoiceModel) {
-            newInvoiceDao.Insert(invoiceModel[0]); //single invoiceItem
+        protected Void doInBackground(InvoiceModelV2... invoiceModelV2) {
+            newInvoiceDao.Insert(invoiceModelV2[0]); //single invoiceItem
+            return null;
+        }
+    }
+
+    private static class UpdateInvoiceAsyncTask extends AsyncTask<InvoiceModelV2, Void, Void> {
+        private NewInvoiceDao newInvoiceDao;
+        private UpdateInvoiceAsyncTask(NewInvoiceDao newInvoiceDao) {
+            this.newInvoiceDao  = newInvoiceDao;
+        }
+        @Override
+        protected Void doInBackground(InvoiceModelV2... invoiceModelV2) {
+            newInvoiceDao.Update(invoiceModelV2[0]); //single invoiceItem
             return null;
         }
     }
 
     private static class UpdateIsSyncInvoiceAsyncTask extends AsyncTask<Void, Void, Void> {
         private NewInvoiceDao newInvoiceDao;
-        long localInvoiceId;
+        private long localInvoiceId;
         private UpdateIsSyncInvoiceAsyncTask(NewInvoiceDao newInvoiceDao,long localInvoiceId) {
             this.newInvoiceDao  = newInvoiceDao;
             this.localInvoiceId = localInvoiceId;
@@ -354,6 +372,25 @@ public class AppRepository {
         @Override
         protected Void doInBackground(Void... voids) {
             newInvoiceDao.updateInvoiceId(localInvoiceId,invoiceId);
+            return null;
+        }
+
+    }
+
+    private static class UpdatePdfPathById extends AsyncTask<Void,Void,Void>{
+        private  NewInvoiceDao newInvoiceDao;
+        long localInvoiceId;
+        String pdfPath;
+        private UpdatePdfPathById(NewInvoiceDao newInvoiceDao,long localInvoiceId, String pdfPath){
+            this.newInvoiceDao = newInvoiceDao;
+            this.localInvoiceId = localInvoiceId;
+            this.pdfPath = pdfPath;
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            newInvoiceDao.updatePdfPath(localInvoiceId, pdfPath);
             return null;
         }
 

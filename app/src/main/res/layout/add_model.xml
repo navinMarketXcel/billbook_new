@@ -18,7 +18,7 @@
         android:layout_marginBottom="10dp"
         >
 
-        <AutoCompleteTextView
+        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
             android:id="@+id/modelName"
             style="@style/editText"
             android:padding="15dp"

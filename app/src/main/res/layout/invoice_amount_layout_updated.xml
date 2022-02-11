@@ -53,41 +53,6 @@
         android:weightSum="5">
 
         <TextView
-            android:id="@+id/tvDiscountHeader"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:background="@drawable/card_lined"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="DISC"
-
-            android:textColor="@color/color_black"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvDiscount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/card_lined"
-            android:gravity="center"
-            android:padding="5dp"
-
-            android:text="Discount"
-            android:textColor="@color/color_black" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="gone"
-        android:weightSum="5">
-
-        <TextView
             android:id="@+id/tvGSTHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -215,6 +180,37 @@
             android:textColor="@color/color_black" />
 
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/tvDiscountHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@drawable/card_lined"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="DISCOUNT"
+            android:textColor="@color/color_black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDiscount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@drawable/card_lined"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="0"
+            android:textColor="@color/color_black" />
     </LinearLayout>
 
     <LinearLayout
