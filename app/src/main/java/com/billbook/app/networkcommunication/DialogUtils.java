@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -52,16 +53,19 @@ public class DialogUtils {
     public static void showToast(Context context, String text) {
         Toast toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.CENTER, 0, 0);
-        View view = toast.getView();
 
-        view.setBackgroundResource(R.drawable.custom_toast);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            View view = toast.getView();
+            view.setBackgroundResource(R.drawable.custom_toast);
 //        view.setPadding(7,7,7,7);
-        TextView textTV = (TextView) view.findViewById(android.R.id.message);
-        textTV.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
-        //Shadow of the Of the Text Color
+            TextView textTV = (TextView) view.findViewById(android.R.id.message);
+            textTV.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
+//            Shadow of the Of the Text Color
 //        textTV.setShadowLayer(0, 0, 0, Color.GRAY);
-        textTV.setTextColor(Color.WHITE);
+            textTV.setTextColor(Color.WHITE);
 //        textTV.setTextSize(Integer.valueOf(context.getResources().getString(R.string.text_size)));
+        }
         toast.show();
     }
 
