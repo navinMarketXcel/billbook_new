@@ -321,7 +321,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    billItemBinding.itemNameET.showDropDown();
+                    try{
+                        billItemBinding.itemNameET.showDropDown();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
@@ -1248,14 +1252,15 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                     } else {
                         Util.postEvents("Make Bill Fail", "Make Bill Fail:elseStatus", getApplicationContext());
-                        Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()));
+                        if(body!=null)
+                         Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()));
                         DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
                     }
                 } catch (JSONException e) {
-                   assert body != null;
-                   Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()));
+                   if(body!=null)
+                    Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()));
                    Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
-                    e.printStackTrace();
+                   e.printStackTrace();
                 }
             }
 
