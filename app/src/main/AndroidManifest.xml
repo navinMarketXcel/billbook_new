@@ -28,7 +28,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:icon,android:allowBackup"
+        tools:replace="android:icon,android:allowBackup,android:roundIcon"
         tools:targetApi="honeycomb">
         <activity android:name=".activities.StoragePermissionRequestActivity"></activity>
         <activity
