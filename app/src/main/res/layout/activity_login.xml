@@ -96,6 +96,17 @@
                     android:visibility="gone"
                     android:textColor="@android:color/white" />
 
+                <Button
+                    android:id="@+id/btnWhatsappLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="@dimen/login_margin_top"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/login_with_whatsapp"
+                    android:onClick="gotoRegistration"
+                    android:textColor="@android:color/white" />
+
                 <TextView
                     android:id="@+id/tvForgotPassword"
                     android:layout_width="match_parent"
