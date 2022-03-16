@@ -1449,6 +1449,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
+    private void createAuthKey(){
+
+    }
+
 
 
     public void scanCode(View v) {
