@@ -97,7 +97,6 @@ public class OTPActivity extends AppCompatActivity {
     }
 
     public void setOTP(String otp){
-        Log.v("OTP_fromLogi",otp);
         this.OTP = otp;
     }
 
