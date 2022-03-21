@@ -231,9 +231,6 @@ public interface ApiInterface {
     @POST("searchMeasurementId")
     Call<Object>fetchMeasurementIdForItem(@Body HashMap<String,String> body);
 
-    @POST("createAuthKey")
-    Call<Object>createAuthKeyForDb();
-
     @GET("getSignupUrl/")
     Call<Object> getSignupUrl();
 
