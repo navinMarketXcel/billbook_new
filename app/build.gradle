@@ -7,7 +7,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 43
-        versionName "1.27.6"
+        versionName "2.0.1"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         buildConfigField("String", "AccountId",AccountId);
@@ -29,7 +29,7 @@ android {
     buildTypes {
         debug{
 
-            buildConfigField "String", "BASE_URL", '"https://devapi.thebillbook.com/v1/"'
+            buildConfigField "String", "BASE_URL", '"https://c3b3-103-165-115-12.ngrok.io/v1/"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled false
         }
@@ -99,11 +99,5 @@ dependencies {
     implementation 'androidx.browser:browser:1.3.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
-//    implementation 'com.google.android.material:material:1.1.0-alpha06'
-//    implementation 'com.google.android.material:material:1.3.0'
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-
-    // Declare the dependency for the Firebase SDK for Google Analytics
-//    implementation 'com.google.firebase:firebase-analytics:18.0.0'
 }
 
