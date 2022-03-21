@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.billbook.app.R;
@@ -93,6 +92,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (Util.isNetworkAvailable(getApplicationContext())) {
+                    whatsappDialog = new ProgressDialog(LoginActivity.this);
+                    whatsappDialog.setMessage("Please wait, signing you in!");
+                    whatsappDialog.setCancelable(false);
+                    whatsappDialog.setInverseBackgroundForced(false);
+                    whatsappDialog.show();
                     getSignupUrl();
                 } else {
                     DialogUtils.showToast(LoginActivity.this, getString(R.string.no_internet));
@@ -104,7 +108,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onOtplessResult(@Nullable OtplessTokenData response) {
         if (response == null) return;
-        Log.v("Response", String.valueOf(response));
         if(response.getToken() == null){
             whatsappDialog.hide();
             return;
@@ -354,11 +357,6 @@ public class LoginActivity extends AppCompatActivity {
         final OtplessIntentRequest request = new OtplessIntentRequest(intentUri)
                 .setLoadingText("Please wait...");
         request.setIntentType(IntentType.TEXT);
-        whatsappDialog = new ProgressDialog(LoginActivity.this);
-        whatsappDialog.setMessage("Please wait, signing you in!");
-        whatsappDialog.setCancelable(false);
-        whatsappDialog.setInverseBackgroundForced(false);
-        whatsappDialog.show();
         otpless.openOtpless(request);
     }
 
