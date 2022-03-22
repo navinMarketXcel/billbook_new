@@ -1450,7 +1450,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
 
-
     public void scanCode(View v) {
         Util.postEvents("Scan Button", "Scan Button", this.getApplicationContext());
 

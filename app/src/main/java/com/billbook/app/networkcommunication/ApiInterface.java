@@ -231,4 +231,10 @@ public interface ApiInterface {
     @POST("searchMeasurementId")
     Call<Object>fetchMeasurementIdForItem(@Body HashMap<String,String> body);
 
+    @GET("getSignupUrl/")
+    Call<Object> getSignupUrl();
+
+    @POST("getUserDetails/")
+    Call<Object> getUserDetails(@Body HashMap<String,String> body);
+
 }

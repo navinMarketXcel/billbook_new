@@ -28,7 +28,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:icon,android:allowBackup"
+        tools:replace="android:icon,android:allowBackup,android:roundIcon"
         tools:targetApi="honeycomb">
         <activity android:name=".activities.StoragePermissionRequestActivity"></activity>
         <activity
@@ -83,7 +83,22 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+        </activity>
+
+        <activity
+            android:name="com.otpless.main.OtplessLoginActivity"
+            android:launchMode="singleTop"
+            android:exported="true">
+            <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:host="otpless" android:scheme="billbook"/>
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.CategoriesActivity"
             android:label="@string/categories"
