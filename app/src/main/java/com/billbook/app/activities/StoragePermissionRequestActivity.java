@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.provider.Settings;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -55,7 +56,8 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finish();
+        sendIntentResult(false);
+
     }
 
     public void initUI() {
@@ -69,7 +71,7 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
                     .withListener(new PermissionListener() {
                         @Override
                         public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                            finish();
+                            sendIntentResult(true);
                         }
 
                         @Override
@@ -105,7 +107,17 @@ public class StoragePermissionRequestActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
-            finish();
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            sendIntentResult(true);
+        }
+
+    }
+
+    private void sendIntentResult(Boolean permission){
+        Intent intent = new Intent();
+        intent.putExtra("GRANT_STORAGE_PERMISSION", permission);
+        setResult(RESULT_OK,intent);
+        StoragePermissionRequestActivity.this.finish();
     }
 }

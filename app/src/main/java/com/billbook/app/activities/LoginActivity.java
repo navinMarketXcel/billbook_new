@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
@@ -21,6 +24,11 @@ import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.networkcommunication.LoginRequest;
 import com.billbook.app.networkcommunication.LoginResponse;
 import com.billbook.app.utils.Util;
+import com.otpless.main.IntentType;
+import com.otpless.main.Otpless;
+import com.otpless.main.OtplessIntentRequest;
+import com.otpless.main.OtplessProvider;
+import com.otpless.main.OtplessTokenData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,10 +46,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText edtUsername, edtPassword;
     private Button btnLogin;
+    private ImageButton btnWhatsappLogi;
     private RelativeLayout llMainLayout;
     private ProgressDialog progressDialog;
-
+    private Otpless otpless;
     private int synchAPICount = 0;
+    ProgressDialog whatsappDialog;
+    private String mobilNo, otp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +62,8 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         llMainLayout = findViewById(R.id.llMainLayout);
         btnLogin = findViewById(R.id.btnLogin);
-
+        btnWhatsappLogi = (ImageButton)findViewById(R.id.btnWhatsappLogi);
+        otpless = OtplessProvider.getInstance(this).init(this::onOtplessResult);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,7 +73,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (Util.isNetworkAvailable(getApplicationContext())) {
                         getOTP();
-//                        startOTPActivity();
                     } else {
                         DialogUtils.showToast(LoginActivity.this, getString(R.string.no_internet));
 
@@ -76,12 +87,124 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
             }
         });
+
+        btnWhatsappLogi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Util.isNetworkAvailable(getApplicationContext())) {
+                    whatsappDialog = new ProgressDialog(LoginActivity.this);
+                    whatsappDialog.setMessage("Please wait, signing you in!");
+                    whatsappDialog.setCancelable(false);
+                    whatsappDialog.setInverseBackgroundForced(false);
+                    whatsappDialog.show();
+                    getSignupUrl();
+                } else {
+                    DialogUtils.showToast(LoginActivity.this, getString(R.string.no_internet));
+
+                }
+            }
+        });
+    }
+
+    private void onOtplessResult(@Nullable OtplessTokenData response) {
+        if (response == null) return;
+        if(response.getToken() == null){
+            whatsappDialog.hide();
+            return;
+        }
+        //Send this token to your backend end api to fetch user details from otpless service
+        HashMap<String,String> token = new HashMap<>();
+        token.put("token",response.getToken());
+        ApiInterface apiServiceOtpLessCreds =
+                ApiClient.getClient().create(ApiInterface.class);
+        Call<Object> whats_url = apiServiceOtpLessCreds.getUserDetails(token);
+        whats_url.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> whats_url, Response<Object> response) {
+                DialogUtils.stopProgressDialog();
+                try {
+                    JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                    mobilNo = String.valueOf(body.getJSONObject("data").getString("mobileNo"));
+                    otp = String.valueOf(body.getJSONObject("data").getString("otp"));
+                    token.clear();
+                    token.put("mobileNo",String.valueOf(body.getJSONObject("data").getString("mobileNo")));
+                    token.put("otp",String.valueOf(body.getJSONObject("data").getString("otp")));
+                    Call<Object> call = apiServiceOtpLessCreds.verifyOTP((HashMap<String, String>) token);
+                    call.enqueue(new Callback<Object>() {
+                        @Override
+                        public void onResponse(Call<Object> call, Response<Object> response) {
+                            DialogUtils.stopProgressDialog();
+                            try {
+                                OTPActivity otpActivity = new OTPActivity();
+                                otpActivity.setMobileNo(String.valueOf(body.getJSONObject("data").getString("mobileNo")));
+                                otpActivity.setOTP(String.valueOf(body.getJSONObject("data").getString("otp")));
+                                JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                                if (body.has("data")) {
+                                        if (body.getJSONObject("data").has("userid")) {
+                                            ((MyApplication) getApplication()).saveUserDetails(body.getJSONObject("data").toString());
+                                            JSONObject data = body.getJSONObject("data");
+                                            String userToken = data.getString("userToken");
+                                            MyApplication.saveUserToken(userToken);
+                                            if(body.getJSONObject("data").has("isGST")) {
+                                                Double newData = new Double((Double) body.getJSONObject("data").get("isGST"));
+                                                int k = newData.intValue();
+                                                ((MyApplication) getApplication()).setShowGstPopup(k);
+                                            }
+                                            gotoHomeScreen();
+                                        }else {
+                                            gotoRegistration();
+                                        }
+                                    whatsappDialog.hide();
+                                } else {
+                                    whatsappDialog.hide();
+                                    DialogUtils.showToast(LoginActivity.this, "Failed to sign in!");
+                                }
+                            } catch (JSONException e) {
+                                whatsappDialog.hide();
+                                DialogUtils.showToast(LoginActivity.this, "Failed to sign in!");
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Object> call, Throwable t) {
+                            whatsappDialog.hide();
+                            DialogUtils.stopProgressDialog();
+                            DialogUtils.showToast(LoginActivity.this, "Failed to sign in!");
+                        }
+                    });
+                } catch (JSONException e) {
+                    whatsappDialog.hide();
+                    DialogUtils.stopProgressDialog();
+                    DialogUtils.showToast(LoginActivity.this, "URL Expired! Please try again.");
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                whatsappDialog.hide();
+                DialogUtils.stopProgressDialog();
+                DialogUtils.showToast(LoginActivity.this,"Failed to sign in!");
+            }
+        });
     }
 
     private void startOTPActivity(String opt){
         Intent intent = new Intent(this,OTPActivity.class);
         intent.putExtra("mobileNo",edtUsername.getText().toString());
         intent.putExtra("OTP",opt);
+        startActivity(intent);
+    }
+    public void gotoRegistration() {
+        Intent intent = new Intent(this, RegistrationActivity.class);
+        intent.putExtra("mobileNo",mobilNo);
+        intent.putExtra("otp",otp);
+        startActivity(intent);
+    }
+    public void gotoHomeScreen() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra("mobileNo",mobilNo);
         startActivity(intent);
     }
 
@@ -137,7 +260,7 @@ public class LoginActivity extends AppCompatActivity {
                     saveToken(loginResponse.getToken());
                     gotoSyncActivity();
                 } else {
-                   DialogUtils.showToast(LoginActivity.this, "Login failed because of incoorect username or password");
+                   DialogUtils.showToast(LoginActivity.this, "Login failed because of incorrect username or password");
                     progressDialog.dismiss();
                 }
             }
@@ -193,11 +316,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 DialogUtils.stopProgressDialog();
-
-//
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                    Log.v("RESP",body.toString());
                     startOTPActivity(body.getJSONObject("data").getString("otp"));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -211,6 +331,44 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    private void getSignupUrl(){
+        ApiInterface apiServiceOtpLessCreds =
+                ApiClient.getClient().create(ApiInterface.class);
+        Call<Object> whats_url = apiServiceOtpLessCreds.getSignupUrl();
+        whats_url.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> whats_url, Response<Object> response) {
+                try {
+                    if (response.body() == null) {
+                        whatsappDialog.hide();
+                        DialogUtils.stopProgressDialog();
+                        DialogUtils.showToast(LoginActivity.this,"Please try again.");
+                    } else {
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                        JSONObject data = body.getJSONObject("data");
+                        initiateOtplessFlow(data.getString("url"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                whatsappDialog.hide();
+                DialogUtils.stopProgressDialog();
+                DialogUtils.showToast(LoginActivity.this,"Signing failed! Please try again.");
+            }
+        });
+    }
+
+    private void initiateOtplessFlow(String intentUri) {
+        final OtplessIntentRequest request = new OtplessIntentRequest(intentUri)
+                .setLoadingText("Please wait...");
+        request.setIntentType(IntentType.TEXT);
+        otpless.openOtpless(request);
     }
 
 }

@@ -163,7 +163,7 @@
                                     android:layout_weight="4"
                                     android:text="@string/invoice_no"
                                     android:textColor="@color/color_black"
-                                    android:textSize="12sp"
+                                    android:textSize="14sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -174,7 +174,7 @@
                                     android:padding="5dp"
                                     android:text="1"
                                     android:textColor="@color/color_black"
-                                    android:textSize="12sp" />
+                                    android:textSize="14sp" />
 
 
                             </LinearLayout>
@@ -193,7 +193,7 @@
                                     android:layout_weight="4"
                                     android:text="@string/invoice_date"
                                     android:textColor="@color/color_black"
-                                    android:textSize="12sp"
+                                    android:textSize="14sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -204,7 +204,7 @@
                                     android:padding="5dp"
                                     android:text="22-03-2018"
                                     android:textColor="@color/color_black"
-                                    android:textSize="12sp" />
+                                    android:textSize="14sp" />
 
                             </LinearLayout>
                         </LinearLayout>
@@ -231,7 +231,7 @@
                                     android:layout_weight="4"
                                     android:text="@string/name"
                                     android:textColor="@color/color_black"
-                                    android:textSize="12sp"
+                                    android:textSize="14sp"
                                     android:textStyle="bold" />
 
 
@@ -244,9 +244,10 @@
                                     android:inputType="textMultiLine"
                                     android:maxLength="50"
                                     android:padding="5dp"
+                                    android:layout_gravity="center"
                                     android:singleLine="false"
                                     android:textColor="@color/color_black"
-                                    android:textSize="12sp" />
+                                    android:textSize="14sp" />
 
                             </LinearLayout>
 
@@ -265,7 +266,7 @@
                                     android:layout_weight="4"
                                     android:text="@string/ct_enter_address_otp"
                                     android:textColor="@color/color_black"
-                                    android:textSize="12sp"
+                                    android:textSize="14sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -282,7 +283,7 @@
                                     android:maxLines="2"
                                     android:lines="5"
                                     android:textColor="@color/color_black"
-                                    android:textSize="12sp" />
+                                    android:textSize="14sp" />
 
                             </LinearLayout>
                         </LinearLayout>
@@ -309,7 +310,7 @@
                                     android:layout_weight="4"
                                     android:text="@string/mobile_no"
                                     android:textColor="@color/color_black"
-                                    android:textSize="12sp"
+                                    android:textSize="14sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -324,7 +325,7 @@
                                     android:padding="5dp"
                                     android:singleLine="false"
                                     android:textColor="@color/color_black"
-                                    android:textSize="12sp" />
+                                    android:textSize="14sp" />
 
 
                             </LinearLayout>
@@ -347,7 +348,7 @@
                                     android:layout_weight="4"
                                     android:text="@string/customer_gst"
                                     android:textColor="@color/color_black"
-                                    android:textSize="12sp"
+                                    android:textSize="14sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -362,7 +363,7 @@
                                     android:inputType="textMultiLine"
                                     android:singleLine="false"
                                     android:textColor="@color/color_black"
-                                    android:textSize="12sp" />
+                                    android:textSize="14sp" />
 
 
                             </LinearLayout>
@@ -779,6 +780,7 @@
                     android:orientation="vertical">
 
                     <include
+                        android:id="@+id/invoiceAmountLayoutUpdated"
                         layout="@layout/invoice_amount_layout_updated" />
 
                 </LinearLayout>

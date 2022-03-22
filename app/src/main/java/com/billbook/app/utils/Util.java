@@ -28,6 +28,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +37,7 @@ import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -86,6 +88,22 @@ public class Util {
         System.out.println("gst amount = " + gstAmount);
 
         return gstAmount;
+    }
+
+    public static float calculateDiscountPercentFromAmt(float discountAmt, float total){
+
+        float discountPercent=0;
+        if(total>0) {
+            discountPercent = ((discountAmt / total) * 100);
+        }
+        return discountPercent;
+    }
+
+    public static float calculateDiscountAmtFromPercent(float discountPercent, float total){
+
+        float discountAmt = 0;
+        discountAmt = ((discountPercent*total)/100);
+        return discountAmt;
     }
 
     public static String getTodaysdate() {
@@ -244,14 +262,14 @@ public class Util {
             dateFormatter.setTimeZone(TimeZone.getDefault());
             Date date = dateFormatter.parse(sDate1);
             @SuppressLint("SimpleDateFormat") DateFormat formatter =
-                    new SimpleDateFormat("dd MMM yyyy");
+                    new SimpleDateFormat("yyyy-MM-dd");
             dateToday = formatter.format(date.getTime());
         } catch (ParseException e) {
             e.printStackTrace();
             Date date = Calendar.getInstance().getTime();
             // Display a date in day, month, year format
             @SuppressLint("SimpleDateFormat") DateFormat formatter =
-                    new SimpleDateFormat("dd MMM yyyy");
+                    new SimpleDateFormat("yyyy-MM-dd");
             dateToday = formatter.format(date);
 
         }
@@ -314,6 +332,48 @@ public class Util {
                 }
             });
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setMeasurementUnits(){
+        try{
+            ApiInterface apiService =
+                    ApiClient.getClient().create(ApiInterface.class);
+
+            Map<String, String> map = new HashMap<>();
+            Call<Object> call = apiService.measuremntUnit(map);
+
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    DialogUtils.stopProgressDialog();
+                    try {
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                        if (body.getBoolean("status")) {
+                            JSONObject data = body.getJSONObject("data");
+                            JSONArray invoices = data.getJSONArray("invoices");
+                            List<String> measurementUnits = new ArrayList<String>();
+                            for(int i= 0;i<invoices.length();i++){
+                                measurementUnits.add(invoices.getJSONObject(i).getString("measurementAbreviation"));
+                            }
+                            MyApplication.measurementUnits = measurementUnits;
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    //DialogUtils.stopProgressDialog();
+                    //DialogUtils.showToast(HomeActivity.this, "Failed update profile to server");
+                }
+            });
+
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
     }

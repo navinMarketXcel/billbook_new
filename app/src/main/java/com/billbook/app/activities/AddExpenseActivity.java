@@ -61,6 +61,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expens);
+        setTitle("Expenses");
         initUI();
     }
     private void initUI(){
@@ -186,9 +187,12 @@ public class AddExpenseActivity extends AppCompatActivity {
                                     MyApplication.getDatabase().getExpModelDao().insertExpense(expense1);
                                 }
                             });
+                            DialogUtils.showToast(getApplicationContext(),"Expense successfully created");
                             AddExpenseActivity.this.finish();
-                        } else if (isEdit && body.getBoolean("status"))
+                        } else if (isEdit && body.getBoolean("status")){
+                            DialogUtils.showToast(getApplicationContext(),"Expense successfully updated");
                             AddExpenseActivity.this.finish();
+                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -211,6 +215,13 @@ public class AddExpenseActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             MyApplication.saveUnSyncedExpenses(exp.toString());
+            DialogUtils.showToast(getApplicationContext(),"Expense saved in offline");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    AddExpenseActivity.this.finish();
+                }
+            },1000);
         }else{
             try {
                 JSONArray jsonArray =  new JSONArray(expenses);

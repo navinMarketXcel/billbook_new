@@ -72,7 +72,7 @@ private void startSplash(){
         public void run() {
             try {
                 JSONObject profile = new JSONObject(((MyApplication) getApplication()).getUserDetails());
-                if (profile.has("shopName")) {
+                if (profile.has("userToken") && profile.has("shopName")) {
                     Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                     startActivity(intent);
                 } else {

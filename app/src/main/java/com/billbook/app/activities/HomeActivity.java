@@ -6,8 +6,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+
+import com.billbook.app.BuildConfig;
+import com.billbook.app.database.daos.NewInvoiceDao;
+import com.billbook.app.database.models.InvoiceModelV2;
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,8 +24,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.billbook.app.services.SyncService;
@@ -38,6 +48,7 @@ import org.json.JSONObject;
 import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -49,6 +60,13 @@ import retrofit2.Response;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
+
+import com.inmobi.ads.AdMetaInfo;
+import com.inmobi.ads.InMobiAdRequestStatus;
+import com.inmobi.ads.InMobiBanner;
+import com.inmobi.ads.listeners.BannerAdEventListener;
+import com.inmobi.sdk.InMobiSdk;
+import com.inmobi.sdk.SdkInitializationListener;
 import com.squareup.picasso.Picasso;
 
 public class HomeActivity extends AppCompatActivity
@@ -65,8 +83,12 @@ public class HomeActivity extends AppCompatActivity
     private FirebaseAnalytics mFirebaseAnalytics;
     private TextView syncText;
     private JSONObject profile;
-
-
+    private JSONArray exp = null;
+    private String expString;
+    InMobiBanner mBannerAd1,mBannerAd2;
+    // replace with actual placementId from InMobi
+    private long placementId1= Long.parseLong(BuildConfig.PlacementId1);
+    private long placementId2=Long.parseLong(BuildConfig.PlacementId2);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,12 +97,15 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         initUI();
+        Util.setMeasurementUnits();
         try {
             userProfile= new JSONObject (((MyApplication)getApplication()).getUserDetails());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-//    Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"database-name.db").addMigrations(addInvoiceNumber).build();
+        InMobiInitialization();
+
+        //    Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"database-name.db").addMigrations(addInvoiceNumber).build();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle =
@@ -123,7 +148,7 @@ public class HomeActivity extends AppCompatActivity
         setToolbar();
 
 //        isGSTVerified();
-updateGST();
+        updateGST();
 //        CustomPartialyClickableTextview customPartialyClickableTextview = (CustomPartialyClickableTextview) findViewById(R.id.txtWhatsAppNumber);
 
         /**
@@ -165,6 +190,137 @@ updateGST();
 //    customPartialyClickableTextview.addClickPattern("weblink",weblink);
     }
 
+    private void InMobiInitialization() {
+        JSONObject consentObject = new JSONObject();
+
+        try{
+            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE,true);
+            consentObject.put("gdpr","0");
+            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_IAB,"<< CONSENT in IAB Format");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        try {
+            // replace empty string with account Id of InMobi
+            InMobiSdk.init(this, BuildConfig.AccountId, consentObject, new SdkInitializationListener() {
+                @Override
+                public void onInitializationComplete(@Nullable Error error) {
+                    if (null != error) {
+                    } else {
+                        if (null == mBannerAd1 && null == mBannerAd2) {
+                            createBannerAd();
+                        } else if (mBannerAd2 == null) {
+                            mBannerAd1.load();
+                        } else if (mBannerAd1 == null) {
+                            mBannerAd2.load();
+                        } else {
+                            mBannerAd1.load();
+                            mBannerAd2.load();
+                        }
+
+                    }
+                }
+            });
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void createBannerAd(){
+        mBannerAd1 = new InMobiBanner(this, placementId1);
+        mBannerAd2 = new InMobiBanner(this, placementId2);
+        RelativeLayout adContainer = (RelativeLayout) findViewById(R.id.parent);
+        int width = toPixelUnits(320);
+        int height = toPixelUnits(50);
+
+        // mBannerAd1
+        RelativeLayout.LayoutParams bannerLayoutParams1 = new RelativeLayout.LayoutParams(width, height);
+        bannerLayoutParams1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        bannerLayoutParams1.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        mBannerAd1.setAnimationType(InMobiBanner.AnimationType.ROTATE_HORIZONTAL_AXIS);
+        mBannerAd1.setLayoutParams(bannerLayoutParams1);
+        mBannerAd1.setRefreshInterval(20);
+        adContainer.addView(mBannerAd1);
+        mBannerAd1.load();
+
+        // mBannerAd2
+        RelativeLayout.LayoutParams bannerLayoutParams2 = new RelativeLayout.LayoutParams(width, height);
+        bannerLayoutParams2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        bannerLayoutParams2.addRule(RelativeLayout.CENTER_HORIZONTAL);
+        bannerLayoutParams2.setMargins(0,0,0,toPixelUnits(55));
+        mBannerAd2.setAnimationType(InMobiBanner.AnimationType.ROTATE_HORIZONTAL_AXIS);
+        mBannerAd2.setLayoutParams(bannerLayoutParams2);
+        mBannerAd2.setRefreshInterval(30);
+        adContainer.addView(mBannerAd2);
+
+        mBannerAd2.load();
+        setupBannerAd(mBannerAd2);
+        setupBannerAd(mBannerAd1);
+
+        // to dynamically make space for ad
+//        ViewGroup.LayoutParams main2Lp = ((ViewGroup) main2).getLayoutParams();
+//
+//        if(main2Lp instanceof ViewGroup.MarginLayoutParams){
+//            ((ViewGroup.MarginLayoutParams) main2Lp).bottomMargin = toPixelUnits(50);
+//        }
+//        else{
+//            Log.d(TAG, "setBannerLayoutParams: Not able to set bottom margin");
+//        }
+
+    }
+
+    private void setupBannerAd(InMobiBanner mBannerAd){
+        try{
+            mBannerAd.setListener(new BannerAdEventListener() {
+
+                @Override
+                public void onAdLoadSucceeded(@NonNull InMobiBanner inMobiBanner, @NonNull AdMetaInfo adMetaInfo) {
+                    super.onAdLoadSucceeded(inMobiBanner, adMetaInfo);
+                }
+
+                @Override
+                public void onAdLoadFailed(@NonNull InMobiBanner inMobiBanner, @NonNull InMobiAdRequestStatus inMobiAdRequestStatus) {
+                    super.onAdLoadFailed(inMobiBanner, inMobiAdRequestStatus);
+                }
+
+                @Override
+                public void onAdClicked(@NonNull InMobiBanner inMobiBanner, Map<Object, Object> map) {
+                    super.onAdClicked(inMobiBanner, map);
+                }
+
+                @Override
+                public void onAdDisplayed(@NonNull InMobiBanner inMobiBanner) {
+                    super.onAdDisplayed(inMobiBanner);
+                }
+
+                @Override
+                public void onAdDismissed(@NonNull InMobiBanner inMobiBanner) {
+                    super.onAdDismissed(inMobiBanner);
+                }
+
+                @Override
+                public void onUserLeftApplication(@NonNull InMobiBanner inMobiBanner) {
+                    super.onUserLeftApplication(inMobiBanner);
+                }
+
+                @Override
+                public void onRewardsUnlocked(@NonNull InMobiBanner inMobiBanner, Map<Object, Object> map) {
+                    super.onRewardsUnlocked(inMobiBanner, map);
+                }
+
+            });
+            mBannerAd.load();
+        }catch(Exception e) {
+           e.printStackTrace();
+        }
+    }
+
+    private int toPixelUnits(int dipUnit) {
+        float density = getResources().getDisplayMetrics().density;
+        return Math.round(dipUnit * density);
+    }
+
     private void initUI() {
 
         try {
@@ -192,10 +348,15 @@ updateGST();
         btnGetSalesReport.setOnClickListener(this);
         btnSearchInvoice.setOnClickListener(this);
         setAlarm();
+        // for displaying sync message on HomeActivity
+        syncOffLineInvoiceFromDatabase();
         try {
-            JSONArray inv = new JSONArray(MyApplication.getUnSyncedInvoice());
-            JSONArray exp = new JSONArray(MyApplication.getUnSyncedExpenses());
-            if ((inv != null && inv.length() > 0) || (exp != null && exp.length()>0))
+             exp = null;
+             expString = MyApplication.getUnSyncedExpenses();
+            if (expString.length() > 0)
+                exp = new JSONArray(expString);
+
+            if ((exp != null && exp.length() > 0))
                 syncText.setVisibility(View.VISIBLE);
             else
                 syncText.setVisibility(View.INVISIBLE);
@@ -204,6 +365,34 @@ updateGST();
         }
 
     }
+
+    public  void syncOffLineInvoiceFromDatabase(){
+        new HomeActivity.FetchInvoice(MyApplication.getDatabase().newInvoiceDao()).execute();
+    }
+
+
+    private class FetchInvoice extends AsyncTask<Void,Void, List<InvoiceModelV2>> {
+        NewInvoiceDao newInvoiceDao;
+        private FetchInvoice(NewInvoiceDao newInvoiceDao){
+            this.newInvoiceDao =newInvoiceDao;
+        }
+        @Override
+        protected List<InvoiceModelV2> doInBackground(Void... voids) {
+            return newInvoiceDao.getAllOffLineInvoice();
+        }
+
+        @Override
+        protected void onPostExecute(List<InvoiceModelV2> invoiceModelV2List) {
+            super.onPostExecute(invoiceModelV2List);
+
+            if (invoiceModelV2List.size()>0 || ((exp != null && exp.length() > 0)))
+                syncText.setVisibility(View.VISIBLE);
+            else
+                syncText.setVisibility(View.INVISIBLE);
+
+        }
+    }
+
 
     private void setToolbar() {
 
@@ -307,8 +496,12 @@ updateGST();
                 getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),
                         MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(getString(R.string.user_login_token), " ");
-        editor.commit();
+        editor.clear();
+        editor.apply();
+        finish();
+
+//        editor.putString(getString(R.string.user_login_token), " ");
+//        editor.commit();
 //    MyApplication.saveGetCategoriesLAST_SYNC_TIMESTAMP(0);
 //    MyApplication.saveGetBrandLAST_SYNC_TIMESTAMP(0);
 //    MyApplication.saveGetProductLAST_SYNC_TIMESTAMP(0);
@@ -398,6 +591,7 @@ updateGST();
     @Override
     protected void onResume() {
         super.onResume();
+
         try {
             userProfile= new JSONObject (MyApplication.getUserDetails());
             updateDrawerProfileImg();
@@ -406,7 +600,23 @@ updateGST();
             e.printStackTrace();
         }
         startSpotLight(btnBilling, "Billing", "This will be used for billing.");
-
+        try{
+            if(null==mBannerAd1){
+                mBannerAd1.load();
+            }
+            else{
+                setupBannerAd(mBannerAd1);
+            }
+            if(null==mBannerAd2){
+                mBannerAd2.load();
+            }
+            else{
+                setupBannerAd(mBannerAd2);
+            }
+        }
+        catch(Exception e){
+         e.printStackTrace();
+        }
     }
 
     public void updateDrawerProfileImg(){
@@ -423,6 +633,9 @@ updateGST();
                         .centerCrop()
                         .into(iv);
             }
+            else{
+                iv.setImageResource(R.drawable.man_new);
+            }
         }
         catch (JSONException e){
             e.fillInStackTrace();
@@ -435,7 +648,6 @@ updateGST();
                 ApiClient.getClient().create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
-
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Authorization", token);
         Map<String, String> body = new HashMap<>();

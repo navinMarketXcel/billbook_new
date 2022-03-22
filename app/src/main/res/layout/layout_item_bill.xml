@@ -51,7 +51,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="4"
             android:gravity="left|center"
-            android:text="@string/enter_price_new"
+            android:text="@string/price"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -212,7 +212,7 @@
             android:layout_weight="6"
             android:hint="@string/enter_hsnNo"
             android:inputType="number"
-            android:maxLength="6"
+            android:maxLength="8"
             android:singleLine="true"
             />
     </TableRow>

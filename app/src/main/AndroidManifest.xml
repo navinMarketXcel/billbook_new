@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.billbook.app">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- optional - for better targeting of ads, ACCESS_WIFI_STATE and  CHANGE_WIFI_STATE  -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- <uses-permission android:name="android.permission.SEND_SMS" /> -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -24,7 +28,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:icon,android:allowBackup"
+        tools:replace="android:icon,android:allowBackup,android:roundIcon"
         tools:targetApi="honeycomb">
         <activity android:name=".activities.StoragePermissionRequestActivity"></activity>
         <activity
@@ -79,7 +83,22 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustPan">
+        </activity>
+
+        <activity
+            android:name="com.otpless.main.OtplessLoginActivity"
+            android:launchMode="singleTop"
+            android:exported="true">
+            <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:host="otpless" android:scheme="billbook"/>
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".activities.CategoriesActivity"
             android:label="@string/categories"
@@ -188,7 +207,9 @@
         <activity
             android:name=".activities.RegistrationActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
+
         <activity
             android:name=".activities.OTPActivity"
             android:screenOrientation="portrait"

@@ -6,19 +6,31 @@ import androidx.room.Room;
 import androidx.room.migration.Migration;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.billbook.app.R;
 import com.billbook.app.database.AppDatabase;
 import com.billbook.app.database.models.User;
+import com.billbook.app.networkcommunication.ApiClient;
+import com.billbook.app.networkcommunication.ApiInterface;
+import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.Constants;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyApplication extends Application {
     static final Migration MIGRATION_2_3 = new Migration(2, 3) {
@@ -34,6 +46,8 @@ public class MyApplication extends Application {
     public static JSONObject userProfile;
     public static User user;
     static List<String> stateList = new ArrayList<>();
+    public static long localInvoiceId = 0;
+    public static List<String> measurementUnits;
 
     public static List<String> getStateList() {
         return stateList;
@@ -43,6 +57,25 @@ public class MyApplication extends Application {
         return db;
     }
 
+    public static void setLocalInvoiceId(long localInvoiceId){
+        SharedPreferences sharedPref = context.getSharedPreferences("MarketExcelAppPref",
+                context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong("localInvoiceId", localInvoiceId);
+        editor.commit();
+    }
+
+    public static long getLocalInvoiceId(){
+        SharedPreferences sharedPref = context.getSharedPreferences("MarketExcelAppPref",
+                context.MODE_PRIVATE);
+        long localInvoiceId = sharedPref.getLong("localInvoiceId",1);
+        return localInvoiceId;
+    }
+
+    public static List<String> getMeasurementUnits(){
+        return measurementUnits;
+    }
+
     public static String getUserToken() {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
@@ -50,6 +83,7 @@ public class MyApplication extends Application {
         return token;
 
     }
+
     public static void saveUserToken(String token) {
         SharedPreferences sharedPref =
                 context.getSharedPreferences(context.getString(R.string.preference_file_key),
@@ -58,6 +92,8 @@ public class MyApplication extends Application {
         editor.putString(context.getString(R.string.user_login_token), token);
         editor.commit();
     }
+
+
 
     public static boolean showGST() {
 
@@ -398,7 +434,6 @@ public class MyApplication extends Application {
                 .build();
         context = getApplicationContext();
         formStateList();
-
     }
 
     private void formStateList() {

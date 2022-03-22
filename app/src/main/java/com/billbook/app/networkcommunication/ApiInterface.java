@@ -218,4 +218,23 @@ public interface ApiInterface {
 
     @POST ("loggerAPI")
     Call<Object> loggerAPI(@Body JSONObject body);
+
+    @GET("measurements")
+    Call<Object>measuremntUnit(@HeaderMap Map<String,String> headers);
+
+    @POST("getPincode")
+    Call<Object>pincode(@Body HashMap<String,String> body);
+
+    @POST("searchItems")
+    Call<Object>searchItem(@Body HashMap<String,String> body);
+
+    @POST("searchMeasurementId")
+    Call<Object>fetchMeasurementIdForItem(@Body HashMap<String,String> body);
+
+    @GET("getSignupUrl/")
+    Call<Object> getSignupUrl();
+
+    @POST("getUserDetails/")
+    Call<Object> getUserDetails(@Body HashMap<String,String> body);
+
 }

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.billbook.app.R;
+import com.billbook.app.activities.MyApplication;
+import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.NewInvoiceModels;
 import com.billbook.app.utils.Util;
 
@@ -20,17 +24,19 @@ import java.util.List;
 
 public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.MyViewHolder>  {
     private static final String TAG = "BilliADP";
-    private ArrayList<NewInvoiceModels> newInvoiceModels;
+    private ArrayList<InvoiceItems> newInvoiceModels;
     private Context context;
     private onItemClick onItemClick;
     private boolean isGSTAvailable;
     private List<String> measurementUnitTypeList;
-    public NewBillingAdapter(ArrayList<NewInvoiceModels> newInvoiceModels, Context context, boolean isGSTAvailable) {
+    public NewBillingAdapter(ArrayList<InvoiceItems> newInvoiceModels, Context context, boolean isGSTAvailable) {
         this.newInvoiceModels = newInvoiceModels;
         this.context = context;
         onItemClick = (NewBillingAdapter.onItemClick) context;
         this.isGSTAvailable=isGSTAvailable;
 
+        getMeasurementUnit();
+        if(measurementUnitTypeList==null)
         this.measurementUnitTypeList=  Arrays.asList (context.getResources().getStringArray(R.array.measurementUnit));
     }
 
@@ -44,7 +50,7 @@ public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull NewBillingAdapter.MyViewHolder myViewHolder, @SuppressLint("RecyclerView") final int position) {
-        NewInvoiceModels newInvoiceModel = newInvoiceModels.get(position);
+        InvoiceItems newInvoiceModel = newInvoiceModels.get(position);
         myViewHolder.tvSrNoTv.setText(""+(position+1));
         myViewHolder.itemNameHdTv.setText(newInvoiceModel.getName());
         String quantity = newInvoiceModel.getQuantity() + "";
@@ -101,5 +107,15 @@ public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.My
     }
     public interface  onItemClick {
         public void itemClick(int position,boolean isEdit);
+    }
+
+    public void getMeasurementUnit(){
+        try{
+            List<String>onlineMeasurementUnit = MyApplication.getMeasurementUnits();
+            if(onlineMeasurementUnit!=null)measurementUnitTypeList = onlineMeasurementUnit;
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

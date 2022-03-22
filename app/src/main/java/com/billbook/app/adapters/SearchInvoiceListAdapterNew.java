@@ -82,7 +82,10 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                     holder.tvInvoiceValue.setText("Invoice No: "+(isGST?requestInvoice.getInt("gstBillNo"):requestInvoice.getInt("nonGstBillNo") ));
             holder.tvInvoiceCustNameValue.setText("Customer Name: "+requestInvoice.getString("customerName"));
 //            holder.tvQuantityValue.setText("" + requestInvoice.getInt("quantity"));
-            holder.tvTotalAmtValue.setText("Total Amount: " + Util.formatDecimalValue((float)requestInvoice.getDouble("totalAmount")));
+            if(requestInvoice.has("discount") && requestInvoice.has("totalAfterDiscount")&& requestInvoice.getDouble("discount")!=0 && requestInvoice.getDouble("totalAfterDiscount")!=0)
+                holder.tvTotalAmtValue.setText("Total Amount: " + Util.formatDecimalValue((float)requestInvoice.getDouble("totalAfterDiscount")));
+            else
+                holder.tvTotalAmtValue.setText("Total Amount: " + Util.formatDecimalValue((float)requestInvoice.getDouble("totalAmount")));
 //            String sDate1 = requestInvoice.getCreatedAt();
             String formatedDate = getFormatedDate(requestInvoice.getString("invoiceDate"));
 
@@ -120,8 +123,19 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                         Intent i = new Intent(Intent.ACTION_VIEW);
                         try {
                             if(requestInvoice.has("pdfLink") && requestInvoice.getString("pdfLink")!=null) {
-                                i.setData(Uri.parse(requestInvoice.getString("pdfLink")));
-                                context.startActivity(i);
+                                String pdfLink = requestInvoice.getString("pdfLink");
+
+                                if(pdfLink.contains("http://")){
+                                    pdfLink = pdfLink.replace("http://", "https://");
+                                }
+
+                                i.setData(Uri.parse(pdfLink));
+                                try{
+                                    context.startActivity(i);
+                                }catch(Exception e){
+                                    DialogUtils.showToast(context, "Browser not installed");
+                                    e.printStackTrace();
+                                }
                             }
                             else{
                                 Util.postEvents("Edit","Edit",context.getApplicationContext());
@@ -248,7 +262,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             Date date = dateFormatter.parse(sDate1);
 
             @SuppressLint("SimpleDateFormat") DateFormat formatter =
-                    new SimpleDateFormat("dd MMM yyyy");
+                    new SimpleDateFormat("yyyy-MM-dd");
 //            dateToday = formatter.format(date.getTime()+TimeZone.getDefault().getRawOffset());
             dateToday = formatter.format(date);
         } catch (ParseException e) {
@@ -256,7 +270,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             Date date = Calendar.getInstance().getTime();
             // Display a date in day, month, year format
             @SuppressLint("SimpleDateFormat") DateFormat formatter =
-                    new SimpleDateFormat("dd MMM yyyy");
+                    new SimpleDateFormat("yyyy-MM-dd");
             dateToday = formatter.format(date);
         }
         return dateToday;
