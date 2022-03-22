@@ -140,10 +140,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         getUSerData();
         getMeasurementUnit();
         initUI();
-        searchItemAutoComplete();
         checkIsEdit();
         loadDataForInvoice();
         getInvoiceItemsFromDatabase();
+        searchItemAutoComplete();
 
     }
 
@@ -321,7 +321,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    billItemBinding.itemNameET.showDropDown();
+                    try{
+                        billItemBinding.itemNameET.showDropDown();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
@@ -511,7 +515,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     true,
                     billItemBinding.imeiNo.getText().toString(),
                     billItemBinding.hsnNo.getText().toString(),
-                    billItemBinding.unit.getSelectedItemPosition());
+                    billItemBinding.unit.getSelectedItemPosition(),-1);
 
             binding.cardItemList.setVisibility(View.VISIBLE);
             binding.layoutBillItemInitial.setVisibility(View.GONE);
@@ -521,14 +525,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     }
 
-    public void addItemToDatabase(final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId){
+    public void addItemToDatabase(final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId, long masterItemId){
         // When editing an invoice item
         if(isNew==false){
             int localId = invoiceItemsList.get(editPosition).getLocalid();
             long curLocalInvoiceId = invoiceItemsList.get(editPosition).getLocalInvoiceId();
             setTotal(invoiceItemsList.get(editPosition), false);
             calculateAmountBeforeGST(invoiceItemsList.get(editPosition), false);
-            InvoiceItems newInvoiceItem  = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,0,localId,curLocalInvoiceId);
+            InvoiceItems newInvoiceItem  = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,0,localId,curLocalInvoiceId,masterItemId);
             invoiceItemViewModel.updateByLocalId(newInvoiceItem);
             setTotal(newInvoiceItem, true);
             calculateDiscount();
@@ -536,7 +540,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             return;
         }
 
-        InvoiceItems newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,0,1,localInvoiceId);
+        InvoiceItems newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,0,1,localInvoiceId,masterItemId);
         invoiceItemViewModel.insert(newInvoiceItem);
         setTotal(newInvoiceItem, true);
         calculateDiscount();
@@ -790,7 +794,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                                 this.newInvoiceModel == null ? true : false,
                                 imeiNo.getText().toString(),
                                 hsnNo.getText().toString(),
-                                measurementUnitSpinner.getSelectedItemPosition());
+                                measurementUnitSpinner.getSelectedItemPosition(),-1);
 
                         dismiss();
                     }
@@ -992,6 +996,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 String items = gson.toJson(invoiceItemsList);
 
                 requestObj.put("items", new JSONArray(items));
+                Log.d(TAG, "startPDFActivity: " + items);
                 if (isEdit && invoiceItemsList.size() == 0) {
                     requestObj.put("is_active", false);
                 }
@@ -1183,7 +1188,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
                 ApiClient.getClient(this).create(ApiInterface.class);
-        Map<String, String> headerMap = new HashMap<>();
+        Map<String, String>
+                erMap = new HashMap<>();
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse(invoice.toString());
         headerMap.put("Content-Type", "application/json");
@@ -1247,14 +1253,15 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                     } else {
                         Util.postEvents("Make Bill Fail", "Make Bill Fail:elseStatus", getApplicationContext());
-                        Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()),BillingNewActivity.this);
+                        if(body!=null)
+                         Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()));
                         DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
                     }
                 } catch (JSONException e) {
-                   assert body != null;
-                   Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()),BillingNewActivity.this);
+                   if(body!=null)
+                    Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()));
                    Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
-                    e.printStackTrace();
+                   e.printStackTrace();
                 }
             }
 
@@ -1359,6 +1366,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         if (getIntent().hasExtra("edit")) {
             try {
+                Log.d(TAG, "loadDataForInvoice: " + invoice);
                 binding.nextBtn.setText("Update Invoice");
                 if (isGSTAvailable)
                     serialNumber = invoice.getInt("gstBillNo");
@@ -1378,8 +1386,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 binding.edtGST.setText(invoice.getString("GSTNo"));
                 binding.edtMobNo.setText(invoice.getString("customerMobileNo"));
 
-
-                invoiceItemEditModel = gson.fromJson(invoice.getJSONArray("masterItems").toString(), new TypeToken<List<InvoiceItems>>() {
+                JSONArray masterItems = invoice.getJSONArray("masterItems");
+                invoiceItemEditModel = gson.fromJson(masterItems.toString(), new TypeToken<List<InvoiceItems>>() {
                 }.getType());
 
                 invoiceItemViewModel.deleteAll(invoiceIdIfEdit);
@@ -1395,7 +1403,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             true,
                             curItem.getImei(),
                             curItem.getSerial_no(),
-                            curItem.getMeasurementId()
+                            curItem.getMeasurementId(),
+                            (long)masterItems.getJSONObject(i).getInt("id")
                             );
                 }
                 total = (float) invoice.getDouble("totalAmount");
@@ -1440,7 +1449,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         }
     }
-
 
 
     public void scanCode(View v) {

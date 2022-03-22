@@ -9,6 +9,7 @@
     <color name="color_common_text_home">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
     <color name="grey">#4b4b4b</color>
+    <color name="red">#FF0000</color>
     <color name="mdtp_accent_color">#1d4388</color>
     <color name="mdtp_accent_color_dark">#1e4388</color>
 </resources>

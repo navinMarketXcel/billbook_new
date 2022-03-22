@@ -122,8 +122,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 toAndFromDate.setText("");
             }
         });
-// If you're calling this from a support Fragment
         dpd.setMaxDate(now);
+// If you're calling this from a support Fragment
         dpd.show(getFragmentManager(), "Datepickerdialog");
     }
     private void initUI() {

@@ -92,6 +92,14 @@ public class OTPActivity extends AppCompatActivity {
 
     }
 
+    public void setMobileNo(String mobilNo){
+        this.mobilNo = mobilNo;
+    }
+
+    public void setOTP(String otp){
+        this.OTP = otp;
+    }
+
     @Override
     protected void onStart() {
         super.onStart();

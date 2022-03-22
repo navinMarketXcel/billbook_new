@@ -38,6 +38,7 @@ public class PdfWriter {
     public File exportPDF(final String filePath) {
 
         DisplayMetrics metrics = mPrintContext.getResources().getDisplayMetrics();
+
         //        DisplayMetrics dm = new DisplayMetrics();
         //        contentViewGroup.getDisplay().getMetrics(dm);
 
