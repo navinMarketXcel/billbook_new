@@ -156,9 +156,11 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     whatsappDialog.hide();
                                 } else {
+                                    whatsappDialog.hide();
                                     DialogUtils.showToast(LoginActivity.this, "Failed to sign in!");
                                 }
                             } catch (JSONException e) {
+                                whatsappDialog.hide();
                                 DialogUtils.showToast(LoginActivity.this, "Failed to sign in!");
                                 e.printStackTrace();
                             }
@@ -166,17 +168,22 @@ public class LoginActivity extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<Object> call, Throwable t) {
+                            whatsappDialog.hide();
                             DialogUtils.stopProgressDialog();
                             DialogUtils.showToast(LoginActivity.this, "Failed to sign in!");
                         }
                     });
                 } catch (JSONException e) {
+                    whatsappDialog.hide();
+                    DialogUtils.stopProgressDialog();
+                    DialogUtils.showToast(LoginActivity.this, "URL Expired! Please try again.");
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
+                whatsappDialog.hide();
                 DialogUtils.stopProgressDialog();
                 DialogUtils.showToast(LoginActivity.this,"Failed to sign in!");
             }
@@ -336,6 +343,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<Object> whats_url, Response<Object> response) {
                 try {
                     if (response.body() == null) {
+                        whatsappDialog.hide();
+                        DialogUtils.stopProgressDialog();
+                        DialogUtils.showToast(LoginActivity.this,"Please try again.");
                     } else {
                         JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                         JSONObject data = body.getJSONObject("data");
@@ -347,8 +357,9 @@ public class LoginActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
+                whatsappDialog.hide();
                 DialogUtils.stopProgressDialog();
-                DialogUtils.showToast(LoginActivity.this,"Failed to get AuthKey");
+                DialogUtils.showToast(LoginActivity.this,"Signing failed! Please try again.");
             }
         });
     }
