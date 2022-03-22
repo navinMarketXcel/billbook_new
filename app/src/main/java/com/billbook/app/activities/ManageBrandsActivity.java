@@ -191,7 +191,7 @@ public class ManageBrandsActivity extends AppCompatActivity {
         req.put("brand", jsonArray);
         user.setBrand(jsonArray.toString());
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Call<User> call = apiService.updateCategories(headerMap, userId, req);
         call.enqueue(new Callback<User>() {
             @SuppressLint("StaticFieldLeak")

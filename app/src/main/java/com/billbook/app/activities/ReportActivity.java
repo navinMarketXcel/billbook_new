@@ -174,7 +174,7 @@ public class ReportActivity extends AppCompatActivity implements View.OnClickLis
 
     public void sendReportApiCall() {
         progressDialog = DialogUtils.startProgressDialog(ReportActivity.this, "");
-        AppRepository.getInstance().SendReportAPI(selectedFromDateLong, selectedToDateLong).observe(ReportActivity.this, new Observer<Integer>() {
+        AppRepository.getInstance().SendReportAPI(selectedFromDateLong, selectedToDateLong,this).observe(ReportActivity.this, new Observer<Integer>() {
             @Override
             public void onChanged(@Nullable Integer integer) {
                 Log.v(TAG, "integer::" + integer.intValue());

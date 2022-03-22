@@ -122,7 +122,7 @@ public class LedgerLoginActivity extends AppCompatActivity {
 
         final ProgressDialog dialog = DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
 
         String token = MyApplication.getUserToken();
 

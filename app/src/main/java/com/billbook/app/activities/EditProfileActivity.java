@@ -182,7 +182,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     if (getCurrentFocus() == pincode) {
                         if (s.length() == 6) {
                             pincodeProgressBar.setVisibility(View.VISIBLE);
-                            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+                            ApiInterface apiService = ApiClient.getClient(EditProfileActivity.this).create(ApiInterface.class);
                             Map<String, String> req = new HashMap<>();
                             req.put("pincode", s.toString());
                             Call<Object> call = apiService.pincode((HashMap<String, String>) req);
@@ -384,7 +384,7 @@ public class EditProfileActivity extends AppCompatActivity {
         DialogUtils.startProgressDialog(this, "");
         try {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
         Map<String, String> req = new HashMap<>();
 
@@ -599,7 +599,7 @@ public class EditProfileActivity extends AppCompatActivity {
         try {
 //            DialogUtils.startProgressDialog(this, "");
             ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
+                    ApiClient.getClient(this).create(ApiInterface.class);
 
             Map<String, Integer> map = new HashMap<>();
             map.put("isGST", gstStatus);
@@ -638,7 +638,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private void updateUserAPI() throws IOException {
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
 
         RequestBody email = RequestBody.create(MediaType.parse("multipart/form-data"), emailEdt.getText().toString());
@@ -803,7 +803,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
 
         RequestBody isPic = RequestBody.create(MediaType.parse("multipart/form-data"), "0");

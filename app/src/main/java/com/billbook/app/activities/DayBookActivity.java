@@ -159,7 +159,7 @@ public class DayBookActivity extends AppCompatActivity {
 
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
 
         headerMap.put("Content-Type", "application/json");
@@ -270,7 +270,7 @@ public class DayBookActivity extends AppCompatActivity {
     public void sendReport(String startdate, String endDate,String email){
         DialogUtils.startProgressDialog(this, "Sending to email");
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
 
         headerMap.put("Content-Type", "application/json");

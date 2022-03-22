@@ -116,7 +116,11 @@ public class LoginActivity extends AppCompatActivity {
         HashMap<String,String> token = new HashMap<>();
         token.put("token",response.getToken());
         ApiInterface apiServiceOtpLessCreds =
+<<<<<<< HEAD
+                ApiClient.getClient(this).create(ApiInterface.class);
+=======
                 ApiClient.getClient().create(ApiInterface.class);
+>>>>>>> b8ead4209bdfed0e9badcf0bd6d1b88f727d3dc0
         Call<Object> whats_url = apiServiceOtpLessCreds.getUserDetails(token);
         whats_url.enqueue(new Callback<Object>() {
             @Override
@@ -247,7 +251,7 @@ public class LoginActivity extends AppCompatActivity {
         loginRequest.setUsername(username);
         loginRequest.setPassword(password);
 
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(this).create(ApiInterface.class);
         Call<LoginResponse> call = apiService.doLogin(loginRequest);
         call.enqueue(new Callback<LoginResponse>() {
             @Override
@@ -305,7 +309,7 @@ public class LoginActivity extends AppCompatActivity {
     private void getOTP(){
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
         Map<String, String> req = new HashMap<>();
         req.put("mobileNo",edtUsername.getText().toString());
@@ -336,7 +340,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getSignupUrl(){
         ApiInterface apiServiceOtpLessCreds =
+<<<<<<< HEAD
+                ApiClient.getClient(this).create(ApiInterface.class);
+=======
                 ApiClient.getClient().create(ApiInterface.class);
+>>>>>>> b8ead4209bdfed0e9badcf0bd6d1b88f727d3dc0
         Call<Object> whats_url = apiServiceOtpLessCreds.getSignupUrl();
         whats_url.enqueue(new Callback<Object>() {
             @Override

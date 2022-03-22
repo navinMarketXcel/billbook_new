@@ -296,7 +296,7 @@ public class SendPDFActivity extends AppCompatActivity implements View.OnClickLi
 //    headerMap.put("Content-Type", "application/x-www-form-urlencoded");
 
             ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
+                    ApiClient.getClient(this).create(ApiInterface.class);
             Call<RequestInvoice> call = apiService.uploadInvoicePDf(headerMap, mPrintInvoiceObj.getInvoice().getId(), filePart);
             call.enqueue(new Callback<RequestInvoice>() {
                 @Override

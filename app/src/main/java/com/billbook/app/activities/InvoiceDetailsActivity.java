@@ -130,7 +130,7 @@ public class InvoiceDetailsActivity extends AppCompatActivity {
         if (Util.isNetworkAvailable(getApplicationContext())) {
             int invoiceID = Integer.parseInt(edtInvoiceNo.getText().toString());
             long dateTime = new Date().getTime();
-            AppRepository.getInstance().getInvoiceAPIForInvoiceIDAndDate(invoiceID, dateTime).observe(InvoiceDetailsActivity.this, new Observer<RequestInvoice>() {
+            AppRepository.getInstance().getInvoiceAPIForInvoiceIDAndDate(invoiceID, dateTime,this).observe(InvoiceDetailsActivity.this, new Observer<RequestInvoice>() {
                 @Override
                 public void onChanged(@Nullable RequestInvoice requestInvoice) {
                     Log.v(TAG, "RequestInvoice::" + requestInvoice);

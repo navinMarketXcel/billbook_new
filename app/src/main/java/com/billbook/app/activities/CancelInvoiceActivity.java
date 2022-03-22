@@ -89,7 +89,7 @@ public class CancelInvoiceActivity extends AppCompatActivity {
         if (Util.isNetworkAvailable(this)) {
             final ProgressDialog progressDialog = DialogUtils.startProgressDialog(this, "");
             ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
+                    ApiClient.getClient(this).create(ApiInterface.class);
             String token = MyApplication.getUserToken();
             Map<String, String> headerMap = new HashMap<>();
             headerMap.put("Authorization", token);
@@ -156,7 +156,7 @@ public class CancelInvoiceActivity extends AppCompatActivity {
             if (Util.isNetworkAvailable(this)) {
 //                MyApplication.getDatabase().inventoryDao().insertAll(inventories);
                 ApiInterface apiService =
-                        ApiClient.getClient().create(ApiInterface.class);
+                        ApiClient.getClient(this).create(ApiInterface.class);
 
                 String token = MyApplication.getUserToken();
 

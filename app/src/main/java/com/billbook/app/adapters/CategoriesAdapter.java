@@ -77,7 +77,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.My
                             Log.v(TAG, "inserted cate localid::" + localid);
                             category.setLocal_id(localid);
                             if (Util.isNetworkAvailable(context)) {
-                                AppRepository.getInstance().postOtherCategoryAPI(category);
+                                AppRepository.getInstance().postOtherCategoryAPI(category,context);
                             }
 
                         }

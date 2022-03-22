@@ -98,7 +98,7 @@ private void startSplash(){
 
     private void checkVersion() {
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
 
         Map<String, String> headerMap = new HashMap<>();
 
@@ -164,7 +164,7 @@ private void startSplash(){
     }
 
     private void getLatestInvoice() {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(this).create(ApiInterface.class);
         String token = MyApplication.getUserToken();
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Authorization", token);
@@ -188,7 +188,7 @@ private void startSplash(){
                             requestInvoice.setInvoice_no(invoiceNo + 1);
                         else
                             requestInvoice.setInvoice_no(body.getInt("0") + 1);
-                        AppRepository.getInstance().putInvoiceAPI(SplashActivity.this, requestInvoice);
+                        AppRepository.getInstance().putInvoiceAPI(SplashActivity.this, requestInvoice,SplashActivity.this);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

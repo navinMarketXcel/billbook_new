@@ -168,7 +168,7 @@ public class UserProfileActivity extends AppCompatActivity implements DialogUtil
         Map<String, String> req = new HashMap<>();
         req.put("gst_no", gst);
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Call<User> call = apiService.updateUser(headerMap, userId, req);
         call.enqueue(new Callback<User>() {
             @Override

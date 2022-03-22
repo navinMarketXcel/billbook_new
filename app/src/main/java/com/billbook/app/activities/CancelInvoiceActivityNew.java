@@ -63,7 +63,7 @@ public class CancelInvoiceActivityNew extends AppCompatActivity implements Purch
         if (Util.isNetworkAvailable(CancelInvoiceActivityNew.this)) {
             progressDialog = DialogUtils.startProgressDialog(CancelInvoiceActivityNew.this, "");
             ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
+                    ApiClient.getClient(this).create(ApiInterface.class);
 
             String token = MyApplication.getUserToken();
 

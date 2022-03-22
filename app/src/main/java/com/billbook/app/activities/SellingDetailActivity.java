@@ -461,7 +461,7 @@ public class SellingDetailActivity extends AppCompatActivity implements View.OnC
             selectedFromDateLong = selFrDate.getTime() / 1000;
             selectedToDateLong = selToDate.getTime() / 1000;
             progressDialog = DialogUtils.startProgressDialog(this, "");
-            AppRepository.getInstance().getLedgerDetails(this, selectedFromDateLong, selectedToDateLong, mSelectedCategoryId, mSelectedBrandId, 0);
+            AppRepository.getInstance().getLedgerDetails(this, selectedFromDateLong, selectedToDateLong, mSelectedCategoryId, mSelectedBrandId, 0,this);
         } catch (ParseException e) {
             e.printStackTrace();
         }
