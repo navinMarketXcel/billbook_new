@@ -212,7 +212,7 @@
             android:layout_weight="6"
             android:hint="@string/enter_hsnNo"
             android:inputType="number"
-            android:maxLength="6"
+            android:maxLength="8"
             android:singleLine="true"
             />
     </TableRow>
