@@ -32,7 +32,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -1189,7 +1188,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         ApiInterface apiService =
                 ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String>
-                erMap = new HashMap<>();
+                headerMap = new HashMap<>();
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse(invoice.toString());
         headerMap.put("Content-Type", "application/json");
@@ -1254,12 +1253,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     } else {
                         Util.postEvents("Make Bill Fail", "Make Bill Fail:elseStatus", getApplicationContext());
                         if(body!=null)
-                         Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()));
+                         Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()),BillingNewActivity.this);
                         DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
                     }
                 } catch (JSONException e) {
                    if(body!=null)
-                    Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()));
+                    Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()), BillingNewActivity.this);
                    Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
                    e.printStackTrace();
                 }

@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
         HashMap<String,String> token = new HashMap<>();
         token.put("token",response.getToken());
         ApiInterface apiServiceOtpLessCreds =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Call<Object> whats_url = apiServiceOtpLessCreds.getUserDetails(token);
         whats_url.enqueue(new Callback<Object>() {
             @Override
@@ -336,7 +336,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getSignupUrl(){
         ApiInterface apiServiceOtpLessCreds =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Call<Object> whats_url = apiServiceOtpLessCreds.getSignupUrl();
         whats_url.enqueue(new Callback<Object>() {
             @Override
