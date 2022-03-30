@@ -80,7 +80,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             JSONObject requestInvoice = requestInvoiceArrayList.getJSONObject(position);
             boolean isGST = requestInvoice.getString("gstType").isEmpty()?false:true;
                     holder.tvInvoiceValue.setText("Invoice No: "+(isGST?requestInvoice.getInt("gstBillNo"):requestInvoice.getInt("nonGstBillNo") ));
-            holder.tvInvoiceCustNameValue.setText("Customer Name: "+requestInvoice.getString("customerName"));
+            holder.tvInvoiceCustNameValue.setText("Customer Name: "+requestInvoice.getJSONObject("customer").getString("name"));
 //            holder.tvQuantityValue.setText("" + requestInvoice.getInt("quantity"));
             if(requestInvoice.has("discount") && requestInvoice.has("totalAfterDiscount")&& requestInvoice.getDouble("discount")!=0 && requestInvoice.getDouble("totalAfterDiscount")!=0)
                 holder.tvTotalAmtValue.setText("Total Amount: " + Util.formatDecimalValue((float)requestInvoice.getDouble("totalAfterDiscount")));

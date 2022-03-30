@@ -237,4 +237,7 @@ public interface ApiInterface {
     @POST("getUserDetails/")
     Call<Object> getUserDetails(@Body HashMap<String,String> body);
 
+    @POST("findCustomer")
+    Call<Object>findCustomer(@Body HashMap<String ,String> body);
+
 }

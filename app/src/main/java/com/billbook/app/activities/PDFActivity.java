@@ -44,6 +44,7 @@ import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.PdfWriter;
 import com.billbook.app.utils.Util;
+//import com.squareup.picasso.BuildConfig;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -221,9 +222,27 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         gst = Float.parseFloat(invoice.getString("totalAmount")) -
                                 Float.parseFloat(invoice.getString("totalAmountBeforeGST"));
                     invoiceAmountLayoutUpdatedBinding.totalGST.setText(Util.formatDecimalValue(gst));
-                    pdfBinding.edtName.setText(invoice.getString("customerName") + " ");
-                    pdfBinding.edtAddress.setText(invoice.getString("customerAddress") + " ");
-                    pdfBinding.edtMobNo.setText(invoice.getString("customerMobileNo") + " ");
+                    Log.v("CustomerName", String.valueOf(invoice));
+                    String custName= invoice.getString("customerName");
+                    String custNo =invoice.getString("customerMobileNo");
+                    String custAdd =invoice.getString("customerAddress");
+
+                    if(custNo.isEmpty())
+                    {
+                        custNo=getIntent().getExtras().getString("customerMobileNo");
+                    }
+                    if(custName.isEmpty())
+                    {
+                        custName=getIntent().getExtras().getString("customerName");
+                    }
+                    if(custAdd.isEmpty())
+                    {
+                        custAdd=getIntent().getExtras().getString("customerAddress");
+                    }
+
+                    pdfBinding.edtName.setText(custName+" ");
+                    pdfBinding.edtAddress.setText(custAdd+" ");
+                    pdfBinding.edtMobNo.setText(custNo+" ");
 //            tvGSTNo.setText(invoice.getString("GSTNo")+" ");
                     invoiceAmountLayoutUpdatedBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
 //                        invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));

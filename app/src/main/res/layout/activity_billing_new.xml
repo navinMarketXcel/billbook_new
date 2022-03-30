@@ -97,7 +97,7 @@
                     android:textStyle="bold" />
 
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                     style="@style/editText"
                     android:id="@+id/edtName"
                     android:layout_width="0dp"
