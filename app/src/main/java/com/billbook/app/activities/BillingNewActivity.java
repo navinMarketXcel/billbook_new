@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -63,6 +64,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.PrivateKey;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -113,8 +115,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private LayoutItemBillBinding billItemBinding;
     private long localInvoiceId, idInLocalDb;
     private ArrayList<String> itemsList = new ArrayList<>();
+    private ArrayList<String> customerList = new ArrayList<>();
     private ArrayList<Integer> unitList = new ArrayList<>();
     ArrayAdapter<String> itemAdapter;
+    ArrayAdapter<String> customerAdapter;
     // idInLocalDb = column with name "id" in local db android
 
     @Override
@@ -144,6 +148,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         loadDataForInvoice();
         getInvoiceItemsFromDatabase();
         searchItemAutoComplete();
+        customerNumberAutoComplete();
 
     }
 
@@ -415,6 +420,113 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             }
         });
     }
+
+    private void customerNumberAutoComplete(){
+        try {
+//            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,demo);
+//            billItemBinding.itemNameET.setAdapter(itemAdapter);
+
+            Map<String, String> req = new HashMap<>();
+            req.put("userid", profile.getString("userid"));
+            final Call<Object>[] call = new Call[]{null};
+
+            binding.edtName.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    try{
+                        binding.edtName.showDropDown();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    try {
+                        if (s.length() > 2) {
+                            req.put("customerName", s.toString());
+                            searchCustomerApiCall(call, (HashMap<String, String>) req,binding.edtName);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void searchCustomerApiCall(Call<Object>[] call, HashMap<String, String> req, AutoCompleteTextView view){
+        try{
+            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+
+            call[0] = apiService.findCustomer((HashMap<String, String>) req);
+            call[0].enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    try {
+                        if (response.body() != null) {
+                            JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                            JSONObject data = body.getJSONObject("data");
+                            Log.v("Customers", String.valueOf(body));
+                            JSONArray items = data.getJSONArray("customer");
+                            customerList.clear();
+                            String customer = new String();
+                            for (int i = 0; i < min(items.length(),2); i++) {
+                                JSONObject obj = items.getJSONObject(i);
+                                customer = new String();
+                                String mobNo= obj.getString("mobileNo");
+                                customer = customer + obj.getString("name")+" ";
+                                if(!mobNo.equals(""))
+                                {
+                                    customer=customer+ "\n ("+ obj.getString("mobileNo")+")";
+
+                                }
+
+                                customerList.add(customer);
+                            }
+                            customerAdapter = new ArrayAdapter<String>(BillingNewActivity.this, android.R.layout.simple_list_item_1
+                                    , customerList);
+                            view.setAdapter(customerAdapter);
+                            customerAdapter.notifyDataSetChanged();
+                            view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    String customerData = customerList.get(position);
+                                    int sizeCustomerdata=customerData.length();
+                                    if(customerData.charAt(sizeCustomerdata-1)==')')
+                                    {
+                                        binding.edtName.setText(customerData.substring(0,customerData.length()-15));
+                                        binding.edtMobNo.setText(customerData.substring(customerData.length() - 11, customerData.length()));
+                                    }
+                                    else
+                                    binding.edtName.setText(customerData.substring(0,customerData.length()-1));
+
+                                }
+                            });
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private void setEditTextError(EditText editText, String text) {
         if (text.length() <= 0)
             editText.setError(null);
@@ -1130,9 +1242,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 saveInvoiceToLocalDatabase(invoice);
                 idInLocalDb = -1;
             } else {
-                currInvoiceToUpdate.setCustomerName(invoice.has("customerName") ? invoice.getString("customerName") : "");
-                currInvoiceToUpdate.setCustomerMobileNo(invoice.has("customerMobileNo") ? invoice.getString("customerMobileNo") : "");
-                currInvoiceToUpdate.setCustomerAddress(invoice.has("customerAddress") ? invoice.getString("customerAddress") : "");
+                currInvoiceToUpdate.setCustomerName(invoice.has("name")  ? invoice.getString("name") : "");
+                currInvoiceToUpdate.setCustomerMobileNo(invoice.has("mobileNo") ? invoice.getString("mobileNo") : "");
+                currInvoiceToUpdate.setCustomerAddress(invoice.has("address") ? invoice.getString("address") : "");
                 currInvoiceToUpdate.setGSTNo(invoice.has("GSTNo") ? invoice.getString("GSTNo") : "");
                 currInvoiceToUpdate.setTotalAmount(invoice.has("totalAmount") ? (float) invoice.getDouble("totalAmount") : 0);
                 currInvoiceToUpdate.setUserid(invoice.has("userid") ? invoice.getInt("userid") : 0);
@@ -1215,9 +1327,15 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     Log.v("RESP", body.toString());
                     if (body.getBoolean("status")) {
                         JSONObject object = new JSONObject();
+                        JSONObject customerObject = new JSONObject();
                         if (isEdit) {
                             object.put("invoice", body.getJSONObject("data"));
                             object.put("items", body.getJSONObject("data").getJSONArray("masterItems"));
+                            customerObject =  body.getJSONObject("data").getJSONObject("customer");
+                            object.getJSONObject("invoice").put("customerName",body.getJSONObject("data").getJSONObject("customer").getString("name"));
+                            object.getJSONObject("invoice").put("customerMobileNo",body.getJSONObject("data").getJSONObject("customer").getString("mobileNo"));
+                            object.getJSONObject("invoice").put("customerAddress",
+                                    body.getJSONObject("data").getJSONObject("customer").has("address") ? body.getJSONObject("data").getJSONObject("customer").getString("address") : "");
                             if(idInLocalDb >0)
                             invoiceViewModel.updateIsSync(idInLocalDb);
                             else
@@ -1236,6 +1354,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         intent.putExtra("nonGstBillNo",isEdit ? object.getJSONObject("invoice").getInt("nonGstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("nonGstBillNo"));
                         intent.putExtra("id",isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
                         intent.putExtra("idForItem", isEdit ? (long) object.getJSONObject("invoice").getInt("id"):localInvoiceId);
+                        intent.putExtra("customerName", isEdit & customerObject.has("name") ? customerObject.getString("name") : "");
+                        intent.putExtra("customerMobileNo", isEdit & customerObject.has("mobileNo")? customerObject.getString("mobileNo"): "");
+                        intent.putExtra("customerAddress", isEdit & customerObject.has("address")? customerObject.getString("address"): "");
                         if(isEdit && idInLocalDb >0) {
                             intent.putExtra("localInvId", idInLocalDb);
                         }
@@ -1379,11 +1500,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 binding.billDate.setText("Bill Date: " + invoiceDateStr);
 //                bill_date.setEnabled(false);
 
-                binding.edtName.setText(invoice.getString("customerName"));
-                binding.edtAddress.setText(invoice.getString("customerAddress"));
+                binding.edtName.setText(invoice.getJSONObject("customer").getString("name"));
+                binding.edtAddress.setText(invoice.getJSONObject("customer").getString("address"));
                 binding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
                 binding.edtGST.setText(invoice.getString("GSTNo"));
-                binding.edtMobNo.setText(invoice.getString("customerMobileNo"));
+                binding.edtMobNo.setText(invoice.getJSONObject("customer").getString("mobileNo"));
 
                 JSONArray masterItems = invoice.getJSONArray("masterItems");
                 invoiceItemEditModel = gson.fromJson(masterItems.toString(), new TypeToken<List<InvoiceItems>>() {
