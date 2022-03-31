@@ -6,7 +6,9 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,6 +27,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +37,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
+import android.provider.Contacts;
+import android.provider.ContactsContract;
+import android.widget.ImageButton;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -86,7 +94,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private InvoiceItemsViewModel invoiceItemViewModel;
     final String TAG = "BillingNewActivity";
     private ArrayList models = new ArrayList<Model>();
-//    private ArrayList<NewInvoiceModels> newInvoiceModels = new ArrayList<>();
+    //    private ArrayList<NewInvoiceModels> newInvoiceModels = new ArrayList<>();
     private ArrayList<InvoiceItems> invoiceItemsList = new ArrayList<>();
     private ArrayList<InvoiceItems> invoiceItemEditModel = new ArrayList<>();
     private InvoiceModelV2 currInvoiceToUpdate;
@@ -118,6 +126,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private ArrayList<Integer> unitList = new ArrayList<>();
     ArrayAdapter<String> itemAdapter;
     ArrayAdapter<String> customerAdapter;
+    //variables for Checking Contact Permission
+    private ImageButton imageButton;
+    private EditText edtname;
+    private EditText edtMobNo;
+    private static final int Contact_code=123;
+    private static final int Contact_Pick_code=111;
+
     // idInLocalDb = column with name "id" in local db android
 
     @Override
@@ -126,7 +141,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         binding = ActivityBillingNewBinding.inflate(getLayoutInflater());
         billItemBinding = binding.includedLayoutItemBill;
         invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
-
+        imageButton=findViewById(R.id.button1);
+        edtname=findViewById(R.id.edtName);
+        edtMobNo=findViewById(R.id.edtMobNo);
         View view = binding.getRoot();
         setContentView(view);
 
@@ -150,6 +167,57 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         customerNumberAutoComplete();
 
     }
+
+    //Functions For Checking Contact permissions
+    public void clickButton(View view)
+    {
+        // check for contact permission
+        if(checkContactPermission())
+        {
+            pickContactIntent();
+        }
+        else {
+            requestContactPermission();
+        }
+
+    }
+    private boolean checkContactPermission()
+    {
+        boolean result = ContextCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS)==(PackageManager.PERMISSION_GRANTED);
+        //requestContactPermission();
+        return result;
+        // returns true if permission is granted else false
+    }
+    private void requestContactPermission()
+    {
+        String[] permission={Manifest.permission.READ_CONTACTS};
+        ActivityCompat.requestPermissions(this,permission,Contact_code);
+    }
+    private void pickContactIntent()
+    {
+        Intent intent=new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        startActivityForResult(intent,Contact_Pick_code);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(requestCode==Contact_code)
+        {
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED)
+            {
+                //Permission is granted here
+                pickContactIntent();
+            }
+            else
+            {
+                //permission denied here
+                Toast.makeText(this,"Permission Denied",Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -291,7 +359,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     binding.edtDiscountPercent.setText(discountPercent + "%");
             }
         });
-        
+
         billItemBinding.itemNameET.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -505,7 +573,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                                         binding.edtMobNo.setText(customerData.substring(customerData.length() - 11, customerData.length()));
                                     }
                                     else
-                                    binding.edtName.setText(customerData.substring(0,customerData.length()-1));
+                                        binding.edtName.setText(customerData.substring(0,customerData.length()-1));
 
                                 }
                             });
@@ -535,11 +603,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     public boolean checkPermission() {
         hasWriteStoragePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
-        }
+        return hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED;
     }
 
     public void internalStoragePermission() {
@@ -559,6 +623,45 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        //For Picking A contact and loading it in the editText View
+        try{
+            if(resultCode==RESULT_OK)
+            {
+                if(requestCode==Contact_Pick_code)
+                {
+                    Cursor cursor1,cursor2;
+                    Uri uri=data.getData();
+                    cursor1=getContentResolver().query(uri,null,null,null,null);
+                    if(cursor1.moveToFirst())
+                    {
+
+                        String contactName=cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                        String contactId = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts._ID));
+                        String hasPhone = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+                        if (Integer.parseInt(hasPhone) > 0) {
+                            Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,  null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId, null, null);
+                            String phoneNumber="";
+                            while(phones.moveToNext())
+                            { //iterate over all contact phone numbers
+                                phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            }
+                            if(phoneNumber.length()>10)
+                            {
+                                phoneNumber= phoneNumber.substring(phoneNumber.length()-10);
+                            }
+                            binding.edtMobNo.setText(phoneNumber);
+                            phones.close();
+                        }
+                        binding.edtName.setText(contactName);
+                    }
+                    cursor1.close();
+                }
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
         if (requestCode == GRANT_STORAGE_PERMISSION && resultCode == RESULT_OK && null != data) {
             if (data.getBooleanExtra("GRANT_STORAGE_PERMISSION", true)) {
                 isFirstReq = 1;
@@ -664,14 +767,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         invoiceItemViewModel.getInvoiceItems(localInvoiceId).observe(this, new Observer<List<InvoiceItems>>() {
             @Override
             public void onChanged(List<InvoiceItems> invoiceItems) {
-                    //invoiceItems is List but we need Array list
-                    // newBillingAdapter = new NewBillingAdapter(invoiceItems, BillingNewActivity.this, isGSTAvailable);
-                    // binding.invoiceItems.setAdapter(newBillingAdapter);
-                    // invoiceItemsList = invoiceItems;
-                    newBillingAdapter = new NewBillingAdapter(invoiceItemsList, BillingNewActivity.this, isGSTAvailable);
-                    binding.invoiceItems.setAdapter(newBillingAdapter);
-                    invoiceItemsList.clear();
-                    for(int i =0;i<invoiceItems.size();i++)invoiceItemsList.add(invoiceItems.get(i));
+                //invoiceItems is List but we need Array list
+                // newBillingAdapter = new NewBillingAdapter(invoiceItems, BillingNewActivity.this, isGSTAvailable);
+                // binding.invoiceItems.setAdapter(newBillingAdapter);
+                // invoiceItemsList = invoiceItems;
+                newBillingAdapter = new NewBillingAdapter(invoiceItemsList, BillingNewActivity.this, isGSTAvailable);
+                binding.invoiceItems.setAdapter(newBillingAdapter);
+                invoiceItemsList.clear();
+                for(int i =0;i<invoiceItems.size();i++)invoiceItemsList.add(invoiceItems.get(i));
             }
         });
     }
@@ -1062,7 +1165,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     private void calculateAmountBeforeGST(InvoiceItems newInvoiceModel, boolean add) {
         //totalBeforeGST = 0;
-                if (add)
+        if (add)
             totalBeforeGST = totalBeforeGST + newInvoiceModel.getGstAmount();
         else
             totalBeforeGST = totalBeforeGST - newInvoiceModel.getGstAmount();
@@ -1120,7 +1223,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //                            cnt++;
 //                    }
 //                }
-                
+
                 if(isEdit) {
                     new getInvoiceModelByIdAsyncTask(MyApplication.getDatabase().newInvoiceDao(), localInvoiceId, requestObj).execute();
                 }else {
@@ -1128,7 +1231,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 }
                 if (Util.isNetworkAvailable(this)) {
                     if(!isEdit)
-                    sendInvoice(requestObj);
+                        sendInvoice(requestObj);
                 } else {
                     //there is some use of makeing invoiceid = -1 in backend
                     invoiceViewModel.updateInvoiceId(localInvoiceId,-1);
@@ -1203,30 +1306,30 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     void saveInvoiceToLocalDatabase(JSONObject invoice){
         try{
-                InvoiceModelV2 curInvoice = new InvoiceModelV2(
-                        localInvoiceId,
-                        localInvoiceId,
-                        invoice.has("customerName") ? invoice.getString("customerName") : "",
-                        invoice.has("customerMobileNo") ? invoice.getString("customerMobileNo") : "",
-                        invoice.has("customerAddress") ? invoice.getString("customerAddress") : "",
-                        invoice.has("GSTNo") ? invoice.getString("GSTNo") : "",
-                        invoice.has("totalAmount") ? (float) invoice.getDouble("totalAmount") : 0,
-                        invoice.has("userid") ? invoice.getInt("userid") : 0,
-                        invoice.has("invoiceDate") ? invoice.getString("invoiceDate") : "",
-                        invoice.has("totalAmountBeforeGST") ? invoice.getInt("totalAmountBeforeGST") : 0,
-                        invoice.has("gstBillNo") ? invoice.getInt("gstBillNo") : 0,
-                        invoice.has("nonGstBillNo") ? invoice.getInt("nonGstBillNo") : 0,
-                        invoice.has("gstType") ? invoice.getString("gstType") : "",
-                        invoice.has("updatedAt") ? invoice.getString("updatedAt") : "",
-                        invoice.has("createdAt") ? invoice.getString("createdAt") : "",
-                        0,
-                        invoice.has("pdfPath") ? invoice.getString("pdfPath") : "",
-                        invoice.has("discount") ? (float) invoice.getDouble("discount") : 0,
-                        invoice.has("totalAfterDiscount") ? (float) invoice.getDouble("totalAfterDiscount") : 0
-                );
+            InvoiceModelV2 curInvoice = new InvoiceModelV2(
+                    localInvoiceId,
+                    localInvoiceId,
+                    invoice.has("customerName") ? invoice.getString("customerName") : "",
+                    invoice.has("customerMobileNo") ? invoice.getString("customerMobileNo") : "",
+                    invoice.has("customerAddress") ? invoice.getString("customerAddress") : "",
+                    invoice.has("GSTNo") ? invoice.getString("GSTNo") : "",
+                    invoice.has("totalAmount") ? (float) invoice.getDouble("totalAmount") : 0,
+                    invoice.has("userid") ? invoice.getInt("userid") : 0,
+                    invoice.has("invoiceDate") ? invoice.getString("invoiceDate") : "",
+                    invoice.has("totalAmountBeforeGST") ? invoice.getInt("totalAmountBeforeGST") : 0,
+                    invoice.has("gstBillNo") ? invoice.getInt("gstBillNo") : 0,
+                    invoice.has("nonGstBillNo") ? invoice.getInt("nonGstBillNo") : 0,
+                    invoice.has("gstType") ? invoice.getString("gstType") : "",
+                    invoice.has("updatedAt") ? invoice.getString("updatedAt") : "",
+                    invoice.has("createdAt") ? invoice.getString("createdAt") : "",
+                    0,
+                    invoice.has("pdfPath") ? invoice.getString("pdfPath") : "",
+                    invoice.has("discount") ? (float) invoice.getDouble("discount") : 0,
+                    invoice.has("totalAfterDiscount") ? (float) invoice.getDouble("totalAfterDiscount") : 0
+            );
 
-                invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
-                invoiceViewModel.insert(curInvoice);
+            invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
+            invoiceViewModel.insert(curInvoice);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -1234,7 +1337,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     // on edit invoice, update the existing entry of the invoice with new values
     public void setCurrInvoiceToUpdate(InvoiceModelV2 invoiceModelV2, JSONObject invoice){
-       currInvoiceToUpdate = invoiceModelV2;
+        currInvoiceToUpdate = invoiceModelV2;
         try {
             // In case entry is not present in local db create new entry, else update existing one
             if(currInvoiceToUpdate==null) {
@@ -1337,7 +1440,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             object.getJSONObject("invoice").put("customerAddress",
                                     body.getJSONObject("data").getJSONObject("customer").has("address") ? body.getJSONObject("data").getJSONObject("customer").getString("address") : "");
                             if(idInLocalDb >0)
-                            invoiceViewModel.updateIsSync(idInLocalDb);
+                                invoiceViewModel.updateIsSync(idInLocalDb);
                             else
                                 invoiceViewModel.updateIsSync(localInvoiceId);
 
@@ -1374,14 +1477,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     } else {
                         Util.postEvents("Make Bill Fail", "Make Bill Fail:elseStatus", getApplicationContext());
                         if(body!=null)
-                         Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()),BillingNewActivity.this);
+                            Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()),BillingNewActivity.this);
                         DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
                     }
                 } catch (JSONException e) {
-                   if(body!=null)
-                    Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()), BillingNewActivity.this);
-                   Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
-                   e.printStackTrace();
+                    if(body!=null)
+                        Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()), BillingNewActivity.this);
+                    Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
+                    e.printStackTrace();
                 }
             }
 
@@ -1469,7 +1572,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 {
                     String gg = invoice.getString("gstType");
                     if(gg.equals( gstTypeList.get(0)))
-                    binding.gstType.setSelection(0);
+                        binding.gstType.setSelection(0);
                     else
                         binding.gstType.setSelection(1);
                     serialNumber = invoice.getInt("gstBillNo");
@@ -1525,7 +1628,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             curItem.getSerial_no(),
                             curItem.getMeasurementId(),
                             (long)masterItems.getJSONObject(i).getInt("id")
-                            );
+                    );
                 }
                 total = (float) invoice.getDouble("totalAmount");
                 totalBeforeGST = 0;
@@ -1581,7 +1684,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     @Override
     protected void onResume() {
         super.onResume();
-       // isFirstReq == 0, to finish() BillingNewActivity only after evaluating the response in onActivityResult if storage permission isn't allowed i.e after executing StoragePermissionRequestActivity
+        // isFirstReq == 0, to finish() BillingNewActivity only after evaluating the response in onActivityResult if storage permission isn't allowed i.e after executing StoragePermissionRequestActivity
         if (checkPermission() == false && isFirstReq==0) finish();
     }
 
