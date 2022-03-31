@@ -44,7 +44,7 @@
     <string name="todays_sell">Today"'"s Sell</string>
     <string name="yesterdays_sell">Yesterdays Sell</string>
     <string name="Rs">\u20B9</string>
-    <string name="enter_name">Customer Name (optional)</string>
+    <string name="enter_name">Customer Name (Optional)</string>
     <string name="enter_username">Enter Username Here</string>
     <string name="enter_msg_hint">Enter Message to be sent for marketing</string>
 
@@ -56,7 +56,7 @@
     <string name="enter_pinCode">Enter Pin Code Here</string>
     <string name="enter_state">Enter State Here</string>
     <string name="enter_mob_no">Enter mobile number</string>
-    <string name="enter_mob_no_otp">Mobile Number (Optional)</string>
+    <string name="enter_mob_no_otp">Mobile No (Optional)</string>
     <string name="enter_ur_mob_no">Enter Your Mobile Number</string>
     <string name="enter_contact__no">Enter Contact Number</string>
 
