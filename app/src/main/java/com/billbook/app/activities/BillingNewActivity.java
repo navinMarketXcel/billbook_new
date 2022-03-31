@@ -463,7 +463,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     private void searchCustomerApiCall(Call<Object>[] call, HashMap<String, String> req, AutoCompleteTextView view){
         try{
-            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiService = ApiClient.getClient(this).create(ApiInterface.class);
 
             call[0] = apiService.findCustomer((HashMap<String, String>) req);
             call[0].enqueue(new Callback<Object>() {
