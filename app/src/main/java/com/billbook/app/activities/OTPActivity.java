@@ -4,10 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.android.installreferrer.api.InstallReferrerClient;
+import com.android.installreferrer.api.InstallReferrerStateListener;
+import com.android.installreferrer.api.ReferrerDetails;
 import com.billbook.app.utils.Util;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,7 +45,7 @@ import retrofit2.Response;
 
 public class OTPActivity extends AppCompatActivity {
     private final String TAG = "OTP";
-    private String mobilNo,OTP;
+    private String mobilNo,OTP,referrer_link;
     private EditText otpEdt;
     private FirebaseAuth mAuth;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
@@ -47,6 +53,7 @@ public class OTPActivity extends AppCompatActivity {
     private  boolean mVerificationInProgress;
     private String mVerificationId;
     private boolean fromEditProfile;
+    private InstallReferrerClient referrerClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,13 +98,16 @@ public class OTPActivity extends AppCompatActivity {
         };
 
     }
-
     public void setMobileNo(String mobilNo){
         this.mobilNo = mobilNo;
     }
 
     public void setOTP(String otp){
         this.OTP = otp;
+    }
+
+    public void setReferrerLink(String referrerUrl) {
+        this.referrer_link = referrerUrl;
     }
 
     @Override
@@ -109,6 +119,7 @@ public class OTPActivity extends AppCompatActivity {
     private void setData(){
         mobilNo = getIntent().getExtras().getString("mobileNo");
         OTP = getIntent().getExtras().getString("OTP");
+        referrer_link = getIntent().getExtras().getString("referrer_link");
 
     }
     public void verifyOTP(View v){
@@ -140,6 +151,7 @@ public class OTPActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RegistrationActivity.class);
         intent.putExtra("mobileNo",mobilNo);
         intent.putExtra("otp",OTP);
+        intent.putExtra("referrer_link", referrer_link);
         startActivity(intent);
     }
     public void gotoHomeScreen() {

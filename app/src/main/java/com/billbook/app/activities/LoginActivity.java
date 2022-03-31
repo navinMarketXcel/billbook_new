@@ -8,13 +8,19 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.android.installreferrer.api.InstallReferrerClient;
+import com.android.installreferrer.api.InstallReferrerStateListener;
+import com.android.installreferrer.api.ReferrerDetails;
 import com.google.gson.Gson;
 import com.billbook.app.R;
 import com.billbook.app.database.models.User;
@@ -52,7 +58,8 @@ public class LoginActivity extends AppCompatActivity {
     private Otpless otpless;
     private int synchAPICount = 0;
     ProgressDialog whatsappDialog;
-    private String mobilNo, otp;
+    private String mobilNo, otp, referrer_link;
+    private InstallReferrerClient referrerClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,42 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         btnWhatsappLogi = (ImageButton)findViewById(R.id.btnWhatsappLogi);
         otpless = OtplessProvider.getInstance(this).init(this::onOtplessResult);
+
+        referrerClient = InstallReferrerClient.newBuilder(this).build();
+        referrerClient.startConnection(new InstallReferrerStateListener() {
+            @Override
+            public void onInstallReferrerSetupFinished(int responseCode) {
+                switch (responseCode) {
+                    case InstallReferrerClient.InstallReferrerResponse.OK:
+                        // Connection established.
+                        ReferrerDetails response = null;
+                        try {
+                            response = referrerClient.getInstallReferrer();
+                            String referrerUrl = response.getInstallReferrer();
+                            setReferrerLink(referrerUrl);
+                            OTPActivity otpActivity = new OTPActivity();
+                            otpActivity.setReferrerLink(referrerUrl);
+                        } catch ( RemoteException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case InstallReferrerClient.InstallReferrerResponse.FEATURE_NOT_SUPPORTED:
+                        // API not available on the current Play Store app.
+                        break;
+                    case InstallReferrerClient.InstallReferrerResponse.SERVICE_UNAVAILABLE:
+                        break;
+                }
+            }
+
+
+            @Override
+            public void onInstallReferrerServiceDisconnected() {
+                // Try to restart the connection on the next request to
+                // Google Play by calling the startConnection() method.
+            }
+
+
+        });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +147,14 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setReferrerLink(String referrerUrl) {
+        this.referrer_link = referrerUrl;
+    }
+
+    public String getReferrerLink() {
+        return this.referrer_link;
     }
 
     private void onOtplessResult(@Nullable OtplessTokenData response) {
@@ -190,16 +241,22 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void setReferrerLinkOTPLess(String referrerUrl) {
+        this.referrer_link = referrerUrl;
+    }
+
     private void startOTPActivity(String opt){
         Intent intent = new Intent(this,OTPActivity.class);
         intent.putExtra("mobileNo",edtUsername.getText().toString());
         intent.putExtra("OTP",opt);
+        intent.putExtra("referrer_link", referrer_link);
         startActivity(intent);
     }
     public void gotoRegistration() {
         Intent intent = new Intent(this, RegistrationActivity.class);
         intent.putExtra("mobileNo",mobilNo);
         intent.putExtra("otp",otp);
+        intent.putExtra("referrer_link", referrer_link);
         startActivity(intent);
     }
     public void gotoHomeScreen() {

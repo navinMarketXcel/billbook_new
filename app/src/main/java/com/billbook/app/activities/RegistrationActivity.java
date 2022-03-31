@@ -45,7 +45,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private ArrayAdapter<String> cityAdpater;
     private ArrayAdapter<String> stateAdpater;
     private JSONArray citiesJSONArray = null;
-    private String mobileNoText,OTP, state, city;
+    private String mobileNoText,OTP, state, city, referrer_link;
 
     private ActivityRegistrationBinding binding;
 
@@ -82,6 +82,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private void initUI() {
         mobileNoText = getIntent().getExtras().getString("mobileNo");
         OTP = getIntent().getExtras().getString("otp");
+        referrer_link = getIntent().getExtras().getString("referrer_link");
         binding.mobileNoEdt.setText(mobileNoText);
         binding.pinCodeEdt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -190,6 +191,7 @@ public class RegistrationActivity extends AppCompatActivity {
             headerMap.put("city",city);
             headerMap.put("pincode",binding.pinCodeEdt.getText().toString());
             headerMap.put("otp",OTP);
+            headerMap.put("referrer_link", referrer_link);
             register(headerMap);
         }
     }
@@ -269,7 +271,6 @@ public class RegistrationActivity extends AppCompatActivity {
         Map<String, String> headerMap = new HashMap<>();
 
         headerMap.put("Content-Type", "application/json");
-
         Call<Object> call = apiService.users((HashMap<String, String>) req);
         call.enqueue(new Callback<Object>() {
             @Override
