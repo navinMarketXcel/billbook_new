@@ -47,7 +47,7 @@ public class AddDistributorActivity extends AppCompatActivity {
             distributor.setGst_no(gstEdt.getText().toString());
             distributor.setMobileNo(mobileEdt.getText().toString());
             ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
+                    ApiClient.getClient(this).create(ApiInterface.class);
 
             String token = MyApplication.getUserToken();
 

@@ -293,10 +293,10 @@ public class Util {
         return sizeOfFile < upperLimit;
     }
 
-    public static void logErrorApi(String api, JsonObject frontendPayload, String frontendError, String catchError, JsonObject backendResponse) {
+    public static void logErrorApi(String api, JsonObject frontendPayload, String frontendError, String catchError, JsonObject backendResponse, Context context) {
         try {
             ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
+                    ApiClient.getClient(context).create(ApiInterface.class);
 
             JSONObject requestObj = new JSONObject();
 
@@ -336,10 +336,10 @@ public class Util {
         }
     }
 
-    public static void setMeasurementUnits(){
+    public static void setMeasurementUnits(Context context){
         try{
             ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
+                    ApiClient.getClient(context).create(ApiInterface.class);
 
             Map<String, String> map = new HashMap<>();
             Call<Object> call = apiService.measuremntUnit(map);

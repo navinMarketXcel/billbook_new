@@ -142,7 +142,7 @@ public class BillingCategoriesAdapter extends RecyclerView.Adapter<BillingCatego
                         public void run() {
 
                             if (Util.isNetworkAvailable(context)) {
-                                AppRepository.getInstance().postOtherCategoryAPI(category);
+                                AppRepository.getInstance().postOtherCategoryAPI(category,context);
                             } else {
                                 int localid = (int) MyApplication.getDatabase().categoriesDao().insertcategory(category);
                                 Log.v(TAG, "inserted cate localid::" + localid);

@@ -165,7 +165,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                                 if (Util.isNetworkAvailable(context)) {
                                     final ProgressDialog progressDialog = DialogUtils.startProgressDialog(context, "");
                                     ApiInterface apiService =
-                                            ApiClient.getClient().create(ApiInterface.class);
+                                            ApiClient.getClient(context).create(ApiInterface.class);
 
                                     String token = MyApplication.getUserToken();
 

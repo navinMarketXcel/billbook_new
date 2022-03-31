@@ -153,7 +153,7 @@ public class OTPActivity extends AppCompatActivity {
     private void verifyOTP(){
 //        DialogUtils.startProgressDialog(this, "");
             ApiInterface apiService =
-                    ApiClient.getClient().create(ApiInterface.class);
+                    ApiClient.getClient(this).create(ApiInterface.class);
             Map<String, String> headerMap = new HashMap<>();
             Map<String, String> req = new HashMap<>();
             req.put("mobileNo", mobilNo);
@@ -213,7 +213,7 @@ public class OTPActivity extends AppCompatActivity {
     }
     private void resendOtp(){
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
         Map<String, String> req = new HashMap<>();
         req.put("mobileNo",mobilNo);

@@ -33,7 +33,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -353,7 +352,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     private void searchItemApiCall(Call<Object>[] call, HashMap<String, String> req, AutoCompleteTextView view) {
         try {
-            ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+            ApiInterface apiService = ApiClient.getClient(this).create(ApiInterface.class);
 
             call[0] = apiService.searchItem((HashMap<String, String>) req);
             call[0].enqueue(new Callback<Object>() {
@@ -391,7 +390,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     private void fetchMeasurementIdApiCall(HashMap<String, String> req, Spinner unit) {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(this).create(ApiInterface.class);
         Call call = apiService.fetchMeasurementIdForItem((HashMap<String, String>) req);
 
         call.enqueue(new Callback() {
@@ -1299,8 +1298,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private void sendInvoice(final JSONObject invoice) {
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-        Map<String, String> headerMap = new HashMap<>();
+                ApiClient.getClient(this).create(ApiInterface.class);
+        Map<String, String>
+                headerMap = new HashMap<>();
         JsonParser jsonParser = new JsonParser();
         JsonObject jsonObject = (JsonObject) jsonParser.parse(invoice.toString());
         headerMap.put("Content-Type", "application/json");
@@ -1374,12 +1374,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     } else {
                         Util.postEvents("Make Bill Fail", "Make Bill Fail:elseStatus", getApplicationContext());
                         if(body!=null)
-                         Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()));
+                         Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()),BillingNewActivity.this);
                         DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
                     }
                 } catch (JSONException e) {
                    if(body!=null)
-                    Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()));
+                    Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()), BillingNewActivity.this);
                    Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
                    e.printStackTrace();
                 }
@@ -1388,7 +1388,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 Util.postEvents("Make Bill Fail", "Make Bill Fail:onFailure", getApplicationContext());
-                Util.logErrorApi("/v1/invoice", jsonObject, Arrays.toString(t.getStackTrace()), null, null);
+                Util.logErrorApi("/v1/invoice", jsonObject, Arrays.toString(t.getStackTrace()), null, null,BillingNewActivity.this);
                 DialogUtils.stopProgressDialog();
                 DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
             }

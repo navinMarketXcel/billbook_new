@@ -94,7 +94,7 @@ public class ManageCategoriesActivity extends AppCompatActivity {
     public void getCategoriesAPI(int page, final long syncTime) {
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
 
         Map<String, String> headerMap = new HashMap<>();
         String token = MyApplication.getUserToken();
@@ -155,7 +155,7 @@ public class ManageCategoriesActivity extends AppCompatActivity {
         Map<String, ArrayList<Integer>> req = new HashMap<>();
         req.put("category", jsonArray);
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Call<User> call = apiService.updateCategories(headerMap, userId, req);
         call.enqueue(new Callback<User>() {
             @SuppressLint("StaticFieldLeak")

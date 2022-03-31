@@ -83,7 +83,7 @@ public class SyncService extends Service {
             String expense = MyApplication.getUnSyncedExpenses();
             if(!expense.isEmpty()){
                 ApiInterface apiService =
-                        ApiClient.getClient().create(ApiInterface.class);
+                        ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
                 Map<String, String> headerMap = new HashMap<>();
 
                 headerMap.put("Content-Type", "application/json");
@@ -175,7 +175,7 @@ public class SyncService extends Service {
                 JSONObject requestObj = new JSONObject(new Gson().toJson(this.curInvoice));
                 String items = new Gson().toJson(invoiceItemsList);
                 requestObj.put("items", new JSONArray(items));
-                ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+                ApiInterface apiService = ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
                 Map<String, String> headerMap = new HashMap<>();
 
                 headerMap.put("Content-Type", "application/json");
@@ -214,7 +214,7 @@ public class SyncService extends Service {
 //                                    // upload pdf
 //
 //                                    ApiInterface apiService =
-//                                            ApiClient.getClient().create(ApiInterface.class);
+//                                            ApiClient.getClient(this).create(ApiInterface.class);
 //                                    Map<String, String> headerMap = new HashMap<>();
 //                                    File pdfFile =  new File(filePath).getAbsoluteFile();
 //                                    Log.d(TAG, "syncc onResponse: pdfFile " + pdfFile);
@@ -272,7 +272,7 @@ public class SyncService extends Service {
                 if(invoices.length()==0)
                     return;
                 ApiInterface apiService =
-                        ApiClient.getClient().create(ApiInterface.class);
+                        ApiClient.getClient(this).create(ApiInterface.class);
                 Map<String, String> headerMap = new HashMap<>();
 
                 headerMap.put("Content-Type", "application/json");
@@ -294,7 +294,7 @@ public class SyncService extends Service {
                                     // upload pdf
 
                                     ApiInterface apiService =
-                                            ApiClient.getClient().create(ApiInterface.class);
+                                            ApiClient.getClient(getApplicationContext()).create(ApiInterface.class);
                                     Map<String, String> headerMap = new HashMap<>();
                                     MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", "invoive", RequestBody.create(MediaType.parse("*/*"), new File(filePath)));
 

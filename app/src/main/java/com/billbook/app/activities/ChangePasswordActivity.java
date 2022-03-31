@@ -119,7 +119,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         headerMap.put("Content-Type", "application/json");
 
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Call<User> call = null;
         JSONObject req = new JSONObject();
         try {

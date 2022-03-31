@@ -102,7 +102,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     if (s.length() == 6) {
                         binding.llFetchCity.setVisibility(View.VISIBLE);
                         binding.displayCity.setText("Fetching City");
-                        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+                        ApiInterface apiService = ApiClient.getClient(RegistrationActivity.this).create(ApiInterface.class);
                         Map<String, String> req = new HashMap<>();
                         req.put("pincode", s.toString());
                         Call<Object> call = apiService.pincode((HashMap<String, String>) req);
@@ -265,7 +265,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Util.postEvents("Registration", "Registration ", this.getApplicationContext());
         DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+                ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
 
         headerMap.put("Content-Type", "application/json");

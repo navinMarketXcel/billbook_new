@@ -585,7 +585,7 @@ public class BillingActivity extends AppCompatActivity
         inventory.setPrice(purchase.getPrice());
         inventory.setTax(0.0f);
 
-        AppRepository.getInstance().insertInventory(inventory);
+        AppRepository.getInstance().insertInventory(inventory,getApplicationContext());
     }
 
     private void addEdtiTextListnerForEditText() {
@@ -1166,7 +1166,7 @@ public class BillingActivity extends AppCompatActivity
                                 mPrintInvoiceObj.setStringArrayList(stringArrayList);
                                 mPrintInvoiceObj.setDescription(txtSRNoOrDesc.getText().toString() + "");
 
-                                AppRepository.getInstance().putInvoiceAPI(BillingActivity.this, requestInvoice);
+                                AppRepository.getInstance().putInvoiceAPI(BillingActivity.this, requestInvoice,BillingActivity.this);
                             }
                         }).start();
                     }
