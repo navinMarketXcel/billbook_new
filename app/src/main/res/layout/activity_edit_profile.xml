@@ -151,24 +151,20 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/cityTxtInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                app:boxBackgroundMode="none"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_marginTop="@dimen/pass_margin_top">
 
                 <EditText
+                    android:editable="false"
                     android:id="@+id/city"
-                    style="@style/editText"
-                    android:enabled="false"
+                    android:background="@drawable/new_structure"
                     android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
-                    android:hint="@string/city_without_asterisk"
-                    android:background="@color/color_gray"
+                    android:hint="@string/city"
+                    android:singleLine="false"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -182,28 +178,24 @@
             />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/stateTxtInput"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+
                 android:layout_width="match_parent"
-                app:boxBackgroundMode="none"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_marginTop="@dimen/pass_margin_top">
 
                 <EditText
+                    android:editable="false"
                     android:id="@+id/state"
+                    android:background="@drawable/new_structure"
+                    android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
-                    style="@style/editText"
-                    android:padding="16dp"
-                    android:layout_margin="5dp"
-                    android:layout_marginTop="@dimen/add_product_spinner_margin_top"
-                    android:hint="@string/state_without_asterisk"
-                    android:background="@color/color_gray"
+                    android:hint="@string/state"
+                    android:singleLine="false"
                     />
             </com.google.android.material.textfield.TextInputLayout>
-
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
