@@ -240,9 +240,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         custAdd=getIntent().getExtras().getString("customerAddress");
                     }
 
-                    pdfBinding.edtName.setText(custName+" ");
-                    pdfBinding.edtAddress.setText(custAdd+" ");
-                    pdfBinding.edtMobNo.setText(custNo+" ");
+
+                    pdfBinding.edtName.setText(custName.equals(null) ?" ":custName+" ");
+                    pdfBinding.edtAddress.setText(custAdd.equals(null) ?" ":custAdd+" ");
+                    pdfBinding.edtMobNo.setText(custNo.equals(null) ?" ":custNo+" ");
 //            tvGSTNo.setText(invoice.getString("GSTNo")+" ");
                     invoiceAmountLayoutUpdatedBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
 //                        invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
