@@ -6,13 +6,15 @@ android {
         applicationId "com.billbook.app"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 45
-        versionName "2.0.1"
+        versionCode 47
+        versionName "2.1.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         buildConfigField("String", "AccountId",AccountId);
         buildConfigField("String", "PlacementId1",PlacementId1);
         buildConfigField("String", "PlacementId2",PlacementId2);
+        buildConfigField("String", "VungleId",VungleId);
+        buildConfigField("String", "VunglePlacement",VunglePlacement);
     }
 
     buildFeatures{
@@ -70,7 +72,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
     implementation 'androidx.room:room-runtime:2.4.0-alpha03'
     annotationProcessor 'androidx.room:room-compiler:2.4.0-alpha03'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -86,7 +88,7 @@ dependencies {
     implementation 'ir.mtajik.android:advancedsmsmanager:1.1.0'
     implementation 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'
     implementation 'com.github.mreram:showcaseview:1.1'
-    implementation 'org.jetbrains:annotations-java5:15.0'
+//    implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.nitin-jaiman:CustomClickableEmailPhoneTextview:3.0'
     implementation 'com.borax12.materialdaterangepicker:library:2.0'
@@ -98,6 +100,9 @@ dependencies {
     implementation 'androidx.browser:browser:1.3.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.google.android.gms:play-services-basement:17.6.0'
+    implementation 'com.google.android.gms:play-services-tasks:17.2.1'
+    implementation 'com.google.android.gms:play-services-appset:16.0.0'
     implementation 'com.android.installreferrer:installreferrer:2.2'
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
