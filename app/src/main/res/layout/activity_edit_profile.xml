@@ -154,16 +154,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_marginTop="@dimen/pass_margin_top">
 
                 <EditText
                     android:editable="false"
                     android:id="@+id/city"
                     android:background="@drawable/new_structure"
-                    android:padding="16dp"
+                    android:padding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textStyle="normal"
+                    android:textSize="15sp"
                     android:hint="@string/city"
+
                     android:singleLine="false"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -171,7 +175,7 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:textStyle="bold"
+            android:textStyle="italic"
             android:padding="5dp"
             android:text="*Change pincode to update city."
             android:textColor="@color/red_btn_bg_color"
@@ -183,23 +187,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:layout_marginTop="@dimen/pass_margin_top">
+                android:layout_marginTop="@dimen/pass_margin_top"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <EditText
-                    android:editable="false"
                     android:id="@+id/state"
-                    android:background="@drawable/new_structure"
-                    android:padding="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/new_structure"
+                    android:editable="false"
+                    android:textSize="15sp"
                     android:hint="@string/state"
-                    android:singleLine="false"
-                    />
+                    android:textStyle="normal"
+                    android:padding="10dp"
+                    android:singleLine="false" />
             </com.google.android.material.textfield.TextInputLayout>
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:textStyle="bold"
+                android:textStyle="italic"
                 android:padding="5dp"
                 android:text="*Change pincode to update state."
                 android:textColor="@color/red_btn_bg_color"
