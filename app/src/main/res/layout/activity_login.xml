@@ -1,4 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/llMainLayout"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="10">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="3"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="@font/inter"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            android:layout_marginTop="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hello," />
+
+        <TextView
+            android:id="@+id/etMobNo"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/inter"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="Welcome to Billbook"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="7"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mobile Number"
+            android:fontFamily="@font/inter"
+            android:textColor="#0A0A0A"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/otp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/edtUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:fontFamily="@font/inter"
+                android:hint="Enter your 10 digit Mobile Number"
+                android:inputType="number"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/login_button_structure"
+            android:text="Get OTP"
+            android:fontFamily="@font/inter"
+            android:onClick="verifyOTP"
+            android:textColor="@color/white" />
+        <ImageButton
+            android:id="@+id/btnWhatsappLogi"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginStart="5dp"
+            android:visibility="gone"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/login_with_whatsapp" />
+        <TextView
+            android:id="@+id/tvForgotPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="end"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:text="Forgot Password?"
+            android:textColor="@color/colorPrimary"
+            android:textSize="17sp" />
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="@dimen/login_margin_top"
+            android:layout_marginEnd="5dp"
+            android:background="@color/colorPrimary"
+            android:onClick="gotoRegistration"
+            android:text="Registration"
+            android:visibility="gone"
+            android:textColor="@android:color/white">
+
+        </Button>
+
+
+    </LinearLayout>
+    <LinearLayout
+
+        android:padding="25dp"
+        android:layout_weight=".1"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        >
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/imageView2"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/trusted_blue" />
+
+            <LinearLayout
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:padding="3dp"
+                    android:id="@+id/textView4"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Trusted By" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="sans-serif"
+                    android:paddingLeft="3dp"
+                    android:text="1 lakh+ Retailers"
+                    android:textColor="@color/colorPrimary" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="30dp"
+            >
+
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:src="@drawable/free_blue" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:padding="3dp"
+                    android:id="@+id/textView5"
+                    android:textColor="@color/colorPrimary"
+                    android:fontFamily="sans-serif"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="100% Free" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:paddingLeft="3dp"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorPrimary"
+                    android:text="for Lifetime" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/llMainLayout"
@@ -132,3 +374,28 @@
 
     </RelativeLayout>
 </RelativeLayout>
+-->
+<!--<TextView
+android:id="@+id/tvForgotPassword"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginTop="5dp"
+android:gravity="end"
+android:padding="5dp"
+android:visibility="gone"
+android:text="Forgot Password?"
+android:textColor="@color/colorPrimary"
+android:textSize="17sp" />
+<Button
+android:id="@+id/btnRegister"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_marginStart="5dp"
+android:layout_marginTop="@dimen/login_margin_top"
+android:layout_marginEnd="5dp"
+android:background="@color/colorPrimary"
+android:onClick="gotoRegistration"
+android:text="Registration"
+android:visibility="gone"
+android:textColor="@android:color/white" />
+-->

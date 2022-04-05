@@ -3,7 +3,7 @@
         <color name="colorPrimary">#1d4388</color>
     <color name="colorPrimaryDark">#1e4388</color>
     <color name="colorAccent">#4b4b4b</color>
-    <color name="color_gray">#DCDCDC</color>
+    <color name="color_gray">#F6F6F6</color>
     <color name="color_black">#000000</color>
     <color name="login_bg_color">#fd8469</color>
     <color name="color_common_text_home">#FFFFFF</color>
@@ -12,4 +12,5 @@
     <color name="red">#FF0000</color>
     <color name="mdtp_accent_color">#1d4388</color>
     <color name="mdtp_accent_color_dark">#1e4388</color>
+    <color name="Silver">#AFAFAF</color>
 </resources>

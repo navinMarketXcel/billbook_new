@@ -15,47 +15,57 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_weight="1"
+        android:gravity="center"
         >
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
+            android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/splash_logo" />
+            app:srcCompat="@drawable/inverted" />
 
     </LinearLayout>
 
     <LinearLayout
 
-        android:padding="15dp"
+        android:padding="25dp"
         android:layout_weight=".1"
         android:layout_gravity="center"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="2">
+
+        >
 
         <LinearLayout
-            android:paddingLeft="20dp"
+
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:orientation="horizontal"
-            android:layout_weight="1">
+            android:layout_gravity="center"
+            android:gravity="center">
 
             <ImageView
+                android:layout_gravity="center"
                 android:id="@+id/imageView2"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                app:srcCompat="@drawable/billbook" />
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/trusted" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <TextView
+
+                    android:padding="3dp"
                     android:id="@+id/textView4"
+                    android:fontFamily="sans-serif"
                     android:textColor="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -63,42 +73,50 @@
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:textColor="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="1 lakh+ Retailers" />
+                    android:fontFamily="sans-serif"
+                    android:paddingLeft="3dp"
+                    android:text="1 lakh+ Retailers"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:orientation="horizontal"
-            android:layout_weight="1">
+            android:layout_marginLeft="30dp">
+
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-
-                app:srcCompat="@drawable/billbook" />
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:src="@drawable/free" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                >
 
                 <TextView
+                    android:padding="3dp"
                     android:id="@+id/textView5"
                     android:textColor="@color/white"
+                    android:fontFamily="sans-serif"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="100% Free" />
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="match_parent"
+                    android:paddingLeft="3dp"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="sans-serif"
                     android:layout_height="match_parent"
                     android:textColor="@color/white"
                     android:text="for Lifetime" />

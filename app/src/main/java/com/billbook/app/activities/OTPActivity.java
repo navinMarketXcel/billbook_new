@@ -6,9 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.RemoteException;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.installreferrer.api.InstallReferrerClient;
@@ -53,6 +57,8 @@ public class OTPActivity extends AppCompatActivity {
     private  boolean mVerificationInProgress;
     private String mVerificationId;
     private boolean fromEditProfile;
+    private TextView etMobNo;
+    private Button btnRegister;
     private InstallReferrerClient referrerClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +66,8 @@ public class OTPActivity extends AppCompatActivity {
         setContentView(R.layout.activity_otp);
         setTitle("OTP");
         FirebaseApp.initializeApp(this);
+        btnRegister=findViewById(R.id.btnRegister);
+        etMobNo=findViewById(R.id.etMobNo);
         mAuth = FirebaseAuth.getInstance();
         otpEdt = findViewById(R.id.otpEdt);
         fromEditProfile = getIntent().hasExtra("fromEditProfile")?getIntent().getExtras().getBoolean("fromEditProfile"):false;
@@ -96,8 +104,47 @@ public class OTPActivity extends AppCompatActivity {
                 mResendToken = token;
             }
         };
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        otpEdt.addTextChangedListener(loginWatcher);
 
     }
+
+    private TextWatcher loginWatcher= new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            String otp = otpEdt.getText().toString();
+            if(otp.length()==6)
+            {
+                btnRegister.setBackground(getDrawable(R.drawable.button_click_structure));
+                btnRegister.setTextColor(getResources().getColor(R.color.white));
+                btnRegister.setEnabled(true);
+
+
+
+
+            }
+            else
+            {
+                btnRegister.setBackground(getDrawable(R.drawable.new_structure));
+                btnRegister.setTextColor(getResources().getColor(R.color.Silver));
+                btnRegister.setEnabled(false);
+
+
+            }
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
     public void setMobileNo(String mobilNo){
         this.mobilNo = mobilNo;
     }
@@ -113,14 +160,15 @@ public class OTPActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        etMobNo.setText(getIntent().getExtras().getString("mobileNo"));
 //        startPhoneNumberVerification("+91"+mobilNo);
     }
 
     private void setData(){
+
         mobilNo = getIntent().getExtras().getString("mobileNo");
         OTP = getIntent().getExtras().getString("OTP");
         referrer_link = getIntent().getExtras().getString("referrer_link");
-
     }
     public void verifyOTP(View v){
     // verify OTP

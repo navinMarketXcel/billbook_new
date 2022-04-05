@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText edtUsername, edtPassword;
     private Button btnLogin;
     private ImageButton btnWhatsappLogi;
-    private RelativeLayout llMainLayout;
+    private LinearLayout llMainLayout;
     private ProgressDialog progressDialog;
     private Otpless otpless;
     private int synchAPICount = 0;
