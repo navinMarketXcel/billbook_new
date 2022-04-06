@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="7"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="10dp">
 
         <TextView
 
@@ -68,23 +68,18 @@
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/otp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
 
             <EditText
                 android:id="@+id/edtUsername"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
+                android:layout_height="45dp"
+                android:background="@drawable/layout_background"
                 android:fontFamily="@font/inter"
                 android:hint="Enter your 10 digit Mobile Number"
                 android:inputType="number"
-                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                 />
 
-        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnLogin"

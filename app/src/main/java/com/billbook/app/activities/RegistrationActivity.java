@@ -60,6 +60,7 @@ public class RegistrationActivity extends AppCompatActivity {
         setTitle("Registration");
         initUI();
         initAdapter();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     public void goToPrivacyPolicy(View v) {
