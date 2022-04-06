@@ -162,8 +162,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/city"
-                    android:inputType="phone"
-                    android:maxLength="10"
                     android:singleLine="true"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -189,8 +187,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/state"
-                    android:inputType="phone"
-                    android:maxLength="10"
                     android:singleLine="true"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
