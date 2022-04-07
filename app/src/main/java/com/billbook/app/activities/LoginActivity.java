@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText edtUsername, edtPassword;
     private Button btnLogin;
-    private ImageButton btnWhatsappLogi;
+    private Button btnWhatsappLogi;
     private LinearLayout llMainLayout;
     private ProgressDialog progressDialog;
     private Otpless otpless;
@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword = findViewById(R.id.edtPassword);
         llMainLayout = findViewById(R.id.llMainLayout);
         btnLogin = findViewById(R.id.btnLogin);
-        btnWhatsappLogi = (ImageButton)findViewById(R.id.btnWhatsappLogi);
+//        btnWhatsappLogi =findViewById(R.id.btnWhatsappLogi);
         otpless = OtplessProvider.getInstance(this).init(this::onOtplessResult);
 
         referrerClient = InstallReferrerClient.newBuilder(this).build();
@@ -132,22 +132,22 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        btnWhatsappLogi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (Util.isNetworkAvailable(getApplicationContext())) {
-                    whatsappDialog = new ProgressDialog(LoginActivity.this);
-                    whatsappDialog.setMessage("Please wait, signing you in!");
-                    whatsappDialog.setCancelable(false);
-                    whatsappDialog.setInverseBackgroundForced(false);
-                    whatsappDialog.show();
-                    getSignupUrl();
-                } else {
-                    DialogUtils.showToast(LoginActivity.this, getString(R.string.no_internet));
-
-                }
-            }
-        });
+//        btnWhatsappLogi.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (Util.isNetworkAvailable(getApplicationContext())) {
+//                    whatsappDialog = new ProgressDialog(LoginActivity.this);
+//                    whatsappDialog.setMessage("Please wait, signing you in!");
+//                    whatsappDialog.setCancelable(false);
+//                    whatsappDialog.setInverseBackgroundForced(false);
+//                    whatsappDialog.show();
+//                    getSignupUrl();
+//                } else {
+//                    DialogUtils.showToast(LoginActivity.this, getString(R.string.no_internet));
+//
+//                }
+//            }
+//        });
     }
 
     private void setReferrerLink(String referrerUrl) {

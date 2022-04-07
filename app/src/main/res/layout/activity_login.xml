@@ -93,7 +93,6 @@
             android:background="@drawable/login_button_structure"
             android:text="Get OTP"
             android:fontFamily="@font/inter"
-            android:onClick="verifyOTP"
             android:textColor="@color/white" />
         <ImageButton
             android:id="@+id/btnWhatsappLogi"

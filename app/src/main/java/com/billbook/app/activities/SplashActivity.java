@@ -76,13 +76,13 @@ private void startSplash(){
                     Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(SplashActivity.this, loginPick_activity.class);
                     startActivity(intent);
                 }
                 SplashActivity.this.finish();
             } catch (JSONException e) {
                 e.printStackTrace();
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                Intent intent = new Intent(SplashActivity.this, loginPick_activity.class);
                 startActivity(intent);
                 SplashActivity.this.finish();
             }
@@ -227,7 +227,7 @@ private void startSplash(){
     }
 
     private void gotoLoginScreen() {
-            Intent intentObj = new Intent(SplashActivity.this, LoginActivity.class);
+            Intent intentObj = new Intent(SplashActivity.this, loginPick_activity.class);
             startActivity(intentObj);
             finish();
     }
