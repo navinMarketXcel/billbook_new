@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/GSTyes"
+    android:layout_height="match_parent"
+    android:background="@drawable/layout_new_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="10">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="7"
+        android:orientation="vertical"
+        android:padding="20dp"
+        >
+
+        <View
+            android:id="@+id/animation_5"
+            android:layout_width="164dp"
+            android:layout_height="164dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="106dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="163dp"
+            android:background="@drawable/"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:fontFamily="@font/inter"
+            android:text="GST Details Updated"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>
