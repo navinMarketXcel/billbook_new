@@ -17,15 +17,27 @@
         android:orientation="vertical"
         android:padding="20dp"
         >
-
-        <View
-            android:id="@+id/animation_5"
+        <pl.droidsonroids.gif.GifImageView
             android:layout_width="164dp"
             android:layout_height="164dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="106dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="163dp"
+            android:background="@drawable/animation_640_l1q0yv62">
+
+        </pl.droidsonroids.gif.GifImageView>
+
+<!--        <View-->
+<!--            android:id="@+id/animation_5"-->
+<!--            android:layout_width="164dp"-->
+<!--            android:layout_height="164dp"-->
+<!--            android:layout_alignParentLeft="true"-->
+<!--            android:layout_marginLeft="106dp"-->
+<!--            android:layout_alignParentTop="true"-->
+<!--            android:layout_marginTop="163dp">-->
+<!--            &lt;!&ndash;            android:background="@drawable/"&ndash;&gt;-->
+<!--        </View>-->
             android:background="@drawable/"
             />
         <TextView
