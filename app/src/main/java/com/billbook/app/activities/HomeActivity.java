@@ -24,7 +24,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -69,6 +68,15 @@ import com.inmobi.sdk.InMobiSdk;
 import com.inmobi.sdk.SdkInitializationListener;
 import com.squareup.picasso.Picasso;
 
+import com.vungle.warren.BannerAdConfig;
+import com.vungle.warren.Vungle;
+import com.vungle.warren.AdConfig;              // Custom ad configurations
+import com.vungle.warren.InitCallback;          // Initialization callback
+import com.vungle.warren.LoadAdCallback;        // Load ad callback
+import com.vungle.warren.Banners;               // Banner ad
+import com.vungle.warren.VungleBanner;          // Banner ad
+import com.vungle.warren.error.VungleException;
+
 public class HomeActivity extends AppCompatActivity
         implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "HomeActivity";
@@ -85,10 +93,12 @@ public class HomeActivity extends AppCompatActivity
     private JSONObject profile;
     private JSONArray exp = null;
     private String expString;
-    InMobiBanner mBannerAd1,mBannerAd2;
+    InMobiBanner mBannerAd1;
+    VungleBanner vungleBanner;
     // replace with actual placementId from InMobi
     private long placementId1= Long.parseLong(BuildConfig.PlacementId1);
     private long placementId2=Long.parseLong(BuildConfig.PlacementId2);
+    private String placementId3=BuildConfig.VunglePlacement;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,6 +114,7 @@ public class HomeActivity extends AppCompatActivity
             e.printStackTrace();
         }
         InMobiInitialization();
+        VungleInitialization();
 
         //    Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"database-name.db").addMigrations(addInvoiceNumber).build();
 
@@ -208,15 +219,11 @@ public class HomeActivity extends AppCompatActivity
                 public void onInitializationComplete(@Nullable Error error) {
                     if (null != error) {
                     } else {
-                        if (null == mBannerAd1 && null == mBannerAd2) {
+                        if (null == mBannerAd1) {
                             createBannerAd();
-                        } else if (mBannerAd2 == null) {
                             mBannerAd1.load();
-                        } else if (mBannerAd1 == null) {
-                            mBannerAd2.load();
-                        } else {
+                        }  else {
                             mBannerAd1.load();
-                            mBannerAd2.load();
                         }
 
                     }
@@ -228,8 +235,8 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private void createBannerAd(){
+        Log.v("Inmobi createBannerAd","In mobi banner createBannerAd");
         mBannerAd1 = new InMobiBanner(this, placementId1);
-        mBannerAd2 = new InMobiBanner(this, placementId2);
         RelativeLayout adContainer = (RelativeLayout) findViewById(R.id.parent);
         int width = toPixelUnits(320);
         int height = toPixelUnits(50);
@@ -243,30 +250,7 @@ public class HomeActivity extends AppCompatActivity
         mBannerAd1.setRefreshInterval(20);
         adContainer.addView(mBannerAd1);
         mBannerAd1.load();
-
-        // mBannerAd2
-        RelativeLayout.LayoutParams bannerLayoutParams2 = new RelativeLayout.LayoutParams(width, height);
-        bannerLayoutParams2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        bannerLayoutParams2.addRule(RelativeLayout.CENTER_HORIZONTAL);
-        bannerLayoutParams2.setMargins(0,0,0,toPixelUnits(55));
-        mBannerAd2.setAnimationType(InMobiBanner.AnimationType.ROTATE_HORIZONTAL_AXIS);
-        mBannerAd2.setLayoutParams(bannerLayoutParams2);
-        mBannerAd2.setRefreshInterval(30);
-        adContainer.addView(mBannerAd2);
-
-        mBannerAd2.load();
-        setupBannerAd(mBannerAd2);
         setupBannerAd(mBannerAd1);
-
-        // to dynamically make space for ad
-//        ViewGroup.LayoutParams main2Lp = ((ViewGroup) main2).getLayoutParams();
-//
-//        if(main2Lp instanceof ViewGroup.MarginLayoutParams){
-//            ((ViewGroup.MarginLayoutParams) main2Lp).bottomMargin = toPixelUnits(50);
-//        }
-//        else{
-//            Log.d(TAG, "setBannerLayoutParams: Not able to set bottom margin");
-//        }
 
     }
 
@@ -320,6 +304,63 @@ public class HomeActivity extends AppCompatActivity
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dipUnit * density);
     }
+
+
+    private void VungleInitialization() {
+        Vungle.init(BuildConfig.VungleId, getApplicationContext(), new InitCallback() {
+            @Override
+            public void onSuccess() {
+                final BannerAdConfig bannerAdConfig = new BannerAdConfig();
+                bannerAdConfig.setAdSize(AdConfig.AdSize.BANNER);
+                Banners.loadBanner(BuildConfig.VunglePlacement, bannerAdConfig, vungleLoadAdCallback);
+            }
+
+            @Override
+            public void onError(VungleException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onAutoCacheAdAvailable(String placementId) {
+                // Ad has become available to play for a cache optimized placement
+            }
+        });
+    }
+
+    private final LoadAdCallback vungleLoadAdCallback = new LoadAdCallback() {
+        @Override
+        public void onAdLoad(String id) {
+            // Ad has been successfully loaded for the placement
+            if(Banners.canPlayAd(BuildConfig.VunglePlacement, AdConfig.AdSize.BANNER)){
+                Log.v("Dikha jayega", "Banner");
+                RelativeLayout adContainer = (RelativeLayout) findViewById(R.id.parent);
+                int width = toPixelUnits(320);
+                int height = toPixelUnits(50);
+
+                RelativeLayout.LayoutParams bannerLayoutParams1 = new RelativeLayout.LayoutParams(width, height);
+                bannerLayoutParams1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                bannerLayoutParams1.addRule(RelativeLayout.CENTER_HORIZONTAL);
+                bannerLayoutParams1.setMargins(0,0,0,toPixelUnits(55));
+                try{
+                    final BannerAdConfig bannerAdConfig = new BannerAdConfig();
+                    bannerAdConfig.setAdSize(AdConfig.AdSize.BANNER);
+                    vungleBanner = Banners.getBanner(BuildConfig.VunglePlacement, bannerAdConfig, null);
+                    vungleBanner.setLayoutParams(bannerLayoutParams1);
+                    adContainer.addView(vungleBanner);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onError(String id, VungleException e) {
+            // Ad has failed to load for the placement
+            e.printStackTrace();
+        }
+    };
+
+
 
     private void initUI() {
 
@@ -607,11 +648,13 @@ public class HomeActivity extends AppCompatActivity
             else{
                 setupBannerAd(mBannerAd1);
             }
-            if(null==mBannerAd2){
-                mBannerAd2.load();
-            }
-            else{
-                setupBannerAd(mBannerAd2);
+
+            if(null == vungleBanner){
+                final BannerAdConfig bannerAdConfig = new BannerAdConfig();
+                bannerAdConfig.setAdSize(AdConfig.AdSize.BANNER);
+                Banners.loadBanner(BuildConfig.VunglePlacement, bannerAdConfig, vungleLoadAdCallback);
+            } else{
+                VungleInitialization();
             }
         }
         catch(Exception e){
