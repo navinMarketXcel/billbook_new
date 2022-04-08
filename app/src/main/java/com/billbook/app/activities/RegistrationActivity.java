@@ -85,69 +85,69 @@ public class RegistrationActivity extends AppCompatActivity {
         OTP = getIntent().getExtras().getString("otp");
         referrer_link = getIntent().getExtras().getString("referrer_link");
         binding.mobileNoEdt.setText(mobileNoText);
-        binding.pinCodeEdt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.llFetchCity.setVisibility(View.VISIBLE);
-                binding.displayCity.setText("Fetching City");
-                binding.pincodeProgressBar.setVisibility(View.VISIBLE);
-                state=null;
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                try {
-                    if (s.length() == 6) {
-                        binding.llFetchCity.setVisibility(View.VISIBLE);
-                        binding.displayCity.setText("Fetching City");
-                        ApiInterface apiService = ApiClient.getClient(RegistrationActivity.this).create(ApiInterface.class);
-                        Map<String, String> req = new HashMap<>();
-                        req.put("pincode", s.toString());
-                        Call<Object> call = apiService.pincode((HashMap<String, String>) req);
-                        call.enqueue(new Callback<Object>() {
-
-                            @Override
-                            public void onResponse(Call<Object> call, Response<Object> response) {
-                                try {
-                                    if (response.body() == null) {
-                                        binding.pinCodeEdt.setError("Invalid PIN Code");
-                                        binding.llFetchCity.setVisibility(View.GONE);
-                                    } else {
-                                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                                        JSONObject data = body.getJSONObject("data");
-                                        state = data.getString("state");
-                                        city = data.getString("city");
-                                        binding.pincodeProgressBar.setVisibility(View.GONE);
-                                        binding.displayCity.setText(new StringBuilder().append(city).append(", ").append(state).toString());
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Object> call, Throwable t) {
-                                binding.pinCodeEdt.setError("Please Check your Internet Connection!");
-                                binding.llFetchCity.setVisibility(View.GONE);
-                            }
-                        });
-                    }
-                    else if(s.length()>6){
-                        binding.pinCodeEdt.setError("Invalid PIN Code");
-                        binding.llFetchCity.setVisibility(View.GONE);
-                    }
-                    else{
-                        binding.llFetchCity.setVisibility(View.GONE);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        binding.pinCodeEdt.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                binding.llFetchCity.setVisibility(View.VISIBLE);
+//                binding.displayCity.setText("Fetching City");
+//                binding.pincodeProgressBar.setVisibility(View.VISIBLE);
+//                state=null;
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                try {
+//                    if (s.length() == 6) {
+//                        binding.llFetchCity.setVisibility(View.VISIBLE);
+//                        binding.displayCity.setText("Fetching City");
+//                        ApiInterface apiService = ApiClient.getClient(RegistrationActivity.this).create(ApiInterface.class);
+//                        Map<String, String> req = new HashMap<>();
+//                        req.put("pincode", s.toString());
+//                        Call<Object> call = apiService.pincode((HashMap<String, String>) req);
+//                        call.enqueue(new Callback<Object>() {
+//
+//                            @Override
+//                            public void onResponse(Call<Object> call, Response<Object> response) {
+//                                try {
+//                                    if (response.body() == null) {
+//                                        binding.pinCodeEdt.setError("Invalid PIN Code");
+//                                        binding.llFetchCity.setVisibility(View.GONE);
+//                                    } else {
+//                                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+//                                        JSONObject data = body.getJSONObject("data");
+//                                        state = data.getString("state");
+//                                        city = data.getString("city");
+//                                        binding.pincodeProgressBar.setVisibility(View.GONE);
+//                                        binding.displayCity.setText(new StringBuilder().append(city).append(", ").append(state).toString());
+//                                    }
+//                                } catch (JSONException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<Object> call, Throwable t) {
+//                                binding.pinCodeEdt.setError("Please Check your Internet Connection!");
+//                                binding.llFetchCity.setVisibility(View.GONE);
+//                            }
+//                        });
+//                    }
+//                    else if(s.length()>6){
+//                        binding.pinCodeEdt.setError("Invalid PIN Code");
+//                        binding.llFetchCity.setVisibility(View.GONE);
+//                    }
+//                    else{
+//                        binding.llFetchCity.setVisibility(View.GONE);
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
     }
 
     private void initAdapter() {
@@ -166,20 +166,24 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private boolean validateData() {
-       if (binding.shopNameEdt.getText().toString().isEmpty()) {
+        if (binding.shopNameEdt.getText().toString().isEmpty()) {
             DialogUtils.showToast(this, "Shop name can not be empty.");
             return false;
-        }  else if (binding.shopAddressEdt.getText().toString().isEmpty()) {
+        } else if (binding.shopAddressEdt.getText().toString().isEmpty()) {
             DialogUtils.showToast(this, "Shop address can not be empty.");
             return false;
         } else if (binding.mobileNoEdt.getText().toString().isEmpty() || binding.mobileNoEdt.getText().toString().length() < 10) {
             DialogUtils.showToast(this, "Please enter valid mobile number");
             return false;
-       } else if(binding.pinCodeEdt.getText().toString().length()<6 || binding.pinCodeEdt.getError()!=null || state==null){
-           DialogUtils.showToast(this, "Please enter valid pin code");
-           return false;
-       }
-        else return true;
+        } else if (binding.pinCodeEdt.getText().toString().length() < 6 || binding.pinCodeEdt.getError() != null) {
+            return false;
+        } else if (binding.state.getText().toString().isEmpty() || binding.city.getText().toString().isEmpty()) {
+
+            DialogUtils.showToast(this, "State or city cannot be empty");
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void registerUser(View view) {
@@ -188,8 +192,8 @@ public class RegistrationActivity extends AppCompatActivity {
             headerMap.put("shopName",binding.shopNameEdt.getText().toString());
             headerMap.put("shopAddr",binding.shopAddressEdt.getText().toString());
             headerMap.put("mobileNo",binding.mobileNoEdt.getText().toString());
-            headerMap.put("state",state);
-            headerMap.put("city",city);
+            headerMap.put("state",binding.state.getText().toString());
+            headerMap.put("city",binding.city.getText().toString());
             headerMap.put("pincode",binding.pinCodeEdt.getText().toString());
             headerMap.put("otp",OTP);
             headerMap.put("referrer_link", referrer_link);
