@@ -363,8 +363,12 @@
                         android:textColor="@color/grey"
                         android:textSize="13dp" />
                 </TableRow>
+<<<<<<< HEAD
 
                 <TableRow
+=======
+                <LinearLayout
+>>>>>>> 27da384e0038edbbada9eca6aea115032d29f00a
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
@@ -476,6 +480,7 @@ android:weightSum="4">
     android:textSize="13dp" />
 
 
+<<<<<<< HEAD
 </LinearLayout>
 
 <LinearLayout
@@ -503,135 +508,248 @@ android:visibility="gone">
     android:visibility="visible" />
 
 </LinearLayout>
+=======
 
 
-<com.google.android.material.textfield.TextInputLayout
-android:id="@+id/firstName"
-style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_margin="5dp"
-android:visibility="gone">
-
-<EditText
-    android:id="@+id/firstNameEdt"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="@string/firstName"
-    android:singleLine="true" />
-</com.google.android.material.textfield.TextInputLayout>
-
-<com.google.android.material.textfield.TextInputLayout
-android:id="@+id/lastName"
-style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_margin="5dp"
-android:visibility="gone">
-
-<EditText
-    android:id="@+id/lastNameEdt"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:hint="@string/lastName"
-    android:singleLine="true" />
-</com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
 
 
-<com.google.android.material.textfield.TextInputLayout
-android:id="@+id/mobileNo"
-style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_margin="5dp"
-android:visibility="gone">
+               <LinearLayout-->
+<!--                    android:id="@+id/llFetchCity"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="right"-->
+<!--                    android:paddingRight="10dp"-->
+<!--                    android:visibility="gone">-->
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/displayCity"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textSize="10dp"-->
+<!--                        android:paddingRight="10dp"-->
+<!--                        android:text="Fetching city" />-->
+
+<!--                    <ProgressBar-->
+<!--                        android:id="@+id/pincodeProgressBar"-->
+<!--                        style="?android:attr/progressBarStyleSmall"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:visibility="visible" />-->
+
+<!--                </LinearLayout>-->
+
+<!--                <TableRow-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:weightSum="4">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="5dp"-->
+
+<!--                        android:layout_weight="2"-->
+<!--                        android:text="@string/city"-->
+<!--                        android:textStyle="bold"></TextView>-->
+
+<!--                    <AutoCompleteTextView-->
+<!--                        android:id="@+id/city"-->
+<!--                        style="@style/editText"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="@dimen/add_product_spinner_height"-->
+<!--                        android:layout_margin="5dp"-->
+<!--                        android:layout_marginTop="@dimen/add_product_spinner_margin_top"-->
+<!--                        android:layout_weight="2"-->
+<!--                        android:entries="@array/states"-->
+<!--                        android:hint="@string/enter_city" />-->
+<!--                    &lt;!&ndash;            <com.toptoche.searchablespinnerlibrary.SearchableSpinner&ndash;&gt;-->
+<!--                    &lt;!&ndash;                android:layout_weight="2"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                android:id="@+id/city"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                android:layout_width="0dp"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                android:layout_height="@dimen/add_product_spinner_height"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                android:layout_margin="5dp"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                android:textColor="@color/grey"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                android:textSize="13dp"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                android:layout_marginTop="@dimen/add_product_spinner_margin_top"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                android:hint="@string/enter_city"&ndash;&gt;-->
+<!--                    &lt;!&ndash;                android:background="@drawable/spinnerbggray"  />&ndash;&gt;-->
+<!--                </TableRow>-->
+
+<!--                <TableRow-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="5dp"-->
+<!--                    android:gravity="center"-->
+<!--                    android:weightSum="4">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginLeft="5dp"-->
+<!--                        android:layout_weight="2"-->
+<!--                        android:text="@string/state"-->
+<!--                        android:textStyle="bold"></TextView>-->
+
+<!--                    <AutoCompleteTextView-->
+<!--                        android:id="@+id/state"-->
+<!--                        style="@style/editText"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="@dimen/add_product_spinner_height"-->
+<!--                        android:layout_margin="5dp"-->
+<!--                        android:layout_marginTop="@dimen/add_product_spinner_margin_top"-->
+<!--                        android:layout_weight="2"-->
+<!--                        android:entries="@array/states"-->
+<!--                        android:hint="@string/enter_state" />-->
+<!--&lt;!&ndash;                                <com.toptoche.searchablespinnerlibrary.SearchableSpinner&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:id="@+id/state"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_weight="2"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_width="0dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_height="@dimen/add_product_spinner_height"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textColor="@color/grey"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textSize="13dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:hint="@string/enter_state"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:background="@drawable/spinnerbggray"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_margin="5dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:entries="@array/states"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_marginTop="@dimen/add_product_spinner_margin_top" />&ndash;&gt;-->
+
+<!--                </TableRow>-->
 
 
-</com.google.android.material.textfield.TextInputLayout>
+<!--&gt;>>>>>> 27da384e0038edbbada9eca6aea115032d29f00a-->
 
 
-<com.google.android.material.textfield.TextInputLayout
-android:id="@+id/pinCode"
-style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_margin="5dp"
-android:visibility="gone">
+<!--<com.google.android.material.textfield.TextInputLayout-->
+<!--android:id="@+id/firstName"-->
+<!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_margin="5dp"-->
+<!--android:visibility="gone">-->
+
+<!--<EditText-->
+<!--    android:id="@+id/firstNameEdt"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:hint="@string/firstName"-->
+<!--    android:singleLine="true" />-->
+<!--</com.google.android.material.textfield.TextInputLayout>-->
+
+<!--<com.google.android.material.textfield.TextInputLayout-->
+<!--android:id="@+id/lastName"-->
+<!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_margin="5dp"-->
+<!--android:visibility="gone">-->
+
+<!--<EditText-->
+<!--    android:id="@+id/lastNameEdt"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:hint="@string/lastName"-->
+<!--    android:singleLine="true" />-->
+<!--</com.google.android.material.textfield.TextInputLayout>-->
 
 
-</com.google.android.material.textfield.TextInputLayout>
+<!--<com.google.android.material.textfield.TextInputLayout-->
+<!--android:id="@+id/mobileNo"-->
+<!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_margin="5dp"-->
+<!--android:visibility="gone">-->
 
 
-    </LinearLayout>
-
-<LinearLayout
-android:id="@+id/tnclayout"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="horizontal">
-
-<TableRow
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/layout"
-    android:layout_marginTop="30dp"
-    android:gravity="center">
-
-    <TextView
-        android:id="@+id/tncmessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="gotoToTermsAndConsitions"
-        android:text="@string/tncmessage"
-        android:id="@+id/tncmessage"
-        android:textFontWeight="500"
-        >
-    </TextView>
-
-</TableRow>
-</LinearLayout>
-
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:gravity="center"
-android:orientation="horizontal">
-<TextView
-    android:id="@+id/agreeTermsAndConditionText"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingEnd="5dp"
-    android:paddingRight="5dp"
-    android:onClick="gotoToTermsAndConsitions"
-    android:text="@string/termsandcondition"
-    android:textColor="@color/colorPrimary"
-    android:textAlignment="center"
-    >
-</TextView>
-
-<TextView
-    android:id="@+id/privacyPolicy"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:onClick="goToPrivacyPolicy"
-    android:text="@string/privacy_policy"
-    android:textColor="@color/colorPrimary" />
-</LinearLayout>
-    </LinearLayout>
-    </ScrollView>
-
-<Button
-android:id="@+id/btnRegister"
-android:layout_weight="0.5"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:layout_marginTop="@dimen/login_margin_top"
-android:layout_alignParentBottom="true"
-android:background="@color/colorPrimary"
-android:onClick="registerUser"
-android:text="Register"
-android:textColor="@android:color/white" />
+<!--</com.google.android.material.textfield.TextInputLayout>-->
 
 
- -->
+<!--<com.google.android.material.textfield.TextInputLayout-->
+<!--android:id="@+id/pinCode"-->
+<!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_margin="5dp"-->
+<!--android:visibility="gone">-->
+
+
+<!--</com.google.android.material.textfield.TextInputLayout>-->
+
+
+<!--    </LinearLayout>-->
+
+<!--<LinearLayout-->
+<!--android:id="@+id/tnclayout"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:orientation="horizontal">-->
+
+<!--<TableRow-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_below="@+id/layout"-->
+<!--    android:layout_marginTop="30dp"-->
+<!--    android:gravity="center">-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/tncmessage"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:onClick="gotoToTermsAndConsitions"-->
+<!--        android:text="@string/tncmessage"-->
+<!--        android:id="@+id/tncmessage"-->
+<!--        android:textFontWeight="500"-->
+<!--        >-->
+<!--    </TextView>-->
+
+<!--</TableRow>-->
+<!--</LinearLayout>-->
+
+<!--<LinearLayout-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:gravity="center"-->
+<!--android:orientation="horizontal">-->
+<!--<TextView-->
+<!--    android:id="@+id/agreeTermsAndConditionText"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:paddingEnd="5dp"-->
+<!--    android:paddingRight="5dp"-->
+<!--    android:onClick="gotoToTermsAndConsitions"-->
+<!--    android:text="@string/termsandcondition"-->
+<!--    android:textColor="@color/colorPrimary"-->
+<!--    android:textAlignment="center"-->
+<!--    >-->
+<!--</TextView>-->
+
+<!--<TextView-->
+<!--    android:id="@+id/privacyPolicy"-->
+<!--    android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:layout_gravity="center"-->
+<!--    android:onClick="goToPrivacyPolicy"-->
+<!--    android:text="@string/privacy_policy"-->
+<!--    android:textColor="@color/colorPrimary" />-->
+<!--</LinearLayout>-->
+<!--    </LinearLayout>-->
+<!--    </ScrollView>-->
+
+<!--<Button-->
+<!--android:id="@+id/btnRegister"-->
+<!--android:layout_weight="0.5"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="wrap_content"-->
+<!--android:layout_marginTop="@dimen/login_margin_top"-->
+<!--android:layout_alignParentBottom="true"-->
+<!--android:background="@color/colorPrimary"-->
+<!--android:onClick="registerUser"-->
+<!--android:text="Register"-->
+<!--android:textColor="@android:color/white" />-->
+
+
+<!-- &ndash;&gt;-->
