@@ -12,6 +12,7 @@ import android.os.Bundle;
 import com.billbook.app.BuildConfig;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceModelV2;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 
@@ -208,6 +209,34 @@ public class HomeActivity extends AppCompatActivity
 
                 BottomSheetDialog gstSheet = new BottomSheetDialog(HomeActivity.this,R.style.BottomSheetDialogTheme);
                 View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_home_addgst,(LinearLayout)findViewById(R.id.bottomSheetContainer));
+                bottomSheet.findViewById(R.id.yesGSt).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    BottomSheetDialog yesGst = new BottomSheetDialog(HomeActivity.this,R.style.BottomSheetDialogTheme);
+                    View yesGstSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_home_addgstyes,(LinearLayout)findViewById(R.id.editGSTyes));
+                    yesGstSheet.findViewById(R.id.btnUpdGst).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            BottomSheetDialog showGif =new BottomSheetDialog(HomeActivity.this,R.style.BottomSheetDialogTheme);
+                            View showgifView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_home_gstyes,(LinearLayout)findViewById(R.id.GSTyes));
+                            showGif.setContentView(showgifView);
+                            showGif.show();
+                            gstSheet.dismiss();
+                            yesGst.dismiss();
+                        }
+                    });
+//                    BottomSheetBehavior.from(yesGstSheet).setState(BottomSheetBehavior.STATE_EXPANDED);
+                    yesGst.setContentView(yesGstSheet);
+                    yesGst.show();
+
+                }
+            });
+                bottomSheet.findViewById(R.id.noGSt).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        gstSheet.dismiss();
+                    }
+                });
                 gstSheet.setContentView(bottomSheet);
                 gstSheet.show();
 
@@ -233,13 +262,6 @@ public class HomeActivity extends AppCompatActivity
 //            });
 
 
-    }
-    public void onClickRegs(View v)
-    {
-        BottomSheetDialog gstSheet = new BottomSheetDialog(HomeActivity.this,R.style.BottomSheetDialogTheme);
-        View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_home_addgst,(LinearLayout)findViewById(R.id.bottomSheetContainer));
-        gstSheet.setContentView(bottomSheet);
-        gstSheet.show();
     }
 
     private void InMobiInitialization() {

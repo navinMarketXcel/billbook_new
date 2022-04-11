@@ -9,11 +9,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+
 import com.billbook.app.databinding.ActivityRegistrationBinding;
 import com.billbook.app.utils.Util;
 import com.google.android.gms.common.api.Api;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.billbook.app.R;
 import com.billbook.app.networkcommunication.ApiClient;
@@ -198,6 +202,7 @@ public class RegistrationActivity extends AppCompatActivity {
             headerMap.put("otp",OTP);
             headerMap.put("referrer_link", referrer_link);
             register(headerMap);
+
         }
     }
 
@@ -205,6 +210,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Log.i(TAG, "startHomeActivity:");
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+
     }
 
 
