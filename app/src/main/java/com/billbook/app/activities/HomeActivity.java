@@ -1,7 +1,9 @@
 package com.billbook.app.activities;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -12,6 +14,8 @@ import android.os.Bundle;
 import com.billbook.app.BuildConfig;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceModelV2;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -22,8 +26,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -99,10 +105,12 @@ public class HomeActivity extends AppCompatActivity
     private long placementId1= Long.parseLong(BuildConfig.PlacementId1);
     private long placementId2=Long.parseLong(BuildConfig.PlacementId2);
     private String placementId3=BuildConfig.VunglePlacement;
+    private Button register;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        register=findViewById(R.id.btnRegister);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -199,7 +207,44 @@ public class HomeActivity extends AppCompatActivity
 //
 //        customPartialyClickableTextview.addClickPattern("phone", phone);
 //    customPartialyClickableTextview.addClickPattern("weblink",weblink);
+
+
+                BottomSheetDialog gstSheet = new BottomSheetDialog(HomeActivity.this,R.style.BottomSheetDialogTheme);
+                View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_home_addgst,(LinearLayout)findViewById(R.id.bottomSheetContainer));
+                bottomSheet.findViewById(R.id.yesGSt).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    gstSheet.dismiss();
+                    BottomSheetDialog yesGst = new BottomSheetDialog(HomeActivity.this,R.style.BottomSheetDialogTheme);
+                    View yesGstSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_home_addgstyes,(LinearLayout)findViewById(R.id.editGSTyes));
+//                    BottomSheetBehavior behavior = BottomSheetBehavior.from(yesGstSheet);
+//                    behavior.setPeekHeight(250);
+                    yesGstSheet.findViewById(R.id.btnUpdGst).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            BottomSheetDialog showGif =new BottomSheetDialog(HomeActivity.this,R.style.BottomSheetDialogTheme);
+                            View showgifView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_home_gstyes,(LinearLayout)findViewById(R.id.GSTyes));
+                            showGif.setContentView(showgifView);
+                            showGif.show();
+                            gstSheet.dismiss();
+                            yesGst.dismiss();
+                        }
+                    });
+                    yesGst.setContentView(yesGstSheet);
+                    yesGst.show();
+
+                }
+            });
+                bottomSheet.findViewById(R.id.noGSt).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        gstSheet.dismiss();
+                    }
+                });
+                gstSheet.setContentView(bottomSheet);
+                gstSheet.show();
     }
+
 
     private void InMobiInitialization() {
         JSONObject consentObject = new JSONObject();
