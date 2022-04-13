@@ -1,7 +1,9 @@
 package com.billbook.app.activities;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -212,8 +214,11 @@ public class HomeActivity extends AppCompatActivity
                 bottomSheet.findViewById(R.id.yesGSt).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    gstSheet.dismiss();
                     BottomSheetDialog yesGst = new BottomSheetDialog(HomeActivity.this,R.style.BottomSheetDialogTheme);
                     View yesGstSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_home_addgstyes,(LinearLayout)findViewById(R.id.editGSTyes));
+//                    BottomSheetBehavior behavior = BottomSheetBehavior.from(yesGstSheet);
+//                    behavior.setPeekHeight(250);
                     yesGstSheet.findViewById(R.id.btnUpdGst).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -225,7 +230,6 @@ public class HomeActivity extends AppCompatActivity
                             yesGst.dismiss();
                         }
                     });
-//                    BottomSheetBehavior.from(yesGstSheet).setState(BottomSheetBehavior.STATE_EXPANDED);
                     yesGst.setContentView(yesGstSheet);
                     yesGst.show();
 
@@ -239,30 +243,8 @@ public class HomeActivity extends AppCompatActivity
                 });
                 gstSheet.setContentView(bottomSheet);
                 gstSheet.show();
-
-//        public void onClickReg(View view) {
-//            BottomSheetDialog gstSheet = new BottomSheetDialog(HomeActivity.this,R.style.BottomSheetDialogTheme);
-//            View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_home_addgst,(LinearLayout)findViewById(R.id.bottomSheetContainer));
-//            gstSheet.setContentView(bottomSheet);
-//            gstSheet.show();
-//            bottomSheet.findViewById(R.id.yesGSt).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    BottomSheetDialog yesGst = new BottomSheetDialog(HomeActivity.this,R.style.BottomSheetDialogTheme);
-//                    View yesGstSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_home_addgstyes,(LinearLayout)findViewById(R.id.editGSTyes));
-//                    yesGst.setContentView(yesGstSheet);
-//                    yesGst.show();
-//                }
-//            });
-//            bottomSheet.findViewById(R.id.noGSt).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    gstSheet.dismiss();
-//                }
-//            });
-
-
     }
+
 
     private void InMobiInitialization() {
         JSONObject consentObject = new JSONObject();
