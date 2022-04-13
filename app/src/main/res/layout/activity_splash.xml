@@ -48,11 +48,11 @@
             android:gravity="center">
 
             <ImageView
-                android:layout_gravity="center"
                 android:id="@+id/imageView2"
                 android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/trusted" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/trusted_w_n" />
 
             <LinearLayout
                 android:layout_gravity="center"
@@ -95,7 +95,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:src="@drawable/free" />
+                android:src="@drawable/free_w_n" />
 
             <LinearLayout
                 android:layout_width="match_parent"

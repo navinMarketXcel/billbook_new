@@ -48,14 +48,14 @@
                         android:id="@+id/btnBilling"
                         android:layout_width="@dimen/common_tab_width"
                         android:layout_height="@dimen/common_tab_width"
-                        android:background="@color/colorPrimary"
+
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/common_tab_image_width"
-                            android:layout_height="@dimen/common_tab_image_width"
-                            app:srcCompat="@drawable/ic_receipt_long" />
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:srcCompat="@drawable/billing_small" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                             android:gravity="center"
                             android:text="@string/billing"
                             android:textAllCaps="true"
-                            android:textColor="@color/color_common_text_home"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/common_tab_text_size"
                             android:textStyle="bold" />
 
@@ -81,14 +81,13 @@
                         android:id="@+id/btnManageInventory"
                         android:layout_width="@dimen/common_tab_width"
                         android:layout_height="@dimen/common_tab_width"
-                        android:background="@color/colorPrimary"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/common_tab_image_width"
-                            android:layout_height="@dimen/common_tab_image_width"
-                            app:srcCompat="@drawable/ic_trending_down" />
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:srcCompat="@drawable/expense_small" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -97,7 +96,7 @@
                             android:gravity="center"
                             android:text="@string/manage_inventory"
                             android:textAllCaps="true"
-                            android:textColor="@color/color_common_text_home"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/common_tab_text_size"
                             android:textStyle="bold" />
 
@@ -125,14 +124,13 @@
                         android:id="@+id/btnSearchInvoice"
                         android:layout_width="@dimen/common_tab_width"
                         android:layout_height="@dimen/common_tab_width"
-                        android:background="@color/colorPrimary"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/common_tab_image_width"
-                            android:layout_height="@dimen/common_tab_image_width"
-                            app:srcCompat="@drawable/ic_search" />
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:srcCompat="@drawable/small_search" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -141,7 +139,7 @@
                             android:gravity="center"
                             android:textAllCaps="true"
                             android:text="@string/search_invoice"
-                            android:textColor="@color/color_common_text_home"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/common_tab_text_size"
                             android:textStyle="bold" />
 
@@ -232,14 +230,13 @@
                         android:id="@+id/btnGetSalesReport"
                         android:layout_width="@dimen/common_tab_width"
                         android:layout_height="@dimen/common_tab_width"
-                        android:background="@color/colorPrimary"
                         android:gravity="center"
                         android:orientation="vertical">
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="@dimen/common_tab_image_width"
-                            android:layout_height="@dimen/common_tab_image_width"
-                            app:srcCompat="@drawable/ic_menu_book" />
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:srcCompat="@drawable/daybook_small" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -248,7 +245,7 @@
                             android:gravity="center"
                             android:textAllCaps="true"
                             android:text="@string/sales_report"
-                            android:textColor="@color/color_common_text_home"
+                            android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/common_tab_text_size"
                             android:textStyle="bold" />
 

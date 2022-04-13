@@ -150,7 +150,7 @@
                 android:id="@+id/imageView2"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@drawable/trusted_blue" />
+                android:src="@drawable/trusted_b_n" />
 
             <LinearLayout
                 android:layout_gravity="center"
@@ -194,7 +194,7 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:src="@drawable/free_blue" />
+                android:src="@drawable/free_b_n" />
 
             <LinearLayout
                 android:layout_width="match_parent"
