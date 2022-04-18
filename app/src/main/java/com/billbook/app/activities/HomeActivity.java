@@ -14,6 +14,7 @@ import android.os.Bundle;
 import com.billbook.app.BuildConfig;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceModelV2;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
@@ -115,6 +116,7 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         initUI();
+        BottomNavigationView bottomNavigationView = findViewById(R.id.nav_view);
         Util.setMeasurementUnits(this);
         try {
             userProfile= new JSONObject (((MyApplication)getApplication()).getUserDetails());
@@ -126,45 +128,67 @@ public class HomeActivity extends AppCompatActivity
 
         //    Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"database-name.db").addMigrations(addInvoiceNumber).build();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle =
-                new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open,
-                        R.string.navigation_drawer_close);
-        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
-
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        ActionBarDrawerToggle toggle =
+//                new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open,
+//                        R.string.navigation_drawer_close);
+//        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+//
+//            @Override
+//            public void onDrawerSlide(View drawerView, float slideOffset) {
+//                //Called when a drawer's position changes.
+//            }
+//
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                //Called when a drawer has settled in a completely open state.
+//                //The drawer is interactive at this point.
+//                // If you have 2 drawers (left and right) you can distinguish
+//                // them by using id of the drawerView. int id = drawerView.getId();
+//                // id will be your layout's id: for example R.id.left_drawer
+//
+//                navigationView.setCheckedItem(R.id.nav_home);
+//            }
+//
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                // Called when a drawer has settled in a completely closed state.
+//                navigationView.setCheckedItem(R.id.nav_home);
+//            }
+//
+//            @Override
+//            public void onDrawerStateChanged(int newState) {
+//                // Called when the drawer motion state changes. The new state will be one of STATE_IDLE, STATE_DRAGGING or STATE_SETTLING.
+//            }
+//        });
+//        toggle.syncState();
+//
+//        navigationView = findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                //Called when a drawer's position changes.
-            }
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId())
+                {
+                    case R.id.nav_home:
+                        return true;
+                    case R.id.nav_my_profile:
+                        startActivity(new Intent(getApplicationContext(),EditProfileActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.nav_help:
+                        startActivity(new Intent(getApplicationContext(),HelpActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
 
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                //Called when a drawer has settled in a completely open state.
-                //The drawer is interactive at this point.
-                // If you have 2 drawers (left and right) you can distinguish
-                // them by using id of the drawerView. int id = drawerView.getId();
-                // id will be your layout's id: for example R.id.left_drawer
+                }
 
-                navigationView.setCheckedItem(R.id.nav_home);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Called when a drawer has settled in a completely closed state.
-                navigationView.setCheckedItem(R.id.nav_home);
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-                // Called when the drawer motion state changes. The new state will be one of STATE_IDLE, STATE_DRAGGING or STATE_SETTLING.
+                return false;
             }
         });
-        toggle.syncState();
 
-        navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        setToolbar();
+//        setToolbar();
 
 //        isGSTVerified();
         updateGST();
@@ -480,20 +504,20 @@ public class HomeActivity extends AppCompatActivity
     }
 
 
-    private void setToolbar() {
-
-        tvName = navigationView.getHeaderView(0).findViewById(R.id.tvName);
-        tvEmail = navigationView.getHeaderView(0).findViewById(R.id.tvEmail);
-        iv = navigationView.getHeaderView(0).findViewById(R.id.imageViewxx);
-        if(userProfile != null) {
-            try {
-                updateDrawerProfileImg();
-                tvName.setText(userProfile.getString("shopName"));
-                tvEmail.setText(userProfile.getString("shopAddr"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+//    private void setToolbar() {
+//
+//        tvName = navigationView.getHeaderView(0).findViewById(R.id.tvName);
+//        tvEmail = navigationView.getHeaderView(0).findViewById(R.id.tvEmail);
+//        iv = navigationView.getHeaderView(0).findViewById(R.id.imageViewxx);
+//        if(userProfile != null) {
+//            try {
+//                updateDrawerProfileImg();
+//                tvName.setText(userProfile.getString("shopName"));
+//                tvEmail.setText(userProfile.getString("shopAddr"));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -519,7 +543,7 @@ public class HomeActivity extends AppCompatActivity
 //                }
 //            }
 //        }).start();
-    }
+    //}
 
     @Override
     public void onClick(View view) {
@@ -602,12 +626,12 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -633,8 +657,8 @@ public class HomeActivity extends AppCompatActivity
             showAlert();
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -680,7 +704,7 @@ public class HomeActivity extends AppCompatActivity
 
         try {
             userProfile= new JSONObject (MyApplication.getUserDetails());
-            updateDrawerProfileImg();
+//            updateDrawerProfileImg();
             getLatestInvoice(userProfile.getString("userid"));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -707,28 +731,28 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    public void updateDrawerProfileImg(){
-        try{
-            if (userProfile.has("companyLogo") && userProfile.getString("companyLogo") != null) {
-                String companyLogoPath = userProfile.getString("companyLogo");
-                companyLogoPath = companyLogoPath.replaceAll("\\/", "/");
-
-                Picasso.get()
-                        .load(companyLogoPath)
-                        .placeholder(R.drawable.man_new)
-                        .error(R.drawable.man_new)
-                        .resize(70, 70)
-                        .centerCrop()
-                        .into(iv);
-            }
-            else{
-                iv.setImageResource(R.drawable.man_new);
-            }
-        }
-        catch (JSONException e){
-            e.fillInStackTrace();
-        }
-    }
+//    public void updateDrawerProfileImg(){
+//        try{
+//            if (userProfile.has("companyLogo") && userProfile.getString("companyLogo") != null) {
+//                String companyLogoPath = userProfile.getString("companyLogo");
+//                companyLogoPath = companyLogoPath.replaceAll("\\/", "/");
+//
+//                Picasso.get()
+//                        .load(companyLogoPath)
+//                        .placeholder(R.drawable.man_new)
+//                        .error(R.drawable.man_new)
+//                        .resize(70, 70)
+//                        .centerCrop()
+//                        .into(iv);
+//            }
+//            else{
+//                iv.setImageResource(R.drawable.man_new);
+//            }
+//        }
+//        catch (JSONException e){
+//            e.fillInStackTrace();
+//        }
+//    }
 
 
     private void getLatestInvoice(String userid) {
