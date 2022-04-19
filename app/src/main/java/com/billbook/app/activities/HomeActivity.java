@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.billbook.app.services.SyncService;
 import com.billbook.app.utils.Util;
@@ -449,7 +450,7 @@ public class HomeActivity extends AppCompatActivity
 
         setSupportActionBar(mToolbar);
 
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
         btnBilling.setOnClickListener(this);
         btnManageInventory.setOnClickListener(this);
@@ -915,12 +916,37 @@ public class HomeActivity extends AppCompatActivity
         }
     }
     public void startHelpActivity(View v){
-        Util.postEvents("HelpLine","HelpLine",HomeActivity.this.getApplicationContext());
+        boolean installed = appInstallOrNot("com.whatsapp");
+        String mobNo = "9289252155" ;
+        if(installed)
+        {
+            Intent intent= new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+"+91"+mobNo));
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(HomeActivity.this,"Please Install Whatsapp", Toast.LENGTH_SHORT).show();
+        }
 
-        Intent intent = new Intent(this,HelpActivity.class);
-        intent.putExtra("isFromHelpTab",false);
-        startActivity(intent);
     }
+    private boolean appInstallOrNot(String url)
+    {
+        PackageManager packageManager = getPackageManager();
+        boolean app;
+        try {
+            packageManager.getPackageInfo(url,PackageManager.GET_ACTIVITIES);
+            app=true;
+        }
+        catch(PackageManager.NameNotFoundException e)
+        {
+            app=false;
+        }
+
+        return app;
+
+    }
+
     public void startYoutubeActivity(View v){
         Util.postEvents("Watch Demo","Watch Demo",this.getApplicationContext());
         Intent intent = new Intent(Intent.ACTION_VIEW);
