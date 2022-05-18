@@ -11,6 +11,8 @@
     tools:context=".activities.HomeActivity"
     android:padding="61dp">
 
+
+
     <TextView
         android:layout_width="match_parent"
         android:gravity="center_horizontal"

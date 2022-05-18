@@ -70,6 +70,7 @@
     <string name="details_of_receiver_bill">Details Of Customer | Bill</string>
     <string name="invoice_no">Invoice No</string>
     <string name="invoice_date">Invoice Date</string>
+    <string name="items">Items</string>
     <string name="name">Customer Name </string>
     <string name="IMEI_enter">IMEI/S.No of Product (Optional) </string>
     <string name="nameAndemail">Name &amp; Email</string>
@@ -79,6 +80,7 @@
     <string name="city">City<font color='#ff0000'>*</font></string>
     <string name="state_without_asterisk">State</string>
     <string name="state">State<font color='#ff0000'>*</font></string>
+    <string name="scan"><font color='#266CE4'>Scan</font></string>
     <string name="mobile_no">Contact Number</string>
     <string name="paymentValue1">Amount</string>
     <string name="paymentMethod1Title">Payment Mode Amount</string>
@@ -87,7 +89,7 @@
     <string name="paymentMethod">Payment Mode1</string>
     <string name="paymentMethod1">Payment Mode2</string>
 
-    <string name="enter_gst">Enter GST %<font color='#ff0000'>*</font> </string>
+    <string name="enter_gst">GST %<font color='#ff0000'>*</font> </string>
     <string name="select_gst_type">GST Type</string>
     <string name="select_gst_percenatge">GST %</string>
     <string name="enter_igst">Enter IGST</string>

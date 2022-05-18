@@ -255,6 +255,12 @@ public class HomeActivity extends AppCompatActivity
                             yesGst.dismiss();
                         }
                     });
+                    yesGstSheet.findViewById(R.id.cancelGst).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            yesGst.dismiss();
+                        }
+                    });
                     yesGst.setContentView(yesGstSheet);
                     yesGst.show();
 
