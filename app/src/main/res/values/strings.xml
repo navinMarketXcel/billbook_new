@@ -376,5 +376,7 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
         <item>7 days</item>
         <item>30days</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

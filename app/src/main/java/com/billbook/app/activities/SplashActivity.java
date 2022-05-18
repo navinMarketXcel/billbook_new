@@ -73,7 +73,9 @@ private void startSplash(){
             try {
                 JSONObject profile = new JSONObject(((MyApplication) getApplication()).getUserDetails());
                 if (profile.has("userToken") && profile.has("shopName")) {
-                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                   /* Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+                    startActivity(intent);  */
+                    Intent intent = new Intent(SplashActivity.this, BottomNavigationActivity.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(SplashActivity.this, loginPick_activity.class);
