@@ -7,6 +7,7 @@
     <string name="yes">yes</string>
     <string name="no">No</string>
     <string name="alert">Alert</string>
+    <string name="date">Date<font color='#ff0000'>*</font></string>
     <string name="preference_file_key">MarketExcelAppPref</string>
     <string name="invoicesOffline">invoicesOffline</string>
     <string name="user_login_token">UserLoginToken</string>
@@ -31,6 +32,7 @@
     <string name="manage_inventory">Expense</string>
     <string name="no_internet">Check Internet Connection</string>
     <string name="expenses">Expenses</string>
+    <string name="add_expenses">Add Expenses</string>
 
     <string name="select_category">Select Category</string>
     <string name="select_brand">Select Brand</string>
@@ -164,6 +166,7 @@
     <string name="inv_pref">Invoice</string>
 
     <string name="amount">Amount</string>
+    <string name="expense_amount">Amount (₹)<font color='#ff0000'>*</font></string>
     <string name="enter_amount">Enter Amount</string>
     <string name="changePass">Submit</string>
     <string name="selectdate">Select Date</string>
