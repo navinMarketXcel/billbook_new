@@ -51,6 +51,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.billbook.app.utils.Util;
@@ -131,6 +132,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private ImageButton imageButton;
     private EditText edtname;
     private EditText edtMobNo;
+    private TextView additemTv;
     private static final int Contact_code=123;
     private static final int Contact_Pick_code=111;
 
@@ -145,6 +147,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         //imageButton=findViewById(R.id.button1);
         edtname=findViewById(R.id.edtName);
         edtMobNo=findViewById(R.id.edtMobNo);
+
         View view = binding.getRoot();
         setContentView(view);
 
@@ -167,7 +170,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         searchItemAutoComplete();
         customerNumberAutoComplete();
 
+
+
     }
+
 
     //Functions For Checking Contact permissions
     public void clickButton(View view)
@@ -704,7 +710,15 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void addMoreItem(View view) {
         Util.postEvents("Add More Item", "Add More Item", this.getApplicationContext());
         customDialogClass = new BottomSheetClass(this, null,measurementUnitTypeList);
+        additemTv = findViewById(R.id.additemTv);
+
         customDialogClass.show();
+        TextView viewNew = customDialogClass.findViewById(R.id.additemTv);
+        viewNew.setText("Add New Item");
+        TableRow table = customDialogClass.findViewById(R.id.deleteLayout);
+        table.setVisibility(View.GONE);
+
+        //additemTv.setText("Add New Item");
     }
 
     public void addItem(View view) {
@@ -727,6 +741,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             addItemToDatabase(billItemBinding.itemNameET.getText().toString(),
                     Float.parseFloat(billItemBinding.itemPriceET.getText().toString()),
                     Float.parseFloat(billItemBinding.itemQtyET.getText().toString()),
+                    Float.parseFloat(billItemBinding.gstPercentage.getSelectedItemPosition() > 0 ? billItemBinding.gstPercentage.getSelectedItem().toString() : "0"),
                     true,
                     billItemBinding.imeiNo.getText().toString(),
                     billItemBinding.imeiNo.getText().toString(),
@@ -734,20 +749,21 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
             binding.cardItemList.setVisibility(View.VISIBLE);
             binding.layoutBillItemInitial.setVisibility(View.GONE);
-
+            binding.tvTotal.setText(billItemBinding.itemPriceET.getText().toString());
+            binding.tvTotalFinal.setText(billItemBinding.itemPriceET.getText().toString());
         }
 
 
     }
 
-    public void addItemToDatabase(final String modelName, final float price, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId, long masterItemId){
+    public void addItemToDatabase(final String modelName, final float price,final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId, long masterItemId){
         // When editing an invoice item
         if(isNew==false){
             int localId = invoiceItemsList.get(editPosition).getLocalid();
             long curLocalInvoiceId = invoiceItemsList.get(editPosition).getLocalInvoiceId();
             setTotal(invoiceItemsList.get(editPosition), false);
             calculateAmountBeforeGST(invoiceItemsList.get(editPosition), false);
-            InvoiceItems newInvoiceItem  = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + 60)) * quantity, 100, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,0,localId,curLocalInvoiceId,masterItemId);
+            InvoiceItems newInvoiceItem  = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity,gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,0,localId,curLocalInvoiceId,masterItemId);
             invoiceItemViewModel.updateByLocalId(newInvoiceItem);
             setTotal(newInvoiceItem, true);
             calculateDiscount();
@@ -755,7 +771,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             return;
         }
 
-        InvoiceItems newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + 60)) * quantity, 100, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,0,1,localInvoiceId,masterItemId);
+        InvoiceItems newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,0,1,localInvoiceId,masterItemId);
         invoiceItemViewModel.insert(newInvoiceItem);
         setTotal(newInvoiceItem, true);
         calculateDiscount();
@@ -772,7 +788,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 // newBillingAdapter = new NewBillingAdapter(invoiceItems, BillingNewActivity.this, isGSTAvailable);
                 // binding.invoiceItems.setAdapter(newBillingAdapter);
                 // invoiceItemsList = invoiceItems;
-                newBillingAdapter = new NewBillingAdapter(invoiceItemsList, BillingNewActivity.this, isGSTAvailable);
+                newBillingAdapter = new NewBillingAdapter(invoiceItemsList, BillingNewActivity.this, isGSTAvailable,BillingNewActivity.this);
                 binding.invoiceItems.setAdapter(newBillingAdapter);
                 invoiceItemsList.clear();
                 for(int i =0;i<invoiceItems.size();i++)invoiceItemsList.add(invoiceItems.get(i));
@@ -847,8 +863,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     @Override
     public void itemClick(final int position, boolean isEdit) {
         if (isEdit) {
+
+            //additemTv.setText("Update Item");
+            Toast.makeText(this,"clicked",Toast.LENGTH_LONG).show();
             editPosition = position;
             new BottomSheetClass(this, invoiceItemsList.get(position),measurementUnitTypeList).show();
+
         } else {
             DialogUtils.showAlertDialog(this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
                 @Override
@@ -908,6 +928,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             hsnNo = findViewById(R.id.hsnNo);
             measurementUnitSpinner = findViewById(R.id.unit);
             priceEdtInputLayout = findViewById(R.id.priceEdtInputLayout);
+            additemTv = findViewById(R.id.additemTv);
+            additemTv.setText("Update Item");
             modelName.setAdapter(modelAdapter);
 
             Spinner spinner = measurementUnitSpinner;
@@ -1004,7 +1026,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                         addItemToDatabase(modelName.getText().toString(),
                                 Float.parseFloat(priceEt.getText().toString())
-                                ,Float.parseFloat(quantityEt.getText().toString()),
+                                ,Float.parseFloat(gstPercentage.getSelectedItemPosition() > 0 ? gstPercentage.getSelectedItem().toString() : "0"),
+                                Float.parseFloat(quantityEt.getText().toString()),
                                 this.newInvoiceModel == null ? true : false,
                                 imeiNo.getText().toString(),
                                 imeiNo.getText().toString(),
@@ -1624,6 +1647,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     addItemToDatabase(curItem.getName(),
                             curItem.getPrice(),
                             curItem.getQuantity(),
+                            curItem.getGst(),
                             true,
                             curItem.getImei(),
                             curItem.getSerial_no(),

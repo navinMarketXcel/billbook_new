@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -28,16 +29,19 @@ public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.My
     private Context context;
     private onItemClick onItemClick;
     private boolean isGSTAvailable;
+    private onItemClick mOnItemClick;
+    private TextView additemTv;
     private List<String> measurementUnitTypeList;
-    public NewBillingAdapter(ArrayList<InvoiceItems> newInvoiceModels, Context context, boolean isGSTAvailable) {
+    public NewBillingAdapter(ArrayList<InvoiceItems> newInvoiceModels, Context context, boolean isGSTAvailable, onItemClick mOnItemClick) {
         this.newInvoiceModels = newInvoiceModels;
         this.context = context;
         onItemClick = (NewBillingAdapter.onItemClick) context;
         this.isGSTAvailable=isGSTAvailable;
+        this.mOnItemClick= mOnItemClick;
 
         getMeasurementUnit();
         if(measurementUnitTypeList==null)
-        this.measurementUnitTypeList=  Arrays.asList (context.getResources().getStringArray(R.array.measurementUnit));
+            this.measurementUnitTypeList=  Arrays.asList (context.getResources().getStringArray(R.array.measurementUnit));
     }
 
     @NonNull
@@ -45,7 +49,7 @@ public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.My
     public NewBillingAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.new_bill_item, parent, false);
-        return new NewBillingAdapter.MyViewHolder(itemView);
+        return new NewBillingAdapter.MyViewHolder(itemView,mOnItemClick);
     }
 
     @Override
@@ -86,23 +90,34 @@ public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.My
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView tvSrNoTv,itemNameHdTv,quantityHdTv,priceHdTv,totalHdTv,gstTV;
         public TextView edit,delete;
         public TableRow deleteLayout,editLayout;
+        onItemClick onitemclick;
 
-        public MyViewHolder(View view) {
+        public MyViewHolder(View view,onItemClick onitemclick) {
             super(view);
+            this.onitemclick = onitemclick;
+
             //tvSrNoTv = view.findViewById(R.id.tvSrNoTv);
             itemNameHdTv = view.findViewById(R.id.itemNameHdTv);
             quantityHdTv = view.findViewById(R.id.quantityHdTv);
             priceHdTv = view.findViewById(R.id.priceHdTv);
             //totalHdTv = view.findViewById(R.id.totalHdTv);
-            edit = view.findViewById(R.id.edit);
+            // edit = view.findViewById(R.id.edit);
             //delete = view.findViewById(R.id.delete);
             gstTV = view.findViewById(R.id.gstTV);
             //deleteLayout = view.findViewById(R.id.deleteLayout);
-           // editLayout= view.findViewById(R.id.editLayout);
+            //editLayout= view.findViewById(R.id.editLayout);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onitemclick.itemClick(getAdapterPosition(),true);
+
+
         }
     }
     public interface  onItemClick {

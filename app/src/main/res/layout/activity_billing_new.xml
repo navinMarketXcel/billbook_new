@@ -465,7 +465,7 @@
                             android:fontFamily="@font/inter"
                             android:textSize="15sp"
                             android:gravity="right"
-                            android:text="12319" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -495,7 +495,7 @@
                             android:gravity="right"
                             android:fontFamily="@font/inter"
                             android:textSize="15sp"
-                            android:text="1679" />
+                            android:text="" />
                     </LinearLayout>
 
                     <LinearLayout
