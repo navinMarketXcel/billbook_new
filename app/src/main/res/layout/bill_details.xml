@@ -1,0 +1,202 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:background="#ffff"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:paddingBottom="10dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:fontFamily="@font/inter"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:text="Bill Details" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="right"
+            android:fontFamily="@font/inter"
+            android:background="#ffffff"
+            android:textColor="#266CE4"
+            android:layout_height="20dp"
+            android:text="Cancel">
+
+        </Button>
+    </LinearLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/borderOpaque"/>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/amtBeforeTaxLabelTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/inter"
+            android:textSize="15sp"
+            android:text="Amount:" />
+
+        <TextView
+            android:id="@+id/tvAmountBeforeTax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/inter"
+            android:textSize="15sp"
+            android:gravity="right"
+            android:text="12319" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/taxLabelTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:fontFamily="@font/inter"
+            android:textSize="15sp"
+            android:text="GST:" />
+
+        <TextView
+            android:id="@+id/tvAmountGST"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:fontFamily="@font/inter"
+            android:textSize="15sp"
+            android:text="1679" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:fontFamily="@font/inter"
+            android:textSize="15sp"
+            android:text="Discount:" />
+
+        <EditText
+            android:id="@+id/edtDiscountPercent"
+            style="@style/editText"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:fontFamily="@font/inter"
+            android:hint="In %"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_margin="2dp"
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OR"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:gravity="right"/>
+
+        <EditText
+            android:id="@+id/edtDiscountAmt"
+            style="@style/editText"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="2dp"
+            android:fontFamily="@font/inter"
+            android:hint="In Rs"
+            android:text=""
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_marginTop="7dp"
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:background="@color/borderOpaque"/>
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextView
+            android:fontFamily="@font/inter"
+            android:textSize="18sp"
+            android:textColor="#0A0A0A"
+            android:layout_margin="2dp"
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:text="Total Amount:" />
+
+        <TextView
+
+            android:fontFamily="@font/inter"
+            android:textSize="18sp"
+            android:layout_margin="2dp"
+            android:id="@+id/tvTotal"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:gravity="right"
+            android:textColor="#0A0A0A"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="13000" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -16,7 +16,7 @@
     </string-array>
 
     <string-array name="gstPercentage">
-        <item>Select GST</item>
+        <item>GST %</item>
         <item>0</item>
         <item>3</item>
         <item>5</item>

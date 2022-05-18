@@ -13,4 +13,7 @@
     <color name="mdtp_accent_color">#1d4388</color>
     <color name="mdtp_accent_color_dark">#1e4388</color>
     <color name="Silver">#AFAFAF</color>
+    <color name="PrimaryLight">#F1F5FF</color>
+    <color name="borderOpaque">#E2E2E2</color>
+
 </resources>

@@ -22,6 +22,7 @@ import com.billbook.app.databinding.ActivityBillingNewBinding;
 import com.billbook.app.databinding.LayoutItemBillBinding;
 import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.billbook.app.viewmodel.InvoiceViewModel;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -116,7 +117,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private final int GRANT_STORAGE_PERMISSION =1;
     private boolean isEdit = false;
     private JSONObject invoice;
-    private CustomDialogClass customDialogClass;
+    private BottomSheetClass customDialogClass;
 
     private ActivityBillingNewBinding binding;
     private LayoutItemBillBinding billItemBinding;
@@ -141,7 +142,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         binding = ActivityBillingNewBinding.inflate(getLayoutInflater());
         billItemBinding = binding.includedLayoutItemBill;
         invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
-        imageButton=findViewById(R.id.button1);
+        //imageButton=findViewById(R.id.button1);
         edtname=findViewById(R.id.edtName);
         edtMobNo=findViewById(R.id.edtMobNo);
         View view = binding.getRoot();
@@ -229,7 +230,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         DateFormat formatter =
                 new SimpleDateFormat("yyyy-MM-dd");
         invoiceDateStr = formatter.format(new Date());
-        binding.billDate.setText("Bill Date: " + invoiceDateStr);
+        binding.billDate.setText(invoiceDateStr);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         binding.invoiceItems.setLayoutManager(mLayoutManager);
@@ -246,10 +247,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         else
             serialNumber = MyApplication.getInVoiceNumberForNonGst();
 
-        binding.billNo.setText("Bill Number:" + serialNumber);
+        binding.billNo.setText(""+ serialNumber);
 
         int showGstPopup = MyApplication.showGstPopup();
-        binding.GSTError.setVisibility(showGstPopup != 2 ? serialNumber < 3 ? View.VISIBLE : View.GONE : View.GONE);
+        //binding.GSTError.setVisibility(showGstPopup != 2 ? serialNumber < 3 ? View.VISIBLE : View.GONE : View.GONE);
 
         binding.gstType.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.tvAmountBeforeTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
@@ -262,7 +263,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         billItemBinding.gstPercentageTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         billItemBinding.gstPerLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-        billItemBinding.hsnLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+//        billItemBinding.hsnLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
 
         Spinner spinner = (Spinner) billItemBinding.unit;
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -360,19 +361,19 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             }
         });
 
-        billItemBinding.itemNameET.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    HashMap<String,String> req = new HashMap<>();
-                    req.put("userid", profile.getString("userid"));
-                    req.put("name", itemAdapter.getItem(position));
-                    fetchMeasurementIdApiCall(req,billItemBinding.unit);
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
+//        billItemBinding.itemNameET.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                try {
+//                    HashMap<String,String> req = new HashMap<>();
+//                    req.put("userid", profile.getString("userid"));
+//                    req.put("name", itemAdapter.getItem(position));
+//                    fetchMeasurementIdApiCall(req,billItemBinding.unit);
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
     }
 
@@ -394,7 +395,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     try{
-                        billItemBinding.itemNameET.showDropDown();
+                        //billItemBinding.itemNameET.showDropDown();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -405,7 +406,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     try {
                         if (s.length() > 2) {
                             req.put("name", s.toString());
-                            searchItemApiCall(call, (HashMap<String, String>) req,billItemBinding.itemNameET);
+                            //searchItemApiCall(call, (HashMap<String, String>) req,billItemBinding.itemNameET);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -505,7 +506,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     try{
-                        binding.edtName.showDropDown();
+                        //binding.edtName.showDropDown();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -516,7 +517,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     try {
                         if (s.length() > 2) {
                             req.put("customerName", s.toString());
-                            searchCustomerApiCall(call, (HashMap<String, String>) req,binding.edtName);
+                            //searchCustomerApiCall(call, (HashMap<String, String>) req,binding.edtName);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -676,8 +677,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 if (binding.layoutBillItemInitial.getVisibility() == View.VISIBLE) {
                     billItemBinding.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
-                } else if (customDialogClass.isShowing()) {
-                    customDialogClass.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
+//                } else if (BottomSheetClass.isShowing()) {
+//                    BottomSheetClass..setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
                 }
             }
 
@@ -702,7 +703,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     public void addMoreItem(View view) {
         Util.postEvents("Add More Item", "Add More Item", this.getApplicationContext());
-        customDialogClass = new CustomDialogClass(this, null,measurementUnitTypeList);
+        customDialogClass = new BottomSheetClass(this, null,measurementUnitTypeList);
         customDialogClass.show();
     }
 
@@ -721,14 +722,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //            cardItemList.setVisibility(View.VISIBLE);
 //            layoutBillItem_initial.setVisibility(View.GONE);
 //            final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId
-
+            Button button =findViewById(R.id.addMoreItem);
+            button.setVisibility(View.VISIBLE);
             addItemToDatabase(billItemBinding.itemNameET.getText().toString(),
                     Float.parseFloat(billItemBinding.itemPriceET.getText().toString()),
-                    Float.parseFloat(billItemBinding.gstPercentage.getSelectedItemPosition() > 0 ? billItemBinding.gstPercentage.getSelectedItem().toString() : "0")
-                    , Float.parseFloat(billItemBinding.itemQtyET.getText().toString()),
+                    Float.parseFloat(billItemBinding.itemQtyET.getText().toString()),
                     true,
                     billItemBinding.imeiNo.getText().toString(),
-                    billItemBinding.hsnNo.getText().toString(),
+                    billItemBinding.imeiNo.getText().toString(),
                     billItemBinding.unit.getSelectedItemPosition(),-1);
 
             binding.cardItemList.setVisibility(View.VISIBLE);
@@ -739,14 +740,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     }
 
-    public void addItemToDatabase(final String modelName, final float price, final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId, long masterItemId){
+    public void addItemToDatabase(final String modelName, final float price, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId, long masterItemId){
         // When editing an invoice item
         if(isNew==false){
             int localId = invoiceItemsList.get(editPosition).getLocalid();
             long curLocalInvoiceId = invoiceItemsList.get(editPosition).getLocalInvoiceId();
             setTotal(invoiceItemsList.get(editPosition), false);
             calculateAmountBeforeGST(invoiceItemsList.get(editPosition), false);
-            InvoiceItems newInvoiceItem  = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,0,localId,curLocalInvoiceId,masterItemId);
+            InvoiceItems newInvoiceItem  = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + 60)) * quantity, 100, true, 0, hsnNo, imei,quantity * price,invoiceIdIfEdit,0,localId,curLocalInvoiceId,masterItemId);
             invoiceItemViewModel.updateByLocalId(newInvoiceItem);
             setTotal(newInvoiceItem, true);
             calculateDiscount();
@@ -754,7 +755,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             return;
         }
 
-        InvoiceItems newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + gst)) * quantity, gst, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,0,1,localInvoiceId,masterItemId);
+        InvoiceItems newInvoiceItem = new InvoiceItems(measurementUnitId, modelName, quantity, price, gstTypeList.get(binding.gstType.getSelectedItemPosition()), ((price * 100) / (100 + 60)) * quantity, 100, true, 0,hsnNo,imei,quantity * price,invoiceIdIfEdit,0,1,localInvoiceId,masterItemId);
         invoiceItemViewModel.insert(newInvoiceItem);
         setTotal(newInvoiceItem, true);
         calculateDiscount();
@@ -847,7 +848,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void itemClick(final int position, boolean isEdit) {
         if (isEdit) {
             editPosition = position;
-            new CustomDialogClass(this, invoiceItemsList.get(position),measurementUnitTypeList).show();
+            new BottomSheetClass(this, invoiceItemsList.get(position),measurementUnitTypeList).show();
         } else {
             DialogUtils.showAlertDialog(this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
                 @Override
@@ -868,7 +869,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
 
-    public class CustomDialogClass extends Dialog implements
+    public class BottomSheetClass extends BottomSheetDialog implements
             android.view.View.OnClickListener {
         public Activity c;
         public Dialog d;
@@ -881,7 +882,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         private InvoiceItems newInvoiceModel;
         private List<String> measureUnitTypeList;
 
-        public CustomDialogClass(Activity a, InvoiceItems newInvoiceModel,List<String> measureUnitTypeList) {
+        public BottomSheetClass(Activity a, InvoiceItems newInvoiceModel,List<String> measureUnitTypeList) {
             super(a);
             // TODO Auto-generated constructor stub
             this.c = a;
@@ -1002,12 +1003,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     if (verifyData()) {
 
                         addItemToDatabase(modelName.getText().toString(),
-                                Float.parseFloat(priceEt.getText().toString()),
-                                Float.parseFloat(gstPercentage.getSelectedItemPosition() > 0 ? gstPercentage.getSelectedItem().toString() : "0")
-                                , Float.parseFloat(quantityEt.getText().toString()),
+                                Float.parseFloat(priceEt.getText().toString())
+                                ,Float.parseFloat(quantityEt.getText().toString()),
                                 this.newInvoiceModel == null ? true : false,
                                 imeiNo.getText().toString(),
-                                hsnNo.getText().toString(),
+                                imeiNo.getText().toString(),
                                 measurementUnitSpinner.getSelectedItemPosition(),-1);
 
                         dismiss();
@@ -1064,7 +1064,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     DateFormat formatter =
                             new SimpleDateFormat("yyyy-MM-dd");
                     invoiceDateStr = formatter.format(invoiceDate);
-                    binding.billDate.setText("Bill Date: " + invoiceDateStr);
+                    binding.billDate.setText(invoiceDateStr);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -1090,16 +1090,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
     // toggle function to show and hide discount
-    public void showHideDiscountBilling(View view) {
-        if (binding.discountBillingLayout.getVisibility() == View.VISIBLE) {
-            binding.discountBillingLayout.setVisibility(View.GONE);
-            binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_add_circle, 0);
-        } else {
-            binding.discountBillingLayout.setVisibility(View.VISIBLE);
-            binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
-
-        }
-    }
+//    public void showHideDiscountBilling(View view) {
+//        if (binding.discountBillingLayout.getVisibility() == View.VISIBLE) {
+//            binding.discountBillingLayout.setVisibility(View.GONE);
+//            binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_add_circle, 0);
+//        } else {
+//            binding.discountBillingLayout.setVisibility(View.VISIBLE);
+//            binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
+//
+//        }
+//    }
 
 
     private void setTotal(InvoiceItems newInvoiceModel, boolean add) {
@@ -1108,6 +1108,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         else
             total = total - newInvoiceModel.getTotalAmount();
         binding.tvTotal.setText(Util.formatDecimalValue(total));
+
 
     }
 
@@ -1155,6 +1156,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             } else {
                 float totalAfterDiscount = total - discountAmt;
                 binding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
+                binding.tvTotalFinal.setText(Util.formatDecimalValue(totalAfterDiscount));
                 setEditTextError(binding.edtDiscountAmt, "");
                 setEditTextError(binding.edtDiscountPercent, "");
             }
@@ -1297,9 +1299,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         } else if (billItemBinding.itemQtyET.getText().toString().isEmpty() || Float.parseFloat(billItemBinding.itemQtyET.getText().toString()) == 0) {
             DialogUtils.showToast(this, "Please enter quantity");
             return false;
-        } else if (isGSTAvailable && billItemBinding.gstPercentage.getSelectedItemPosition() == 0) {
-            DialogUtils.showToast(this, "Please select GST %");
-            return false;
+//        } else if (isGSTAvailable && billItemBinding.gstPercentage.getSelectedItemPosition() == 0) {
+//            DialogUtils.showToast(this, "Please select GST %");
+//            return false;
         }
         return true;
     }
@@ -1344,9 +1346,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 saveInvoiceToLocalDatabase(invoice);
                 idInLocalDb = -1;
             } else {
-                currInvoiceToUpdate.setCustomerName(invoice.has("name")  ? invoice.getString("name") : "");
-                currInvoiceToUpdate.setCustomerMobileNo(invoice.has("mobileNo") ? invoice.getString("mobileNo") : "");
-                currInvoiceToUpdate.setCustomerAddress(invoice.has("address") ? invoice.getString("address") : "");
+                currInvoiceToUpdate.setCustomerName(invoice.has("customerName")  ? invoice.getString("customerName") : "");
+                currInvoiceToUpdate.setCustomerMobileNo(invoice.has("customerMobileNo") ? invoice.getString("customerMobileNo") : "");
+                currInvoiceToUpdate.setCustomerAddress(invoice.has("customerAddress") ? invoice.getString("customerAddress") : "");
                 currInvoiceToUpdate.setGSTNo(invoice.has("GSTNo") ? invoice.getString("GSTNo") : "");
                 currInvoiceToUpdate.setTotalAmount(invoice.has("totalAmount") ? (float) invoice.getDouble("totalAmount") : 0);
                 currInvoiceToUpdate.setUserid(invoice.has("userid") ? invoice.getInt("userid") : 0);
@@ -1543,7 +1545,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //                            }else{
 //                            }
                         serialNumber = Integer.parseInt(invSerialNo.getText().toString());
-                        binding.billNo.setText("Bill Number:" + invSerialNo.getText().toString());
+                        binding.billNo.setText(invSerialNo.getText().toString());
                     }
                     dismiss();
                     break;
@@ -1595,12 +1597,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     serialNumber = invoice.getInt("gstBillNo");
                 else
                     serialNumber = invoice.getInt("nonGstBillNo");
-                binding.billNo.setText("Bill Number: " + serialNumber);
+                binding.billNo.setText(serialNumber);
 //                bill_no.setEnabled(false);
                 invoiceIdIfEdit = invoice.getInt("id");
                 localInvoiceId = invoiceIdIfEdit;
                 invoiceDateStr = Util.getFormatedDate(invoice.getString("invoiceDate"));
-                binding.billDate.setText("Bill Date: " + invoiceDateStr);
+                binding.billDate.setText(invoiceDateStr);
 //                bill_date.setEnabled(false);
 
                 binding.edtName.setText(invoice.getJSONObject("customer").getString("name"));
@@ -1621,7 +1623,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                     addItemToDatabase(curItem.getName(),
                             curItem.getPrice(),
-                            curItem.getGst(),
                             curItem.getQuantity(),
                             true,
                             curItem.getImei(),
@@ -1652,8 +1653,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 // for old invoices if discount key is not present
                 float totalDiscount = 0, discountPercentLocal = 0;
                 if (invoice.has("discount") && invoice.has("totalAfterDiscount")) {
-                    binding.discountBillingLayout.setVisibility(View.VISIBLE);
-                    binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
+//                    binding.discountBillingLayout.setVisibility(View.VISIBLE);
+//                    binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
                     discountPercent = (float) invoice.getDouble("discount");
                     discountPercentLocal = discountPercent;
                     totalDiscount = total - (float) invoice.getDouble("totalAfterDiscount");
@@ -1690,4 +1691,3 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
 }
-
