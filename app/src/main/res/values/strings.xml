@@ -378,5 +378,33 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="make_gst_bills">Make GST Bills</string>
+    <string name="switch_gst_and_non_gst_bills">Switch GST and Non-GST bills</string>
+    <string name="email_address_phone_number_etc">Email Address, Phone Number etc..</string>
+    <string name="contact_details">Contact Details</string>
+    <string name="business_details">Business Details</string>
+    <string name="business_name_address_gst_and_more">Business Name, Address, GST and more</string>
+    <string name="logo_and_signature">Logo and Signature</string>
+    <string name="customise_your_bills">Customise your bills</string>
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="help">Help</string>
+    <string name="phone_number_">Phone Number<font color='#F62525'> *</font></string>
+    <string name="business_name_">Business Name<font color='#F62525'> *</font></string>
+    <string name="business_name">Business Name</string>
+    <string name="shop_add_">Shop Address<font color='#F62525'> *</font></string>
+    <string name="pin_code_">Pin Code<font color='#F62525'> *</font></string>
+    <string name="city_">City<font color='#F62525'> *</font></string>
+    <string name="state_">State<font color='#F62525'> *</font></string>
+    <string name="gst_num_">GST Number<font color='#F62525'> *</font></string>
+    <string name="gst_num">GST Number</string>
+    <string name="citye">City</string>
+    <string name="statee">State</string>
+    <string name="pin_code">Pin Code</string>
+    <string name="shop_add">Shop Address</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="email_">Email Address<font color='#F62525'> *</font></string>
+    <string name="email_add">Email Address</string>
+    <string name="save">Save</string>
 
 </resources>

@@ -15,5 +15,7 @@
     <color name="Silver">#AFAFAF</color>
     <color name="PrimaryLight">#F1F5FF</color>
     <color name="borderOpaque">#E2E2E2</color>
-
+    <color name="grey_b9b9b9">#b9b9b9</color>
+    <color name="grey_f2f2f2">#f2f2f2</color>
+    <color name="red_800000">#800000</color>
 </resources>

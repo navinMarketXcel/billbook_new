@@ -36,6 +36,16 @@
 
             android:exported="false" />
         <activity
+            android:name=".activities.ContactDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:exported="false" />
+        <activity
+            android:name=".activities.BusinessDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:exported="false" />
+        <activity
             android:name=".activities.DayBookActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
