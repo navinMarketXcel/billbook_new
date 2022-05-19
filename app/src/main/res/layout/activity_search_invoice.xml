@@ -25,46 +25,81 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <EditText
-                android:id="@+id/edtMobileNo"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Search"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/inter"
+                    >
+
+                </TextView>
+
+                <EditText
+                android:id="@+id/edtMobileNo"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
                 android:layout_weight="1"
-                android:background="@drawable/edt_background"
+                android:drawableLeft="@drawable/ic_search_white_24dp"
+                style="@style/editText"
                 android:hint="Enter Mobile No Or Customer Name"
                 android:inputType="text"
                 android:maxLength="10"
                 android:padding="5dp" />
+            </LinearLayout>
 
-           <TextView
-               android:id="@+id/toAndFromDate"
-               android:layout_width="match_parent"
-               android:enabled="true"
-               android:focusable="false"
-               android:drawableLeft="@drawable/ic_calendar_today"
-               android:editable="true"
-               android:drawablePadding="5dp"
-               android:onClick="showDatePickerDialog"
-               android:padding="15dp"
-                android:hint="Select Date"
-               android:layout_marginLeft="5dp"
-               android:layout_marginRight="5dp"
-               android:layout_marginBottom="10dp"
 
-               android:layout_marginTop="10dp"
-               android:background="@drawable/edt_background"
-               android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/toAndFromDate"
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/inter"
+                    android:text="Choose Period"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content">
 
-           </TextView>
+                </TextView>
+
+                <Spinner
+                    android:id="@+id/dateSpinner"
+                    style="@style/mySpinnerForUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_weight="3"
+                    android:hint="Select Date"
+                    android:background="@drawable/spinnerbg"
+                    android:drawableLeft="@drawable/ic_calendar_today"
+                    android:drawablePadding="5dp"
+                    android:entries="@array/dateCalender"
+                    android:fadeScrollbars="false"
+                    android:inputType="phone"
+                    android:maxLength="4"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                     />
+
+            </LinearLayout>
+
+
             <Button
                 android:id="@+id/btnSearch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:background="@color/colorPrimary"
+                android:layout_margin="20dp"
+                android:background="@drawable/login_button_structure"
                 android:text="@string/search"
+                android:fontFamily="@font/inter"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
@@ -80,24 +115,100 @@
         app:contentPadding="10dp"
         card_view:cardCornerRadius="5dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="5dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:fontFamily="@font/inter"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:text="Recent Items" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+                        <Button
+                            android:id="@+id/sortTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:text="Sort"
+                            android:onClick="clickSort"
+                            android:layout_gravity="center"
+                            android:drawableLeft="@drawable/sorting"
+                            android:textStyle="bold"
+                            android:background="@color/white"
+                            android:textSize="13sp"
+                            android:layout_marginRight="10dp"
+                            android:textColor="#266CE4">
+
+                        </Button>
+                        <TextView
+                            android:id="@+id/selectTv"
+                            android:layout_marginLeft="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Select"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="#266CE4"
+                            android:layout_gravity="right"
+                            android:gravity="right">
+
+                        </TextView>
+
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/borderOpaque"/>
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/tvRecordNotFound"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="Records Not Found." />
+                android:layout_width="250dp"
+                android:layout_gravity="center"
+                android:layout_height="250dp"
+                android:background="@drawable/searchbg"
+                android:gravity="center"
+                 />
+
+
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewInvoice"
                 android:layout_width="match_parent"
+                android:layout_marginTop="30dp"
+                android:layout_height="match_parent"
                 android:layout_above="@+id/downloadAll"
-                android:layout_height="match_parent">
+                >
+
 
             </androidx.recyclerview.widget.RecyclerView>
 
@@ -112,7 +223,7 @@
                 android:onClick="downloadInvoice"
                 android:text="Download Selected Invoices"
                 android:textColor="@color/white"></Button>
-        </RelativeLayout>
+        </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 

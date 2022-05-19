@@ -1,159 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/llMain"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:layout_margin="10dp"
+    android:id="@+id/editLayout"
+    android:background="@drawable/card_structure"
+    android:orientation="horizontal">
 
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp">
-    <CheckBox
-        android:id="@+id/download"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </CheckBox>
     <LinearLayout
+        android:layout_weight="0.6"
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvInvoiceValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="#0A0A0A"
+                android:fontFamily="@font/inter"
+                android:textSize="18sp"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tvTotalAmtValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/inter"
+                android:textColor="#05944F"
+                android:gravity="right"
+                android:textSize="18sp"
+                android:text="" />
+        </LinearLayout>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/borderOpaque"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="10"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvInvoiceCustNameValue"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:padding="5dp"
-                android:layout_weight="6"
-                android:singleLine="true"
-                android:text="Customer Name:"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold" />
-
-
-
-
-
-
-            <TextView
-                android:id="@+id/tvInvoiceValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:padding="5dp"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold"
-                android:singleLine="true"
-                android:text="Invoice No" />
-
-        </LinearLayout>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="10"
-            >
-            <TextView
-                android:id="@+id/tvTotalAmtValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="6"
-                android:ellipsize="end"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold"
-                android:gravity="start"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:text="Total Amount" />
+                android:layout_weight="1"
+                android:fontFamily="@font/inter"
+                android:textSize="15sp"
+                android:text="" />
 
             <TextView
                 android:id="@+id/tvInvoiceDateValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:ellipsize="end"
-                android:gravity="start"
-                android:textColor="@color/colorAccent"
-                android:textStyle="bold"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:text="Date:" />
-
-
-        </TableRow>
-
-
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="10"
-            android:gravity="center"
-            android:layout_margin="5dp"
-
-            >
-
-            <Button
-                android:id="@+id/saveInv"
-                android:layout_toRightOf="@+id/edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableRight="@drawable/ic_file_download"
-                android:background="@color/colorPrimary"
-                android:text="Save"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-            <Button
-                android:id="@+id/edit"
-                android:layout_alignParentLeft="true"
-                android:textColor="@color/white"
-                android:drawablePadding="5dp"
-                android:drawableRight="@drawable/ic_edit"
-                android:background="@drawable/card_edge_primary"
-                android:text="Edit"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:padding="5dp"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                ></Button>
-            <Button
-                android:id="@+id/cancelInvBItn"
-                android:textColor="@color/white"
-                android:drawablePadding="5dp"
-                android:layout_alignParentRight="true"
-                android:drawableRight="@drawable/ic_delete"
-                android:background="@drawable/card_edge_primary"
-                android:text="Cancel"
-                android:visibility="gone"
-                android:padding="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                ></Button>
-
-            <Button
-                android:id="@+id/cancelledBill"
-                android:layout_width="wrap_content"
-                android:background="@drawable/card_edge"
-                android:layout_height="wrap_content"
-                android:text="Cancelled Bill"
-                android:visibility="gone"
-                android:padding="5dp"
-                android:layout_margin="10dp"
-                android:textColor="@color/red_btn_bg_color"
-                ></Button>
-        </TableRow>
-
+                android:layout_weight="1"
+                android:fontFamily="@font/inter"
+                android:textSize="15sp"
+                android:gravity="right"
+                android:text="" />
+        </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_weight="1.4">
+       <Button
+           android:id="@+id/saveInv"
+           android:layout_margin="4dp"
+            android:background="@drawable/framesave"
+           android:padding="10dp"
+           android:layout_width="45dp"
+           android:layout_height="45dp">
+
+       </Button>
+        <Button
+            android:id="@+id/cancelInvBItn"
+            android:background="@drawable/framedelete"
+            android:layout_width="45dp"
+            android:layout_height="45dp">
+
+        </Button>
+
+        <Button
+            android:id="@+id/edit"
+            android:visibility="gone"
+            android:layout_toRightOf="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_file_download"
+            android:background="@color/colorPrimary"
+            android:text="Save"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+
 
 
 </LinearLayout>

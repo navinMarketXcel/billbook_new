@@ -48,6 +48,14 @@
         <item>Box</item>
         <item>Day</item>
     </string-array>
+    <string-array name="dateCalender">
+        <item>Today</item>
+        <item>Last 7 Days</item>
+        <item>Last 30 Days</item>
+        <item>This Month</item>
+        <item>Last Month</item>
+        <item>Custom Period</item>
+    </string-array>
 
     <string-array name="shopStatus1">
         <item>Select Shop Status</item>
