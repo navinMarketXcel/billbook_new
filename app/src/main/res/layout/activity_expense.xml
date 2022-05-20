@@ -144,18 +144,52 @@
                 android:layout_above="@+id/syncText"
                 android:layout_below="@+id/expenseHeader"></androidx.recyclerview.widget.RecyclerView>
 
-            <Button
-                android:id="@+id/downloadAll"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/syncText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_above="@+id/addExpense"
+                android:layout_marginTop="150dp"
+                android:gravity="center"
+                android:text="@string/sync_warning_expense"
+                android:textColor="@color/red_btn_bg_pressed_color"
+                android:textSize="8dp">
+
+            </TextView>
+
+            <Button
+                android:id="@+id/addExpense"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="50dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorPrimary"
-                android:onClick="downloadInvoice"
-                android:text="Download Selected Invoices"
-                android:textColor="@color/white"></Button>
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/add_expense_structure"
+                android:onClick="gotoAddExpense"
+                android:text="Add New Expense"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
         </LinearLayout>
+
+
+
 
     </androidx.cardview.widget.CardView>
 
@@ -231,12 +265,12 @@
 <!--                android:layout_marginBottom="20dp"-->
 <!--                android:background="@drawable/searchbg" />-->
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/expensesRV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/syncText"
-                android:layout_below="@+id/expenseHeader"></androidx.recyclerview.widget.RecyclerView>
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/expensesRV"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_above="@+id/syncText"-->
+<!--                android:layout_below="@+id/expenseHeader"></androidx.recyclerview.widget.RecyclerView>-->
 
 <!--            <TextView-->
 <!--                android:id="@+id/syncText"-->
