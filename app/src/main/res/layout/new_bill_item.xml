@@ -3,8 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:id="@+id/editLayout"
     android:background="@drawable/card_structure"
     android:orientation="vertical">
+
 
         <LinearLayout
             android:paddingLeft="15dp"
@@ -39,6 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:background="@color/borderOpaque"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"

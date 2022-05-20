@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,13 +21,16 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.billbook.app.utils.OnDownloadClick;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.billbook.app.R;
 import com.billbook.app.adapters.SearchInvoiceListAdapterNew;
@@ -66,6 +70,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     private int page=1;
     private JSONObject userProfile;
     private int userid;
+    private Button sortTv;
     private JSONArray invoices = new JSONArray();
     private Date to,from;
     private int hasWriteStoragePermission;
@@ -81,13 +86,51 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_invoice);
         initUI();
+        sortTv = findViewById(R.id.sortTv);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         startSpotLight(edtMobileNo, "Mobile No", "Enter Mobile no.");
 
          hasWriteStoragePermission =
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
     }
+
+    public void clickSort(View v)
+    {
+        sortTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BottomSheetDialog sortSheet = new BottomSheetDialog(SearchInvoiceActivity.this,R.style.BottomSheetDialogTheme);
+                View sortBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.sort_layout,(LinearLayout)findViewById(R.id.sortLayout));
+                sortBottomSheet.findViewById(R.id.doneSort).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sortSheet.dismiss();
+                    }
+                });
+                sortBottomSheet.findViewById(R.id.canelSort).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sortSheet.dismiss();
+                    }
+                });
+                sortBottomSheet.findViewById(R.id.bno).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TextView bno = findViewById(R.id.bno);
+                        //bno.setBackgroundColor;
+                    }
+                });
+                sortSheet.setContentView(sortBottomSheet);
+                sortSheet.show();
+            }
+
+        });
+
+    }
+
+
     private void getInvoicesCall(){
         Map<String, String> body = new HashMap<>();
         body.put("userid",userid+"");

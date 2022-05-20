@@ -10,23 +10,26 @@
     >
 
     <LinearLayout
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:paddingRight="20dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:paddingRight="20dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="left"
-                android:fontFamily="@font/inter"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="@color/black"
-                android:text="@string/items" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:fontFamily="@font/inter"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:text="@string/items" />
+
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -74,32 +77,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-            <LinearLayout
-                android:id="@+id/addPriceLayout"
-                android:layout_margin="10dp"
+        <LinearLayout
+            android:id="@+id/addPriceLayout"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#555555"
+                android:layout_height="wrap_content"
+                android:id="@+id/priceLblTV"
+                android:text="@string/price" />
+            <EditText
+                android:textColor="#0A0A0A"
+                android:id="@+id/itemPriceET"
+                style="@style/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textColor="#555555"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/priceLblTV"
-                    android:text="@string/price" />
-                <EditText
-                    android:textColor="#0A0A0A"
-                    android:id="@+id/itemPriceET"
-                    style="@style/editText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Product or service provided"
-                    android:singleLine="false"
-                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-            </LinearLayout>
+                android:hint="Product or service provided"
+                android:singleLine="false"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        </LinearLayout>
 
         <LinearLayout
             android:visibility="gone"
@@ -253,222 +256,6 @@
         </LinearLayout>
     </LinearLayout>
 
-
-
-
-
-
-<!--<TableRow-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content"-->
-<!--    android:orientation="horizontal"-->
-<!--    android:weightSum="10"-->
-<!--    android:layout_marginTop="10dp"-->
-<!--    android:padding="5dp"-->
-<!--    >-->
-
-<!--    <TextView-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center_vertical"-->
-<!--        android:layout_weight="4"-->
-<!--        android:gravity="left|center"-->
-<!--        android:text="@string/item_name_title"-->
-<!--        android:textSize="15sp"-->
-<!--        android:textStyle="bold" />-->
-
-
-<!--    <androidx.appcompat.widget.AppCompatAutoCompleteTextView-->
-<!--        style="@style/editText"-->
-<!--        android:id="@+id/itemNameET"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="6"-->
-<!--        android:hint="@string/item_name"-->
-<!--        />-->
-<!--</TableRow>-->
-
-<!--    <TableRow-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:weightSum="10"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:padding="5dp"-->
-<!--        >-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/priceLblTV"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_vertical"-->
-<!--            android:layout_weight="4"-->
-<!--            android:gravity="left|center"-->
-<!--            android:text="@string/price"-->
-<!--            android:textSize="15sp"-->
-<!--            android:textStyle="bold" />-->
-
-
-<!--        <EditText-->
-<!--            style="@style/etDecimal"-->
-<!--            android:id="@+id/itemPriceET"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="6"-->
-<!--            android:hint="@string/enter_price"-->
-<!--            android:maxLength="50"-->
-<!--             />-->
-<!--    </TableRow>-->
-<!--    <TableRow-->
-<!--        android:id="@+id/gstPerLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:padding="5dp"-->
-<!--        android:weightSum="10">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/gstPercentageTV"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="4"-->
-<!--            android:text="@string/enter_gst"-->
-<!--            android:textStyle="bold" />-->
-
-<!--        <Spinner-->
-<!--            android:id="@+id/gstPercentage"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="@dimen/add_product_spinner_height"-->
-<!--            android:layout_weight="6"-->
-<!--            android:background="@drawable/spinnerbg"-->
-<!--            android:entries="@array/gstPercentage"-->
-<!--            android:inputType="phone"-->
-<!--            android:maxLength="10"-->
-<!--            style="@style/mySpinnerItemStyle"-->
-<!--            android:padding="5dp"-->
-<!--            android:singleLine="true"-->
-<!--            android:textSize="11dp" />-->
-<!--    </TableRow>-->
-<!--    <TableRow-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:weightSum="10"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:padding="5dp"-->
-<!--        >-->
-
-<!--        <TextView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_vertical"-->
-<!--            android:layout_weight="4"-->
-<!--            android:gravity="left|center"-->
-<!--            android:text="@string/qty"-->
-<!--            android:textSize="15sp"-->
-<!--            android:textStyle="bold" />-->
-
-
-<!--        <EditText-->
-<!--            style="@style/etDecimal"-->
-<!--            android:id="@+id/itemQtyET"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="3"-->
-<!--            android:hint="@string/enter_quantities"-->
-<!--            android:maxLength="50"-->
-<!--            android:layout_marginEnd="2dp"-->
-<!--            />-->
-<!--        <Spinner-->
-<!--            android:id="@+id/unit"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="35dp"-->
-<!--            android:layout_weight="3"-->
-<!--            android:background="@drawable/spinnerbg"-->
-<!--            android:entries="@array/measurementUnit"-->
-<!--            android:inputType="phone"-->
-<!--            android:maxLength="4"-->
-<!--            android:fadeScrollbars="false"-->
-<!--            style="@style/mySpinnerForUnit"-->
-<!--            android:padding="5dp"-->
-<!--            android:singleLine="true"-->
-<!--            android:textSize="11dp" />-->
-<!--    </TableRow>-->
-<!--    <TableRow-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:weightSum="10"-->
-<!--        android:gravity="center"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:padding="5dp"-->
-<!--        >-->
-
-<!--        <TextView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_vertical"-->
-<!--            android:layout_weight="4"-->
-<!--            android:gravity="left|center"-->
-<!--            android:text=" IMEI/Serial Number"-->
-<!--            android:textSize="15sp"-->
-<!--            android:textStyle="bold" />-->
-
-
-<!--        <EditText-->
-<!--            style="@style/etAlphaNumeric"-->
-<!--            android:id="@+id/imeiNo"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="5"-->
-<!--            android:hint="@string/IMEI_enter"-->
-<!--            android:maxLength="50"-->
-<!--            android:singleLine="true"-->
-<!--            />-->
-<!--        <ImageView-->
-<!--            android:id="@+id/btnScan"-->
-<!--            android:padding="5dp"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:onClick="scanCode"-->
-<!--            android:src="@drawable/ic_scanning"-->
-<!--            ></ImageView>-->
-<!--    </TableRow>-->
-
-<!--    <TableRow-->
-<!--        android:id="@+id/hsnLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:weightSum="10"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:padding="5dp"-->
-<!--        >-->
-
-<!--        <TextView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_vertical"-->
-<!--            android:layout_weight="4"-->
-<!--            android:gravity="left|center"-->
-<!--            android:text="@string/hsnNo"-->
-<!--            android:textSize="15sp"-->
-<!--            android:textStyle="bold" />-->
-
-
-<!--        <EditText-->
-<!--            style="@style/editText"-->
-<!--            android:id="@+id/hsnNo"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="6"-->
-<!--            android:hint="@string/enter_hsnNo"-->
-<!--            android:inputType="number"-->
-<!--            android:maxLength="8"-->
-<!--            android:singleLine="true"-->
-<!--            />-->
-<!--    </TableRow>-->
     <Button
         android:id="@+id/addItem"
         android:background="@drawable/add_item_structure"
