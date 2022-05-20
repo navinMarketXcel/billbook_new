@@ -869,7 +869,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
 
-    public class BottomSheetClass extends BottomSheetDialog implements
+    public class
+    BottomSheetClass extends BottomSheetDialog implements
             android.view.View.OnClickListener {
         public Activity c;
         public Dialog d;
