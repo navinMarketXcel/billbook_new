@@ -98,13 +98,13 @@
                         android:gravity="right"
                         android:orientation="horizontal">
                         <Button
-                            android:id="@+id/sortTv"
+                            android:id="@+id/sortExpense"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
                             android:text="Sort"
                             android:onClick="clickSort"
                             android:layout_gravity="center"
-                            android:drawableLeft="@drawable/sort"
+                            android:drawableLeft="@drawable/sorting"
                             android:textStyle="bold"
                             android:background="@color/white"
                             android:textSize="13sp"
