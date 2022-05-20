@@ -9,115 +9,333 @@
     android:orientation="vertical"
     tools:context=".activities.ExpenseActivity">
 
-    <LinearLayout
 
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:elevation="2dp"
+
+        app:contentPadding="10dp"
+        card_view:cardCornerRadius="5dp">
 
         <LinearLayout
-            android:id="@+id/searchExpenseLayout"
-            android:layout_width="388dp"
-            android:layout_height="113dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingTop="24dp">
+            android:padding="5dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/search"
-                android:textColor="#555555"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/expenseAmount"
-                style="@style/editText"
-                android:layout_width="match_parent"
-                android:layout_height="53dp"
-                android:drawableLeft="@drawable/search_icon"
-                android:hint="    Search through expenses"
-                android:singleLine="false"
-                android:textColor="#0A0A0A"
-                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Search"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/inter"
+                    >
 
-        </LinearLayout>
+                </TextView>
 
-        <LinearLayout
-            android:id="@+id/sampleSpace"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="5dp"
-                android:background="@color/borderOpaque" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/expenseListLayout"
-            android:layout_width="match_parent"
-            android:layout_height="755dp"
-            android:orientation="vertical">
+                <EditText
+                    android:id="@+id/edtMobileNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_search_white_24dp"
+                    style="@style/editText"
+                    android:hint="Enter Mobile No Or Customer Name"
+                    android:inputType="text"
+                    android:maxLength="10"
+                    android:padding="5dp" />
+            </LinearLayout>
 
 
-            <ImageView
-                android:layout_width="246dp"
-                android:layout_height="218dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/searchbg" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/expensesRV"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/syncText"
-                android:layout_below="@+id/expenseHeader"></androidx.recyclerview.widget.RecyclerView>
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/toAndFromDate"
+                    android:layout_width="match_parent"
+                    android:fontFamily="@font/inter"
+                    android:text="Choose Period"
+                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/syncText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/addExpense"
-                android:layout_marginTop="220dp"
-                android:gravity="center"
-                android:text="@string/sync_warning_expense"
-                android:textColor="@color/red_btn_bg_pressed_color"
-                android:textSize="8dp">
+                </TextView>
 
-            </TextView>
+                <Spinner
+                    android:id="@+id/dateSpinner"
+                    style="@style/mySpinnerForUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_weight="3"
+                    android:hint="Select Date"
+                    android:background="@drawable/spinnerbg"
+                    android:drawableLeft="@drawable/ic_calendar_today"
+                    android:drawablePadding="5dp"
+                    android:entries="@array/dateCalender"
+                    android:fadeScrollbars="false"
+                    android:inputType="phone"
+                    android:maxLength="4"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    />
+
+            </LinearLayout>
+
 
             <Button
-                android:id="@+id/addExpense"
-                android:layout_width="270dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
+                android:id="@+id/btnSearch"
+                android:layout_width="250dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/add_expense_structure"
-                android:onClick="gotoAddExpense"
-                android:text="Add New Expense"
-                android:textAllCaps="true"
+                android:layout_margin="20dp"
+                android:background="@drawable/login_button_structure"
+                android:text="@string/search"
+                android:fontFamily="@font/inter"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
+
         </LinearLayout>
-    </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:elevation="2dp"
+        app:contentPadding="10dp"
+        card_view:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:fontFamily="@font/inter"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:text="Recent Items" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+                        <Button
+                            android:id="@+id/sortTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:text="Sort"
+                            android:onClick="clickSort"
+                            android:layout_gravity="center"
+                            android:drawableLeft="@drawable/sorting"
+                            android:textStyle="bold"
+                            android:background="@color/white"
+                            android:textSize="13sp"
+                            android:layout_marginRight="10dp"
+                            android:textColor="#266CE4">
+
+                        </Button>
+                        <TextView
+                            android:id="@+id/selectTv"
+                            android:layout_marginLeft="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Select"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:textColor="#266CE4"
+                            android:layout_gravity="right"
+                            android:gravity="right">
+
+                        </TextView>
+
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="1dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/borderOpaque"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvRecordNotFound"
+                android:layout_width="250dp"
+                android:layout_gravity="center"
+                android:layout_height="250dp"
+                android:background="@drawable/searchbg"
+                android:gravity="center"
+                />
+
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewInvoice"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/downloadAll"
+                >
+
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <Button
+                android:id="@+id/downloadAll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:onClick="downloadInvoice"
+                android:text="Download Selected Invoices"
+                android:textColor="@color/white"></Button>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+<!--    <LinearLayout-->
+
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        android:orientation="vertical">-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/searchExpenseLayout"-->
+<!--            android:layout_width="388dp"-->
+<!--            android:layout_height="113dp"-->
+<!--            android:layout_marginStart="10dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginEnd="10dp"-->
+<!--            android:layout_marginBottom="10dp"-->
+<!--            android:orientation="vertical"-->
+<!--            android:paddingTop="24dp">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/search"-->
+<!--                android:textColor="#555555"-->
+<!--                android:textSize="15sp"-->
+<!--                android:textStyle="bold" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/expenseAmount"-->
+<!--                style="@style/editText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="53dp"-->
+<!--                android:drawableLeft="@drawable/search_icon"-->
+<!--                android:hint="    Search through expenses"-->
+<!--                android:singleLine="false"-->
+<!--                android:textColor="#0A0A0A"-->
+<!--                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />-->
+
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/sampleSpace"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <View-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="5dp"-->
+<!--                android:background="@color/borderOpaque" />-->
+
+<!--        </LinearLayout>-->
+
+<!--        <LinearLayout-->
+<!--            android:id="@+id/expenseListLayout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="755dp"-->
+<!--            android:orientation="vertical">-->
+
+
+<!--            <ImageView-->
+<!--                android:layout_width="246dp"-->
+<!--                android:layout_height="218dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginLeft="50dp"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                android:layout_marginRight="50dp"-->
+<!--                android:layout_marginBottom="20dp"-->
+<!--                android:background="@drawable/searchbg" />-->
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/expensesRV"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_above="@+id/syncText"-->
+<!--                android:layout_below="@+id/expenseHeader"></androidx.recyclerview.widget.RecyclerView>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/syncText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_above="@+id/addExpense"-->
+<!--                android:layout_marginTop="220dp"-->
+<!--                android:gravity="center"-->
+<!--                android:text="@string/sync_warning_expense"-->
+<!--                android:textColor="@color/red_btn_bg_pressed_color"-->
+<!--                android:textSize="8dp">-->
+
+<!--            </TextView>-->
+
+<!--            <Button-->
+<!--                android:id="@+id/addExpense"-->
+<!--                android:layout_width="270dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentBottom="true"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginLeft="50dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                android:layout_marginRight="50dp"-->
+<!--                android:layout_marginBottom="20dp"-->
+<!--                android:background="@drawable/add_expense_structure"-->
+<!--                android:onClick="gotoAddExpense"-->
+<!--                android:text="Add New Expense"-->
+<!--                android:textAllCaps="true"-->
+<!--                android:textColor="@android:color/white"-->
+<!--                android:textStyle="bold" />-->
+<!--        </LinearLayout>-->
+<!--    </LinearLayout>-->
 
 </LinearLayout>
