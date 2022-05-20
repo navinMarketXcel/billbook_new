@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fitsSystemWindows="true"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.ExpenseActivity">
-
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    tools:context=".activities.SearchInvoiceActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -55,55 +54,6 @@
                     android:padding="5dp" />
             </LinearLayout>
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/toAndFromDate"
-                    android:layout_width="match_parent"
-                    android:fontFamily="@font/inter"
-                    android:text="Choose Period"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="wrap_content">
-
-                </TextView>
-
-                <Spinner
-                    android:id="@+id/dateSpinner"
-                    style="@style/mySpinnerForUnit"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_weight="3"
-                    android:hint="Select Date"
-                    android:background="@drawable/spinnerbg"
-                    android:drawableLeft="@drawable/ic_calendar_today"
-                    android:drawablePadding="5dp"
-                    android:entries="@array/dateCalender"
-                    android:fadeScrollbars="false"
-                    android:inputType="phone"
-                    android:maxLength="4"
-                    android:padding="5dp"
-                    android:singleLine="true"
-                    />
-
-            </LinearLayout>
-
-
-            <Button
-                android:id="@+id/btnSearch"
-                android:layout_width="250dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:background="@drawable/login_button_structure"
-                android:text="@string/search"
-                android:fontFamily="@font/inter"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
-
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -139,7 +89,7 @@
                         android:textStyle="bold"
                         android:textSize="18sp"
                         android:textColor="@color/black"
-                        android:text="Recent Items" />
+                        android:text="Recent Bills" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -154,7 +104,7 @@
                             android:text="Sort"
                             android:onClick="clickSort"
                             android:layout_gravity="center"
-                            android:drawableLeft="@drawable/sorting"
+                            android:drawableLeft="@drawable/sort"
                             android:textStyle="bold"
                             android:background="@color/white"
                             android:textSize="13sp"
@@ -162,21 +112,6 @@
                             android:textColor="#266CE4">
 
                         </Button>
-                        <TextView
-                            android:id="@+id/selectTv"
-                            android:layout_marginLeft="10dp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:text="Select"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:textColor="#266CE4"
-                            android:layout_gravity="right"
-                            android:gravity="right">
-
-                        </TextView>
-
-
                     </LinearLayout>
 
 
@@ -203,14 +138,11 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewInvoice"
+                android:id="@+id/expensesRV"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/downloadAll"
-                >
-
-
-            </androidx.recyclerview.widget.RecyclerView>
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/syncText"
+                android:layout_below="@+id/expenseHeader"></androidx.recyclerview.widget.RecyclerView>
 
             <Button
                 android:id="@+id/downloadAll"
@@ -226,6 +158,9 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>
 
 <!--    <LinearLayout-->
 
@@ -296,12 +231,12 @@
 <!--                android:layout_marginBottom="20dp"-->
 <!--                android:background="@drawable/searchbg" />-->
 
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/expensesRV"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_above="@+id/syncText"-->
-<!--                android:layout_below="@+id/expenseHeader"></androidx.recyclerview.widget.RecyclerView>-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/expensesRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/syncText"
+                android:layout_below="@+id/expenseHeader"></androidx.recyclerview.widget.RecyclerView>
 
 <!--            <TextView-->
 <!--                android:id="@+id/syncText"-->
@@ -337,5 +272,3 @@
 <!--                android:textStyle="bold" />-->
 <!--        </LinearLayout>-->
 <!--    </LinearLayout>-->
-
-</LinearLayout>
