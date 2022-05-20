@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -114,8 +115,19 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         sortSheet.dismiss();
                     }
                 });
+                sortBottomSheet.findViewById(R.id.bno).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TextView bno = findViewById(R.id.bno);
+                        //bno.setBackgroundColor;
+                    }
+                });
+                sortSheet.setContentView(sortBottomSheet);
+                sortSheet.show();
             }
+
         });
+
     }
 
 
