@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -71,6 +72,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     private JSONObject userProfile;
     private int userid;
     private Button sortTv;
+    private boolean isCheckFlag = false;
     private JSONArray invoices = new JSONArray();
     private Date to,from;
     private int hasWriteStoragePermission;
@@ -94,6 +96,39 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
          hasWriteStoragePermission =
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
+    }
+
+    public void clickSelect(View v)
+    {
+        TextView selecttv= findViewById(R.id.selectTv);
+        TextView sortTv = findViewById(R.id.sortTv);
+        Button delete = findViewById(R.id.deleteButton);
+        Button download = findViewById(R.id.downloadAll);
+        selecttv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isCheckFlag)
+                {
+                    download.setVisibility(View.GONE);
+                    delete.setVisibility(View.GONE);
+                    sortTv.setVisibility(View.VISIBLE);
+                    selecttv.setText("Select");
+                    isCheckFlag=false;
+                }
+                else
+                {
+                    download.setVisibility(View.VISIBLE);
+                    delete.setVisibility(View.VISIBLE);
+                    sortTv.setVisibility(View.GONE);
+                    selecttv.setText("Cancel");
+                    isCheckFlag=true;
+                }
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices, SearchInvoiceActivity.this,isCheckFlag);
+                recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+
+            }
+
+        });
     }
 
     public void clickSort(View v)
@@ -180,7 +215,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewInvoice.setLayoutManager(mLayoutManager);
         recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
-        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoices, this);
+        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoices, this,isCheckFlag);
         recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
         downloadAll = findViewById(R.id.downloadAll);
         setTitle("Search Bill");
@@ -241,7 +276,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                                 downloadAll.setVisibility(View.VISIBLE);
                             }
                             Log.d(TAG, "Invoice Body::" + body);
-                            searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices, SearchInvoiceActivity.this);
+                            searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices, SearchInvoiceActivity.this,isCheckFlag);
                             recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
                         }else if( body.getJSONObject("data").getJSONObject("invoices").getInt("count")==0){
                             DialogUtils.showToast(SearchInvoiceActivity.this,"No record found");

@@ -1,119 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:id="@+id/editLayout"
-    android:background="@drawable/card_structure"
-    android:orientation="horizontal">
+   >
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:visibility="gone"
+        android:gravity="left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+    </CheckBox>
+
 
     <LinearLayout
-        android:layout_weight="0.6"
+        android:padding="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:id="@+id/editLayout"
+        android:background="@drawable/card_structure"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp"
+            android:layout_weight="0.6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvInvoiceValue"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="#0A0A0A"
-                android:fontFamily="@font/inter"
-                android:textSize="18sp"
-                android:text="" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvTotalAmtValue"
+                <TextView
+                    android:id="@+id/tvInvoiceValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#0A0A0A"
+                    android:fontFamily="@font/inter"
+                    android:textSize="18sp"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/tvTotalAmtValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/inter"
+                    android:textColor="#05944F"
+                    android:gravity="right"
+                    android:textSize="18sp"
+                    android:text="" />
+            </LinearLayout>
+            <View
                 android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@color/borderOpaque"/>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/inter"
-                android:textColor="#05944F"
-                android:gravity="right"
-                android:textSize="18sp"
-                android:text="" />
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingBottom="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvInvoiceCustNameValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/inter"
+                    android:textSize="15sp"
+                    android:text="" />
+
+                <TextView
+                    android:id="@+id/tvInvoiceDateValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/inter"
+                    android:textSize="15sp"
+                    android:gravity="right"
+                    android:text="" />
+            </LinearLayout>
         </LinearLayout>
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@color/borderOpaque"/>
+
         <LinearLayout
+
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingBottom="15dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1.4">
+            <Button
+                android:id="@+id/saveInv"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/framesave"
+                android:layout_width="45dp"
+                android:layout_height="45dp">
 
-            <TextView
-                android:id="@+id/tvInvoiceCustNameValue"
+            </Button>
+            <Button
+                android:id="@+id/cancelInvBItn"
+                android:background="@drawable/framedelete"
+                android:layout_width="45dp"
+                android:layout_height="45dp">
+
+            </Button>
+
+            <Button
+                android:id="@+id/edit"
+                android:visibility="gone"
+                android:layout_toRightOf="@+id/edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/inter"
-                android:textSize="15sp"
-                android:text="" />
-
-            <TextView
-                android:id="@+id/tvInvoiceDateValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/inter"
-                android:textSize="15sp"
-                android:gravity="right"
-                android:text="" />
+                android:drawableRight="@drawable/ic_file_download"
+                android:background="@color/colorPrimary"
+                android:text="Save"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
         </LinearLayout>
+
+
+
+
+
     </LinearLayout>
-
-    <LinearLayout
-
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_weight="1.4">
-       <Button
-           android:id="@+id/saveInv"
-           android:layout_marginRight="4dp"
-            android:background="@drawable/framesave"
-           android:layout_width="45dp"
-           android:layout_height="45dp">
-
-       </Button>
-        <Button
-            android:id="@+id/cancelInvBItn"
-            android:background="@drawable/framedelete"
-            android:layout_width="45dp"
-            android:layout_height="45dp">
-
-        </Button>
-
-        <Button
-            android:id="@+id/edit"
-            android:visibility="gone"
-            android:layout_toRightOf="@+id/edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_file_download"
-            android:background="@color/colorPrimary"
-            android:text="Save"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-
-
-
 
 </LinearLayout>
+
+
+

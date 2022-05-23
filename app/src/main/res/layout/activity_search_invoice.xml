@@ -162,6 +162,7 @@
 
                         </Button>
                         <TextView
+                            android:onClick="clickSelect"
                             android:id="@+id/selectTv"
                             android:layout_marginLeft="10dp"
                             android:layout_width="wrap_content"
@@ -211,17 +212,42 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
-            <Button
-                android:id="@+id/downloadAll"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:background="@color/colorPrimary"
-                android:onClick="downloadInvoice"
-                android:text="Download Selected Invoices"
-                android:textColor="@color/white"></Button>
+                android:orientation="horizontal"
+                android:layout_gravity="bottom">
+
+                <Button
+                    android:gravity="center"
+                    android:id="@+id/deleteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Delete"
+                    android:background="@drawable/delete_button"
+                    android:textColor="#E11900"
+                    android:visibility="gone"
+
+                    >
+
+                </Button>
+                <Button
+                    android:gravity="center"
+                    android:id="@+id/downloadAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:visibility="gone"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/login_button_structure"
+                    android:onClick="downloadInvoice"
+                    android:text="Download"
+                    android:textColor="@color/white"></Button>
+
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
