@@ -12,10 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/card_structure"
+        android:background="@drawable/expense_card"
         android:orientation="horizontal"
+        android:baselineAligned="false"
         android:padding="2dp">
 
         <LinearLayout
@@ -31,19 +32,14 @@
 
                 <TextView
                     android:id="@+id/expenseDateTV"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text=""
                     android:textSize="18sp" />
 
             </LinearLayout>
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="1dp"
-                android:background="@color/borderOpaque" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -54,7 +50,7 @@
                     android:id="@+id/expenseNameTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text=""
                     android:textSize="18sp" />
 
@@ -70,7 +66,7 @@
                     android:id="@+id/expenseAmountTV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="start"
                     android:text=""
                     android:textSize="18sp" />
 
@@ -82,7 +78,7 @@
         <LinearLayout
 
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="80dp"
             android:layout_gravity="center"
             android:layout_weight="1.4"
             android:gravity="center"
@@ -121,7 +117,13 @@
 
     </LinearLayout>
 
+
 </LinearLayout>
+
+<!--<View-->
+<!--android:layout_width="wrap_content"-->
+<!--android:layout_height="1dp"-->
+<!--android:background="@color/borderOpaque" />-->
 
 
 
