@@ -31,13 +31,15 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/AppTheme"
                     android:id="@+id/expenseDateTV"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="start"
+                    android:textColor="@color/Pantone_Cool_Gray"
                     android:text=""
-                    android:textSize="18sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
