@@ -55,9 +55,10 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
     private JSONArray requestInvoiceArrayList;
     private Context context;
     private SearchInvoiceItemClickListener invoiceItemClickListener;
-
-    public SearchInvoiceListAdapterNew(Context context, JSONArray categoryArrayList, SearchInvoiceItemClickListener invoiceItemClickListener) {
+    private Boolean ischeck;
+    public SearchInvoiceListAdapterNew(Context context, JSONArray categoryArrayList, SearchInvoiceItemClickListener invoiceItemClickListener,Boolean ischeck) {
         this.context = context;
+        this.ischeck = ischeck;
         this.requestInvoiceArrayList = categoryArrayList;
         this.invoiceItemClickListener = invoiceItemClickListener;
     }
@@ -76,6 +77,14 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
     public void onBindViewHolder(SearchInvoiceListAdapterNew.MyViewHolder holder, final int position) {
 
         try {
+            if(ischeck)
+            {
+                holder.checkbox.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                holder.checkbox.setVisibility(View.GONE);
+            }
 
             JSONObject requestInvoice = requestInvoiceArrayList.getJSONObject(position);
             boolean isGST = requestInvoice.getString("gstType").isEmpty()?false:true;
@@ -280,6 +289,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         public TextView tvInvoiceValue, tvInvoiceCustNameValue, tvQuantityValue, tvTotalAmtValue, tvInvoiceDateValue;
         public Button saveInv,cancelInvBItn,cancelledBill,edit;
         private CheckBox download;
+        private CheckBox checkbox;
         private CardView card_view;
         private LinearLayout llMain;
         private SearchInvoiceItemClickListener searchInvoiceItemClickListener;
@@ -293,7 +303,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             tvInvoiceDateValue = view.findViewById(R.id.tvInvoiceDateValue);
             saveInv = view.findViewById(R.id.saveInv);
             cancelInvBItn = view.findViewById(R.id.cancelInvBItn);
-
+            checkbox = view.findViewById(R.id.checkbox);
             this.searchInvoiceItemClickListener = searchInvoiceItemClickListener;
             //download =view.findViewById(R.id.download);
             saveInv.setOnClickListener(this);
