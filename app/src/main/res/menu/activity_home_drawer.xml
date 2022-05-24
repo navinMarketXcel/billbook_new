@@ -12,13 +12,12 @@
             android:id="@+id/nav_my_profile"
             android:icon="@drawable/ic_user"
             android:title="My Profile" />
-
-
         <item
             android:id="@+id/nav_help"
             android:icon="@drawable/ic_add"
             android:title="Help" />
         <item
+            android:visible="false"
             android:id="@+id/nav_logout"
             android:icon="@drawable/ic_logout"
             android:title="Logout" />
