@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.SearchInvoiceActivity">
+    tools:context=".activities.ExpenseActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -126,7 +126,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tvRecordNotFound"
+                android:id="@+id/tvExpenseNotFound"
                 android:layout_width="250dp"
                 android:layout_gravity="center"
                 android:layout_height="250dp"
@@ -151,6 +151,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="bottom"
+            android:gravity="bottom"
             android:padding="5dp">
 
             <TextView
@@ -166,25 +167,30 @@
 
             </TextView>
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="bottom">
+
             <Button
                 android:id="@+id/addExpense"
                 android:layout_width="270dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="50dp"
-                android:layout_marginBottom="20dp"
                 android:background="@drawable/add_expense_structure"
                 android:onClick="gotoAddExpense"
                 android:text="Add New Expense"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
+
+        </LinearLayout>
 
         </LinearLayout>
 

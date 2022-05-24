@@ -9,12 +9,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.billbook.app.utils.Util;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.billbook.app.R;
@@ -126,9 +129,25 @@ public class ExpenseActivity extends AppCompatActivity {
     }
 
     public void gotoAddExpense(View v){
-        Util.postEvents("Add New Expense","Add New Expense",this.getApplicationContext());
-        Intent intent = new Intent(this, AddExpenseActivity.class);
-        startActivity(intent);
+        BottomSheetDialog addExpenseDialog = new BottomSheetDialog(ExpenseActivity.this,R.style.BottomSheetDialogTheme);
+        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_add_expens,findViewById(R.id.addExpenseLayout));
+//        addExpenseDialog.findViewById(R.id.addNewExpense).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+        addExpenseDialog.setContentView(view);
+        addExpenseDialog.show();
+        addExpenseDialog.findViewById(R.id.cancelExpense).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addExpenseDialog.dismiss();
+            }
+        });
+//        Util.postEvents("Add New Expense","Add New Expense",this.getApplicationContext());
+//        Intent intent = new Intent(this, AddExpenseActivity.class);
+//        startActivity(intent);
     }
 
     @Override
@@ -160,6 +179,10 @@ public class ExpenseActivity extends AppCompatActivity {
                                     listType);
                             expenses.addAll(myModelList);
                             expenseListAdapter.notifyDataSetChanged();
+                            if(!myModelList.isEmpty()){
+                                TextView textView = findViewById(R.id.tvExpenseNotFound);
+                                textView.setVisibility(View.GONE);
+                            }
                             Log.v("RESP", body.toString());
                         }
                     } catch (JSONException e) {
