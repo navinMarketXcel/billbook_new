@@ -16,6 +16,7 @@ import android.os.Environment;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,15 +24,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.billbook.app.utils.OnDownloadClick;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 import com.google.gson.Gson;
 import com.billbook.app.R;
 import com.billbook.app.adapters.SearchInvoiceListAdapterNew;
@@ -47,9 +53,12 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -75,6 +84,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     private boolean isCheckFlag = false;
     private JSONArray invoices = new JSONArray();
     private Date to,from;
+    private Spinner dateSpinner;
+    List<String> items;
     private int hasWriteStoragePermission;
     private final int REQUEST_CODE_ASK_PERMISSIONS =111;
     private final int REQUEST_CODE_ASK_PERMISSIONS_SAVE_INVOICE =112;
@@ -92,9 +103,10 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         startSpotLight(edtMobileNo, "Mobile No", "Enter Mobile no.");
-
-         hasWriteStoragePermission =
+        hasWriteStoragePermission =
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+
 
     }
 
@@ -270,17 +282,15 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     try {
                         body = new JSONObject(new Gson().toJson(response.body()));
                         if(body.getJSONObject("data").has("invoices"))
-                        if (body.getJSONObject("data").getJSONObject("invoices").has("count") && body.getJSONObject("data").getJSONObject("invoices").getInt("count")>0) {
-                            invoices = body.getJSONObject("data").getJSONObject("invoices").getJSONArray("rows");
-                            if(invoices.length()>0){
-                                downloadAll.setVisibility(View.VISIBLE);
+                            if (body.getJSONObject("data").getJSONObject("invoices").has("count") && body.getJSONObject("data").getJSONObject("invoices").getInt("count")>0) {
+                                invoices = body.getJSONObject("data").getJSONObject("invoices").getJSONArray("rows");
+
+                                Log.d(TAG, "Invoice Body::" + body);
+                                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices, SearchInvoiceActivity.this,isCheckFlag);
+                                recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+                            }else if( body.getJSONObject("data").getJSONObject("invoices").getInt("count")==0){
+                                DialogUtils.showToast(SearchInvoiceActivity.this,"No record found");
                             }
-                            Log.d(TAG, "Invoice Body::" + body);
-                            searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices, SearchInvoiceActivity.this,isCheckFlag);
-                            recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
-                        }else if( body.getJSONObject("data").getJSONObject("invoices").getInt("count")==0){
-                            DialogUtils.showToast(SearchInvoiceActivity.this,"No record found");
-                        }
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -334,8 +344,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
         String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
         try {
-             from = formatter2.parse((dayOfMonth<=9?"0"+dayOfMonth:dayOfMonth)+"/"+((monthOfYear+1)<=9?"0"+(monthOfYear+1):(monthOfYear+1))+"/"+year);
-             to = formatter2.parse((dayOfMonthEnd<=9?"0"+dayOfMonthEnd:dayOfMonthEnd)+"/"+((monthOfYearEnd+1)<=9?"0"+(monthOfYearEnd+1):(monthOfYearEnd+1))+"/"+yearEnd);
+            from = formatter2.parse((dayOfMonth<=9?"0"+dayOfMonth:dayOfMonth)+"/"+((monthOfYear+1)<=9?"0"+(monthOfYear+1):(monthOfYear+1))+"/"+year);
+            to = formatter2.parse((dayOfMonthEnd<=9?"0"+dayOfMonthEnd:dayOfMonthEnd)+"/"+((monthOfYearEnd+1)<=9?"0"+(monthOfYearEnd+1):(monthOfYearEnd+1))+"/"+yearEnd);
         } catch (ParseException e) {
             e.printStackTrace();
         };
@@ -373,7 +383,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         // check to see if we have permission to storage
 //        checkPermission();
         if(hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED){
-           startDownloadingInvoices();
+            startDownloadingInvoices();
         }
         else{
             checkPermission(REQUEST_CODE_ASK_PERMISSIONS);
@@ -389,7 +399,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                       PERMISSION_CODE);
+                                        PERMISSION_CODE);
                             }
                             return;
                         }
@@ -427,7 +437,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission Granted
                     hasWriteStoragePermission = PackageManager.PERMISSION_GRANTED;
-                   saveInvoice();
+                    saveInvoice();
                 } else {
                     // Permission Denied
                     hasWriteStoragePermission = PackageManager.PERMISSION_DENIED;
