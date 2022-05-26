@@ -41,7 +41,22 @@
 
             android:exported="false" />
         <activity
+            android:name=".activities.EditMobileNoActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:exported="false" />
+        <activity
+            android:name=".activities.OTPVerifayActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:exported="false" />
+        <activity
             android:name=".activities.BusinessDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:exported="false" />
+        <activity
+            android:name=".activities.LogoSignatureActivity"
             android:theme="@style/AppTheme.NoActionBar"
 
             android:exported="false" />

@@ -29,12 +29,14 @@
                 android:layout_marginTop="@dimen/_20sdp"
                 android:gravity="center">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivUserProfile"
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
-                    android:background="@drawable/eclipse"
                     android:padding="@dimen/_5sdp"
                     android:src="@drawable/ic_user" />
+               <!-- android:background="@drawable/eclipse"-->
+
             </LinearLayout>
 
             <LinearLayout
@@ -45,6 +47,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txtProfileName"
                     style="@style/textRegularMedium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -53,6 +56,7 @@
                     android:textColor="@color/colorPrimary" />
 
                 <TextView
+                    android:id="@+id/txtProfileAdd"
                     style="@style/textSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -105,6 +109,7 @@
                         android:gravity="center">
 
                         <Switch
+                            android:id="@+id/switchGst"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center" />
@@ -244,6 +249,7 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
+                        android:id="@+id/rlLogoSign"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_gravity="center"
