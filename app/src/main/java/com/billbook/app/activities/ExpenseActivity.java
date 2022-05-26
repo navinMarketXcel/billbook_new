@@ -216,16 +216,8 @@ public class ExpenseActivity extends AppCompatActivity {
         sortExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView btn_Date;
                 BottomSheetDialog sortExpenseSheet = new BottomSheetDialog(ExpenseActivity.this,R.style.BottomSheetDialogTheme);
                 View sortBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.expense_sort_layout,(LinearLayout)findViewById(R.id.sortExpenseLayout));
-                btn_Date = sortBottomSheet.findViewById(R.id.edate);
-                btn_Date.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        btn_Date.setBackground(ContextCompat.getDrawable(ExpenseActivity.this, R.drawable.sort_screen));
-                    }
-                });
                 sortBottomSheet.findViewById(R.id.btnExpenseSort).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -242,46 +234,53 @@ public class ExpenseActivity extends AppCompatActivity {
                 sortBottomSheet.findViewById(R.id.edate).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        TextView eDate = findViewById(R.id.edate);
+                        TextView btn_Date = sortBottomSheet.findViewById(R.id.edate);
+//                        btn_Date.setBackground(ContextCompat.getDrawable(ExpenseActivity.this, R.drawable.sort_screen));
                         ArrayList<Expense> sortDateExpense = (ArrayList<Expense>) expenses.stream().sorted(Comparator.comparing(Expense::getDate)).collect(Collectors.toList());
                         expenseListAdapter = new ExpenseListAdapter(ExpenseActivity.this,sortDateExpense);
                         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                         expensesRV.setLayoutManager(mLayoutManager);
                         expensesRV.setItemAnimator(new DefaultItemAnimator());
                         expensesRV.setAdapter(expenseListAdapter);
+                        sortExpenseSheet.dismiss();
                         //bno.setBackgroundColor;
                     }
                 });
                 sortBottomSheet.findViewById(R.id.eName).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        TextView eName = findViewById(R.id.eName);
+                        TextView btn_Name = sortBottomSheet.findViewById(R.id.eName);
+//                        btn_Name.setBackground(ContextCompat.getDrawable(ExpenseActivity.this, R.drawable.sort_screen));
                         ArrayList<Expense> sortNameExpense = (ArrayList<Expense>) expenses.stream().sorted(Comparator.comparing(Expense::getName)).collect(Collectors.toList());
                         expenseListAdapter = new ExpenseListAdapter(ExpenseActivity.this,sortNameExpense);
                         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                         expensesRV.setLayoutManager(mLayoutManager);
                         expensesRV.setItemAnimator(new DefaultItemAnimator());
                         expensesRV.setAdapter(expenseListAdapter);
+                        sortExpenseSheet.dismiss();
                         //bno.setBackgroundColor;
                     }
                 });
                 sortBottomSheet.findViewById(R.id.eLtoH).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        TextView eLtoH = findViewById(R.id.eLtoH);
+                        TextView btn_LtoH = sortBottomSheet.findViewById(R.id.eName);
+//                        btn_LtoH.setBackground(ContextCompat.getDrawable(ExpenseActivity.this, R.drawable.sort_screen));
                         ArrayList<Expense> sortLtoHExpense = (ArrayList<Expense>) expenses.stream().sorted(Comparator.comparing(Expense::getAmount)).collect(Collectors.toList());
                         expenseListAdapter = new ExpenseListAdapter(ExpenseActivity.this,sortLtoHExpense);
                         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                         expensesRV.setLayoutManager(mLayoutManager);
                         expensesRV.setItemAnimator(new DefaultItemAnimator());
                         expensesRV.setAdapter(expenseListAdapter);
+                        sortExpenseSheet.dismiss();
                         //bno.setBackgroundColor;
                     }
                 });
                 sortBottomSheet.findViewById(R.id.eHtoL).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        TextView eHtoL = findViewById(R.id.eHtoL);
+                        TextView btn_HtoL = sortBottomSheet.findViewById(R.id.eName);
+//                        btn_HtoL.setBackground(ContextCompat.getDrawable(ExpenseActivity.this, R.drawable.sort_screen));
                         ArrayList<Expense> sortHtoLExpense = (ArrayList<Expense>) expenses.stream().sorted(Comparator.comparing(Expense::getAmount)).collect(Collectors.toList());
                         Collections.reverse(sortHtoLExpense);
                         expenseListAdapter = new ExpenseListAdapter(ExpenseActivity.this,sortHtoLExpense);
@@ -289,6 +288,7 @@ public class ExpenseActivity extends AppCompatActivity {
                         expensesRV.setLayoutManager(mLayoutManager);
                         expensesRV.setItemAnimator(new DefaultItemAnimator());
                         expensesRV.setAdapter(expenseListAdapter);
+                        sortExpenseSheet.dismiss();
                         //bno.setBackgroundColor;
                     }
                 });
