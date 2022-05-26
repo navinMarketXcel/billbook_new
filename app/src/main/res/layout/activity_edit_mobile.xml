@@ -42,11 +42,11 @@
                 <TextView
                     style="@style/textLarge"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/_7sdp"
                     android:fontFamily="@font/inter"
-                    android:text="@string/contact_details">
+                    android:text="@string/edit_number">
 
                 </TextView>
 
@@ -54,7 +54,6 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/lnHelp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -92,11 +91,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/lnYouTube"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:background="@drawable/app_bar_structure"
+                android:onClick="startYoutubeActivity"
                 android:orientation="horizontal"
                 android:padding="8dp">
 
@@ -145,87 +145,35 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="@dimen/_7sdp"
+                android:gravity="center"
                 android:layout_marginStart="@dimen/_7sdp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/txtPhone"
                     style="@style/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/phone_number_"
-                    />
-                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="2"
-                    android:orientation="horizontal">
+                    android:text="@string/mobile_noo"
+                    />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_weight="1.3">
-
-                        <EditText
-                            style="@style/textSmall"
-                            android:layout_marginTop="@dimen/_7sdp"
-                            android:id="@+id/etPhone"
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:inputType="phone"
-                            android:maxLength="10"
-                            android:background="@drawable/layout_background"
-                            android:hint="@string/phone_number"
-                            />
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:layout_weight=".7">
-
-                        <TextView
-                            android:id="@+id/changePhone"
-                            style="@style/textSmallBold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/change"
-                            android:textColor="@color/colorPrimary"
-                            />
-
-
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
-
-
-                <TextView
-                    android:id="@+id/txtEmail"
-                    style="@style/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/email_add"
-                    android:layout_marginTop="@dimen/_7sdp"
-                    app:layout_constraintTop_toBottomOf="@+id/phoneLayout" />
                 <EditText
                     style="@style/textSmall"
                     android:layout_marginTop="@dimen/_7sdp"
-                    android:id="@+id/etEmail"
+                    android:id="@+id/etPhone"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:inputType="textEmailAddress"
+                    android:inputType="phone"
+                    android:maxLength="10"
                     android:background="@drawable/layout_background"
-                    android:hint="@string/email_add"
-                     />
+                    android:hint="@string/mobile_noo"
+                    />
+
+
+
 
 
                 <LinearLayout
@@ -235,11 +183,11 @@
                     android:gravity="center">
 
                     <Button
-                        android:id="@+id/btnSave"
-                        android:layout_width="@dimen/_150sdp"
+                        android:id="@+id/btnGetOtp"
+                        android:layout_width="@dimen/_170sdp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/save_button"
-                        android:text="@string/save"
+                        android:text="@string/get_otp"
                         android:textColor="@android:color/white" />
 
 

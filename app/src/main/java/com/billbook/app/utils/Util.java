@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.icu.text.DecimalFormat;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -12,11 +13,14 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 
 import com.billbook.app.activities.BillingNewActivity;
+import com.billbook.app.activities.BottomNavigationActivity;
 import com.billbook.app.activities.MyApplication;
 import com.billbook.app.activities.PDFActivity;
 import com.billbook.app.database.models.Model;
@@ -48,6 +52,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -182,6 +188,9 @@ public class Util {
             return true;
         }
         return false;
+    }
+    public static RequestBody getRequestBodyFormData(String str) {
+       return RequestBody.create(str, MediaType.parse("multipart/form-data"));
     }
 
     public static boolean passwordValidator(String password) {
@@ -377,5 +386,42 @@ public class Util {
             e.printStackTrace();
         }
     }
+    public static void startHelpActivity(Context context){
+        boolean installed = appInstallOrNot("com.whatsapp",context);
+        String mobNo = "9289252155" ;
+        if(installed)
+        {
+            Intent intent= new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+"+91"+mobNo));
+            context.startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(context,"Please Install Whatsapp", Toast.LENGTH_SHORT).show();
+        }
 
+    }
+    private static boolean appInstallOrNot(String url,Context context)
+    {
+        PackageManager packageManager = context.getPackageManager();
+        boolean app;
+        try {
+            packageManager.getPackageInfo(url,PackageManager.GET_ACTIVITIES);
+            app=true;
+        }
+        catch(PackageManager.NameNotFoundException e)
+        {
+            app=false;
+        }
+
+        return app;
+
+    }
+    public static void startYoutubeActivity(Context context){
+        Util.postEvents("Watch Demo","Watch Demo",context.getApplicationContext());
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("https://www.youtube.com/playlist?list=PLFuhsI7LfH3VFoH8oTfozpUlITI6fy7U8"));
+        intent.setPackage("com.google.android.youtube");
+        context.startActivity(intent);
+    }
 }

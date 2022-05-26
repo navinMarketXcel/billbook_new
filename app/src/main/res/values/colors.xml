@@ -18,4 +18,6 @@
     <color name="grey_b9b9b9">#b9b9b9</color>
     <color name="grey_f2f2f2">#f2f2f2</color>
     <color name="red_800000">#800000</color>
+    <color name="blue">#266CE4</color>
+    <color name="light_background">#F1F5FF</color>
 </resources>

@@ -82,6 +82,7 @@
     <string name="state">State<font color='#ff0000'>*</font></string>
     <string name="scan"><font color='#266CE4'>Scan</font></string>
     <string name="mobile_no">Contact Number</string>
+    <string name="mobile_noo">Mobile Number</string>
     <string name="paymentValue1">Amount</string>
     <string name="paymentMethod1Title">Payment Mode Amount</string>
 
@@ -383,6 +384,7 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="email_address_phone_number_etc">Email Address, Phone Number etc..</string>
     <string name="contact_details">Contact Details</string>
     <string name="business_details">Business Details</string>
+    <string name="logo_sign">Logo &amp; Signature</string>
     <string name="business_name_address_gst_and_more">Business Name, Address, GST and more</string>
     <string name="logo_and_signature">Logo and Signature</string>
     <string name="customise_your_bills">Customise your bills</string>
@@ -401,10 +403,22 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="citye">City</string>
     <string name="statee">State</string>
     <string name="pin_code">Pin Code</string>
+    <string name="company_logo">Company Logo</string>
     <string name="shop_add">Shop Address</string>
     <string name="phone_number">Phone Number</string>
     <string name="email_">Email Address<font color='#F62525'> *</font></string>
     <string name="email_add">Email Address</string>
     <string name="save">Save</string>
+    <string name="upload_your_logo">Upload your logo</string>
+    <string name="max_file_size_1_mb">Max file size 1 MB</string>
+    <string name="browse">Browse</string>
+    <string name="signature">Signature</string>
+    <string name="upload_your_signature">Upload your signature</string>
+    <string name="change">Change</string>
+    <string name="edit_number">Edit Number</string>
+    <string name="get_otp">Get OTP</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="otp_sent">OTP sent to 9897767646</string>
+    <string name="verify">Verify</string>
 
 </resources>
