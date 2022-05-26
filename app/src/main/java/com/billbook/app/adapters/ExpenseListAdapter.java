@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -41,7 +42,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         holder.expenseAmountTV.setText(Util.formatDecimalValue( (float) expenseArrayListFiltered.get(position).getAmount()));
         holder.expenseDateTV.setText(""+expenseArrayListFiltered.get(position).getDate());
         holder.expenseNameTV.setText(""+expenseArrayListFiltered.get(position).getName());
-        holder.expenseAmountTV.setOnClickListener(new View.OnClickListener() {
+        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AddExpenseActivity.class);
@@ -94,12 +95,14 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView expenseDateTV,expenseNameTV,expenseAmountTV;
+        public Button btnEdit;
 
         public MyViewHolder(View view) {
             super(view);
-            expenseDateTV = (TextView) view.findViewById(R.id.expenseDateTV);
-            expenseNameTV = (TextView) view.findViewById(R.id.expenseNameTV);
-            expenseAmountTV = (TextView) view.findViewById(R.id.expenseAmountTV);
+            expenseDateTV = view.findViewById(R.id.expenseDateTV);
+            expenseNameTV = view.findViewById(R.id.expenseNameTV);
+            expenseAmountTV = view.findViewById(R.id.expenseAmountTV);
+            btnEdit = view.findViewById(R.id.btnEdit);
 
         }
     }

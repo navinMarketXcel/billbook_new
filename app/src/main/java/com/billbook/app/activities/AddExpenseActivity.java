@@ -47,7 +47,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     private String invoiceDateStr;
     private Date invoiceDate;
     private EditText selectDate,expenseAmount;
-    private AppCompatAutoCompleteTextView expenseName;
+    private EditText expenseName;
     private String TAG = "Expense";
     private int userid;
     private Expense expense;
@@ -55,7 +55,6 @@ public class AddExpenseActivity extends AppCompatActivity {
     private ExpenseViewModel expenseViewModel;
     private ArrayList<Expense> expenseArrayList;
     private ExpenseAdapter  expenseAdapter;
-    private Button addExpense;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +67,6 @@ public class AddExpenseActivity extends AppCompatActivity {
         selectDate = findViewById(R.id.selectDate);
         expenseName=findViewById(R.id.expenseName);
         expenseAmount =findViewById(R.id.expenseAmount);
-        addExpense = findViewById(R.id.addExpense);
         DateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
         invoiceDateStr = formatter.format(new Date());
         selectDate.setText(invoiceDateStr);
@@ -79,8 +77,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         }
         if(getIntent().hasExtra("expense")) {
             isEdit = true;
-            addExpense.setText("Update Expense");
-         expense = (Expense) getIntent().getSerializableExtra("expense");
+            expense = (Expense) getIntent().getSerializableExtra("expense");
             expenseName.setText(expense.getName());
             expenseAmount.setText(""+expense.getAmount());
             selectDate.setText(expense.getDate());
@@ -254,7 +251,6 @@ public class AddExpenseActivity extends AppCompatActivity {
                     expenseArrayList = new ArrayList<>();
                 }
                 expenseAdapter = new ExpenseAdapter(AddExpenseActivity.this,R.layout.spinner_textview_layout,expenseArrayList);
-                expenseName.setAdapter(expenseAdapter);
                 Log.v(TAG, "models::" + expenseArrayList);
             }
         });

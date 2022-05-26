@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:id="@+id/sortExpenseLayout"
+    >
+
+    <LinearLayout
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:paddingRight="20dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:fontFamily="@font/inter"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:text="Sort By" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="1dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="7"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/borderOpaque"/>
+
+        <TextView
+            android:gravity=""
+            android:id="@+id/edate"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/inter"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#5A6474"
+            android:text="Date" />
+        <TextView
+            android:gravity=""
+            android:id="@+id/eName"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/inter"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#5A6474"
+            android:text="Name" />
+        <TextView
+            android:gravity=""
+            android:id="@+id/eLtoH"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/inter"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#5A6474"
+            android:text="Amount Low to High" />
+        <TextView
+            android:gravity=""
+            android:id="@+id/eHtoL"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/inter"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="#5A6474"
+            android:text="Amount High to Low" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnCanelExpense"
+            android:background="@drawable/add_item_structure"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="50dp"
+            android:text="Cancel"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:layout_margin="20dp" />
+        <Button
+            android:id="@+id/btnExpenseSort"
+            android:background="@drawable/login_button_structure"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="50dp"
+            android:text="Done"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:layout_margin="20dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

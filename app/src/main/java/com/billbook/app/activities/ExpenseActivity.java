@@ -3,7 +3,11 @@ package com.billbook.app.activities;
 import android.content.Intent;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,10 +37,14 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +57,7 @@ public class ExpenseActivity extends AppCompatActivity {
     private int userid;
     private RecyclerView expensesRV;
     private ExpenseListAdapter expenseListAdapter;
+    private Button sortExpense;
     public static ArrayList<Expense> expenses = new ArrayList<>();
     private SearchView.OnQueryTextListener onQueryTextListener =
             new SearchView.OnQueryTextListener() {
@@ -68,7 +78,7 @@ public class ExpenseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense);
         setTitle("Expenses");
-
+        sortExpense = findViewById(R.id.sortExpense);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         initUI();
@@ -199,5 +209,94 @@ public class ExpenseActivity extends AppCompatActivity {
         }else{
             DialogUtils.showToast(this, getString(R.string.no_internet));
         }
+    }
+
+    public void clickExpenseSort(View v)
+    {
+        sortExpense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView btn_Date;
+                BottomSheetDialog sortExpenseSheet = new BottomSheetDialog(ExpenseActivity.this,R.style.BottomSheetDialogTheme);
+                View sortBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.expense_sort_layout,(LinearLayout)findViewById(R.id.sortExpenseLayout));
+                btn_Date = sortBottomSheet.findViewById(R.id.edate);
+                btn_Date.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        btn_Date.setBackground(ContextCompat.getDrawable(ExpenseActivity.this, R.drawable.sort_screen));
+                    }
+                });
+                sortBottomSheet.findViewById(R.id.btnExpenseSort).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        expenseListAdapter.notifyDataSetChanged();
+                        sortExpenseSheet.dismiss();
+                    }
+                });
+                sortBottomSheet.findViewById(R.id.btnCanelExpense).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        sortExpenseSheet.dismiss();
+                    }
+                });
+                sortBottomSheet.findViewById(R.id.edate).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TextView eDate = findViewById(R.id.edate);
+                        ArrayList<Expense> sortDateExpense = (ArrayList<Expense>) expenses.stream().sorted(Comparator.comparing(Expense::getDate)).collect(Collectors.toList());
+                        expenseListAdapter = new ExpenseListAdapter(ExpenseActivity.this,sortDateExpense);
+                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        expensesRV.setLayoutManager(mLayoutManager);
+                        expensesRV.setItemAnimator(new DefaultItemAnimator());
+                        expensesRV.setAdapter(expenseListAdapter);
+                        //bno.setBackgroundColor;
+                    }
+                });
+                sortBottomSheet.findViewById(R.id.eName).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TextView eName = findViewById(R.id.eName);
+                        ArrayList<Expense> sortNameExpense = (ArrayList<Expense>) expenses.stream().sorted(Comparator.comparing(Expense::getName)).collect(Collectors.toList());
+                        expenseListAdapter = new ExpenseListAdapter(ExpenseActivity.this,sortNameExpense);
+                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        expensesRV.setLayoutManager(mLayoutManager);
+                        expensesRV.setItemAnimator(new DefaultItemAnimator());
+                        expensesRV.setAdapter(expenseListAdapter);
+                        //bno.setBackgroundColor;
+                    }
+                });
+                sortBottomSheet.findViewById(R.id.eLtoH).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TextView eLtoH = findViewById(R.id.eLtoH);
+                        ArrayList<Expense> sortLtoHExpense = (ArrayList<Expense>) expenses.stream().sorted(Comparator.comparing(Expense::getAmount)).collect(Collectors.toList());
+                        expenseListAdapter = new ExpenseListAdapter(ExpenseActivity.this,sortLtoHExpense);
+                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        expensesRV.setLayoutManager(mLayoutManager);
+                        expensesRV.setItemAnimator(new DefaultItemAnimator());
+                        expensesRV.setAdapter(expenseListAdapter);
+                        //bno.setBackgroundColor;
+                    }
+                });
+                sortBottomSheet.findViewById(R.id.eHtoL).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TextView eHtoL = findViewById(R.id.eHtoL);
+                        ArrayList<Expense> sortHtoLExpense = (ArrayList<Expense>) expenses.stream().sorted(Comparator.comparing(Expense::getAmount)).collect(Collectors.toList());
+                        Collections.reverse(sortHtoLExpense);
+                        expenseListAdapter = new ExpenseListAdapter(ExpenseActivity.this,sortHtoLExpense);
+                        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                        expensesRV.setLayoutManager(mLayoutManager);
+                        expensesRV.setItemAnimator(new DefaultItemAnimator());
+                        expensesRV.setAdapter(expenseListAdapter);
+                        //bno.setBackgroundColor;
+                    }
+                });
+                sortExpenseSheet.setContentView(sortBottomSheet);
+                sortExpenseSheet.show();
+            }
+
+        });
+
     }
 }

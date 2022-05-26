@@ -4,7 +4,7 @@ android {
     compileSdkVersion 30
     defaultConfig {
         applicationId "com.billbook.app"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 48
         versionName "2.1.1"
@@ -114,6 +114,7 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+
 }
 
 

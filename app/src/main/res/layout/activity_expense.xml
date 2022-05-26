@@ -41,14 +41,14 @@
 
                 </TextView>
 
-                <EditText
-                    android:id="@+id/edtMobileNo"
+                <SearchView
+                    android:id="@+id/edtSearchExpense"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/ic_search_white_24dp"
                     style="@style/editText"
-                    android:hint="Enter Mobile No Or Customer Name"
+                    android:hint="Search through expenses"
                     android:inputType="text"
                     android:maxLength="10"
                     android:padding="5dp" />
@@ -102,7 +102,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
                             android:text="Sort"
-                            android:onClick="clickSort"
+                            android:onClick="clickExpenseSort"
                             android:layout_gravity="center"
                             android:drawableLeft="@drawable/sorting"
                             android:textStyle="bold"
