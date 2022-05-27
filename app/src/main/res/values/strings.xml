@@ -420,5 +420,13 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="enter_otp">Enter OTP</string>
     <string name="otp_sent">OTP sent to 9897767646</string>
     <string name="verify">Verify</string>
+    <string name="select">Select...</string>
+    <string name="choose_period">Choose Period</string>
+    <string name="transaction">Transaction</string>
+    <string name="income">Income</string>
+    <string name="expense">Expense</string>
+    <string name="date">Date</string>
+    <string name="daybook">Daybook</string>
+    <string name="net_income">Net Income</string>
 
 </resources>
