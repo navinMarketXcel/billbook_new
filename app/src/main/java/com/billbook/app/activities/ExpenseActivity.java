@@ -1,10 +1,12 @@
 package com.billbook.app.activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -12,12 +14,16 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
+
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,14 +38,20 @@ import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,9 +67,13 @@ public class ExpenseActivity extends AppCompatActivity {
     private SearchView.SearchAutoComplete mSearchAutoComplete;
     private JSONObject profile;
     private int userid;
+    private Date invoiceDate;
+    private String invoiceDateStr;
+    private EditText selectDate, expenseAmount, expenseName;
     private RecyclerView expensesRV;
     private ExpenseListAdapter expenseListAdapter;
     private Button sortExpense;
+    private boolean isEdit=false;
     public static ArrayList<Expense> expenses = new ArrayList<>();
     private SearchView.OnQueryTextListener onQueryTextListener =
             new SearchView.OnQueryTextListener() {
@@ -141,12 +157,33 @@ public class ExpenseActivity extends AppCompatActivity {
     public void gotoAddExpense(View v){
         BottomSheetDialog addExpenseDialog = new BottomSheetDialog(ExpenseActivity.this,R.style.BottomSheetDialogTheme);
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_add_expens,findViewById(R.id.addExpenseLayout));
-//        addExpenseDialog.findViewById(R.id.addNewExpense).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
+        selectDate = view.findViewById(R.id.selectDate);
+        expenseName= view.findViewById(R.id.expenseName);
+        expenseAmount = view.findViewById(R.id.expenseAmount);
+        String date;
+        DateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+        date = formatter.format(new Date());
+        selectDate.setText(date);
+        Button add = view.findViewById(R.id.addNewExpense);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Expense expense = new Expense();
+                expense.setAmount(Integer.parseInt(expenseAmount.getText().toString()));
+                expense.setName(expenseName.getText().toString());
+                expense.setDate(selectDate.getText().toString());
+                expense.setUserid(userid);
+                saveExpenseToServer(expense);
+                addExpenseDialog.dismiss();
+            }
+        });
+        selectDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(v);
+            }
+        });
+
         addExpenseDialog.setContentView(view);
         addExpenseDialog.show();
         addExpenseDialog.findViewById(R.id.cancelExpense).setOnClickListener(new View.OnClickListener() {
@@ -187,7 +224,13 @@ public class ExpenseActivity extends AppCompatActivity {
                             }.getType();
                             List<Expense> myModelList = new Gson().fromJson(body.getJSONObject("data").getJSONArray("rows").toString(),
                                     listType);
+                            expenses.clear();
                             expenses.addAll(myModelList);
+                            expenseListAdapter = new ExpenseListAdapter(ExpenseActivity.this,expenses);
+                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                            expensesRV.setLayoutManager(mLayoutManager);
+                            expensesRV.setItemAnimator(new DefaultItemAnimator());
+                            expensesRV.setAdapter(expenseListAdapter);
                             expenseListAdapter.notifyDataSetChanged();
                             if(!myModelList.isEmpty()){
                                 TextView textView = findViewById(R.id.tvExpenseNotFound);
@@ -298,5 +341,133 @@ public class ExpenseActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    public void showDatePickerDialog(View v) {
+        final Calendar c = Calendar.getInstance();
+        int mYear = c.get(Calendar.YEAR);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+
+                String dateToUse = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                if (dayOfMonth < 10) {
+                    dateToUse = year + "-" + (monthOfYear + 1) + "-0" + dayOfMonth;
+                } else if ((monthOfYear + 1) < 10) {
+                    dateToUse = year + "-0" + (monthOfYear + 1) + "-" + dayOfMonth;
+                } else if (dayOfMonth < 10 && (monthOfYear + 1) < 10) {
+                    dateToUse = year + "-0" + (monthOfYear + 1) + "-0" + dayOfMonth;
+                }
+                SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                try {
+                    dateToUse = dateToUse + "T00:00:00.001Z";
+                    invoiceDate = myFormat.parse(dateToUse);
+                    DateFormat formatter =
+                            new SimpleDateFormat("dd-MMM-yyyy");
+                    invoiceDateStr = formatter.format(invoiceDate);
+                    selectDate.setText(invoiceDateStr);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                Log.v(TAG, "selctedFromDate::" + invoiceDate);
+
+            }
+        }, mYear, mMonth, mDay);
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.show();
+    }
+
+    private void saveExpenseToServer(Expense expense){
+        if(Util.isNetworkAvailable(this)) {
+            DialogUtils.startProgressDialog(this, "");
+            ApiInterface apiService =
+                    ApiClient.getClient(this).create(ApiInterface.class);
+            Map<String, String> headerMap = new HashMap<>();
+
+            headerMap.put("Content-Type", "application/json");
+
+            Call<Object> call = null;
+            if (!isEdit) {
+                Util.postEvents("Add Expense","Add Expense",this.getApplicationContext());
+                call = apiService.expenses(headerMap, expense);
+            }
+            else {
+                Util.postEvents("Update Expense","Update Expense",this.getApplicationContext());
+
+                call = apiService.updateExpenses(headerMap, (int) expense.getId(), expense);
+            }
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    DialogUtils.stopProgressDialog();
+                    try {
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                        if (!isEdit && body.getBoolean("status") && !body.isNull("data")) {
+                            Log.v("RESP", body.toString());
+                            final Expense expense1 = new Gson().fromJson(body.getJSONObject("data").toString(), Expense.class);
+                            AsyncTask.execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    MyApplication.getDatabase().getExpModelDao().insertExpense(expense1);
+                                }
+                            });
+                            DialogUtils.showToast(getApplicationContext(),"Expense successfully created");
+                            getExpenses();
+                        } else if (isEdit && body.getBoolean("status")){
+                            DialogUtils.showToast(getApplicationContext(),"Expense successfully updated");
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    DialogUtils.stopProgressDialog();
+                    DialogUtils.showToast(ExpenseActivity.this, "Failed to save expense data");
+                }
+            });
+        }else{
+            String expenses = MyApplication.getUnSyncedExpenses();
+            if(expenses.isEmpty()){
+                JSONArray exp= null;
+                try {
+                    exp = new JSONArray().put(new JSONObject(new Gson().toJson(expense)));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                MyApplication.saveUnSyncedExpenses(exp.toString());
+                DialogUtils.showToast(getApplicationContext(),"Expense saved in offline");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+//                        ExpenseActivity.this.finish();
+                    }
+                },1000);
+            }else{
+                try {
+                    JSONArray jsonArray =  new JSONArray(expenses);
+                    jsonArray.put(new JSONObject(new Gson().toJson(expense)));
+                    MyApplication.saveUnSyncedExpenses(jsonArray.toString());
+                    DialogUtils.showToast(getApplicationContext(),"Expense saved in offline");
+                    Log.v("EXET",MyApplication.getUnSyncedExpenses());
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+//                            ExpenseActivity.this.finish();
+                        }
+                    },1000);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
     }
 }

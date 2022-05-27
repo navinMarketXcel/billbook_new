@@ -185,10 +185,10 @@ public class AddExpenseActivity extends AppCompatActivity {
                                 }
                             });
                             DialogUtils.showToast(getApplicationContext(),"Expense successfully created");
-                            AddExpenseActivity.this.finish();
+//                            AddExpenseActivity.this.finish();
                         } else if (isEdit && body.getBoolean("status")){
                             DialogUtils.showToast(getApplicationContext(),"Expense successfully updated");
-                            AddExpenseActivity.this.finish();
+//                            AddExpenseActivity.this.finish();
                         }
 
                     } catch (JSONException e) {
