@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.billbook.app.activities.BillingNewActivity;
 import com.billbook.app.activities.SearchInvoiceActivity;
 import com.billbook.app.database.models.Invoice;
+import com.billbook.app.model.InvoicesData;
 import com.billbook.app.utils.OnDownloadClick;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -55,11 +56,11 @@ import retrofit2.Response;
 
 public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvoiceListAdapterNew.MyViewHolder> {
 
-    private JSONArray requestInvoiceArrayList;
+    private ArrayList<InvoicesData> requestInvoiceArrayList;
     private Context context;
     private SearchInvoiceItemClickListener invoiceItemClickListener;
     private Boolean ischeck;
-    public SearchInvoiceListAdapterNew(Context context, JSONArray categoryArrayList, SearchInvoiceItemClickListener invoiceItemClickListener,Boolean ischeck) {
+    public SearchInvoiceListAdapterNew(Context context, ArrayList<InvoicesData> categoryArrayList, SearchInvoiceItemClickListener invoiceItemClickListener, Boolean ischeck) {
         this.context = context;
         this.ischeck = ischeck;
         this.requestInvoiceArrayList = categoryArrayList;
@@ -79,17 +80,33 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
     }
     @Override
     public void onBindViewHolder(SearchInvoiceListAdapterNew.MyViewHolder holder, final int position) {
+        InvoicesData data=requestInvoiceArrayList.get(position);
+        if(ischeck)
+        {
+            holder.checkbox.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            holder.checkbox.setVisibility(View.GONE);
+        }
+
+        holder.tvInvoiceCustNameValue.setText(data.getCustomer().getCustomerNameame());
 
         try {
-            if(ischeck)
-            {
-                holder.checkbox.setVisibility(View.VISIBLE);
-            }
+            if(data.getDiscount()!=0 && data.getTotalAfterDiscount()!=0)
+                holder.tvTotalAmtValue.setText(Util.formatDecimalValue((float)data.getTotalAfterDiscount().floatValue()));
             else
-            {
-                holder.checkbox.setVisibility(View.GONE);
-            }
+                holder.tvTotalAmtValue.setText(Util.formatDecimalValue((float)data.getTotalAmount().floatValue()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        // holder.tvTotalAmtValue.setText(Util.formatDecimalValue((float)data.getTotalAfterDiscount().floatValue()));
+        String formatedDate = getFormatedDate(data.getInvoiceDate());
+
+        boolean isGST = data.getGstType().isEmpty()?false:true;
+        holder.tvInvoiceValue.setText(""+(isGST?data.getGstBillNo():data.getNonGstBillNo() ));
+/*
             JSONObject requestInvoice = requestInvoiceArrayList.getJSONObject(position);
             boolean isGST = requestInvoice.getString("gstType").isEmpty()?false:true;
                     holder.tvInvoiceValue.setText(""+(isGST?requestInvoice.getInt("gstBillNo"):requestInvoice.getInt("nonGstBillNo") ));
@@ -110,7 +127,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                 //holder.download.setChecked(false);
                 Log.v("INV ADPA", "position"+position + "download"+false);
 
-            }
+            }*/
 //            holder.download.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View view) {
@@ -128,7 +145,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
 
 
-                holder.saveInv.setOnClickListener(new View.OnClickListener() {
+               /* holder.saveInv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Util.postEvents("Save","Save",context.getApplicationContext());
@@ -162,9 +179,9 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                             e.printStackTrace();
                         }
                     }
-                });
+                });*/
 
-            if (requestInvoice.getBoolean("is_active")) {
+            /*if (requestInvoice.getBoolean("is_active")) {
                 holder.cancelInvBItn.setVisibility(View.VISIBLE);
                 Util.postEvents("Cancel","Cancel",context.getApplicationContext());
 
@@ -252,11 +269,8 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                 //holder.edit.setVisibility(View.GONE);
                 holder.cancelledBill.setVisibility(View.VISIBLE);
 
-            }
-            holder.tvInvoiceDateValue.setText(formatedDate);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            }*/
+        holder.tvInvoiceDateValue.setText(formatedDate);
     }
 
     @Override
@@ -264,7 +278,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         if (requestInvoiceArrayList == null) {
             return 0;
         }
-        return requestInvoiceArrayList.length();
+        return requestInvoiceArrayList.size();
     }
 
     public String getFormatedDate(String sDate1) {

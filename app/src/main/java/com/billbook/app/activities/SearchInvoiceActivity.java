@@ -38,7 +38,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.billbook.app.adapters.InvoiceListAdapter;
+import com.billbook.app.database.models.Customer;
 import com.billbook.app.database.models.Invoice;
+import com.billbook.app.model.InvoicesData;
 import com.billbook.app.utils.OnDownloadClick;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -96,7 +98,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     private Date to,from;
     private Spinner dateSpinner;
     List<String> items;
-    public static ArrayList<Invoice> inv = new ArrayList<>();
+    ArrayList<InvoicesData> invoicesList=new ArrayList<InvoicesData>();
     private int hasWriteStoragePermission;
     private final int REQUEST_CODE_ASK_PERMISSIONS =111;
     private final int REQUEST_CODE_ASK_PERMISSIONS_SAVE_INVOICE =112;
@@ -146,7 +148,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     selecttv.setText("Cancel");
                     isCheckFlag=true;
                 }
-                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices, SearchInvoiceActivity.this,isCheckFlag);
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag);
                 recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
 
             }
@@ -168,16 +170,16 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     @Override
                     public void onClick(View view) {
 //
-                        inv = jsonArrayToList(invoices);
-                        ArrayList<Invoice> sortBillNo = (ArrayList<Invoice>) inv.stream().sorted(Comparator.comparing(Invoice::getInvoice_no)).collect(Collectors.toList());
-                        System.out.println(sortBillNo);
-//                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,,null,isCheckFlag);
-//                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-//                        recyclerViewInvoice.setLayoutManager(layoutManager);
-//                        recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
-//                        recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
-//                        sortSheet.dismiss();
-
+                        invoicesList = (ArrayList<InvoicesData>)jsonArrayToList(invoices).stream().sorted(Comparator.comparing(InvoicesData::getNonGstBillNo)).collect(Collectors.toList());
+                        for (int i=0;i<invoicesList.size();i++){
+                            System.out.println(invoicesList.get(i).getTotalAmount());
+                        }
+                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                        recyclerViewInvoice.setLayoutManager(layoutManager);
+                        recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
+                        recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+                        sortSheet.dismiss();
 
                     }
                 });
@@ -186,8 +188,12 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View view) {
-                        ArrayList<Invoice> sortBilldate = (ArrayList<Invoice>) inv.stream().sorted(Comparator.comparing(Invoice::getInvoice_no)).collect(Collectors.toList());
-                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices,null,isCheckFlag);
+
+                       invoicesList= (ArrayList<InvoicesData>)jsonArrayToList(invoices).stream().sorted(Comparator.comparing(InvoicesData::getInvoiceDate)).collect(Collectors.toList());
+                        for (int i=0;i<invoicesList.size();i++){
+                            System.out.println(invoicesList.get(i).getInvoiceDate());
+                        }
+                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                         recyclerViewInvoice.setLayoutManager(layoutManager);
                         recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
@@ -216,61 +222,38 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         });
 
     }
-    public ArrayList jsonArrayToList(JSONArray jsonArray)
+    public ArrayList<InvoicesData> jsonArrayToList(JSONArray jsonArray)
     {
-
-        //Getting languages JSON array from the JSON object
-        //Printing JSON array
-        System.out.println("JSON Array");
-        System.out.println(jsonArray);
-        //Creating an empty ArrayList of type Object
-        ArrayList<Invoice> listdata = new ArrayList<Invoice>();
-
+        ArrayList<InvoicesData> invoicesListData = new ArrayList<InvoicesData>();
         //Checking whether the JSON array has some value or not
         if (jsonArray != null) {
-
             //Iterating JSON array
             for (int i=0;i<jsonArray.length();i++){
-
                 //Adding each element of JSON array into ArrayList
-                Invoice data = new Invoice();
-                JSONObject obj = new JSONObject();
+                InvoicesData invoiceData = new InvoicesData();
                 try {
-                    obj = jsonArray.getJSONObject(i);
-                    data.setInvoice_no(obj.getDouble("nonGstBillNo"));
+                    JSONObject   obj = jsonArray.getJSONObject(i);
+                    JSONObject cuObj = jsonArray.getJSONObject(i).getJSONObject("customer");
+                    invoiceData.setTotalAmount(obj.getInt("totalAmount"));
+                    invoiceData.setTotalAfterDiscount(obj.getInt("totalAfterDiscount"));
+                    invoiceData.setNonGstBillNo(obj.getInt("nonGstBillNo"));
+                    invoiceData.setGstBillNo(obj.getInt("gstBillNo"));
+                    invoiceData.setGSTNo(obj.getString("GSTNo"));
+                    invoiceData.setInvoiceDate(obj.getString("invoiceDate"));
+                    invoiceData.setGstType(obj.getString("gstType"));
+                    invoiceData.setUpdatedAt(obj.getString("updatedAt"));
+                    invoiceData.setCustomer(new Customer(cuObj.getString("name"),cuObj.getString("mobileNo"),false));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                listdata.add(data);
+                invoicesListData.add(invoiceData);
             }
         }
-        //Iterating ArrayList to print each element
 
-        System.out.println("Each element of ArrayList");
-        for(int i=0; i<listdata.size(); i++) {
-            //Printing each element of ArrayList
-            System.out.println(listdata.get(i));
-        }
-        return listdata;
-        }
-
-    public JSONArray sortJsonArray(JSONArray jsonArray) throws JSONException {
-        Log.v("sortJson","reached json array");
-        JSONArray jsonArr = new JSONArray(jsonArray);
-        JSONArray sortedJsonArray = new JSONArray();
-
-        List<JSONObject> jsonValues = new ArrayList<JSONObject>();
-        for (int i = 0; i < jsonArr.length(); i++) {
-            JSONObject obj = new JSONObject();
-            obj = jsonArr.getJSONObject(i);
+        return invoicesListData;
         }
 
 
-        for (int i = 0; i < jsonArr.length(); i++) {
-            sortedJsonArray.put(jsonValues.get(i));
-        }
-        return sortedJsonArray;
-    }
 
 
     private void getInvoicesCall(){
@@ -322,7 +305,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewInvoice.setLayoutManager(mLayoutManager);
         recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
-        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoices, this,isCheckFlag);
+        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoicesList, this,isCheckFlag);
         recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
         downloadAll = findViewById(R.id.downloadAll);
         setTitle("Search Bill");
@@ -381,8 +364,10 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                                 invoices = body.getJSONObject("data").getJSONObject("invoices").getJSONArray("rows");
 
                                 Log.d(TAG, "Invoice Body::" + body);
-                                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoices, SearchInvoiceActivity.this,isCheckFlag);
-                                recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+                                invoicesList =jsonArrayToList(invoices);
+                                    searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag);
+                                    recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+
                             }else if( body.getJSONObject("data").getJSONObject("invoices").getInt("count")==0){
                                 DialogUtils.showToast(SearchInvoiceActivity.this,"No record found");
                             }
