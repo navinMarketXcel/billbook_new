@@ -20,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.billbook.app.activities.BillingNewActivity;
+import com.billbook.app.activities.SearchInvoiceActivity;
+import com.billbook.app.database.models.Invoice;
 import com.billbook.app.utils.OnDownloadClick;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -40,6 +42,7 @@ import java.sql.Time;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -62,6 +65,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         this.requestInvoiceArrayList = categoryArrayList;
         this.invoiceItemClickListener = invoiceItemClickListener;
     }
+
 
     @Override
     public SearchInvoiceListAdapterNew.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
