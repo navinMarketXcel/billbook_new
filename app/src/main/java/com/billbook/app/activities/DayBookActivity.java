@@ -3,6 +3,8 @@ package com.billbook.app.activities;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.DownloadManager;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,16 +14,23 @@ import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.andrewjapar.rangedatepicker.CalendarPicker;
 import com.billbook.app.utils.Util;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -31,6 +40,7 @@ import com.billbook.app.database.models.DayBook;
 import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,8 +56,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,13 +76,16 @@ public class DayBookActivity extends AppCompatActivity {
     private String email;
     private float totalIn=0, totalOut;
     private DayBookAdapter dayBookAdapter;
+    LinearLayout lnNoRecordFound,lnContent;
+    RelativeLayout bottomSheetContainer;
+    EditText etCalender;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day_book);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        setTitle("Day Book");
+       // Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setDisplayShowHomeEnabled(true);
+      //  setTitle("Day Book");
         initUI();
         SimpleDateFormat myFormat1 = new SimpleDateFormat("yyyy-MM-dd");
         startDateStr = myFormat1.format(new Date());
@@ -78,6 +93,13 @@ public class DayBookActivity extends AppCompatActivity {
         getDayBook(startDateStr,endDateStr);
         startDateTV.setText("Start Date - "+myFormat1.format(new Date()));
         endDateTV.setText("End Date - "+myFormat1.format(new Date()));
+        etCalender.setOnClickListener(v -> {
+            try {
+                calenderRangePicker();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
     @Override
     public boolean onSupportNavigateUp() {
@@ -90,6 +112,10 @@ public class DayBookActivity extends AppCompatActivity {
         endDateTV = findViewById(R.id.endDate);
         totalExpenseTV = findViewById(R.id.totalExpense);
         dayBookRV = findViewById(R.id.dayBookRV);
+        lnNoRecordFound = findViewById(R.id.lnNoRecordFound);
+        lnContent = findViewById(R.id.lnContent);
+        etCalender = findViewById(R.id.etCalender);
+        bottomSheetContainer = findViewById(R.id.bottomSheet);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         dayBookRV.setLayoutManager(mLayoutManager);
         dayBookRV.setItemAnimator(new DefaultItemAnimator());
@@ -218,12 +244,21 @@ public class DayBookActivity extends AppCompatActivity {
                                 }
                             });
                             float profit = (totalIn-totalOut);
-                            totalExpenseTV.setText("PROFIT : " + Util.formatDecimalValue((float)totalIn-totalOut));
+
+                            totalExpenseTV.setText(getResources().getString(R.string.Rs)+" " + Util.formatDecimalValue((float)totalIn-totalOut));
                             if(profit>0)
-                                totalExpenseTV.setTextColor(Color.GREEN);
+                                totalExpenseTV.setTextColor(getResources().getColor(R.color.income));
                             else
                                 totalExpenseTV.setTextColor(Color.RED);
                             dayBookAdapter = new DayBookAdapter(DayBookActivity.this,dayBookArrayList);
+                            dayBookRV.addItemDecoration(new DividerItemDecoration(dayBookRV.getContext(), DividerItemDecoration.VERTICAL));
+                            if(dayBookArrayList.size()>0){
+                                lnNoRecordFound.setVisibility(View.GONE);
+                                lnContent.setVisibility(View.VISIBLE);
+                            }else{
+                                lnNoRecordFound.setVisibility(View.VISIBLE);
+                                lnContent.setVisibility(View.GONE);
+                            }
                             dayBookRV.setAdapter(dayBookAdapter);
                         }
 
@@ -253,7 +288,41 @@ public class DayBookActivity extends AppCompatActivity {
         sendReport(startDateStr,endDateStr,email);
 
     }
+    public  void calenderRangePicker(){
 
+        BottomSheetDialog gstSheet = new BottomSheetDialog(DayBookActivity.this, R.style.BottomSheetDialogTheme);
+        View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_date_range_picker,null);
+        CalendarPicker calendarPicker = bottomSheet. findViewById(R.id.calendar_view);
+        TextView txtFrom=bottomSheet. findViewById(R.id.txtFrom);
+        TextView txtTo=bottomSheet. findViewById(R.id.txtTo);
+         String startDates = "",endDates="";
+        Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+        Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+        endDate.add(Calendar.MONTH, -6);
+        calendarPicker. setRangeDate(endDate.getTime(),startDate.getTime() );
+        calendarPicker.setMode(CalendarPicker.SelectionMode.RANGE);
+        calendarPicker.setOnRangeSelectedListener((Date date, Date date2, String s1, String s2) -> {
+                    txtFrom.setText(s1);
+                    txtTo.setText(s2);
+                  //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                    SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    String strDate = myFormat.format(date);
+                    String endsDate = myFormat.format(date2);
+                    getDayBook(strDate,endsDate);
+                    return null;
+                }
+
+
+                );
+        calendarPicker.setOnStartSelectedListener((date, s) ->
+        {
+            txtFrom.setText(s);
+           txtTo.setText("-");
+           return null;
+        });
+        gstSheet.setContentView(bottomSheet);
+        gstSheet.show();
+    }
     public void startDownloading(List<String> downloadLink, String path){
         for(int i = 0;i<downloadLink.size();i++){
             DownloadManager.Request r = null;

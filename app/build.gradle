@@ -109,6 +109,8 @@ dependencies {
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    implementation 'com.andrewjapar.rangedatepicker:rangedatepicker:0.3'
+
     implementation 'com.google.android.gms:play-services-basement:17.6.0'
     implementation 'com.google.android.gms:play-services-tasks:17.2.1'
     implementation 'com.google.android.gms:play-services-appset:16.0.0'
