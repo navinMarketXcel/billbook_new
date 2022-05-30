@@ -12,6 +12,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 import com.billbook.app.R;
 import com.billbook.app.activities.AddExpenseActivity;
+import com.billbook.app.activities.ExpenseActivity;
 import com.billbook.app.database.models.Expense;
 import com.billbook.app.utils.Util;
 
@@ -45,7 +46,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AddExpenseActivity.class);
+                Intent intent = new Intent(context, ExpenseActivity.class);
                 intent.putExtra("expense",expenseArrayListFiltered.get(position));
                 intent.putExtra("id",expenseArrayListFiltered.get(position));
                 context.startActivity(intent);

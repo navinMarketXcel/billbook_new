@@ -2,6 +2,7 @@ package com.billbook.app.activities;
 
 import android.app.DatePickerDialog;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -77,6 +78,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         }
         if(getIntent().hasExtra("expense")) {
             isEdit = true;
+            setTitle("Update Expenses");
             expense = (Expense) getIntent().getSerializableExtra("expense");
             expenseName.setText(expense.getName());
             expenseAmount.setText(""+expense.getAmount());
@@ -242,7 +244,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     }
 
     private void getExpenseData(){
-        expenseViewModel = ViewModelProviders.of(this).get(ExpenseViewModel.class);
+        expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
         expenseViewModel.getModels().observe(this, new Observer<List<Expense>>() {
             @Override
             public void onChanged(@Nullable List<Expense> modelList) {

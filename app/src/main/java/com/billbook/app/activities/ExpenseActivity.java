@@ -10,6 +10,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +29,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.billbook.app.adapters.ExpenseAdapter;
 import com.billbook.app.utils.Util;
+import com.billbook.app.viewmodel.ExpenseViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -72,7 +76,11 @@ public class ExpenseActivity extends AppCompatActivity {
     private EditText selectDate, expenseAmount, expenseName;
     private RecyclerView expensesRV;
     private ExpenseListAdapter expenseListAdapter;
-    private Button sortExpense;
+    private ExpenseViewModel expenseViewModel;
+    private Button sortExpense, cancelExpense;
+    private ArrayList<Expense> expenseArrayList;
+    private ExpenseAdapter  expenseAdapter;
+    private Expense expense;
     private boolean isEdit=false;
     public static ArrayList<Expense> expenses = new ArrayList<>();
     private SearchView.OnQueryTextListener onQueryTextListener =
@@ -113,6 +121,20 @@ public class ExpenseActivity extends AppCompatActivity {
         }else {
             syncText.setVisibility(View.VISIBLE);
 
+        }
+        if(getIntent().hasExtra("expense")) {
+            isEdit = true;
+            setTitle("Update Expenses");
+            expense = (Expense) getIntent().getSerializableExtra("expense");
+            expenseName.setText(expense.getName());
+            expenseAmount.setText(""+expense.getAmount());
+            selectDate.setText(expense.getDate());
+            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                invoiceDate = myFormat.parse(expense.getDate());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
         expenseListAdapter = new ExpenseListAdapter(this,expenses);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -469,5 +491,21 @@ public class ExpenseActivity extends AppCompatActivity {
             }
 
         }
+
+    }
+
+    private void getExpenseData(){
+        expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
+        expenseViewModel.getModels().observe(this, new Observer<List<Expense>>() {
+            @Override
+            public void onChanged(@Nullable List<Expense> modelList) {
+                expenseArrayList = (ArrayList<Expense>) modelList;
+                if (modelList == null) {
+                    expenseArrayList = new ArrayList<>();
+                }
+                expenseAdapter = new ExpenseAdapter(ExpenseActivity.this,R.layout.spinner_textview_layout,expenseArrayList);
+                Log.v(TAG, "models::" + expenseArrayList);
+            }
+        });
     }
 }

@@ -92,7 +92,7 @@
                 android:textColor="#555555"
                 android:layout_height="wrap_content"
                 android:id="@+id/selectDateq"
-                android:text="@string/date" />
+                android:text="@string/expense_date" />
             <EditText
                 android:textColor="#0A0A0A"
                 android:id="@+id/selectDate"
