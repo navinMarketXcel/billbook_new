@@ -48,6 +48,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         holder.expenseNameTV.setText(""+expenseArrayListFiltered.get(position).getName());
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
+
             public void onClick(View v) {
                 expenseCallBack.callback("edit",expenseArrayListFiltered.get(position),position);
             }
