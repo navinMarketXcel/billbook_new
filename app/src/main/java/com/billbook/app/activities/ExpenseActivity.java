@@ -207,28 +207,34 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
 //        Intent intent = new Intent(this, AddExpenseActivity.class);
 //        startActivity(intent);
     }
-    public void gotoEditExpense(){
+    public void gotoEditExpense(Expense data){
         BottomSheetDialog addExpenseDialog = new BottomSheetDialog(ExpenseActivity.this,R.style.BottomSheetDialogTheme);
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_add_expens,findViewById(R.id.addExpenseLayout));
         selectDate = view.findViewById(R.id.selectDate);
         expenseName= view.findViewById(R.id.expenseName);
         expenseAmount = view.findViewById(R.id.expenseAmount);
+        expenseName.setText(data.getName());
+        expenseAmount.setText(""+data.getAmount());
+        selectDate.setText(data.getDate());
         TextView txtLabel=view.findViewById(R.id.txtLabel);
         txtLabel.setText("Edit Expenses");
         String date;
+        isEdit = true;
         DateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
         date = formatter.format(new Date());
         selectDate.setText(date);
-        Button add = view.findViewById(R.id.addNewExpense);
-        add.setOnClickListener(new View.OnClickListener() {
+        Button save = view.findViewById(R.id.addNewExpense);
+        save.setText("Save");
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Expense expense = new Expense();
-                expense.setAmount(Integer.parseInt(expenseAmount.getText().toString()));
-                expense.setName(expenseName.getText().toString());
-                expense.setDate(selectDate.getText().toString());
-                expense.setUserid(userid);
-                saveExpenseToServer(expense);
+                Expense updateExpense = new Expense();
+                updateExpense.setAmount(Integer.parseInt(expenseAmount.getText().toString()));
+                updateExpense.setName(expenseName.getText().toString());
+                updateExpense.setDate(selectDate.getText().toString());
+                updateExpense.setUserid(userid);
+                updateExpense.setId((long) data.getId());
+                saveExpenseToServer(updateExpense);
                 addExpenseDialog.dismiss();
             }
         });
@@ -272,6 +278,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                 public void onResponse(Call<Object> call, Response<Object> response) {
                     DialogUtils.stopProgressDialog();
                     try {
+                        Log.v("InGetExpenseAfterEdit", "Coming in Get expense");
                         JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                         if (body.getJSONObject("data").has("rows") && body.getJSONObject("data").getInt("count") > 0) {
                             Type listType = new TypeToken<List<Expense>>() {
@@ -477,6 +484,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                             getExpenses();
                         } else if (isEdit && body.getBoolean("status")){
                             DialogUtils.showToast(getApplicationContext(),"Expense successfully updated");
+                            getExpenses();
                         }
 
                     } catch (JSONException e) {
@@ -547,8 +555,9 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
 
     @Override
     public void callback(String action, Expense data, Integer position) {
+        Log.v("InCallBack", String.valueOf(data));
         if(action.equals("edit")){
-            gotoEditExpense();
+            gotoEditExpense(data);
         }
 
     }
