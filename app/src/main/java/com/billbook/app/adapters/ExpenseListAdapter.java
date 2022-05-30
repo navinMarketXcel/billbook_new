@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.billbook.app.R;
 import com.billbook.app.activities.AddExpenseActivity;
 import com.billbook.app.activities.ExpenseActivity;
+import com.billbook.app.adapter_callback.ExpenseCallBack;
 import com.billbook.app.database.models.Expense;
 import com.billbook.app.utils.Util;
 
@@ -24,9 +25,11 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
     private ArrayList<Expense> expenseArrayList;
     private ArrayList<Expense> expenseArrayListFiltered;
     private Context context;
+    public ExpenseCallBack expenseCallBack;
 
-    public ExpenseListAdapter(Context context, ArrayList<Expense> expenseArrayList) {
+    public ExpenseListAdapter(Context context, ArrayList<Expense> expenseArrayList,ExpenseCallBack expenseCallBack) {
         this.context = context;
+        this.expenseCallBack = expenseCallBack;
         this.expenseArrayList = expenseArrayList;
         expenseArrayListFiltered = expenseArrayList;
     }
@@ -46,10 +49,11 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AddExpenseActivity.class);
+                expenseCallBack.callback("edit",expenseArrayListFiltered.get(position),position);
+              /*  Intent intent = new Intent(context, AddExpenseActivity.class);
                 intent.putExtra("expense",expenseArrayListFiltered.get(position));
                 intent.putExtra("id",expenseArrayListFiltered.get(position));
-                context.startActivity(intent);
+                context.startActivity(intent);*/
             }
         });
     }
