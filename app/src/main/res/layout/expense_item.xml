@@ -100,7 +100,7 @@
             </Button>
 
             <Button
-                android:id="@+id/cancelInvBItn"
+                android:id="@+id/cancelExpenseBtn"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:background="@drawable/framedelete">

@@ -37,6 +37,7 @@ import com.billbook.app.utils.Util;
 import com.billbook.app.viewmodel.ExpenseViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.billbook.app.R;
 import com.billbook.app.adapters.ExpenseListAdapter;
@@ -253,9 +254,43 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                 addExpenseDialog.dismiss();
             }
         });
-//        Util.postEvents("Add New Expense","Add New Expense",this.getApplicationContext());
-//        Intent intent = new Intent(this, AddExpenseActivity.class);
-//        startActivity(intent);
+    }
+
+    public void gotoDeleteExpense(Expense data){
+        Call<Object> call = null;
+        Map<String, String> headerMap = new HashMap<>();
+        headerMap.put("Content-Type", "application/json");
+        if(Util.isNetworkAvailable(ExpenseActivity.this))
+        {
+            ApiInterface apiService = ApiClient.getClient(ExpenseActivity.this).create(ApiInterface.class);
+            long id = data.getId();
+            Log.v("id_expense",String.valueOf(id));
+            call = apiService.deleteExpenses(headerMap,id);
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    try {
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                        if(body.getBoolean("status")){
+                            DialogUtils.showToast(ExpenseActivity.this, "Expense deleted successfully");
+                            getExpenses();
+                        } else {
+                            DialogUtils.showToast(ExpenseActivity.this, "Please try again");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    DialogUtils.showToast(ExpenseActivity.this, "Failed to get expenses");
+                    Util.logErrorApi("/v1/expense/"+id, new JsonObject(), Arrays.toString(t.getStackTrace()), t.toString() , null, ExpenseActivity.this);
+
+                }
+            });
+
+        }
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -558,6 +593,9 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
         Log.v("InCallBack", String.valueOf(data));
         if(action.equals("edit")){
             gotoEditExpense(data);
+        }
+        if(action.equals("delete")){
+            gotoDeleteExpense(data);
         }
 
     }

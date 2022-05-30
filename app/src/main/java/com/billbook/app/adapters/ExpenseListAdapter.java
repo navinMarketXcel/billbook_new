@@ -50,10 +50,12 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
             @Override
             public void onClick(View v) {
                 expenseCallBack.callback("edit",expenseArrayListFiltered.get(position),position);
-              /*  Intent intent = new Intent(context, AddExpenseActivity.class);
-                intent.putExtra("expense",expenseArrayListFiltered.get(position));
-                intent.putExtra("id",expenseArrayListFiltered.get(position));
-                context.startActivity(intent);*/
+            }
+        });
+        holder.cancelExpenseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                expenseCallBack.callback("delete",expenseArrayListFiltered.get(position),position);
             }
         });
     }
@@ -100,7 +102,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView expenseDateTV,expenseNameTV,expenseAmountTV;
-        public Button btnEdit;
+        public Button btnEdit,cancelExpenseBtn;
 
         public MyViewHolder(View view) {
             super(view);
@@ -108,6 +110,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
             expenseNameTV = view.findViewById(R.id.expenseNameTV);
             expenseAmountTV = view.findViewById(R.id.expenseAmountTV);
             btnEdit = view.findViewById(R.id.btnEdit);
+            cancelExpenseBtn = view.findViewById(R.id.cancelExpenseBtn);
 
         }
     }
