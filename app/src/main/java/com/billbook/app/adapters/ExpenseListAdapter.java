@@ -46,7 +46,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ExpenseActivity.class);
+                Intent intent = new Intent(context, AddExpenseActivity.class);
                 intent.putExtra("expense",expenseArrayListFiltered.get(position));
                 intent.putExtra("id",expenseArrayListFiltered.get(position));
                 context.startActivity(intent);

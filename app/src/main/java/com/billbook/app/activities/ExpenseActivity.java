@@ -122,20 +122,6 @@ public class ExpenseActivity extends AppCompatActivity {
             syncText.setVisibility(View.VISIBLE);
 
         }
-        if(getIntent().hasExtra("expense")) {
-            isEdit = true;
-            setTitle("Update Expenses");
-            expense = (Expense) getIntent().getSerializableExtra("expense");
-            expenseName.setText(expense.getName());
-            expenseAmount.setText(""+expense.getAmount());
-            selectDate.setText(expense.getDate());
-            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                invoiceDate = myFormat.parse(expense.getDate());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
         expenseListAdapter = new ExpenseListAdapter(this,expenses);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         expensesRV.setLayoutManager(mLayoutManager);
