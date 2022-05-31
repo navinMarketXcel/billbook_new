@@ -2,6 +2,7 @@ package com.billbook.app.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -36,7 +37,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.billbook.app.adapter_bill_callback.BillCallback;
 import com.billbook.app.adapters.InvoiceListAdapter;
 import com.billbook.app.database.models.Customer;
 import com.billbook.app.database.models.Invoice;
@@ -53,6 +56,7 @@ import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.Util;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,7 +84,7 @@ import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
 
-public class SearchInvoiceActivity extends AppCompatActivity implements View.OnClickListener,SearchInvoiceListAdapterNew.SearchInvoiceItemClickListener, DatePickerDialog.OnDateSetListener, OnDownloadClick {
+public class SearchInvoiceActivity extends AppCompatActivity implements View.OnClickListener,SearchInvoiceListAdapterNew.SearchInvoiceItemClickListener, DatePickerDialog.OnDateSetListener, OnDownloadClick, BillCallback {
     private static final String TAG = "SearchInvoiceActivity";
     private SearchInvoiceListAdapterNew searchInvoiceListAdapter;
     private RecyclerView recyclerViewInvoice;
@@ -164,7 +168,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     selecttv.setText("Cancel");
                     isCheckFlag=true;
                 }
-                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag);
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag,SearchInvoiceActivity.this);
                 recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
 
             }
@@ -190,7 +194,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         for (int i=0;i<invoicesList.size();i++){
                             System.out.println(invoicesList.get(i).getTotalAmount());
                         }
-                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag);
+                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                         recyclerViewInvoice.setLayoutManager(layoutManager);
                         recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
@@ -209,7 +213,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         for (int i=0;i<invoicesList.size();i++){
                             System.out.println(invoicesList.get(i).getInvoiceDate());
                         }
-                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag);
+                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                         recyclerViewInvoice.setLayoutManager(layoutManager);
                         recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
@@ -324,7 +328,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewInvoice.setLayoutManager(mLayoutManager);
         recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
-        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoicesList, this,isCheckFlag);
+        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoicesList, this,isCheckFlag,SearchInvoiceActivity.this);
         recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
         downloadAll = findViewById(R.id.downloadAll);
         setTitle("Search Bill");
@@ -384,8 +388,9 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
                                 Log.d(TAG, "Invoice Body::" + body);
                                 invoicesList =jsonArrayToList(invoices);
-                                    searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag);
+                                    searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag,SearchInvoiceActivity.this);
                                     recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+                                    searchInvoiceListAdapter.notifyDataSetChanged();
 
                             }else if( body.getJSONObject("data").getJSONObject("invoices").getInt("count")==0){
                                 DialogUtils.showToast(SearchInvoiceActivity.this,"No record found");
@@ -582,6 +587,76 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             saveInvoice();
         }else{
             checkPermission(REQUEST_CODE_ASK_PERMISSIONS_SAVE_INVOICE);
+        }
+    }
+    public void gotodeletebills(InvoicesData data) {
+        DialogUtils.showAlertDialog((Activity) SearchInvoiceActivity.this, "Yes", "No", "Confirm if you want to Delete this bill", new DialogUtils.DialogClickListener() {
+            @Override
+            public void positiveButtonClick() {
+                if (Util.isNetworkAvailable(SearchInvoiceActivity.this)) {
+                    final ProgressDialog progressDialog = DialogUtils.startProgressDialog(SearchInvoiceActivity.this, "");
+                    ApiInterface apiService =
+                            ApiClient.getClient(SearchInvoiceActivity.this).create(ApiInterface.class);
+
+                    String token = MyApplication.getUserToken();
+                    Map<String, String> headerMap = new HashMap<>();
+                    headerMap.put("Authorization", token);
+                    Call<Object> call = null;
+                    try {
+                        JSONObject inv = new JSONObject();
+                        inv.remove("masterItems");
+                        inv.put("is_active", false);
+                        JsonObject jsonObject = new JsonParser().parse(inv.toString()).getAsJsonObject();
+                        call = apiService.updateInvoice(headerMap, data.id, jsonObject);
+                        call.enqueue(new Callback<Object>() {
+                            @Override
+                            public void onResponse(Call<Object> call, Response<Object> response) {
+                                final JSONObject body;
+                                try {
+                                    body = new JSONObject(new Gson().toJson(response.body()));
+
+                                    if (body.getBoolean("status")) {
+                                        data.isActive = false;
+                                        page = 1;
+                                        getInvoicesCall();
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+
+                                }
+                                progressDialog.dismiss();
+
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<Object> call, Throwable t) {
+                                progressDialog.dismiss();
+                            }
+                        });
+                    } catch (JSONException e) {
+                        progressDialog.dismiss();
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    Toast.makeText(SearchInvoiceActivity.this, SearchInvoiceActivity.this.getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void negativeButtonClick() {
+
+            }
+        });
+    }
+        @Override
+    public void callback(String action, InvoicesData data, Integer pos)
+    {
+        if(action.equals("delete"))
+        {
+            gotodeletebills(data);
         }
     }
 

@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.billbook.app.activities.BillingNewActivity;
 import com.billbook.app.activities.SearchInvoiceActivity;
+import com.billbook.app.adapter_bill_callback.BillCallback;
 import com.billbook.app.database.models.Invoice;
 import com.billbook.app.model.InvoicesData;
 import com.billbook.app.utils.OnDownloadClick;
@@ -60,10 +61,12 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
     private Context context;
     private SearchInvoiceItemClickListener invoiceItemClickListener;
     private Boolean ischeck;
-    public SearchInvoiceListAdapterNew(Context context, ArrayList<InvoicesData> categoryArrayList, SearchInvoiceItemClickListener invoiceItemClickListener, Boolean ischeck) {
+    public BillCallback billCallback;
+    public SearchInvoiceListAdapterNew(Context context, ArrayList<InvoicesData> categoryArrayList, SearchInvoiceItemClickListener invoiceItemClickListener, Boolean ischeck,BillCallback billCallback) {
         this.context = context;
         this.ischeck = ischeck;
         this.requestInvoiceArrayList = categoryArrayList;
+        this.billCallback = billCallback;
         this.invoiceItemClickListener = invoiceItemClickListener;
     }
 
@@ -90,9 +93,10 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             holder.checkbox.setVisibility(View.GONE);
         }
 
-        holder.tvInvoiceCustNameValue.setText(data.getCustomer().getCustomerNameame());
+
 
         try {
+            holder.tvInvoiceCustNameValue.setText(data.getCustomer().getCustomerNameame());
             if(data.getDiscount()!=0 && data.getTotalAfterDiscount()!=0)
                 holder.tvTotalAmtValue.setText(Util.formatDecimalValue((float)data.getTotalAfterDiscount().floatValue()));
             else
@@ -185,66 +189,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                     @Override
                     public void onClick(View v) {
 
-                        DialogUtils.showAlertDialog((Activity) context, "Yes", "No", "Confirm if you want to cancel this bill", new DialogUtils.DialogClickListener() {
-                            @Override
-                            public void positiveButtonClick() {
-                                if (Util.isNetworkAvailable(context)) {
-                                    final ProgressDialog progressDialog = DialogUtils.startProgressDialog(context, "");
-                                    ApiInterface apiService =
-                                            ApiClient.getClient(context).create(ApiInterface.class);
-
-                                    String token = MyApplication.getUserToken();
-                                    Map<String, String> headerMap = new HashMap<>();
-                                    headerMap.put("Authorization", token);
-                                    Call<Object> call = null;
-                                    try {
-                                        JSONObject inv = new JSONObject();
-                                        inv.remove("masterItems");
-                                        inv.put("is_active", data.isActive);
-                                        Log.v("Data Is Active",data.isActive.toString());
-                                        JsonObject jsonObject = new JsonParser().parse(inv.toString()).getAsJsonObject();
-                                        call = apiService.updateInvoice(headerMap, data.id, jsonObject);
-                                        call.enqueue(new Callback<Object>() {
-                                            @Override
-                                            public void onResponse(Call<Object> call, Response<Object> response) {
-                                                final JSONObject body;
-                                                try {
-                                                    body = new JSONObject(new Gson().toJson(response.body()));
-
-                                                    if (body.getBoolean("status")) {
-                                                        data.isActive = false;
-                                                        notifyItemChanged(position);
-                                                    }
-
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                progressDialog.dismiss();
-
-
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<Object> call, Throwable t) {
-                                                progressDialog.dismiss();
-                                            }
-                                        });
-                                    } catch (JSONException e) {
-                                        progressDialog.dismiss();
-                                        e.printStackTrace();
-                                    }
-
-                                } else {
-                                    Toast.makeText(context, context.getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void negativeButtonClick() {
-
-                            }
-                        });
-
+                    billCallback.callback("delete",data,position);
 
                     }
                 });
@@ -261,9 +206,8 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 //                    }
 //                });
             }else{
-                holder.cancelInvBItn.setVisibility(View.GONE);
                 //holder.edit.setVisibility(View.GONE);
-                holder.cancelledBill.setVisibility(View.VISIBLE);
+
 
             }
         holder.tvInvoiceDateValue.setText(formatedDate);
