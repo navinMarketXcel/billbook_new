@@ -119,6 +119,22 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         hasWriteStoragePermission =
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
+        dateSpinner = findViewById(R.id.dateSpinner);
+        dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(adapterView.getItemAtPosition(i).equals("Custom Period"))
+                {
+                    showDatePickerDialog(view);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
 
 
     }
@@ -239,9 +255,12 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     invoiceData.setNonGstBillNo(obj.getInt("nonGstBillNo"));
                     invoiceData.setGstBillNo(obj.getInt("gstBillNo"));
                     invoiceData.setGSTNo(obj.getString("GSTNo"));
+                    invoiceData.setPdfLink(obj.getString("pdfLink"));
                     invoiceData.setInvoiceDate(obj.getString("invoiceDate"));
                     invoiceData.setGstType(obj.getString("gstType"));
                     invoiceData.setUpdatedAt(obj.getString("updatedAt"));
+                    invoiceData.setIsActive(obj.getBoolean("is_active"));
+                    invoiceData.setId(obj.getInt("id"));
                     invoiceData.setCustomer(new Customer(cuObj.getString("name"),cuObj.getString("mobileNo"),false));
                 } catch (JSONException e) {
                     e.printStackTrace();

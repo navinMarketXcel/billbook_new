@@ -145,43 +145,39 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
 
 
-               /* holder.saveInv.setOnClickListener(new View.OnClickListener() {
+                holder.saveInv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Util.postEvents("Save","Save",context.getApplicationContext());
 
                         Intent i = new Intent(Intent.ACTION_VIEW);
-                        try {
-                            if(requestInvoice.has("pdfLink") && requestInvoice.getString("pdfLink")!=null) {
-                                String pdfLink = requestInvoice.getString("pdfLink");
+                        if( data.getPdfLink()!=null && !data.getPdfLink().isEmpty()) {
+                            String pdfLink = data.getPdfLink();
 
-                                if(pdfLink.contains("http://")){
-                                    pdfLink = pdfLink.replace("http://", "https://");
-                                }
-
-                                i.setData(Uri.parse(pdfLink));
-                                try{
-                                    context.startActivity(i);
-                                }catch(Exception e){
-                                    DialogUtils.showToast(context, "Browser not installed");
-                                    e.printStackTrace();
-                                }
-                            }
-                            else{
-                                Util.postEvents("Edit","Edit",context.getApplicationContext());
-                                Intent intent = new Intent(context, BillingNewActivity.class);
-                                intent.putExtra("edit",true);
-                                intent.putExtra("invoice",requestInvoice.toString());
-                                context.startActivity(intent);
+                            if(pdfLink.contains("http://")){
+                                pdfLink = pdfLink.replace("http://", "https://");
                             }
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            i.setData(Uri.parse(pdfLink));
+                            try{
+                                context.startActivity(i);
+                            }catch(Exception e){
+                                DialogUtils.showToast(context, "Browser not installed");
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });*/
+                        else{
+//                                Util.postEvents("Edit","Edit",context.getApplicationContext());
+//                                Intent intent = new Intent(context, BillingNewActivity.class);
+//                                intent.putExtra("edit",true);
+//                                intent.putExtra("invoice",requestInvoice.toString());
+//                                context.startActivity(intent);
+                        }
 
-            /*if (requestInvoice.getBoolean("is_active")) {
+                    }
+                });
+
+            if (data.getIsActive()) {
                 holder.cancelInvBItn.setVisibility(View.VISIBLE);
                 Util.postEvents("Cancel","Cancel",context.getApplicationContext());
 
@@ -198,16 +194,16 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                                             ApiClient.getClient(context).create(ApiInterface.class);
 
                                     String token = MyApplication.getUserToken();
-
                                     Map<String, String> headerMap = new HashMap<>();
                                     headerMap.put("Authorization", token);
                                     Call<Object> call = null;
                                     try {
-                                        JSONObject inv = requestInvoiceArrayList.getJSONObject(position);
+                                        JSONObject inv = new JSONObject();
                                         inv.remove("masterItems");
-                                        inv.put("is_active", false);
+                                        inv.put("is_active", data.isActive);
+                                        Log.v("Data Is Active",data.isActive.toString());
                                         JsonObject jsonObject = new JsonParser().parse(inv.toString()).getAsJsonObject();
-                                        call = apiService.updateInvoice(headerMap, inv.getInt("id"), jsonObject);
+                                        call = apiService.updateInvoice(headerMap, data.id, jsonObject);
                                         call.enqueue(new Callback<Object>() {
                                             @Override
                                             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -216,7 +212,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                                                     body = new JSONObject(new Gson().toJson(response.body()));
 
                                                     if (body.getBoolean("status")) {
-                                                        requestInvoice.put("is_active",false);
+                                                        data.isActive = false;
                                                         notifyItemChanged(position);
                                                     }
 
@@ -269,7 +265,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                 //holder.edit.setVisibility(View.GONE);
                 holder.cancelledBill.setVisibility(View.VISIBLE);
 
-            }*/
+            }
         holder.tvInvoiceDateValue.setText(formatedDate);
     }
 
