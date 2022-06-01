@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.ExpenseActivity"
+    android:orientation="vertical"
     >
 
     <LinearLayout
@@ -123,7 +124,13 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/borderOpaque"
+        android:layout_margin="5dp">
 
+    </View>
 </LinearLayout>
 
 <!--<View-->
