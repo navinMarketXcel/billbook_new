@@ -106,6 +106,7 @@
 
 
         <EditText
+
             android:textColor="#0A0A0A"
             android:id="@+id/edtName"
             style="@style/editText"
