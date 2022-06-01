@@ -35,6 +35,7 @@
             tools:showIn="@layout/activity_home">
 
             <LinearLayout
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -43,6 +44,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:cardCornerRadius="10dp"
                     android:layout_marginLeft="20dp"
                     android:elevation="8dp"
                     android:layout_margin="10dp"
@@ -52,7 +54,6 @@
                         android:id="@+id/btnBilling"
                         android:layout_width="@dimen/common_tab_width"
                         android:layout_height="@dimen/common_tab_width"
-
                         android:gravity="center"
                         android:orientation="vertical">
 
@@ -78,6 +79,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:elevation="8dp"
+                    app:cardCornerRadius="10dp"
+
                     android:layout_margin="10dp"
                     app:contentPadding="4dp">
 
@@ -116,6 +119,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal">
                 <androidx.cardview.widget.CardView
+                    app:cardCornerRadius="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -150,6 +154,7 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
                 <androidx.cardview.widget.CardView
+                    app:cardCornerRadius="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:elevation="8dp"
@@ -226,6 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:elevation="8dp"
+                    app:cardCornerRadius="10dp"
                     android:layout_margin="10dp"
                     android:visibility="visible"
                     app:contentPadding="4dp">
