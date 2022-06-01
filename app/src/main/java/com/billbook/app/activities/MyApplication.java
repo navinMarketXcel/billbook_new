@@ -402,7 +402,20 @@ public class MyApplication extends Application {
         boolean bool = sharedPref.getBoolean(context.getString(R.string.isGSTVerified), false);
         return bool;
     }
+    public static void saveLanguage(String lng) {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(Constants.LANGUAGE, lng);
+        editor.commit();
+    }
+    public static String getLanguage() {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
+        String lng = sharedPref.getString(Constants.LANGUAGE, "en");
+        return lng;
 
+    }
     public static User getUser() {
         return user;
     }

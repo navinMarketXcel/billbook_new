@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -37,6 +38,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -64,6 +66,7 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
         if (hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED) {
             checkVersion();
         }
+        updateLanguage(MyApplication.getLanguage());
     }
 
 private void startSplash(){
@@ -321,5 +324,14 @@ private void startSplash(){
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+    public void updateLanguage(String lng) {
+        Locale locale = new Locale(lng);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
     }
 }

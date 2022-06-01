@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.billbook.app.R;
 import com.billbook.app.activities.BusinessDetailsActivity;
 import com.billbook.app.activities.ContactDetailsActivity;
+import com.billbook.app.activities.LanguageChooseActivity;
 import com.billbook.app.activities.LogoSignatureActivity;
 import com.billbook.app.activities.MyApplication;
 import com.billbook.app.activities.SplashActivity;
@@ -73,7 +74,7 @@ public class ProfileFragment extends Fragment {
         return fragment;
     }
 
-    RelativeLayout rlContact,rlBusiness,rlLogoSign;
+    RelativeLayout rlContact,rlBusiness,rlLogoSign,rlChangeLanguage;
     TextView txtProfileName,txtProfileAdd;
     de.hdodenhof.circleimageview.CircleImageView ivUserProfile;
     Switch switchGst;
@@ -94,6 +95,7 @@ public class ProfileFragment extends Fragment {
         rlContact =  view.findViewById(R.id.rlContact);
         rlBusiness =  view.findViewById(R.id.rlBusiness);
         rlLogoSign =  view.findViewById(R.id.rlLogoSign);
+        rlChangeLanguage =  view.findViewById(R.id.rlChangeLanguage);
         txtProfileName = view.findViewById(R.id.txtProfileName);
         txtProfileAdd = view.findViewById(R.id.txtProfileAdd);
         ivUserProfile = view.findViewById(R.id.ivUserProfile);
@@ -123,6 +125,10 @@ public class ProfileFragment extends Fragment {
         });
         rlLogoSign.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), LogoSignatureActivity.class);
+            startActivity(intent);
+        });
+        rlChangeLanguage.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), LanguageChooseActivity.class);
             startActivity(intent);
         });
         switchGst.setOnClickListener(v -> {
