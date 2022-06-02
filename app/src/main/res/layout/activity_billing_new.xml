@@ -135,7 +135,9 @@
 
 
         <EditText
+            android:drawableRight="@drawable/ic_baseline_contacts_24"
             android:id="@+id/edtMobNo"
+            android:onClick="clickButton"
             style="@style/editText"
             android:maxLength="10"
             android:background="@drawable/layout_background"
