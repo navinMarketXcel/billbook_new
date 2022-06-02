@@ -12,6 +12,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" /> <!-- <uses-permission android:name="android.permission.ACCESS_FIN/E_LOCATION" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_NUMBERS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
@@ -30,6 +34,13 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:allowBackup,android:roundIcon"
         tools:targetApi="honeycomb">
+
+        <receiver android:name=".receiver.OtpReceiver">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+            </intent-filter>
+
+        </receiver>
 
         <activity
             android:name=".activities.DayBookActivity"

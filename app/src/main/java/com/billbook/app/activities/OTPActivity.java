@@ -1,9 +1,13 @@
 package com.billbook.app.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.os.RemoteException;
 import android.text.Editable;
@@ -18,6 +22,7 @@ import android.widget.Toast;
 import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
+import com.billbook.app.receiver.OtpReceiver;
 import com.billbook.app.utils.Util;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -70,6 +75,9 @@ public class OTPActivity extends AppCompatActivity {
         etMobNo=findViewById(R.id.etMobNo);
         mAuth = FirebaseAuth.getInstance();
         otpEdt = findViewById(R.id.otpEdt);
+        new OtpReceiver().setEditText(otpEdt);
+        requestSmsPermisson();
+
         fromEditProfile = getIntent().hasExtra("fromEditProfile")?getIntent().getExtras().getBoolean("fromEditProfile"):false;
 
         if(!fromEditProfile){
@@ -108,6 +116,25 @@ public class OTPActivity extends AppCompatActivity {
 
         otpEdt.addTextChangedListener(loginWatcher);
 
+    }
+
+    private void requestSmsPermisson() {
+//        String permission = Manifest.permission.RECEIVE_SMS;
+//
+//        int grant = ContextCompat.checkSelfPermission(this,permission);
+//        if (grant!= PackageManager.PERMISSION_GRANTED)
+//        {
+//            String[] permission_list = new String[1];
+//            permission_list[0]=permission;
+//            ActivityCompat.requestPermissions(OTPActivity.this,permission_list,1);
+//        }
+        if(ContextCompat.checkSelfPermission(OTPActivity.this,Manifest.permission.RECEIVE_SMS)
+        != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(OTPActivity.this,new String[]{
+                    Manifest.permission.RECEIVE_SMS
+            },100);
+        }
     }
 
     private TextWatcher loginWatcher= new TextWatcher() {
