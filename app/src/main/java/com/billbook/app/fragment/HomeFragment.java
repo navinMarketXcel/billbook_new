@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -111,6 +112,7 @@ public class HomeFragment extends Fragment
     private String expString;
     InMobiBanner mBannerAd1;
     VungleBanner vungleBanner;
+    private JSONArray gstList, nonGstList;
     // replace with actual placementId from InMobi
     private long placementId1= Long.parseLong(BuildConfig.PlacementId1);
     private long placementId2=Long.parseLong(BuildConfig.PlacementId2);
@@ -518,6 +520,8 @@ public class HomeFragment extends Fragment
             case R.id.btnBilling:
                 Util.postEvents("Billing","Billing",getActivity().getApplicationContext());
                 intent = new Intent(getActivity(), BillingNewActivity.class);
+                intent.putExtra("gstBillNo", gstList.toString());
+                intent.putExtra("nonGstBillNo",nonGstList.toString());
                 startActivity(intent);
                 break;
             case R.id.btnSellingDetails:
@@ -698,8 +702,10 @@ public class HomeFragment extends Fragment
                     body = new JSONObject(new Gson().toJson(response.body()));
                     Log.d(TAG, "Invoice Body::" + body);
                     if (body.getJSONObject("data").has("nonGstBillNo")) {
-                        MyApplication.setInvoiceNumber(body.getJSONObject("data").getInt("gstBillNo")+1);
-                        MyApplication.setInvoiceNumberForNonGst(body.getJSONObject("data").getInt("nonGstBillNo")+1);
+                        gstList = body.getJSONObject("data").getJSONArray("gstBillNo");
+                        nonGstList = body.getJSONObject("data").getJSONArray("nonGstBillNo");
+                        MyApplication.setInvoiceNumber(gstList.getInt(gstList.length() - 1)+1);
+                        MyApplication.setInvoiceNumberForNonGst(nonGstList.getInt(nonGstList.length() - 1)+1);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
