@@ -109,8 +109,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private Gson gson = new Gson();
     private List<String> gstTypeList, measurementUnitTypeList;
     private JSONObject profile;
-    private JSONArray gstList, nonGstList;
-    private ArrayList<String> gst, nonGst;
+    private ArrayList<String> gstList, nonGstList;
     private boolean isGSTAvailable;
     private String gstNo;
     private int editPosition = -1;
@@ -154,8 +153,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         nonGstBillNo =getIntent().hasExtra("nonGstBillNo")? getIntent().getExtras().getString("nonGstBillNo"): String.valueOf(1);
         gstBllNo = gstBllNo.substring(1, gstBllNo.length() - 1);
         nonGstBillNo =nonGstBillNo.substring(1, nonGstBillNo.length() - 1);
-        nonGst = new ArrayList<>(Arrays.asList(nonGstBillNo.split(",")));
-        gst = new ArrayList<>(Arrays.asList(gstBllNo.split(",")));
+        nonGstList = new ArrayList<>(Arrays.asList(nonGstBillNo.split(",")));
+        gstList = new ArrayList<>(Arrays.asList(gstBllNo.split(",")));
 //        try {
 //            gstList = new JSONArray(gstBllNo);
 //            nonGstList = new JSONArray(nonGstBillNo);
@@ -382,46 +381,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.length() != 0){
-                    Log.v("fzfafas", s.toString());
-                        if(nonGst.contains(s.toString())){
+                        if(nonGstList.contains(s.toString())){
                             binding.billNo.setError("Bill number already exist");
                             binding.nextBtn.setVisibility(View.GONE);
                         } else{
                             binding.nextBtn.setVisibility(View.VISIBLE);
                         }
-//                        for(int i = 0;i < nonGstList.length();++i) {
-//                            if (nonGstList.getInt(i) == Integer.parseInt(s.toString()) ) {
-//                                binding.billNo.setError("Bill number already exist");
-//                            }
-//                        }
                 }
-//                if(isGSTAvailable &&  gstList.equals(s)){
-//                    Log.v("InOntextChanged_if", s.toString());
-//                    DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "You cannot use same bill number more than once", new DialogUtils.DialogClickListener() {
-//                        @Override
-//                        public void positiveButtonClick() {
-//                            Log.v("InPositiveDialog","Pagal");
-//                            binding.billNo.setText(""+ serialNumber);
-//                        }
-//                        @Override
-//                        public void negativeButtonClick() {
-//                            Log.v("InnegaitiveDialog","Pagal");
-//                        }
-//                    });
-//                } else if(!isGSTAvailable &&  nonGstList.equals(s)) {
-//                    Log.v("InOntextChanged_else", (String) s);
-//                    DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "You cannot use same bill number more than once", new DialogUtils.DialogClickListener() {
-//                        @Override
-//                        public void positiveButtonClick() {
-//                            Log.v("InPositiveDialog","Pagal");
-//                            binding.billNo.setText(""+ serialNumber);
-//                        }
-//                        @Override
-//                        public void negativeButtonClick() {
-//
-//                        }
-//                    });
-//                }
             }
 
             @Override
