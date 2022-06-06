@@ -90,9 +90,9 @@ public class DayBookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day_book);
-       // Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-       // getSupportActionBar().setDisplayShowHomeEnabled(true);
-      //  setTitle("Day Book");
+        // Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        // getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //  setTitle("Day Book");
         initUI();
         SimpleDateFormat myFormat1 = new SimpleDateFormat("yyyy-MM-dd");
         startDateStr = myFormat1.format(new Date());
@@ -315,7 +315,7 @@ public class DayBookActivity extends AppCompatActivity {
                 getDayBook(strDate,endsDate);
             }else if(menuItem.getItemId()==R.id.m_today){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-               // startDate.add(Calendar.MONTH, -1);
+                // startDate.add(Calendar.MONTH, -1);
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 String strDate = myFormat.format(startDate.getTime());
                 String endsDate = myFormat.format(endDate.getTime());
@@ -355,7 +355,7 @@ public class DayBookActivity extends AppCompatActivity {
         CalendarPicker calendarPicker = bottomSheet. findViewById(R.id.calendar_view);
         TextView txtFrom=bottomSheet. findViewById(R.id.txtFrom);
         TextView txtTo=bottomSheet. findViewById(R.id.txtTo);
-         String startDates = "",endDates="";
+        String startDates = "",endDates="";
         Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
         Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
         startDate.add(Calendar.MONTH, -6);
@@ -365,7 +365,7 @@ public class DayBookActivity extends AppCompatActivity {
         calendarPicker.setOnRangeSelectedListener((Date date, Date date2, String s1, String s2) -> {
                     txtFrom.setText(s1);
                     txtTo.setText(s2);
-                  //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                    //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 
                     String strDate = myFormat.format(date);
                     String endsDate = myFormat.format(date2);
@@ -375,12 +375,12 @@ public class DayBookActivity extends AppCompatActivity {
                 }
 
 
-                );
+        );
         calendarPicker.setOnStartSelectedListener((date, s) ->
         {
             txtFrom.setText(s);
-           txtTo.setText("-");
-           return null;
+            txtTo.setText("-");
+            return null;
         });
         gstSheet.setContentView(bottomSheet);
         gstSheet.show();

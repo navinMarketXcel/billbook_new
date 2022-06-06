@@ -22,6 +22,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.Multipart;
@@ -187,6 +188,9 @@ public interface ApiInterface {
 
     @PUT ("expense/{id}")
     Call<Object> updateExpenses(@HeaderMap Map<String, String> headers,@Path("id") int id, @Body Expense expense);
+
+    @DELETE("expense/{id}")
+    Call<Object> deleteExpenses(@HeaderMap Map<String, String> headers,@Path("id") long id);
 
     @Multipart
     @PUT ("updateInvoicePdf/{id}")

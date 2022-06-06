@@ -66,9 +66,9 @@
             android:exported="false" />
         <activity
             android:name=".activities.LanguageChooseActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
 
-        </activity>
+            android:exported="false" />
 
         <receiver android:name=".receiver.OtpReceiver">
             <intent-filter>

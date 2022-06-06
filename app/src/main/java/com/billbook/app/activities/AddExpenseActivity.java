@@ -2,6 +2,7 @@ package com.billbook.app.activities;
 
 import android.app.DatePickerDialog;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -47,7 +48,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     private String invoiceDateStr;
     private Date invoiceDate;
     private EditText selectDate,expenseAmount;
-    private AppCompatAutoCompleteTextView expenseName;
+    private EditText expenseName;
     private String TAG = "Expense";
     private int userid;
     private Expense expense;
@@ -55,7 +56,6 @@ public class AddExpenseActivity extends AppCompatActivity {
     private ExpenseViewModel expenseViewModel;
     private ArrayList<Expense> expenseArrayList;
     private ExpenseAdapter  expenseAdapter;
-    private Button addExpense;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,6 @@ public class AddExpenseActivity extends AppCompatActivity {
         selectDate = findViewById(R.id.selectDate);
         expenseName=findViewById(R.id.expenseName);
         expenseAmount =findViewById(R.id.expenseAmount);
-        addExpense = findViewById(R.id.addExpense);
         DateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
         invoiceDateStr = formatter.format(new Date());
         selectDate.setText(invoiceDateStr);
@@ -79,8 +78,8 @@ public class AddExpenseActivity extends AppCompatActivity {
         }
         if(getIntent().hasExtra("expense")) {
             isEdit = true;
-            addExpense.setText("Update Expense");
-         expense = (Expense) getIntent().getSerializableExtra("expense");
+            setTitle("Update Expenses");
+            expense = (Expense) getIntent().getSerializableExtra("expense");
             expenseName.setText(expense.getName());
             expenseAmount.setText(""+expense.getAmount());
             selectDate.setText(expense.getDate());
@@ -188,10 +187,10 @@ public class AddExpenseActivity extends AppCompatActivity {
                                 }
                             });
                             DialogUtils.showToast(getApplicationContext(),"Expense successfully created");
-                            AddExpenseActivity.this.finish();
+//                            AddExpenseActivity.this.finish();
                         } else if (isEdit && body.getBoolean("status")){
                             DialogUtils.showToast(getApplicationContext(),"Expense successfully updated");
-                            AddExpenseActivity.this.finish();
+//                            AddExpenseActivity.this.finish();
                         }
 
                     } catch (JSONException e) {
@@ -245,7 +244,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     }
 
     private void getExpenseData(){
-        expenseViewModel = ViewModelProviders.of(this).get(ExpenseViewModel.class);
+        expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
         expenseViewModel.getModels().observe(this, new Observer<List<Expense>>() {
             @Override
             public void onChanged(@Nullable List<Expense> modelList) {
@@ -254,7 +253,6 @@ public class AddExpenseActivity extends AppCompatActivity {
                     expenseArrayList = new ArrayList<>();
                 }
                 expenseAdapter = new ExpenseAdapter(AddExpenseActivity.this,R.layout.spinner_textview_layout,expenseArrayList);
-                expenseName.setAdapter(expenseAdapter);
                 Log.v(TAG, "models::" + expenseArrayList);
             }
         });

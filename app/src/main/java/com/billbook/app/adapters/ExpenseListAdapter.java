@@ -6,11 +6,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 import com.billbook.app.R;
 import com.billbook.app.activities.AddExpenseActivity;
+import com.billbook.app.activities.ExpenseActivity;
+import com.billbook.app.adapter_callback.ExpenseCallBack;
 import com.billbook.app.database.models.Expense;
 import com.billbook.app.utils.Util;
 
@@ -22,9 +25,11 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
     private ArrayList<Expense> expenseArrayList;
     private ArrayList<Expense> expenseArrayListFiltered;
     private Context context;
+    public ExpenseCallBack expenseCallBack;
 
-    public ExpenseListAdapter(Context context, ArrayList<Expense> expenseArrayList) {
+    public ExpenseListAdapter(Context context, ArrayList<Expense> expenseArrayList,ExpenseCallBack expenseCallBack) {
         this.context = context;
+        this.expenseCallBack = expenseCallBack;
         this.expenseArrayList = expenseArrayList;
         expenseArrayListFiltered = expenseArrayList;
     }
@@ -41,13 +46,17 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         holder.expenseAmountTV.setText(Util.formatDecimalValue( (float) expenseArrayListFiltered.get(position).getAmount()));
         holder.expenseDateTV.setText(""+expenseArrayListFiltered.get(position).getDate());
         holder.expenseNameTV.setText(""+expenseArrayListFiltered.get(position).getName());
-        holder.expenseAmountTV.setOnClickListener(new View.OnClickListener() {
+        holder.btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            public void onClick(View v) {
+                expenseCallBack.callback("edit",expenseArrayListFiltered.get(position),position);
+            }
+        });
+        holder.cancelExpenseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AddExpenseActivity.class);
-                intent.putExtra("expense",expenseArrayListFiltered.get(position));
-                intent.putExtra("id",expenseArrayListFiltered.get(position));
-                context.startActivity(intent);
+                expenseCallBack.callback("delete",expenseArrayListFiltered.get(position),position);
             }
         });
     }
@@ -94,12 +103,15 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView expenseDateTV,expenseNameTV,expenseAmountTV;
+        public Button btnEdit,cancelExpenseBtn;
 
         public MyViewHolder(View view) {
             super(view);
-            expenseDateTV = (TextView) view.findViewById(R.id.expenseDateTV);
-            expenseNameTV = (TextView) view.findViewById(R.id.expenseNameTV);
-            expenseAmountTV = (TextView) view.findViewById(R.id.expenseAmountTV);
+            expenseDateTV = view.findViewById(R.id.expenseDateTV);
+            expenseNameTV = view.findViewById(R.id.expenseNameTV);
+            expenseAmountTV = view.findViewById(R.id.expenseAmountTV);
+            btnEdit = view.findViewById(R.id.btnEdit);
+            cancelExpenseBtn = view.findViewById(R.id.cancelExpenseBtn);
 
         }
     }

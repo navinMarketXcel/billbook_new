@@ -35,7 +35,7 @@
                     android:layout_height="@dimen/_80sdp"
                     android:padding="@dimen/_5sdp"
                     android:src="@drawable/ic_user" />
-               <!-- android:background="@drawable/eclipse"-->
+                <!-- android:background="@drawable/eclipse"-->
 
             </LinearLayout>
 
