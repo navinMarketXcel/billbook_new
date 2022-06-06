@@ -83,7 +83,6 @@ public class OTPActivity extends AppCompatActivity {
         etMobNo=findViewById(R.id.etMobNo);
         mAuth = FirebaseAuth.getInstance();
         otpEdt = findViewById(R.id.otpEdt);
-        new OtpReceiver().setEditText(otpEdt);
         startSmartUserConsent();
 
         fromEditProfile = getIntent().hasExtra("fromEditProfile")?getIntent().getExtras().getBoolean("fromEditProfile"):false;
@@ -155,7 +154,7 @@ public class OTPActivity extends AppCompatActivity {
         Matcher matcher = otpPattern.matcher(message);
         Log.v("matcher.group(0)",matcher.group(0));
         Log.v("message",message);
-        if (matcher.matches())
+        if (matcher.find())
         {
             otpEdt.setText(matcher.group(0));
 
@@ -165,9 +164,6 @@ public class OTPActivity extends AppCompatActivity {
 
     private void registerBroadcastReceiver(){
         smsBroadcastReciever = new OtpReceiver();
-
-
-
         smsBroadcastReciever.smsBroadcastListener = new OtpReceiver.SmsBroadcastListener() {
             @Override
             public void onSuccess(Intent intent) {

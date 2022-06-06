@@ -15,13 +15,7 @@ import com.google.android.gms.common.api.Status;
 
 public class OtpReceiver extends BroadcastReceiver {
 
-    private static EditText editText;
     public SmsBroadcastListener smsBroadcastListener;
-
-    public void setEditText(EditText editText)
-    {
-        OtpReceiver.editText = editText;
-    }
     @Override
     public void onReceive(Context context, Intent intent) {
 //        SmsMessage[] messages = Telephony.Sms.Intents.getMessagesFromIntent(intent);
@@ -45,7 +39,6 @@ public class OtpReceiver extends BroadcastReceiver {
                     Intent messagaeIntent = extra.getParcelable(SmsRetriever.EXTRA_CONSENT_INTENT);
                     smsBroadcastListener.onSuccess(messagaeIntent);
                     break;
-
                     case CommonStatusCodes.TIMEOUT:
                         smsBroadcastListener.onFailure();
                         break;
