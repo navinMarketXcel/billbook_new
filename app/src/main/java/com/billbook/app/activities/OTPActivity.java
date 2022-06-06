@@ -2,9 +2,11 @@ package com.billbook.app.activities;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -24,6 +26,8 @@ import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
 import com.billbook.app.receiver.OtpReceiver;
 import com.billbook.app.utils.Util;
+import com.google.android.gms.auth.api.phone.SmsRetriever;
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
@@ -46,6 +50,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -54,6 +60,8 @@ import retrofit2.Response;
 
 public class OTPActivity extends AppCompatActivity {
     private final String TAG = "OTP";
+    private static final int REQ_USER = 200;
+    OtpReceiver smsBroadcastReciever;
     private String mobilNo,OTP,referrer_link;
     private EditText otpEdt;
     private FirebaseAuth mAuth;
@@ -76,7 +84,7 @@ public class OTPActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         otpEdt = findViewById(R.id.otpEdt);
         new OtpReceiver().setEditText(otpEdt);
-        requestSmsPermisson();
+        startSmartUserConsent();
 
         fromEditProfile = getIntent().hasExtra("fromEditProfile")?getIntent().getExtras().getBoolean("fromEditProfile"):false;
 
@@ -116,25 +124,65 @@ public class OTPActivity extends AppCompatActivity {
 
         otpEdt.addTextChangedListener(loginWatcher);
 
+
     }
 
-    private void requestSmsPermisson() {
-//        String permission = Manifest.permission.RECEIVE_SMS;
-//
-//        int grant = ContextCompat.checkSelfPermission(this,permission);
-//        if (grant!= PackageManager.PERMISSION_GRANTED)
-//        {
-//            String[] permission_list = new String[1];
-//            permission_list[0]=permission;
-//            ActivityCompat.requestPermissions(OTPActivity.this,permission_list,1);
-//        }
-        if(ContextCompat.checkSelfPermission(OTPActivity.this,Manifest.permission.RECEIVE_SMS)
-        != PackageManager.PERMISSION_GRANTED)
+    private void startSmartUserConsent()
+    {
+        SmsRetrieverClient client = SmsRetriever.getClient(this);
+        client.startSmsUserConsent(null);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==REQ_USER)
         {
-            ActivityCompat.requestPermissions(OTPActivity.this,new String[]{
-                    Manifest.permission.RECEIVE_SMS
-            },100);
+            if((requestCode==RESULT_OK)&&(data!=null))
+            {
+                String message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE);
+                Log.v("Result check","Checking");
+                getOtpFromMessage(message);
+            }
         }
+    }
+
+    private void getOtpFromMessage(String message) {
+
+        Pattern otpPattern = Pattern.compile("(|^)\\d{6}");
+        Matcher matcher = otpPattern.matcher(message);
+        Log.v("matcher.group(0)",matcher.group(0));
+        Log.v("message",message);
+        if (matcher.matches())
+        {
+            otpEdt.setText(matcher.group(0));
+
+
+        }
+    }
+
+    private void registerBroadcastReceiver(){
+        smsBroadcastReciever = new OtpReceiver();
+
+
+
+        smsBroadcastReciever.smsBroadcastListener = new OtpReceiver.SmsBroadcastListener() {
+            @Override
+            public void onSuccess(Intent intent) {
+                startActivityForResult(intent,REQ_USER);
+                Log.v("In success","sucess");
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        };
+        IntentFilter intentFilter = new IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION);
+        registerReceiver(smsBroadcastReciever,intentFilter);
+
     }
 
     private TextWatcher loginWatcher= new TextWatcher() {
@@ -189,6 +237,13 @@ public class OTPActivity extends AppCompatActivity {
         super.onStart();
         etMobNo.setText(getIntent().getExtras().getString("mobileNo"));
 //        startPhoneNumberVerification("+91"+mobilNo);
+        registerBroadcastReceiver();
+    }
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        unregisterReceiver(smsBroadcastReciever);
     }
 
     private void setData(){
