@@ -10,10 +10,34 @@
     <color name="white">#FFFFFF</color>
     <color name="grey">#4b4b4b</color>
     <color name="red">#FF0000</color>
+    <color name="income">#05944F</color>
     <color name="mdtp_accent_color">#1d4388</color>
     <color name="mdtp_accent_color_dark">#1e4388</color>
     <color name="Silver">#AFAFAF</color>
     <color name="PrimaryLight">#F1F5FF</color>
     <color name="borderOpaque">#E2E2E2</color>
+    <color name="grey_b9b9b9">#b9b9b9</color>
+    <color name="grey_f2f2f2">#f2f2f2</color>
+    <color name="red_800000">#800000</color>
+    <color name="blue">#266CE4</color>
+    <color name="light_background">#F1F5FF</color>
+    <color name="grey_b1a9a9">#B1A9A9</color>
+    <color name="grey_8f8f8f">#8f8f8f</color>
 
+
+    <color name="calendar_picker_bg">#00FFFFFF</color>
+
+    <color name="calendar_day_unselected_bg">#00000000</color>
+    <color name="calendar_day_selected_bg">#1e4388</color>
+    <color name="calendar_day_range_selected_bg">#F1F5FF</color>
+
+    <!--Font color-->
+    <color name="calendar_day_disabled_font">#B1A9A9</color>
+    <color name="calendar_day_weekend_font">#ff0000</color>
+    <color name="calendar_day_selected_font">#FFFFFF</color>
+    <color name="calendar_day_normal_font">#333333</color>
+    <color name="settings_line_color">#3C3C434A</color>
+
+    <color name="calendar_month_font">#000000</color>
+    <color name="calendar_week_font">#333333</color>
 </resources>

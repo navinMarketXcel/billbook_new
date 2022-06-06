@@ -34,6 +34,41 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:allowBackup,android:roundIcon"
         tools:targetApi="honeycomb">
+        <activity
+            android:name=".activities.BottomNavigationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:exported="false" />
+        <activity
+            android:name=".activities.ContactDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:exported="false" />
+        <activity
+            android:name=".activities.EditMobileNoActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:exported="false" />
+        <activity
+            android:name=".activities.OTPVerifayActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:exported="false" />
+        <activity
+            android:name=".activities.BusinessDetailsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:exported="false" />
+        <activity
+            android:name=".activities.LogoSignatureActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:exported="false" />
+        <activity
+            android:name=".activities.LanguageChooseActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
 
         <receiver android:name=".receiver.OtpReceiver">
             <intent-filter>
@@ -42,9 +77,10 @@
 
         </receiver>
 
-        <activity
+
             android:name=".activities.DayBookActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.PDFActivity"
@@ -85,8 +121,8 @@
         </activity>
         <activity
             android:name=".activities.HomeActivity"
-            android:launchMode="singleTask"
             android:label="Home"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
@@ -94,7 +130,7 @@
             android:name=".activities.loginPick_activity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.StoragePermissionRequestActivity" />
         <activity
             android:name=".activities.LoginActivity"
@@ -102,7 +138,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name="com.otpless.main.OtplessLoginActivity"
             android:exported="true"

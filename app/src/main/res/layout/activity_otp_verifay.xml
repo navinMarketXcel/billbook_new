@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_margin="3dp"
+            android:background="?attr/colorPrimary"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_anchorGravity="center"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_margin="@dimen/_5sdp">
+
+                <ImageView
+                    android:id="@+id/ivToolBarBack"
+                    style="@style/textRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_arrow_back_24"
+                   />
+
+                <TextView
+                    style="@style/textLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_7sdp"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/edit_number">
+
+                </TextView>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@drawable/app_bar_structure"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <Button
+                    android:id="@+id/helpLine"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/icons8_whatsapp_144"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/inter"
+                    android:text="Help">
+
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="7dp">
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/app_bar_structure"
+                android:onClick="startYoutubeActivity"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+
+                <Button
+                    android:id="@+id/wathcDemo"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/helpLine"
+                    android:background="@mipmap/youtube"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/inter"
+                    android:text="Demo">
+
+                </TextView>
+
+            </LinearLayout>
+
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar"
+        android:fitsSystemWindows="true"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+      >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/layout__background_drawable"
+
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:gravity="center"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/txtOTPMobile"
+                    style="@style/textLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@string/otp_sent"
+                    />
+
+                <TextView
+                    android:id="@+id/txtOtp"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    style="@style/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/enter_otp"
+                    />
+
+                <EditText
+                    style="@style/textSmall"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:id="@+id/etOTP"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/layout_background"
+                    android:hint="@string/enter_otp"
+                    />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/btnVerify"
+                        android:layout_width="@dimen/_170sdp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/save_button"
+                        android:text="@string/verify"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtResend"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    style="@style/textSmallBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@string/mobile_noo"
+                    />
+
+            </LinearLayout>
+
+
+        </ScrollView>
+    </LinearLayout>
+
+
+</RelativeLayout>
+

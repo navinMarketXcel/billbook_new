@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Bill Book</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">सेटिंग</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="username">Username</string>
     <string name="passward">Password</string>
@@ -20,15 +22,15 @@
     <string name="user_profile">User Profile</string>
     <string name="profileShopName">Enter Business/Shop Name<font color='#ff0000'>*</font></string>
     <string name="profileShopAddress">Enter Business/Shop Address<font color='#ff0000'>*</font></string>
-    <string name="Setting">Setting</string>
+    <string name="Setting">सेटिंग</string>
     <string name="title_activity_dummy">DummyActivity</string>
     <string name="shop_details">Shop Details</string>
     <string name="add_product">Add Model</string>
-    <string name="billing">Billing</string>
-    <string name="categories">Categories</string>
-    <string name="Products">Models</string>
-    <string name="brands">Brands</string>
-    <string name="manage_inventory">Expense</string>
+    <string name="billing">बिलिंग</string>
+    <string name="categories">श्रेणियाँ</string>
+    <string name="Products">मॉडल</string>
+    <string name="brands">ब्रांड्स</string>
+    <string name="manage_inventory">खर्च</string>
     <string name="no_internet">Check Internet Connection</string>
     <string name="expenses">Expenses</string>
 
@@ -169,9 +171,9 @@
     <string name="changePass">Submit</string>
     <string name="selectdate">Select Date</string>
 
-    <string name="search_invoice">Search Bills</string>
+    <string name="search_invoice">बिल खोजें</string>
 
-    <string name="sales_report">Day Book</string>
+    <string name="sales_report">दिन की किताब</string>
     <string name="send_SMS">Send SMS</string>
     <string name="other">Other</string>
 
@@ -379,65 +381,64 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="make_gst_bills">Make GST Bills</string>
-    <string name="switch_gst_and_non_gst_bills">Switch GST and Non-GST bills</string>
-    <string name="email_address_phone_number_etc">Email Address, Phone Number etc..</string>
-    <string name="contact_details">Contact Details</string>
-    <string name="business_details">Business Details</string>
-    <string name="logo_sign">Logo &amp; Signature</string>
-    <string name="business_name_address_gst_and_more">Business Name, Address, GST and more</string>
-    <string name="logo_and_signature">Logo and Signature</string>
-    <string name="customise_your_bills">Customise your bills</string>
-    <string name="home">Home</string>
-    <string name="profile">Profile</string>
-    <string name="language">Language</string>
-    <string name="choose_language">Choose Language</string>
-    <string name="help">Help</string>
-    <string name="phone_number_">Phone Number<font color='#F62525'> *</font></string>
-    <string name="business_name_">Business Name<font color='#F62525'> *</font></string>
-    <string name="business_name">Business Name</string>
-    <string name="shop_add_">Shop Address<font color='#F62525'> *</font></string>
-    <string name="pin_code_">Pin Code<font color='#F62525'> *</font></string>
-    <string name="city_">City<font color='#F62525'> *</font></string>
-    <string name="state_">State<font color='#F62525'> *</font></string>
-    <string name="gst_num_">GST Number<font color='#F62525'> *</font></string>
-    <string name="gst_num">GST Number</string>
-    <string name="citye">City</string>
-    <string name="statee">State</string>
-    <string name="pin_code">Pin Code</string>
-    <string name="company_logo">Company Logo</string>
-    <string name="shop_add">Shop Address</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="email_">Email Address<font color='#F62525'> *</font></string>
-    <string name="email_add">Email Address</string>
-    <string name="save">Save</string>
-    <string name="select_language_caps">Select Language</string>
+    <string name="make_gst_bills">जीएसटी बिल बनाएं</string>
+    <string name="switch_gst_and_non_gst_bills">जीएसटी और गैर-जीएसटी बिल स्विच करें</string>
+    <string name="email_address_phone_number_etc">ईमेल पता, फोन नंबर आदि...</string>
+    <string name="contact_details">सम्पर्क विवरण</string>
+    <string name="business_details">व्यापार विवरण</string>
+    <string name="logo_sign">लोगो और हस्ताक्षर</string>
+    <string name="business_name_address_gst_and_more">व्यवसाय का नाम, पता, जीएसटी और बहुत कुछ</string>
+    <string name="logo_and_signature">लोगो और हस्ताक्षर</string>
+    <string name="customise_your_bills">अपने बिलों को अनुकूलित करें</string>
+    <string name="home">होम</string>
+    <string name="profile">प्रोफ़ाइल</string>
+    <string name="language">भाषा</string>
+    <string name="choose_language">भाषा चुनें</string>
+    <string name="help">मदद </string>
+    <string name="phone_number_">फ़ोन नंबर<font color='#F62525'> *</font></string>
+    <string name="business_name_">व्यवास्यक नाम<font color='#F62525'> *</font></string>
+    <string name="business_name">व्यवास्यक नाम</string>
+    <string name="shop_add_">दुकान का पता<font color='#F62525'> *</font></string>
+    <string name="pin_code_">पिन कोड<font color='#F62525'> *</font></string>
+    <string name="city_">शहर<font color='#F62525'> *</font></string>
+    <string name="state_">राज्य<font color='#F62525'> *</font></string>
+    <string name="gst_num_">जीएसटी नंबर<font color='#F62525'> *</font></string>
+    <string name="gst_num">जीएसटी नंबर</string>
+    <string name="citye">शहर</string>
+    <string name="statee">राज्य</string>
+    <string name="pin_code">पिन कोड</string>
+    <string name="company_logo">कंपनी का लोगो</string>
+    <string name="shop_add">दुकान का पता</string>
+    <string name="phone_number">फ़ोन नंबर</string>
+    <string name="email_">ईमेल पता<font color='#F62525'> *</font></string>
+    <string name="email_add">ईमेल पता</string>
+    <string name="save">सेव करें</string>
+    <string name="select_language_caps">भाषा चुने</string>
 
-    <string name="upload_your_logo">Upload your logo</string>
-    <string name="max_file_size_1_mb">Max file size 1 MB</string>
-    <string name="browse">Browse</string>
-    <string name="signature">Signature</string>
-    <string name="upload_your_signature">Upload your signature</string>
-    <string name="change">Change</string>
-    <string name="edit_number">Edit Number</string>
-    <string name="get_otp">Get OTP</string>
-    <string name="enter_otp">Enter OTP</string>
+    <string name="upload_your_logo">अपना लोगो अपलोड करें</string>
+    <string name="max_file_size_1_mb">अधिकतम फ़ाइल आकार 1 एमबी</string>
+    <string name="browse">ब्राउज़</string>
+    <string name="signature">हस्ताक्षर</string>
+    <string name="upload_your_signature">अपना हस्ताक्षर अपलोड करें</string>
+    <string name="change">परिवर्तन</string>
+    <string name="edit_number">संख्या संपादित करें</string>
+    <string name="get_otp">ओटीपी प्राप्त करें</string>
+    <string name="enter_otp">ओटीपी दर्ज करें</string>
     <string name="otp_sent">OTP sent to 9897767646</string>
     <string name="verify">Verify</string>
     <string name="select">Select...</string>
     <string name="choose_period">Choose Period</string>
     <string name="transaction">Transaction</string>
     <string name="income">Income</string>
-    <string name="expense">Expense</string>
-    <string name="date">Date</string>
-    <string name="daybook">Daybook</string>
-    <string name="net_income">Net Income</string>
+    <string name="expense">खर्च</string>
+    <string name="date">दिनांक</string>
+    <string name="daybook">रोज़नामचा</string>
+    <string name="net_income">शुद्ध आय</string>
     <string name="english">English</string>
     <string name="hindi">Hindi</string>
     <string name="hindi_l">हिन्दी</string>
-    <string name="home_menue">Home</string>
-    <string name="my_profile">My Profile</string>
-    <string name="help_menu">Help</string>
-    <string name="logout">Logout</string>
-
+    <string name="home_menue">होम</string>
+    <string name="my_profile">प्रोफाइल</string>
+    <string name="help_menu">सहायता</string>
+    <string name="logout">लॉग आउट</string>
 </resources>

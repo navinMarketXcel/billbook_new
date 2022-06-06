@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,325 +10,325 @@
     android:focusableInTouchMode="true">
 
 
-<RelativeLayout
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:background="@drawable/layout_new_background">
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/main2"
-        android:paddingBottom="10dp">
-
-
-        <LinearLayout
-
-            android:id="@+id/llMain"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/layout_new_background">
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center|center_horizontal"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context=".activities.HomeActivity"
-            tools:showIn="@layout/activity_home">
+            android:layout_above="@+id/main2"
+            android:paddingBottom="10dp">
+
 
             <LinearLayout
 
-                android:layout_width="wrap_content"
+                android:id="@+id/llMain"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:gravity="center|center_horizontal"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:context=".activities.HomeActivity"
+                tools:showIn="@layout/activity_home">
 
-                <androidx.cardview.widget.CardView
+                <LinearLayout
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:cardCornerRadius="10dp"
-                    android:layout_marginLeft="20dp"
-                    android:elevation="8dp"
-                    android:layout_margin="10dp"
-                    app:contentPadding="4dp">
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:id="@+id/btnBilling"
-                        android:layout_width="@dimen/common_tab_width"
-                        android:layout_height="@dimen/common_tab_width"
-                        android:gravity="center"
-                        android:orientation="vertical">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:elevation="8dp"
+                        android:layout_margin="10dp"
+                        app:contentPadding="4dp">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            app:srcCompat="@drawable/billing_small" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/common_tab_text_marginTop"
+                        <LinearLayout
+                            android:id="@+id/btnBilling"
+                            android:layout_width="@dimen/common_tab_width"
+                            android:layout_height="@dimen/common_tab_width"
                             android:gravity="center"
-                            android:text="@string/billing"
-                            android:textAllCaps="true"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/common_tab_text_size"
-                            android:textStyle="bold" />
+                            android:orientation="vertical">
 
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="8dp"
-                    app:cardCornerRadius="10dp"
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                app:srcCompat="@drawable/billing_small" />
 
-                    android:layout_margin="10dp"
-                    app:contentPadding="4dp">
-
-                    <LinearLayout
-                        android:id="@+id/btnManageInventory"
-                        android:layout_width="@dimen/common_tab_width"
-                        android:layout_height="@dimen/common_tab_width"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            app:srcCompat="@drawable/expense_small" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/common_tab_text_marginTop"
-                            android:gravity="center"
-                            android:text="@string/manage_inventory"
-                            android:textAllCaps="true"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/common_tab_text_size"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
-                <androidx.cardview.widget.CardView
-                    app:cardCornerRadius="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:elevation="8dp"
-                    android:layout_margin="10dp"
-                    android:visibility="visible"
-                    app:contentPadding="4dp">
-
-                    <LinearLayout
-                        android:id="@+id/btnSearchInvoice"
-                        android:layout_width="@dimen/common_tab_width"
-                        android:layout_height="@dimen/common_tab_width"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            app:srcCompat="@drawable/small_search" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/common_tab_text_marginTop"
-                            android:gravity="center"
-                            android:textAllCaps="true"
-                            android:text="@string/search_invoice"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/common_tab_text_size"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
-                    app:cardCornerRadius="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:elevation="8dp"
-                    android:visibility="gone"
-                    android:layout_margin="10dp"
-                    app:contentPadding="4dp">
-
-                    <LinearLayout
-                        android:id="@+id/btnSellingDetails"
-                        android:layout_width="@dimen/common_tab_width"
-                        android:layout_height="@dimen/common_tab_width"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="@dimen/common_tab_image_width"
-                            android:layout_height="@dimen/common_tab_image_width"
-                            android:elevation="8dp"
-                            app:cardCornerRadius="40dp"
-                            app:contentPadding="4dp"
-                            tools:ignore="UnusedAttribute">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/common_tab_text_marginTop"
                                 android:gravity="center"
-                                android:orientation="vertical">
+                                android:text="@string/billing"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/common_tab_text_size"
+                                android:textStyle="bold" />
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:text="@string/Rs"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textSize="22sp"
-                                    android:textStyle="bold" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="10dp"
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
-                                    android:text="0"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/colorPrimary"
-                                    android:textSize="@dimen/common_tab_text_size"
-                                    android:textStyle="bold" />
+                        android:layout_margin="10dp"
+                        app:contentPadding="4dp">
 
-
-                            </LinearLayout>
-
-
-                        </androidx.cardview.widget.CardView>
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/common_tab_text_marginTop"
+                        <LinearLayout
+                            android:id="@+id/btnManageInventory"
+                            android:layout_width="@dimen/common_tab_width"
+                            android:layout_height="@dimen/common_tab_width"
                             android:gravity="center"
-                            android:text="@string/ledger_detail"
-                            android:textAllCaps="true"
-                            android:textColor="@color/color_common_text_home"
-                            android:textSize="@dimen/common_tab_text_size"
-                            android:textStyle="bold" />
+                            android:orientation="vertical">
 
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-                <androidx.cardview.widget.CardView
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                app:srcCompat="@drawable/expense_small" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/common_tab_text_marginTop"
+                                android:gravity="center"
+                                android:text="@string/manage_inventory"
+                                android:textAllCaps="true"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/common_tab_text_size"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:elevation="8dp"
-                    app:cardCornerRadius="10dp"
-                    android:layout_margin="10dp"
-                    android:visibility="visible"
-                    app:contentPadding="4dp">
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+                    <androidx.cardview.widget.CardView
+                        app:cardCornerRadius="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:elevation="8dp"
+                        android:layout_margin="10dp"
+                        android:visibility="visible"
+                        app:contentPadding="4dp">
 
-                    <LinearLayout
-                        android:id="@+id/btnGetSalesReport"
-                        android:layout_width="@dimen/common_tab_width"
-                        android:layout_height="@dimen/common_tab_width"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            app:srcCompat="@drawable/daybook_small" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/common_tab_text_marginTop"
+                        <LinearLayout
+                            android:id="@+id/btnSearchInvoice"
+                            android:layout_width="@dimen/common_tab_width"
+                            android:layout_height="@dimen/common_tab_width"
                             android:gravity="center"
-                            android:textAllCaps="true"
-                            android:text="@string/sales_report"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/common_tab_text_size"
-                            android:textStyle="bold" />
+                            android:orientation="vertical">
 
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                app:srcCompat="@drawable/small_search" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/common_tab_text_marginTop"
+                                android:gravity="center"
+                                android:textAllCaps="true"
+                                android:text="@string/search_invoice"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/common_tab_text_size"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        app:cardCornerRadius="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="8dp"
+                        android:visibility="gone"
+                        android:layout_margin="10dp"
+                        app:contentPadding="4dp">
+
+                        <LinearLayout
+                            android:id="@+id/btnSellingDetails"
+                            android:layout_width="@dimen/common_tab_width"
+                            android:layout_height="@dimen/common_tab_width"
+                            android:background="@color/colorPrimary"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="@dimen/common_tab_image_width"
+                                android:layout_height="@dimen/common_tab_image_width"
+                                android:elevation="8dp"
+                                app:cardCornerRadius="40dp"
+                                app:contentPadding="4dp"
+                                tools:ignore="UnusedAttribute">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:gravity="center"
+                                        android:text="@string/Rs"
+                                        android:textAllCaps="true"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="22sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:gravity="center"
+                                        android:text="0"
+                                        android:textAllCaps="true"
+                                        android:textColor="@color/colorPrimary"
+                                        android:textSize="@dimen/common_tab_text_size"
+                                        android:textStyle="bold" />
+
+
+                                </LinearLayout>
+
+
+                            </androidx.cardview.widget.CardView>
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/common_tab_text_marginTop"
+                                android:gravity="center"
+                                android:text="@string/ledger_detail"
+                                android:textAllCaps="true"
+                                android:textColor="@color/color_common_text_home"
+                                android:textSize="@dimen/common_tab_text_size"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="10dp"
+                        android:layout_margin="10dp"
+                        android:visibility="visible"
+                        app:contentPadding="4dp">
+
+                        <LinearLayout
+                            android:id="@+id/btnGetSalesReport"
+                            android:layout_width="@dimen/common_tab_width"
+                            android:layout_height="@dimen/common_tab_width"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                app:srcCompat="@drawable/daybook_small" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/common_tab_text_marginTop"
+                                android:gravity="center"
+                                android:textAllCaps="true"
+                                android:text="@string/sales_report"
+                                android:textColor="@color/colorPrimary"
+                                android:textSize="@dimen/common_tab_text_size"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+
+                </LinearLayout>
 
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+
+            <TextView
+                android:id="@+id/syncText"
+                android:visibility="gone"
+                android:gravity="center"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
+                android:text="@string/sync_warning_home"
+                android:textSize="8dp"
+                android:layout_alignParentBottom="true"
+                android:textColor="@android:color/holo_red_dark"
+                ></TextView>
+        </RelativeLayout>
 
+        <LinearLayout
+            android:id="@+id/main2"
 
-            </LinearLayout>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:layout_alignParentBottom="true"
+            android:gravity="center">
+            <!--        <Button-->
+            <!--            android:id="@+id/wathcDemo"-->
+            <!--            android:layout_margin="10dp"-->
+            <!--            android:padding="5dp"-->
+            <!--            android:drawablePadding="5dp"-->
+            <!--            android:text="Watch Demo"-->
+            <!--            android:textSize="14sp"-->
+            <!--            android:textAllCaps="false"-->
+            <!--            android:drawableRight="@mipmap/youtube"-->
+            <!--            android:onClick="startYoutubeActivity"-->
+            <!--            android:background="@drawable/card_edge"-->
+            <!--            android:layout_width="150dp"-->
+            <!--            android:layout_height="50dp" />-->
+            <!--        <Button-->
+            <!--            android:id="@+id/helpLine"-->
+            <!--            android:layout_margin="10dp"-->
+            <!--            android:text="Helpline"-->
+            <!--            android:padding="5dp"-->
+            <!--            android:textAllCaps="false"-->
+            <!--            android:textSize="14sp"-->
+            <!--            android:onClick="startHelpActivity"-->
+            <!--            android:drawableRight="@drawable/ic_headset_mic"-->
+            <!--            android:background="@drawable/card_edge"-->
+            <!--            android:layout_width="150dp"-->
+            <!--            android:layout_height="50dp" />-->
 
 
         </LinearLayout>
 
 
-        <TextView
-            android:id="@+id/syncText"
-            android:visibility="gone"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sync_warning_home"
-            android:textSize="8dp"
-            android:layout_alignParentBottom="true"
-            android:textColor="@android:color/holo_red_dark"
-            ></TextView>
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/main2"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:visibility="visible"
-        android:layout_alignParentBottom="true"
-        android:gravity="center">
-        <!--        <Button-->
-        <!--            android:id="@+id/wathcDemo"-->
-        <!--            android:layout_margin="10dp"-->
-        <!--            android:padding="5dp"-->
-        <!--            android:drawablePadding="5dp"-->
-        <!--            android:text="Watch Demo"-->
-        <!--            android:textSize="14sp"-->
-        <!--            android:textAllCaps="false"-->
-        <!--            android:drawableRight="@mipmap/youtube"-->
-        <!--            android:onClick="startYoutubeActivity"-->
-        <!--            android:background="@drawable/card_edge"-->
-        <!--            android:layout_width="150dp"-->
-        <!--            android:layout_height="50dp" />-->
-        <!--        <Button-->
-        <!--            android:id="@+id/helpLine"-->
-        <!--            android:layout_margin="10dp"-->
-        <!--            android:text="Helpline"-->
-        <!--            android:padding="5dp"-->
-        <!--            android:textAllCaps="false"-->
-        <!--            android:textSize="14sp"-->
-        <!--            android:onClick="startHelpActivity"-->
-        <!--            android:drawableRight="@drawable/ic_headset_mic"-->
-        <!--            android:background="@drawable/card_edge"-->
-        <!--            android:layout_width="150dp"-->
-        <!--            android:layout_height="50dp" />-->
-
-
-    </LinearLayout>
-
-
-</RelativeLayout>
 
 </RelativeLayout>
