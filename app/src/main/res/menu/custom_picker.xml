@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/m_today"
+        android:title="Today" />
+
+    <item
+        android:id="@+id/m_week"
+        android:title="This Week" />
+
+    <item
+        android:id="@+id/m_month"
+        android:title="This Month" />
+
+    <item
+        android:id="@+id/m_quarter"
+        android:title="This Quarter" />
+    <item
+        android:id="@+id/m_year"
+        android:title="This Year" />
+    <item
+        android:id="@+id/m_custom"
+        android:title="Custom Period" />
+
+
+
+
+</menu>

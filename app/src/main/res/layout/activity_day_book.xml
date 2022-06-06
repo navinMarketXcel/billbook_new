@@ -3,15 +3,201 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/bottomSheet"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activities.DayBookActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_margin="3dp"
+            android:background="?attr/colorPrimary"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_anchorGravity="center"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_margin="@dimen/_5sdp">
+
+                <ImageView
+                    android:id="@+id/ivToolBarBack"
+                    style="@style/textRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_arrow_back_24"
+                    />
+
+                <TextView
+                    style="@style/textLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_7sdp"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/daybook">
+
+                </TextView>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@drawable/app_bar_structure"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <Button
+                    android:id="@+id/helpLine"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/icons8_whatsapp_144"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/inter"
+                    android:text="Help">
+
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="7dp">
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/app_bar_structure"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+
+                <Button
+                    android:id="@+id/wathcDemo"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/helpLine"
+                    android:background="@mipmap/youtube"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/inter"
+                    android:text="Demo">
+
+                </TextView>
+
+            </LinearLayout>
+
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar"
+        android:fitsSystemWindows="true"
+        android:background="@color/colorPrimary"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/layout__background_drawable"
+        android:fillViewport="true">
+   <LinearLayout
+       android:id="@+id/lnTop"
+       android:layout_width="match_parent"
+       android:orientation="vertical"
+       android:layout_alignParentTop="true"
+
+       android:layout_height="wrap_content">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/_7sdp"
+    android:layout_marginEnd="@dimen/_7sdp"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+
+       <TextView
+           style="@style/textView"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="@dimen/_5sdp"
+           android:text="@string/choose_period"
+            />
+
+       <com.google.android.material.textfield.TextInputLayout
+           android:id="@+id/leadSourceLayout"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:hintEnabled="false"
+           >
+
+           <EditText
+               android:id="@+id/etCalender"
+               style="@style/editText"
+               android:layout_width="match_parent"
+               android:layout_height="@dimen/_40sdp"
+               android:drawableEnd="@drawable/dropdown_icon"
+               android:drawableTint="@color/grey_b1a9a9"
+               android:drawablePadding="@dimen/_5sdp"
+               android:drawableStart="@drawable/ic_calendar_today"
+               android:focusable="false"
+               android:hint="@string/select"
+               android:inputType="none"
+                />
+
+       </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>
+       <View
+           android:layout_width="match_parent"
+           android:layout_marginTop="@dimen/_7sdp"
+           android:layout_marginBottom="@dimen/_7sdp"
+           android:layout_height="@dimen/_4sdp"
+           android:background="@color/Silver" />
+
 <androidx.cardview.widget.CardView
     android:id="@+id/dateLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TableRow
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="10"
@@ -45,77 +231,155 @@
     <Button
         android:id="@+id/getDaybook"
         android:visibility="gone"
-android:layout_below="@+id/dateLayout"
+        android:layout_below="@+id/dateLayout"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:onClick="getDayBookData"
         android:text="Get Day Book"
         android:textColor="@color/white"
         android:layout_height="wrap_content"></Button>
-    <TableRow
-        android:id="@+id/daybookh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/card_lined"
-        android:weightSum="13"
-        android:orientation="horizontal"
-        android:layout_below="@id/getDaybook"
-        >
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="4"
+       <LinearLayout
+           android:id="@+id/lnContent"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="@dimen/_7sdp"
+           android:layout_marginEnd="@dimen/_7sdp"
+           android:orientation="vertical">
+       <LinearLayout
+           android:id="@+id/daybookh"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:weightSum="4">
+           <TextView
+               style="@style/textSmallBold"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:gravity="center"
+               android:layout_height="wrap_content"
+               android:text="@string/transaction"
+               />
+           <TextView
+               style="@style/textSmallBold"
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:gravity="center"
+               android:layout_height="wrap_content"
+               android:text="@string/income"
+               />
+           <TextView
+               style="@style/textSmallBold"
+               android:layout_width="0dp"
+               android:gravity="center"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               android:text="@string/expense"
+               />
+           <TextView
+               style="@style/textSmallBold"
+               android:layout_width="0dp"
+               android:gravity="center"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               android:text="@string/date"
+               />
+       </LinearLayout>
+           <androidx.recyclerview.widget.RecyclerView
+               android:id="@+id/dayBookRV"
+               android:layout_width="match_parent"
+               android:layout_marginTop="@dimen/_5sdp"
+               android:layout_height="match_parent"
+               />
+       </LinearLayout>
+
+
+       <LinearLayout
+           android:id="@+id/lnNoRecordFound"
+           android:visibility="gone"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_marginStart="@dimen/_7sdp"
+           android:layout_marginEnd="@dimen/_7sdp"
+           android:layout_marginTop="@dimen/_70sdp"
+           android:orientation="vertical">
+           <ImageView
+               android:layout_width="@dimen/_150sdp"
+               android:src="@drawable/no_record"
+               android:layout_gravity="center"
+               android:layout_height="@dimen/_150sdp"/>
+
+       </LinearLayout>
+
+
+
+   </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Transaction"
-            ></TextView>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/_7sdp"
+            android:layout_marginBottom="@dimen/_7sdp">
 
-            android:layout_height="wrap_content"
-            android:text="INCOME"
-            ></TextView>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="3"
+            <View
+                android:id="@+id/viewLine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_7sdp"
+                android:background="@color/Silver" />
 
-            android:layout_height="wrap_content"
-            android:text="EXPENSE"
-            ></TextView>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="3"
 
-            android:layout_height="wrap_content"
-            android:text="DATE"
-            ></TextView>
-    </TableRow>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/dayBookRV"
-        android:layout_above="@+id/totalExpense"
-        android:layout_below="@+id/daybookh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewLine"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+                <TextView
+                    android:id="@+id/totalExpense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="PROFIT :"
+                    android:textStyle="bold" />
 
-    <TextView
-        android:layout_above="@+id/exportReport"
-        android:background="@drawable/card_lined"
-        android:id="@+id/totalExpense"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:text="PROFIT :"
-        android:layout_width="match_parent"
-        android:layout_height="60dp">
+                <TextView
+                    style="@style/textSmallBold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/net_income"
+                    android:textStyle="bold" />
 
-    </TextView>
-    <Button
-        android:id="@+id/exportReport"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:text="Export Report"
-        android:onClick="sendReportBtnClick"
-        android:textColor="@color/white"
-        android:background="@color/colorPrimary"
-        android:layout_height="wrap_content"></Button>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/viewLine"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/exportReport"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/save_button"
+                    android:onClick="sendReportBtnClick"
+                    android:paddingStart="@dimen/_10sdp"
+                    android:paddingEnd="@dimen/_10sdp"
+                    android:text="Export Report"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"></Button>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    </RelativeLayout>
 </RelativeLayout>
