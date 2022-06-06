@@ -25,6 +25,6 @@ public class Constants {
     public static String GET_INVENTORY = "getInventoryAPI";
 
     public static String ALARM_RECEIVER_ACTION = "com.marketexcel.marketexcelapp.AlarmReceiver";
-
+    public static String LANGUAGE = "language";
 
 }
