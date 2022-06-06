@@ -440,4 +440,5 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="home_menue">होम</string>
     <string name="my_profile">प्रोफाइल</string>
     <string name="help_menu">सहायता</string>
+    <string name="logout">लॉग आउट</string>
 </resources>

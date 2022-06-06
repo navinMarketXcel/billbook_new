@@ -221,9 +221,10 @@
                 <Button
                     android:gravity="center"
                     android:id="@+id/deleteButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:text="Delete"
+                    android:layout_margin="10dp"
                     android:background="@drawable/delete_button"
                     android:textColor="#E11900"
                     android:visibility="gone"
@@ -232,13 +233,13 @@
 
                 </Button>
                 <Button
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:id="@+id/downloadAll"
-                    android:layout_width="match_parent"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:visibility="gone"
-                    android:layout_marginTop="10dp"
                     android:background="@drawable/login_button_structure"
                     android:onClick="downloadInvoice"
                     android:text="Download"

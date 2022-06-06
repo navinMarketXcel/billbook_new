@@ -21,15 +21,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andrewjapar.rangedatepicker.CalendarPicker;
 import com.billbook.app.utils.Util;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -79,13 +84,15 @@ public class DayBookActivity extends AppCompatActivity {
     LinearLayout lnNoRecordFound,lnContent;
     RelativeLayout bottomSheetContainer;
     EditText etCalender;
+    ImageView ivToolBarBack;
+    SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day_book);
-       // Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-       // getSupportActionBar().setDisplayShowHomeEnabled(true);
-      //  setTitle("Day Book");
+        // Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        // getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //  setTitle("Day Book");
         initUI();
         SimpleDateFormat myFormat1 = new SimpleDateFormat("yyyy-MM-dd");
         startDateStr = myFormat1.format(new Date());
@@ -95,10 +102,13 @@ public class DayBookActivity extends AppCompatActivity {
         endDateTV.setText("End Date - "+myFormat1.format(new Date()));
         etCalender.setOnClickListener(v -> {
             try {
-                calenderRangePicker();
+                optionsPopupMenu(etCalender);
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        });
+        ivToolBarBack.setOnClickListener(v -> {
+            finish();
         });
     }
     @Override
@@ -116,6 +126,7 @@ public class DayBookActivity extends AppCompatActivity {
         lnContent = findViewById(R.id.lnContent);
         etCalender = findViewById(R.id.etCalender);
         bottomSheetContainer = findViewById(R.id.bottomSheet);
+        ivToolBarBack = findViewById(R.id.ivToolBarBack);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         dayBookRV.setLayoutManager(mLayoutManager);
         dayBookRV.setItemAnimator(new DefaultItemAnimator());
@@ -288,6 +299,55 @@ public class DayBookActivity extends AppCompatActivity {
         sendReport(startDateStr,endDateStr,email);
 
     }
+
+    public void optionsPopupMenu(EditText edt){
+        PopupMenu popupMenu = new PopupMenu(DayBookActivity.this, edt);
+        popupMenu.getMenuInflater().inflate(R.menu.custom_picker, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            if(menuItem.getItemId()==R.id.m_custom){
+                calenderRangePicker();
+            }else if(menuItem.getItemId()==R.id.m_month){
+                Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                startDate.add(Calendar.MONTH, -1);
+                Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                String strDate = myFormat.format(startDate.getTime());
+                String endsDate = myFormat.format(endDate.getTime());
+                getDayBook(strDate,endsDate);
+            }else if(menuItem.getItemId()==R.id.m_today){
+                Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                // startDate.add(Calendar.MONTH, -1);
+                Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                String strDate = myFormat.format(startDate.getTime());
+                String endsDate = myFormat.format(endDate.getTime());
+                getDayBook(strDate,endsDate);
+            }else if(menuItem.getItemId()==R.id.m_week){
+                Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                startDate.add(Calendar.DATE, -7);
+                Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                String strDate = myFormat.format(startDate.getTime());
+                String endsDate = myFormat.format(endDate.getTime());
+                getDayBook(strDate,endsDate);
+            }else if(menuItem.getItemId()==R.id.m_quarter){
+                Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                startDate.add(Calendar.MONTH, -6);
+                Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                String strDate = myFormat.format(startDate.getTime());
+                String endsDate = myFormat.format(endDate.getTime());
+                getDayBook(strDate,endsDate);
+            }else if(menuItem.getItemId()==R.id.m_year){
+                Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                startDate.add(Calendar.YEAR, -1);
+                Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                String strDate = myFormat.format(startDate.getTime());
+                String endsDate = myFormat.format(endDate.getTime());
+                getDayBook(strDate,endsDate);
+            }
+            edt.setText(menuItem.getTitle());
+            Toast.makeText(DayBookActivity.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+            return true;
+        });
+        popupMenu.show();
+    }
     public  void calenderRangePicker(){
 
         BottomSheetDialog gstSheet = new BottomSheetDialog(DayBookActivity.this, R.style.BottomSheetDialogTheme);
@@ -295,30 +355,32 @@ public class DayBookActivity extends AppCompatActivity {
         CalendarPicker calendarPicker = bottomSheet. findViewById(R.id.calendar_view);
         TextView txtFrom=bottomSheet. findViewById(R.id.txtFrom);
         TextView txtTo=bottomSheet. findViewById(R.id.txtTo);
-         String startDates = "",endDates="";
+        String startDates = "",endDates="";
         Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
         Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-        endDate.add(Calendar.MONTH, -6);
-        calendarPicker. setRangeDate(endDate.getTime(),startDate.getTime() );
+        startDate.add(Calendar.MONTH, -6);
+        calendarPicker. setRangeDate(startDate.getTime(),endDate.getTime() );
         calendarPicker.setMode(CalendarPicker.SelectionMode.RANGE);
+        calendarPicker.scrollToDate(startDate.getTime());
         calendarPicker.setOnRangeSelectedListener((Date date, Date date2, String s1, String s2) -> {
                     txtFrom.setText(s1);
                     txtTo.setText(s2);
-                  //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-                    SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+
                     String strDate = myFormat.format(date);
                     String endsDate = myFormat.format(date2);
                     getDayBook(strDate,endsDate);
+                    gstSheet.dismiss();
                     return null;
                 }
 
 
-                );
+        );
         calendarPicker.setOnStartSelectedListener((date, s) ->
         {
             txtFrom.setText(s);
-           txtTo.setText("-");
-           return null;
+            txtTo.setText("-");
+            return null;
         });
         gstSheet.setContentView(bottomSheet);
         gstSheet.show();

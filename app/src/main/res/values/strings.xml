@@ -442,5 +442,6 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="home_menue">Home</string>
     <string name="my_profile">My Profile</string>
     <string name="help_menu">Help</string>
+    <string name="logout">Logout</string>
 
 </resources>
