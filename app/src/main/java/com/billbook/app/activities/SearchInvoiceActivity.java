@@ -320,7 +320,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     private void initUI() {
         edtMobileNo = findViewById(R.id.edtMobileNo);
         tvRecordNotFound = findViewById(R.id.tvRecordNotFound);
-        tvRecordNotFound.setVisibility(View.GONE);
         btnSearch = findViewById(R.id.btnSearch);
         toAndFromDate=findViewById(R.id.toAndFromDate);
         btnSearch.setOnClickListener(this);
@@ -391,6 +390,16 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                                     searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag,SearchInvoiceActivity.this);
                                     recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
                                     searchInvoiceListAdapter.notifyDataSetChanged();
+                                if(invoicesList.size()==0)
+                                {
+                                    TextView tv = findViewById(R.id.tvRecordNotFound);
+                                    tv.setVisibility(View.VISIBLE);
+                                    searchInvoiceListAdapter.notifyDataSetChanged();
+                                }
+                                else
+                                {
+                                    tvRecordNotFound.setVisibility(View.GONE);
+                                }
 
                             }else if( body.getJSONObject("data").getJSONObject("invoices").getInt("count")==0){
                                 DialogUtils.showToast(SearchInvoiceActivity.this,"No record found");
