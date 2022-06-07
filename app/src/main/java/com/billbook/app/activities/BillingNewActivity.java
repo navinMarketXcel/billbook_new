@@ -161,7 +161,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         setTitle("Billing");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        isGSTAvailable = MyApplication.getIsGst();
         if(!isEdit){
             localInvoiceId = MyApplication.getLocalInvoiceId();
             MyApplication.setLocalInvoiceId(localInvoiceId+1);
