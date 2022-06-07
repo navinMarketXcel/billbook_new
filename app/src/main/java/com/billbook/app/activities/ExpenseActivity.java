@@ -205,9 +205,6 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                 addExpenseDialog.dismiss();
             }
         });
-//        Util.postEvents("Add New Expense","Add New Expense",this.getApplicationContext());
-//        Intent intent = new Intent(this, AddExpenseActivity.class);
-//        startActivity(intent);
     }
     public void gotoEditExpense(Expense data){
         BottomSheetDialog addExpenseDialog = new BottomSheetDialog(ExpenseActivity.this,R.style.BottomSheetDialogTheme);

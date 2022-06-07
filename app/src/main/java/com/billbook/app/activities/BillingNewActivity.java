@@ -155,14 +155,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         nonGstBillNo =nonGstBillNo.substring(1, nonGstBillNo.length() - 1);
         nonGstList = new ArrayList<>(Arrays.asList(nonGstBillNo.split(",")));
         gstList = new ArrayList<>(Arrays.asList(gstBllNo.split(",")));
-//        try {
-//            gstList = new JSONArray(gstBllNo);
-//            nonGstList = new JSONArray(nonGstBillNo);
-//        } catch (JSONException e) {
-//            gstList = new JSONArray();
-//            nonGstList = new JSONArray();
-//            e.printStackTrace();
-//        }
         View view = binding.getRoot();
         setContentView(view);
 
@@ -720,8 +712,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 if (binding.layoutBillItemInitial.getVisibility() == View.VISIBLE) {
                     billItemBinding.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
-//                } else if (BottomSheetClass.isShowing()) {
-//                    BottomSheetClass..setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
+
                 }
             }
 
@@ -1150,17 +1141,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             binding.additionalDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
         }
     }
-    // toggle function to show and hide discount
-//    public void showHideDiscountBilling(View view) {
-//        if (binding.discountBillingLayout.getVisibility() == View.VISIBLE) {
-//            binding.discountBillingLayout.setVisibility(View.GONE);
-//            binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_add_circle, 0);
-//        } else {
-//            binding.discountBillingLayout.setVisibility(View.VISIBLE);
-//            binding.discountBilling.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
-//
-//        }
-//    }
+
 
 
     private void setTotal(InvoiceItems newInvoiceModel, boolean add) {
