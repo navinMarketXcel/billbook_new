@@ -331,6 +331,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                             }.getType();
                             List<Expense> myModelList = new Gson().fromJson(body.getJSONObject("data").getJSONArray("rows").toString(),
                                     listType);
+                            Log.v("AFTERDELETE", String.valueOf(myModelList));
                             expenses.clear();
                             expenses.addAll(myModelList);
                             expenseListAdapter = new ExpenseListAdapter(ExpenseActivity.this,expenses,ExpenseActivity.this);
@@ -344,6 +345,17 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                                 textView.setVisibility(View.GONE);
                             }
                             Log.v("RESP", body.toString());
+                        } else {
+                            expenses.clear();
+                            expenseListAdapter = new ExpenseListAdapter(ExpenseActivity.this,expenses,ExpenseActivity.this);
+                            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+                            expensesRV.setLayoutManager(mLayoutManager);
+                            expensesRV.setItemAnimator(new DefaultItemAnimator());
+                            expensesRV.setAdapter(expenseListAdapter);
+                            expenseListAdapter.notifyDataSetChanged();
+                            TextView textView = findViewById(R.id.tvExpenseNotFound);
+                            textView.setVisibility(View.VISIBLE);
+
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
