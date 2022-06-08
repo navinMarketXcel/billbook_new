@@ -31,7 +31,7 @@ android {
     buildTypes {
         debug{
 
-            buildConfigField "String", "BASE_URL", '"https://9190-103-165-115-12.ngrok.io/v1/"'
+            buildConfigField "String", "BASE_URL", '"https://2062-103-165-115-12.ngrok.io/v1/"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled false
         }
@@ -118,8 +118,8 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
 }
 
 
