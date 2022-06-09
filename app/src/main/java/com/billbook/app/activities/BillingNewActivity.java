@@ -911,8 +911,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             customDialogClass1.show();
 
 
-
-
         } else {
             DialogUtils.showAlertDialog(this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
                 @Override
