@@ -749,43 +749,52 @@ public class HomeFragment extends Fragment
 
 
     private void startSpotLight(View view, String title, String description) {
-        final SharedPreferences sharedPref = getActivity().getSharedPreferences(
-                getString(R.string.preference_file_key), getActivity().MODE_PRIVATE);
-        boolean showInfo = !sharedPref.getBoolean("isHomescreenIntroShown", false);
-        if (showInfo) {
-            new GuideView.Builder(getActivity())
-                    .setTitle(title)
-                    .setContentText(description)
-                    .setTargetView(view)
-                    .setDismissType(DismissType.outside)
-                    .setGuideListener(new GuideListener() {
-                        @Override
-                        public void onDismiss(View view) {
-                            if (view.getId() == R.id.helpLine) {
-                                SharedPreferences sharedPref =
-                                        getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
-                                                getActivity().MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putBoolean("isHomescreenIntroShown", true);
-                                editor.commit();
-                            } else {
-                                if (view.getId() == R.id.btnBilling) {
-                                    startSpotLight(btnManageInventory, "Manage Expenses",
-                                            "This is used for the managing your expenses.");
-                                } else if (view.getId() == R.id.btnManageInventory) {
-                                    startSpotLight(btnSearchInvoice, "Search Invoice", "Search, edit and cancel bills.");
-                                } else if (view.getId() == R.id.btnSearchInvoice) {
-                                    startSpotLight(btnGetSalesReport, "Day Book", "Check profit and download your data.");
-                                } else if(view.getId() == R.id.btnGetSalesReport) {
-                                    startSpotLight(wathcDemo, "Watch Demo", "Videos on how to use app.");
-                                }else{
-                                    startSpotLight(helpLine, "Helpline", "Customer support details.");
+
+        try {
+            final SharedPreferences sharedPref = getActivity().getSharedPreferences(
+                    getString(R.string.preference_file_key), getActivity().MODE_PRIVATE);
+            boolean showInfo = !sharedPref.getBoolean("isHomescreenIntroShown", false);
+            if (showInfo) {
+                new GuideView.Builder(getActivity())
+                        .setTitle(title)
+                        .setContentText(description)
+                        .setTargetView(view)
+                        .setDismissType(DismissType.outside)
+                        .setGuideListener(new GuideListener() {
+                            @Override
+                            public void onDismiss(View view) {
+                                if (view.getId() == R.id.helpLine) {
+                                    SharedPreferences sharedPref =
+                                            getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
+                                                    getActivity().MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putBoolean("isHomescreenIntroShown", true);
+                                    editor.commit();
+                                } else {
+                                    if (view.getId() == R.id.btnBilling) {
+                                        startSpotLight(btnManageInventory, "Manage Expenses",
+                                                "This is used for the managing your expenses.");
+                                    } else if (view.getId() == R.id.btnManageInventory) {
+                                        startSpotLight(btnSearchInvoice, "Search Invoice", "Search, edit and cancel bills.");
+                                    } else if (view.getId() == R.id.btnSearchInvoice) {
+                                        startSpotLight(btnGetSalesReport, "Day Book", "Check profit and download your data.");
+                                    } else if(view.getId() == R.id.btnGetSalesReport) {
+                                        startSpotLight(wathcDemo, "Watch Demo", "Videos on how to use app.");
+                                    }else{
+                                        startSpotLight(helpLine, "Helpline", "Customer support details.");
+                                    }
                                 }
                             }
-                        }
-                    })
-                    .build()
-                    .show();
+                        })
+                        .build()
+                        .show();
+        }
+
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
     private void updateGST() {
