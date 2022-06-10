@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_margin="3dp"
+            android:background="?attr/colorPrimary"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_anchorGravity="center"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivToolBarBack"
+                    style="@style/textRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_arrow_back_24" />
+
+                <TextView
+                    style="@style/textLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/_7sdp"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/billing">
+
+                </TextView>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnHelp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:background="@drawable/app_bar_structure"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <Button
+                    android:id="@+id/helpLine"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/icons8_whatsapp_144"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/inter"
+                    android:text="Help">
+
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_margin="7dp">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnYouTube"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:background="@drawable/app_bar_structure"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+
+                <Button
+                    android:id="@+id/wathcDemo"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="5dp"
+                    android:layout_toLeftOf="@+id/helpLine"
+                    android:background="@mipmap/youtube"
+                    android:gravity="center_horizontal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/inter"
+                    android:text="Demo">
+
+                </TextView>
+
+            </LinearLayout>
+
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/appbar"
+        android:background="@color/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:orientation="horizontal"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="2"
+            android:background="@drawable/layout__background_drawable"
+            >
+
+            <LinearLayout
+                android:id="@+id/remote_pdf_root"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.7"
+                android:gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:orientation="vertical"
+                android:padding="@dimen/_7sdp">
+
+                <LinearLayout
+                    android:id="@+id/lnFormat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnShortFormat"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/white_button"
+                        android:text="@string/short_format"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/black" />
+
+                    <Button
+                        android:id="@+id/btnLongFormat"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:background="@drawable/save_button"
+                        android:text="@string/long_format"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnInvoice"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/grey_f6f6f6"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_10sdp">
+
+                    <WebView
+                        android:id="@+id/webViewLong"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center" />
+
+                    <WebView
+                        android:id="@+id/webViewShort"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone" />
+                    <!--  <es.voghdev.pdfviewpager.library.PDFViewPager
+                    android:id="@+id/pdfViewPager"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_300sdp"
+                    />-->
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_weight=".3"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/_7sdp"
+                android:layout_height="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:id="@+id/btnShare"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@drawable/share_button"
+                        android:text="@string/share_"
+                        android:textAllCaps="false"
+                        android:gravity="center"
+                        android:paddingLeft="20dp"
+                        android:drawableStart="@drawable/share_icon"
+                        android:textColor="@color/colorPrimary" />
+                    <Button
+                        android:id="@+id/btnPrint"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:background="@drawable/share_button"
+                        android:text="@string/print"
+                        android:paddingLeft="20dp"
+                        android:drawableStart="@drawable/share_icon"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorPrimary"
+                        style="?android:attr/buttonBarButtonStyle" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:background="@drawable/save_button"
+                        android:text="@string/home"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
