@@ -261,16 +261,21 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     invoiceData.setGSTNo(obj.getString("GSTNo"));
                     invoiceData.setPdfLink(obj.getString("pdfLink"));
                     invoiceData.setInvoiceDate(obj.getString("invoiceDate"));
+                    Log.v("invoice Date",obj.getString("invoiceDate"));
                     invoiceData.setGstType(obj.getString("gstType"));
                     invoiceData.setUpdatedAt(obj.getString("updatedAt"));
                     invoiceData.setIsActive(obj.getBoolean("is_active"));
                     invoiceData.setId(obj.getInt("id"));
                     invoiceData.setCustomer(new Customer(cuObj.getString("name"),cuObj.getString("mobileNo"),false));
+                    invoicesListData.add(invoiceData);
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                invoicesListData.add(invoiceData);
+
             }
+
         }
 
         return invoicesListData;
@@ -327,8 +332,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewInvoice.setLayoutManager(mLayoutManager);
         recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
-        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoicesList, this,isCheckFlag,SearchInvoiceActivity.this);
-        recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+        //searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoicesList, this,isCheckFlag,SearchInvoiceActivity.this);
+        //recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
         downloadAll = findViewById(R.id.downloadAll);
         setTitle("Search Bill");
         DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);
@@ -387,6 +392,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
                                 Log.d(TAG, "Invoice Body::" + body);
                                 invoicesList =jsonArrayToList(invoices);
+                                Log.v("invoices date",invoicesList.get(0).getInvoiceDate());
                                     searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag,SearchInvoiceActivity.this);
                                     recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
                                     searchInvoiceListAdapter.notifyDataSetChanged();

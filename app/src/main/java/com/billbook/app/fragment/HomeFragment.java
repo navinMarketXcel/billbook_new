@@ -111,6 +111,7 @@ public class HomeFragment extends Fragment
     private JSONArray exp = null;
     private String expString;
     InMobiBanner mBannerAd1;
+    public static boolean isSheetShown = false;
     VungleBanner vungleBanner;
     private JSONArray gstList, nonGstList;
     // replace with actual placementId from InMobi
@@ -223,46 +224,50 @@ public class HomeFragment extends Fragment
     }
     private void bottomSheetDialog(View view){
 
-        BottomSheetDialog gstSheet = new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
-        View bottomSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgst,(LinearLayout)view.findViewById(R.id.bottomSheetContainer));
-        bottomSheet.findViewById(R.id.yesGSt).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gstSheet.dismiss();
-                BottomSheetDialog yesGst = new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
-                View yesGstSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgstyes,(LinearLayout)view.findViewById(R.id.editGSTyes));
+        if(isSheetShown)
+        {
+            BottomSheetDialog gstSheet = new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
+            View bottomSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgst,(LinearLayout)view.findViewById(R.id.bottomSheetContainer));
+            bottomSheet.findViewById(R.id.yesGSt).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    gstSheet.dismiss();
+                    BottomSheetDialog yesGst = new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
+                    View yesGstSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgstyes,(LinearLayout)view.findViewById(R.id.editGSTyes));
 //                    BottomSheetBehavior behavior = BottomSheetBehavior.from(yesGstSheet);
 //                    behavior.setPeekHeight(250);
-                yesGstSheet.findViewById(R.id.btnUpdGst).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        BottomSheetDialog showGif =new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
-                        View showgifView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_gstyes,(LinearLayout)view.findViewById(R.id.GSTyes));
-                        showGif.setContentView(showgifView);
-                        showGif.show();
-                        gstSheet.dismiss();
-                        yesGst.dismiss();
-                    }
-                });
-                yesGstSheet.findViewById(R.id.cancelGst).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        yesGst.dismiss();
-                    }
-                });
-                yesGst.setContentView(yesGstSheet);
-                yesGst.show();
+                    yesGstSheet.findViewById(R.id.btnUpdGst).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            BottomSheetDialog showGif =new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
+                            View showgifView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_gstyes,(LinearLayout)view.findViewById(R.id.GSTyes));
+                            showGif.setContentView(showgifView);
+                            showGif.show();
+                            gstSheet.dismiss();
+                            yesGst.dismiss();
+                        }
+                    });
+                    yesGstSheet.findViewById(R.id.cancelGst).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            yesGst.dismiss();
+                        }
+                    });
+                    yesGst.setContentView(yesGstSheet);
+                    yesGst.show();
 
-            }
-        });
-        bottomSheet.findViewById(R.id.noGSt).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                gstSheet.dismiss();
-            }
-        });
-        gstSheet.setContentView(bottomSheet);
-        gstSheet.show();
+                }
+            });
+            bottomSheet.findViewById(R.id.noGSt).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    gstSheet.dismiss();
+                }
+            });
+            gstSheet.setContentView(bottomSheet);
+            gstSheet.show();
+        }
+
     }
 
     private void createBannerAd(){
@@ -626,10 +631,17 @@ public class HomeFragment extends Fragment
 //        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, sender);
         am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+3000,3000 , sender);
     }
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        HomeFragment.isSheetShown = true;
+    }
 
     @Override
     public void onResume() {
         super.onResume();
+        //HomeFragment.isSheetShown = false;
 
         try {
             userProfile= new JSONObject (MyApplication.getUserDetails());
@@ -659,6 +671,21 @@ public class HomeFragment extends Fragment
          e.printStackTrace();
         }
     }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        HomeFragment.isSheetShown= false;
+    }
+
+    @Override
+    public void  onStop()
+    {
+        super.onStop();
+        HomeFragment.isSheetShown = false;
+    }
+
 
 //    public void updateDrawerProfileImg(){
 //        try{
@@ -722,43 +749,52 @@ public class HomeFragment extends Fragment
 
 
     private void startSpotLight(View view, String title, String description) {
-        final SharedPreferences sharedPref = getActivity().getSharedPreferences(
-                getString(R.string.preference_file_key), getActivity().MODE_PRIVATE);
-        boolean showInfo = !sharedPref.getBoolean("isHomescreenIntroShown", false);
-        if (showInfo) {
-            new GuideView.Builder(getActivity())
-                    .setTitle(title)
-                    .setContentText(description)
-                    .setTargetView(view)
-                    .setDismissType(DismissType.outside)
-                    .setGuideListener(new GuideListener() {
-                        @Override
-                        public void onDismiss(View view) {
-                            if (view.getId() == R.id.helpLine) {
-                                SharedPreferences sharedPref =
-                                        getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
-                                                getActivity().MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putBoolean("isHomescreenIntroShown", true);
-                                editor.commit();
-                            } else {
-                                if (view.getId() == R.id.btnBilling) {
-                                    startSpotLight(btnManageInventory, "Manage Expenses",
-                                            "This is used for the managing your expenses.");
-                                } else if (view.getId() == R.id.btnManageInventory) {
-                                    startSpotLight(btnSearchInvoice, "Search Invoice", "Search, edit and cancel bills.");
-                                } else if (view.getId() == R.id.btnSearchInvoice) {
-                                    startSpotLight(btnGetSalesReport, "Day Book", "Check profit and download your data.");
-                                } else if(view.getId() == R.id.btnGetSalesReport) {
-                                    startSpotLight(wathcDemo, "Watch Demo", "Videos on how to use app.");
-                                }else{
-                                    startSpotLight(helpLine, "Helpline", "Customer support details.");
+
+        try {
+            final SharedPreferences sharedPref = getActivity().getSharedPreferences(
+                    getString(R.string.preference_file_key), getActivity().MODE_PRIVATE);
+            boolean showInfo = !sharedPref.getBoolean("isHomescreenIntroShown", false);
+            if (showInfo) {
+                new GuideView.Builder(getActivity())
+                        .setTitle(title)
+                        .setContentText(description)
+                        .setTargetView(view)
+                        .setDismissType(DismissType.outside)
+                        .setGuideListener(new GuideListener() {
+                            @Override
+                            public void onDismiss(View view) {
+                                if (view.getId() == R.id.helpLine) {
+                                    SharedPreferences sharedPref =
+                                            getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
+                                                    getActivity().MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putBoolean("isHomescreenIntroShown", true);
+                                    editor.commit();
+                                } else {
+                                    if (view.getId() == R.id.btnBilling) {
+                                        startSpotLight(btnManageInventory, "Manage Expenses",
+                                                "This is used for the managing your expenses.");
+                                    } else if (view.getId() == R.id.btnManageInventory) {
+                                        startSpotLight(btnSearchInvoice, "Search Invoice", "Search, edit and cancel bills.");
+                                    } else if (view.getId() == R.id.btnSearchInvoice) {
+                                        startSpotLight(btnGetSalesReport, "Day Book", "Check profit and download your data.");
+                                    } else if(view.getId() == R.id.btnGetSalesReport) {
+                                        startSpotLight(wathcDemo, "Watch Demo", "Videos on how to use app.");
+                                    }else{
+                                        startSpotLight(helpLine, "Helpline", "Customer support details.");
+                                    }
                                 }
                             }
-                        }
-                    })
-                    .build()
-                    .show();
+                        })
+                        .build()
+                        .show();
+        }
+
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
     private void updateGST() {

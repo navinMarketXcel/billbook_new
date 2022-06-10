@@ -106,7 +106,10 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         }
 
         // holder.tvTotalAmtValue.setText(Util.formatDecimalValue((float)data.getTotalAfterDiscount().floatValue()));
+        Log.v("formatted date",data.getInvoiceDate());
         String formatedDate = getFormatedDate(data.getInvoiceDate());
+        Log.v("formatted date",formatedDate);
+
 
         boolean isGST = data.getGstType().isEmpty()?false:true;
         holder.tvInvoiceValue.setText(""+(isGST?data.getGstBillNo():data.getNonGstBillNo() ));
@@ -149,52 +152,52 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
 
 
-                holder.saveInv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Util.postEvents("Save","Save",context.getApplicationContext());
+        holder.saveInv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Util.postEvents("Save","Save",context.getApplicationContext());
 
-                        Intent i = new Intent(Intent.ACTION_VIEW);
-                        if( data.getPdfLink()!=null && !data.getPdfLink().isEmpty()) {
-                            String pdfLink = data.getPdfLink();
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                if( data.getPdfLink()!=null && !data.getPdfLink().isEmpty()) {
+                    String pdfLink = data.getPdfLink();
 
-                            if(pdfLink.contains("http://")){
-                                pdfLink = pdfLink.replace("http://", "https://");
-                            }
+                    if(pdfLink.contains("http://")){
+                        pdfLink = pdfLink.replace("http://", "https://");
+                    }
 
-                            i.setData(Uri.parse(pdfLink));
-                            try{
-                                context.startActivity(i);
-                            }catch(Exception e){
-                                DialogUtils.showToast(context, "Browser not installed");
-                                e.printStackTrace();
-                            }
-                        }
-                        else{
+                    i.setData(Uri.parse(pdfLink));
+                    try{
+                        context.startActivity(i);
+                    }catch(Exception e){
+                        DialogUtils.showToast(context, "Browser not installed");
+                        e.printStackTrace();
+                    }
+                }
+                else{
 //                                Util.postEvents("Edit","Edit",context.getApplicationContext());
 //                                Intent intent = new Intent(context, BillingNewActivity.class);
 //                                intent.putExtra("edit",true);
 //                                intent.putExtra("invoice",requestInvoice.toString());
 //                                context.startActivity(intent);
-                        }
+                }
 
-                    }
-                });
+            }
+        });
 
-            if (data.getIsActive()) {
-                holder.cancelInvBItn.setVisibility(View.VISIBLE);
-                Util.postEvents("Cancel","Cancel",context.getApplicationContext());
+        if (data.getIsActive()) {
+            holder.cancelInvBItn.setVisibility(View.VISIBLE);
+            Util.postEvents("Cancel","Cancel",context.getApplicationContext());
 
-                holder.cancelInvBItn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+            holder.cancelInvBItn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
                     billCallback.callback("delete",data,position);
 
-                    }
-                });
-                //holder.edit.setVisibility(View.VISIBLE);
-                //holder.cancelledBill.setVisibility(View.GONE);
+                }
+            });
+            //holder.edit.setVisibility(View.VISIBLE);
+            //holder.cancelledBill.setVisibility(View.GONE);
 //                holder.edit.setOnClickListener(new View.OnClickListener() {
 //                    @Override
 //                    public void onClick(View view) {
@@ -205,11 +208,11 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 //                        context.startActivity(intent);
 //                    }
 //                });
-            }else{
-                //holder.edit.setVisibility(View.GONE);
+        }else{
+            //holder.edit.setVisibility(View.GONE);
 
 
-            }
+        }
         holder.tvInvoiceDateValue.setText(formatedDate);
     }
 
@@ -274,6 +277,3 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
     }
 
 }
-
-
-
