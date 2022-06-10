@@ -7,6 +7,9 @@ import com.billbook.app.BuildConfig;
 import com.billbook.app.activities.MyApplication;
 import com.readystatesoftware.chuck.ChuckInterceptor;
 
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -41,7 +44,7 @@ public class ApiClient {
                     .baseUrl(BASE_URL)
 //                    .client(getUnsafeOkHttpClient())
                     .addConverterFactory(GsonConverterFactory.create())
-                    .client(client.build())
+                    .client(client.writeTimeout(30000, TimeUnit.MILLISECONDS).readTimeout(30000,TimeUnit.MILLISECONDS).build())
                     .build();
         }
         return retrofit;
