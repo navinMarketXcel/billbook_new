@@ -208,7 +208,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void startHomeActivity() {
         Log.i(TAG, "startHomeActivity:");
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, BottomNavigationActivity.class);
         startActivity(intent);
 
     }
