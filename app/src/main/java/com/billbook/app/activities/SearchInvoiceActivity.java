@@ -167,6 +167,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     sortTv.setVisibility(View.GONE);
                     selecttv.setText("Cancel");
                     isCheckFlag=true;
+
                 }
                 searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag,SearchInvoiceActivity.this);
                 recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
@@ -332,8 +333,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewInvoice.setLayoutManager(mLayoutManager);
         recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
-        //searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoicesList, this,isCheckFlag,SearchInvoiceActivity.this);
-        //recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+//        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(this,invoicesList, this,isCheckFlag,SearchInvoiceActivity.this);
+//        recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
         downloadAll = findViewById(R.id.downloadAll);
         setTitle("Search Bill");
         DividerItemDecoration decoration = new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL);

@@ -281,7 +281,7 @@ public class OTPActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void gotoHomeScreen() {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, BottomNavigationActivity.class);
         intent.putExtra("mobileNo",mobilNo);
         startActivity(intent);
     }

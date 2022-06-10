@@ -86,11 +86,11 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         InvoicesData data=requestInvoiceArrayList.get(position);
         if(ischeck)
         {
-            holder.checkbox.setVisibility(View.VISIBLE);
+            holder.download.setVisibility(View.VISIBLE);
         }
         else
         {
-            holder.checkbox.setVisibility(View.GONE);
+            holder.download.setVisibility(View.GONE);
         }
 
 
@@ -250,7 +250,6 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         public TextView tvInvoiceValue, tvInvoiceCustNameValue, tvQuantityValue, tvTotalAmtValue, tvInvoiceDateValue;
         public Button saveInv,cancelInvBItn,cancelledBill,edit;
         private CheckBox download;
-        private CheckBox checkbox;
         private CardView card_view;
         private LinearLayout llMain;
         private SearchInvoiceItemClickListener searchInvoiceItemClickListener;
@@ -264,9 +263,9 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             tvInvoiceDateValue = view.findViewById(R.id.tvInvoiceDateValue);
             saveInv = view.findViewById(R.id.saveInv);
             cancelInvBItn = view.findViewById(R.id.cancelInvBItn);
-            checkbox = view.findViewById(R.id.checkbox);
+
             this.searchInvoiceItemClickListener = searchInvoiceItemClickListener;
-            //download =view.findViewById(R.id.download);
+            download =view.findViewById(R.id.download);
             saveInv.setOnClickListener(this);
         }
 
