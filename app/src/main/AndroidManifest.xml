@@ -70,6 +70,19 @@
 
             android:exported="false" />
         <activity
+            android:name=".activities.DayBookActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+
+            android:exported="false" />
+        <activity
+            android:name=".activities.PDFFormatViewActivity"
+
+            android:exported="false" />
+        <activity
+            android:name=".activities.RemotePDFActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+        <activity
             android:name=".activities.LanguageChooseActivity"
             android:theme="@style/AppTheme.NoActionBar"
 
@@ -83,10 +96,7 @@
         </receiver>
 
 
-            android:name=".activities.DayBookActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <activity
             android:name=".activities.PDFActivity"
             android:screenOrientation="portrait"

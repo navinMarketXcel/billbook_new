@@ -37,6 +37,8 @@ import com.billbook.app.activities.HelpActivity;
 import com.billbook.app.activities.LedgerLoginActivity;
 import com.billbook.app.activities.LoginActivity;
 import com.billbook.app.activities.MyApplication;
+import com.billbook.app.activities.PDFFormatViewActivity;
+import com.billbook.app.activities.RemotePDFActivity;
 import com.billbook.app.activities.SearchInvoiceActivity;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceModelV2;

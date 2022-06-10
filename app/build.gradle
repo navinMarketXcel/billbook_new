@@ -6,8 +6,8 @@ android {
         applicationId "com.billbook.app"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 48
-        versionName "2.1.1"
+        versionCode 43
+        versionName "1.27.6"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         buildConfigField("String", "AccountId",AccountId);
@@ -31,14 +31,15 @@ android {
     buildTypes {
         debug{
 
-
-            buildConfigField "String", "BASE_URL", '"https://devapi.thebillbook.com/v1/"'
-
+            buildConfigField "String", "BASE_URL", '"https://e415-202-91-74-13.ngrok.io//v1/"'
+          //  buildConfigField "String", "BASE_URL", '"https://api.thebillbook.com/v1/"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled false
         }
         release {
-            buildConfigField "String", "BASE_URL", '"https://api.thebillbook.com/v1/"'
+            //buildConfigField "String", "BASE_URL", '"https://api.thebillbook.com/v1/"'
+            buildConfigField "String", "BASE_URL", '"https://7b62-202-91-74-13.ngrok.io/v1/"'
+
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled false
@@ -120,8 +121,11 @@ dependencies {
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.22'
     debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
-    implementation 'com.google.android.gms:play-services-auth:20.2.0'
+
+    implementation 'es.voghdev.pdfviewpager:library:1.1.2'
+
 }
 
 

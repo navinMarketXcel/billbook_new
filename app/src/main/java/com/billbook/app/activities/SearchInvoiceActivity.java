@@ -300,7 +300,11 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onResume() {
         super.onResume();
-        getInvoicesCall();
+        try {
+            getInvoicesCall();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void showDatePickerDialog(View v){
         Calendar now = Calendar.getInstance();
