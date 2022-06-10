@@ -250,6 +250,7 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_height="wrap_content">
                     <Button
+                        android:id="@+id/btnHome"
                         android:layout_width="@dimen/_100sdp"
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginStart="@dimen/_15sdp"

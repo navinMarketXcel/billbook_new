@@ -64,7 +64,7 @@ public class RemotePDFActivity extends AppCompatActivity  {
 
     LinearLayout root;
     LinearLayout lnFormat;
-    Button btnShortFormat,btnLongFormat,btnShare,btnPrint;
+    Button btnShortFormat,btnLongFormat,btnShare,btnPrint,btnHome;
     WebView webViewLong,webViewShort;
     private String filepath = null;
     private File pdfFile;
@@ -88,6 +88,7 @@ public class RemotePDFActivity extends AppCompatActivity  {
         btnLongFormat = findViewById(R.id.btnLongFormat);
         btnShare = findViewById(R.id.btnShare);
         btnPrint = findViewById(R.id.btnPrint);
+        btnHome = findViewById(R.id.btnHome);
         webViewLong = findViewById(R.id.webViewLong);
         webViewShort = findViewById(R.id.webViewShort);
 
@@ -219,6 +220,15 @@ public class RemotePDFActivity extends AppCompatActivity  {
                     Toast.makeText(RemotePDFActivity.this, "WebPage not fully loaded", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RemotePDFActivity.this, BottomNavigationActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
