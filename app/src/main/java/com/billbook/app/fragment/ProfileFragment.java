@@ -135,7 +135,9 @@ public class ProfileFragment extends Fragment {
         });
         rlLogout.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), loginPick_activity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            getActivity().finish();
         });
         switchGst.setOnClickListener(v -> {
             try {

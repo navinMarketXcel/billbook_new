@@ -342,6 +342,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                                 textView.setVisibility(View.GONE);
                             }
                             Log.v("RESP", body.toString());
+
                         } else {
                             expenses.clear();
                             expenseListAdapter = new ExpenseListAdapter(ExpenseActivity.this,expenses,ExpenseActivity.this);

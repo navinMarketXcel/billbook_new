@@ -144,15 +144,37 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="right"
                         android:gravity="right"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="3"
+                        android:layout_marginLeft="10dp">
+
+                        <Button
+                            android:id="@+id/filterTv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="35dp"
+                            android:layout_gravity="center"
+                            android:background="@color/white"
+                            android:drawableRight="@drawable/ic_baseline_filter_alt_24"
+                            android:gravity="center"
+                            android:onClick="clickFilter"
+                            android:text="Filter"
+                            android:layout_weight="1"
+                            android:textAlignment="center"
+                            android:textColor="#266CE4"
+                            android:textSize="13sp"
+                            android:textStyle="bold">
+
+                        </Button>
+
                         <Button
                             android:id="@+id/sortTv"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
                             android:text="Sort"
+                            android:layout_weight="1"
                             android:onClick="clickSort"
                             android:layout_gravity="center"
-                            android:drawableLeft="@drawable/sorting"
+                            android:drawableRight="@drawable/sorting"
                             android:textStyle="bold"
                             android:background="@color/white"
                             android:textSize="13sp"
@@ -160,18 +182,20 @@
                             android:textColor="#266CE4">
 
                         </Button>
+
                         <TextView
-                            android:onClick="clickSelect"
                             android:id="@+id/selectTv"
-                            android:layout_marginLeft="10dp"
-                            android:layout_width="wrap_content"
+                            android:layout_width="76dp"
                             android:layout_height="match_parent"
-                            android:text="Select"
-                            android:textSize="15sp"
-                            android:textStyle="bold"
-                            android:textColor="#266CE4"
                             android:layout_gravity="right"
-                            android:gravity="right">
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:onClick="clickSelect"
+                            android:text="Select"
+                            android:textColor="#266CE4"
+                            android:textSize="15sp"
+                            android:textStyle="bold">
 
                         </TextView>
 
@@ -210,8 +234,6 @@
 
 
             </androidx.recyclerview.widget.RecyclerView>
-
-
 
         </LinearLayout>
         <LinearLayout
