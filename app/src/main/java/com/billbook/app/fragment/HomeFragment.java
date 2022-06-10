@@ -525,8 +525,12 @@ public class HomeFragment extends Fragment
             case R.id.btnBilling:
                 Util.postEvents("Billing","Billing",getActivity().getApplicationContext());
                 intent = new Intent(getActivity(), BillingNewActivity.class);
-                intent.putExtra("gstBillNo", gstList.toString());
-                intent.putExtra("nonGstBillNo",nonGstList.toString());
+                try {
+                    intent.putExtra("gstBillNo", gstList.toString());
+                    intent.putExtra("nonGstBillNo",nonGstList.toString());
+                } catch (Exception e) {
+                    intent.putExtra("gstBillNo", "");
+                }
                 startActivity(intent);
                 break;
             case R.id.btnSellingDetails:
@@ -750,10 +754,13 @@ public class HomeFragment extends Fragment
 
     private void startSpotLight(View view, String title, String description) {
 
+
+
         try {
             final SharedPreferences sharedPref = getActivity().getSharedPreferences(
                     getString(R.string.preference_file_key), getActivity().MODE_PRIVATE);
             boolean showInfo = !sharedPref.getBoolean("isHomescreenIntroShown", false);
+
             if (showInfo) {
                 new GuideView.Builder(getActivity())
                         .setTitle(title)
@@ -763,7 +770,8 @@ public class HomeFragment extends Fragment
                         .setGuideListener(new GuideListener() {
                             @Override
                             public void onDismiss(View view) {
-                                if (view.getId() == R.id.helpLine) {
+
+                                if (view.getId() == R.id.btnGetSalesReport) {
                                     SharedPreferences sharedPref =
                                             getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
                                                     getActivity().MODE_PRIVATE);
@@ -778,16 +786,19 @@ public class HomeFragment extends Fragment
                                         startSpotLight(btnSearchInvoice, "Search Invoice", "Search, edit and cancel bills.");
                                     } else if (view.getId() == R.id.btnSearchInvoice) {
                                         startSpotLight(btnGetSalesReport, "Day Book", "Check profit and download your data.");
-                                    } else if(view.getId() == R.id.btnGetSalesReport) {
-                                        startSpotLight(wathcDemo, "Watch Demo", "Videos on how to use app.");
-                                    }else{
-                                        startSpotLight(helpLine, "Helpline", "Customer support details.");
+
+//                                    } else if(view.getId() == R.id.btnGetSalesReport) {
+//                                        startSpotLight(wathcDemo, "Watch Demo", "Videos on how to use app.");
+//                                    }else{
+//                                        startSpotLight(helpLine, "Helpline", "Customer support details.");
+
                                     }
                                 }
                             }
                         })
                         .build()
                         .show();
+
         }
 
 
