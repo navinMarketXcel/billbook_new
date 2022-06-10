@@ -134,9 +134,9 @@ public class ProfileFragment extends Fragment {
         switchGst.setOnClickListener(v -> {
             try {
                 if(switchGst.isChecked()){
-                    updateUserAPI("1");
+                    updateUserAPI("1",true);
                 }else{
-                    updateUserAPI("0");
+                    updateUserAPI("0",false);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -175,7 +175,7 @@ public class ProfileFragment extends Fragment {
 
     }
 
-    private void updateUserAPI(String isGst) throws IOException {
+    private void updateUserAPI(String isGst,boolean checkGst) throws IOException {
         DialogUtils.startProgressDialog(getActivity(), "");
         ApiInterface apiService =
                 ApiClient.getClient(getActivity()).create(ApiInterface.class);
@@ -193,8 +193,11 @@ public class ProfileFragment extends Fragment {
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     if (body.getBoolean("status")) {
+
+
                         MyApplication.saveUserDetails(body.getJSONObject("data").toString());
                         MyApplication.saveUserToken(body.getJSONObject("data").getString("userToken"));
+                        MyApplication.setIsGst(checkGst);
 
                     } else {
                         DialogUtils.showToast(getActivity(), "Failed update profile to server");

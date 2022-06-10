@@ -514,4 +514,20 @@ public class MyApplication extends Application {
         editor.putString(context.getString(R.string.inv_pref), inv);
         editor.commit();
     }
+
+    public static boolean getIsGst()
+    {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
+        boolean CheckIsGst = sharedPref.getBoolean("isGst",false);
+        return CheckIsGst;
+    }
+    public static void setIsGst(boolean check)
+    {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("isGst",check);
+        editor.commit();
+    }
 }

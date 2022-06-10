@@ -1,13 +1,19 @@
 package com.billbook.app.activities;
 
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 
 import android.os.RemoteException;
 import android.util.Log;
@@ -22,6 +28,12 @@ import android.widget.Toast;
 import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
+import com.google.android.gms.auth.api.credentials.Credential;
+import com.google.android.gms.auth.api.credentials.Credentials;
+import com.google.android.gms.auth.api.credentials.CredentialsApi;
+import com.google.android.gms.auth.api.credentials.HintRequest;
+import com.google.android.gms.auth.api.identity.GetPhoneNumberHintIntentRequest;
+import com.google.android.gms.auth.api.identity.Identity;
 import com.google.gson.Gson;
 import com.billbook.app.R;
 import com.billbook.app.database.models.User;
@@ -50,6 +62,7 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
+    private static final int CRED_PICKER = 123;
 
     private EditText edtUsername, edtPassword;
     private Button btnLogin;
@@ -148,6 +161,65 @@ public class LoginActivity extends AppCompatActivity {
 //                }
 //            }
 //        });
+
+        HintRequest hintRequest = new HintRequest.Builder().setPhoneNumberIdentifierSupported(true).build();
+//        GetPhoneNumberHintIntentRequest request = GetPhoneNumberHintIntentRequest.builder().build();
+//        ActivityResultLauncher phoneNumberHint = new ActivityResultLauncher() {
+//            @Override
+//            public void launch(Object input, @Nullable ActivityOptionsCompat options) {
+//
+//            }
+//
+//            @Override
+//            public void unregister() {
+//
+//            }
+//
+//            @NonNull
+//            @Override
+//            public ActivityResultContract getContract() {
+//                return null;
+//            }
+//        };
+//                Identity.getSignInClient(LoginActivity.this).getPhoneNumberHintIntent(request)
+//                .addOnSuccessListener(result ->
+//        {
+//            try {
+//                phoneNumberHint.launch(result.getIntentSender());
+//            }
+//            catch (Exception e)
+//            {
+//                e.printStackTrace();
+//            }
+//        })
+//                .addOnFailureListener(e ->
+//                {
+//
+//                });
+        PendingIntent intent = Credentials.getClient(this).getHintPickerIntent(hintRequest);
+        try {
+            startIntentSenderForResult(intent.getIntentSender(),CRED_PICKER,null,0,0,0,new Bundle());
+        }
+        catch (IntentSender.SendIntentException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode,int resultCode,Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==CRED_PICKER && resultCode == RESULT_OK)
+        {
+            Credential credentials = data.getParcelableExtra(Credential.EXTRA_KEY);
+            edtUsername.setText(credentials.getId().substring(3));
+        }
+        else if (requestCode == CRED_PICKER && resultCode == CredentialsApi.ACTIVITY_RESULT_NO_HINTS_AVAILABLE)
+        {
+            Toast.makeText(LoginActivity.this,"No Phone Numebers available",Toast.LENGTH_LONG).show();
+        }
     }
 
     private void setReferrerLink(String referrerUrl) {
@@ -192,20 +264,20 @@ public class LoginActivity extends AppCompatActivity {
                                 otpActivity.setOTP(String.valueOf(body.getJSONObject("data").getString("otp")));
                                 JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                                 if (body.has("data")) {
-                                        if (body.getJSONObject("data").has("userid")) {
-                                            ((MyApplication) getApplication()).saveUserDetails(body.getJSONObject("data").toString());
-                                            JSONObject data = body.getJSONObject("data");
-                                            String userToken = data.getString("userToken");
-                                            MyApplication.saveUserToken(userToken);
-                                            if(body.getJSONObject("data").has("isGST")) {
-                                                Double newData = new Double((Double) body.getJSONObject("data").get("isGST"));
-                                                int k = newData.intValue();
-                                                ((MyApplication) getApplication()).setShowGstPopup(k);
-                                            }
-                                            gotoHomeScreen();
-                                        }else {
-                                            gotoRegistration();
+                                    if (body.getJSONObject("data").has("userid")) {
+                                        ((MyApplication) getApplication()).saveUserDetails(body.getJSONObject("data").toString());
+                                        JSONObject data = body.getJSONObject("data");
+                                        String userToken = data.getString("userToken");
+                                        MyApplication.saveUserToken(userToken);
+                                        if(body.getJSONObject("data").has("isGST")) {
+                                            Double newData = new Double((Double) body.getJSONObject("data").get("isGST"));
+                                            int k = newData.intValue();
+                                            ((MyApplication) getApplication()).setShowGstPopup(k);
                                         }
+                                        gotoHomeScreen();
+                                    }else {
+                                        gotoRegistration();
+                                    }
                                     whatsappDialog.hide();
                                 } else {
                                     whatsappDialog.hide();
@@ -318,7 +390,7 @@ public class LoginActivity extends AppCompatActivity {
                     saveToken(loginResponse.getToken());
                     gotoSyncActivity();
                 } else {
-                   DialogUtils.showToast(LoginActivity.this, "Login failed because of incorrect username or password");
+                    DialogUtils.showToast(LoginActivity.this, "Login failed because of incorrect username or password");
                     progressDialog.dismiss();
                 }
             }
