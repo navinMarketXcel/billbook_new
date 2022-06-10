@@ -525,8 +525,12 @@ public class HomeFragment extends Fragment
             case R.id.btnBilling:
                 Util.postEvents("Billing","Billing",getActivity().getApplicationContext());
                 intent = new Intent(getActivity(), BillingNewActivity.class);
-                intent.putExtra("gstBillNo", gstList.toString());
-                intent.putExtra("nonGstBillNo",nonGstList.toString());
+                try {
+                    intent.putExtra("gstBillNo", gstList.toString());
+                    intent.putExtra("nonGstBillNo",nonGstList.toString());
+                } catch (Exception e) {
+                    intent.putExtra("gstBillNo", "");
+                }
                 startActivity(intent);
                 break;
             case R.id.btnSellingDetails:

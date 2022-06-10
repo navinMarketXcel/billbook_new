@@ -149,12 +149,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         edtname= findViewById(R.id.edtName);
         edtMobNo= findViewById(R.id.edtMobNo);
         billNo = findViewById(R.id.billNo);
-        gstBllNo = getIntent().hasExtra("gstBillNo")?getIntent().getExtras().getString("gstBillNo"): String.valueOf(1);
-        nonGstBillNo =getIntent().hasExtra("nonGstBillNo")? getIntent().getExtras().getString("nonGstBillNo"): String.valueOf(1);
-        gstBllNo = gstBllNo.substring(1, gstBllNo.length() - 1);
-        nonGstBillNo =nonGstBillNo.substring(1, nonGstBillNo.length() - 1);
-        nonGstList = new ArrayList<>(Arrays.asList(nonGstBillNo.split(",")));
-        gstList = new ArrayList<>(Arrays.asList(gstBllNo.split(",")));
+        try {
+            gstBllNo = getIntent().hasExtra("gstBillNo")?getIntent().getExtras().getString("gstBillNo"): String.valueOf(1);
+            nonGstBillNo =getIntent().hasExtra("nonGstBillNo")? getIntent().getExtras().getString("nonGstBillNo"): String.valueOf(1);
+            gstBllNo = gstBllNo.substring(1, gstBllNo.length() - 1);
+            nonGstBillNo =nonGstBillNo.substring(1, nonGstBillNo.length() - 1);
+            nonGstList = new ArrayList<>(Arrays.asList(nonGstBillNo.split(",")));
+            gstList = new ArrayList<>(Arrays.asList(gstBllNo.split(",")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         View view = binding.getRoot();
         setContentView(view);
 
