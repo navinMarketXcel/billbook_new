@@ -71,6 +71,7 @@
             android:layout_height="wrap_content"
             android:hint="Amount to add"
             android:singleLine="false"
+            android:inputType="phone"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </LinearLayout>
 

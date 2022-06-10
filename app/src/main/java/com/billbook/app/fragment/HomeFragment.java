@@ -755,10 +755,12 @@ public class HomeFragment extends Fragment
     private void startSpotLight(View view, String title, String description) {
 
 
+
+        try {
             final SharedPreferences sharedPref = getActivity().getSharedPreferences(
                     getString(R.string.preference_file_key), getActivity().MODE_PRIVATE);
             boolean showInfo = !sharedPref.getBoolean("isHomescreenIntroShown", false);
-            System.out.println("Show info"+showInfo);
+
             if (showInfo) {
                 new GuideView.Builder(getActivity())
                         .setTitle(title)
@@ -768,6 +770,7 @@ public class HomeFragment extends Fragment
                         .setGuideListener(new GuideListener() {
                             @Override
                             public void onDismiss(View view) {
+
                                 if (view.getId() == R.id.btnGetSalesReport) {
                                     SharedPreferences sharedPref =
                                             getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
@@ -788,12 +791,21 @@ public class HomeFragment extends Fragment
 //                                        startSpotLight(wathcDemo, "Watch Demo", "Videos on how to use app.");
 //                                    }else{
 //                                        startSpotLight(helpLine, "Helpline", "Customer support details.");
+
                                     }
                                 }
                             }
                         })
                         .build()
                         .show();
+
+        }
+
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
     private void updateGST() {
