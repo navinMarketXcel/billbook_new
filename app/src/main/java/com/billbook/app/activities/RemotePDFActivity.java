@@ -19,44 +19,38 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintJob;
 import android.print.PrintManager;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import es.voghdev.pdfviewpager.library.RemotePDFViewPager;
-import es.voghdev.pdfviewpager.library.adapter.PDFPagerAdapter;
-import es.voghdev.pdfviewpager.library.remote.DownloadFile;
-import es.voghdev.pdfviewpager.library.util.FileUtil;
 import com.billbook.app.R;
-import com.billbook.app.utils.PdfWriter;
+import com.billbook.app.networkcommunication.ApiClient;
+import com.billbook.app.networkcommunication.ApiInterface;
+import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.Util;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RemotePDFActivity extends AppCompatActivity  {
     private JSONObject invoice;
@@ -73,7 +67,7 @@ public class RemotePDFActivity extends AppCompatActivity  {
     WebView printLong,printShort;
     ImageView ivToolBarBack;
     LinearLayout lnHelp,lnYouTube;
-
+     String pdfLink;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +136,7 @@ public class RemotePDFActivity extends AppCompatActivity  {
     }
     private void setData() {
         invoiceNumber=getIntent().getExtras().getInt("invoiceId");
+        fetchCutlyLinkfromApi(invoiceNumber);
       /*  try {
             localInvoiceId = getIntent().getExtras().getLong("localInvId");
         }catch (Exception e) {
@@ -190,7 +185,7 @@ public class RemotePDFActivity extends AppCompatActivity  {
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharePdf();
+                sharePdf(pdfLink);
             }
         });
         btnPrint.setOnClickListener(new View.OnClickListener() {
@@ -233,11 +228,47 @@ public class RemotePDFActivity extends AppCompatActivity  {
         });
 
     }
-    protected void sharePdf() {
+
+    public void fetchCutlyLinkfromApi(int invID ){
+        ApiInterface apiService = ApiClient.getClient(this).create(ApiInterface.class);
+        Map<String, String> headerMap = new HashMap<>();
+        Call<Object> call = null;
+        call = apiService.getCutlyUrl(headerMap,invID);
+
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                try{
+                    if(response.code()==200){
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                        JSONObject data = body.getJSONObject("data");
+
+                        if(data.has("pdfLink")&&data.getString("pdfLink")!=null){
+                            pdfLink=data.getString("pdfLink");
+                             }
+                        else{
+                            //createWhatsppsmsToShare(invoice.getString("pdfLink"));
+                        }
+                    }
+                    else{
+
+                    }
+
+                }
+                catch(Exception e)
+                { e.printStackTrace(); }
+            }
+            @Override
+            public void onFailure(Call<Object> call, Throwable throwable) {
+                DialogUtils.showToast(RemotePDFActivity.this, "Please Check Your Internet Connection");
+            }
+        });
+    }
+    protected void sharePdf(String Url) {
         Intent i=new Intent(android.content.Intent.ACTION_SEND);
         i.setType("text/plain");
         i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Subject test");
-        i.putExtra(android.content.Intent.EXTRA_TEXT, getIntent().getExtras().getString("pdflink"));
+        i.putExtra(android.content.Intent.EXTRA_TEXT, Url);
         startActivity(Intent.createChooser(i,"Share via"));
 
     }
