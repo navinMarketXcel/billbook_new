@@ -209,6 +209,7 @@
     <string name="otherCatMSgPopUp">Thanks for filling registration form, currently we do not have your specific product category in our app. We will definitely come back to you once we will include this category in our list</string>
 
     <string name="registrationSuccess">Registration successful.</string>
+    <string name="recent_bills">Recent Bills</string>
     <string name="termsandContion">\tBy using the Bill Book app you are agreeing to be bound by the following terms
 and conditions (“Terms of Service”).
 

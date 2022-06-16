@@ -168,6 +168,7 @@
     <string name="otherCatEnter">कोई अन्य, कृपया बताएं</string>
     <string name="otherCatMSgPopUp">रजिस्ट्रेशन फॉर्म भरने के लिए धन्यवाद, फ़िलहाल हमारे ऐप में आपकी विशिष्ट प्रोडक्ट कैटेगरी नहीं है. इस कैटेगरी को अपनी लिस्ट में शामिल करने के बाद हम निश्चित रूप से आपसे संपर्क करेंगे. </string>
     <string name="registrationSuccess">रजिस्ट्रेशन सफल हुआ</string>
+    <string name="recent_bills"></string>
     <string name="termsandContion">\t बिल बुक ऐप का इस्तेमाल करके आप निम्नलिखित नियम और शर्तों से बाध्य होने की सहमति दे रहे हैं
  (“सर्विस की शर्तें”).
 

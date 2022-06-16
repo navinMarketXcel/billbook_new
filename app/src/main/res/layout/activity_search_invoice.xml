@@ -136,7 +136,7 @@
                         android:layout_gravity="left"
                         android:fontFamily="@font/inter"
                         android:textColor="@color/black"
-                        android:text="Recent Items" />
+                        android:text="@string/recent_bills" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

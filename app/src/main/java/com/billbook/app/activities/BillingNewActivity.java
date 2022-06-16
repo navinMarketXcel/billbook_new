@@ -1523,13 +1523,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         JSONObject object = new JSONObject();
                         JSONObject customerObject = new JSONObject();
                         if (isEdit) {
-                            object.put("invoice", body.getJSONObject("data"));
-                            object.put("items", body.getJSONObject("data").getJSONArray("masterItems"));
-                            customerObject =  body.getJSONObject("data").getJSONObject("customer");
-                            object.getJSONObject("invoice").put("customerName",body.getJSONObject("data").getJSONObject("customer").getString("name"));
-                            object.getJSONObject("invoice").put("customerMobileNo",body.getJSONObject("data").getJSONObject("customer").getString("mobileNo"));
+                            object.put("invoice", body.getJSONObject("data").getJSONObject("invoice"));
+                            object.put("items", body.getJSONObject("data").getJSONObject("invoice").getJSONArray("masterItems"));
+                            customerObject =  body.getJSONObject("data").getJSONObject("invoice").getJSONObject("customer");
+                            object.getJSONObject("invoice").put("customerName",customerObject.getString("name"));
+                            object.getJSONObject("invoice").put("customerMobileNo",customerObject.getString("mobileNo"));
                             object.getJSONObject("invoice").put("customerAddress",
-                                    body.getJSONObject("data").getJSONObject("customer").has("address") ? body.getJSONObject("data").getJSONObject("customer").getString("address") : "");
+                                    customerObject.has("address") ? customerObject.getString("address") : "");
                             if(idInLocalDb >0)
                                 invoiceViewModel.updateIsSync(idInLocalDb);
                             else
