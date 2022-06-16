@@ -44,6 +44,7 @@ import com.billbook.app.adapters.InvoiceListAdapter;
 import com.billbook.app.database.models.Customer;
 import com.billbook.app.database.models.Invoice;
 import com.billbook.app.model.InvoicesData;
+import com.billbook.app.model.MasterItem;
 import com.billbook.app.utils.OnDownloadClick;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -96,7 +97,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     private int page=1;
     private JSONObject userProfile;
     private int userid;
-    private Button sortTv, filterTv;
+    private TextView sortTv, filterTv;
     private InvoiceListAdapter invoiceListAdapter;
     private boolean isCheckFlag = false;
     private JSONArray invoices = new JSONArray();
@@ -176,7 +177,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 }
                 searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag,SearchInvoiceActivity.this);
                 recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
-
             }
 
         });
@@ -258,6 +258,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 View filterBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.searchbill_filter_sort,(LinearLayout)findViewById(R.id.filter_Layout));
                 gstBills = filterBottomSheet.findViewById(R.id.gstBills);
                 gstBills.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View v) {
                         ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
@@ -279,6 +280,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 });
                 nonGstBills = filterBottomSheet.findViewById(R.id.nongstBills);
                 nonGstBills.setOnClickListener(new View.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View v) {
                         ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
@@ -319,15 +321,21 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     public ArrayList<InvoicesData> jsonArrayToList(JSONArray jsonArray)
     {
         ArrayList<InvoicesData> invoicesListData = new ArrayList<InvoicesData>();
+        JSONArray masterItems = new JSONArray();
+
+
         //Checking whether the JSON array has some value or not
         if (jsonArray != null) {
             //Iterating JSON array
+
             for (int i=0;i<jsonArray.length();i++){
                 //Adding each element of JSON array into ArrayList
                 InvoicesData invoiceData = new InvoicesData();
                 try {
                     JSONObject   obj = jsonArray.getJSONObject(i);
                     JSONObject cuObj = jsonArray.getJSONObject(i).getJSONObject("customer");
+                    masterItems = jsonArray.getJSONObject(i).getJSONArray("masterItems");
+                    System.out.println(masterItems);
                     invoiceData.setTotalAmount(obj.getInt("totalAmount"));
                     invoiceData.setTotalAfterDiscount(obj.getInt("totalAfterDiscount"));
                     invoiceData.setNonGstBillNo(obj.getInt("nonGstBillNo"));
@@ -344,6 +352,23 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     invoiceData.setIsActive(obj.getBoolean("is_active"));
                     invoiceData.setId(obj.getInt("id"));
                     invoiceData.setCustomer(new Customer(cuObj.getString("name"),cuObj.getString("mobileNo"),false));
+                    List<MasterItem> masterArrayList = new ArrayList<MasterItem>();
+                    for(int j=0; j < masterItems.length();j++)
+                    {
+                        MasterItem master = new MasterItem();
+                        JSONObject  masterObject = masterItems.getJSONObject(j);
+
+                        master.setName(masterObject.getString("name"));
+                        master.setId(masterObject.getInt("id"));
+                        master.setGst(masterObject.getInt("gst"));
+                        master.setGstType(masterObject.getString("gstType"));
+                        master.setTotalAmount(masterObject.getInt("totalAmount"));
+                        master.setInvoiceid(masterObject.getInt("invoiceid"));
+                        master.setPrice(masterObject.getInt("price"));
+                        master.setQuantity(masterObject.getInt("quantity"));
+                        masterArrayList.add(master);
+                    }
+                    invoiceData.setMasterItems(masterArrayList);
                     invoicesListData.add(invoiceData);
 
 
@@ -688,7 +713,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         DialogUtils.showAlertDialog((Activity) SearchInvoiceActivity.this, "Yes", "No", "Confirm if you want to Delete this bill", new DialogUtils.DialogClickListener() {
             @Override
             public void positiveButtonClick() {
-                Log.v("Indelete", "Dlete");
                 if (Util.isNetworkAvailable(SearchInvoiceActivity.this)) {
                     final ProgressDialog progressDialog = DialogUtils.startProgressDialog(SearchInvoiceActivity.this, "");
                     ApiInterface apiService =
@@ -747,6 +771,99 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             }
         });
     }
+    public void goToEditBills(InvoicesData data)
+    {
+        JSONObject requestInvoice = new JSONObject();
+        JSONArray masterItems = new JSONArray();
+        JSONObject customer = new JSONObject();
+        try {
+            requestInvoice.put("totalAmount",data.getTotalAmount());
+            requestInvoice.put("gstBillNo",data.getGstBillNo());
+            requestInvoice.put("invoiceDate",data.getInvoiceDate());
+            requestInvoice.put("id",data.getId());
+            customer.put("address","");
+            customer.put("name",data.getCustomer().getCustomerNameame());
+            customer.put("mobileNo",data.getCustomer().getMobileNo());
+            requestInvoice.put("customer",customer);
+            requestInvoice.put("totalAfterDiscount",data.getTotalAfterDiscount());
+            requestInvoice.put("pdfLink",data.getPdfLink());
+            requestInvoice.put("gstType",data.getGstType());
+            requestInvoice.put("nonGstBillNo",data.getNonGstBillNo());
+            requestInvoice.put("GSTNo",data.getGSTNo());
+            for(int i =0;i<data.getMasterItems().size();i++)
+            {
+                JSONObject masterObject = new JSONObject();
+
+                masterObject.put("name",data.getMasterItems().get(i).name);
+                masterObject.put("invoiceid",data.getMasterItems().get(i).invoiceid);
+                masterObject.put("totalAmount",data.getMasterItems().get(i).totalAmount);
+                masterObject.put("price",data.getMasterItems().get(i).price);
+                masterObject.put("gstAmount",data.getMasterItems().get(i).gstAmount);
+                masterObject.put("userId",data.getMasterItems().get(i).userId);
+                masterObject.put("gstType",data.getMasterItems().get(i).gstType);
+                masterObject.put("id",data.getMasterItems().get(i).id);
+                masterObject.put("quantity",data.getMasterItems().get(i).quantity);
+                masterObject.put("gst",data.getMasterItems().get(i).gst);
+                masterItems.put(masterObject);
+
+            }
+            requestInvoice.put("masterItems",masterItems);
+
+            Log.v("request invoice",requestInvoice.toString());
+            System.out.println("request invoice in editBills"+requestInvoice);
+//            requestInvoice.setTotalAfterDiscount(obj.getInt("totalAfterDiscount"));
+//            requestInvoice.setNonGstBillNo(obj.getInt("nonGstBillNo"));
+//            requestInvoice.setGstBillNo(obj.getInt("gstBillNo"));
+//            requestInvoice.setGSTNo(obj.getString("GSTNo"));
+//            if(obj.has("pdfLink")){
+//                requestInvoice.setPdfLink(obj.getString("pdfLink"));
+//            } else {
+//                requestInvoice.setPdfLink(null);
+//            }
+//            requestInvoice.setInvoiceDate(obj.getString("invoiceDate"));
+//            requestInvoice.setGstType(obj.getString("gstType"));
+//            requestInvoice.setUpdatedAt(obj.getString("updatedAt"));
+//            requestInvoice.setIsActive(obj.getBoolean("is_active"));
+//            requestInvoice.setId(obj.getInt("id"));
+//            requestInvoice.setCustomer(new Customer(cuObj.getString("name"),cuObj.getString("mobileNo"),false));
+            //            "id":1413223,
+//                    "name":"car",
+//                    "quantity":11,
+//                    "measurementId":1,
+//                    "price":123,
+//                    "gstType":"CGST\/SGST (Local customer)",
+//                    "gstAmount":1353,
+//                    "gst":0,
+//                    "serial_no":"",
+//                    "imei":"",
+//                    "totalAmount":1353,
+//                    "invoiceid":365285,
+//                    "userId":187739,
+//                    "is_active":true,
+//                    "createdAt":"2022-06-10T12:13:44.000Z",
+//                    "updatedAt":"2022-06-10T12:13:44.000Z"
+
+
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        Util.postEvents("Edit","Edit",getApplicationContext());
+
+        Intent intent = new Intent(this, BillingNewActivity.class);
+
+        intent.putExtra("edit",true);
+        intent.putExtra("gstBillNo",data.getGstBillNo());
+
+        intent.putExtra("invoice",requestInvoice.toString());
+
+
+
+        startActivity(intent);
+
+    }
         @Override
     public void callback(String action, InvoicesData data, Integer pos)
     {
@@ -754,6 +871,13 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         {
             gotodeletebills(data);
         }
+        if(action.equals("edit"))
+        {
+            System.out.println("size"+data.getMasterItems().size());
+            Toast.makeText(this,"clicked",Toast.LENGTH_LONG).show();
+            goToEditBills(data);
+        }
     }
+
 
 }

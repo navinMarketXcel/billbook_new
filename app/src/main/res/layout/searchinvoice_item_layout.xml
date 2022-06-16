@@ -4,6 +4,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/searchItem"
     android:layout_height="wrap_content"
    >
     <CheckBox
@@ -43,16 +44,17 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/textSmall"
                     android:id="@+id/tvInvoiceValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="#0A0A0A"
                     android:fontFamily="@font/inter"
-                    android:textSize="18sp"
                     android:text="" />
 
                 <TextView
+                    style="@style/textSmall"
                     android:id="@+id/tvTotalAmtValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,7 +62,6 @@
                     android:fontFamily="@font/inter"
                     android:textColor="#05944F"
                     android:gravity="right"
-                    android:textSize="18sp"
                     android:text="" />
             </LinearLayout>
             <View
@@ -76,21 +77,21 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/textSmall"
                     android:id="@+id/tvInvoiceCustNameValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/inter"
-                    android:textSize="15sp"
+                    android:singleLine="true"
                     android:text="" />
 
                 <TextView
+                    style="@style/textSmallBold"
                     android:id="@+id/tvInvoiceDateValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/inter"
-                    android:textSize="15sp"
                     android:gravity="right"
                     android:text="" />
             </LinearLayout>
