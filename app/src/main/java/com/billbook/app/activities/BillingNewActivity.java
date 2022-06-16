@@ -784,9 +784,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             binding.cardItemList.setVisibility(View.VISIBLE);
             binding.layoutBillItemInitial.setVisibility(View.GONE);
 //            binding.tvTotal.setText(billItemBinding.itemPriceET.getText().toString());
-//            binding.tvTotalFinal.setText(billItemBinding.itemPriceET.getText().toString());
+//
         }
 
+
+    }
+    public void deleteItem()
+    {
 
     }
 
@@ -899,11 +903,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         if (isEdit) {
 
             //additemTv.setText("Update Item");
-            Toast.makeText(this,"clicked",Toast.LENGTH_LONG).show();
             editPosition = position;
             new BottomSheetClass(this, invoiceItemsList.get(position),measurementUnitTypeList).show();
 
         } else {
+
             DialogUtils.showAlertDialog(this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
                 @Override
                 public void positiveButtonClick() {
@@ -929,6 +933,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         public Activity c;
         public Dialog d;
         public Button yes, no;
+        private TableRow deleteRow;
         private EditText priceEt, quantityEt, imeiNo, hsnNo;
         private AutoCompleteTextView modelName;
         private TextView gstLabelTV;
@@ -936,11 +941,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         private TextInputLayout priceEdtInputLayout;
         private InvoiceItems newInvoiceModel;
         private List<String> measureUnitTypeList;
-
+        private int pos;
         public BottomSheetClass(Activity a, InvoiceItems newInvoiceModel,List<String> measureUnitTypeList) {
             super(a);
             // TODO Auto-generated constructor stub
             this.c = a;
+            //this.pos = pos;
             this.newInvoiceModel = newInvoiceModel;
             this.measureUnitTypeList = measureUnitTypeList;
         }
@@ -954,6 +960,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             no = (Button) findViewById(R.id.cancel);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
+            deleteRow = findViewById(R.id.deleteLayout);
             modelName = findViewById(R.id.modelName);
             priceEt = findViewById(R.id.priceEdt);
             quantityEt = findViewById(R.id.quantity);
@@ -966,6 +973,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             additemTv = findViewById(R.id.additemTv);
             additemTv.setText("Update Item");
             modelName.setAdapter(modelAdapter);
+
 
             Spinner spinner = measurementUnitSpinner;
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(BillingNewActivity.this,
@@ -1012,6 +1020,28 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                }
+            });
+            deleteRow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
+                        @Override
+                        public void positiveButtonClick() {
+                            setTotal(newInvoiceModel, false);
+                            calculateAmountBeforeGST(newInvoiceModel, false);
+                            invoiceItemViewModel.delete(newInvoiceModel);
+                            newBillingAdapter.notifyDataSetChanged();
+                            calculateDiscount();
+                            dismiss();
+
+                        }
+                        @Override
+                        public void negativeButtonClick() {
+
+                        }
+                    });
+
                 }
             });
 
@@ -1215,6 +1245,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 float totalAfterDiscount = total - discountAmt;
                 binding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
                 binding.tvTotalFinal.setText(Util.formatDecimalValue(totalAfterDiscount));
+                System.out.println("in set totalafterdisc"+totalAfterDiscount);
                 setEditTextError(binding.edtDiscountAmt, "");
                 setEditTextError(binding.edtDiscountPercent, "");
             }
@@ -1652,7 +1683,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     serialNumber = invoice.getInt("gstBillNo");
                 else
                     serialNumber = invoice.getInt("nonGstBillNo");
-                binding.billNo.setText(serialNumber);
+                //binding.billNo.setText(serialNumber);
 //                bill_no.setEnabled(false);
                 invoiceIdIfEdit = invoice.getInt("id");
                 localInvoiceId = invoiceIdIfEdit;
@@ -1665,6 +1696,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 binding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
                 binding.edtGST.setText(invoice.getString("GSTNo"));
                 binding.edtMobNo.setText(invoice.getJSONObject("customer").getString("mobileNo"));
+                System.out.println("Total after dis"+invoice.getInt("totalAfterDiscount"));
+
 
                 JSONArray masterItems = invoice.getJSONArray("masterItems");
                 invoiceItemEditModel = gson.fromJson(masterItems.toString(), new TypeToken<List<InvoiceItems>>() {
@@ -1678,8 +1711,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                     addItemToDatabase(curItem.getName(),
                             curItem.getPrice(),
-                            curItem.getQuantity(),
                             curItem.getGst(),
+                            curItem.getQuantity(),
                             true,
                             curItem.getImei(),
                             curItem.getSerial_no(),
@@ -1719,7 +1752,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 binding.edtDiscountPercent.setText(discountPercentLocal + "%");
                 binding.edtDiscountAmt.setText(String.valueOf(totalDiscount));
                 binding.tvTotal.setText(Util.formatDecimalValue(total - totalDiscount));
-
+                binding.tvTotalFinal.setText(Util.formatDecimalValue(invoice.getInt("totalAfterDiscount")));
+                //binding.tvAmountGST.setText(Util.formatDecimalValue(invoice.getInt("gstAmount")));
                 binding.cardItemList.setVisibility(View.VISIBLE);
                 binding.layoutBillItemInitial.setVisibility(View.GONE);
 

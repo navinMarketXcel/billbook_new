@@ -1,448 +1,271 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Bill Book</string>
-    <string name="action_settings">सेटिंग</string>
-    <string name="title_activity_home">HomeActivity</string>
-    <string name="username">Username</string>
-    <string name="passward">Password</string>
-    <string name="yes">yes</string>
-    <string name="no">No</string>
-    <string name="alert">Alert</string>
+    <string name="action_settings">सेटिंग्स</string>
+    <string name="title_activity_home">होम एक्टिविटी</string>
+    <string name="username">यूजरनेम</string>
+    <string name="passward">पासवर्ड</string>
+    <string name="yes">हाँ</string>
+    <string name="no">नहीं</string>
+    <string name="alert">चेतावनी</string>
     <string name="preference_file_key">MarketExcelAppPref</string>
     <string name="invoicesOffline">invoicesOffline</string>
     <string name="user_login_token">UserLoginToken</string>
-    <string name="showGST">showGST</string>
-    <string name="InVoiceNumber">InVoiceNumber</string>
-    <string name="InVoiceNumberForNonGST">InVoiceNumberNonGST</string>
-    <string name="showGstPopup">ShowGstPopup</string>
-    <string name="login_user_id">LoginUserId</string>
+    <string name="showGST">ज़ीएसटी दिखाएं</string>
+    <string name="InVoiceNumber">इन्वॉइस नंबर</string>
+    <string name="InVoiceNumberForNonGST">नॉन ज़ीएसटी के लिए इन्वॉइस नंबर</string>
+    <string name="showGstPopup">जीएसटी पॉपअप दिखाएं</string>
+    <string name="login_user_id">login_user_id</string>
     <string name="selected_categories">SelectedCategories</string>
     <string name="isGSTVerified">GSTVerified</string>
     <string name="user_profile">User Profile</string>
-    <string name="profileShopName">Enter Business/Shop Name<font color='#ff0000'>*</font></string>
-    <string name="profileShopAddress">Enter Business/Shop Address<font color='#ff0000'>*</font></string>
     <string name="Setting">सेटिंग</string>
-    <string name="title_activity_dummy">DummyActivity</string>
-    <string name="shop_details">Shop Details</string>
-    <string name="add_product">Add Model</string>
+    <string name="title_activity_dummy">डमी एक्टिविटी</string>
+    <string name="shop_details">दुकान की जानकारी</string>
+    <string name="add_product">मॉडल जोड़ें</string>
     <string name="billing">बिलिंग</string>
-    <string name="categories">श्रेणियाँ</string>
-    <string name="Products">मॉडल</string>
+    <string name="categories">कैटेगरीज</string>
+    <string name="Products">मॉडल्स</string>
     <string name="brands">ब्रांड्स</string>
     <string name="manage_inventory">खर्च</string>
-    <string name="no_internet">Check Internet Connection</string>
-    <string name="expenses">Expenses</string>
-
-    <string name="select_category">Select Category</string>
-    <string name="select_brand">Select Brand</string>
-    <string name="select_product">Select Model</string>
-    <string name="product_count">Model Count</string>
-    <string name="select_distributor">Select Distributor</string>
-    <string name="product_price">Purchase Price</string>
-    <string name="selling_price">Selling Price</string>
-
-    <string name="do_u_want_to_logout">Do You Really Want To Logout ?</string>
-    <string name="todays_sell">Today"'"s Sell</string>
-    <string name="yesterdays_sell">Yesterdays Sell</string>
+    <string name="no_internet">इंटरनेट कनेक्शन की जाँच करें</string>
+    <string name="expenses">खर्च</string>
+    <string name="select_category">कैटेगरी चुने</string>
+    <string name="select_brand">ब्रांड चुनें</string>
+    <string name="select_product">मॉडल चुनें</string>
+    <string name="product_count">मॉडल की गणना</string>
+    <string name="select_distributor">वितरक चुनें</string>
+    <string name="product_price">खरीदारी की कीमत</string>
+    <string name="selling_price">बिक्री कीमत</string>
+    <string name="do_u_want_to_logout">क्या आप वाकई लॉगआउट करना चाहते हैं?</string>
+    <string name="todays_sell">आज की बिक्री</string>
+    <string name="yesterdays_sell">कल की बिक्री</string>
     <string name="Rs">\u20B9</string>
-    <string name="enter_name">Customer Name (Optional)</string>
-    <string name="enter_username">Enter Username Here</string>
-    <string name="enter_msg_hint">Enter Message to be sent for marketing</string>
-
-    <string name="enter_address">Enter Address Here</string>
-    <string name="ct_enter_address">Customer Address(optional)</string>
-    <string name="ct_enter_address_otp">Customer Address</string>
-    <string name="enter_city">Enter City Here</string>
-
-    <string name="enter_pinCode">Enter Pin Code Here</string>
-    <string name="enter_state">Enter State Here</string>
-    <string name="enter_mob_no">Enter mobile number</string>
-    <string name="enter_mob_no_otp">Mobile No (Optional)</string>
-    <string name="enter_ur_mob_no">Enter Your Mobile Number</string>
-    <string name="enter_contact__no">Enter Contact Number</string>
-
-    <string name="enter_rate_if_want">Enter Price</string>
-    <string name="enter_quantities">Units sold</string>
-    <string name="hsnNo">HSN Code</string>
-    <string name="enter_hsnNo">HSN Code (optional)</string>
-    <string name="qty">Quantity<font color='#ff0000'>*</font> </string>
-    <string name="current_invoice_id">invoice_id</string>
-    <string name="name_of_models_services">Items For Billing</string>
-    <string name="details_of_receiver_bill">Details Of Customer | Bill</string>
-    <string name="invoice_no">Invoice No</string>
-    <string name="invoice_date">Invoice Date</string>
-    <string name="items">Items</string>
-    <string name="name">Customer Name </string>
-    <string name="IMEI_enter">IMEI/S.No of Product (Optional) </string>
-    <string name="nameAndemail">Name &amp; Email</string>
-    <string name="address">Address</string>
-    <string name="discountBilling">Discount</string>
-    <string name="city_without_asterisk">City</string>
-    <string name="city">City<font color='#ff0000'>*</font></string>
-    <string name="state_without_asterisk">State</string>
-    <string name="state">State<font color='#ff0000'>*</font></string>
-    <string name="scan"><font color='#266CE4'>Scan</font></string>
-    <string name="mobile_no">Contact Number</string>
-    <string name="mobile_noo">Mobile Number</string>
-    <string name="paymentValue1">Amount</string>
-    <string name="paymentMethod1Title">Payment Mode Amount</string>
-
-    <string name="customer_gst">Customer GST</string>
-    <string name="paymentMethod">Payment Mode1</string>
-    <string name="paymentMethod1">Payment Mode2</string>
-
-    <string name="enter_gst">GST %<font color='#ff0000'>*</font> </string>
-    <string name="select_gst_type">GST Type</string>
-    <string name="select_gst_percenatge">GST %</string>
-    <string name="enter_igst">Enter IGST</string>
-    <string name="amount_before_tax_rs">Amount Before GST (Rs) :</string>
-    <string name="sgst">SGST :</string>
-    <string name="gst">GST (Rs) :</string>
-    <string name="gst_dt">GST Details</string>
-
-    <string name="kgst">KGST :</string>
-    <string name="total_rs">Total (Rs) :</string>
-    <string name="DiscountEnterPercentage">Percentage %</string>
-    <string name="DiscountEnterPrice">Amount (Rs)</string>
-    <string name="submit">Submit</string>
-    <string name="enter_product_name">Enter Product Name Here</string>
-
-    <string name="title_activity_send_pdf">SendPDFActivity</string>
-    <string name="print">Print</string>
-    <string name="share_">Share</string>
-    <string name="share">Share on Whatsapp</string>
-    <string name="sms">SMS</string>
-    <string name="close">Close</string>
-
-    <string name="filter">Filter</string>
-    <string name="from">From</string>
-    <string name="to">To</string>
-    <string name="ledger_detail">Report</string>
-    <string name="selling_detail">Selling Detail</string>
-    <string name="discount">Discount Amount (Rs) : </string>
-    <string name="category">Category</string>
-    <string name="brand">Brand</string>
-    <string name="product">Model</string>
-    <string name="enter_count">Enter Count</string>
-    <string name="enter_price_including_gst">Enter Price including GST</string>
-    <string name="bill_no">Enter bill number</string>
-    <string name="enter_price">Enter Price </string>
-    <string name="price_including_gst">Price including GST<font color='#ff0000'>*</font> </string>
-    <string name="enter_selling_price">Enter Selling Price</string>
-    <string name="price">Price<font color='#ff0000'>*</font></string>
-
+    <string name="enter_name">Customer Name (optional)</string>
+    <string name="enter_username">यहां पर यूजरनेम एंटर करें</string>
+    <string name="enter_msg_hint">मार्केटिंग के लिए भेजा जाने वाला संदेश एंटर करें</string>
+    <string name="enter_address">यहां पर पता एंटर करें</string>
+    <string name="ct_enter_address">ग्राहक का पता (वैकल्पिक)</string>
+    <string name="ct_enter_address_otp">ग्राहक का पता</string>
+    <string name="enter_city">यहां पर शहर एंटर करें</string>
+    <string name="enter_pinCode">यहां पर पिन कोड एंटर करें</string>
+    <string name="enter_state">यहां पर राज्य एंटर करें</string>
+    <string name="enter_mob_no">मोबाइल नंबर एंटर करें</string>
+    <string name="enter_mob_no_otp">मोबाइल नंबर (वैकल्पिक)</string>
+    <string name="enter_ur_mob_no">अपना मोबाइल नंबर एंटर करें</string>
+    <string name="enter_contact__no">कॉन्टैक्ट नंबर एंटर करें</string>
+    <string name="enter_rate_if_want">कीमत एंटर करें</string>
+    <string name="enter_quantities">बेचे गए यूनिट्स</string>
+    <string name="hsnNo">एचएसएन कोड</string>
+    <string name="enter_hsnNo">एचएसएन कोड (वैकल्पिक)</string>
+    <string name="qty">मात्रा</string>
+    <string name="current_invoice_id">इन्वॉइस_आईडी</string>
+    <string name="name_of_models_services">बिलिंग के लिए आइटम्स</string>
+    <string name="details_of_receiver_bill">ग्राहक की जानकारी | बिल</string>
+    <string name="invoice_no">इन्वॉइस नंबर</string>
+    <string name="invoice_date">इन्वॉइस की तारीख</string>
+    <string name="name">ग्राहक का नाम</string>
+    <string name="IMEI_enter">आईएमईआई/एस.प्रोडक्ट की संख्या (वैकल्पिक)</string>
+    <string name="nameAndemail">नाम &amp; ईमेल</string>
+    <string name="address">पता</string>
+    <string name="discountBilling">छूट</string>
+    <string name="city_without_asterisk">शहर</string>
+    <string name="city">शहर</string>
+    <string name="state_without_asterisk">राज्य</string>
+    <string name="state">राज्य</string>
+    <string name="mobile_no">कॉन्टैक्ट नंबर</string>
+    <string name="paymentValue1">राशि</string>
+    <string name="paymentMethod1Title">पेमेंट मोड राशि</string>
+    <string name="customer_gst">ग्राहक की जीएसटी</string>
+    <string name="paymentMethod">पेमेंट मोड1</string>
+    <string name="paymentMethod1">पेमेंट मोड2</string>
+    <string name="enter_gst">जीएसटी % एंटर करें</string>
+    <string name="select_gst_type">जीएसटी का प्रकार</string>
+    <string name="select_gst_percenatge">जीएसटी %</string>
+    <string name="enter_igst">आईजीएसटी एंटर करें</string>
+    <string name="amount_before_tax_rs">जीएसटी से पहले की राशि (रु.):</string>
+    <string name="sgst">एसजीएसटी:</string>
+    <string name="gst">जीएसटी (रु):</string>
+    <string name="gst_dt">जीएसटी की जानकारी</string>
+    <string name="kgst">केजीएसटी:</string>
+    <string name="total_rs">कुल (रु):</string>
+    <string name="DiscountEnterPercentage">प्रतिशत %</string>
+    <string name="DiscountEnterPrice">राशि (रु.)</string>
+    <string name="submit">सबमिट करें</string>
+    <string name="enter_product_name">यहां पर प्रोडक्ट का नाम एंटर करें</string>
+    <string name="title_activity_send_pdf">पीडीएफएक्टिविटी भेजें</string>
+    <string name="print">प्रिंट</string>
+    <string name="share">व्हाट्सऐप पर शेयर करें</string>
+    <string name="sms">एसएमएस</string>
+    <string name="close">बंद करें</string>
+    <string name="filter">फ़िल्टर</string>
+    <string name="from">से</string>
+    <string name="to">तक</string>
+    <string name="ledger_detail">रिपोर्ट</string>
+    <string name="selling_detail">बिक्री का विवरण</string>
+    <string name="discount">छूट राशि (रु) :</string>
+    <string name="category">कैटेगरी</string>
+    <string name="brand">ब्रांड</string>
+    <string name="product">मॉडल</string>
+    <string name="enter_count">गणना एंटर करें</string>
+    <string name="enter_price_including_gst">जीएसटी सहित कीमत एंटर करें</string>
+    <string name="bill_no">बिल नंबर एंटर करें</string>
+    <string name="enter_price">कीमत एंटर करें</string>
+    <string name="price_including_gst">जीएसटी सहित कीमत</string>
+    <string name="enter_selling_price">बिक्री कीमत एंटर करें</string>
+    <string name="price">कीमत</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
-
-
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="email">Enter Email Address (optional)</string>
-    <string name="getsalesreport">Get Sales Report</string>
-    <string name="reset_password_screen">Change Password</string>
-
-
-    <string name="pswd_error">New Password Should Contain 6 &#45; 25 Characters Without Space</string>
-
-    <string name="error_blank_old_password">Please Enter Current Password</string>
-
-    <string name="error_blank_new_password">Please Enter New Password</string>
-
-    <string name="error_blank_confirm_password">Please Enter Confirm Password</string>
-
-    <string name="error_match_password">New Password And Confirm Password Does Not Match</string>
-
-    <string name="prompt_confirm_password">Confirm Password</string>
-
-    <string name="prompt_new_password">New Password</string>
-
-    <string name="prompt_old_password">Current Password</string>
-
-    <string name="sync_warning_home">Please turn on the Internet to sync your data</string>
-    <string name="sync_warning_expense">There are some expenses to be synced. Please check your internet and restart the application</string>
-
-    <string name="search">Search</string>
-    <string name="invoice_details">Invoice Details</string>
+    <string name="email">ईमेल एड्रेस एंटर करें (वैकल्पिक)</string>
+    <string name="getsalesreport">सेल्स रिपोर्ट प्राप्त करें</string>
+    <string name="reset_password_screen">पासवर्ड बदलें</string>
+    <string name="pswd_error">नए पासवर्ड में स्पेस के बिना 6 &#45; 25 कैरेक्टर होने चाहिए</string>
+    <string name="error_blank_old_password">कृपया वर्तमान पासवर्ड एंटर करें</string>
+    <string name="error_blank_new_password">कृपया नया पासवर्ड एंटर करें</string>
+    <string name="error_blank_confirm_password">कृपया कन्फर्म पासवर्ड एंटर करें</string>
+    <string name="error_match_password">नया पासवर्ड और कन्फर्म पासवर्ड मेल नहीं खा रहा हैं</string>
+    <string name="prompt_confirm_password">कन्फर्म पासवर्ड</string>
+    <string name="prompt_new_password">नया पासवर्ड</string>
+    <string name="prompt_old_password">वर्तमान पासवर्ड</string>
+    <string name="sync_warning_home">कृपया अपना डेटा सिंक करने के लिए इंटरनेट चालू करें</string>
+    <string name="sync_warning_expense">कुछ खर्च हैं जिन्हें सिंक किया जाना हैं. कृपया अपना इंटरनेट चेक करें और ऐप्लीकेशन रिस्टार्ट करें</string>
+    <string name="search">सर्च करें</string>
+    <string name="invoice_details">इन्वॉइस की जानकारी</string>
     <string name="inv_pref">Invoice</string>
+    <string name="amount">राशि</string>
+    <string name="enter_amount">राशि एंटर करें</string>
+    <string name="changePass">सबमिट करें</string>
+    <string name="selectdate">तारीख़ चुनें</string>
+    <string name="search_invoice">बिल सर्च करें</string>
+    <string name="sales_report">डे बुक</string>
+    <string name="send_SMS">एसएमएस भेजें</string>
+    <string name="other">अन्य</string>
+    <string name="please_enter_category">कृपया कैटेगरी एंटर करें</string>
+    <string name="please_enter_brand">कृपया ब्रांड एंटर करें</string>
+    <string name="please_enter_product">कृपया प्रोडक्ट एंटर करें</string>
+    <string name="product_added_successfuly">प्रोडक्ट को सफलतापूर्वक जोड़ा गया</string>
+    <string name="category_added_successfuly">कैटेगरी को सफलतापूर्वक जोड़ा गया</string>
+    <string name="brand_added_successfuly">ब्रांड को सफलतापूर्वक जोड़ा गया</string>
+    <string name="shopName">व्यवसाय/दुकान का नाम एंटर करें</string>
+    <string name="shopNameEnt">व्यवसाय/दुकान का नाम</string>
+    <string name="item_name">प्रोडक्ट/सेवा का नाम</string>
+    <string name="item_name_d">प्रोडक्ट/सेवा का नाम</string>
+    <string name="item_name_title">आइटम का नाम</string>
+    <string name="shopAddress">व्यवसाय/दुकान का पता एंटर करें</string>
+    <string name="shopAddressEnt">व्यवसाय/दुकान का पता</string>
+    <string name="landLineNo">लैंड लाइन नंबर एंटर करें</string>
+    <string name="mobileNo">मोबाइल नंबर एंटर करें</string>
+    <string name="pinCode">पिन कोड</string>
+    <string name="secondaryMobileNo">दूसरा मोबाइल नंबर एंटर करें</string>
+    <string name="firstName">पहला नाम एंटर करें</string>
+    <string name="lastName">आखिरी नाम एंटर करें</string>
+    <string name="gstNumber">जीएसटी नंबर एंटर करें</string>
+    <string name="otpEnter">ओटीपी एंटर करें</string>
+    <string name="memberCode">मेंबर कोड एंटर करें</string>
+    <string name="otherCatEnter">कोई अन्य, कृपया बताएं</string>
+    <string name="otherCatMSgPopUp">रजिस्ट्रेशन फॉर्म भरने के लिए धन्यवाद, फ़िलहाल हमारे ऐप में आपकी विशिष्ट प्रोडक्ट कैटेगरी नहीं है. इस कैटेगरी को अपनी लिस्ट में शामिल करने के बाद हम निश्चित रूप से आपसे संपर्क करेंगे. </string>
+    <string name="registrationSuccess">रजिस्ट्रेशन सफल हुआ</string>
+    <string name="termsandContion">\t बिल बुक ऐप का इस्तेमाल करके आप निम्नलिखित नियम और शर्तों से बाध्य होने की सहमति दे रहे हैं
+ (“सर्विस की शर्तें”).
 
-    <string name="amount">Amount</string>
-    <string name="enter_amount">Enter Amount</string>
-    <string name="changePass">Submit</string>
-    <string name="selectdate">Select Date</string>
+\n\ बिल बुक एच. एस. इंडिया एलएलपी लिमिटेड का एक प्रोडक्ट है. बिल बुक बिना किसी सूचना के समय-समय पर सर्विस की शर्तों को अपडेट करने और बदलने का अधिकार अपने पास सुरक्षित रखता है. नए टूल्स और संसाधनों को जारी करने सहित वर्तमान सर्विस को बढ़ाने या बढ़ने वाले कोई भी नए फीचर्स सर्विस की शर्तों के अधीन होंगे. ऐसे किसी भी बदलाव के बाद सर्विस का निरंतर इस्तेमाल ऐसे बदलावों के लिए आपकी सहमति को दर्शाएगा.
 
-    <string name="search_invoice">बिल खोजें</string>
+\n\n नीचे दी गई किसी भी शर्त का उल्लंघन करने पर आपका अकाउंट बंद कर दिया जाएगा. जबकि बिल बुक सर्विस पर इस तरह के आचरण और कंटेंट को प्रतिबंध लगाता है, आप समझते हैं और सहमत होते हैं कि बिल बुक, सर्विस पर पोस्ट किये गए कंटेंट के लिए ज़िम्मेदार नहीं हो सकता है और बहरहाल आप ऐसे मटेरियल्स के संपर्क में आ सकते हैं. आप इसके द्वारा अपने जोखिम पर सर्विस का इस्तेमाल करने के लिए सहमत होते हैं. आप इसके द्वारा मार्केट रिपोर्ट बनाने के विशिष्ट उद्देश्य के लिए अपने सेल्स डेटा को बिल बुक के साथ साझा करने के लिए भी सहमत होते हैं.
 
-    <string name="sales_report">दिन की किताब</string>
-    <string name="send_SMS">Send SMS</string>
-    <string name="other">Other</string>
 
-    <string name="please_enter_category">Please enter category</string>
+\n\n इस्तेमाल की शर्तें:
+\n\n1. आप एक इंसान होना आवश्यक हैं. "बॉट्स" या अन्य स्वचालित पद्धतियों से रजिस्टर किये गए अकाउंट्स की अनुमति नहीं है.
 
-    <string name="please_enter_brand">Please enter Brand</string>
-    <string name="please_enter_product">Please enter Product</string>
-    <string name="product_added_successfuly">Product Added Successfully</string>
-    <string name="category_added_successfuly">Category Added Successfully</string>
-    <string name="brand_added_successfuly">Brand Added Successfully</string>
-    <string name="shopName">Enter Business/Shop name </string>
-    <string name="shopNameEnt">Business/Shop name <font color='#ff0000'>*</font> </string>
-    <string name="item_name">Product/Service Name </string>
-    <string name="item_name_d">Product/Service Name </string>
-    <string name="item_name_title">Item Name<font color='#ff0000'>*</font> </string>
-    <string name="shopAddress">Enter Business/Shop Address</string>
-    <string name="shopAddressEnt">Business/Shop Address <font color='#ff0000'>*</font></string>
-    <string name="landLineNo">Enter Land Line Number</string>
-    <string name="mobileNo">Enter Mobile Number </string>
-    <string name="pinCode">Pincode<font color='#ff0000'>*</font></string>
-    <string name="secondaryMobileNo">Enter Secondary Mobile Number</string>
 
-    <string name="firstName">Enter First Name </string>
+\n\n2. साइनअप प्रोसेस को पूरा करने के लिए आपको अपना कानूनी पूरा नाम, एक मान्य ईमेल एड्रेस और मांगी गई कोई अन्य जानकारी प्रदान करनी होगी.
 
-    <string name="lastName">Enter Last Name </string>
-    <string name="gstNumber">Enter GST Number</string>
-    <string name="otpEnter">Enter OTP</string>
-    <string name="memberCode">Enter Member Code</string>
-    <string name="otherCatEnter">Any other please specify.</string>
-    <string name="otherCatMSgPopUp">Thanks for filling registration form, currently we do not have your specific product category in our app. We will definitely come back to you once we will include this category in our list</string>
 
-    <string name="registrationSuccess">Registration successful.</string>
-    <string name="termsandContion">\tBy using the Bill Book app you are agreeing to be bound by the following terms
-and conditions (“Terms of Service”).
+\n\n3. अपने अकाउंट और पासवर्ड की सुरक्षा बनाए रखने के लिए आप स्वयं जिम्मेदार हैं. इस सुरक्षा दायित्व का पालन करने में अगर आप विफल होते हैं तो उससे होने वाले किसी भी नुकसान या क्षति के लिए बिल बुक जिम्मेदार नहीं हो सकता है और ना ही होगा.
 
-\n\Bill Book is a product of H. S. India LLP. Ltd. Bill Book reserves the right
-to update and change the Terms of Service from time to time without notice.
-Any new features that augment or enhance the current Service, including the
-release of new tools and resources, shall be subject to the Terms of Service.
-Continued use of the Service after any such changes shall constitute your
-consent to such changes.
+\n\n4. आपके अकाउंट के तहत होने वाली एक्टिविटी और पोस्ट किये गए सभी कंटेंट के लिए आप ज़िम्मेदार हैं (तब भी जब कंटेंट अन्य लोगों द्वारा पोस्ट किया गया हो जिनके अकाउंट्स आपके अकाउंट के तहत हैं).
 
-\n\nViolation of any of the terms below will result in the termination of your
-Account. While Bill Book prohibits such conduct and Content on the Service, you
-understand and agree that Bill Book cannot be responsible for the Content posted
-on the Service and you nonetheless may be exposed to such materials. You
-hereby agree to use the Service at your own risk. You hereby agree to share
-your sales data with the Bill Book for the specific purpose of making market
-reports.
+\n\n5. एक व्यक्ति या लीगल एंटिटी एक से अधिक फ्री अकाउंट नहीं रख सकती है.
 
-\n\nTerms of Use:
-\n\n1. You must be a human. Accounts registered by “bots” or other automated
-methods are not permitted.
 
-\n\n2. You must provide your legal full name, a valid email address, and any other
-information requested in order to complete the signup process.
+\n\n6. आप किसी भी अवैध या अनधिकृत उद्देश्य के लिए सर्विस का इस्तेमाल नहीं कर सकते हैं. आपको सर्विस के इस्तेमाल में, अपने अधिकार क्षेत्र में किसी भी कानून का उल्लंघन नहीं करना चाहिए (कॉपीराइट के कानूनों सहित लेकिन यह इसी तक सीमित नहीं हैं).
 
-\n\n3. You are responsible for maintaining the security of your account and password.
-Bill Book cannot and will not be liable for any loss or damage from your failure to
-comply with this security obligation.
 
-\n\n4. You are responsible for all Content posted and activity that occurs under your
-account (even when Content is posted by others who have accounts under
-your account).
+\n\n7. आपके द्वारा सर्विस में प्रदान किये जाने वाले मटेरियल पर हम किसी बौद्धिक संपदा अधिकार का दावा नहीं करते हैं. आपकी प्रोफ़ाइल और अपलोड किये गए मटेरियल्स आपके ही रहते है. हालांकि, अपने पेजेस को साझा करने के लिए सेट करके, आप इसके द्वारा बिल बुक को मार्केट रिपोर्ट बनाने के लिए आपके कंटेंट को देखने और उसका इस्तेमाल करने की अनुमति देने के लिए सहमत होते हैं.
 
-\n\n5. One person or legal entity may not maintain more than one free account.
+\n\n8. सर्विस का लुक और फील बिल बुक का कॉपीराइट है. सर्वाधिकार सुरक्षित है. बिल बुक की स्पष्ट लिखित अनुमति के बिना आप एचटीएमएल/सीएसएस या विजुअल डिज़ाइन एलिमेंट्स के किसी भी हिस्से की नकल, कॉपी या पुन: इस्तेमाल नहीं कर सकते हैं.
 
-\n\n6. You may not use the Service for any illegal or unauthorized purpose. You must
-not, in the use of the Service, violate any laws in your jurisdiction (including but
-not limited to copyright laws).
+\n\n9. सर्विस का आपका इस्तेमाल केवल आपके जोखिम पर है. सर्विस "जैसी है" और "जैसी उपलब्ध है" इसके आधार पर प्रदान की जाती है.
 
-\n\n7. We claim no intellectual property rights over the material you provide to the
-Service. Your profile and materials uploaded remain yours. However, by setting
-your pages to be shared, you hereby agree to allow Bill Book to view and utilise
-your Content to make market reports.
+\n\n10. तकनीकी सहायता केवल भुगतान करने वाले खाताधारकों को प्रदान की जाती है और यह केवल ईमेल के माध्यम से उपलब्ध है.
 
-\n\n8. The look and feel of the Service is copyright of Bill Book. All rights reserved. You
-may not duplicate, copy, or reuse any portion of the HTML/CSS or visual design
-elements without express written permission from Bill Book.
+\n\n11. आप समझते हैं कि बिल बुक, सर्विस को चलाने के लिए आवश्यक हार्डवेयर, सॉफ्टवेयर, नेटवर्किंग, स्टोरेज और संबंधित टेक्नोलॉजी प्रदान करने के लिए थर्ड पार्टी के वेंडर्स और होस्टिंग पार्टनर्स का इस्तेमाल करता है.
 
-\n\n9. Your use of the Service is at your sole risk. The service is provided on an “as is”
-and “as available” basis.
+\n\n12. आपको सर्विस को मॉडिफाई, अनुकूलित या हैक नहीं करना चाहिए या किसी अन्य वेबसाइट को मॉडिफाई नहीं करना चाहिए जिससे यह झूठा मतलब निकाला जा सके कि यह सर्विस, बिल बुक, या किसी अन्य बिल बुक सर्विस से जुड़ा हुआ है.
 
-\n\n10. Technical support is only provided to paying account holders and is only
-available via email.
+\n\n13. आप इस बात से सहमत हैं कि बिल बुक द्वारा स्पष्ट लिखित अनुमति के बिना आप सर्विस के किसी भी हिस्से को पुन: बनाने, नकल, कॉपी करने, बिक्री करने, रिसेल करने या अनुचित लाभ उठाने, सर्विस का इस्तेमाल या सर्विस तक पहुंच पाने की कोशिश नहीं करेंगे.
 
-\n\n11. You understand that Bill Book uses third party vendors and hosting partners to
-provide the necessary hardware, software, networking, storage, and related
-technology required to run the Service.
+\n\n14. हम ऐसे कंटेंट और अकाउंट्स को हटा सकते हैं (लेकिन इसकी कोई बाध्यता नहीं है) जिनमें ऐसा कंटेंट है जो हम अपने विवेकाधिकार में निर्धारित करते हैं जो गैरकानूनी, रोषकारी, धमकी देने वाला, अपमानजनक, मानहानिकारक, अश्लील, गंदा या अन्यथा आपत्तिजनक हैं या किसी पार्टी की बौद्धिक संपदा या सर्विस की इन शर्तों का उल्लंघन करता हैं.
 
-\n\n12. You must not modify, adapt or hack the Service or modify another website so
-as to falsely imply that it is associated with the Service, Bill Book, or any other
-Bill Book service.
+\n\n15. बिल बुक के किसी भी ग्राहक, कर्मचारी, सदस्य या अधिकारी को मौखिक, शारीरिक, लिखित या अन्य तरह से अपशब्द कहे जाते है या दुर्व्यवहार किया जाता है (धमकी या अपशब्द या बदला सहित) तो उसके परिणामस्वरूप अकाउंट को तुरंत समाप्त कर दिया जाएगा.
 
-\n\n13. You agree not to reproduce, duplicate, copy, sell, resell or exploit any portion
-of the Service, use of the Service, or access to the Service without the express
-written permission by Bill Book.
+\n\n16. आपको अनचाहे ईमेल, एसएमएस, या "स्पैम" संदेशों को अपलोड, पोस्ट, होस्ट या प्रसारित नहीं करना चाहिए.
 
-\n\n14. We may, but have no obligation to, remove Content and Accounts containing
-Content that we determine in our sole discretion are unlawful, offensive,
-threatening, libellous, defamatory, pornographic, obscene or otherwise
-objectionable or violates any party’s intellectual property or these Terms of
-Service.
+\n\n17. आपको कोई भी वर्म्स या वायरस या विनाशकारी स्वभाव के किसी भी कोड को प्रसारित नहीं करना चाहिए.
 
-\n\n15. Verbal, physical, written or other abuse (including threats of abuse or
-retribution) of any Bill Book customer, employee, member, or officer will result in
-immediate account termination.
+\n\n18. आप स्पष्ट रूप से समझते हैं और सहमत हैं कि बिल बुक किसी भी प्रत्यक्ष, अप्रत्यक्ष, आकस्मिक, विशेष, परिणामी या अनुकरणीय नुकसान के लिए जिम्मेदार नहीं होगा, जिसमें लाभ, ख्याति, इस्तेमाल, डेटा का नुकसान या अन्य प्रतिकूल परिणाम का नुकसान शामिल हैं, लेकिन यह इन्हीं तक सीमित नहीं हैं (यहां तक कि अगर बिल बुक को इस तरह के नुकसान की संभावना के बारे में सलाह दी गई हो), यह इनसे होगा: (i) सर्विस का इस्तेमाल या इस्तेमाल करने में असमर्थता; (ii) सर्विस से या इसके माध्यम से एंटर किये गए ट्रांजैक्शन्स या प्राप्त हुए संदेश या खरीदे गए या प्राप्त किये गए किसी भी सामान, डेटा, जानकारी या सेवाओं के परिणामस्वरूप वैकल्पिक सामानों और सेवाओं की खरीदारी की लागत; (iii) आपके ट्रांसमिशन्स या डेटा तक अनधिकृत एक्सेस या बदलाव; (iv) सर्विस पर किसी थर्ड पार्टी का बयान या आचरण; (v) या सर्विस से संबंधित कोई अन्य मामला.
 
-\n\n16. You must not upload, post, host, or transmit unsolicited email, SMSs, or
-“spam” messages.
+\n\n19. हमारी सर्विसेस के सामान्य संचालन के हिस्से के रूप में, हम कुछ मामलों में आपके बारे में जानकारी एकत्र, इस्तेमाल करते हैं और थर्ड पार्टी को खुलासा करते हैं. इसके अनुसार, हमने इस गोपनीयता नीति को विकसित किया है ताकि आप समझ सकें कि जब आप मोबाइल ऐप्लीकेशन पर सेवाओं का इस्तेमाल करते हैं तो हम आपकी व्यक्तिगत जानकारी को कैसे एकत्र, इस्तेमाल, प्रकट करते और खुलासा करते हैं और उसका इस्तेमाल करने लगाते हैं: -
 
-\n\n17. You must not transmit any worms or viruses or any code of a destructive
-nature.
+\n\n(a) व्यक्तिगत जानकारी एकत्र करते समय या उससे पहले, हम उन उद्देश्यों की पहचान करेंगे जिनके लिए जानकारी एकत्र की जा रही है.
 
-\n\n18. You expressly understand and agree that Bill Book shall not be liable for any direct,
-indirect, incidental, special, consequential or exemplary damages, including
-but not limited to, damages for loss of profits, goodwill, use, data or other
-intangible losses (even if Bill Book has been advised of the possibility of such
-damages), resulting from: (i) the use or the inability to use the service; (ii) the
-cost of procurement of substitute goods and services resulting from any goods,
-data, information or services purchased or obtained or messages received or
-transactions entered into through or from the service; (iii) unauthorized access
-to or alteration of your transmissions or data; (iv) statements or conduct of any
-third party on the service; (v) or any other matter relating to the service.
+\n\n(b) जब तक हम संबंधित व्यक्ति की सहमति प्राप्त नहीं करते हैं या कानून द्वारा आवश्यकता होने पर, हम केवल अपने द्वारा बताएं गए उद्देश्यों को पूरा करने के लिए और अन्य अनुरूप उद्देश्यों के लिए व्यक्तिगत जानकारी एकत्र करेंगे और उसका इस्तेमाल करेंगे.
 
-\n\n19. As part of the normal operation of our Services, we collect, use and, in some
-cases, disclose information about you to third parties. Accordingly, we have
-developed this Privacy Policy in order for you to understand how we collect,
-use, communicate and disclose and make use of your personal information
-when you use the Services on the Mobile Application: -
-\n\n(a) Before or at the time of collecting personal information, we will
-identify the purposes for which information is being collected.
+\n\n(c) जब तक उन उद्देश्यों को पूरा करने के लिए आवश्यक हो केवल तब तक हम व्यक्तिगत जानकारी को अपने पास रखेंगे.
 
-\n\n(b) We will collect and use of personal information solely with the
-objective of fulfilling those purposes specified by us and for other
-compatible purposes, unless we obtain the consent of the individual
-concerned or as required by law.
+\n\n(e) व्यक्तिगत जानकारी उन उद्देश्यों के लिए उचित होनी चाहिए जिनके लिए इसका इस्तेमाल किया जाना है, और, उन उद्देश्यों के लिए आवश्यक स्तर तक, सटीक, पूर्ण और अप-टू-डेट होनी चाहिए.
 
-\n\n(c) We will only retain personal information as long as necessary for the
-fulfilment of those purposes.
+\n\n(f) हम नुकसान या चोरी के साथ-साथ अनधिकृत एक्सेस, खुलासा, कॉपी करने, इस्तेमाल या संशोधन के खिलाफ उचित सुरक्षा उपायों से व्यक्तिगत जानकारी की सुरक्षा करेंगे.
 
-\n\n(e) Personal information should be relevant to the purposes for which it
-is to be used, and, to the extent necessary for those purposes, should be
-accurate, complete, and up-to-date.
+\n\n(g) हम इन सिद्धांतों के अनुसार अपना व्यवसाय चलाने के लिए प्रतिबद्ध हैं ताकि यह सुनिश्चित किया जा सके कि व्यक्तिगत जानकारी की गोपनीयता सुरक्षित और बनाए रखी गई है.
 
-\n\n(f) We will protect personal information by reasonable security
-safeguards against loss or theft, as well as unauthorized access,
-disclosure, copying, use or modification.
 
-\n\n(g) We are committed to conducting our business in accordance with
-these principles in order to ensure that the confidentiality of personal
-information is protected and maintained.
+\n\n20. हम इस बात की कोई वारंटी नहीं देते हैं कि सर्विसेस और मोबाइल ऐप्लीकेशन, वायरस या किसी अन्य चीज से मुक्त हैं जिनका किसी भी तकनीक पर हानिकारक प्रभाव पड़ता हैं.
 
-\n\n20. We do not give any warranty that the Services and the Mobile Application are
-free from viruses or anything else which may have a harmful effect on any
-technology.
-\n\n21. You are solely responsible for properly cancelling you account. You can cancel
-your account anytime by clicking on the Cancel Account link in Account
-Settings.
+\n\n21. आप अपने अकाउंट को उचित रूप से कैंसल करने के लिए पूरी तरह से जिम्मेदार हैं. आप अकाउंट सेटिंग में कैंसल अकाउंट लिंक पर क्लिक करके कभी भी अपना अकाउंट कैंसल कर सकते हैं.
 
-\n\n22. We reserve the right to block access to and/or to edit or remove any material
-which in our reasonable opinion may give rise to a breach of these Terms and
-Conditions of Use.
+\n\n22. हम किसी भी मटेरियल तक पहुंच को ब्लॉक करने और/या एडिट करने या हटाने का अधिकार अपने पास सुरक्षित रखते हैं जो हमारी राय में इस्तेमाल के इन नियमों और शर्तों का उल्लंघन कर सकते है.
 
-\n\n23. Applicable Law and Jurisdiction
-\n\n23.1 The Mobile Application can be accessed from all countries around the
-world where the local technology permits. As each of these places have
-differing laws, by accessing the Mobile Application both you and we agree that
-the laws of the India, without regard to the conflicts of laws principles thereof,
-will apply to all matters relating to the use of the Mobile Application.
 
-\n\n23.2 You accept and agree that both you and we shall submit to the exclusive
-jurisdiction of the Arbitrator (appointed by the Bill Book), seat in Delhi, India, to be
-governed by the Indian Arbitration Act, in respect of any dispute arising out of
-and/or in connection with these Terms and Conditions of Use.
+\n\n23. लागू कानून और अधिकार-क्षेत्र
 
-\n\n24. The failure of Bill Book to exercise or enforce any right or provision of the Terms of
-Service shall not constitute a waiver of such right or provision. The Terms of
-Service constitutes the entire agreement between you and Bill Book and govern
-your use of the Service, superseding any prior agreements between you and
-Bill Book (including, but not limited to, any prior versions of the Terms of Service).
+\n\n23.1 मोबाइल ऐप्लीकेशन को दुनिया भर के उन सभी देशों से एक्सेस किया जा सकता है जहां लोकल टेक्नोलॉजी इसकी अनुमति देती है. चूंकि इनमें से प्रत्येक स्थानों में अलग-अलग कानून हैं, मोबाइल ऐप्लीकेशन का इस्तेमाल करके, आप और हम दोनों सहमत होते हैं कि भारत के कानून, कानून के सिद्धांतों के विरोध की परवाह किये बिना, मोबाइल ऐप्लीकेशन के इस्तेमाल से संबंधित सभी मामलों पर लागू होंगे.
 
-\n\n25. Questions about the Terms of Service should be sent to help.billbook@gmail.com.
-</string>
-    <string name="dist_name">Distributor Name </string>
-    <string name="dist_address">Address </string>
-    <string name="dist_gst">GST No </string>
-    <string name="dist_contact">Mobile no </string>
-    <string name="top_selling_brand">Top Selling Brand</string>
-    <string name="top_selling_products">Top Selling Products</string>
-    <string name="relationshipManager">Enter Relationship Manager Name</string>
-    <string name="cust_gst_no">Customer GST no(optional)</string>
-    <string name="enter_additional_details">Enter Additional Details</string>
-    <string name="enter_banking_branch_or_other_details">Enter Banking, Branch or other details</string>
-    <string name="storage_permission_label">We need storage permission to save your bills and expenses on phone</string>
-    <string name="permission_button_text">Give Permission</string>
-    <string name="termsandcondition">Terms of Use</string>
-    <string name="privacy_policy"><![CDATA[& Privacy Policy]]></string>
-    <string name="tncmessage">By continuing you agree to</string>
+\n\n23.2 आप स्वीकार करते हैं और सहमत होते हैं कि आप और हम दोनों इस्तेमाल के इन नियमों और शर्तों के संबंध में और/या उत्पन्न होने वाले किसी भी विवाद के संबंध में भारतीय मध्यस्थता अधिनियम द्वारा अधीन भारत, दिल्ली में मौजूद आर्बिट्रेटर (बिल बुक द्वारा नियुक्त) के विशिष्ट अधिकार-क्षेत्र में प्रस्तुत करेंगे.
+
+\n\n24. यदि बिल बुक, सर्विस की शर्तों के किसी भी अधिकार या प्रावधान को लागू करने या पूरा करने में विफल होता है तो इसमें ऐसे अधिकार या प्रावधान की छूट शामिल नहीं होगी. सर्विस की शर्तों में आपके और बिल बुक के बीच पूरा समझौता शामिल होगा और यह सर्विस के आपके इस्तेमाल को नियंत्रित करता है, जो आपके और बिल बुक के बीच किसी भी पूर्व समझौते का अधिक्रमण करता हैं (सर्विस की शर्तों के किसी भी पूर्व वर्जन्स सहित, लेकिन यह इन्हीं तक सीमित नहीं है).
+
+\n\n25. सर्विस की शर्तों के बारे में सवाल help.billbook@gmail.com पर भेजे जाने चाहिए. </string>
+    <string name="dist_name">वितरक का नाम</string>
+    <string name="dist_address">पता</string>
+    <string name="dist_gst">जीएसटी नंबर</string>
+    <string name="dist_contact">मोबाइल नंबर</string>
+    <string name="top_selling_brand">सबसे ज्यादा बिकने वाला ब्रांड</string>
+    <string name="top_selling_products">सबसे ज्यादा बिकने वाला प्रोडक्ट</string>
+    <string name="relationshipManager">रिलेशनशिप मैनेजर का नाम एंटर करें</string>
+    <string name="cust_gst_no">कस्टमर जीएसटी नंबर (वैकल्पिक)</string>
+    <string name="enter_additional_details">अतिरिक्त जानकारी एंटर करें</string>
+    <string name="enter_banking_branch_or_other_details">बैंकिंग, ब्रांच या अन्य जानकारी एंटर करें</string>
+    <string name="storage_permission_label">फ़ोन पर आपके बिलों और खर्चों को सेव करने के लिए हमें स्टोरेज परमिशन की आवश्यकता है</string>
+    <string name="permission_button_text">अनुमति दें</string>
+    <string name="termsandcondition">इस्तेमाल की शर्तें</string>
+    <string name="privacy_policy">गोपनीयता की नीति</string>
+    <string name="tncmessage">जारी रखकर आप सहमत हैं</string>
     <string-array name="dayFilter_array">
-
-        <item>1 days</item>
+        <item>2 days</item>
         <item>7 days</item>
-        <item>30days</item>
+        <item>30 days</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="make_gst_bills">जीएसटी बिल बनाएं</string>
-    <string name="switch_gst_and_non_gst_bills">जीएसटी और गैर-जीएसटी बिल स्विच करें</string>
-    <string name="email_address_phone_number_etc">ईमेल पता, फोन नंबर आदि...</string>
-    <string name="contact_details">सम्पर्क विवरण</string>
-    <string name="business_details">व्यापार विवरण</string>
-    <string name="logo_sign">लोगो और हस्ताक्षर</string>
-    <string name="business_name_address_gst_and_more">व्यवसाय का नाम, पता, जीएसटी और बहुत कुछ</string>
-    <string name="logo_and_signature">लोगो और हस्ताक्षर</string>
-    <string name="customise_your_bills">अपने बिलों को अनुकूलित करें</string>
-    <string name="home">होम</string>
-    <string name="profile">प्रोफ़ाइल</string>
-    <string name="language">भाषा</string>
-    <string name="choose_language">भाषा चुनें</string>
-    <string name="help">मदद </string>
-    <string name="phone_number_">फ़ोन नंबर<font color='#F62525'> *</font></string>
-    <string name="business_name_">व्यवास्यक नाम<font color='#F62525'> *</font></string>
-    <string name="business_name">व्यवास्यक नाम</string>
-    <string name="shop_add_">दुकान का पता<font color='#F62525'> *</font></string>
-    <string name="pin_code_">पिन कोड<font color='#F62525'> *</font></string>
-    <string name="city_">शहर<font color='#F62525'> *</font></string>
-    <string name="state_">राज्य<font color='#F62525'> *</font></string>
-    <string name="gst_num_">जीएसटी नंबर<font color='#F62525'> *</font></string>
-    <string name="gst_num">जीएसटी नंबर</string>
-    <string name="citye">शहर</string>
-    <string name="statee">राज्य</string>
-    <string name="pin_code">पिन कोड</string>
-    <string name="company_logo">कंपनी का लोगो</string>
-    <string name="shop_add">दुकान का पता</string>
-    <string name="phone_number">फ़ोन नंबर</string>
-    <string name="email_">ईमेल पता<font color='#F62525'> *</font></string>
-    <string name="email_add">ईमेल पता</string>
-    <string name="save">सेव करें</string>
-    <string name="select_language_caps">भाषा चुने</string>
-
-    <string name="upload_your_logo">अपना लोगो अपलोड करें</string>
-    <string name="max_file_size_1_mb">अधिकतम फ़ाइल आकार 1 एमबी</string>
-    <string name="browse">ब्राउज़</string>
-    <string name="signature">हस्ताक्षर</string>
-    <string name="upload_your_signature">अपना हस्ताक्षर अपलोड करें</string>
-    <string name="change">परिवर्तन</string>
-    <string name="edit_number">संख्या संपादित करें</string>
-    <string name="get_otp">ओटीपी प्राप्त करें</string>
-    <string name="enter_otp">ओटीपी दर्ज करें</string>
-    <string name="otp_sent">OTP sent to 9897767646</string>
-    <string name="verify">Verify</string>
-    <string name="select">Select...</string>
-    <string name="choose_period">Choose Period</string>
-    <string name="transaction">Transaction</string>
-    <string name="income">Income</string>
-    <string name="expense">खर्च</string>
-    <string name="date">दिनांक</string>
-    <string name="daybook">रोज़नामचा</string>
-    <string name="net_income">शुद्ध आय</string>
-    <string name="english">English</string>
-    <string name="hindi">Hindi</string>
-    <string name="hindi_l">हिन्दी</string>
-    <string name="home_menue">होम</string>
-    <string name="my_profile">प्रोफाइल</string>
-    <string name="help_menu">सहायता</string>
-    <string name="logout">लॉग आउट</string>
-    <string name="long_format">Long Format</string>
-    <string name="short_format">Short Format</string>
-
 </resources>

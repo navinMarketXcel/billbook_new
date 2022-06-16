@@ -55,9 +55,19 @@ public class InvoicesData {
     @SerializedName("masterItems")
     @Expose
     public List<MasterItem> masterItems = null;
+
+    public boolean isCheck() {
+        return isCheck;
+    }
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+    }
+
     @SerializedName("customer")
     @Expose
     public Customer customer;
+    public boolean isCheck= false;
 
     public Integer getId() {
         return id;

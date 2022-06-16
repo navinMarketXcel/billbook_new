@@ -130,12 +130,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
+                        style="@style/textLargeBold"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
                         android:fontFamily="@font/inter"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
                         android:textColor="@color/black"
                         android:text="Recent Items" />
 
@@ -148,7 +147,8 @@
                         android:weightSum="3"
                         android:layout_marginLeft="10dp">
 
-                        <Button
+                        <TextView
+                            style="@style/textSmallBold"
                             android:id="@+id/filterTv"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
@@ -158,44 +158,41 @@
                             android:gravity="center"
                             android:onClick="clickFilter"
                             android:text="Filter"
-                            android:layout_weight="1"
                             android:textAlignment="center"
                             android:textColor="#266CE4"
-                            android:textSize="13sp"
-                            android:textStyle="bold">
+                            >
 
-                        </Button>
+                        </TextView>
 
-                        <Button
+                        <TextView
+                            style="@style/textSmallBold"
                             android:id="@+id/sortTv"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
                             android:text="Sort"
-                            android:layout_weight="1"
+                            android:layout_marginLeft="2dp"
+                            android:gravity="center"
                             android:onClick="clickSort"
                             android:layout_gravity="center"
                             android:drawableRight="@drawable/sorting"
-                            android:textStyle="bold"
                             android:background="@color/white"
-                            android:textSize="13sp"
                             android:layout_marginRight="10dp"
                             android:textColor="#266CE4">
 
-                        </Button>
+                        </TextView>
 
                         <TextView
+                            style="@style/textSmallBold"
                             android:id="@+id/selectTv"
-                            android:layout_width="76dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_gravity="right"
-                            android:layout_marginLeft="5dp"
-                            android:layout_weight="1"
-                            android:gravity="right"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="2dp"
+                            android:gravity="center"
                             android:onClick="clickSelect"
                             android:text="Select"
                             android:textColor="#266CE4"
-                            android:textSize="15sp"
-                            android:textStyle="bold">
+                            >
 
                         </TextView>
 

@@ -82,7 +82,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         void onSaveButtonClick(int invoicePosition);
     }
     @Override
-    public void onBindViewHolder(SearchInvoiceListAdapterNew.MyViewHolder holder, final int position) {
+    public void onBindViewHolder(SearchInvoiceListAdapterNew.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         InvoicesData data=requestInvoiceArrayList.get(position);
         if(ischeck)
         {
@@ -196,6 +196,12 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
                 }
             });
+            holder.searchItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    billCallback.callback("edit",requestInvoiceArrayList.get(position),position);
+                }
+            });
             //holder.edit.setVisibility(View.VISIBLE);
             //holder.cancelledBill.setVisibility(View.GONE);
 //                holder.edit.setOnClickListener(new View.OnClickListener() {
@@ -251,8 +257,9 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         public Button saveInv,cancelInvBItn,cancelledBill,edit;
         private CheckBox download;
         private CardView card_view;
-        private LinearLayout llMain;
+        private LinearLayout llMain,searchItem;
         private SearchInvoiceItemClickListener searchInvoiceItemClickListener;
+
 
         public MyViewHolder(View view, SearchInvoiceItemClickListener searchInvoiceItemClickListener) {
             super(view);
@@ -263,6 +270,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             tvInvoiceDateValue = view.findViewById(R.id.tvInvoiceDateValue);
             saveInv = view.findViewById(R.id.saveInv);
             cancelInvBItn = view.findViewById(R.id.cancelInvBItn);
+            searchItem = view.findViewById(R.id.searchItem);
 
             this.searchInvoiceItemClickListener = searchInvoiceItemClickListener;
             download =view.findViewById(R.id.download);
