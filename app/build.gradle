@@ -35,9 +35,7 @@ android {
             minifyEnabled false
         }
         release {
-            //buildConfigField "String", "BASE_URL", '"https://api.thebillbook.com/v1/"'
-            buildConfigField "String", "BASE_URL", '"https://7b62-202-91-74-13.ngrok.io/v1/"'
-
+            buildConfigField "String", "BASE_URL", '"https://api.thebillbook.com/v1/"'
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled false

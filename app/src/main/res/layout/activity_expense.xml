@@ -33,7 +33,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Search"
+                    android:text="@string/search_expense"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:fontFamily="@font/inter"
@@ -89,7 +89,7 @@
                         android:textStyle="bold"
                         android:textSize="18sp"
                         android:textColor="@color/black"
-                        android:text="Recent Bills" />
+                        android:text="@string/recent_bills_expense" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -101,7 +101,7 @@
                             android:id="@+id/sortExpense"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
-                            android:text="Sort"
+                            android:text="@string/sort"
                             android:onClick="clickExpenseSort"
                             android:layout_gravity="center"
                             android:drawableLeft="@drawable/sorting"
@@ -185,7 +185,7 @@
                 android:layout_marginRight="50dp"
                 android:background="@drawable/add_expense_structure"
                 android:onClick="gotoAddExpense"
-                android:text="Add New Expense"
+                android:text="@string/add_new_expense"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />

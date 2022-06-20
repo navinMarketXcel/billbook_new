@@ -68,7 +68,7 @@
             style="@style/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Product or service provided"
+            android:hint="@string/product_or_service_provided"
             android:singleLine="false"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </LinearLayout>
@@ -99,7 +99,7 @@
                 style="@style/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Product or service provided"
+                android:hint="@string/product_or_service_provided"
                 android:singleLine="false"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </LinearLayout>
@@ -169,7 +169,7 @@
                 android:layout_width="199dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:hint="Number of units sold"
+                android:hint="@string/number_of_units_sold"
                 android:singleLine="false"
                 android:textColor="#0A0A0A"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
@@ -215,7 +215,7 @@
             <TextView
                 android:layout_width="239dp"
                 android:layout_height="wrap_content"
-                android:text="IMEI/Serial Number"
+                android:text="@string/imei_serial_number"
                 android:textColor="#555555"
                 android:textSize="15sp"
                 android:textStyle="bold" />
@@ -226,7 +226,7 @@
                 android:layout_width="199dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:hint="Placeholder Text"
+                android:hint="@string/placeholder_text"
                 android:singleLine="false"
                 android:textColor="#0A0A0A"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
@@ -265,7 +265,7 @@
         android:layout_marginLeft="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="50dp"
-        android:text="Add Item"
+        android:text="@string/add_item"
         android:textStyle="bold"
         android:onClick="addItem"
         android:textAllCaps="true"
