@@ -192,6 +192,9 @@ public interface ApiInterface {
     @DELETE("expense/{id}")
     Call<Object> deleteExpenses(@HeaderMap Map<String, String> headers,@Path("id") long id);
 
+    @POST("invoices/deleteInBulk")
+    Call<Object> deleteSearchBills(@HeaderMap Map<String, String> headers,@Body JsonObject object);
+
     @Multipart
     @PUT ("updateInvoicePdf/{id}")
     Call<Object> updateInvoicePdf(@HeaderMap Map<String, String> headers, @Path("id") int id, @Part MultipartBody.Part pdf);

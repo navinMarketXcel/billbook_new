@@ -245,6 +245,7 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="Delete"
+                android:onClick="deleteBulkBills"
                 android:layout_margin="10dp"
                 android:background="@drawable/delete_button"
                 android:textColor="#E11900"
