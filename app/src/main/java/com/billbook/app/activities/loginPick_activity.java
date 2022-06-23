@@ -252,11 +252,13 @@ public class loginPick_activity extends AppCompatActivity {
         intent.putExtra("otp",otp);
         intent.putExtra("referrer_link", referrer_link);
         startActivity(intent);
+        finish();
     }
     public void gotoHomeScreen() {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, BottomNavigationActivity.class);
         intent.putExtra("mobileNo", mobilNo);
         startActivity(intent);
+        finish();
     }
 
 

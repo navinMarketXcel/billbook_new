@@ -181,78 +181,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
         });
     }
-//    public void deleteBills(View v)
-//    {
-//        InvoicesData data = new InvoicesData();
-//        System.out.println(invoicesList.size());
-//        for(int i=0;i<invoicesList.size();i++)
-//        {
-//            System.out.println("in delete bills"+invoicesList.get(i).isSelected());
-//        }
-//        DialogUtils.showAlertDialog((Activity) SearchInvoiceActivity.this, "Yes", "No", "Confirm if you want to Delete all these bill", new DialogUtils.DialogClickListener() {
-//            @Override
-//            public void positiveButtonClick() {
-//
-//                if (Util.isNetworkAvailable(SearchInvoiceActivity.this)) {
-//                    final ProgressDialog progressDialog = DialogUtils.startProgressDialog(SearchInvoiceActivity.this, "");
-//                    ApiInterface apiService =
-//                            ApiClient.getClient(SearchInvoiceActivity.this).create(ApiInterface.class);
-//
-//                    String token = MyApplication.getUserToken();
-//                    Map<String, String> headerMap = new HashMap<>();
-//                    headerMap.put("Authorization", token);
-//                    Call<Object> call = null;
-//                    try {
-//                        JSONObject inv = new JSONObject();
-//                        inv.remove("masterItems");
-//                        inv.put("is_active", false);
-//                        JsonObject jsonObject = new JsonParser().parse(inv.toString()).getAsJsonObject();
-//                        call = apiService.updateInvoice(headerMap, data.id, jsonObject);
-//                        call.enqueue(new Callback<Object>() {
-//                            @Override
-//                            public void onResponse(Call<Object> call, Response<Object> response) {
-//                                final JSONObject body;
-//                                try {
-//                                    body = new JSONObject(new Gson().toJson(response.body()));
-//
-//                                    if (body.getBoolean("status")) {
-//                                        data.isActive = false;
-//                                        page = 1;
-//                                        getInvoicesCall();
-//                                    }
-//
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//
-//                                }
-//                                progressDialog.dismiss();
-//
-//
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<Object> call, Throwable t) {
-//                                progressDialog.dismiss();
-//                            }
-//                        });
-//                    } catch (JSONException e) {
-//                        progressDialog.dismiss();
-//                        e.printStackTrace();
-//                    }
-//
-//                } else {
-//                    Toast.makeText(SearchInvoiceActivity.this, SearchInvoiceActivity.this.getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void negativeButtonClick() {
-//
-//            }
-//        });
-//
-//
-//    }
+
     public void deleteBulkBills(View v)
     {
         InvoicesData data = new InvoicesData();
