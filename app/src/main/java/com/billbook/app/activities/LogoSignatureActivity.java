@@ -6,12 +6,14 @@ import static com.billbook.app.utils.Util.getRequestBodyFormData;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -22,8 +24,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 
 import com.billbook.app.R;
 import com.billbook.app.networkcommunication.ApiClient;
@@ -32,6 +36,7 @@ import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.Util;
 import com.google.android.gms.common.util.IOUtils;
 import com.google.gson.Gson;
+import com.readystatesoftware.chuck.internal.ui.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -53,6 +58,7 @@ import retrofit2.Response;
 
 public class LogoSignatureActivity extends AppCompatActivity {
     private final int RESULT_LOAD_IMAGE = 1;
+    private final int RESULT_LOAD_IMAGE_CAMERA = 2;
     private int SCREEN_WIDTH = 120;
     private final double MAX_FILE_SIZE_LIMIT = 15.0;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 111;
@@ -66,6 +72,9 @@ public class LogoSignatureActivity extends AppCompatActivity {
     private long userid;
     private JSONObject profile;
     LinearLayout lnHelp,lnYouTube;
+    public String photoFileName = "photo.jpg";
+    File photoFile;
+    public final String APP_TAG = "BillBook";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,11 +159,13 @@ public class LogoSignatureActivity extends AppCompatActivity {
         });
         btnPickLogo.setOnClickListener(v -> {
             whereToShowImage=1;
-            openGallery();
+           // openGallery();
+            selectImage();
         });
         btnPickSign.setOnClickListener(v -> {
             whereToShowImage=0;
-            openGallery();
+            selectImage();
+           // openGallery();
         });
         ivDeleteLogo.setOnClickListener(v -> {
             LnBrowseLogo.setVisibility(View.VISIBLE);
@@ -188,6 +199,38 @@ public class LogoSignatureActivity extends AppCompatActivity {
         i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
+    private void selectImage() {
+        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        AlertDialog.Builder builder = new AlertDialog.Builder(LogoSignatureActivity.this);
+        builder.setTitle("Add Photo!");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int item) {
+                if (options[item].equals("Take Photo"))
+                {
+                    photoFileName=String.valueOf(System.currentTimeMillis());
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    photoFile = getPhotoFileUri(photoFileName);
+                    Uri fileProvider = FileProvider.getUriForFile(LogoSignatureActivity.this, LogoSignatureActivity.this.getApplicationContext().getPackageName() + ".provider", photoFile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        // Start the image capture intent to take photo
+                        startActivityForResult(intent, RESULT_LOAD_IMAGE_CAMERA);
+                    }
+
+                }
+                else if (options[item].equals("Choose from Gallery"))
+                {
+                    Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, RESULT_LOAD_IMAGE);
+                }
+                else if (options[item].equals("Cancel")) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        builder.show();
+    }
     private void checkPermission() {
         int hasWriteStoragePermission =
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -196,7 +239,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA},
                                 REQUEST_CODE_ASK_PERMISSIONS);
                     }
                 }
@@ -206,54 +249,89 @@ public class LogoSignatureActivity extends AppCompatActivity {
             }
         }
     }
+    public File getPhotoFileUri(String fileName) {
+        // Get safe storage directory for photos
+        // Use `getExternalFilesDir` on Context to access package-specific directories.
+        // This way, we don't need to request external read/write runtime permissions.
+        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+            Log.d(APP_TAG, "failed to create directory");
+        }
+
+        // Return the file target for the photo based on filename
+        File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
+
+        return file;
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
-            Uri selectedImage = data.getData();
+        if (requestCode == RESULT_LOAD_IMAGE_CAMERA && resultCode == RESULT_OK) {
 
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
+           // File file = new File(Environment.getExternalStorageDirectory().getPath(), "photo.jpg");
+            //Uri selectedImage = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", imgDir);
 
-            if (cursor == null || cursor.getCount() < 1) {
-                if (cursor != null) {
-                    DialogUtils.showToast(LogoSignatureActivity.this, "Unable to select image");
-//                    Log.d(TAG, "onActivityResult: NUll cursor....." + cursor.getCount());
-                } else {
-                    DialogUtils.showToast(LogoSignatureActivity.this, "Unable to select image");
-//                    Log.d(TAG, "onActivityResult: Cursor is null");
-                }
-                return; // no cursor or no record. DO YOUR ERROR HANDLING
-            }
+            Uri selectedImage = Uri.fromFile(photoFile);
+           // Uri selectedImage = data.getData();
+            System.out.println("selectedImage"+selectedImage);
+                lnSave.setVisibility(View.VISIBLE);
+                setImage(selectedImage);
 
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-
-            if (columnIndex < 0) // no column index
+        }else  if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
             {
-                DialogUtils.showToast(LogoSignatureActivity.this, "Not supported application");
-//                Log.d(TAG, "onActivityResult: Column index going brr....");
-                return; // DO YOUR ERROR HANDLING
-            }
-            else {
-                String path = cursor.getString(columnIndex);
+                Uri selectedImage = data.getData();
+                System.out.println("selectedImage gallery "+selectedImage);
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
 
-                cursor.close(); // close cursor
-
-                File selectedImageFile = new File(path);
-
-                if (selectedImageFile.exists() && Util.checkFileSizeInMB(selectedImageFile, MAX_FILE_SIZE_LIMIT)) {
-//                launchImageEditActivity(selectedImage);
-                    lnSave.setVisibility(View.VISIBLE);
-                    setImage(selectedImage);
-                } else {
-                    DialogUtils.showToast(LogoSignatureActivity.this, "Max file size limit " + (int) MAX_FILE_SIZE_LIMIT + "MB");
+                if (cursor == null || cursor.getCount() < 1) {
+                    if (cursor != null) {
+                        DialogUtils.showToast(LogoSignatureActivity.this, "Unable to select image");
+//                    Log.d(TAG, "onActivityResult: NUll cursor....." + cursor.getCount());
+                    } else {
+                        DialogUtils.showToast(LogoSignatureActivity.this, "Unable to select image");
+//                    Log.d(TAG, "onActivityResult: Cursor is null");
+                    }
+                    return; // no cursor or no record. DO YOUR ERROR HANDLING
                 }
 
+                cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+
+                if (columnIndex < 0) // no column index
+                {
+                    DialogUtils.showToast(LogoSignatureActivity.this, "Not supported application");
+//                Log.d(TAG, "onActivityResult: Column index going brr....");
+                    return; // DO YOUR ERROR HANDLING
+                }
+                else {
+                    String path = cursor.getString(columnIndex);
+
+                    cursor.close(); // close cursor
+
+                    File selectedImageFile = new File(path);
+
+                    if (selectedImageFile.exists() && Util.checkFileSizeInMB(selectedImageFile, MAX_FILE_SIZE_LIMIT)) {
+//                launchImageEditActivity(selectedImage);
+                        lnSave.setVisibility(View.VISIBLE);
+                        setImage(selectedImage);
+                    } else {
+                        DialogUtils.showToast(LogoSignatureActivity.this, "Max file size limit " + (int) MAX_FILE_SIZE_LIMIT + "MB");
+                    }
+
+                }
             }
+
         }
-    }
+
+
+
+}
+
+
     private void setImage(Uri uri) {
         if(whereToShowImage==1) {
             LnBrowseLogo.setVisibility(GONE);

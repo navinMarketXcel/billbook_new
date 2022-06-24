@@ -69,11 +69,7 @@
             android:theme="@style/AppTheme.NoActionBar"
 
             android:exported="false" />
-        <activity
-            android:name=".activities.DayBookActivity"
-            android:theme="@style/AppTheme.NoActionBar"
 
-            android:exported="false" />
         <activity
             android:name=".activities.PDFFormatViewActivity"
 
@@ -319,5 +315,10 @@
             android:name=".services.SyncService"
             android:enabled="true" />
     </application>
-
+    <queries>
+        <!-- Camera -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
 </manifest>
