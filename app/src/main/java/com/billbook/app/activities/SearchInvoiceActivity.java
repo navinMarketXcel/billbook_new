@@ -113,7 +113,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     private final int REQUEST_CODE_ASK_PERMISSIONS =111;
     private final int REQUEST_CODE_ASK_PERMISSIONS_SAVE_INVOICE =112;
     private int saveInvoiceId = -1;
-    SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     SimpleDateFormat myFormat1 = new SimpleDateFormat("yyyy-MM-dd");
     DateFormat formatter1 =
             new SimpleDateFormat("dd MMM yyyy");
@@ -197,7 +196,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 else if (adapterView.getItemAtPosition(i).equals("This Month"))
                 {
                     Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                    startDate.add(Calendar.MONTH, 0);
+                    startDate.add(Calendar.MONTH, -1);
                     Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                     String strDate = myFormat1.format(startDate.getTime());
                     String endsDate = myFormat1.format(endDate.getTime());
