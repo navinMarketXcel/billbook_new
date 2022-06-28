@@ -39,6 +39,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andrewjapar.rangedatepicker.CalendarPicker;
 import com.billbook.app.adapter_bill_callback.BillCallback;
 import com.billbook.app.adapters.InvoiceListAdapter;
 import com.billbook.app.database.models.Customer;
@@ -74,8 +75,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -85,6 +88,7 @@ import retrofit2.Response;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
+
 
 public class SearchInvoiceActivity extends AppCompatActivity implements View.OnClickListener,SearchInvoiceListAdapterNew.SearchInvoiceItemClickListener, DatePickerDialog.OnDateSetListener, OnDownloadClick, BillCallback {
     private static final String TAG = "SearchInvoiceActivity";
@@ -109,6 +113,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     private final int REQUEST_CODE_ASK_PERMISSIONS =111;
     private final int REQUEST_CODE_ASK_PERMISSIONS_SAVE_INVOICE =112;
     private int saveInvoiceId = -1;
+    SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    SimpleDateFormat myFormat1 = new SimpleDateFormat("yyyy-MM-dd");
     DateFormat formatter1 =
             new SimpleDateFormat("dd MMM yyyy");
     DateFormat formatter2 =
@@ -130,10 +136,93 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(adapterView.getItemAtPosition(i).equals("Custom Period"))
-                {
-                    showDatePickerDialog(view);
+                if(adapterView.getItemAtPosition(i).equals("Custom Period")) {
+
+                    BottomSheetDialog gstSheet = new BottomSheetDialog(SearchInvoiceActivity.this, R.style.BottomSheetDialogTheme);
+                    View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_date_range_picker,null);
+                    CalendarPicker calendarPicker = bottomSheet. findViewById(R.id.calendar_view);
+                    TextView txtFrom=bottomSheet. findViewById(R.id.txtFrom);
+                    TextView txtTo=bottomSheet. findViewById(R.id.txtTo);
+                    String startDates = "",endDates="";
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    startDate.add(Calendar.MONTH, -6);
+                    calendarPicker. setRangeDate(startDate.getTime(),endDate.getTime() );
+                    calendarPicker.setMode(CalendarPicker.SelectionMode.RANGE);
+                    calendarPicker.scrollToDate(startDate.getTime());
+                    calendarPicker.setOnRangeSelectedListener((Date date, Date date2, String s1, String s2) -> {
+                                txtFrom.setText(s1);
+                                txtTo.setText(s2);
+                                //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+
+                                String strDate = myFormat1.format(date);
+                                String endsDate = myFormat1.format(date2);
+                                getInvoicesCallSearch(strDate,endsDate);
+                                gstSheet.dismiss();
+                                return null;
+                            }
+
+
+                    );
+                    calendarPicker.setOnStartSelectedListener((date, s) ->
+                    {
+                        txtFrom.setText(s);
+                        txtTo.setText("-");
+                        return null;
+                    });
+                    gstSheet.setContentView(bottomSheet);
+                    gstSheet.show();
+
                 }
+
+
+                if(adapterView.getItemAtPosition(i).equals("Last 7 Days"))
+                {
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    startDate.add(Calendar.DATE, -7);
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    String strDate = myFormat1.format(startDate.getTime());
+                    String endsDate = myFormat1.format(endDate.getTime());
+                    getInvoicesCallSearch(strDate,endsDate);
+                }
+                else if (adapterView.getItemAtPosition(i).equals("Last 30 Days"))
+                {
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    startDate.add(Calendar.MONTH, -1);
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    String strDate = myFormat1.format(startDate.getTime());
+                    String endsDate = myFormat1.format(endDate.getTime());
+                    getInvoicesCallSearch(strDate,endsDate);
+                }
+                else if (adapterView.getItemAtPosition(i).equals("This Month"))
+                {
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    startDate.add(Calendar.MONTH, 0);
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    String strDate = myFormat1.format(startDate.getTime());
+                    String endsDate = myFormat1.format(endDate.getTime());
+                    getInvoicesCallSearch(strDate,endsDate);
+                }
+                else if (adapterView.getItemAtPosition(i).equals("Last Month"))
+                {
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    startDate.add(Calendar.MONTH, -1);
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    String strDate = myFormat1.format(startDate.getTime());
+                    String endsDate = myFormat1.format(endDate.getTime());
+                    getInvoicesCallSearch(strDate,endsDate);
+                }
+                else if (adapterView.getItemAtPosition(i).equals("Today"))
+                {
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    // startDate.add(Calendar.MONTH, -1);
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    String strDate = myFormat1.format(startDate.getTime());
+                    String endsDate = myFormat1.format(endDate.getTime());
+                    getInvoicesCallSearch(strDate,endsDate);
+                }
+
+
             }
 
             @Override
@@ -463,6 +552,15 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         Map<String, String> body = new HashMap<>();
         body.put("userid",userid+"");
         body.put("page",""+page);
+        getInvoices(body);
+    }
+    private void getInvoicesCallSearch(String startDate,String endDate){
+        System.out.println("search bills api"+startDate+" ___________ "+endDate);
+        Map<String, String> body = new HashMap<>();
+        body.put("userid",userid+"");
+        body.put("page",""+page);
+        body.put("startDate",startDate);
+        body.put("endDate",endDate);
         getInvoices(body);
     }
     @Override

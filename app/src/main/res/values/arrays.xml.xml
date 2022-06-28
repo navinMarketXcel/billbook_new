@@ -49,6 +49,7 @@
         <item>Day</item>
     </string-array>
     <string-array name="dateCalender">
+        <item>Select Date</item>
         <item>Today</item>
         <item>Last 7 Days</item>
         <item>Last 30 Days</item>

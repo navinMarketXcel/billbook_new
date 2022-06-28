@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/profileShopAddress"
-                android:singleLine="false"
+                android:singleLine="true"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
 
@@ -68,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/profileShopAddress"
-                android:singleLine="false"
+                android:singleLine="true"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
     </LinearLayout>
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_city"
-                android:singleLine="false"
+                android:singleLine="true"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     </LinearLayout>
@@ -149,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_pinCode"
-                android:singleLine="false"
+                android:singleLine="true"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     </LinearLayout>
