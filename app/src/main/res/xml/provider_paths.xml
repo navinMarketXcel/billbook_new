@@ -2,5 +2,6 @@
 <paths>
     <external-path name="external_files" path="." />
     <root-path name="external_files" path="/storage/" />
-
+    <files-path name="image_picked" path="picked/"/>
+    <external-files-path name="to_be_replaced" path="Pictures/"/>
 </paths>

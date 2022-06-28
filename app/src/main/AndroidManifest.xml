@@ -69,11 +69,7 @@
             android:theme="@style/AppTheme.NoActionBar"
 
             android:exported="false" />
-        <activity
-            android:name=".activities.DayBookActivity"
-            android:theme="@style/AppTheme.NoActionBar"
 
-            android:exported="false" />
         <activity
             android:name=".activities.PDFFormatViewActivity"
 
@@ -212,7 +208,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.ScannerActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="fullSensor" />
         <activity
             android:name=".activities.BillingAllProductListActivity"
             android:label="Select Model"
@@ -225,6 +221,10 @@
             android:name=".activities.BillingScannedProductActivity"
             android:label="Billing"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation" />
         <activity
             android:name=".activities.ManageCategoriesActivity"
             android:label="Billing"
@@ -320,5 +320,10 @@
             android:name=".services.SyncService"
             android:enabled="true" />
     </application>
-
+    <queries>
+        <!-- Camera -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
 </manifest>
