@@ -50,6 +50,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -161,10 +163,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
         View view = binding.getRoot();
         setContentView(view);
-
-        setTitle("Billing");
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
         isGSTAvailable = MyApplication.getIsGst();
         if(!isEdit){
             localInvoiceId = MyApplication.getLocalInvoiceId();
@@ -181,9 +179,21 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         getInvoiceItemsFromDatabase();
         searchItemAutoComplete();
         customerNumberAutoComplete();
+        setonClick();
 
 
 
+    }
+    public void setonClick(){
+        binding.ivToolBarBack.setOnClickListener(v -> {
+            finish();
+        });
+        binding.lnHelp.setOnClickListener(v -> {
+            Util. startHelpActivity(BillingNewActivity.this);
+        });
+        binding.lnYouTube.setOnClickListener(v -> {
+            Util. startYoutubeActivity(BillingNewActivity.this);
+        });
     }
 
 
@@ -1195,7 +1205,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             total = total + newInvoiceModel.getTotalAmount();
         else
             total = total - newInvoiceModel.getTotalAmount();
-        binding.tvTotal.setText(Util.formatDecimalValue(total));
+        binding.tvTotal.setText("₹"+Util.formatDecimalValue(total));
 
 
     }
@@ -1243,8 +1253,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 setEditTextError(binding.edtDiscountAmt, "Discount value should be less than or equal to total");
             } else {
                 float totalAfterDiscount = total - discountAmt;
-                binding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
-                binding.tvTotalFinal.setText(Util.formatDecimalValue(totalAfterDiscount));
+                binding.tvTotal.setText("₹"+Util.formatDecimalValue(totalAfterDiscount));
+                binding.tvTotalFinal.setText("₹"+Util.formatDecimalValue(totalAfterDiscount));
                 System.out.println("in set totalafterdisc"+totalAfterDiscount);
                 setEditTextError(binding.edtDiscountAmt, "");
                 setEditTextError(binding.edtDiscountPercent, "");
@@ -1261,8 +1271,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         else
             totalBeforeGST = totalBeforeGST - newInvoiceModel.getGstAmount();
 
-        binding.tvAmountBeforeTax.setText(Util.formatDecimalValue(totalBeforeGST));
-        binding.tvAmountGST.setText(Util.formatDecimalValue(total - totalBeforeGST));
+        binding.tvAmountBeforeTax.setText("₹"+Util.formatDecimalValue(totalBeforeGST));
+        binding.tvAmountGST.setText("₹"+Util.formatDecimalValue(total - totalBeforeGST));
     }
 
     public void gotoPDFActivity(View v) {
@@ -1693,7 +1703,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 binding.edtName.setText(invoice.getJSONObject("customer").getString("name"));
                 binding.edtAddress.setText(invoice.getJSONObject("customer").getString("address"));
-                binding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
+                binding.tvTotal.setText("₹"+Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
                 binding.edtGST.setText(invoice.getString("GSTNo"));
                 binding.edtMobNo.setText(invoice.getJSONObject("customer").getString("mobileNo"));
                 System.out.println("Total after dis"+invoice.getInt("totalAfterDiscount"));
@@ -1751,8 +1761,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 }
                 binding.edtDiscountPercent.setText(discountPercentLocal + "%");
                 binding.edtDiscountAmt.setText(String.valueOf(totalDiscount));
-                binding.tvTotal.setText(Util.formatDecimalValue(total - totalDiscount));
-                binding.tvTotalFinal.setText(Util.formatDecimalValue(invoice.getInt("totalAfterDiscount")));
+                binding.tvTotal.setText("₹"+Util.formatDecimalValue(total - totalDiscount));
+                binding.tvTotalFinal.setText("₹"+Util.formatDecimalValue(invoice.getInt("totalAfterDiscount")));
                 //binding.tvAmountGST.setText(Util.formatDecimalValue(invoice.getInt("gstAmount")));
                 binding.cardItemList.setVisibility(View.VISIBLE);
                 binding.layoutBillItemInitial.setVisibility(View.GONE);

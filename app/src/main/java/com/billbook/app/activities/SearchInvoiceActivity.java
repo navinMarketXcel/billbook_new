@@ -307,12 +307,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
                     }
                 });
-                sortBottomSheet.findViewById(R.id.doneSort).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        sortSheet.dismiss();
-                    }
-                });
                 sortBottomSheet.findViewById(R.id.canelSort).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

@@ -64,7 +64,7 @@ public class NewBillingAdapter extends RecyclerView.Adapter<NewBillingAdapter.My
         }
         myViewHolder.quantityHdTv.setText(quantity);
         //myViewHolder.totalHdTv.setText(Util.formatDecimalValue(newInvoiceModel.getTotalAmount()));
-        myViewHolder.priceHdTv.setText(Util.formatDecimalValue(newInvoiceModel.getPrice()));
+        myViewHolder.priceHdTv.setText("₹"+Util.formatDecimalValue(newInvoiceModel.getPrice()));
         if(isGSTAvailable){
             myViewHolder.gstTV.setVisibility(View.VISIBLE);
             myViewHolder.gstTV.setText((int)newInvoiceModel.getGst()+("%"));

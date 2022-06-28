@@ -98,9 +98,9 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         try {
             holder.tvInvoiceCustNameValue.setText(data.getCustomer().getCustomerNameame());
             if(data.getDiscount()!=0 && data.getTotalAfterDiscount()!=0)
-                holder.tvTotalAmtValue.setText(Util.formatDecimalValue((float)data.getTotalAfterDiscount().floatValue()));
+                holder.tvTotalAmtValue.setText("₹"+Util.formatDecimalValue((float)data.getTotalAfterDiscount().floatValue()));
             else
-                holder.tvTotalAmtValue.setText(Util.formatDecimalValue((float)data.getTotalAmount().floatValue()));
+                holder.tvTotalAmtValue.setText("₹"+Util.formatDecimalValue((float)data.getTotalAmount().floatValue()));
         } catch (Exception e) {
             e.printStackTrace();
         }

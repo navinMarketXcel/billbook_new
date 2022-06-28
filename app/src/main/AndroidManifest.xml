@@ -108,6 +108,7 @@
         <activity
             android:name=".activities.BillingNewActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.AddExpenseActivity"
