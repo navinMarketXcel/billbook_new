@@ -98,9 +98,9 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         try {
             holder.tvInvoiceCustNameValue.setText(data.getCustomer().getCustomerNameame());
             if(data.getDiscount()!=0 && data.getTotalAfterDiscount()!=0)
-                holder.tvTotalAmtValue.setText(Util.formatDecimalValue((float)data.getTotalAfterDiscount().floatValue()));
+                holder.tvTotalAmtValue.setText("₹"+Util.formatDecimalValue((float)data.getTotalAfterDiscount().floatValue()));
             else
-                holder.tvTotalAmtValue.setText(Util.formatDecimalValue((float)data.getTotalAmount().floatValue()));
+                holder.tvTotalAmtValue.setText("₹"+Util.formatDecimalValue((float)data.getTotalAmount().floatValue()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,20 +135,22 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                 Log.v("INV ADPA", "position"+position + "download"+false);
 
             }*/
-//            holder.download.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    CompoundButton btn = (CompoundButton) view ;
-//                    Log.v("CHECK Changed",""+btn.isChecked()+"POS:"+position);
-//                    try {
-//                        requestInvoice.put("download",btn.isChecked());
-//                        requestInvoiceArrayList.put(position,requestInvoice);
-//                        ((OnDownloadClick) context).onclick(position,requestInvoice);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
+
+
+            holder.download.setChecked(data.isSelected());
+            holder.download.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(holder.download.isChecked())
+                    {
+                        billCallback.callback("Selected",data,position);
+                    }
+                    else
+                    {
+                        billCallback.callback("unSelected",data,position);
+                    }
+                }
+            });
 
 
 

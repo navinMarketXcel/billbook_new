@@ -647,7 +647,7 @@ public class HomeFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        //HomeFragment.isSheetShown = false;
+        HomeFragment.isSheetShown = false;
 
         try {
             userProfile= new JSONObject (MyApplication.getUserDetails());
@@ -682,7 +682,7 @@ public class HomeFragment extends Fragment
     public void onPause()
     {
         super.onPause();
-        HomeFragment.isSheetShown= false;
+        //HomeFragment.isSheetShown= false;
     }
 
     @Override

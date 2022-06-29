@@ -324,7 +324,7 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void gotoHomeScreen() {
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, BottomNavigationActivity.class);
         intent.putExtra("mobileNo",mobilNo);
         startActivity(intent);
     }
@@ -397,7 +397,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void gotoSyncActivity() {
-        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+        Intent intent = new Intent(LoginActivity.this, BottomNavigationActivity.class);
         startActivity(intent);
         finish();
     }

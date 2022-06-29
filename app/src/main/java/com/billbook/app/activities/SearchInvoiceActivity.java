@@ -39,6 +39,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andrewjapar.rangedatepicker.CalendarPicker;
 import com.billbook.app.adapter_bill_callback.BillCallback;
 import com.billbook.app.adapters.InvoiceListAdapter;
 import com.billbook.app.database.models.Customer;
@@ -74,8 +75,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.TimeZone;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -85,6 +88,7 @@ import retrofit2.Response;
 import smartdevelop.ir.eram.showcaseviewlib.GuideView;
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType;
 import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener;
+
 
 public class SearchInvoiceActivity extends AppCompatActivity implements View.OnClickListener,SearchInvoiceListAdapterNew.SearchInvoiceItemClickListener, DatePickerDialog.OnDateSetListener, OnDownloadClick, BillCallback {
     private static final String TAG = "SearchInvoiceActivity";
@@ -109,6 +113,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     private final int REQUEST_CODE_ASK_PERMISSIONS =111;
     private final int REQUEST_CODE_ASK_PERMISSIONS_SAVE_INVOICE =112;
     private int saveInvoiceId = -1;
+    SimpleDateFormat myFormat1 = new SimpleDateFormat("yyyy-MM-dd");
     DateFormat formatter1 =
             new SimpleDateFormat("dd MMM yyyy");
     DateFormat formatter2 =
@@ -130,10 +135,93 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(adapterView.getItemAtPosition(i).equals("Custom Period"))
-                {
-                    showDatePickerDialog(view);
+                if(adapterView.getItemAtPosition(i).equals("Custom Period")) {
+
+                    BottomSheetDialog gstSheet = new BottomSheetDialog(SearchInvoiceActivity.this, R.style.BottomSheetDialogTheme);
+                    View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_date_range_picker,null);
+                    CalendarPicker calendarPicker = bottomSheet. findViewById(R.id.calendar_view);
+                    TextView txtFrom=bottomSheet. findViewById(R.id.txtFrom);
+                    TextView txtTo=bottomSheet. findViewById(R.id.txtTo);
+                    String startDates = "",endDates="";
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    startDate.add(Calendar.MONTH, -6);
+                    calendarPicker. setRangeDate(startDate.getTime(),endDate.getTime() );
+                    calendarPicker.setMode(CalendarPicker.SelectionMode.RANGE);
+                    calendarPicker.scrollToDate(startDate.getTime());
+                    calendarPicker.setOnRangeSelectedListener((Date date, Date date2, String s1, String s2) -> {
+                                txtFrom.setText(s1);
+                                txtTo.setText(s2);
+                                //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+
+                                String strDate = myFormat1.format(date);
+                                String endsDate = myFormat1.format(date2);
+                                getInvoicesCallSearch(strDate,endsDate);
+                                gstSheet.dismiss();
+                                return null;
+                            }
+
+
+                    );
+                    calendarPicker.setOnStartSelectedListener((date, s) ->
+                    {
+                        txtFrom.setText(s);
+                        txtTo.setText("-");
+                        return null;
+                    });
+                    gstSheet.setContentView(bottomSheet);
+                    gstSheet.show();
+
                 }
+
+
+                if(adapterView.getItemAtPosition(i).equals("Last 7 Days"))
+                {
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    startDate.add(Calendar.DATE, -7);
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    String strDate = myFormat1.format(startDate.getTime());
+                    String endsDate = myFormat1.format(endDate.getTime());
+                    getInvoicesCallSearch(strDate,endsDate);
+                }
+                else if (adapterView.getItemAtPosition(i).equals("Last 30 Days"))
+                {
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    startDate.add(Calendar.MONTH, -1);
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    String strDate = myFormat1.format(startDate.getTime());
+                    String endsDate = myFormat1.format(endDate.getTime());
+                    getInvoicesCallSearch(strDate,endsDate);
+                }
+                else if (adapterView.getItemAtPosition(i).equals("This Month"))
+                {
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    startDate.add(Calendar.MONTH, -1);
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    String strDate = myFormat1.format(startDate.getTime());
+                    String endsDate = myFormat1.format(endDate.getTime());
+                    getInvoicesCallSearch(strDate,endsDate);
+                }
+                else if (adapterView.getItemAtPosition(i).equals("Last Month"))
+                {
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    startDate.add(Calendar.MONTH, -1);
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    String strDate = myFormat1.format(startDate.getTime());
+                    String endsDate = myFormat1.format(endDate.getTime());
+                    getInvoicesCallSearch(strDate,endsDate);
+                }
+                else if (adapterView.getItemAtPosition(i).equals("Today"))
+                {
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    // startDate.add(Calendar.MONTH, -1);
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    String strDate = myFormat1.format(startDate.getTime());
+                    String endsDate = myFormat1.format(endDate.getTime());
+                    getInvoicesCallSearch(strDate,endsDate);
+                }
+
+
             }
 
             @Override
@@ -151,7 +239,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         TextView selecttv= findViewById(R.id.selectTv);
         TextView sortTv = findViewById(R.id.sortTv);
         TextView filterTv = findViewById(R.id.filterTv);
-         Button delete = findViewById(R.id.deleteButton);
+        Button delete = findViewById(R.id.deleteButton);
         Button download = findViewById(R.id.downloadAll);
         selecttv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,6 +270,85 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         });
     }
 
+    public void deleteBulkBills(View v)
+    {
+        InvoicesData data = new InvoicesData();
+        System.out.println(invoicesList.size());
+        for(int i=0;i<invoicesList.size();i++)
+        {
+            System.out.println("in delete bills"+invoicesList.get(i).isSelected());
+        }
+        DialogUtils.showAlertDialog((Activity) SearchInvoiceActivity.this, "Yes", "No", "Confirm if you want to Delete all these bill", new DialogUtils.DialogClickListener() {
+            @Override
+            public void positiveButtonClick() {
+
+                if (Util.isNetworkAvailable(SearchInvoiceActivity.this)) {
+                    final ProgressDialog progressDialog = DialogUtils.startProgressDialog(SearchInvoiceActivity.this, "");
+                    ApiInterface apiService =
+                            ApiClient.getClient(SearchInvoiceActivity.this).create(ApiInterface.class);
+
+                    String token = MyApplication.getUserToken();
+                    Map<String, String> headerMap = new HashMap<>();
+                    headerMap.put("Authorization", token);
+                    Call<Object> call = null;
+                    try {
+                        JSONObject inv = new JSONObject();
+                        JSONArray invoiceIds = new JSONArray();
+                        for(int i =0;i<invoicesList.size();i++)
+                        {
+                            if(invoicesList.get(i).isSelected)
+                            {
+                                invoiceIds.put(invoicesList.get(i).getId());
+                            }
+                        }
+                        inv.put("invoiceIDs",invoiceIds);
+                        JsonObject jsonObject = new JsonParser().parse(inv.toString()).getAsJsonObject();
+                        call = apiService.deleteSearchBills(headerMap, jsonObject);
+                        call.enqueue(new Callback<Object>() {
+                            @Override
+                            public void onResponse(Call<Object> call, Response<Object> response) {
+                                final JSONObject body;
+                                try {
+                                    body = new JSONObject(new Gson().toJson(response.body()));
+
+                                    if (body.getBoolean("status")) {
+                                        data.isActive = false;
+                                        page = 1;
+                                        getInvoicesCall();
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+
+                                }
+                                progressDialog.dismiss();
+
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<Object> call, Throwable t) {
+                                progressDialog.dismiss();
+                            }
+                        });
+                    } catch (JSONException e) {
+                        progressDialog.dismiss();
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    Toast.makeText(SearchInvoiceActivity.this, SearchInvoiceActivity.this.getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void negativeButtonClick() {
+
+            }
+        });
+
+
+    }
     public void clickSort(View v)
     {
         sortTv.setOnClickListener(new View.OnClickListener() {
@@ -226,12 +393,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
                         sortSheet.dismiss();
 
-                    }
-                });
-                sortBottomSheet.findViewById(R.id.doneSort).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        sortSheet.dismiss();
                     }
                 });
                 sortBottomSheet.findViewById(R.id.canelSort).setOnClickListener(new View.OnClickListener() {
@@ -390,6 +551,15 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         Map<String, String> body = new HashMap<>();
         body.put("userid",userid+"");
         body.put("page",""+page);
+        getInvoices(body);
+    }
+    private void getInvoicesCallSearch(String startDate,String endDate){
+        System.out.println("search bills api"+startDate+" ___________ "+endDate);
+        Map<String, String> body = new HashMap<>();
+        body.put("userid",userid+"");
+        body.put("page",""+page);
+        body.put("startDate",startDate);
+        body.put("endDate",endDate);
         getInvoices(body);
     }
     @Override
@@ -876,6 +1046,16 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             System.out.println("size"+data.getMasterItems().size());
             Toast.makeText(this,"clicked",Toast.LENGTH_LONG).show();
             goToEditBills(data);
+        }
+        if(action.equals("Selected")) {
+            InvoicesData mData = data;
+            mData.setSelected(true);
+            invoicesList.set(pos, mData);
+        }
+        if(action.equals("unSelected")) {
+            InvoicesData mData = data;
+            mData.setSelected(false);
+            invoicesList.set(pos, mData);
         }
     }
 
