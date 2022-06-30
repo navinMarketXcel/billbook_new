@@ -456,7 +456,6 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="additional_customer_details">Additional Customer Details</string>
     <string name="gst_type">GST Type</string>
     <string name="product_or_service_provided">Product or service provided</string>
-    <string name="product_or_service_provided">Product or service provided</string>
     <string name="number_of_units_sold">Number of units sold</string>
     <string name="imei_serial_number">IMEI/Serial Number</string>
     <string name="placeholder_text">Placeholder Text</string>

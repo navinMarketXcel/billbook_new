@@ -814,27 +814,27 @@ public class HomeFragment extends Fragment
     }
     private void updateGST() {
 //    boolean test = MyApplication.getIsGSTVeeditProfilerifies();
-        if(MyApplication.showGstPopup() == -1 ){
-            DialogUtils.showAlertDialog(getActivity(), "Yes", "No",
-                    "Do you have a GST number?", new DialogUtils.DialogClickListener() {
-                        @Override
-                        public void positiveButtonClick() {
-                            MyApplication.setShowGstPopup(1);
-                            sendGstUpdateStatus(1);
-                            MyApplication.setGSTFilled();
-                            Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-                            startActivity(intent);
-
-                        }
-
-                        @Override
-                        public void negativeButtonClick() {
-                            sendGstUpdateStatus(0);
-                            MyApplication.setShowGstPopup(0);
-                            MyApplication.setGSTFilled();
-                        }
-                    });
-        }
+      //  if(MyApplication.showGstPopup() == -1 ){
+//            DialogUtils.showAlertDialog(getActivity(), "Yes", "No",
+//                    "Do you have a GST number?", new DialogUtils.DialogClickListener() {
+//                        @Override
+//                        public void positiveButtonClick() {
+//                            MyApplication.setShowGstPopup(1);
+//                            sendGstUpdateStatus(1);
+//                            MyApplication.setGSTFilled();
+//                            Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+//                            startActivity(intent);
+//
+//                        }
+//
+//                        @Override
+//                        public void negativeButtonClick() {
+//                            sendGstUpdateStatus(0);
+//                            MyApplication.setShowGstPopup(0);
+//                            MyApplication.setGSTFilled();
+//                        }
+//                    });
+        //}
     }
 
     private void sendGstUpdateStatus(int gstStatus) {
