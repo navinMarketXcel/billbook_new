@@ -69,7 +69,7 @@
             style="@style/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Amount to add"
+            android:hint="@string/amount_to_add"
             android:singleLine="false"
             android:inputType="phone"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
@@ -135,7 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:hint="Description about expense"
+                android:hint="@string/description_about_expense"
                 android:textColor="#0A0A0A"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </LinearLayout>
@@ -149,7 +149,7 @@
             android:id="@+id/cancelExpense"
             android:layout_width="100dp"
             android:layout_alignParentTop="true"
-            android:text="CANCEL"
+            android:text="@string/cancel"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:textStyle="bold"
@@ -166,7 +166,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="50dp"
-            android:text="Add"
+            android:text="@string/add"
             android:textStyle="bold"
             android:textAllCaps="true"
             android:textColor="@color/white"
