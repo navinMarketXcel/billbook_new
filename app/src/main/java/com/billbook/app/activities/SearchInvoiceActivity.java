@@ -1044,7 +1044,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         if(action.equals("edit"))
         {
             System.out.println("size"+data.getMasterItems().size());
-            Toast.makeText(this,"clicked",Toast.LENGTH_LONG).show();
             goToEditBills(data);
         }
         if(action.equals("Selected")) {

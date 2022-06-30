@@ -4,6 +4,7 @@ import static android.view.View.GONE;
 
 import static com.billbook.app.utils.Util.getRequestBodyFormData;
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
@@ -134,11 +135,26 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
         });
         rlLogout.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), loginPick_activity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            getActivity().finish();
-            MyApplication.saveUserDetails("");
+            DialogUtils.showAlertDialog(getActivity(), "YES", "NO", "Are you sure you want to Logout?", new DialogUtils.DialogClickListener() {
+                @Override
+                public void positiveButtonClick() {
+                    Intent intent = new Intent(getActivity(), loginPick_activity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    getActivity().finish();
+                    MyApplication.saveUserDetails("");
+                }
+
+                @Override
+                public void negativeButtonClick() {
+
+                }
+            });
+//            Intent intent = new Intent(getActivity(), loginPick_activity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+//            getActivity().finish();
+//            MyApplication.saveUserDetails("");
         });
         switchGst.setOnClickListener(v -> {
             try {

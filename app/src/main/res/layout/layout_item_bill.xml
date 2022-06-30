@@ -97,6 +97,7 @@
                 android:textColor="#0A0A0A"
                 android:id="@+id/itemPriceET"
                 style="@style/editText"
+                android:inputType="number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Product or service provided"
@@ -166,6 +167,7 @@
             <EditText
                 android:id="@+id/itemQtyET"
                 style="@style/editText"
+                android:inputType="number"
                 android:layout_width="199dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"

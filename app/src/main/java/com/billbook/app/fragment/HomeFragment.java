@@ -26,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.billbook.app.BuildConfig;
 import com.billbook.app.R;
@@ -96,6 +97,7 @@ public class HomeFragment extends Fragment
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
+    private FragmentActivity activity;
 
     public HomeFragment() {
         // Required empty public constructor
