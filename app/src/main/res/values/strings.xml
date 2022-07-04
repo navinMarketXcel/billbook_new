@@ -456,7 +456,6 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="additional_customer_details">Additional Customer Details</string>
     <string name="gst_type">GST Type</string>
     <string name="product_or_service_provided">Product or service provided</string>
-    <string name="product_or_service_provided">Product or service provided</string>
     <string name="number_of_units_sold">Number of units sold</string>
     <string name="imei_serial_number">IMEI/Serial Number</string>
     <string name="placeholder_text">Placeholder Text</string>
@@ -469,5 +468,13 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="recent_bills_expense">Recent Bills</string>
     <string name="sort">Sort</string>
     <string name="add_new_expense">Add New Expense</string>
+    <string name="demo">Demo</string>
+    <string name="discount_billing">Discount:</string>
+    <string name="bill_details">Bill Details</string>
+    <string name="amount_billing">Amount:</string>
+    <string name="gst_billing">GST:</string>
+    <string name="total_amount_billing">Total Amount:</string>
+    <string name="view_details">View details</string>
+    <string name="make_bill">Make Bill</string>
 
 </resources>

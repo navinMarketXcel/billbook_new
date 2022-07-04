@@ -567,7 +567,7 @@
                         android:textStyle="bold"
                         android:textSize="18sp"
                         android:textColor="@color/black"
-                        android:text="Bill Details" />
+                        android:text="@string/bill_details" />
 
                     <Button
                         android:layout_width="wrap_content"
@@ -604,7 +604,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/inter"
                         android:textSize="15sp"
-                        android:text="Amount:" />
+                        android:text="@string/amount_billing" />
 
                     <TextView
                         android:id="@+id/tvAmountBeforeTax"
@@ -634,7 +634,7 @@
                         android:layout_gravity="center"
                         android:fontFamily="@font/inter"
                         android:textSize="15sp"
-                        android:text="GST:" />
+                        android:text="@string/gst_billing" />
 
                     <TextView
                         android:id="@+id/tvAmountGST"
@@ -664,7 +664,7 @@
                         android:layout_gravity="center"
                         android:fontFamily="@font/inter"
                         android:textSize="15sp"
-                        android:text="Discount:" />
+                        android:text="@string/discount_billing" />
 
                     <EditText
                         android:id="@+id/edtDiscountPercent"
@@ -723,7 +723,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textStyle="bold"
-                        android:text="Total Amount:" />
+                        android:text="@string/total_amount_billing" />
 
                     <TextView
 
@@ -788,7 +788,7 @@
                 android:id="@+id/nextBtn"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:text="Make Bill"
+                android:text="@string/make_bill"
                 android:gravity="center"
                 android:onClick="gotoPDFActivity"
                 android:textColor="@color/white"
