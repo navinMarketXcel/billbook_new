@@ -373,9 +373,6 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
 
     public void clickExpenseSort(View v)
     {
-        sortExpense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 BottomSheetDialog sortExpenseSheet = new BottomSheetDialog(ExpenseActivity.this,R.style.BottomSheetDialogTheme);
                 View sortBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.expense_sort_layout,(LinearLayout)findViewById(R.id.sortExpenseLayout));
                 sortBottomSheet.findViewById(R.id.btnCanelExpense).setOnClickListener(new View.OnClickListener() {
@@ -451,10 +448,6 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                 });
                 sortExpenseSheet.setContentView(sortBottomSheet);
                 sortExpenseSheet.show();
-            }
-
-        });
-
     }
 
     public void showDatePickerDialog(View v) {

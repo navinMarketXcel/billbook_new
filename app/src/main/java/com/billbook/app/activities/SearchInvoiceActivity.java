@@ -241,9 +241,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         TextView filterTv = findViewById(R.id.filterTv);
         Button delete = findViewById(R.id.deleteButton);
         Button download = findViewById(R.id.downloadAll);
-        selecttv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 if(isCheckFlag)
                 {
                     download.setVisibility(View.GONE);
@@ -265,9 +262,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 }
                 searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag,SearchInvoiceActivity.this);
                 recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
-            }
-
-        });
     }
 
     public void deleteBulkBills(View v)
