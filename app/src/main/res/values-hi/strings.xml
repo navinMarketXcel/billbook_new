@@ -372,4 +372,8 @@
     <string name="total_amount_billing">कुल राशि:</string>
     <string name="view_details">विवरण देखें</string>
     <string name="make_bill">बिल बनाएँ</string>
+    <string name="bill_no_short_bill">Bill No:</string>
+    <string name="billed_to">Billed to:</string>
+    <string name="description_short_bill">Description</string>
+    <string name="items_short_bill">Items:</string>
 </resources>
