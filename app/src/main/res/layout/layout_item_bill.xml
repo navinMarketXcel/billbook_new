@@ -270,7 +270,6 @@
         android:layout_marginRight="50dp"
         android:text="@string/add_item"
         android:textStyle="bold"
-        android:onClick="addItem"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary"
         android:layout_margin="20dp" />

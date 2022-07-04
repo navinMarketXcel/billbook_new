@@ -139,8 +139,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private TextView additemTv,viewDets;
     private static final int Contact_code=123;
     private static final int Contact_Pick_code=111;
-    private boolean ischeckDisc = false;
+    private boolean ischeckDisc = true;
     private int count = 0;
+
 
     // idInLocalDb = column with name "id" in local db android
 
@@ -207,6 +208,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         });
         binding.lnYouTube.setOnClickListener(v -> {
             Util. startYoutubeActivity(BillingNewActivity.this);
+        });
+        billItemBinding.addItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addItem();
+            }
         });
     }
 
@@ -769,26 +776,24 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         Util.postEvents("Add More Item", "Add More Item", this.getApplicationContext());
         customDialogClass = new BottomSheetClass(this, null,measurementUnitTypeList);
         additemTv = findViewById(R.id.additemTv);
-        TextView tv = findViewById(R.id.billDets);
         customDialogClass.show();
         TextView viewNew = customDialogClass.findViewById(R.id.additemTv);
         viewNew.setText("Add New Item");
         TableRow table = customDialogClass.findViewById(R.id.deleteLayout);
         table.setVisibility(View.GONE);
         count = invoiceItemsList.size() + 1;
-        tv.setText("Bill details"+"("+count+")");
+        binding.billDets.setText("Bill details"+"("+count+")");
 
 
 
         //additemTv.setText("Add New Item");
     }
 
-    public void addItem(View view) {
+    public void addItem() {
         if (addItemVerify()) {
-            TextView tv = findViewById(R.id.billDets);
             Util.postEvents("Add Item", "Add Item", this.getApplicationContext());
             count = invoiceItemsList.size() + 1;
-            tv.setText("Bill details"+"("+count+")");
+            binding.billDets.setText("Bill details"+"("+count+")");
             TextView tv1 = findViewById(R.id.items);
             tv1.setVisibility(View.VISIBLE);
             LinearLayout ll = findViewById(R.id.viewDetsLay);
@@ -1057,6 +1062,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             });
             deleteRow.setOnClickListener(new View.OnClickListener() {
 
+
                 @Override
                 public void onClick(View view) {
                     DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
@@ -1068,7 +1074,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             newBillingAdapter.notifyDataSetChanged();
                             calculateDiscount();
                             count = count-1;
-
+                            binding.billDets.setText("Bills Details"+"("+count+")");
                             dismiss();
 
 
@@ -1715,9 +1721,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     {
         TextView addDisc = findViewById(R.id.addDisc);
         LinearLayout disc = findViewById(R.id.discountLayout);
-        addDisc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 if(ischeckDisc)
                 {
                     addDisc.setText("Cancel");
@@ -1730,8 +1733,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     disc.setVisibility(View.GONE);
                     ischeckDisc=true;
                 }
-            }
-        });
     }
 
     private void loadDataForInvoice() {
