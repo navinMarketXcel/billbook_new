@@ -124,6 +124,7 @@
             <EditText
                 android:textColor="#0A0A0A"
                 android:id="@+id/priceEdt"
+                android:inputType="number"
                 style="@style/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -196,6 +197,7 @@
                 android:layout_width="199dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
+                android:inputType="number"
                 android:hint="Number of units sold"
                 android:singleLine="false"
                 android:textColor="#0A0A0A"

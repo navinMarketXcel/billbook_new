@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
+            android:id="@+id/items"
             android:fontFamily="@font/inter"
             android:textStyle="bold"
             android:textSize="18sp"
@@ -97,6 +98,7 @@
                 android:textColor="#0A0A0A"
                 android:id="@+id/itemPriceET"
                 style="@style/editText"
+                android:inputType="number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/product_or_service_provided"
@@ -166,6 +168,7 @@
             <EditText
                 android:id="@+id/itemQtyET"
                 style="@style/editText"
+                android:inputType="number"
                 android:layout_width="199dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
@@ -267,7 +270,6 @@
         android:layout_marginRight="50dp"
         android:text="@string/add_item"
         android:textStyle="bold"
-        android:onClick="addItem"
         android:textAllCaps="true"
         android:textColor="@color/colorPrimary"
         android:layout_margin="20dp" />

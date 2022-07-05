@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -108,9 +109,10 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
         setContentView(R.layout.activity_expense);
         setTitle("Expenses");
         sortExpense = findViewById(R.id.sortExpense);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
         initUI();
+        setonClick();
     }
     private void initUI(){
         expensesRV = findViewById(R.id.expensesRV);
@@ -369,6 +371,21 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
         }else{
             DialogUtils.showToast(this, getString(R.string.no_internet));
         }
+    }
+    public void setonClick(){
+        ImageView iv = findViewById(R.id.ivToolBarBack);
+        LinearLayout help = findViewById(R.id.lnHelp);
+        LinearLayout youTube = findViewById(R.id.lnYouTube);
+        iv.setOnClickListener(v -> {
+            finish();
+        });
+        help.setOnClickListener(v -> {
+            Util. startHelpActivity(ExpenseActivity.this);
+        });
+        youTube.setOnClickListener(v -> {
+            Util. startYoutubeActivity(ExpenseActivity.this);
+        });
+
     }
 
     public void clickExpenseSort(View v)

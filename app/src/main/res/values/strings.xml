@@ -481,5 +481,6 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="description_short_bill" translatable="false">Description</string>
     <string name="items_short_bill" translatable="false">Items:</string>
     <string name="total_savings" translatable="false">TOTAL SAVINGS:</string>
+    <string name="details_of_receiver_bill">Receiver Bill Details</string>
 
 </resources>
