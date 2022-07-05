@@ -284,6 +284,7 @@ public class OTPActivity extends AppCompatActivity {
         Intent intent = new Intent(this, BottomNavigationActivity.class);
         intent.putExtra("mobileNo",mobilNo);
         startActivity(intent);
+        finish();
     }
 
 

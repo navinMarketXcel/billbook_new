@@ -34,6 +34,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -125,8 +126,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         initUI();
         sortTv = findViewById(R.id.sortTv);
         filterTv = findViewById(R.id.filterTv);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setDisplayShowHomeEnabled(true);
         startSpotLight(edtMobileNo, "Mobile No", "Enter Mobile no.");
         hasWriteStoragePermission =
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -229,8 +230,24 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
             }
         });
+        setonClick();
 
 
+
+    }
+    public void setonClick(){
+        ImageView iv = findViewById(R.id.ivToolBarBack);
+        LinearLayout help = findViewById(R.id.lnHelp);
+        LinearLayout youTube = findViewById(R.id.lnYouTube);
+        iv.setOnClickListener(v -> {
+            finish();
+        });
+        help.setOnClickListener(v -> {
+            Util. startHelpActivity(SearchInvoiceActivity.this);
+        });
+        youTube.setOnClickListener(v -> {
+            Util. startYoutubeActivity(SearchInvoiceActivity.this);
+        });
 
     }
 
@@ -1023,7 +1040,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         if(action.equals("edit"))
         {
             System.out.println("size"+data.getMasterItems().size());
-            Toast.makeText(this,"clicked",Toast.LENGTH_LONG).show();
             goToEditBills(data);
         }
         if(action.equals("Selected")) {
