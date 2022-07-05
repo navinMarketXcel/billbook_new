@@ -18,7 +18,7 @@
     <string name="login_user_id">login_user_id</string>
     <string name="selected_categories">SelectedCategories</string>
     <string name="isGSTVerified">GSTVerified</string>
-    <string name="user_profile">User Profile</string>
+    <string name="user_profile">यूज़र प्रोफ़ाइल</string>
     <string name="Setting">सेटिंग</string>
     <string name="title_activity_dummy">डमी एक्टिविटी</string>
     <string name="shop_details">दुकान की जानकारी</string>
@@ -114,8 +114,8 @@
     <string name="price_including_gst">जीएसटी सहित कीमत</string>
     <string name="enter_selling_price">बिक्री कीमत एंटर करें</string>
     <string name="price">कीमत</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">नेविगेशन दराज खोलें</string>
+    <string name="navigation_drawer_close">नेविगेशन दराज बंद करें</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -271,97 +271,109 @@
     </string-array>
     <string name="expense_date">Date<font color='#ff0000'>*</font></string>
 
-    <string name="profileShopName">Enter Business/Shop Name<font color='#ff0000'>*</font></string>
-    <string name="profileShopAddress">Enter Business/Shop Address<font color='#ff0000'>*</font></string>
-    <string name="add_expenses">Add Expenses</string>
-    <string name="items">Items</string>
-    <string name="mobile_noo">Mobile Number</string>
-    <string name="scan"><font color='#266CE4'>Scan</font></string>
-    <string name="share_">Share</string>
-    <string name="description">Description<font color='#ff0000'>*</font> </string>
-    <string name="expense_amount">Amount (₹)<font color='#ff0000'>*</font></string>
+    <string name="profileShopName">व्यवसाय / दुकान का नाम दर्ज करें<font color='#ff0000'>*</font></string>
+    <string name="profileShopAddress">व्यवसाय /दुकान का पता दर्ज करें<font color='#ff0000'>*</font></string>
+    <string name="add_expenses">व्यय जोड़ें</string>
+    <string name="items">आइटम</string>
+    <string name="mobile_noo">मोबाइल नंबर</string>
+    <string name="scan"><font color='#266CE4'>स्कैन</font></string>
+    <string name="share_">शेयर</string>
+    <string name="description">वर्णन<font color='#ff0000'>*</font> </string>
+    <string name="expense_amount">राशि (₹)<font color='#ff0000'>*</font></string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="make_gst_bills">Make GST Bills</string>
-    <string name="switch_gst_and_non_gst_bills">Switch GST and Non-GST bills</string>
-    <string name="email_address_phone_number_etc">Email Address, Phone Number etc..</string>
-    <string name="contact_details">Contact Details</string>
-    <string name="business_details">Business Details</string>
-    <string name="logo_sign">Logo &amp; Signature</string>
-    <string name="business_name_address_gst_and_more">Business Name, Address, GST and more</string>
-    <string name="logo_and_signature">Logo and Signature</string>
-    <string name="customise_your_bills">Customise your bills</string>
-    <string name="home">Home</string>
-    <string name="profile">Profile</string>
-    <string name="language">Language</string>
-    <string name="choose_language">Choose Language</string>
-    <string name="help">Help</string>
-    <string name="phone_number_">Phone Number<font color='#F62525'> *</font></string>
-    <string name="business_name_">Business Name<font color='#F62525'> *</font></string>
-    <string name="business_name">Business Name</string>
-    <string name="shop_add_">Shop Address<font color='#F62525'> *</font></string>
-    <string name="pin_code_">Pin Code<font color='#F62525'> *</font></string>
-    <string name="city_">City<font color='#F62525'> *</font></string>
-    <string name="state_">State<font color='#F62525'> *</font></string>
-    <string name="gst_num_">GST Number<font color='#F62525'> *</font></string>
-    <string name="gst_num">GST Number</string>
-    <string name="citye">City</string>
-    <string name="statee">State</string>
-    <string name="pin_code">Pin Code</string>
-    <string name="company_logo">Company Logo</string>
-    <string name="shop_add">Shop Address</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="email_">Email Address<font color='#F62525'> *</font></string>
-    <string name="email_add">Email Address</string>
+    <string name="make_gst_bills">GST बिल बनाएं</string>
+    <string name="switch_gst_and_non_gst_bills">GST और Non-GST बिल स्विच करें</string>
+    <string name="email_address_phone_number_etc">ईमेल पता, फोन नंबर आदि...</string>
+    <string name="contact_details">संपर्क विवरण</string>
+    <string name="business_details">व्यवसाय विवरण</string>
+    <string name="logo_sign">लोगो और हस्ताक्षर</string>
+    <string name="business_name_address_gst_and_more">व्यवसाय का नाम, पता, GST और आदि</string>
+    <string name="logo_and_signature">लोगो और हस्ताक्षर</string>
+    <string name="customise_your_bills">अपने बिलों को अनुकूलित करें</string>
+    <string name="home">होम</string>
+    <string name="profile">प्रोफ़ाईल</string>
+    <string name="language">भाषा</string>
+    <string name="choose_language">भाषा चुनें</string>
+    <string name="help">मदद</string>
+    <string name="phone_number_">फोन नंबर<font color='#F62525'> *</font></string>
+    <string name="business_name_">व्यवसाय का नाम<font color='#F62525'> *</font></string>
+    <string name="business_name">व्यवसाय का नाम</string>
+    <string name="shop_add_">दुकान का पता<font color='#F62525'> *</font></string>
+    <string name="pin_code_">पिन कोड<font color='#F62525'> *</font></string>
+    <string name="city_">शहर<font color='#F62525'> *</font></string>
+    <string name="state_">राज्य<font color='#F62525'> *</font></string>
+    <string name="gst_num_">GST नंबर<font color='#F62525'> *</font></string>
+    <string name="gst_num">GST नंबर</string>
+    <string name="citye">शहर</string>
+    <string name="statee">राज्य</string>
+    <string name="pin_code">पिन कोड</string>
+    <string name="company_logo">कंपनी लोगो</string>
+    <string name="shop_add">दुकान का पता</string>
+    <string name="phone_number">फोन नंबर</string>
+    <string name="email_">ईमेल पता<font color='#F62525'> *</font></string>
+    <string name="email_add">ईमेल पता</string>
     <string name="save">Save</string>
-    <string name="select_language_caps">Select Language</string>
+    <string name="select_language_caps">भाषा का चयन करें</string>
 
-    <string name="upload_your_logo">Upload your logo</string>
+    <string name="upload_your_logo">अपना लोगो अपलोड करें</string>
     <string name="max_file_size_1_mb">Max file size 1 MB</string>
     <string name="browse">Browse</string>
     <string name="signature">Signature</string>
-    <string name="upload_your_signature">Upload your signature</string>
-    <string name="change">Change</string>
+    <string name="upload_your_signature">अपने हस्ताक्षर अपलोड करें</string>
+    <string name="change">परिवर्तन</string>
     <string name="edit_number">Edit Number</string>
-    <string name="get_otp">Get OTP</string>
-    <string name="enter_otp">Enter OTP</string>
+    <string name="get_otp">OTP प्राप्त करें</string>
+    <string name="enter_otp">OTP दर्ज करें</string>
     <string name="otp_sent">OTP sent to 9897767646</string>
-    <string name="verify">Verify</string>
-    <string name="select">Select...</string>
-    <string name="choose_period">Choose Period</string>
+    <string name="verify">जाँचना</string>
+    <string name="select">चुनना...</string>
+    <string name="choose_period">अवधि चुनें</string>
     <string name="transaction">Transaction</string>
-    <string name="income">Income</string>
-    <string name="expense">Expense</string>
-    <string name="date">Date</string>
-    <string name="daybook">Daybook</string>
-    <string name="net_income">Net Income</string>
+    <string name="income">आय</string>
+    <string name="expense">लागत</string>
+    <string name="date">दिनांक</string>
+    <string name="daybook">डेबुक</string>
+    <string name="net_income">शुद्ध आय</string>
     <string name="english">English</string>
     <string name="hindi">Hindi</string>
     <string name="hindi_l">हिन्दी</string>
-    <string name="home_menue">Home</string>
-    <string name="my_profile">My Profile</string>
-    <string name="help_menu">Help</string>
-    <string name="logout">Logout</string>
-    <string name="long_format">Long Format</string>
-    <string name="short_format">Short Format</string>
-    <string name="bill_number">Bill Number:</string>
-    <string name="bill_date">Bill Date:</string>
-    <string name="customer_name">Customer Name</string>
-    <string name="enter_name_billactivity">Enter name</string>
-    <string name="customer_mobile_number">Customer Mobile Number</string>
-    <string name="enter_mobile_number_optional">Enter Mobile Number (Optional)</string>
-    <string name="additional_customer_details">Additional Customer Details</string>
-    <string name="gst_type">GST Type</string>
-    <string name="product_or_service_provided">Product or service provided</string>
-    <string name="number_of_units_sold">Number of units sold</string>
+    <string name="home_menue">होम</string>
+    <string name="my_profile">मेरी प्रोफ़ाइल</string>
+    <string name="help_menu">मदद</string>
+    <string name="logout">लॉगआउट</string>
+    <string name="long_format">लंबा स्वरूप</string>
+    <string name="short_format">लघु स्वरूप</string>
+    <string name="bill_number">बिल नंबर:</string>
+    <string name="bill_date">बिल दिनांक:</string>
+    <string name="customer_name">ग्राहक का नाम</string>
+    <string name="enter_name_billactivity">नाम दर्ज करें</string>
+    <string name="customer_mobile_number">ग्राहक मोबाइल नंबर</string>
+    <string name="enter_mobile_number_optional">ग्राहक मोबाइल नंबर (वैकल्पिक)</string>
+    <string name="additional_customer_details">अतिरिक्त ग्राहक विवरण</string>
+    <string name="gst_type">GST प्रकार </string>
+    <string name="product_or_service_provided">उत्पाद या सेवा प्रदान की गई</string>
+    <string name="number_of_units_sold">बेची गई इकाइयों की संख्या</string>
     <string name="imei_serial_number">IMEI/Serial Number</string>
     <string name="placeholder_text">Placeholder Text</string>
-    <string name="add_item">Add Item</string>
-    <string name="amount_to_add">Amount to add</string>
-    <string name="description_about_expense">Description about expense</string>
-    <string name="cancel">CANCEL</string>
-    <string name="add">Add</string>
-    <string name="search_expense">Search</string>
-    <string name="recent_bills_expense">Recent Bills</string>
-    <string name="sort">Sort</string>
-    <string name="add_new_expense">Add New Expense</string>
+    <string name="add_item">आइटम जोड़ें</string>
+    <string name="amount_to_add">जोड़ने के लिए राशि</string>
+    <string name="description_about_expense">खर्च के बारे में विवरण</string>
+    <string name="cancel">निरस्त</string>
+    <string name="add">जोड़ना</string>
+    <string name="search_expense">सर्च</string>
+    <string name="recent_bills_expense">हाल के बिल</string>
+    <string name="sort">छाँटें</string>
+    <string name="add_new_expense">नया व्यय जोड़ें</string>
+    <string name="demo">डेमो</string>
+    <string name="discount_billing">छूट:</string>
+    <string name="bill_details">बिल विवरण</string>
+    <string name="amount_billing">राशि:</string>
+    <string name="gst_billing">GST:</string>
+    <string name="total_amount_billing">कुल राशि:</string>
+    <string name="view_details">विवरण देखें</string>
+    <string name="make_bill">बिल बनाएँ</string>
+    <string name="bill_no_short_bill">Bill No:</string>
+    <string name="billed_to">Billed to:</string>
+    <string name="description_short_bill">Description</string>
+    <string name="items_short_bill">Items:</string>
 </resources>

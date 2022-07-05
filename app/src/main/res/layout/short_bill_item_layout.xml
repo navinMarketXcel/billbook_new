@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:id="@+id/editLayout"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/productDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="2dp"
+            android:text="@string/description_short_bill"
+            android:textColor="@color/color_black"
+            android:textSize="@dimen/_9sdp" />
+
+        <LinearLayout
+            android:id="@+id/llForHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="11">
+
+
+            <TextView
+                android:id="@+id/productLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.5"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:padding="5dp"
+                android:textSize="@dimen/_9sdp"
+                android:singleLine="true"
+                android:textAllCaps="true"
+                android:text="Qty."
+                android:textColor="@color/color_black"
+
+                />
+
+
+            <TextView
+                android:id="@+id/productMRP"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:text="MRP"
+                android:textSize="@dimen/_9sdp"
+                android:textColor="@color/color_black" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:text=""
+                android:textSize="10dp"
+                android:textColor="@color/color_black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/rate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:textSize="@dimen/_9sdp"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:text="Rate"
+                android:textColor="@color/color_black"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:textSize="10dp"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/color_black"
+                android:textStyle="bold"
+
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:padding="5dp"
+                android:textSize="10dp"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/color_black"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/productAmnt"
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.5"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:padding="5dp"
+                android:textSize="@dimen/_9sdp"
+                android:singleLine="true"
+                android:text="NetAmnt"
+                android:textColor="@color/color_black" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llForHeaderTax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:weightSum="11">
+
+
+            <TextView
+                android:id="@+id/productTax"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.5"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:padding="5dp"
+                android:textSize="@dimen/_9sdp"
+                android:singleLine="true"
+                android:textAllCaps="true"
+                android:text="Tax%"
+                android:textColor="@color/color_black"
+
+                />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

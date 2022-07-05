@@ -258,9 +258,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         TextView filterTv = findViewById(R.id.filterTv);
         Button delete = findViewById(R.id.deleteButton);
         Button download = findViewById(R.id.downloadAll);
-        selecttv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 if(isCheckFlag)
                 {
                     download.setVisibility(View.GONE);
@@ -282,9 +279,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 }
                 searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag,SearchInvoiceActivity.this);
                 recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
-            }
-
-        });
     }
 
     public void deleteBulkBills(View v)
@@ -368,9 +362,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     }
     public void clickSort(View v)
     {
-        sortTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 TextView bill_no,bdate,dateMod;
                 BottomSheetDialog sortSheet = new BottomSheetDialog(SearchInvoiceActivity.this,R.style.BottomSheetDialogTheme);
                 View sortBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.sort_layout,(LinearLayout)findViewById(R.id.sortLayout));
@@ -421,80 +412,68 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
                 sortSheet.setContentView(sortBottomSheet);
                 sortSheet.show();
-            }
-
-        });
-
     }
 
     public void clickFilter(View v){
-        filterTv.setOnClickListener(new View.OnClickListener() {
+        TextView gstBills, nonGstBills, allBills;
+        BottomSheetDialog filterSheet = new BottomSheetDialog(SearchInvoiceActivity.this,R.style.BottomSheetDialogTheme);
+        View filterBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.searchbill_filter_sort,(LinearLayout)findViewById(R.id.filter_Layout));
+        gstBills = filterBottomSheet.findViewById(R.id.gstBills);
+        gstBills.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                TextView gstBills, nonGstBills, allBills;
-                BottomSheetDialog filterSheet = new BottomSheetDialog(SearchInvoiceActivity.this,R.style.BottomSheetDialogTheme);
-                View filterBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.searchbill_filter_sort,(LinearLayout)findViewById(R.id.filter_Layout));
-                gstBills = filterBottomSheet.findViewById(R.id.gstBills);
-                gstBills.setOnClickListener(new View.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onClick(View v) {
-                        ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
-                        jsonArrayToList(invoices).stream().forEach(invoice -> {
-                                                if(invoice.getGSTNo().length() == 0){
-                                                    Log.v("Invoicesss", String.valueOf(invoice));
-                                                    nonGstBillList.add(invoice);
-                                                }
-                        });
-                        Log.v("GSTBILLS", String.valueOf(nonGstBillList));
-//                        invoicesList = (ArrayList<InvoicesData>)jsonArrayToList(invoices).stream().sorted(Comparator.comparing(InvoicesData::getNonGstBillNo)).collect(Collectors.toList());
-                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,nonGstBillList,null,isCheckFlag,SearchInvoiceActivity.this);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                        recyclerViewInvoice.setLayoutManager(layoutManager);
-                        recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
-                        recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
-                        filterSheet.dismiss();
+                ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
+                jsonArrayToList(invoices).stream().forEach(invoice -> {
+                    if(invoice.getGSTNo().length() == 0){
+                        Log.v("Invoicesss", String.valueOf(invoice));
+                        nonGstBillList.add(invoice);
                     }
                 });
-                nonGstBills = filterBottomSheet.findViewById(R.id.nongstBills);
-                nonGstBills.setOnClickListener(new View.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.N)
-                    @Override
-                    public void onClick(View v) {
-                        ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
-                        jsonArrayToList(invoices).stream().forEach(invoice -> {
-                            if(invoice.getGSTNo().length() > 0){
-                                Log.v("Invoicesss", String.valueOf(invoice));
-                                nonGstBillList.add(invoice);
-                            }
-                        });
-                        Log.v("NonGSTBILLS", String.valueOf(nonGstBillList));
-//                        invoicesList = (ArrayList<InvoicesData>)jsonArrayToList(invoices).stream().sorted(Comparator.comparing(InvoicesData::getNonGstBillNo)).collect(Collectors.toList());
-                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,nonGstBillList,null,isCheckFlag,SearchInvoiceActivity.this);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                        recyclerViewInvoice.setLayoutManager(layoutManager);
-                        recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
-                        recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
-                        filterSheet.dismiss();
-                    }
-                });
-                allBills = filterBottomSheet.findViewById(R.id.allBills);
-                allBills.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this);
-                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                        recyclerViewInvoice.setLayoutManager(layoutManager);
-                        recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
-                        recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
-                        filterSheet.dismiss();
-                    }
-                });
-                filterSheet.setContentView(filterBottomSheet);
-                filterSheet.show();
+                Log.v("GSTBILLS", String.valueOf(nonGstBillList));
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,nonGstBillList,null,isCheckFlag,SearchInvoiceActivity.this);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerViewInvoice.setLayoutManager(layoutManager);
+                recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
+                recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+                filterSheet.dismiss();
             }
-
         });
+        nonGstBills = filterBottomSheet.findViewById(R.id.nongstBills);
+        nonGstBills.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
+                jsonArrayToList(invoices).stream().forEach(invoice -> {
+                    if(invoice.getGSTNo().length() > 0){
+                        Log.v("Invoicesss", String.valueOf(invoice));
+                        nonGstBillList.add(invoice);
+                    }
+                });
+                Log.v("NonGSTBILLS", String.valueOf(nonGstBillList));
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,nonGstBillList,null,isCheckFlag,SearchInvoiceActivity.this);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerViewInvoice.setLayoutManager(layoutManager);
+                recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
+                recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+                filterSheet.dismiss();
+            }
+        });
+        allBills = filterBottomSheet.findViewById(R.id.allBills);
+        allBills.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerViewInvoice.setLayoutManager(layoutManager);
+                recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
+                recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+                filterSheet.dismiss();
+            }
+        });
+        filterSheet.setContentView(filterBottomSheet);
+        filterSheet.show();
     }
     public ArrayList<InvoicesData> jsonArrayToList(JSONArray jsonArray)
     {
