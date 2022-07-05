@@ -7,6 +7,7 @@ import static com.billbook.app.utils.Util.getRequestBodyFormData;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -143,6 +144,12 @@ public class ProfileFragment extends Fragment {
                     startActivity(intent);
                     getActivity().finish();
                     MyApplication.saveUserDetails("");
+                    SharedPreferences sharedPref =
+                            getActivity().getSharedPreferences(ProfileFragment.this.getString(R.string.preference_file_key),
+                                    getActivity().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putBoolean("isGstDialogShown", false);
+                    editor.commit();
                 }
 
                 @Override
