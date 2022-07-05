@@ -230,7 +230,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-
+        clickSort();
 
     }
 
@@ -349,7 +349,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
 
     }
-    public void clickSort(View v)
+    public void clickSort()
     {
         sortTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -411,9 +411,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     }
 
     public void clickFilter(View v){
-        filterTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 TextView gstBills, nonGstBills, allBills;
                 BottomSheetDialog filterSheet = new BottomSheetDialog(SearchInvoiceActivity.this,R.style.BottomSheetDialogTheme);
                 View filterBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.searchbill_filter_sort,(LinearLayout)findViewById(R.id.filter_Layout));
@@ -475,9 +472,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 });
                 filterSheet.setContentView(filterBottomSheet);
                 filterSheet.show();
-            }
 
-        });
     }
     public ArrayList<InvoicesData> jsonArrayToList(JSONArray jsonArray)
     {

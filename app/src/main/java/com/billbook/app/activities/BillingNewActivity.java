@@ -1552,11 +1552,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                         invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
 
-                        Intent intent = new Intent(BillingNewActivity.this, RemotePDFActivity.class);
-//                        intent.putExtra("invoice", invoice.toString());
-                        intent.putExtra("shortHtml", body.getJSONObject("data").getString("shortHtml1"));
-                        intent.putExtra("longHtml", body.getJSONObject("data").getString("longHtml1") );
-                        intent.putExtra("pdflink", body.getJSONObject("data").getJSONObject("invoice").getString("pdfLink") );
+                        Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                        intent.putExtra("invoice", invoice.toString());
+                       // intent.putExtra("shortHtml", body.getJSONObject("data").getString("shortHtml1"));
+                       // intent.putExtra("longHtml", body.getJSONObject("data").getString("longHtml1") );
+                       // intent.putExtra("pdflink", body.getJSONObject("data").getJSONObject("invoice").getString("pdfLink") );
                         intent.putExtra("invoiceId", body.getJSONObject("data").getJSONObject("invoice").getInt("id") );
                         if(isEdit && idInLocalDb >0) {
                             intent.putExtra("localInvId", idInLocalDb);

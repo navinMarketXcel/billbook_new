@@ -171,48 +171,48 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     invID = getIntent().getExtras().getInt("id");
 
 //                        Log.i(TAG, "setData: GST => " + isGSTAvailable);
-                    pdfBinding.tvPreTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-                    pdfBinding.llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
-                    pdfBinding.footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
-                    pdfBinding.paddingLabelGst.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+                  //  pdfBinding.tvPreTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+                  //  pdfBinding.llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+                  //  pdfBinding.footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+                   // pdfBinding.paddingLabelGst.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
 
                     if (invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
                         GSTType = "CGST/SGST (Local customer)";
                         pdfBinding.IGST.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.VISIBLE);
                         pdfBinding.SGST.setVisibility(View.VISIBLE);
-                        pdfBinding.padding3.setVisibility(View.GONE);
+                       //pdfBinding.padding3.setVisibility(View.GONE);
                         pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));
-                        pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
+                        /*pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));*/
                     } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
                         GSTType = "IGST (Central/outstation customer)";
                         pdfBinding.IGST.setVisibility(View.VISIBLE);
-                        pdfBinding.padding1.setVisibility(View.GONE);
-                        pdfBinding.padding2.setVisibility(View.GONE);
+                       // pdfBinding.padding1.setVisibility(View.GONE);
+                       // pdfBinding.padding2.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.GONE);
                         pdfBinding.SGST.setVisibility(View.GONE);
                         pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 4.5f));
-                        pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
+                       /* pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));*/
                     } else {
                         pdfBinding.IGST.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.GONE);
                         pdfBinding.SGST.setVisibility(View.GONE);
-                        pdfBinding.padding1.setVisibility(View.GONE);
-                        pdfBinding.padding2.setVisibility(View.GONE);
-                        pdfBinding.padding3.setVisibility(View.GONE);
+                        //pdfBinding.padding1.setVisibility(View.GONE);
+                       // pdfBinding.padding2.setVisibility(View.GONE);
+                       // pdfBinding.padding3.setVisibility(View.GONE);
                         pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 5.5f));
-                        pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
+                       /* pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));*/
                     }
                     if (invoice.getString("GSTNo").isEmpty()) {
-                        pdfBinding.custGstLayout.setVisibility(View.INVISIBLE);
+                       // pdfBinding.custGstLayout.setVisibility(View.INVISIBLE);
                     } else {
-                        pdfBinding.custGstLayout.setVisibility(View.VISIBLE);
+                       // pdfBinding.custGstLayout.setVisibility(View.VISIBLE);
                         pdfBinding.customerGst.setText(invoice.getString("GSTNo"));
                     }
                     pdfBinding.txtInvoiceDate.setText(invoice.getString("invoiceDate"));

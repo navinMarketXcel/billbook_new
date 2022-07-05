@@ -4,7 +4,7 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="username">Username</string>
     <string name="passward">Password</string>
-    <string name="yes">yes</string>
+    <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="alert">Alert</string>
     <string name="expense_date">Date<font color='#ff0000'>*</font></string>
@@ -455,7 +455,6 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="enter_mobile_number_optional">Enter Mobile Number (Optional)</string>
     <string name="additional_customer_details">Additional Customer Details</string>
     <string name="gst_type">GST Type</string>
-    <string name="product_or_service_provided">Product or service provided</string>
     <string name="product_or_service_provided">Product or service provided</string>
     <string name="number_of_units_sold">Number of units sold</string>
     <string name="imei_serial_number">IMEI/Serial Number</string>
