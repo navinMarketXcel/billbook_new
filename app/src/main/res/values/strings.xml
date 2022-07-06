@@ -406,7 +406,7 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="pin_code_">Pin Code<font color='#F62525'> *</font></string>
     <string name="city_">City<font color='#F62525'> *</font></string>
     <string name="state_">State<font color='#F62525'> *</font></string>
-    <string name="gst_num_">GST Number<font color='#F62525'> *</font></string>
+    <string name="gst_num_">GST Number<font color='#F62525'> </font></string>
     <string name="gst_num">GST Number</string>
     <string name="citye">City</string>
     <string name="statee">State</string>

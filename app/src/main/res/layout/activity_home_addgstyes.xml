@@ -50,10 +50,11 @@
             android:id="@+id/edtGSTnumber"
             android:layout_width="match_parent"
             android:layout_height="45dp"
+            android:maxLength="15"
             android:background="@drawable/layout_background"
             android:fontFamily="@font/inter"
             android:hint="Enter your GST Number"
-            android:inputType="number" />
+             />
 
 
         <Button
