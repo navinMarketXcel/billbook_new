@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -55,6 +56,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.inmobi.ads.AdMetaInfo;
 import com.inmobi.ads.InMobiAdRequestStatus;
 import com.inmobi.ads.InMobiBanner;
@@ -75,6 +78,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -125,6 +129,8 @@ public class HomeFragment extends Fragment
     private Button register;
     private Button wathcDemo,helpLine;
     RelativeLayout adContainer;
+    private EditText gstNum;
+    private  boolean gstCheck;
 
   /*  @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -138,6 +144,7 @@ public class HomeFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         register=view.findViewById(R.id.btnRegister);
+        gstNum = view.findViewById(R.id.edtGSTnumber);
         adContainer = (RelativeLayout) view.findViewById(R.id.parent);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
         initUI(view);
@@ -231,7 +238,7 @@ public class HomeFragment extends Fragment
     }
     private void bottomSheetDialog(View view){
 
-        if(!isSheetShown)
+        if(isSheetShown)
         {
             BottomSheetDialog gstSheet = new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
             View bottomSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgst,(LinearLayout)view.findViewById(R.id.bottomSheetContainer));
@@ -246,18 +253,39 @@ public class HomeFragment extends Fragment
                     yesGstSheet.findViewById(R.id.btnUpdGst).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            BottomSheetDialog showGif =new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
-                            View showgifView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_gstyes,(LinearLayout)view.findViewById(R.id.GSTyes));
-                            showGif.setContentView(showgifView);
-                            showGif.show();
+//                            BottomSheetDialog showGif =new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
+//                            View showgifView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_gstyes,(LinearLayout)view.findViewById(R.id.GSTyes));
+
+                            EditText editGstNum = yesGstSheet.findViewById(R.id.edtGSTnumber);
                             gstSheet.dismiss();
-                            yesGst.dismiss();
-                            SharedPreferences sharedPref =
-                                    getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
-                                            getActivity().MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putBoolean("isGstDialogShown", true);
-                            editor.commit();
+
+                            if(verifyGstLength(editGstNum))
+                            {
+                                sendGstUpdateStatus(1,editGstNum.getText().toString(),view);
+                                    Log.v("gstCheckStatus",String.valueOf(gstCheck));
+
+                                    yesGst.dismiss();
+                                    MyApplication.setGSTFilled();
+                                    SharedPreferences sharedPref =
+                                            getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
+                                                    getActivity().MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedPref.edit();
+                                    editor.putBoolean("isGstDialogShown", true);
+                                    editor.commit();
+//                                }
+//                                else if(!gstCheck)
+//                                {
+//                                    Toast.makeText(getContext(),"Please try to add gst in profile section",Toast.LENGTH_LONG).show();
+//                                }
+
+
+
+                            }
+                            else if(!verifyGstLength(editGstNum)) {
+                                editGstNum.setError("GST Number cannot be less than 15 characters");
+                            }
+
+
                         }
                     });
                     yesGstSheet.findViewById(R.id.cancelGst).setOnClickListener(new View.OnClickListener() {
@@ -270,6 +298,7 @@ public class HomeFragment extends Fragment
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putBoolean("isGstDialogShown", true);
                             editor.commit();
+
                         }
                     });
                     yesGst.setContentView(yesGstSheet);
@@ -287,12 +316,23 @@ public class HomeFragment extends Fragment
                     SharedPreferences.Editor editor = sharedPref.edit();
                     editor.putBoolean("isGstDialogShown", true);
                     editor.commit();
+
                 }
 
             });
             gstSheet.setContentView(bottomSheet);
             gstSheet.show();
         }
+
+    }
+    public boolean verifyGstLength(EditText et)
+    {
+
+        if(et.length()<15)
+        {
+            return false;
+        }
+        return true;
 
     }
 
@@ -775,6 +815,103 @@ public class HomeFragment extends Fragment
         });
 
     }
+    private void sendGstUpdateStatus(int gstStatus,String gstNo,View view) {
+
+        try {
+
+
+            DialogUtils.startProgressDialog(getContext(), "");
+
+            ApiInterface apiService =
+
+                    ApiClient.getClient(getContext()).create(ApiInterface.class);
+
+
+            Map<String, String> map = new HashMap<>();
+
+            map.put("isGST", String.valueOf(gstStatus));
+            map.put("gstNo",gstNo);
+
+            long userid = profile.getLong("userid");
+
+            JsonObject jsonObject = new JsonParser().parse(map.toString()).getAsJsonObject();
+
+            jsonObject.addProperty("userid", userid);
+
+            Call<Object> call = apiService.updateUserGstStatus(userid, map);
+
+            call.enqueue(new Callback<Object>() {
+
+                @Override
+
+                public void onResponse(Call<Object> call, Response<Object> response) {
+
+                    DialogUtils.stopProgressDialog();
+
+                    try {
+
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+
+                        Log.v("RESP", body.toString());
+                        Log.v("gstCheckStatus1 in method",String.valueOf(gstCheck));
+
+                        if (body.getBoolean("status")) {
+                            gstCheck = false;
+                            Log.v("gstCheckStatus2 in method",String.valueOf(gstCheck));
+
+
+                            MyApplication.saveUserDetails(body.getJSONObject("data").toString());
+                            BottomSheetDialog showGif =new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
+                            View showgifView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_gstyes,(LinearLayout)view.findViewById(R.id.GSTyes));
+                            showGif.setContentView(showgifView);
+                            showGif.show();
+
+
+                        } else {
+
+                            DialogUtils.showToast(getActivity(), "Failed update GST");
+
+                        }
+
+
+                    } catch (JSONException e) {
+
+                        Util.logErrorApi("users/" + userid, jsonObject, Arrays.toString(e.getStackTrace()), e.toString() , null,getActivity());
+
+                        DialogUtils.showToast(getActivity(), "Failed update GST");
+
+                        e.printStackTrace();
+
+                    }
+
+                }
+
+
+                @Override
+
+                public void onFailure(Call<Object> call, Throwable t) {
+
+                    Util.logErrorApi("users/" + userid, jsonObject, Arrays.toString(t.getStackTrace()), t.toString() , null,getActivity());
+
+                    DialogUtils.stopProgressDialog();
+
+                    DialogUtils.showToast(getActivity(), "Failed update profile to server");
+
+                }
+
+            });
+
+        } catch (Exception e) {
+
+            Util.logErrorApi("users/updateGst", null, Arrays.toString(e.getStackTrace()), e.toString() , null,getActivity());
+
+            e.printStackTrace();
+
+        }
+
+
+    }
+
 
 
     private void startSpotLight(View view, String title, String description) {
@@ -858,45 +995,7 @@ public class HomeFragment extends Fragment
         //}
     }
 
-    private void sendGstUpdateStatus(int gstStatus) {
-        try {
-            DialogUtils.startProgressDialog(getActivity(), "");
-            ApiInterface apiService =
-                    ApiClient.getClient(getActivity()).create(ApiInterface.class);
 
-            Map<String, Integer> map = new HashMap<>();
-            map.put("isGST", gstStatus);
-            long userid = profile.getLong("userid");
-            Call<Object> call = apiService.updateUserGstStatus(userid, map);
-            call.enqueue(new Callback<Object>() {
-                @Override
-                public void onResponse(Call<Object> call, Response<Object> response) {
-                    DialogUtils.stopProgressDialog();
-                    try {
-                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                        Log.v("RESP", body.toString());
-                        if (body.getBoolean("status")) {
-                            MyApplication.saveUserDetails(body.getJSONObject("data").toString());
-                        } else {
-                            DialogUtils.showToast(getActivity(), "Failed update GST");
-                        }
-
-                    } catch (JSONException e) {
-                        DialogUtils.showToast(getActivity(), "Failed update GST");
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Object> call, Throwable t) {
-                    DialogUtils.stopProgressDialog();
-                    DialogUtils.showToast(getActivity(), "Failed update profile to server");
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private void isGSTVerified() {
 //    boolean test = MyApplication.getIsGSTVeeditProfilerifies();

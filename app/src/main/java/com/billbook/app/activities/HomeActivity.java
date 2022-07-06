@@ -862,45 +862,45 @@ public class HomeActivity extends AppCompatActivity
 //        }
     }
 
-    private void sendGstUpdateStatus(int gstStatus) {
-        try {
-            DialogUtils.startProgressDialog(this, "");
-            ApiInterface apiService =
-                    ApiClient.getClient(this).create(ApiInterface.class);
-
-            Map<String, Integer> map = new HashMap<>();
-            map.put("isGST", gstStatus);
-            long userid = profile.getLong("userid");
-            Call<Object> call = apiService.updateUserGstStatus(userid, map);
-            call.enqueue(new Callback<Object>() {
-                @Override
-                public void onResponse(Call<Object> call, Response<Object> response) {
-                    DialogUtils.stopProgressDialog();
-                    try {
-                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                        Log.v("RESP", body.toString());
-                        if (body.getBoolean("status")) {
-                            MyApplication.saveUserDetails(body.getJSONObject("data").toString());
-                        } else {
-                            DialogUtils.showToast(HomeActivity.this, "Failed update GST");
-                        }
-
-                    } catch (JSONException e) {
-                        DialogUtils.showToast(HomeActivity.this, "Failed update GST");
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Object> call, Throwable t) {
-                    DialogUtils.stopProgressDialog();
-                    DialogUtils.showToast(HomeActivity.this, "Failed update profile to server");
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    private void sendGstUpdateStatus(int gstStatus) {
+//        try {
+//            DialogUtils.startProgressDialog(this, "");
+//            ApiInterface apiService =
+//                    ApiClient.getClient(this).create(ApiInterface.class);
+//
+//            Map<String, Integer> map = new HashMap<>();
+//            map.put("isGST", gstStatus);
+//            long userid = profile.getLong("userid");
+//            Call<Object> call = apiService.updateUserGstStatus(userid, map);
+//            call.enqueue(new Callback<Object>() {
+//                @Override
+//                public void onResponse(Call<Object> call, Response<Object> response) {
+//                    DialogUtils.stopProgressDialog();
+//                    try {
+//                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+//                        Log.v("RESP", body.toString());
+//                        if (body.getBoolean("status")) {
+//                            MyApplication.saveUserDetails(body.getJSONObject("data").toString());
+//                        } else {
+//                            DialogUtils.showToast(HomeActivity.this, "Failed update GST");
+//                        }
+//
+//                    } catch (JSONException e) {
+//                        DialogUtils.showToast(HomeActivity.this, "Failed update GST");
+//                        e.printStackTrace();
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<Object> call, Throwable t) {
+//                    DialogUtils.stopProgressDialog();
+//                    DialogUtils.showToast(HomeActivity.this, "Failed update profile to server");
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private void isGSTVerified() {
 //    boolean test = MyApplication.getIsGSTVeeditProfilerifies();
