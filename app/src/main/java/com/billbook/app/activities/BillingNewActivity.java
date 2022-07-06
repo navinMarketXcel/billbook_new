@@ -141,6 +141,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private static final int Contact_Pick_code=111;
     private boolean ischeckDisc = true;
     private int count = 0;
+    private LinearLayout itemslay;
 
 
     // idInLocalDb = column with name "id" in local db android
@@ -156,6 +157,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         edtMobNo= findViewById(R.id.edtMobNo);
         billNo = findViewById(R.id.billNo);
         viewDets = findViewById(R.id.viewDets);
+        itemslay=findViewById(R.id.itemsLayout);
 
 
 
@@ -746,7 +748,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                if (binding.layoutBillItemInitial.getVisibility() == View.VISIBLE) {
+                if (billItemBinding.layoutBillItemInitial.getVisibility() == View.VISIBLE) {
                     billItemBinding.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
 //                } else if (BottomSheetClass.isShowing()) {
 //                    BottomSheetClass..setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
@@ -783,6 +785,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         table.setVisibility(View.GONE);
         count = invoiceItemsList.size() + 1;
         binding.billDets.setText("Bill details"+"("+count+")");
+        billItemBinding.items.setText("Items"+"("+count+")");
 
 
 
@@ -794,11 +797,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             Util.postEvents("Add Item", "Add Item", this.getApplicationContext());
             count = invoiceItemsList.size() + 1;
             binding.billDets.setText("Bill details"+"("+count+")");
+            billItemBinding.items.setText("Items"+"("+count+")");
             TextView tv1 = findViewById(R.id.items);
             tv1.setVisibility(View.VISIBLE);
             LinearLayout ll = findViewById(R.id.viewDetsLay);
             ll.setVisibility(View.VISIBLE);
-
+            billItemBinding.itemsLayout.setVisibility(View.VISIBLE);
 //            addItem(itemNameET.getText().toString(),
 //                    Float.parseFloat(itemPriceET.getText().toString()),
 //                    Float.parseFloat(gstPercentage.getSelectedItemPosition()>0?gstPercentage.getSelectedItem().toString():"0")
@@ -822,7 +826,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     billItemBinding.unit.getSelectedItemPosition(),-1);
 
             binding.cardItemList.setVisibility(View.VISIBLE);
-            binding.layoutBillItemInitial.setVisibility(View.GONE);
+            billItemBinding.layoutBillItemInitial.setVisibility(View.GONE);
 //            binding.tvTotal.setText(billItemBinding.itemPriceET.getText().toString());
 //
         }
@@ -1075,6 +1079,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             calculateDiscount();
                             count = count-1;
                             binding.billDets.setText("Bills Details"+"("+count+")");
+                            billItemBinding.items.setText("Items"+"("+count+")");
                             dismiss();
 
 
@@ -1817,7 +1822,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 binding.tvTotalFinal.setText("₹"+Util.formatDecimalValue(invoice.getInt("totalAfterDiscount")));
                 //binding.tvAmountGST.setText(Util.formatDecimalValue(invoice.getInt("gstAmount")));
                 binding.cardItemList.setVisibility(View.VISIBLE);
-                binding.layoutBillItemInitial.setVisibility(View.GONE);
+                billItemBinding.layoutBillItemInitial.setVisibility(View.GONE);
 
             } catch (JSONException e) {
                 e.printStackTrace();
