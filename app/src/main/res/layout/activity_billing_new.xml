@@ -773,8 +773,6 @@
 
                         android:elevation="9dp"
 
-                        android:id="@+id/layoutBillItem_initial"
-
                         android:layout_margin="8dp"
 
                         android:layout_width="match_parent"
