@@ -1344,9 +1344,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     data.put("invoice", requestObj);
                     data.put("items", requestObj.getJSONArray("items"));
 
-                    Intent intent = new Intent(BillingNewActivity.this, RemotePDFActivity.class);
-                    //intent.putExtra("invoice", requestObj.toString());
-                    //intent.putExtra("invoiceServer", data.toString());
+                    Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                    intent.putExtra("invoice", requestObj.toString());
+                    intent.putExtra("invoiceServer", data.toString());
                     intent.putExtra("localInvId",localInvoiceId);
                     intent.putExtra("id",-1);
                     intent.putExtra("idForItem",localInvoiceId);
@@ -1552,7 +1552,23 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                         invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
 
+
                         Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                        intent.putExtra("invoice", invoice.toString());
+                        intent.putExtra("gstBillNo",isEdit ? object.getJSONObject("invoice").getInt("gstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("gstBillNo"));
+                        intent.putExtra("nonGstBillNo",isEdit ? object.getJSONObject("invoice").getInt("nonGstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("nonGstBillNo"));
+                        intent.putExtra("id",isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
+                        intent.putExtra("idForItem", isEdit ? (long) object.getJSONObject("invoice").getInt("id"):localInvoiceId);
+                        intent.putExtra("customerName", isEdit & customerObject.has("name") ? customerObject.getString("name") : "");
+                        intent.putExtra("customerMobileNo", isEdit & customerObject.has("mobileNo")? customerObject.getString("mobileNo"): "");
+                        intent.putExtra("customerAddress", isEdit & customerObject.has("address")? customerObject.getString("address"): "");
+                        if(isEdit && idInLocalDb >0) {
+                            intent.putExtra("localInvId", idInLocalDb);
+                        }
+                        else
+                            intent.putExtra("localInvId",localInvoiceId);
+
+                       /* Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
                         intent.putExtra("invoice", invoice.toString());
                        // intent.putExtra("shortHtml", body.getJSONObject("data").getString("shortHtml1"));
                        // intent.putExtra("longHtml", body.getJSONObject("data").getString("longHtml1") );
@@ -1562,7 +1578,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             intent.putExtra("localInvId", idInLocalDb);
                         }
                         else
-                            intent.putExtra("localInvId",localInvoiceId);
+                            intent.putExtra("localInvId",localInvoiceId);*/
 
                         ///intent.putExtra("invoiceServer", isEdit ? object.toString() : body.getJSONObject("data").toString());
                         startActivity(intent);

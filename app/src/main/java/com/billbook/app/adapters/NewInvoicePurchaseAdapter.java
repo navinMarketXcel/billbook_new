@@ -55,9 +55,12 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
     @Override
     public void onBindViewHolder(NewInvoicePurchaseAdapter.MyViewHolder holder, int position) {
 
-        holder.tvProductName.setText(curItems.get(position).getName() +
+       /* holder.tvProductName.setText(curItems.get(position).getName() +
                 (curItems.get(position).getSerial_no().length()>0?" HSN - "+curItems.get(position).getSerial_no():"")+
-                (curItems.get(position).getImei().length()>0?" ,IMEI/Serial Number - "+curItems.get(position).getImei():""));
+                (curItems.get(position).getImei().length()>0?" ,IMEI/Serial Number - "+curItems.get(position).getImei():""));*/
+
+        holder.tvProductName.setText(curItems.get(position).getName());
+        holder.tvProductNumber.setText(String.valueOf(position+1));
         String qtyString = String.valueOf(curItems.get(position).getQuantity());
         if(curItems.get(position).getMeasurementId() > -1){
             qtyString += " " + measurementUnitList.get(curItems.get(position).getMeasurementId());
@@ -125,7 +128,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tvProductName, SGSTValue, CGSTValue, IGSTValue, tvQTY, tvRate, tvAmount, preTaxValue;
+        TextView tvProductNumber,tvProductName, SGSTValue, CGSTValue, IGSTValue, tvQTY, tvRate, tvAmount, preTaxValue;
         LinearLayout llForHeader;
 
         public MyViewHolder(View itemView) {
@@ -135,6 +138,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             tvQTY = (TextView) itemView.findViewById(R.id.tvQTY);
             preTaxValue = itemView.findViewById(R.id.tv_preTaxValue);
             tvRate = (TextView) itemView.findViewById(R.id.tvRate);
+            tvProductNumber = (TextView) itemView.findViewById(R.id.tvProductNumber);
 //            tvDiscount = (TextView) itemView.findViewById(R.id.tvItemDiscount);
             SGSTValue = (TextView) itemView.findViewById(R.id.SGSTValue);
             IGSTValue = (TextView) itemView.findViewById(R.id.IGSTValue);
