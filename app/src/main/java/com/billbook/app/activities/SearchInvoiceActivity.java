@@ -425,12 +425,12 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             public void onClick(View v) {
                 ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
                 jsonArrayToList(invoices).stream().forEach(invoice -> {
-                    if(invoice.getGSTNo().length() == 0){
+                    if(invoice.getGSTNo().length() > 0){
                         Log.v("Invoicesss", String.valueOf(invoice));
                         nonGstBillList.add(invoice);
                     }
                 });
-                Log.v("GSTBILLS", String.valueOf(nonGstBillList));
+                Log.v("NonGSTBILLS", String.valueOf(nonGstBillList));
                 searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,nonGstBillList,null,isCheckFlag,SearchInvoiceActivity.this);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerViewInvoice.setLayoutManager(layoutManager);
@@ -446,12 +446,12 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             public void onClick(View v) {
                 ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
                 jsonArrayToList(invoices).stream().forEach(invoice -> {
-                    if(invoice.getGSTNo().length() > 0){
+                    if(invoice.getGSTNo().length() == 0){
                         Log.v("Invoicesss", String.valueOf(invoice));
                         nonGstBillList.add(invoice);
                     }
                 });
-                Log.v("NonGSTBILLS", String.valueOf(nonGstBillList));
+                Log.v("GSTBILLS", String.valueOf(nonGstBillList));
                 searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,nonGstBillList,null,isCheckFlag,SearchInvoiceActivity.this);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerViewInvoice.setLayoutManager(layoutManager);
