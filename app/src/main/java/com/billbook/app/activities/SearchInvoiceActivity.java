@@ -231,9 +231,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             }
         });
         setonClick();
-
-        clickSort();
-
     }
     public void setonClick(){
         ImageView iv = findViewById(R.id.ivToolBarBack);
@@ -360,7 +357,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
 
     }
-    public void clickSort()
+    public void clickSort(View v)
     {
                 TextView bill_no,bdate,dateMod;
                 BottomSheetDialog sortSheet = new BottomSheetDialog(SearchInvoiceActivity.this,R.style.BottomSheetDialogTheme);
