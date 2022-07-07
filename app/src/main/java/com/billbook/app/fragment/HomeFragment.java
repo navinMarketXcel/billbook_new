@@ -106,6 +106,7 @@ public class HomeFragment extends Fragment
     public HomeFragment() {
         // Required empty public constructor
     }
+
     LinearLayout btnSellingDetails, btnBilling, btnManageInventory, btnGetSalesReport, btnSearchInvoice;
     Toolbar mToolbar;
     private NavigationView navigationView;
@@ -119,18 +120,17 @@ public class HomeFragment extends Fragment
     private JSONArray exp = null;
     private String expString;
     InMobiBanner mBannerAd1;
-    public boolean isSheetShown ;
+    public boolean isSheetShown;
     VungleBanner vungleBanner;
     private JSONArray gstList, nonGstList;
     // replace with actual placementId from InMobi
-    private long placementId1= Long.parseLong(BuildConfig.PlacementId1);
-    private long placementId2=Long.parseLong(BuildConfig.PlacementId2);
-    private String placementId3=BuildConfig.VunglePlacement;
+    private long placementId1 = Long.parseLong(BuildConfig.PlacementId1);
+    private long placementId2 = Long.parseLong(BuildConfig.PlacementId2);
+    private String placementId3 = BuildConfig.VunglePlacement;
     private Button register;
-    private Button wathcDemo,helpLine;
+    private Button wathcDemo, helpLine;
     RelativeLayout adContainer;
-    private EditText gstNum;
-    private  boolean gstCheck;
+
 
   /*  @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -143,8 +143,7 @@ public class HomeFragment extends Fragment
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        register=view.findViewById(R.id.btnRegister);
-        gstNum = view.findViewById(R.id.edtGSTnumber);
+        register = view.findViewById(R.id.btnRegister);
         adContainer = (RelativeLayout) view.findViewById(R.id.parent);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
         initUI(view);
@@ -154,7 +153,7 @@ public class HomeFragment extends Fragment
         bottomSheetDialog(view);
         Util.setMeasurementUnits(getActivity());
         try {
-            userProfile= new JSONObject (((MyApplication)getActivity().getApplication()).getUserDetails());
+            userProfile = new JSONObject(((MyApplication) getActivity().getApplication()).getUserDetails());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -162,6 +161,7 @@ public class HomeFragment extends Fragment
         VungleInitialization();
         return view;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -207,12 +207,11 @@ public class HomeFragment extends Fragment
     private void InMobiInitialization() {
         JSONObject consentObject = new JSONObject();
 
-        try{
-            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE,true);
-            consentObject.put("gdpr","0");
-            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_IAB,"<< CONSENT in IAB Format");
-        }
-        catch(Exception e){
+        try {
+            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_AVAILABLE, true);
+            consentObject.put("gdpr", "0");
+            consentObject.put(InMobiSdk.IM_GDPR_CONSENT_IAB, "<< CONSENT in IAB Format");
+        } catch (Exception e) {
             e.printStackTrace();
         }
         try {
@@ -225,29 +224,29 @@ public class HomeFragment extends Fragment
                         if (null == mBannerAd1) {
                             createBannerAd();
                             mBannerAd1.load();
-                        }  else {
+                        } else {
                             mBannerAd1.load();
                         }
 
                     }
                 }
             });
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    private void bottomSheetDialog(View view){
 
-        if(isSheetShown)
-        {
-            BottomSheetDialog gstSheet = new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
-            View bottomSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgst,(LinearLayout)view.findViewById(R.id.bottomSheetContainer));
+    private void bottomSheetDialog(View view) {
+
+        if (!isSheetShown) {
+            BottomSheetDialog gstSheet = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
+            View bottomSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgst, (LinearLayout) view.findViewById(R.id.bottomSheetContainer));
             bottomSheet.findViewById(R.id.yesGSt).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     gstSheet.dismiss();
-                    BottomSheetDialog yesGst = new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
-                    View yesGstSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgstyes,(LinearLayout)view.findViewById(R.id.editGSTyes));
+                    BottomSheetDialog yesGst = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
+                    View yesGstSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgstyes, (LinearLayout) view.findViewById(R.id.editGSTyes));
 //                    BottomSheetBehavior behavior = BottomSheetBehavior.from(yesGstSheet);
 //                    behavior.setPeekHeight(250);
                     yesGstSheet.findViewById(R.id.btnUpdGst).setOnClickListener(new View.OnClickListener() {
@@ -259,19 +258,18 @@ public class HomeFragment extends Fragment
                             EditText editGstNum = yesGstSheet.findViewById(R.id.edtGSTnumber);
                             gstSheet.dismiss();
 
-                            if(verifyGstLength(editGstNum))
-                            {
-                                sendGstUpdateStatus(1,editGstNum.getText().toString(),view);
-                                    Log.v("gstCheckStatus",String.valueOf(gstCheck));
+                            if (verifyGstLength(editGstNum)) {
+                                sendGstUpdateStatus(1, editGstNum.getText().toString(), view);
 
-                                    yesGst.dismiss();
-                                    MyApplication.setGSTFilled();
-                                    SharedPreferences sharedPref =
-                                            getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
-                                                    getActivity().MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPref.edit();
-                                    editor.putBoolean("isGstDialogShown", true);
-                                    editor.commit();
+
+                                yesGst.dismiss();
+                                MyApplication.setGSTFilled();
+                                SharedPreferences sharedPref =
+                                        getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
+                                                getActivity().MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPref.edit();
+                                editor.putBoolean("isGstDialogShown", true);
+                                editor.commit();
 //                                }
 //                                else if(!gstCheck)
 //                                {
@@ -279,9 +277,7 @@ public class HomeFragment extends Fragment
 //                                }
 
 
-
-                            }
-                            else if(!verifyGstLength(editGstNum)) {
+                            } else if (!verifyGstLength(editGstNum)) {
                                 editGstNum.setError("GST Number cannot be less than 15 characters");
                             }
 
@@ -325,19 +321,18 @@ public class HomeFragment extends Fragment
         }
 
     }
-    public boolean verifyGstLength(EditText et)
-    {
 
-        if(et.length()<15)
-        {
+    public boolean verifyGstLength(EditText et) {
+
+        if (et.length() < 15) {
             return false;
         }
         return true;
 
     }
 
-    private void createBannerAd(){
-        Log.v("Inmobi createBannerAd","In mobi banner createBannerAd");
+    private void createBannerAd() {
+        Log.v("Inmobi createBannerAd", "In mobi banner createBannerAd");
         mBannerAd1 = new InMobiBanner(getActivity(), placementId1);
 
         int width = toPixelUnits(320);
@@ -356,8 +351,8 @@ public class HomeFragment extends Fragment
 
     }
 
-    private void setupBannerAd(InMobiBanner mBannerAd){
-        try{
+    private void setupBannerAd(InMobiBanner mBannerAd) {
+        try {
             mBannerAd.setListener(new BannerAdEventListener() {
 
                 @Override
@@ -397,8 +392,8 @@ public class HomeFragment extends Fragment
 
             });
             mBannerAd.load();
-        }catch(Exception e) {
-           e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -433,16 +428,15 @@ public class HomeFragment extends Fragment
         @Override
         public void onAdLoad(String id) {
             // Ad has been successfully loaded for the placement
-            if(Banners.canPlayAd(BuildConfig.VunglePlacement, AdConfig.AdSize.BANNER)){
-                Log.v("Dikha jayega", "Banner");
+            if (Banners.canPlayAd(BuildConfig.VunglePlacement, AdConfig.AdSize.BANNER)) {
                 int width = toPixelUnits(320);
                 int height = toPixelUnits(50);
 
                 RelativeLayout.LayoutParams bannerLayoutParams1 = new RelativeLayout.LayoutParams(width, height);
                 bannerLayoutParams1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 bannerLayoutParams1.addRule(RelativeLayout.CENTER_HORIZONTAL);
-                bannerLayoutParams1.setMargins(0,0,0,toPixelUnits(55));
-                try{
+                bannerLayoutParams1.setMargins(0, 0, 0, toPixelUnits(55));
+                try {
                     final BannerAdConfig bannerAdConfig = new BannerAdConfig();
                     bannerAdConfig.setAdSize(AdConfig.AdSize.BANNER);
                     vungleBanner = Banners.getBanner(BuildConfig.VunglePlacement, bannerAdConfig, null);
@@ -462,11 +456,10 @@ public class HomeFragment extends Fragment
     };
 
 
-
     private void initUI(View view) {
 
         try {
-            profile= new JSONObject (((MyApplication)getActivity().getApplication()).getUserDetails());
+            profile = new JSONObject(((MyApplication) getActivity().getApplication()).getUserDetails());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -481,7 +474,7 @@ public class HomeFragment extends Fragment
         mToolbar = view.findViewById(R.id.toolbar);
 
 
-      // getActivity() .setSupportActionBar(mToolbar);
+        // getActivity() .setSupportActionBar(mToolbar);
 
         //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
@@ -495,8 +488,8 @@ public class HomeFragment extends Fragment
         // for displaying sync message on HomeActivity
         syncOffLineInvoiceFromDatabase();
         try {
-             exp = null;
-             expString = MyApplication.getUnSyncedExpenses();
+            exp = null;
+            expString = MyApplication.getUnSyncedExpenses();
             if (expString.length() > 0)
                 exp = new JSONArray(expString);
 
@@ -510,16 +503,18 @@ public class HomeFragment extends Fragment
 
     }
 
-    public  void syncOffLineInvoiceFromDatabase(){
+    public void syncOffLineInvoiceFromDatabase() {
         new HomeFragment.FetchInvoice(MyApplication.getDatabase().newInvoiceDao()).execute();
     }
 
 
-    private class FetchInvoice extends AsyncTask<Void,Void, List<InvoiceModelV2>> {
+    private class FetchInvoice extends AsyncTask<Void, Void, List<InvoiceModelV2>> {
         NewInvoiceDao newInvoiceDao;
-        private FetchInvoice(NewInvoiceDao newInvoiceDao){
-            this.newInvoiceDao =newInvoiceDao;
+
+        private FetchInvoice(NewInvoiceDao newInvoiceDao) {
+            this.newInvoiceDao = newInvoiceDao;
         }
+
         @Override
         protected List<InvoiceModelV2> doInBackground(Void... voids) {
             return newInvoiceDao.getAllOffLineInvoice();
@@ -529,7 +524,7 @@ public class HomeFragment extends Fragment
         protected void onPostExecute(List<InvoiceModelV2> invoiceModelV2List) {
             super.onPostExecute(invoiceModelV2List);
 
-            if (invoiceModelV2List.size()>0 || ((exp != null && exp.length() > 0)))
+            if (invoiceModelV2List.size() > 0 || ((exp != null && exp.length() > 0)))
                 syncText.setVisibility(View.VISIBLE);
             else
                 syncText.setVisibility(View.INVISIBLE);
@@ -583,17 +578,17 @@ public class HomeFragment extends Fragment
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnManageInventory:
-                Util.postEvents("Expense","Expense",getActivity().getApplicationContext());
+                Util.postEvents("Expense", "Expense", getActivity().getApplicationContext());
                 Intent intent = new Intent(getActivity(), ExpenseActivity.class);
                 startActivity(intent);
 
                 break;
             case R.id.btnBilling:
-                Util.postEvents("Billing","Billing",getActivity().getApplicationContext());
+                Util.postEvents("Billing", "Billing", getActivity().getApplicationContext());
                 intent = new Intent(getActivity(), BillingNewActivity.class);
                 try {
                     intent.putExtra("gstBillNo", gstList.toString());
-                    intent.putExtra("nonGstBillNo",nonGstList.toString());
+                    intent.putExtra("nonGstBillNo", nonGstList.toString());
                 } catch (Exception e) {
                     intent.putExtra("gstBillNo", "");
                 }
@@ -605,13 +600,13 @@ public class HomeFragment extends Fragment
                 startActivity(intent);
                 break;
             case R.id.btnSearchInvoice:
-                Util.postEvents("Search Bills","Search Bills",getActivity().getApplicationContext());
+                Util.postEvents("Search Bills", "Search Bills", getActivity().getApplicationContext());
 
                 intent = new Intent(getActivity(), SearchInvoiceActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btnGetSalesReport:
-                Util.postEvents("Day Book","Day Book",getActivity().getApplicationContext());
+                Util.postEvents("Day Book", "Day Book", getActivity().getApplicationContext());
                 intent = new Intent(getActivity(), DayBookActivity.class);
                 intent.putExtra("startReportActivity", true);
                 startActivity(intent);
@@ -661,9 +656,8 @@ public class HomeFragment extends Fragment
 
         Intent intentObj = new Intent(getActivity(), LoginActivity.class);
         startActivity(intentObj);
-        getActivity(). finish();
+        getActivity().finish();
     }
-
 
 
     void setAlarm() {
@@ -699,11 +693,11 @@ public class HomeFragment extends Fragment
         calendar.set(Calendar.SECOND, 0);
 
 //        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, sender);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()+3000,3000 , sender);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() + 3000, 3000, sender);
     }
+
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
 
     }
@@ -714,44 +708,40 @@ public class HomeFragment extends Fragment
 
 
         try {
-            userProfile= new JSONObject (MyApplication.getUserDetails());
+            userProfile = new JSONObject(MyApplication.getUserDetails());
 //            updateDrawerProfileImg();
             getLatestInvoice(userProfile.getString("userid"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         startSpotLight(btnBilling, "Billing", "This will be used for billing.");
-        try{
-            if(null==mBannerAd1){
+        try {
+            if (null == mBannerAd1) {
                 mBannerAd1.load();
-            }
-            else{
+            } else {
                 setupBannerAd(mBannerAd1);
             }
 
-            if(null == vungleBanner){
+            if (null == vungleBanner) {
                 final BannerAdConfig bannerAdConfig = new BannerAdConfig();
                 bannerAdConfig.setAdSize(AdConfig.AdSize.BANNER);
                 Banners.loadBanner(BuildConfig.VunglePlacement, bannerAdConfig, vungleLoadAdCallback);
-            } else{
+            } else {
                 VungleInitialization();
             }
-        }
-        catch(Exception e){
-         e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
         //HomeFragment.isSheetShown= false;
     }
 
     @Override
-    public void  onStop()
-    {
+    public void onStop() {
         super.onStop();
     }
 
@@ -788,8 +778,8 @@ public class HomeFragment extends Fragment
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Authorization", token);
         Map<String, String> body = new HashMap<>();
-        body.put("userid",userid);
-        Call<Object> call = apiService.getLatestInvoice(headerMap,body);
+        body.put("userid", userid);
+        Call<Object> call = apiService.getLatestInvoice(headerMap, body);
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -800,8 +790,8 @@ public class HomeFragment extends Fragment
                     if (body.getJSONObject("data").has("nonGstBillNo")) {
                         gstList = body.getJSONObject("data").getJSONArray("gstBillNo");
                         nonGstList = body.getJSONObject("data").getJSONArray("nonGstBillNo");
-                        MyApplication.setInvoiceNumber(gstList.getInt(gstList.length() - 1)+1);
-                        MyApplication.setInvoiceNumberForNonGst(nonGstList.getInt(nonGstList.length() - 1)+1);
+                        MyApplication.setInvoiceNumber(gstList.getInt(gstList.length() - 1) + 1);
+                        MyApplication.setInvoiceNumberForNonGst(nonGstList.getInt(nonGstList.length() - 1) + 1);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -815,7 +805,8 @@ public class HomeFragment extends Fragment
         });
 
     }
-    private void sendGstUpdateStatus(int gstStatus,String gstNo,View view) {
+
+    private void sendGstUpdateStatus(int gstStatus, String gstNo, View view) {
 
         try {
 
@@ -830,7 +821,7 @@ public class HomeFragment extends Fragment
             Map<String, String> map = new HashMap<>();
 
             map.put("isGST", String.valueOf(gstStatus));
-            map.put("gstNo",gstNo);
+            map.put("gstNo", gstNo);
 
             long userid = profile.getLong("userid");
 
@@ -853,30 +844,23 @@ public class HomeFragment extends Fragment
                         JSONObject body = new JSONObject(new Gson().toJson(response.body()));
 
                         Log.v("RESP", body.toString());
-                        Log.v("gstCheckStatus1 in method",String.valueOf(gstCheck));
+
 
                         if (body.getBoolean("status")) {
-                            gstCheck = false;
-                            Log.v("gstCheckStatus2 in method",String.valueOf(gstCheck));
-
-
                             MyApplication.saveUserDetails(body.getJSONObject("data").toString());
-                            BottomSheetDialog showGif =new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
-                            View showgifView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_gstyes,(LinearLayout)view.findViewById(R.id.GSTyes));
+                            BottomSheetDialog showGif = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
+                            View showgifView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_gstyes, (LinearLayout) view.findViewById(R.id.GSTyes));
                             showGif.setContentView(showgifView);
                             showGif.show();
-
-
                         } else {
 
                             DialogUtils.showToast(getActivity(), "Failed update GST");
-
                         }
 
 
                     } catch (JSONException e) {
 
-                        Util.logErrorApi("users/" + userid, jsonObject, Arrays.toString(e.getStackTrace()), e.toString() , null,getActivity());
+                        Util.logErrorApi("users/" + userid, jsonObject, Arrays.toString(e.getStackTrace()), e.toString(), null, getActivity());
 
                         DialogUtils.showToast(getActivity(), "Failed update GST");
 
@@ -891,7 +875,7 @@ public class HomeFragment extends Fragment
 
                 public void onFailure(Call<Object> call, Throwable t) {
 
-                    Util.logErrorApi("users/" + userid, jsonObject, Arrays.toString(t.getStackTrace()), t.toString() , null,getActivity());
+                    Util.logErrorApi("users/" + userid, jsonObject, Arrays.toString(t.getStackTrace()), t.toString(), null, getActivity());
 
                     DialogUtils.stopProgressDialog();
 
@@ -903,7 +887,7 @@ public class HomeFragment extends Fragment
 
         } catch (Exception e) {
 
-            Util.logErrorApi("users/updateGst", null, Arrays.toString(e.getStackTrace()), e.toString() , null,getActivity());
+            Util.logErrorApi("users/updateGst", null, Arrays.toString(e.getStackTrace()), e.toString(), null, getActivity());
 
             e.printStackTrace();
 
@@ -913,9 +897,7 @@ public class HomeFragment extends Fragment
     }
 
 
-
     private void startSpotLight(View view, String title, String description) {
-
 
 
         try {
@@ -949,9 +931,9 @@ public class HomeFragment extends Fragment
                                     } else if (view.getId() == R.id.btnSearchInvoice) {
                                         startSpotLight(btnGetSalesReport, "Day Book", "Check profit and download your data.");
 
-                                    } else if(view.getId() == R.id.btnGetSalesReport) {
+                                    } else if (view.getId() == R.id.btnGetSalesReport) {
                                         startSpotLight(wathcDemo, "Watch Demo", "Videos on how to use app.");
-                                    }else{
+                                    } else {
                                         startSpotLight(helpLine, "Helpline", "Customer support details.");
 
                                     }
@@ -961,18 +943,17 @@ public class HomeFragment extends Fragment
                         .build()
                         .show();
 
-        }
+            }
 
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private void updateGST() {
 //    boolean test = MyApplication.getIsGSTVeeditProfilerifies();
-      //  if(MyApplication.showGstPopup() == -1 ){
+        //  if(MyApplication.showGstPopup() == -1 ){
 //            DialogUtils.showAlertDialog(getActivity(), "Yes", "No",
 //                    "Do you have a GST number?", new DialogUtils.DialogClickListener() {
 //                        @Override
@@ -996,7 +977,6 @@ public class HomeFragment extends Fragment
     }
 
 
-
     private void isGSTVerified() {
 //    boolean test = MyApplication.getIsGSTVeeditProfilerifies();
         if (!MyApplication.getIsGSTVerifies()) {
@@ -1016,48 +996,44 @@ public class HomeFragment extends Fragment
                     });
         }
     }
-    public void startHelpActivity(View v){
+
+    public void startHelpActivity(View v) {
         boolean installed = appInstallOrNot("com.whatsapp");
-        String mobNo = "9289252155" ;
-        if(installed)
-        {
-            Intent intent= new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone="+"+91"+mobNo));
+        String mobNo = "9289252155";
+        if (installed) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + "+91" + mobNo));
             startActivity(intent);
-        }
-        else
-        {
-            Toast.makeText(getActivity(),"Please Install Whatsapp", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Please Install Whatsapp", Toast.LENGTH_SHORT).show();
         }
 
     }
-    private boolean appInstallOrNot(String url)
-    {
+
+    private boolean appInstallOrNot(String url) {
         PackageManager packageManager = getActivity().getPackageManager();
         boolean app;
         try {
-            packageManager.getPackageInfo(url,PackageManager.GET_ACTIVITIES);
-            app=true;
-        }
-        catch(PackageManager.NameNotFoundException e)
-        {
-            app=false;
+            packageManager.getPackageInfo(url, PackageManager.GET_ACTIVITIES);
+            app = true;
+        } catch (PackageManager.NameNotFoundException e) {
+            app = false;
         }
 
         return app;
 
     }
 
-    public void startYoutubeActivity(View v){
-        Util.postEvents("Watch Demo","Watch Demo",getActivity().getApplicationContext());
+    public void startYoutubeActivity(View v) {
+        Util.postEvents("Watch Demo", "Watch Demo", getActivity().getApplicationContext());
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("https://www.youtube.com/playlist?list=PLFuhsI7LfH3VFoH8oTfozpUlITI6fy7U8"));
         intent.setPackage("com.google.android.youtube");
         startActivity(intent);
     }
 
-    private void sendEvent(){
-        if(mFirebaseAnalytics!=null) {
+    private void sendEvent() {
+        if (mFirebaseAnalytics != null) {
             Bundle bundle = new Bundle();
             bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "More Than 5 Invoices ");
             mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
