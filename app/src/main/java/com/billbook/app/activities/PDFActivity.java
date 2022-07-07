@@ -118,9 +118,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
     private void initUI() {
         recyclerViewInvoiceProducts = pdfBinding.recyclerViewInvoiceProducts;
-        pdfBinding.btnPrint.setOnClickListener(this);
-        pdfBinding.closeBtn.setOnClickListener(this);
-        pdfBinding.btnSubmit.setOnClickListener(this);
+        binding.btnPrintBill.setOnClickListener(this);
+        binding.btnHome.setOnClickListener(this);
+        binding.btnShare.setOnClickListener(this);
         binding.btnLongPdf.setOnClickListener(this);
         binding.btnShortPdf.setOnClickListener(this);
     }
@@ -474,16 +474,19 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnPrint:
+            case R.id.btnPrintBill:
                 Util.postEvents("Print", "Print", this.getApplicationContext());
                 openPDF();
                 break;
-            case R.id.btnSubmit:
+            case R.id.btnShare:
                 Util.postEvents("Share of Whatsapp", "Share of Whatsapp", this.getApplicationContext());
                 shareOnWhatsApp();
                 break;
-            case R.id.closeBtn:
+            case R.id.btnHome:
                 Util.postEvents("Close", "Close", this.getApplicationContext());
+                Log.v("Home", "Clicked");
+                Intent intent = new Intent(this, BottomNavigationActivity.class);
+                startActivity(intent);
                 this.finish();
                 break;
             case R.id.btn_Long_pdf:
