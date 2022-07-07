@@ -291,7 +291,7 @@
                             android:layout_height="35dp"
                             android:text="Sort"
                             android:gravity="center"
-                            android:onClick="clickSort"
+
                             android:layout_gravity="center"
                             android:drawableRight="@drawable/sorting"
                             android:background="@color/white"

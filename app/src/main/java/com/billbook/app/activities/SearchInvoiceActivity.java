@@ -232,7 +232,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         });
         setonClick();
 
-
+        clickSort();
 
     }
     public void setonClick(){
@@ -360,7 +360,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
 
     }
-    public void clickSort(View v)
+    public void clickSort()
     {
                 TextView bill_no,bdate,dateMod;
                 BottomSheetDialog sortSheet = new BottomSheetDialog(SearchInvoiceActivity.this,R.style.BottomSheetDialogTheme);

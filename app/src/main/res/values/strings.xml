@@ -4,7 +4,7 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="username">Username</string>
     <string name="passward">Password</string>
-    <string name="yes">yes</string>
+    <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="alert">Alert</string>
     <string name="expense_date">Date<font color='#ff0000'>*</font></string>
@@ -482,5 +482,4 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="items_short_bill" translatable="false">Items:</string>
     <string name="total_savings" translatable="false">TOTAL SAVINGS:</string>
     <string name="details_of_receiver_bill">Receiver Bill Details</string>
-
 </resources>
