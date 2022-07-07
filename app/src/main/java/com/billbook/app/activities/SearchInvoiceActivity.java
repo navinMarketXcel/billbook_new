@@ -419,16 +419,16 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View v) {
-                        ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
+                        ArrayList<InvoicesData> GstBillList = new ArrayList<>();
                         jsonArrayToList(invoices).stream().forEach(invoice -> {
-                                                if(invoice.getGSTNo().length() == 0){
-                                                    Log.v("Invoicesss", String.valueOf(invoice));
-                                                    nonGstBillList.add(invoice);
-                                                }
+                            if(invoice.getGstType().length() > 0){
+                                Log.v("Invoicesss", String.valueOf(invoice));
+                                GstBillList.add(invoice);
+                            }
                         });
-                        Log.v("GSTBILLS", String.valueOf(nonGstBillList));
+                        Log.v("GSTBILLS", String.valueOf(GstBillList));
 //                        invoicesList = (ArrayList<InvoicesData>)jsonArrayToList(invoices).stream().sorted(Comparator.comparing(InvoicesData::getNonGstBillNo)).collect(Collectors.toList());
-                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,nonGstBillList,null,isCheckFlag,SearchInvoiceActivity.this);
+                        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,GstBillList,null,isCheckFlag,SearchInvoiceActivity.this);
                         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                         recyclerViewInvoice.setLayoutManager(layoutManager);
                         recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
@@ -443,7 +443,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     public void onClick(View v) {
                         ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
                         jsonArrayToList(invoices).stream().forEach(invoice -> {
-                            if(invoice.getGSTNo().length() > 0){
+                            if(invoice.getGstType().length() == 0){
                                 Log.v("Invoicesss", String.valueOf(invoice));
                                 nonGstBillList.add(invoice);
                             }
