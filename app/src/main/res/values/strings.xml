@@ -468,5 +468,10 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="recent_bills_expense">Recent Bills</string>
     <string name="sort">Sort</string>
     <string name="add_new_expense">Add New Expense</string>
-
+    <string name="bill_no_short_bill" translatable="false">Bill No:</string>
+    <string name="billed_to" translatable="false">Billed to:</string>
+    <string name="description_short_bill" translatable="false">Description</string>
+    <string name="items_short_bill" translatable="false">Items:</string>
+    <string name="total_savings" translatable="false">TOTAL SAVINGS:</string>
+    <string name="tax_invoice">***TAX INVOICE***</string>
 </resources>
