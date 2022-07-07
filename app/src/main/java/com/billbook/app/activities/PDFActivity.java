@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Environment;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,6 +33,8 @@ import com.billbook.app.database.models.InvoiceModelV2;
 import com.billbook.app.databinding.ActivityPdfBinding;
 import com.billbook.app.databinding.InvoiceAmountLayoutUpdatedBinding;
 import com.billbook.app.databinding.PdfContentNewBinding;
+import com.billbook.app.databinding.ShortBillItemLayoutBinding;
+import com.billbook.app.databinding.ShortBillLayoutBinding;
 import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.billbook.app.viewmodel.InvoiceViewModel;
 import com.google.gson.Gson;
@@ -89,30 +92,37 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private String imageURL,signatureURL;
     private ActivityPdfBinding binding;
     private PdfContentNewBinding pdfBinding;
+    private ShortBillItemLayoutBinding shortBillItemLayoutBinding;
+    private ShortBillLayoutBinding  shortBillLayoutBinding;
     private InvoiceAmountLayoutUpdatedBinding invoiceAmountLayoutUpdatedBinding;
     private boolean hasCompanyLogo = false, hasSignatureLogo = false;
     private boolean loadedCompanyLogo = false, loadedSignatureLogo = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPdfBinding.inflate(getLayoutInflater());
         pdfBinding = binding.includedLayoutPdfContent;
+        shortBillLayoutBinding = binding.includedLayoutShortBill;
         invoiceAmountLayoutUpdatedBinding = pdfBinding.invoiceAmountLayoutUpdated;
         setContentView(binding.getRoot());
         //setContentView(R.layout.activity_pdf);
         invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
         invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
+        binding.btnLongPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.login_button_structure));
+        binding.btnLongPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
         initUI();
         setProfileData();
         setData();
+        setShortFormatData();
     }
 
     private void initUI() {
         recyclerViewInvoiceProducts = pdfBinding.recyclerViewInvoiceProducts;
-        pdfBinding.btnPrint.setOnClickListener(this);
-        pdfBinding.closeBtn.setOnClickListener(this);
-        pdfBinding.btnSubmit.setOnClickListener(this);
+        binding.btnPrintBill.setOnClickListener(this);
+        binding.btnHome.setOnClickListener(this);
+        binding.btnShare.setOnClickListener(this);
+        binding.btnLongPdf.setOnClickListener(this);
+        binding.btnShortPdf.setOnClickListener(this);
     }
 
     public static void setDataAfterInvoiceItems(List<InvoiceItems> invoiceItems,Context context,boolean isGSTAvailable, RecyclerView recyclerViewInvoiceProducts, String GSTType){
@@ -171,48 +181,48 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     invID = getIntent().getExtras().getInt("id");
 
 //                        Log.i(TAG, "setData: GST => " + isGSTAvailable);
-                    pdfBinding.tvPreTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-                    pdfBinding.llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
-                    pdfBinding.footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
-                    pdfBinding.paddingLabelGst.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+                  //  pdfBinding.tvPreTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+                  //  pdfBinding.llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+                  //  pdfBinding.footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+                   // pdfBinding.paddingLabelGst.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
 
                     if (invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
                         GSTType = "CGST/SGST (Local customer)";
                         pdfBinding.IGST.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.VISIBLE);
                         pdfBinding.SGST.setVisibility(View.VISIBLE);
-                        pdfBinding.padding3.setVisibility(View.GONE);
+                       //pdfBinding.padding3.setVisibility(View.GONE);
                         pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));
-                        pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
+                        /*pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));*/
                     } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
                         GSTType = "IGST (Central/outstation customer)";
                         pdfBinding.IGST.setVisibility(View.VISIBLE);
-                        pdfBinding.padding1.setVisibility(View.GONE);
-                        pdfBinding.padding2.setVisibility(View.GONE);
+                       // pdfBinding.padding1.setVisibility(View.GONE);
+                       // pdfBinding.padding2.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.GONE);
                         pdfBinding.SGST.setVisibility(View.GONE);
                         pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 4.5f));
-                        pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
+                       /* pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));*/
                     } else {
                         pdfBinding.IGST.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.GONE);
                         pdfBinding.SGST.setVisibility(View.GONE);
-                        pdfBinding.padding1.setVisibility(View.GONE);
-                        pdfBinding.padding2.setVisibility(View.GONE);
-                        pdfBinding.padding3.setVisibility(View.GONE);
+                        //pdfBinding.padding1.setVisibility(View.GONE);
+                       // pdfBinding.padding2.setVisibility(View.GONE);
+                       // pdfBinding.padding3.setVisibility(View.GONE);
                         pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 5.5f));
-                        pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
+                       /* pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));*/
                     }
                     if (invoice.getString("GSTNo").isEmpty()) {
-                        pdfBinding.custGstLayout.setVisibility(View.INVISIBLE);
+                       // pdfBinding.custGstLayout.setVisibility(View.INVISIBLE);
                     } else {
-                        pdfBinding.custGstLayout.setVisibility(View.VISIBLE);
+                       // pdfBinding.custGstLayout.setVisibility(View.VISIBLE);
                         pdfBinding.customerGst.setText(invoice.getString("GSTNo"));
                     }
                     pdfBinding.txtInvoiceDate.setText(invoice.getString("invoiceDate"));
@@ -273,6 +283,19 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         }
 
 
+    }
+
+    private  void setShortFormatData(){
+        try{
+            localInvoiceId = getIntent().getExtras().getLong("localInvId");
+            shortBillLayoutBinding.tvVendorName.setText(profile.getString("shopName"));
+            shortBillLayoutBinding.tvStoreAddress.setText(profile.getString("shopAddr") + " " + profile.getString("city")
+                    + " " + profile.getString("state") + " - " + profile.getString("pincode"));
+            shortBillLayoutBinding.mobileNoRetailer.setText("Mobile No- " + profile.getString("mobileNo"));
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     private void loadAndSetCompanyLogo(){
         if(imageURL!=null) {
@@ -451,17 +474,36 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnPrint:
+            case R.id.btnPrintBill:
                 Util.postEvents("Print", "Print", this.getApplicationContext());
                 openPDF();
                 break;
-            case R.id.btnSubmit:
+            case R.id.btnShare:
                 Util.postEvents("Share of Whatsapp", "Share of Whatsapp", this.getApplicationContext());
                 shareOnWhatsApp();
                 break;
-            case R.id.closeBtn:
+            case R.id.btnHome:
                 Util.postEvents("Close", "Close", this.getApplicationContext());
+                Log.v("Home", "Clicked");
+                Intent intent = new Intent(this, BottomNavigationActivity.class);
+                startActivity(intent);
                 this.finish();
+                break;
+            case R.id.btn_Long_pdf:
+                shortBillLayoutBinding.shortBill.setVisibility(View.GONE);
+                pdfBinding.scollviewSendPDF.setVisibility(View.VISIBLE);
+                binding.btnLongPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.login_button_structure));
+                binding.btnLongPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
+                binding.btnShortPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.pdf_format_structure));
+                binding.btnShortPdf.setTextColor(ContextCompat.getColor(this,R.color.black));
+                break;
+            case R.id.btn_Short_pdf:
+                pdfBinding.scollviewSendPDF.setVisibility(View.GONE);
+                shortBillLayoutBinding.shortBill.setVisibility(View.VISIBLE);
+                binding.btnShortPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.login_button_structure));
+                binding.btnShortPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
+                binding.btnLongPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.pdf_format_structure));
+                binding.btnLongPdf.setTextColor(ContextCompat.getColor(this,R.color.black));
                 break;
 
         }

@@ -52,7 +52,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -136,12 +135,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private ImageButton imageButton;
     private EditText edtname;
     private EditText edtMobNo, billNo;
-    private TextView additemTv,viewDets;
+    private TextView additemTv;
     private static final int Contact_code=123;
     private static final int Contact_Pick_code=111;
-    private boolean ischeckDisc = true;
-    private int count = 0;
-
 
     // idInLocalDb = column with name "id" in local db android
 
@@ -155,10 +151,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         edtname= findViewById(R.id.edtName);
         edtMobNo= findViewById(R.id.edtMobNo);
         billNo = findViewById(R.id.billNo);
-        viewDets = findViewById(R.id.viewDets);
-
-
-
         try {
             gstBllNo = getIntent().hasExtra("gstBillNo")?getIntent().getExtras().getString("gstBillNo"): String.valueOf(1);
             nonGstBillNo =getIntent().hasExtra("nonGstBillNo")? getIntent().getExtras().getString("nonGstBillNo"): String.valueOf(1);
@@ -192,13 +184,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
     }
-    public void onClickViewDets(View v)
-    {
-        viewDets = findViewById(R.id.viewDets);
-        ScrollView sv = findViewById(R.id.mainSv);
-        sv.scrollTo(0, sv.getMaxScrollAmount ());
-
-    }
     public void setonClick(){
         binding.ivToolBarBack.setOnClickListener(v -> {
             finish();
@@ -208,12 +193,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         });
         binding.lnYouTube.setOnClickListener(v -> {
             Util. startYoutubeActivity(BillingNewActivity.this);
-        });
-        billItemBinding.addItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addItem();
-            }
         });
     }
 
@@ -776,28 +755,19 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         Util.postEvents("Add More Item", "Add More Item", this.getApplicationContext());
         customDialogClass = new BottomSheetClass(this, null,measurementUnitTypeList);
         additemTv = findViewById(R.id.additemTv);
+
         customDialogClass.show();
         TextView viewNew = customDialogClass.findViewById(R.id.additemTv);
         viewNew.setText("Add New Item");
         TableRow table = customDialogClass.findViewById(R.id.deleteLayout);
         table.setVisibility(View.GONE);
-        count = invoiceItemsList.size() + 1;
-        binding.billDets.setText("Bill details"+"("+count+")");
-
-
 
         //additemTv.setText("Add New Item");
     }
 
-    public void addItem() {
+    public void addItem(View view) {
         if (addItemVerify()) {
             Util.postEvents("Add Item", "Add Item", this.getApplicationContext());
-            count = invoiceItemsList.size() + 1;
-            binding.billDets.setText("Bill details"+"("+count+")");
-            TextView tv1 = findViewById(R.id.items);
-            tv1.setVisibility(View.VISIBLE);
-            LinearLayout ll = findViewById(R.id.viewDetsLay);
-            ll.setVisibility(View.VISIBLE);
 
 //            addItem(itemNameET.getText().toString(),
 //                    Float.parseFloat(itemPriceET.getText().toString()),
@@ -829,6 +799,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
     }
+    public void deleteItem()
+    {
+
+    }
 
     public void addItemToDatabase(final String modelName, final float price,final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId, long masterItemId){
         // When editing an invoice item
@@ -850,7 +824,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         setTotal(newInvoiceItem, true);
         calculateDiscount();
         calculateAmountBeforeGST(newInvoiceItem, true);
-
     }
 
     private void getInvoiceItemsFromDatabase(){
@@ -1012,7 +985,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             modelName.setAdapter(modelAdapter);
 
 
-
             Spinner spinner = measurementUnitSpinner;
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(BillingNewActivity.this,
                     android.R.layout.simple_spinner_item, this.measureUnitTypeList);
@@ -1061,8 +1033,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 }
             });
             deleteRow.setOnClickListener(new View.OnClickListener() {
-
-
                 @Override
                 public void onClick(View view) {
                     DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
@@ -1073,10 +1043,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             invoiceItemViewModel.delete(newInvoiceModel);
                             newBillingAdapter.notifyDataSetChanged();
                             calculateDiscount();
-                            count = count-1;
-                            binding.billDets.setText("Bills Details"+"("+count+")");
                             dismiss();
-
 
                         }
                         @Override
@@ -1086,7 +1053,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     });
 
                 }
-
             });
 
         }
@@ -1147,7 +1113,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     break;
                 case R.id.cancel:
                     dismiss();
-                    count = count-1;
                     break;
                 default:
                     break;
@@ -1379,9 +1344,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     data.put("invoice", requestObj);
                     data.put("items", requestObj.getJSONArray("items"));
 
-                    Intent intent = new Intent(BillingNewActivity.this, RemotePDFActivity.class);
-                    //intent.putExtra("invoice", requestObj.toString());
-                    //intent.putExtra("invoiceServer", data.toString());
+                    Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                    intent.putExtra("invoice", requestObj.toString());
+                    intent.putExtra("invoiceServer", data.toString());
                     intent.putExtra("localInvId",localInvoiceId);
                     intent.putExtra("id",-1);
                     intent.putExtra("idForItem",localInvoiceId);
@@ -1587,17 +1552,33 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                         invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
 
-                        Intent intent = new Intent(BillingNewActivity.this, RemotePDFActivity.class);
-//                        intent.putExtra("invoice", invoice.toString());
-                        intent.putExtra("shortHtml", body.getJSONObject("data").getString("shortHtml1"));
-                        intent.putExtra("longHtml", body.getJSONObject("data").getString("longHtml1") );
-                        intent.putExtra("pdflink", body.getJSONObject("data").getJSONObject("invoice").getString("pdfLink") );
-                        intent.putExtra("invoiceId", body.getJSONObject("data").getJSONObject("invoice").getInt("id") );
+
+                        Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                        intent.putExtra("invoice", invoice.toString());
+                        intent.putExtra("gstBillNo",isEdit ? object.getJSONObject("invoice").getInt("gstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("gstBillNo"));
+                        intent.putExtra("nonGstBillNo",isEdit ? object.getJSONObject("invoice").getInt("nonGstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("nonGstBillNo"));
+                        intent.putExtra("id",isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
+                        intent.putExtra("idForItem", isEdit ? (long) object.getJSONObject("invoice").getInt("id"):localInvoiceId);
+                        intent.putExtra("customerName", isEdit & customerObject.has("name") ? customerObject.getString("name") : "");
+                        intent.putExtra("customerMobileNo", isEdit & customerObject.has("mobileNo")? customerObject.getString("mobileNo"): "");
+                        intent.putExtra("customerAddress", isEdit & customerObject.has("address")? customerObject.getString("address"): "");
                         if(isEdit && idInLocalDb >0) {
                             intent.putExtra("localInvId", idInLocalDb);
                         }
                         else
                             intent.putExtra("localInvId",localInvoiceId);
+
+                       /* Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                        intent.putExtra("invoice", invoice.toString());
+                       // intent.putExtra("shortHtml", body.getJSONObject("data").getString("shortHtml1"));
+                       // intent.putExtra("longHtml", body.getJSONObject("data").getString("longHtml1") );
+                       // intent.putExtra("pdflink", body.getJSONObject("data").getJSONObject("invoice").getString("pdfLink") );
+                        intent.putExtra("invoiceId", body.getJSONObject("data").getJSONObject("invoice").getInt("id") );
+                        if(isEdit && idInLocalDb >0) {
+                            intent.putExtra("localInvId", idInLocalDb);
+                        }
+                        else
+                            intent.putExtra("localInvId",localInvoiceId);*/
 
                         ///intent.putExtra("invoiceServer", isEdit ? object.toString() : body.getJSONObject("data").toString());
                         startActivity(intent);
@@ -1716,23 +1697,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 e.printStackTrace();
             }
         }
-    }
-    public void discVisible(View v)
-    {
-        TextView addDisc = findViewById(R.id.addDisc);
-        LinearLayout disc = findViewById(R.id.discountLayout);
-                if(ischeckDisc)
-                {
-                    addDisc.setText("Cancel");
-                    disc.setVisibility(View.VISIBLE);
-                    ischeckDisc=false;
-                }
-                else
-                {
-                    addDisc.setText("Add Discount");
-                    disc.setVisibility(View.GONE);
-                    ischeckDisc=true;
-                }
     }
 
     private void loadDataForInvoice() {

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginBottom="@dimen/_20sdp"
+    android:layout_marginTop="@dimen/_20sdp"
+    android:layout_marginRight="@dimen/_20sdp"
+    android:layout_marginLeft="@dimen/_20sdp"
+    android:id="@+id/short_Bill"
     tools:context=".activities.PDFActivity">
 
     <LinearLayout
@@ -308,6 +313,32 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/llForHeaderTax"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="11">
+
+
+                        <TextView
+                            android:id="@+id/productTax"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2.5"
+                            android:ellipsize="end"
+                            android:gravity="end"
+                            android:padding="5dp"
+                            android:singleLine="true"
+                            android:text="Tax%"
+                            android:textAllCaps="true"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/_9sdp"
+
+                            />
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -441,31 +472,7 @@
                             android:text="NetAmnt"
                             android:textColor="@color/color_black" />
                     </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/llForHeaderTax"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal"
-                        android:weightSum="11">
 
-
-                        <TextView
-                            android:id="@+id/productTax"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2.5"
-                            android:ellipsize="end"
-                            android:gravity="end"
-                            android:padding="5dp"
-                            android:textSize="@dimen/_9sdp"
-                            android:singleLine="true"
-                            android:textAllCaps="true"
-                            android:text="Tax%"
-                            android:textColor="@color/color_black"
-
-                            />
-                    </LinearLayout>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_10sdp"
@@ -587,12 +594,12 @@
 
                 </LinearLayout>
 
-                </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_10sdp"
-                    android:background="@drawable/dash_line"
-                    android:layerType="software" />
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_10sdp"
+                android:background="@drawable/dash_line"
+                android:layerType="software" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -639,7 +646,7 @@
 
                 </LinearLayout>
             </LinearLayout>
-            </LinearLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -655,7 +662,7 @@
                 android:weightSum="10">
 
                 <TextView
-                    android:layout_width="205dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
                     android:padding="5dp"
@@ -701,7 +708,7 @@
                 android:weightSum="10">
 
                 <TextView
-                    android:layout_width="181dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:gravity="end"
@@ -728,7 +735,7 @@
                     android:textSize="@dimen/_11sdp" />
 
             </LinearLayout>
-            </LinearLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -742,7 +749,7 @@
                 android:weightSum="10">
 
                 <TextView
-                    android:layout_width="181dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:gravity="end"
@@ -785,7 +792,7 @@
                 android:weightSum="10">
 
                 <TextView
-                    android:layout_width="181dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:gravity="end"
@@ -827,7 +834,7 @@
                 android:weightSum="10">
 
                 <TextView
-                    android:layout_width="181dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:gravity="end"
@@ -888,5 +895,5 @@
 
             </LinearLayout>
         </LinearLayout>
-        </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/inter"
-                    android:text="@string/help">
+                    android:text="Help">
 
                 </TextView>
             </LinearLayout>
@@ -92,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/inter"
-                    android:text="@string/demo">
+                    android:text="Demo">
 
                 </TextView>
 

@@ -26,7 +26,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import com.billbook.app.BuildConfig;
 import com.billbook.app.R;
@@ -97,7 +96,6 @@ public class HomeFragment extends Fragment
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-    private FragmentActivity activity;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -115,7 +113,7 @@ public class HomeFragment extends Fragment
     private JSONArray exp = null;
     private String expString;
     InMobiBanner mBannerAd1;
-    public boolean isSheetShown ;
+    public static boolean isSheetShown = false;
     VungleBanner vungleBanner;
     private JSONArray gstList, nonGstList;
     // replace with actual placementId from InMobi
@@ -141,9 +139,6 @@ public class HomeFragment extends Fragment
         adContainer = (RelativeLayout) view.findViewById(R.id.parent);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
         initUI(view);
-        final SharedPreferences sharedPref = getActivity().getSharedPreferences(
-                getString(R.string.preference_file_key), getActivity().MODE_PRIVATE);
-        isSheetShown = sharedPref.getBoolean("isGstDialogShown", false);
         bottomSheetDialog(view);
         Util.setMeasurementUnits(getActivity());
         try {
@@ -231,7 +226,7 @@ public class HomeFragment extends Fragment
     }
     private void bottomSheetDialog(View view){
 
-        if(!isSheetShown)
+        if(isSheetShown)
         {
             BottomSheetDialog gstSheet = new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
             View bottomSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgst,(LinearLayout)view.findViewById(R.id.bottomSheetContainer));
@@ -252,24 +247,12 @@ public class HomeFragment extends Fragment
                             showGif.show();
                             gstSheet.dismiss();
                             yesGst.dismiss();
-                            SharedPreferences sharedPref =
-                                    getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
-                                            getActivity().MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putBoolean("isGstDialogShown", true);
-                            editor.commit();
                         }
                     });
                     yesGstSheet.findViewById(R.id.cancelGst).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             yesGst.dismiss();
-                            SharedPreferences sharedPref =
-                                    getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
-                                            getActivity().MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putBoolean("isGstDialogShown", true);
-                            editor.commit();
                         }
                     });
                     yesGst.setContentView(yesGstSheet);
@@ -281,14 +264,7 @@ public class HomeFragment extends Fragment
                 @Override
                 public void onClick(View view) {
                     gstSheet.dismiss();
-                    SharedPreferences sharedPref =
-                            getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
-                                    getActivity().MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putBoolean("isGstDialogShown", true);
-                    editor.commit();
                 }
-
             });
             gstSheet.setContentView(bottomSheet);
             gstSheet.show();
@@ -665,13 +641,13 @@ public class HomeFragment extends Fragment
     public void onStart()
     {
         super.onStart();
-
+        HomeFragment.isSheetShown = true;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        HomeFragment.isSheetShown = false;
 
         try {
             userProfile= new JSONObject (MyApplication.getUserDetails());
@@ -713,6 +689,7 @@ public class HomeFragment extends Fragment
     public void  onStop()
     {
         super.onStop();
+        HomeFragment.isSheetShown = false;
     }
 
 
@@ -812,10 +789,10 @@ public class HomeFragment extends Fragment
                                     } else if (view.getId() == R.id.btnSearchInvoice) {
                                         startSpotLight(btnGetSalesReport, "Day Book", "Check profit and download your data.");
 
-                                    } else if(view.getId() == R.id.btnGetSalesReport) {
-                                        startSpotLight(wathcDemo, "Watch Demo", "Videos on how to use app.");
-                                    }else{
-                                        startSpotLight(helpLine, "Helpline", "Customer support details.");
+//                                    } else if(view.getId() == R.id.btnGetSalesReport) {
+//                                        startSpotLight(wathcDemo, "Watch Demo", "Videos on how to use app.");
+//                                    }else{
+//                                        startSpotLight(helpLine, "Helpline", "Customer support details.");
 
                                     }
                                 }
@@ -835,27 +812,27 @@ public class HomeFragment extends Fragment
     }
     private void updateGST() {
 //    boolean test = MyApplication.getIsGSTVeeditProfilerifies();
-      //  if(MyApplication.showGstPopup() == -1 ){
-//            DialogUtils.showAlertDialog(getActivity(), "Yes", "No",
-//                    "Do you have a GST number?", new DialogUtils.DialogClickListener() {
-//                        @Override
-//                        public void positiveButtonClick() {
-//                            MyApplication.setShowGstPopup(1);
-//                            sendGstUpdateStatus(1);
-//                            MyApplication.setGSTFilled();
-//                            Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-//                            startActivity(intent);
-//
-//                        }
-//
-//                        @Override
-//                        public void negativeButtonClick() {
-//                            sendGstUpdateStatus(0);
-//                            MyApplication.setShowGstPopup(0);
-//                            MyApplication.setGSTFilled();
-//                        }
-//                    });
-        //}
+        if(MyApplication.showGstPopup() == -1 ){
+            DialogUtils.showAlertDialog(getActivity(), "Yes", "No",
+                    "Do you have a GST number?", new DialogUtils.DialogClickListener() {
+                        @Override
+                        public void positiveButtonClick() {
+                            MyApplication.setShowGstPopup(1);
+                            sendGstUpdateStatus(1);
+                            MyApplication.setGSTFilled();
+                            Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                            startActivity(intent);
+
+                        }
+
+                        @Override
+                        public void negativeButtonClick() {
+                            sendGstUpdateStatus(0);
+                            MyApplication.setShowGstPopup(0);
+                            MyApplication.setGSTFilled();
+                        }
+                    });
+        }
     }
 
     private void sendGstUpdateStatus(int gstStatus) {

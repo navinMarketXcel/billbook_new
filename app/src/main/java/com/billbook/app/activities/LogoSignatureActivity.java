@@ -63,6 +63,8 @@ public class LogoSignatureActivity extends AppCompatActivity {
     private final double MAX_FILE_SIZE_LIMIT = 15.0;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 111;
     private String picturePath;
+    private static final int PERMISSION_REQUEST_CODE = 200;
+
     ImageView ivToolBarBack,ivLogo,ivSetLogo,ivSetSign,ivDeleteSign,ivDeleteLogo;
     Button btnPickLogo,btnPickSign,btn_save;
     LinearLayout LnBrowseLogo,LnSetLogo,LnBrowseSign,LnSetSign,lnSave;
@@ -153,6 +155,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
         }
 
     }
+
     public void setonClick(){
         ivToolBarBack.setOnClickListener(v -> {
             finish();
