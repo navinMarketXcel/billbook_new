@@ -250,7 +250,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         custAdd=getIntent().getExtras().getString("customerAddress");
                     }
 
-
+                    Log.v("shortformatInvoice", profile.getString("gstNo"));
                     pdfBinding.edtName.setText(custName.equals(null) ?" ":custName+" ");
                     pdfBinding.edtAddress.setText(custAdd.equals(null) ?" ":custAdd+" ");
                     pdfBinding.edtMobNo.setText(custNo.equals(null) ?" ":custNo+" ");
@@ -288,11 +288,39 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private  void setShortFormatData(){
         try{
             localInvoiceId = getIntent().getExtras().getLong("localInvId");
-            shortBillLayoutBinding.tvVendorName.setText(profile.getString("shopName"));
-            shortBillLayoutBinding.tvStoreAddress.setText(profile.getString("shopAddr") + " " + profile.getString("city")
-                    + " " + profile.getString("state") + " - " + profile.getString("pincode"));
-            shortBillLayoutBinding.mobileNoRetailer.setText("Mobile No- " + profile.getString("mobileNo"));
+            invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
+                try{
+                    Log.v("Inshort", String.valueOf(!invoice.getString("email").isEmpty()));
+                    invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
+                    shortBillLayoutBinding.tvVendorName.setText(profile.getString("shopName"));
+                    shortBillLayoutBinding.tvStoreAddress.setText(profile.getString("shopAddr") + " " + profile.getString("city")
+                            + " " + profile.getString("state") + " - " + profile.getString("pincode"));
+                    shortBillLayoutBinding.mobileNoRetailer.setText(" Phone: " + profile.getString("mobileNo"));
+                    if(profile.has("email")){
+                        shortBillLayoutBinding.emailRetailer.setText(profile.getString("email"));
+                    } else {
+                        shortBillLayoutBinding.emailRetailer.setVisibility(View.GONE);
+                    }
 
+                    if(getIntent().getExtras().getInt("gstBillNo") != 0){
+                        shortBillLayoutBinding.tvGSTNo.setText(profile.getString("gstNo"));
+                    } else {
+                        shortBillLayoutBinding.tvGSTNo.setVisibility(View.GONE);
+                        shortBillLayoutBinding.invoiceType.setText("***Invoice***");
+                    }
+                    shortBillLayoutBinding.txtInvoiceDate.setText(invoice.getString("invoiceDate"));
+                    shortBillLayoutBinding.txtInvoiceNo.setText("" + invoiceNumber);
+                    Log.v("formatInvoice", profile.getString("gstNo"));
+                    String custNo =invoice.getString("customerMobileNo");
+                    if(custNo.isEmpty())
+                    {
+                        custNo=getIntent().getExtras().getString("customerMobileNo");
+                    }
+                    shortBillLayoutBinding.edtMobNo.setText(custNo);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                    });
         }catch (Exception e) {
             e.printStackTrace();
         }
