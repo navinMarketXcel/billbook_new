@@ -587,8 +587,8 @@ public class HomeFragment extends Fragment
                 Util.postEvents("Billing", "Billing", getActivity().getApplicationContext());
                 intent = new Intent(getActivity(), BillingNewActivity.class);
                 try {
-                    intent.putExtra("gstBillNo", gstList.toString());
-                    intent.putExtra("nonGstBillNo", nonGstList.toString());
+                    intent.putExtra("gstBillNoList", gstList.toString());
+                    intent.putExtra("nonGstBillNoList", nonGstList.toString());
                 } catch (Exception e) {
                     intent.putExtra("gstBillNo", "");
                 }
@@ -601,8 +601,13 @@ public class HomeFragment extends Fragment
                 break;
             case R.id.btnSearchInvoice:
                 Util.postEvents("Search Bills", "Search Bills", getActivity().getApplicationContext());
-
                 intent = new Intent(getActivity(), SearchInvoiceActivity.class);
+                try {
+                    intent.putExtra("gstBillNoList", gstList.toString());
+                    intent.putExtra("nonGstBillNoList", nonGstList.toString());
+                } catch (Exception e) {
+                    intent.putExtra("gstBillNo", "");
+                }
                 startActivity(intent);
                 break;
             case R.id.btnGetSalesReport:

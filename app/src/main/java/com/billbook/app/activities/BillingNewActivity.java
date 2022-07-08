@@ -161,9 +161,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
 
+
         try {
-            gstBllNo = getIntent().hasExtra("gstBillNo")?getIntent().getExtras().getString("gstBillNo"): String.valueOf(1);
-            nonGstBillNo =getIntent().hasExtra("nonGstBillNo")? getIntent().getExtras().getString("nonGstBillNo"): String.valueOf(1);
+            gstBllNo = getIntent().hasExtra("gstBillNoList")?getIntent().getExtras().getString("gstBillNoList"): String.valueOf(1);
+            nonGstBillNo =getIntent().hasExtra("nonGstBillNoList")? getIntent().getExtras().getString("nonGstBillNoList"): String.valueOf(1);
             gstBllNo = gstBllNo.substring(1, gstBllNo.length() - 1);
             nonGstBillNo =nonGstBillNo.substring(1, nonGstBillNo.length() - 1);
             nonGstList = new ArrayList<>(Arrays.asList(nonGstBillNo.split(",")));
@@ -410,13 +411,40 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0){
-                        if(nonGstList.contains(s.toString())){
-                            binding.billNo.setError("Bill number already exist");
-                            binding.nextBtn.setVisibility(View.GONE);
-                        } else{
-                            binding.nextBtn.setVisibility(View.VISIBLE);
+                if(s.length() != 0 && !isEdit){
+
+                    try {
+
+                        if(isGSTAvailable)
+                        {
+                            Log.v("Gst Bills list",gstList.toString());
+                            if(gstList.contains(s.toString())){
+
+                                binding.billNo.setError("Bill number already exist");
+                                binding.nextBtn.setVisibility(View.GONE);
+                            } else{
+                                binding.nextBtn.setVisibility(View.VISIBLE);
+                            }
                         }
+                        else
+                        {
+                            Log.v("Non Gst Bills list",nonGstList.toString());
+                            if(nonGstList.contains(s.toString())){
+
+                                binding.billNo.setError("Bill number already exist");
+                                binding.nextBtn.setVisibility(View.GONE);
+                            } else{
+                                binding.nextBtn.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
+
+
                 }
             }
 
@@ -942,6 +970,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     @Override
     public void itemClick(final int position, boolean isEdit) {
         if (isEdit) {
+
 
             //additemTv.setText("Update Item");
             editPosition = position;
@@ -1702,6 +1731,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private void checkIsEdit() {
         if (getIntent().hasExtra("edit")) {
             try {
+                Button b = findViewById(R.id.addMoreItem);
+                b.setVisibility(View.VISIBLE);
+                binding.viewDetsLay.setVisibility(View.VISIBLE);
                 isEdit = true;
                 invoice = new JSONObject(getIntent().getStringExtra("invoice"));
                 Log.v("EditINV", invoice.toString());
@@ -1714,9 +1746,19 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     else
                         binding.gstType.setSelection(1);
                     serialNumber = invoice.getInt("gstBillNo");
+                    binding.billNo.setText(String.valueOf(serialNumber));
+                    binding.billNo.setEnabled(false);
+                    Log.v("serialGst", String.valueOf(invoice.getInt("gstBillNo")));
                 }
                 else
+                {
                     serialNumber = invoice.getInt("nonGstBillNo");
+                    binding.billNo.setText(String.valueOf(serialNumber));
+                    binding.billNo.setEnabled(false);
+                    Log.v("serialNonGst", String.valueOf(invoice.getInt("nonGstBillNo")));
+                }
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -1750,7 +1792,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     serialNumber = invoice.getInt("gstBillNo");
                 else
                     serialNumber = invoice.getInt("nonGstBillNo");
-                //binding.billNo.setText(serialNumber);
+               // binding.billNo.setText(String.valueOf(serialNumber));
 //                bill_no.setEnabled(false);
                 invoiceIdIfEdit = invoice.getInt("id");
                 localInvoiceId = invoiceIdIfEdit;

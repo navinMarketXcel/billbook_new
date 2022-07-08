@@ -939,10 +939,12 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     }
     public void goToEditBills(InvoicesData data)
     {
+
         JSONObject requestInvoice = new JSONObject();
         JSONArray masterItems = new JSONArray();
         JSONObject customer = new JSONObject();
         try {
+
             requestInvoice.put("totalAmount",data.getTotalAmount());
             requestInvoice.put("gstBillNo",data.getGstBillNo());
             requestInvoice.put("invoiceDate",data.getInvoiceDate());
@@ -1019,11 +1021,18 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         Util.postEvents("Edit","Edit",getApplicationContext());
 
         Intent intent = new Intent(this, BillingNewActivity.class);
-
+        String gstNoList,NongstNoList;
         intent.putExtra("edit",true);
         intent.putExtra("gstBillNo",data.getGstBillNo());
+        intent.putExtra("nonGstBillNo",data.getNonGstBillNo());
 
+        intent.putExtra("gstBillNoList",data.getGstBillNo());
+        gstNoList = getIntent().hasExtra("gstBillNoList")?getIntent().getExtras().getString("gstBillNoList"): String.valueOf(1);
+        NongstNoList =getIntent().hasExtra("nonGstBillNoList")? getIntent().getExtras().getString("nonGstBillNoList"): String.valueOf(1);
+        intent.putExtra("gstBillNoList",gstNoList);
+        intent.putExtra("nonGstBillNoList",NongstNoList);
         intent.putExtra("invoice",requestInvoice.toString());
+
 
 
 
