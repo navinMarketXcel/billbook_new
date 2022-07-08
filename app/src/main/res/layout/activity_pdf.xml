@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -22,8 +26,135 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include
-        android:id="@+id/includedLayoutPdfContent"
-        layout="@layout/pdf_content_new" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <LinearLayout
+                android:layout_width="@dimen/_250sdp"
+                android:layout_weight="1.2"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_Short_pdf"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/pdf_format_structure"
+                    android:text="Short Format"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_Long_pdf"
+                    android:layout_width="145dp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="130dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/pdf_format_structure"
+                    android:text="Long Format"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="@dimen/_280sdp"
+        android:layout_height="@dimen/_400sdp"
+        android:layout_gravity="center"
+        android:background="@drawable/webview_show"
+        android:orientation="horizontal">
+        <include
+            android:id="@+id/includedLayoutPdfContent"
+            layout="@layout/pdf_content_new" />
+        <include
+            android:id="@+id/includedLayoutShortBill"
+            layout="@layout/short_bill_layout" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btnShare"
+                android:background="@drawable/add_item_structure"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:paddingStart="@dimen/_30sdp"
+                android:paddingEnd="@dimen/_30sdp"
+                android:drawableLeft="@drawable/share_icon"
+                android:text="@string/share_"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="20dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btnPrintBill"
+                android:background="@drawable/add_item_structure"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:paddingStart="@dimen/_30sdp"
+                android:paddingEnd="@dimen/_30sdp"
+                android:drawableLeft="@drawable/document"
+                android:layout_marginRight="20dp"
+                android:text="@string/print"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:layout_margin="20dp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnHome"
+            android:background="@drawable/login_button_structure"
+            android:layout_width="220dp"
+            android:layout_height="50dp"
+            android:layout_gravity="top"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:text="Home"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+
+    </LinearLayout>
 </LinearLayout>
+</ScrollView>

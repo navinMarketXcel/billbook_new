@@ -231,9 +231,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             }
         });
         setonClick();
-
-
-
     }
     public void setonClick(){
         ImageView iv = findViewById(R.id.ivToolBarBack);
