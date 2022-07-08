@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.billbook.app.adapters.NewInvoiceShortBillInvoiceProductAdapter;
 import com.billbook.app.database.daos.InvoiceItemDao;
 import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.InvoiceModelV2;
@@ -73,7 +74,7 @@ import retrofit2.Response;
 
 public class PDFActivity extends AppCompatActivity implements View.OnClickListener {
     private JSONObject invoice;
-    private RecyclerView recyclerViewInvoiceProducts;
+    private RecyclerView recyclerViewInvoiceProducts,recyclerViewShortBillInvoiceProducts;
     private List<NewInvoiceModels> items;
     private List<InvoiceItems> curItems=null;
     private InvoiceItemsViewModel invoiceItemViewModel;
@@ -118,6 +119,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
     private void initUI() {
         recyclerViewInvoiceProducts = pdfBinding.recyclerViewInvoiceProducts;
+        recyclerViewShortBillInvoiceProducts = shortBillLayoutBinding.recyclerViewShortBillInvoiceProducts;
         binding.btnPrintBill.setOnClickListener(this);
         binding.btnHome.setOnClickListener(this);
         binding.btnShare.setOnClickListener(this);
@@ -133,9 +135,18 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         recyclerViewInvoiceProducts.setAdapter(newInvoicePurchaseAdapter);
     }
 
+    public static void setDataAfterInvoiceItemsShort(List<InvoiceItems> invoiceItems,Context context,boolean isGSTAvailable, RecyclerView recyclerViewShortBillInvoiceProducts, String GSTType){
+        NewInvoiceShortBillInvoiceProductAdapter newInvoiceShortBillInvoiceProductAdapter = new NewInvoiceShortBillInvoiceProductAdapter(context, invoiceItems, isGSTAvailable,GSTType);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        mLayoutManager.setStackFromEnd(true);
+        recyclerViewShortBillInvoiceProducts.setLayoutManager(mLayoutManager);
+        recyclerViewShortBillInvoiceProducts.setAdapter(newInvoiceShortBillInvoiceProductAdapter);
+    }
+
     private void setProfileData(){
         try{
             profile = new JSONObject(MyApplication.getUserDetails());
+            Log.v("profile", String.valueOf(profile));
             if(profile.has("additionalData") && profile.getString("additionalData").length()!=0){
                 invoiceAmountLayoutUpdatedBinding.tvAdditionalDetails.setVisibility(View.VISIBLE);
                 invoiceAmountLayoutUpdatedBinding.tvAdditionalDetails.setText(profile.getString("additionalData"));
@@ -290,19 +301,21 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             localInvoiceId = getIntent().getExtras().getLong("localInvId");
             invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
                 try{
-                    Log.v("Inshort", String.valueOf(!invoice.getString("email").isEmpty()));
+                    Log.v("Inshort", String.valueOf(profile.getString("email").isEmpty()));
                     invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
                     shortBillLayoutBinding.tvVendorName.setText(profile.getString("shopName"));
                     shortBillLayoutBinding.tvStoreAddress.setText(profile.getString("shopAddr") + " " + profile.getString("city")
                             + " " + profile.getString("state") + " - " + profile.getString("pincode"));
                     shortBillLayoutBinding.mobileNoRetailer.setText(" Phone: " + profile.getString("mobileNo"));
-                    if(profile.has("email")){
+                    if(profile.has("email") && !profile.getString("email").isEmpty()){
                         shortBillLayoutBinding.emailRetailer.setText(profile.getString("email"));
                     } else {
                         shortBillLayoutBinding.emailRetailer.setVisibility(View.GONE);
                     }
 
                     if(getIntent().getExtras().getInt("gstBillNo") != 0){
+                        isGSTAvailable =true;
+                        invoiceNumber = getIntent().getExtras().getInt("gstBillNo");
                         shortBillLayoutBinding.tvGSTNo.setText(profile.getString("gstNo"));
                     } else {
                         shortBillLayoutBinding.tvGSTNo.setVisibility(View.GONE);
@@ -311,12 +324,36 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     shortBillLayoutBinding.txtInvoiceDate.setText(invoice.getString("invoiceDate"));
                     shortBillLayoutBinding.txtInvoiceNo.setText("" + invoiceNumber);
                     Log.v("formatInvoice", profile.getString("gstNo"));
+                    String custName= invoice.getString("customerName");
                     String custNo =invoice.getString("customerMobileNo");
+                    String custAdd =invoice.getString("customerAddress");
                     if(custNo.isEmpty())
                     {
                         custNo=getIntent().getExtras().getString("customerMobileNo");
                     }
+                    if(custName.isEmpty())
+                    {
+                        custName=getIntent().getExtras().getString("customerName");
+                    }
+                    if(custAdd.isEmpty())
+                    {
+                        custAdd=getIntent().getExtras().getString("customerAddress");
+                    }
                     shortBillLayoutBinding.edtMobNo.setText(custNo);
+                    shortBillLayoutBinding.edtName.setText(custName);
+                    shortBillLayoutBinding.edtAddress.setText(custAdd);
+                    shortBillLayoutBinding.invoiceItems.setText(getIntent().getExtras().getString("itemsSize"));
+                    shortBillLayoutBinding.invoiceItemsQty.setText(getIntent().getExtras().getString("quantityCount"));
+                    float totalAfterDiscount = 0, totalAmount = 0;
+                    totalAmount = Float.parseFloat(invoice.getString("totalAmount"));
+                    if (invoice.has("totalAfterDiscount")) {
+                        totalAfterDiscount = (float) invoice.getDouble("totalAfterDiscount");
+                    } else {
+                        totalAfterDiscount = totalAmount;
+                    }
+                    shortBillLayoutBinding.invoiceNetAmnt.setText(Util.formatDecimalValue(totalAfterDiscount));
+                    shortBillLayoutBinding.invoiceNetAmntTotal.setText(Util.formatDecimalValue(totalAmount));
+                    new getCurrentItemsAsyncTaskShort(MyApplication.getDatabase().invoiceItemDao(), getIntent().getExtras().getLong("idForItem"), PDFActivity.this, isGSTAvailable, recyclerViewShortBillInvoiceProducts, GSTType).execute();
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -694,6 +731,44 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         protected void onPostExecute(List<InvoiceItems> invoiceItems) {
             super.onPostExecute(invoiceItems);
             setDataAfterInvoiceItems(invoiceItems, context, isGSTAvailable, recyclerViewInvoiceProducts, GSTType);
+            try {
+                loadAndSetCompanyLogo();
+                loadAndSetSignatureImage();
+                createPdfWrapper();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class getCurrentItemsAsyncTaskShort extends AsyncTask<Void, Void, List<InvoiceItems>> {
+        private InvoiceItemDao invoiceItemDao;
+        private long invoiceId;
+        private List<InvoiceItems> curItems;
+        private Context context;
+        private boolean isGSTAvailable;
+        private RecyclerView recyclerViewShortBillInvoiceProducts;
+        private String GSTType;
+
+        private getCurrentItemsAsyncTaskShort(InvoiceItemDao invoiceItemDao, long invoiceId, Context context, boolean isGSTAvailable, RecyclerView recyclerViewShortBillInvoiceProducts, String GSTType) {
+            this.invoiceItemDao = invoiceItemDao;
+            this.invoiceId = invoiceId;
+            this.context = context;
+            this.isGSTAvailable = isGSTAvailable;
+            this.recyclerViewShortBillInvoiceProducts = recyclerViewShortBillInvoiceProducts;
+            this.GSTType = GSTType;
+        }
+
+        @Override
+        protected List<InvoiceItems> doInBackground(Void... voids) {
+            curItems = invoiceItemDao.getCurrentItems(invoiceId);
+            return curItems;
+        }
+
+        @Override
+        protected void onPostExecute(List<InvoiceItems> invoiceItems) {
+            super.onPostExecute(invoiceItems);
+            setDataAfterInvoiceItemsShort(invoiceItems, context, isGSTAvailable, recyclerViewShortBillInvoiceProducts, GSTType);
             try {
                 loadAndSetCompanyLogo();
                 loadAndSetSignatureImage();

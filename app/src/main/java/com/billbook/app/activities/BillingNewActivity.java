@@ -114,7 +114,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private ArrayList<String> gstList, nonGstList;
     private boolean isGSTAvailable;
     private String gstNo;
-    private int editPosition = -1;
+    private int editPosition = -1, quantityCount = 0;
     private int invoiceIdIfEdit = -1;
     private int serialNumber = 0;
     private int hasWriteStoragePermission, isFirstReq = 1;
@@ -1562,6 +1562,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         intent.putExtra("customerName", isEdit & customerObject.has("name") ? customerObject.getString("name") : "");
                         intent.putExtra("customerMobileNo", isEdit & customerObject.has("mobileNo")? customerObject.getString("mobileNo"): "");
                         intent.putExtra("customerAddress", isEdit & customerObject.has("address")? customerObject.getString("address"): "");
+                        intent.putExtra("itemsSize", String.valueOf(invoiceItemsList.size()));
+                        intent.putExtra("quantityCount", String.valueOf(quantityCount));
                         if(isEdit && idInLocalDb >0) {
                             intent.putExtra("localInvId", idInLocalDb);
                         }
@@ -1734,7 +1736,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 for(int i = 0;i<invoiceItemEditModel.size();i++){
                     InvoiceItems curItem = invoiceItemEditModel.get(i);
                     // addItemToDatabase(curItem);
-
+                    quantityCount += curItem.getQuantity();
                     addItemToDatabase(curItem.getName(),
                             curItem.getPrice(),
                             curItem.getGst(),
