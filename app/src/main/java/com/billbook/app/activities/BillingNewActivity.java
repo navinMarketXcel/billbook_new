@@ -906,7 +906,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private void getUSerData(){
         try {
             profile = new JSONObject(MyApplication.getUserDetails());
-            if (profile.has("gstNo") && profile.getString("gstNo") != null && !profile.getString("gstNo").isEmpty() && !isEdit) {
+            if (profile.has("isGST") && profile.getString("isGST").equals(1)  && !isEdit) {
                 gstNo = profile.getString("gstNo");
                 isGSTAvailable = true;
             }
