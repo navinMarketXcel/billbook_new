@@ -179,7 +179,7 @@ ImageView ivToolBarBack;
         }else if (etState.getText().toString().isEmpty()) {
             etState.setError( "State can not be empty");
             return false;
-        }else if (etGstNum.getText().toString().length()<15) {
+        }else if (etGstNum.getText().toString().length()<15 &&etGstNum.getText().toString().length()!=0 ) {
             etGstNum.setError( "GST number can not be less than 15 characters");
             return false;
         }
