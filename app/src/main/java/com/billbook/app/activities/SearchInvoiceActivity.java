@@ -509,6 +509,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     invoiceData.setIsActive(obj.getBoolean("is_active"));
                     invoiceData.setId(obj.getInt("id"));
                     invoiceData.setCustomer(new Customer(cuObj.getString("name"),cuObj.getString("mobileNo"),false));
+                    invoiceData.setDiscount(obj.getInt("discount"));
                     List<MasterItem> masterArrayList = new ArrayList<MasterItem>();
                     for(int j=0; j < masterItems.length();j++)
                     {
@@ -958,6 +959,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             requestInvoice.put("gstType",data.getGstType());
             requestInvoice.put("nonGstBillNo",data.getNonGstBillNo());
             requestInvoice.put("GSTNo",data.getGSTNo());
+            requestInvoice.put("discount",data.getDiscount());
             for(int i =0;i<data.getMasterItems().size();i++)
             {
                 JSONObject masterObject = new JSONObject();
