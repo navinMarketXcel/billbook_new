@@ -302,7 +302,7 @@
     <string name="pin_code_">पिन कोड<font color='#F62525'> *</font></string>
     <string name="city_">शहर<font color='#F62525'> *</font></string>
     <string name="state_">राज्य<font color='#F62525'> *</font></string>
-    <string name="gst_num_">GST नंबर<font color='#F62525'> *</font></string>
+    <string name="gst_num_">GST नंबर<font color='#F62525'> </font></string>
     <string name="gst_num">GST नंबर</string>
     <string name="citye">शहर</string>
     <string name="statee">राज्य</string>

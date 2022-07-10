@@ -231,9 +231,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             }
         });
         setonClick();
-
-
-
     }
     public void setonClick(){
         ImageView iv = findViewById(R.id.ivToolBarBack);
@@ -509,6 +506,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     invoiceData.setIsActive(obj.getBoolean("is_active"));
                     invoiceData.setId(obj.getInt("id"));
                     invoiceData.setCustomer(new Customer(cuObj.getString("name"),cuObj.getString("mobileNo"),false));
+                    invoiceData.setDiscount(obj.getInt("discount"));
                     List<MasterItem> masterArrayList = new ArrayList<MasterItem>();
                     for(int j=0; j < masterItems.length();j++)
                     {
@@ -939,10 +937,12 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     }
     public void goToEditBills(InvoicesData data)
     {
+
         JSONObject requestInvoice = new JSONObject();
         JSONArray masterItems = new JSONArray();
         JSONObject customer = new JSONObject();
         try {
+
             requestInvoice.put("totalAmount",data.getTotalAmount());
             requestInvoice.put("gstBillNo",data.getGstBillNo());
             requestInvoice.put("invoiceDate",data.getInvoiceDate());
@@ -956,6 +956,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             requestInvoice.put("gstType",data.getGstType());
             requestInvoice.put("nonGstBillNo",data.getNonGstBillNo());
             requestInvoice.put("GSTNo",data.getGSTNo());
+            requestInvoice.put("discount",data.getDiscount());
             for(int i =0;i<data.getMasterItems().size();i++)
             {
                 JSONObject masterObject = new JSONObject();
@@ -1019,11 +1020,18 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         Util.postEvents("Edit","Edit",getApplicationContext());
 
         Intent intent = new Intent(this, BillingNewActivity.class);
-
+        String gstNoList,NongstNoList;
         intent.putExtra("edit",true);
         intent.putExtra("gstBillNo",data.getGstBillNo());
+        intent.putExtra("nonGstBillNo",data.getNonGstBillNo());
 
+        intent.putExtra("gstBillNoList",data.getGstBillNo());
+        gstNoList = getIntent().hasExtra("gstBillNoList")?getIntent().getExtras().getString("gstBillNoList"): String.valueOf(1);
+        NongstNoList =getIntent().hasExtra("nonGstBillNoList")? getIntent().getExtras().getString("nonGstBillNoList"): String.valueOf(1);
+        intent.putExtra("gstBillNoList",gstNoList);
+        intent.putExtra("nonGstBillNoList",NongstNoList);
         intent.putExtra("invoice",requestInvoice.toString());
+
 
 
 

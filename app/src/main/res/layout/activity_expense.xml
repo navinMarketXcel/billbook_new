@@ -1,272 +1,285 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
-    tools:context=".activities.ExpenseActivity">
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_margin="3dp"
-            android:background="?attr/colorPrimary"
-            app:layout_anchor="@+id/appBarLayout"
-            app:layout_anchorGravity="center"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_margin="@dimen/_5sdp">
-
-                <ImageView
-                    android:id="@+id/ivToolBarBack"
-                    style="@style/textRegular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_baseline_arrow_back_24"
-                    />
-
-                <TextView
-                    style="@style/textLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/_7sdp"
-                    android:fontFamily="@font/inter"
-                    android:text="@string/expense">
-
-                </TextView>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/lnHelp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:background="@drawable/app_bar_structure"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-                <Button
-                    android:id="@+id/helpLine"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/icons8_whatsapp_144"
-                    android:gravity="center_horizontal" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/inter"
-                    android:text="Help">
-
-                </TextView>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_margin="7dp">
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/lnYouTube"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:background="@drawable/app_bar_structure"
-                android:orientation="horizontal"
-                android:padding="8dp">
-
-
-                <Button
-                    android:id="@+id/wathcDemo"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="5dp"
-                    android:layout_toLeftOf="@+id/helpLine"
-                    android:background="@mipmap/youtube"
-                    android:gravity="center_horizontal" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/inter"
-                    android:text="Demo">
-
-                </TextView>
-
-            </LinearLayout>
-
-
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:elevation="2dp"
-
-        app:contentPadding="10dp"
-        card_view:cardCornerRadius="5dp">
-
-        <LinearLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/search_expense"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/inter"
-                    >
-
-                </TextView>
-
-                <EditText
-                    android:id="@+id/edtSearchExpense"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_search_white_24dp"
-                    style="@style/editText"
-                    android:hint="Search through expenses"
-                    android:inputType="text"
-                    android:maxLength="10"
-                    android:padding="5dp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:elevation="2dp"
-        app:contentPadding="10dp"
-        card_view:cardCornerRadius="5dp">
-
-        <LinearLayout
+        android:orientation="vertical"
+        xmlns:custom="http://schemas.android.com/apk/res-auto"
+        tools:context=".activities.ExpenseActivity">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="5dp">
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-            <LinearLayout
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="?attr/actionBarSize"
+                android:layout_margin="3dp"
+                android:background="?attr/colorPrimary"
+                app:layout_anchor="@+id/appBarLayout"
+                app:layout_anchorGravity="center"
+                app:popupTheme="@style/AppTheme.PopupOverlay">
+
                 <LinearLayout
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
+                    android:layout_gravity="left"
+                    android:layout_margin="@dimen/_5sdp">
+
+                    <ImageView
+                        android:id="@+id/ivToolBarBack"
+                        style="@style/textRegular"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_baseline_arrow_back_24"
+                        />
+
+                    <TextView
+                        style="@style/textLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_7sdp"
                         android:fontFamily="@font/inter"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:textColor="@color/black"
-                        android:text="@string/recent_bills_expense" />
+                        android:text="@string/expense">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="right"
-                        android:gravity="right"
-                        android:orientation="horizontal">
-                        <Button
-                            android:id="@+id/sortExpense"
-                            android:layout_width="wrap_content"
-                            android:layout_height="35dp"
-                            android:text="@string/sort"
-                            android:onClick="clickExpenseSort"
-                            android:layout_gravity="center"
-                            android:drawableLeft="@drawable/sorting"
-                            android:textStyle="bold"
-                            android:background="@color/white"
-                            android:textSize="13sp"
-                            android:layout_marginRight="10dp"
-                            android:textColor="#266CE4">
-
-                        </Button>
-                    </LinearLayout>
-
+                    </TextView>
 
 
                 </LinearLayout>
 
-                <View
+                <LinearLayout
+                    android:id="@+id/lnHelp"
                     android:layout_width="wrap_content"
-                    android:layout_height="1dp"
-                    android:layout_margin="5dp"
-                    android:background="@color/borderOpaque"/>
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:background="@drawable/app_bar_structure"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-            <TextView
-                android:id="@+id/tvExpenseNotFound"
-                android:layout_width="250dp"
-                android:layout_gravity="center"
-                android:layout_height="250dp"
-                android:background="@drawable/searchbg"
-                android:gravity="center"
-                />
+                    <Button
+                        android:id="@+id/helpLine"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/icons8_whatsapp_144"
+                        android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/inter"
+                        android:text="Help">
+
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_margin="7dp">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lnYouTube"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:background="@drawable/app_bar_structure"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
 
+                    <Button
+                        android:id="@+id/wathcDemo"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="5dp"
+                        android:layout_toLeftOf="@+id/helpLine"
+                        android:background="@mipmap/youtube"
+                        android:gravity="center_horizontal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/inter"
+                        android:text="Demo">
+
+                    </TextView>
+
+                </LinearLayout>
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/expensesRV"
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:elevation="2dp"
+
+            app:contentPadding="10dp"
+            card_view:cardCornerRadius="5dp">
+
+            <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/syncText"
-                android:layout_below="@+id/expenseHeader"></androidx.recyclerview.widget.RecyclerView>
+                android:orientation="vertical"
+                android:padding="5dp">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/search_expense"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/inter"
+                        >
+
+                    </TextView>
+
+                    <EditText
+                        android:id="@+id/edtSearchExpense"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_search_white_24dp"
+                        style="@style/editText"
+                        android:hint="Search through expenses"
+                        android:inputType="text"
+                        android:maxLength="10"
+                        android:padding="5dp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:elevation="2dp"
+            android:layout_above="@+id/addExpenseLay"
+            app:contentPadding="10dp"
+            card_view:cardCornerRadius="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:fontFamily="@font/inter"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:textColor="@color/black"
+                            android:text="@string/recent_bills_expense" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:orientation="horizontal">
+                            <Button
+                                android:id="@+id/sortExpense"
+                                android:layout_width="wrap_content"
+                                android:layout_height="35dp"
+                                android:text="@string/sort"
+                                android:onClick="clickExpenseSort"
+                                android:layout_gravity="center"
+                                android:drawableLeft="@drawable/sorting"
+                                android:textStyle="bold"
+                                android:background="@color/white"
+                                android:textSize="13sp"
+                                android:layout_marginRight="10dp"
+                                android:textColor="#266CE4">
+
+                            </Button>
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="1dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/borderOpaque"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvExpenseNotFound"
+                    android:layout_width="250dp"
+                    android:layout_gravity="center"
+                    android:layout_height="250dp"
+                    android:background="@drawable/searchbg"
+                    android:gravity="center"
+                    />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/expensesRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addExpenseLay">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
             android:gravity="bottom"
             android:padding="5dp">
@@ -291,34 +304,30 @@
                 android:layout_gravity="bottom"
                 android:gravity="center">
 
-            <Button
-                android:id="@+id/addExpense"
-                android:layout_width="270dp"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_gravity="bottom"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="50dp"
-                android:background="@drawable/add_expense_structure"
-                android:onClick="gotoAddExpense"
-                android:text="@string/add_new_expense"
-                android:textAllCaps="true"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                <Button
+                    android:id="@+id/addExpense"
+                    android:layout_width="270dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="bottom"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="50dp"
+                    android:background="@drawable/add_expense_structure"
+                    android:onClick="gotoAddExpense"
+                    android:text="@string/add_new_expense"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
         </LinearLayout>
+    </RelativeLayout>
 
-        </LinearLayout>
+</RelativeLayout>
 
-
-
-
-    </androidx.cardview.widget.CardView>
-
-
-</LinearLayout>
 
 <!--    <LinearLayout-->
 

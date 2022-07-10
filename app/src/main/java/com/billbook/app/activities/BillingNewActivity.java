@@ -141,6 +141,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private static final int Contact_Pick_code=111;
     private boolean ischeckDisc = true;
     private int count = 0;
+    private LinearLayout itemslay;
 
 
     // idInLocalDb = column with name "id" in local db android
@@ -156,12 +157,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         edtMobNo= findViewById(R.id.edtMobNo);
         billNo = findViewById(R.id.billNo);
         viewDets = findViewById(R.id.viewDets);
+        itemslay=findViewById(R.id.itemsLayout);
 
 
 
         try {
-            gstBllNo = getIntent().hasExtra("gstBillNo")?getIntent().getExtras().getString("gstBillNo"): String.valueOf(1);
-            nonGstBillNo =getIntent().hasExtra("nonGstBillNo")? getIntent().getExtras().getString("nonGstBillNo"): String.valueOf(1);
+            gstBllNo = getIntent().hasExtra("gstBillNoList")?getIntent().getExtras().getString("gstBillNoList"): String.valueOf(1);
+            nonGstBillNo =getIntent().hasExtra("nonGstBillNoList")? getIntent().getExtras().getString("nonGstBillNoList"): String.valueOf(1);
             gstBllNo = gstBllNo.substring(1, gstBllNo.length() - 1);
             nonGstBillNo =nonGstBillNo.substring(1, nonGstBillNo.length() - 1);
             nonGstList = new ArrayList<>(Arrays.asList(nonGstBillNo.split(",")));
@@ -408,13 +410,40 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 0){
-                        if(nonGstList.contains(s.toString())){
-                            binding.billNo.setError("Bill number already exist");
-                            binding.nextBtn.setVisibility(View.GONE);
-                        } else{
-                            binding.nextBtn.setVisibility(View.VISIBLE);
+                if(s.length() != 0 && !isEdit){
+
+                    try {
+
+                        if(isGSTAvailable)
+                        {
+                            Log.v("Gst Bills list",gstList.toString());
+                            if(gstList.contains(s.toString())){
+
+                                binding.billNo.setError("Bill number already exist");
+                                binding.nextBtn.setVisibility(View.GONE);
+                            } else{
+                                binding.nextBtn.setVisibility(View.VISIBLE);
+                            }
                         }
+                        else
+                        {
+                            Log.v("Non Gst Bills list",nonGstList.toString());
+                            if(nonGstList.contains(s.toString())){
+
+                                binding.billNo.setError("Bill number already exist");
+                                binding.nextBtn.setVisibility(View.GONE);
+                            } else{
+                                binding.nextBtn.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
+
+
                 }
             }
 
@@ -746,7 +775,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                if (binding.layoutBillItemInitial.getVisibility() == View.VISIBLE) {
+                if (billItemBinding.layoutBillItemInitial.getVisibility() == View.VISIBLE) {
                     billItemBinding.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
 //                } else if (BottomSheetClass.isShowing()) {
 //                    BottomSheetClass..setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
@@ -783,6 +812,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         table.setVisibility(View.GONE);
         count = invoiceItemsList.size() + 1;
         binding.billDets.setText("Bill details"+"("+count+")");
+        billItemBinding.items.setText("Items"+"("+count+")");
 
 
 
@@ -794,11 +824,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             Util.postEvents("Add Item", "Add Item", this.getApplicationContext());
             count = invoiceItemsList.size() + 1;
             binding.billDets.setText("Bill details"+"("+count+")");
+            billItemBinding.items.setText("Items"+"("+count+")");
             TextView tv1 = findViewById(R.id.items);
             tv1.setVisibility(View.VISIBLE);
             LinearLayout ll = findViewById(R.id.viewDetsLay);
             ll.setVisibility(View.VISIBLE);
-
+            billItemBinding.itemsLayout.setVisibility(View.VISIBLE);
 //            addItem(itemNameET.getText().toString(),
 //                    Float.parseFloat(itemPriceET.getText().toString()),
 //                    Float.parseFloat(gstPercentage.getSelectedItemPosition()>0?gstPercentage.getSelectedItem().toString():"0")
@@ -822,7 +853,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     billItemBinding.unit.getSelectedItemPosition(),-1);
 
             binding.cardItemList.setVisibility(View.VISIBLE);
-            binding.layoutBillItemInitial.setVisibility(View.GONE);
+            billItemBinding.layoutBillItemInitial.setVisibility(View.GONE);
 //            binding.tvTotal.setText(billItemBinding.itemPriceET.getText().toString());
 //
         }
@@ -874,7 +905,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private void getUSerData(){
         try {
             profile = new JSONObject(MyApplication.getUserDetails());
-            if (profile.has("gstNo") && profile.getString("gstNo") != null && !profile.getString("gstNo").isEmpty() && !isEdit) {
+            if (profile.has("isGST") && profile.getString("isGST").equals(1)  && !isEdit) {
                 gstNo = profile.getString("gstNo");
                 isGSTAvailable = true;
             }
@@ -938,6 +969,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     @Override
     public void itemClick(final int position, boolean isEdit) {
         if (isEdit) {
+
 
             //additemTv.setText("Update Item");
             editPosition = position;
@@ -1075,6 +1107,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             calculateDiscount();
                             count = count-1;
                             binding.billDets.setText("Bills Details"+"("+count+")");
+                            billItemBinding.items.setText("Items"+"("+count+")");
                             dismiss();
 
 
@@ -1379,9 +1412,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     data.put("invoice", requestObj);
                     data.put("items", requestObj.getJSONArray("items"));
 
-                    Intent intent = new Intent(BillingNewActivity.this, RemotePDFActivity.class);
-                    //intent.putExtra("invoice", requestObj.toString());
-                    //intent.putExtra("invoiceServer", data.toString());
+                    Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                    intent.putExtra("invoice", requestObj.toString());
+                    intent.putExtra("invoiceServer", data.toString());
                     intent.putExtra("localInvId",localInvoiceId);
                     intent.putExtra("id",-1);
                     intent.putExtra("idForItem",localInvoiceId);
@@ -1587,17 +1620,33 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                         invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
 
-                        Intent intent = new Intent(BillingNewActivity.this, RemotePDFActivity.class);
-//                        intent.putExtra("invoice", invoice.toString());
-                        intent.putExtra("shortHtml", body.getJSONObject("data").getString("shortHtml1"));
-                        intent.putExtra("longHtml", body.getJSONObject("data").getString("longHtml1") );
-                        intent.putExtra("pdflink", body.getJSONObject("data").getJSONObject("invoice").getString("pdfLink") );
-                        intent.putExtra("invoiceId", body.getJSONObject("data").getJSONObject("invoice").getInt("id") );
+
+                        Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                        intent.putExtra("invoice", invoice.toString());
+                        intent.putExtra("gstBillNo",isEdit ? object.getJSONObject("invoice").getInt("gstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("gstBillNo"));
+                        intent.putExtra("nonGstBillNo",isEdit ? object.getJSONObject("invoice").getInt("nonGstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("nonGstBillNo"));
+                        intent.putExtra("id",isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
+                        intent.putExtra("idForItem", isEdit ? (long) object.getJSONObject("invoice").getInt("id"):localInvoiceId);
+                        intent.putExtra("customerName", isEdit & customerObject.has("name") ? customerObject.getString("name") : "");
+                        intent.putExtra("customerMobileNo", isEdit & customerObject.has("mobileNo")? customerObject.getString("mobileNo"): "");
+                        intent.putExtra("customerAddress", isEdit & customerObject.has("address")? customerObject.getString("address"): "");
                         if(isEdit && idInLocalDb >0) {
                             intent.putExtra("localInvId", idInLocalDb);
                         }
                         else
                             intent.putExtra("localInvId",localInvoiceId);
+
+                       /* Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                        intent.putExtra("invoice", invoice.toString());
+                       // intent.putExtra("shortHtml", body.getJSONObject("data").getString("shortHtml1"));
+                       // intent.putExtra("longHtml", body.getJSONObject("data").getString("longHtml1") );
+                       // intent.putExtra("pdflink", body.getJSONObject("data").getJSONObject("invoice").getString("pdfLink") );
+                        intent.putExtra("invoiceId", body.getJSONObject("data").getJSONObject("invoice").getInt("id") );
+                        if(isEdit && idInLocalDb >0) {
+                            intent.putExtra("localInvId", idInLocalDb);
+                        }
+                        else
+                            intent.putExtra("localInvId",localInvoiceId);*/
 
                         ///intent.putExtra("invoiceServer", isEdit ? object.toString() : body.getJSONObject("data").toString());
                         startActivity(intent);
@@ -1697,6 +1746,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private void checkIsEdit() {
         if (getIntent().hasExtra("edit")) {
             try {
+                Button b = findViewById(R.id.addMoreItem);
+                b.setVisibility(View.VISIBLE);
+                binding.viewDetsLay.setVisibility(View.VISIBLE);
                 isEdit = true;
                 invoice = new JSONObject(getIntent().getStringExtra("invoice"));
                 Log.v("EditINV", invoice.toString());
@@ -1709,9 +1761,19 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     else
                         binding.gstType.setSelection(1);
                     serialNumber = invoice.getInt("gstBillNo");
+                    binding.billNo.setText(String.valueOf(serialNumber));
+                    binding.billNo.setEnabled(false);
+                    Log.v("serialGst", String.valueOf(invoice.getInt("gstBillNo")));
                 }
                 else
+                {
                     serialNumber = invoice.getInt("nonGstBillNo");
+                    binding.billNo.setText(String.valueOf(serialNumber));
+                    binding.billNo.setEnabled(false);
+                    Log.v("serialNonGst", String.valueOf(invoice.getInt("nonGstBillNo")));
+                }
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -1745,7 +1807,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     serialNumber = invoice.getInt("gstBillNo");
                 else
                     serialNumber = invoice.getInt("nonGstBillNo");
-                //binding.billNo.setText(serialNumber);
+               // binding.billNo.setText(String.valueOf(serialNumber));
 //                bill_no.setEnabled(false);
                 invoiceIdIfEdit = invoice.getInt("id");
                 localInvoiceId = invoiceIdIfEdit;
@@ -1817,7 +1879,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 binding.tvTotalFinal.setText("₹"+Util.formatDecimalValue(invoice.getInt("totalAfterDiscount")));
                 //binding.tvAmountGST.setText(Util.formatDecimalValue(invoice.getInt("gstAmount")));
                 binding.cardItemList.setVisibility(View.VISIBLE);
-                binding.layoutBillItemInitial.setVisibility(View.GONE);
+                billItemBinding.layoutBillItemInitial.setVisibility(View.GONE);
 
             } catch (JSONException e) {
                 e.printStackTrace();
