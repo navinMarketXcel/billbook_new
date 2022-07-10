@@ -686,6 +686,7 @@
                 android:weightSum="10">
 
                 <TextView
+                    android:id="@+id/GSTField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
@@ -703,6 +704,7 @@
                 android:weightSum="10">
 
                 <TextView
+                    android:id="@+id/taxAmntField"
                     android:layout_width="181dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
@@ -727,6 +729,7 @@
                 android:weightSum="10">
 
                 <TextView
+                    android:id="@+id/invoiceSGST"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
@@ -770,6 +773,7 @@
                 android:weightSum="10">
 
                 <TextView
+                    android:id="@+id/invoiceCGST"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
@@ -812,6 +816,7 @@
                 android:weightSum="10">
 
                 <TextView
+                    android:id="@+id/invoiceIGST"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"

@@ -318,7 +318,16 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         invoiceNumber = getIntent().getExtras().getInt("gstBillNo");
                         shortBillLayoutBinding.tvGSTNo.setText(profile.getString("gstNo"));
                     } else {
+                        shortBillLayoutBinding.productTax.setVisibility(View.GONE);
                         shortBillLayoutBinding.tvGSTNo.setVisibility(View.GONE);
+                        shortBillLayoutBinding.GSTField.setVisibility(View.GONE);
+                        shortBillLayoutBinding.taxAmntField.setVisibility(View.GONE);
+                        shortBillLayoutBinding.invoiceIGSTAmt.setVisibility(View.GONE);
+                        shortBillLayoutBinding.invoiceCGSTAmt.setVisibility(View.GONE);
+                        shortBillLayoutBinding.invoiceSGSTAmt.setVisibility(View.GONE);
+                        shortBillLayoutBinding.invoiceSGST.setVisibility(View.GONE);
+                        shortBillLayoutBinding.invoiceCGST.setVisibility(View.GONE);
+                        shortBillLayoutBinding.invoiceIGST.setVisibility(View.GONE);
                         shortBillLayoutBinding.invoiceType.setText("***Invoice***");
                     }
                     shortBillLayoutBinding.txtInvoiceDate.setText(invoice.getString("invoiceDate"));

@@ -52,6 +52,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -185,9 +186,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         searchItemAutoComplete();
         customerNumberAutoComplete();
         setonClick();
-
-
-
+    }
+    public void onClickViewDets(View v)
+    {
+        viewDets = findViewById(R.id.viewDets);
+        ScrollView sv = findViewById(R.id.mainSv);
+        sv.scrollTo(0, sv.getMaxScrollAmount ());
     }
     public void setonClick(){
         binding.ivToolBarBack.setOnClickListener(v -> {
@@ -198,6 +202,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         });
         binding.lnYouTube.setOnClickListener(v -> {
             Util. startYoutubeActivity(BillingNewActivity.this);
+        });
+        billItemBinding.addItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addItem();
+            }
         });
     }
 
@@ -799,7 +809,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         //additemTv.setText("Add New Item");
     }
 
-    public void addItem(View view) {
+    public void addItem() {
         if (addItemVerify()) {
             Util.postEvents("Add Item", "Add Item", this.getApplicationContext());
             count = invoiceItemsList.size() + 1;
@@ -1157,6 +1167,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     break;
                 case R.id.cancel:
                     dismiss();
+                    count = count - 1;
                     break;
                 default:
                     break;
@@ -1759,6 +1770,24 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             }
         }
     }
+    public void discVisible(View v)
+    {
+        TextView addDisc = findViewById(R.id.addDisc);
+        LinearLayout disc = findViewById(R.id.discountLayout);
+        if(ischeckDisc)
+        {
+            addDisc.setText("Cancel");
+            disc.setVisibility(View.VISIBLE);
+            ischeckDisc=false;
+        }
+        else
+        {
+            addDisc.setText("Add Discount");
+            disc.setVisibility(View.GONE);
+            ischeckDisc=true;
+        }
+    }
+
 
     private void loadDataForInvoice() {
 
