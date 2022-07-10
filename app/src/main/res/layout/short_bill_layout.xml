@@ -335,7 +335,6 @@
                         android:id="@+id/llForHeader"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="11">
 
@@ -347,7 +346,6 @@
                             android:layout_weight="2.5"
                             android:ellipsize="end"
                             android:gravity="start"
-                            android:padding="5dp"
                             android:textSize="@dimen/_9sdp"
                             android:singleLine="true"
                             android:textAllCaps="true"
@@ -364,7 +362,6 @@
                             android:layout_weight="1.5"
                             android:ellipsize="end"
                             android:gravity="end"
-                            android:padding="5dp"
                             android:singleLine="true"
                             android:text="MRP"
                             android:textSize="@dimen/_9sdp"
@@ -392,7 +389,6 @@
                             android:ellipsize="end"
                             android:gravity="end"
                             android:textSize="@dimen/_9sdp"
-                            android:padding="5dp"
                             android:singleLine="true"
                             android:text="Rate"
                             android:textColor="@color/color_black"/>
@@ -434,7 +430,6 @@
                             android:layout_weight="2.5"
                             android:ellipsize="end"
                             android:gravity="end"
-                            android:padding="5dp"
                             android:textSize="@dimen/_9sdp"
                             android:singleLine="true"
                             android:text="NetAmnt"
@@ -444,7 +439,6 @@
                         android:id="@+id/llForHeaderTax"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:orientation="horizontal"
                         android:weightSum="11">
 
@@ -452,11 +446,10 @@
                         <TextView
                             android:id="@+id/productTax"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_weight="2.5"
                             android:ellipsize="end"
                             android:gravity="end"
-                            android:padding="5dp"
                             android:singleLine="true"
                             android:text="Tax%"
                             android:textAllCaps="true"
@@ -652,7 +645,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
-                    android:padding="5dp"
                     android:gravity="end"
                     android:text="@string/total_savings"
                     android:textStyle="bold"
@@ -670,11 +662,10 @@
                 android:padding="5dp"
                 android:weightSum="10">
                 <TextView
-                    android:id="@+id/InvoiceTotalDiscount"
+                    android:id="@+id/invoiceTotalDiscount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="6"
-                    android:padding="5dp"
                     android:text="200.00"
                     android:textStyle="bold"
                     android:textColor="@color/color_black"
@@ -754,7 +745,7 @@
                 android:weightSum="10">
 
                 <TextView
-                    android:id="@+id/InvoiceSGSTAmt"
+                    android:id="@+id/invoiceSGSTAmt"
                     android:layout_width="181dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
@@ -796,7 +787,7 @@
                 android:weightSum="10">
 
                 <TextView
-                    android:id="@+id/InvoiceCGSTAmt"
+                    android:id="@+id/invoiceCGSTAmt"
                     android:layout_width="181dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
@@ -838,7 +829,7 @@
                 android:weightSum="10">
 
                 <TextView
-                    android:id="@+id/InvoiceIGSTAmt"
+                    android:id="@+id/invoiceIGSTAmt"
                     android:layout_width="181dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"

@@ -353,7 +353,18 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     }
                     shortBillLayoutBinding.invoiceNetAmnt.setText(Util.formatDecimalValue(totalAfterDiscount));
                     shortBillLayoutBinding.invoiceNetAmntTotal.setText(Util.formatDecimalValue(totalAmount));
+                    shortBillLayoutBinding.invoiceTotalDiscount.setText(Util.formatDecimalValue(totalAmount - totalAfterDiscount));
                     new getCurrentItemsAsyncTaskShort(MyApplication.getDatabase().invoiceItemDao(), getIntent().getExtras().getLong("idForItem"), PDFActivity.this, isGSTAvailable, recyclerViewShortBillInvoiceProducts, GSTType).execute();
+                    if (invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
+                        GSTType = "CGST/SGST (Local customer)";
+                        shortBillLayoutBinding.invoiceSGSTAmt.setText(getIntent().getExtras().getString("shortBillGstAmt"));
+                        shortBillLayoutBinding.invoiceCGSTAmt.setText(getIntent().getExtras().getString("shortBillGstAmt"));
+                    } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
+                        GSTType = "IGST (Central/outstation customer)";
+                        shortBillLayoutBinding.invoiceIGSTAmt.setText(getIntent().getExtras().getString("shortBillGstAmt"));
+                    } else {
+
+                    }
                 }catch (Exception e){
                     e.printStackTrace();
                 }

@@ -105,7 +105,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private InvoiceViewModel invoiceViewModel;
     private ModelAdapter modelAdapter;
     private NewBillingAdapter newBillingAdapter;
-    private float total = 0, totalBeforeGST = 0, discountPercent = 0, discountAmt = 0;
+    private float total = 0, totalBeforeGST = 0, discountPercent = 0, discountAmt = 0, shortBillGstAmt = 0;
     private String invoiceDateStr, gstBllNo, nonGstBillNo;
     private Date invoiceDate;
     private Gson gson = new Gson();
@@ -1273,6 +1273,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         binding.tvAmountBeforeTax.setText("₹"+Util.formatDecimalValue(totalBeforeGST));
         binding.tvAmountGST.setText("₹"+Util.formatDecimalValue(total - totalBeforeGST));
+        shortBillGstAmt = total - totalBeforeGST;
     }
 
     public void gotoPDFActivity(View v) {
@@ -1564,6 +1565,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         intent.putExtra("customerAddress", isEdit & customerObject.has("address")? customerObject.getString("address"): "");
                         intent.putExtra("itemsSize", String.valueOf(invoiceItemsList.size()));
                         intent.putExtra("quantityCount", String.valueOf(quantityCount));
+                        intent.putExtra("shortBillGstAmt",String.valueOf(Util.formatDecimalValue(shortBillGstAmt)));
                         if(isEdit && idInLocalDb >0) {
                             intent.putExtra("localInvId", idInLocalDb);
                         }
@@ -1724,9 +1726,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 binding.tvTotal.setText("₹"+Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
                 binding.edtGST.setText(invoice.getString("GSTNo"));
                 binding.edtMobNo.setText(invoice.getJSONObject("customer").getString("mobileNo"));
-                System.out.println("Total after dis"+invoice.getInt("totalAfterDiscount"));
-
-
                 JSONArray masterItems = invoice.getJSONArray("masterItems");
                 invoiceItemEditModel = gson.fromJson(masterItems.toString(), new TypeToken<List<InvoiceItems>>() {
                 }.getType());
