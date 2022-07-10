@@ -52,7 +52,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -106,7 +105,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private InvoiceViewModel invoiceViewModel;
     private ModelAdapter modelAdapter;
     private NewBillingAdapter newBillingAdapter;
-    private float total = 0, totalBeforeGST = 0, discountPercent = 0, discountAmt = 0;
+    private float total = 0, totalBeforeGST = 0, discountPercent = 0, discountAmt = 0, shortBillGstAmt = 0;
     private String invoiceDateStr, gstBllNo, nonGstBillNo;
     private Date invoiceDate;
     private Gson gson = new Gson();
@@ -115,7 +114,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private ArrayList<String> gstList, nonGstList;
     private boolean isGSTAvailable;
     private String gstNo;
-    private int editPosition = -1;
+    private int editPosition = -1, quantityCount = 0;
     private int invoiceIdIfEdit = -1;
     private int serialNumber = 0;
     private int hasWriteStoragePermission, isFirstReq = 1;
@@ -136,14 +135,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private ImageButton imageButton;
     private EditText edtname;
     private EditText edtMobNo, billNo;
-    private TextView additemTv,viewDets;
+    private TextView additemTv;
     private static final int Contact_code=123;
     private static final int Contact_Pick_code=111;
     private boolean ischeckDisc = true;
     private int count = 0;
     private LinearLayout itemslay;
-
-
+    private TextView viewDets;
     // idInLocalDb = column with name "id" in local db android
 
     @Override
@@ -158,9 +156,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         billNo = findViewById(R.id.billNo);
         viewDets = findViewById(R.id.viewDets);
         itemslay=findViewById(R.id.itemsLayout);
-
-
-
         try {
             gstBllNo = getIntent().hasExtra("gstBillNoList")?getIntent().getExtras().getString("gstBillNoList"): String.valueOf(1);
             nonGstBillNo =getIntent().hasExtra("nonGstBillNoList")? getIntent().getExtras().getString("nonGstBillNoList"): String.valueOf(1);
@@ -194,13 +189,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
     }
-    public void onClickViewDets(View v)
-    {
-        viewDets = findViewById(R.id.viewDets);
-        ScrollView sv = findViewById(R.id.mainSv);
-        sv.scrollTo(0, sv.getMaxScrollAmount ());
-
-    }
     public void setonClick(){
         binding.ivToolBarBack.setOnClickListener(v -> {
             finish();
@@ -210,12 +198,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         });
         binding.lnYouTube.setOnClickListener(v -> {
             Util. startYoutubeActivity(BillingNewActivity.this);
-        });
-        billItemBinding.addItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addItem();
-            }
         });
     }
 
@@ -805,6 +787,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         Util.postEvents("Add More Item", "Add More Item", this.getApplicationContext());
         customDialogClass = new BottomSheetClass(this, null,measurementUnitTypeList);
         additemTv = findViewById(R.id.additemTv);
+
         customDialogClass.show();
         TextView viewNew = customDialogClass.findViewById(R.id.additemTv);
         viewNew.setText("Add New Item");
@@ -813,13 +796,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         count = invoiceItemsList.size() + 1;
         binding.billDets.setText("Bill details"+"("+count+")");
         billItemBinding.items.setText("Items"+"("+count+")");
-
-
-
         //additemTv.setText("Add New Item");
     }
 
-    public void addItem() {
+    public void addItem(View view) {
         if (addItemVerify()) {
             Util.postEvents("Add Item", "Add Item", this.getApplicationContext());
             count = invoiceItemsList.size() + 1;
@@ -860,6 +840,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
     }
+    public void deleteItem()
+    {
+
+    }
 
     public void addItemToDatabase(final String modelName, final float price,final float gst, final float quantity, boolean isNew, String imei, String hsnNo, final int measurementUnitId, long masterItemId){
         // When editing an invoice item
@@ -881,7 +865,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         setTotal(newInvoiceItem, true);
         calculateDiscount();
         calculateAmountBeforeGST(newInvoiceItem, true);
-
     }
 
     private void getInvoiceItemsFromDatabase(){
@@ -1044,7 +1027,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             modelName.setAdapter(modelAdapter);
 
 
-
             Spinner spinner = measurementUnitSpinner;
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(BillingNewActivity.this,
                     android.R.layout.simple_spinner_item, this.measureUnitTypeList);
@@ -1093,8 +1075,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 }
             });
             deleteRow.setOnClickListener(new View.OnClickListener() {
-
-
                 @Override
                 public void onClick(View view) {
                     DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
@@ -1109,8 +1089,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             binding.billDets.setText("Bills Details"+"("+count+")");
                             billItemBinding.items.setText("Items"+"("+count+")");
                             dismiss();
-
-
                         }
                         @Override
                         public void negativeButtonClick() {
@@ -1119,7 +1097,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     });
 
                 }
-
             });
 
         }
@@ -1180,7 +1157,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     break;
                 case R.id.cancel:
                     dismiss();
-                    count = count-1;
                     break;
                 default:
                     break;
@@ -1341,6 +1317,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         binding.tvAmountBeforeTax.setText("₹"+Util.formatDecimalValue(totalBeforeGST));
         binding.tvAmountGST.setText("₹"+Util.formatDecimalValue(total - totalBeforeGST));
+        shortBillGstAmt = total - totalBeforeGST;
     }
 
     public void gotoPDFActivity(View v) {
@@ -1630,6 +1607,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         intent.putExtra("customerName", isEdit & customerObject.has("name") ? customerObject.getString("name") : "");
                         intent.putExtra("customerMobileNo", isEdit & customerObject.has("mobileNo")? customerObject.getString("mobileNo"): "");
                         intent.putExtra("customerAddress", isEdit & customerObject.has("address")? customerObject.getString("address"): "");
+                        intent.putExtra("itemsSize", String.valueOf(invoiceItemsList.size()));
+                        intent.putExtra("quantityCount", String.valueOf(quantityCount));
+                        intent.putExtra("shortBillGstAmt",String.valueOf(Util.formatDecimalValue(shortBillGstAmt)));
                         if(isEdit && idInLocalDb >0) {
                             intent.putExtra("localInvId", idInLocalDb);
                         }
@@ -1779,23 +1759,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             }
         }
     }
-    public void discVisible(View v)
-    {
-        TextView addDisc = findViewById(R.id.addDisc);
-        LinearLayout disc = findViewById(R.id.discountLayout);
-                if(ischeckDisc)
-                {
-                    addDisc.setText("Cancel");
-                    disc.setVisibility(View.VISIBLE);
-                    ischeckDisc=false;
-                }
-                else
-                {
-                    addDisc.setText("Add Discount");
-                    disc.setVisibility(View.GONE);
-                    ischeckDisc=true;
-                }
-    }
 
     private void loadDataForInvoice() {
 
@@ -1820,9 +1783,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 binding.tvTotal.setText("₹"+Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
                 binding.edtGST.setText(invoice.getString("GSTNo"));
                 binding.edtMobNo.setText(invoice.getJSONObject("customer").getString("mobileNo"));
-                System.out.println("Total after dis"+invoice.getInt("totalAfterDiscount"));
-
-
                 JSONArray masterItems = invoice.getJSONArray("masterItems");
                 invoiceItemEditModel = gson.fromJson(masterItems.toString(), new TypeToken<List<InvoiceItems>>() {
                 }.getType());
@@ -1832,7 +1792,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 for(int i = 0;i<invoiceItemEditModel.size();i++){
                     InvoiceItems curItem = invoiceItemEditModel.get(i);
                     // addItemToDatabase(curItem);
-
+                    quantityCount += curItem.getQuantity();
                     addItemToDatabase(curItem.getName(),
                             curItem.getPrice(),
                             curItem.getGst(),

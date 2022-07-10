@@ -95,7 +95,6 @@
                 </TextView>
 
 
-
             </LinearLayout>
 
 
@@ -186,7 +185,6 @@
                 android:padding="8dp">
 
 
-
                 <Button
 
                     android:id="@+id/wathcDemo"
@@ -225,7 +223,6 @@
             </LinearLayout>
 
 
-
         </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -235,13 +232,13 @@
 
         android:id="@+id/mainSv"
 
-        android:layout_above="@+id/viewDetsLay"
-
         android:layout_width="match_parent"
 
-        android:layout_below="@+id/appbar"
+        android:layout_height="wrap_content"
 
-        android:layout_height="wrap_content">
+        android:layout_above="@+id/viewDetsLay"
+
+        android:layout_below="@+id/appbar">
 
         <LinearLayout
 
@@ -249,9 +246,9 @@
 
             android:layout_height="wrap_content"
 
-            android:fitsSystemWindows="true"
-
             android:background="@color/colorPrimary"
+
+            android:fitsSystemWindows="true"
 
             android:orientation="horizontal"
 
@@ -310,15 +307,15 @@
 
                         <LinearLayout
 
-                            android:layout_margin="10dp"
-
                             android:layout_width="match_parent"
 
-                            android:layout_weight="1.2"
+                            android:layout_height="match_parent"
 
                             android:layout_gravity="center"
 
-                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+
+                            android:layout_weight="1.2"
 
                             android:orientation="horizontal">
 
@@ -328,15 +325,15 @@
 
                                 android:layout_width="wrap_content"
 
-                                android:fontFamily="@font/inter"
-
-                                android:textSize="16sp"
-
                                 android:layout_height="wrap_content"
 
                                 android:layout_gravity="center"
 
-                                android:text="@string/bill_number" />
+                                android:fontFamily="@font/inter"
+
+                                android:text="@string/bill_number"
+
+                                android:textSize="16sp" />
 
 
                             <EditText
@@ -344,8 +341,6 @@
                                 android:id="@+id/billNo"
 
                                 android:layout_width="40dp"
-
-                                android:textSize="14sp"
 
                                 android:layout_height="30dp"
 
@@ -360,6 +355,8 @@
                                 android:gravity="left"
 
                                 android:inputType="number"
+
+                                android:textSize="14sp"
 
                                 android:textStyle="bold"
 
@@ -371,24 +368,22 @@
 
                         <LinearLayout
 
-                            android:paddingLeft="20dp"
-
-                            android:layout_margin="10dp"
-
                             android:layout_width="match_parent"
 
                             android:layout_height="match_parent"
 
+                            android:layout_margin="10dp"
+
                             android:layout_weight="1"
 
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+
+                            android:paddingLeft="20dp">
 
 
                             <TextView
 
                                 android:id="@+id/textView8"
-
-                                android:textSize="16sp"
 
                                 android:layout_width="wrap_content"
 
@@ -398,7 +393,9 @@
 
                                 android:fontFamily="@font/inter"
 
-                                android:text="@string/bill_date" />
+                                android:text="@string/bill_date"
+
+                                android:textSize="16sp" />
 
 
                             <EditText
@@ -409,17 +406,11 @@
 
                                 android:layout_height="30dp"
 
-                                android:padding="1dp"
-
-                                android:textColor="#0A0A0A"
-
                                 android:layout_gravity="center"
 
                                 android:layout_marginLeft="8dp"
 
                                 android:background="@drawable/layout_background"
-
-                                android:textSize="14sp"
 
                                 android:fontFamily="@font/inter"
 
@@ -427,14 +418,19 @@
 
                                 android:inputType="number"
 
+                                android:padding="1dp"
+
                                 android:text=""
+
+                                android:textColor="#0A0A0A"
+
+                                android:textSize="14sp"
 
                                 android:textStyle="bold"
 
                                 tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
                         </LinearLayout>
-
 
 
                     </LinearLayout>
@@ -444,11 +440,11 @@
 
                         android:id="@+id/customerNameLayout"
 
-                        android:layout_margin="10dp"
-
                         android:layout_width="match_parent"
 
                         android:layout_height="wrap_content"
+
+                        android:layout_margin="10dp"
 
                         android:orientation="vertical">
 
@@ -457,37 +453,35 @@
 
                             android:layout_width="match_parent"
 
-                            android:textSize="15sp"
+                            android:layout_height="wrap_content"
 
-                            android:textStyle="bold"
+                            android:text="@string/customer_name"
 
                             android:textColor="#555555"
 
-                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
 
-                            android:text="@string/customer_name" />
-
-
+                            android:textStyle="bold" />
 
 
                         <EditText
 
 
-                            android:textColor="#0A0A0A"
-
                             android:id="@+id/edtName"
 
                             style="@style/editText"
-
-                            android:background="@drawable/layout_background"
 
                             android:layout_width="match_parent"
 
                             android:layout_height="wrap_content"
 
+                            android:background="@drawable/layout_background"
+
                             android:hint="@string/enter_name_billactivity"
 
                             android:singleLine="false"
+
+                            android:textColor="#0A0A0A"
 
                             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
@@ -496,13 +490,13 @@
 
                     <LinearLayout
 
-                        android:layout_margin="10dp"
-
                         android:id="@+id/contactNoLayout"
 
                         android:layout_width="match_parent"
 
                         android:layout_height="wrap_content"
+
+                        android:layout_margin="10dp"
 
                         android:orientation="vertical">
 
@@ -510,38 +504,36 @@
 
                             android:layout_width="match_parent"
 
-                            android:textSize="15sp"
+                            android:layout_height="wrap_content"
 
-                            android:textStyle="bold"
+                            android:text="@string/customer_mobile_number"
 
                             android:textColor="#555555"
 
-                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
 
-                            android:text="@string/customer_mobile_number" />
-
-
+                            android:textStyle="bold" />
 
 
                         <EditText
 
-                            android:drawableRight="@drawable/ic_baseline_contacts_24"
-
                             android:id="@+id/edtMobNo"
 
-                            android:onClick="clickButton"
-
                             style="@style/editText"
-
-                            android:maxLength="10"
-
-                            android:background="@drawable/layout_background"
 
                             android:layout_width="match_parent"
 
                             android:layout_height="wrap_content"
 
+                            android:background="@drawable/layout_background"
+
+                            android:drawableRight="@drawable/ic_baseline_contacts_24"
+
                             android:hint="@string/enter_mobile_number_optional"
+
+                            android:maxLength="10"
+
+                            android:onClick="clickButton"
 
                             android:singleLine="false"
 
@@ -556,31 +548,31 @@
 
                         android:layout_width="wrap_content"
 
-                        android:text="@string/additional_customer_details"
-
-                        android:padding="5dp"
-
-                        android:onClick="showHideAdditionalDetails"
-
-                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
 
                         android:layout_marginTop="10dp"
 
                         android:layout_marginBottom="10dp"
 
-                        android:gravity="center_vertical"
-
-                        android:textColor="#266CE4"
-
                         android:drawableRight="@drawable/ic_add_circle"
 
                         android:drawablePadding="5dp"
 
+                        android:gravity="center_vertical"
+
+                        android:onClick="showHideAdditionalDetails"
+
+                        android:padding="5dp"
+
+                        android:text="@string/additional_customer_details"
+
+                        android:textColor="#266CE4"
+
+                        android:textStyle="bold"
+
                         app:layout_constraintLeft_toLeftOf="parent"
 
-                        app:layout_constraintTop_toBottomOf="@+id/contactNoLayout"
-
-                        android:layout_height="wrap_content" />
+                        app:layout_constraintTop_toBottomOf="@+id/contactNoLayout" />
 
 
                     <LinearLayout
@@ -593,49 +585,47 @@
 
                         android:orientation="vertical"
 
-                        android:visibility="gone"
-
-                        app:layout_constraintTop_toBottomOf="@+id/additionalDetails"
-
                         android:padding="5dp"
 
-                        android:weightSum="10">
+                        android:visibility="gone"
+
+                        android:weightSum="10"
+
+                        app:layout_constraintTop_toBottomOf="@+id/additionalDetails">
 
 
                         <TextView
 
                             android:layout_width="match_parent"
 
-                            android:textSize="15sp"
+                            android:layout_height="wrap_content"
 
-                            android:textStyle="bold"
+                            android:text="Customer Address"
 
                             android:textColor="#555555"
 
-                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
 
-                            android:text="Customer Address" />
-
-
+                            android:textStyle="bold" />
 
 
                         <EditText
-
-                            android:textColor="#0A0A0A"
 
                             android:id="@+id/edtAddress"
 
                             style="@style/editText"
 
-                            android:background="@drawable/layout_background"
-
                             android:layout_width="match_parent"
 
                             android:layout_height="wrap_content"
 
+                            android:background="@drawable/layout_background"
+
                             android:hint="Enter Address"
 
                             android:singleLine="false"
+
+                            android:textColor="#0A0A0A"
 
                             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
@@ -653,49 +643,47 @@
 
                         android:orientation="vertical"
 
-                        app:layout_constraintTop_toBottomOf="@+id/AddressLayout"
-
                         android:padding="5dp"
 
                         android:visibility="gone"
 
-                        android:weightSum="10">
+                        android:weightSum="10"
+
+                        app:layout_constraintTop_toBottomOf="@+id/AddressLayout">
 
 
                         <TextView
 
                             android:layout_width="match_parent"
 
-                            android:textSize="15sp"
+                            android:layout_height="wrap_content"
 
-                            android:textStyle="bold"
+                            android:text="Customer GST Details"
 
                             android:textColor="#555555"
 
-                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
 
-                            android:text="Customer GST Details" />
-
-
+                            android:textStyle="bold" />
 
 
                         <EditText
-
-                            android:textColor="#0A0A0A"
 
                             android:id="@+id/edtGST"
 
                             style="@style/editText"
 
-                            android:background="@drawable/layout_background"
-
                             android:layout_width="match_parent"
 
                             android:layout_height="wrap_content"
 
+                            android:background="@drawable/layout_background"
+
                             android:hint="Enter GST Number"
 
                             android:singleLine="false"
+
+                            android:textColor="#0A0A0A"
 
                             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
@@ -739,7 +727,6 @@
                             android:textStyle="bold" />
 
 
-
                         <Spinner
 
                             android:id="@+id/gstType"
@@ -747,7 +734,6 @@
                             android:layout_width="match_parent"
 
                             android:layout_height="wrap_content"
-
 
 
                             android:background="@drawable/spinnerbggray"
@@ -765,19 +751,18 @@
                             android:textSize="11dp" />
 
 
-
                     </LinearLayout>
 
 
                     <androidx.cardview.widget.CardView
 
-                        android:elevation="9dp"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
 
                         android:layout_margin="8dp"
 
-                        android:layout_width="match_parent"
-
-                        android:layout_height="wrap_content">
+                        android:elevation="9dp">
 
 
                         <include
@@ -804,130 +789,128 @@
 
                         android:layout_height="wrap_content"
 
-                        android:elevation="9dp"
+                        android:layout_margin="8dp"
 
 
-                        android:layout_margin="8dp">
+                        android:elevation="9dp">
 
 
                         <LinearLayout
 
-                            android:orientation="vertical"
-
-
                             android:layout_width="match_parent"
 
-                            android:layout_height="wrap_content">
+
+                            android:layout_height="wrap_content"
+
+                            android:orientation="vertical">
 
 
                             <LinearLayout
 
-                                android:visibility="gone"
-
                                 android:id="@+id/ItemTopLayout"
-
-                                android:layout_marginTop="5dp"
-
-                                app:layout_goneMarginBottom="10dp"
 
                                 android:layout_width="match_parent"
 
-                                app:layout_constraintTop_toTopOf="parent"
+                                android:layout_height="wrap_content"
+
+                                android:layout_marginTop="5dp"
+
+                                android:orientation="horizontal"
+
+                                android:visibility="gone"
 
                                 app:layout_constraintLeft_toLeftOf="parent"
 
                                 app:layout_constraintRight_toRightOf="parent"
 
-                                android:orientation="horizontal"
+                                app:layout_constraintTop_toTopOf="parent"
 
-                                android:layout_height="wrap_content">
+                                app:layout_goneMarginBottom="10dp">
 
                                 <TextView
 
                                     android:id="@+id/tvSrNoHdTv"
 
-                                    android:text="Sr no"
+                                    android:layout_width="0dp"
+
+                                    android:layout_height="wrap_content"
 
                                     android:layout_weight="1"
 
-                                    android:textStyle="bold"
-
                                     android:gravity="center"
 
-                                    android:layout_width="0dp"
+                                    android:text="Sr no"
 
-                                    android:layout_height="wrap_content" />
+                                    android:textStyle="bold" />
 
 
                                 <TextView
 
                                     android:id="@+id/quantityHdTv"
 
-                                    android:text="QTY"
+                                    android:layout_width="0dp"
+
+                                    android:layout_height="wrap_content"
 
                                     android:layout_weight="1.5"
 
-                                    android:textStyle="bold"
-
-                                    android:layout_width="0dp"
-
                                     android:gravity="center"
 
+                                    android:text="QTY"
 
-                                    android:layout_height="wrap_content" />
+
+                                    android:textStyle="bold" />
 
 
                                 <TextView
 
                                     android:id="@+id/gstTitle"
 
-                                    android:text="GST"
+                                    android:layout_width="0dp"
+
+                                    android:layout_height="wrap_content"
 
                                     android:layout_weight="1.5"
-
-                                    android:textStyle="bold"
 
                                     android:gravity="center"
 
 
-                                    android:layout_width="0dp"
+                                    android:text="GST"
 
-                                    android:layout_height="wrap_content" />
+                                    android:textStyle="bold" />
 
                                 <TextView
 
                                     android:id="@+id/priceHdTv"
 
-                                    android:text="Price"
+                                    android:layout_width="0dp"
+
+                                    android:layout_height="wrap_content"
 
                                     android:layout_weight="2"
-
-                                    android:textStyle="bold"
 
                                     android:gravity="center"
 
 
-                                    android:layout_width="0dp"
+                                    android:text="Price"
 
-                                    android:layout_height="wrap_content" />
+                                    android:textStyle="bold" />
 
                                 <TextView
 
                                     android:id="@+id/totalHdTv"
 
-                                    android:text="Total"
+                                    android:layout_width="0dp"
+
+                                    android:layout_height="wrap_content"
 
                                     android:layout_weight="2"
 
-                                    android:textStyle="bold"
-
                                     android:gravity="center"
 
-                                    android:layout_width="0dp"
+                                    android:text="Total"
 
-                                    android:layout_height="wrap_content" />
-
-
+                                    android:textStyle="bold" />
 
 
                             </LinearLayout>
@@ -954,37 +937,36 @@
 
                             <Button
 
-                                android:visibility="gone"
-
                                 android:id="@+id/addMoreItem"
+
+                                android:layout_width="200dp"
+
+                                android:layout_height="wrap_content"
+
+                                android:layout_gravity="center"
 
                                 android:layout_marginTop="20dp"
 
-                                android:layout_width="200dp"
+                                android:layout_marginBottom="15dp"
+
+                                android:layout_weight="1"
+
+                                android:background="@drawable/add_item_structure"
 
                                 android:gravity="center"
 
                                 android:onClick="addMoreItem"
 
-                                android:layout_marginBottom="15dp"
-
-                                android:layout_gravity="center"
+                                android:text="Add New Item"
 
                                 android:textColor="@color/colorPrimary"
 
                                 android:textStyle="bold"
 
-                                android:background="@drawable/add_item_structure"
-
-                                android:layout_height="wrap_content"
-
-                                android:layout_weight="1"
-
-                                android:text="Add New Item" />
+                                android:visibility="gone" />
 
 
                         </LinearLayout>
-
 
 
                     </androidx.cardview.widget.CardView>
@@ -1009,9 +991,9 @@
 
                             android:layout_height="wrap_content"
 
-                            android:fitsSystemWindows="true"
-
                             android:background="#ffff"
+
+                            android:fitsSystemWindows="true"
 
                             android:orientation="vertical"
 
@@ -1020,20 +1002,20 @@
 
                             <LinearLayout
 
-                                android:layout_margin="10dp"
-
                                 android:layout_width="match_parent"
-
-                                android:paddingBottom="10dp"
 
                                 android:layout_height="wrap_content"
 
-                                android:orientation="horizontal">
+                                android:layout_margin="10dp"
+
+                                android:orientation="horizontal"
+
+                                android:paddingBottom="10dp">
 
 
                                 <TextView
 
-                                    android:layout_weight="1"
+                                    android:id="@+id/billDets"
 
                                     android:layout_width="wrap_content"
 
@@ -1041,40 +1023,40 @@
 
                                     android:layout_gravity="left"
 
-                                    android:id="@+id/billDets"
+                                    android:layout_weight="1"
 
                                     android:fontFamily="@font/inter"
 
-                                    android:textStyle="bold"
-
-                                    android:textSize="18sp"
+                                    android:text="Bill Details"
 
                                     android:textColor="@color/black"
 
-                                    android:text="Bill Details" />
+                                    android:textSize="18sp"
+
+                                    android:textStyle="bold" />
 
 
                                 <TextView
 
-                                    android:layout_width="wrap_content"
-
-                                    android:layout_gravity="center"
-
-                                    android:gravity="right"
-
                                     android:id="@+id/addDisc"
 
-                                    android:onClick="discVisible"
-
-                                    android:fontFamily="@font/inter"
-
-                                    android:background="#ffffff"
-
-                                    android:textColor="#266CE4"
+                                    android:layout_width="wrap_content"
 
                                     android:layout_height="20dp"
 
-                                    android:text="Add Discount">
+                                    android:layout_gravity="center"
+
+                                    android:background="#ffffff"
+
+                                    android:fontFamily="@font/inter"
+
+                                    android:gravity="right"
+
+                                    android:onClick="discVisible"
+
+                                    android:text="Add Discount"
+
+                                    android:textColor="#266CE4">
 
 
                                 </TextView>
@@ -1087,22 +1069,22 @@
 
                                 android:layout_height="1dp"
 
-                                android:background="@color/borderOpaque"/>
+                                android:background="@color/borderOpaque" />
 
 
                             <LinearLayout
 
-                                android:layout_marginTop="10dp"
+                                android:layout_width="match_parent"
+
+                                android:layout_height="match_parent"
 
                                 android:layout_marginLeft="10dp"
+
+                                android:layout_marginTop="10dp"
 
                                 android:layout_marginRight="10dp"
 
                                 android:layout_marginBottom="4dp"
-
-                                android:layout_width="match_parent"
-
-                                android:layout_height="match_parent"
 
                                 android:layout_weight="1"
 
@@ -1111,21 +1093,21 @@
 
                                 <TextView
 
-                                    android:layout_gravity="center"
-
                                     android:id="@+id/amtBeforeTaxLabelTV"
 
                                     android:layout_width="wrap_content"
 
                                     android:layout_height="wrap_content"
 
+                                    android:layout_gravity="center"
+
                                     android:layout_weight="1"
 
                                     android:fontFamily="@font/inter"
 
-                                    android:textSize="15sp"
+                                    android:text="Amount:"
 
-                                    android:text="Amount:" />
+                                    android:textSize="15sp" />
 
 
                                 <TextView
@@ -1140,26 +1122,26 @@
 
                                     android:fontFamily="@font/inter"
 
-                                    android:textSize="15sp"
-
                                     android:gravity="right"
 
-                                    android:text="" />
+                                    android:text=""
+
+                                    android:textSize="15sp" />
 
                             </LinearLayout>
 
 
                             <LinearLayout
 
+                                android:layout_width="match_parent"
+
+                                android:layout_height="match_parent"
+
                                 android:layout_marginLeft="10dp"
 
                                 android:layout_marginRight="10dp"
 
                                 android:layout_marginBottom="4dp"
-
-                                android:layout_width="match_parent"
-
-                                android:layout_height="match_parent"
 
                                 android:layout_weight="1"
 
@@ -1174,15 +1156,15 @@
 
                                     android:layout_height="wrap_content"
 
-                                    android:layout_weight="1"
-
                                     android:layout_gravity="center"
+
+                                    android:layout_weight="1"
 
                                     android:fontFamily="@font/inter"
 
-                                    android:textSize="15sp"
+                                    android:text="GST:"
 
-                                    android:text="GST:" />
+                                    android:textSize="15sp" />
 
 
                                 <TextView
@@ -1195,18 +1177,24 @@
 
                                     android:layout_weight="1"
 
-                                    android:gravity="right"
-
                                     android:fontFamily="@font/inter"
 
-                                    android:textSize="15sp"
+                                    android:gravity="right"
 
-                                    android:text="" />
+                                    android:text=""
+
+                                    android:textSize="15sp" />
 
                             </LinearLayout>
 
 
                             <LinearLayout
+
+                                android:id="@+id/discountLayout"
+
+                                android:layout_width="match_parent"
+
+                                android:layout_height="match_parent"
 
                                 android:layout_marginLeft="10dp"
 
@@ -1214,17 +1202,11 @@
 
                                 android:layout_marginBottom="4dp"
 
-                                android:layout_width="match_parent"
-
-                                android:layout_height="match_parent"
-
                                 android:layout_weight="1"
 
-                                android:visibility="gone"
+                                android:orientation="horizontal"
 
-                                android:id="@+id/discountLayout"
-
-                                android:orientation="horizontal">
+                                android:visibility="gone">
 
 
                                 <TextView
@@ -1235,15 +1217,15 @@
 
                                     android:layout_height="wrap_content"
 
-                                    android:layout_weight="1"
-
                                     android:layout_gravity="center"
+
+                                    android:layout_weight="1"
 
                                     android:fontFamily="@font/inter"
 
-                                    android:textSize="15sp"
+                                    android:text="Discount:"
 
-                                    android:text="Discount:" />
+                                    android:textSize="15sp" />
 
 
                                 <EditText
@@ -1269,21 +1251,21 @@
 
                                 <TextView
 
-                                    android:layout_margin="2dp"
-
                                     android:id="@+id/textView13"
 
                                     android:layout_width="wrap_content"
 
                                     android:layout_height="wrap_content"
 
-                                    android:text="OR"
-
                                     android:layout_gravity="center"
 
-                                    android:textSize="15sp"
+                                    android:layout_margin="2dp"
 
-                                    android:gravity="right"/>
+                                    android:gravity="right"
+
+                                    android:text="OR"
+
+                                    android:textSize="15sp" />
 
 
                                 <EditText
@@ -1313,22 +1295,22 @@
 
                             <View
 
-                                android:layout_marginTop="7dp"
-
                                 android:layout_width="wrap_content"
 
                                 android:layout_height="1dp"
 
-                                android:background="@color/borderOpaque"/>
+                                android:layout_marginTop="7dp"
+
+                                android:background="@color/borderOpaque" />
 
 
                             <LinearLayout
 
-                                android:layout_margin="10dp"
-
                                 android:layout_width="match_parent"
 
                                 android:layout_height="match_parent"
+
+                                android:layout_margin="10dp"
 
                                 android:layout_weight="1"
 
@@ -1337,53 +1319,53 @@
 
                                 <TextView
 
-                                    android:fontFamily="@font/inter"
-
-                                    android:textSize="18sp"
-
-                                    android:textColor="#0A0A0A"
-
-                                    android:layout_margin="2dp"
-
                                     android:id="@+id/textView15"
 
                                     android:layout_width="wrap_content"
 
                                     android:layout_height="wrap_content"
 
+                                    android:layout_margin="2dp"
+
                                     android:layout_weight="1"
 
-                                    android:textStyle="bold"
+                                    android:fontFamily="@font/inter"
 
-                                    android:text="Total Amount:" />
+                                    android:text="Total Amount:"
+
+                                    android:textColor="#0A0A0A"
+
+                                    android:textSize="18sp"
+
+                                    android:textStyle="bold" />
 
 
                                 <TextView
 
 
-                                    android:fontFamily="@font/inter"
-
-                                    android:textSize="18sp"
-
-                                    android:layout_margin="2dp"
-
                                     android:id="@+id/tvTotal"
-
-                                    android:textStyle="bold"
-
-                                    android:layout_gravity="center"
-
-                                    android:gravity="right"
-
-                                    android:textColor="#0A0A0A"
 
                                     android:layout_width="wrap_content"
 
                                     android:layout_height="wrap_content"
 
+                                    android:layout_gravity="center"
+
+                                    android:layout_margin="2dp"
+
                                     android:layout_weight="1"
 
-                                    android:text="" />
+                                    android:fontFamily="@font/inter"
+
+                                    android:gravity="right"
+
+                                    android:text=""
+
+                                    android:textColor="#0A0A0A"
+
+                                    android:textSize="18sp"
+
+                                    android:textStyle="bold" />
 
                             </LinearLayout>
 
@@ -1403,54 +1385,54 @@
 
     <LinearLayout
 
-        android:weightSum="2"
-        android:visibility="gone"
-
-        android:background="@color/white"
-
-        android:layout_gravity="bottom"
-
-        android:gravity="center"
-
         android:id="@+id/viewDetsLay"
-
-        android:layout_alignParentBottom="true"
-
-        android:padding="20dp"
-
         android:layout_width="match_parent"
 
         android:layout_height="wrap_content"
 
-        android:orientation="horizontal">
+        android:layout_alignParentBottom="true"
+
+        android:layout_gravity="bottom"
+
+        android:background="@color/white"
+
+        android:gravity="center"
+
+        android:orientation="horizontal"
+
+        android:padding="20dp"
+
+        android:visibility="gone"
+
+        android:weightSum="2">
 
 
         <LinearLayout
 
-            android:layout_weight="1"
-
             android:layout_width="wrap_content"
 
             android:layout_height="wrap_content"
+
+            android:layout_weight="1"
 
             android:orientation="vertical">
 
 
             <TextView
 
+                android:id="@+id/tvTotalFinal"
+
                 android:layout_width="match_parent"
 
                 android:layout_height="wrap_content"
 
-                android:id="@+id/tvTotalFinal"
-
                 android:fontFamily="@font/inter"
-
-                android:textStyle="bold"
 
                 android:textColor="#000000"
 
                 android:textSize="20sp"
+
+                android:textStyle="bold"
 
                 >
 
@@ -1459,23 +1441,23 @@
 
             <TextView
 
-                android:fontFamily="@font/inter"
-
-                android:textStyle="bold"
-
                 android:id="@+id/viewDets"
-
-                android:onClick="onClickViewDets"
-
-                android:textColor="#266CE4"
-
-                android:textSize="15sp"
 
                 android:layout_width="match_parent"
 
                 android:layout_height="wrap_content"
 
+                android:fontFamily="@font/inter"
+
+                android:onClick="onClickViewDets"
+
                 android:text="View details"
+
+                android:textColor="#266CE4"
+
+                android:textSize="15sp"
+
+                android:textStyle="bold"
 
                 >
 
@@ -1483,31 +1465,30 @@
             </TextView>
 
 
-
         </LinearLayout>
 
         <Button
 
-            android:layout_weight="1"
-
             android:id="@+id/nextBtn"
-
-            android:layout_gravity="center"
 
             android:layout_width="wrap_content"
 
-            android:text="Make Bill"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+
+            android:layout_weight="1"
+
+            android:background="@drawable/login_button_structure"
 
             android:gravity="center"
 
             android:onClick="gotoPDFActivity"
 
-            android:textColor="@color/white"
 
+            android:text="Make Bill"
 
-            android:background="@drawable/login_button_structure"
-
-            android:layout_height="wrap_content" />
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

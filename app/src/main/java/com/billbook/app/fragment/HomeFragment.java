@@ -601,7 +601,6 @@ public class HomeFragment extends Fragment
                 break;
             case R.id.btnSearchInvoice:
                 Util.postEvents("Search Bills", "Search Bills", getActivity().getApplicationContext());
-
                 intent = new Intent(getActivity(), SearchInvoiceActivity.class);
                 try {
                     intent.putExtra("gstBillNoList", gstList.toString());
@@ -876,79 +875,6 @@ public class HomeFragment extends Fragment
 
                 }
 
-            JsonObject jsonObject = new JsonParser().parse(map.toString()).getAsJsonObject();
-
-            jsonObject.addProperty("userid", userid);
-
-            Call<Object> call = apiService.updateUserGstStatus(userid, map);
-
-            call.enqueue(new Callback<Object>() {
-
-                @Override
-
-                public void onResponse(Call<Object> call, Response<Object> response) {
-
-                    DialogUtils.stopProgressDialog();
-
-                    try {
-
-                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-
-                        Log.v("RESP", body.toString());
-
-
-                        if (body.getBoolean("status")) {
-                            MyApplication.saveUserDetails(body.getJSONObject("data").toString());
-                            BottomSheetDialog showGif = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
-                            View showgifView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_gstyes, (LinearLayout) view.findViewById(R.id.GSTyes));
-                            showGif.setContentView(showgifView);
-                            showGif.show();
-                        } else {
-
-                            DialogUtils.showToast(getActivity(), "Failed update GST");
-                        }
-
-
-                    } catch (JSONException e) {
-
-                        Util.logErrorApi("users/" + userid, jsonObject, Arrays.toString(e.getStackTrace()), e.toString(), null, getActivity());
-
-                        DialogUtils.showToast(getActivity(), "Failed update GST");
-
-                        e.printStackTrace();
-
-                    }
-
-                }
-
-
-                @Override
-
-                public void onFailure(Call<Object> call, Throwable t) {
-
-                    Util.logErrorApi("users/" + userid, jsonObject, Arrays.toString(t.getStackTrace()), t.toString(), null, getActivity());
-
-                    DialogUtils.stopProgressDialog();
-
-                    DialogUtils.showToast(getActivity(), "Failed update profile to server");
-
-                }
-
-            });
-
-        } catch (Exception e) {
-
-            Util.logErrorApi("users/updateGst", null, Arrays.toString(e.getStackTrace()), e.toString(), null, getActivity());
-
-            e.printStackTrace();
-
-        }
-
-
-    }
-
-
-    private void startSpotLight(View view, String title, String description) {
 
                 @Override
 

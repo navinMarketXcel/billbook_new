@@ -69,7 +69,7 @@
     <string name="qty">Quantity<font color='#ff0000'>*</font> </string>
     <string name="current_invoice_id">invoice_id</string>
     <string name="name_of_models_services">Items For Billing</string>
-    <string name="tax_invoice">***TAX INVOICE***</string>
+    <string name="details_of_receiver_bill">Details Of Customer | Bill</string>
     <string name="invoice_no">Invoice No</string>
     <string name="invoice_date">Invoice Date</string>
     <string name="items">Items</string>
@@ -83,7 +83,7 @@
     <string name="state_without_asterisk">State</string>
     <string name="state">State<font color='#ff0000'>*</font></string>
     <string name="scan"><font color='#266CE4'>Scan</font></string>
-    <string name="mobile_no">Contact No:</string>
+    <string name="mobile_no">Contact Number</string>
     <string name="mobile_noo">Mobile Number</string>
     <string name="paymentValue1">Amount</string>
     <string name="paymentMethod1Title">Payment Mode Amount</string>
@@ -481,5 +481,5 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="description_short_bill" translatable="false">Description</string>
     <string name="items_short_bill" translatable="false">Items:</string>
     <string name="total_savings" translatable="false">TOTAL SAVINGS:</string>
-    <string name="details_of_receiver_bill">Receiver Bill Details</string>
+    <string name="tax_invoice" translatable="false">***TAX INVOICE***</string>
 </resources>

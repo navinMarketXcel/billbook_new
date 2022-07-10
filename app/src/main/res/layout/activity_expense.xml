@@ -329,113 +329,113 @@
 </RelativeLayout>
 
 
-<!--    <LinearLayout-->
+    <!--    <LinearLayout-->
 
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:fitsSystemWindows="true"-->
-<!--        android:orientation="vertical">-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:fitsSystemWindows="true"-->
+    <!--        android:orientation="vertical">-->
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/searchExpenseLayout"-->
-<!--            android:layout_width="388dp"-->
-<!--            android:layout_height="113dp"-->
-<!--            android:layout_marginStart="10dp"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:layout_marginEnd="10dp"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            android:orientation="vertical"-->
-<!--            android:paddingTop="24dp">-->
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/searchExpenseLayout"-->
+    <!--            android:layout_width="388dp"-->
+    <!--            android:layout_height="113dp"-->
+    <!--            android:layout_marginStart="10dp"-->
+    <!--            android:layout_marginTop="10dp"-->
+    <!--            android:layout_marginEnd="10dp"-->
+    <!--            android:layout_marginBottom="10dp"-->
+    <!--            android:orientation="vertical"-->
+    <!--            android:paddingTop="24dp">-->
 
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/search"-->
-<!--                android:textColor="#555555"-->
-<!--                android:textSize="15sp"-->
-<!--                android:textStyle="bold" />-->
+    <!--            <TextView-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:text="@string/search"-->
+    <!--                android:textColor="#555555"-->
+    <!--                android:textSize="15sp"-->
+    <!--                android:textStyle="bold" />-->
 
-<!--            <EditText-->
-<!--                android:id="@+id/expenseAmount"-->
-<!--                style="@style/editText"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="53dp"-->
-<!--                android:drawableLeft="@drawable/search_icon"-->
-<!--                android:hint="    Search through expenses"-->
-<!--                android:singleLine="false"-->
-<!--                android:textColor="#0A0A0A"-->
-<!--                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />-->
+    <!--            <EditText-->
+    <!--                android:id="@+id/expenseAmount"-->
+    <!--                style="@style/editText"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="53dp"-->
+    <!--                android:drawableLeft="@drawable/search_icon"-->
+    <!--                android:hint="    Search through expenses"-->
+    <!--                android:singleLine="false"-->
+    <!--                android:textColor="#0A0A0A"-->
+    <!--                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />-->
 
-<!--        </LinearLayout>-->
+    <!--        </LinearLayout>-->
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/sampleSpace"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical">-->
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/sampleSpace"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:orientation="vertical">-->
 
-<!--            <View-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="5dp"-->
-<!--                android:background="@color/borderOpaque" />-->
+    <!--            <View-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="5dp"-->
+    <!--                android:background="@color/borderOpaque" />-->
 
-<!--        </LinearLayout>-->
+    <!--        </LinearLayout>-->
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/expenseListLayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="755dp"-->
-<!--            android:orientation="vertical">-->
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/expenseListLayout"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="755dp"-->
+    <!--            android:orientation="vertical">-->
 
 
-<!--            <ImageView-->
-<!--                android:layout_width="246dp"-->
-<!--                android:layout_height="218dp"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginLeft="50dp"-->
-<!--                android:layout_marginTop="20dp"-->
-<!--                android:layout_marginRight="50dp"-->
-<!--                android:layout_marginBottom="20dp"-->
-<!--                android:background="@drawable/searchbg" />-->
+    <!--            <ImageView-->
+    <!--                android:layout_width="246dp"-->
+    <!--                android:layout_height="218dp"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_marginLeft="50dp"-->
+    <!--                android:layout_marginTop="20dp"-->
+    <!--                android:layout_marginRight="50dp"-->
+    <!--                android:layout_marginBottom="20dp"-->
+    <!--                android:background="@drawable/searchbg" />-->
 
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/expensesRV"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_above="@+id/syncText"-->
-<!--                android:layout_below="@+id/expenseHeader"></androidx.recyclerview.widget.RecyclerView>-->
+    <!--            <androidx.recyclerview.widget.RecyclerView-->
+    <!--                android:id="@+id/expensesRV"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_above="@+id/syncText"-->
+    <!--                android:layout_below="@+id/expenseHeader"></androidx.recyclerview.widget.RecyclerView>-->
 
-<!--            <TextView-->
-<!--                android:id="@+id/syncText"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_above="@+id/addExpense"-->
-<!--                android:layout_marginTop="220dp"-->
-<!--                android:gravity="center"-->
-<!--                android:text="@string/sync_warning_expense"-->
-<!--                android:textColor="@color/red_btn_bg_pressed_color"-->
-<!--                android:textSize="8dp">-->
+    <!--            <TextView-->
+    <!--                android:id="@+id/syncText"-->
+    <!--                android:layout_width="match_parent"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_above="@+id/addExpense"-->
+    <!--                android:layout_marginTop="220dp"-->
+    <!--                android:gravity="center"-->
+    <!--                android:text="@string/sync_warning_expense"-->
+    <!--                android:textColor="@color/red_btn_bg_pressed_color"-->
+    <!--                android:textSize="8dp">-->
 
-<!--            </TextView>-->
+    <!--            </TextView>-->
 
-<!--            <Button-->
-<!--                android:id="@+id/addExpense"-->
-<!--                android:layout_width="270dp"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentBottom="true"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_marginStart="20dp"-->
-<!--                android:layout_marginLeft="50dp"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:layout_marginEnd="20dp"-->
-<!--                android:layout_marginRight="50dp"-->
-<!--                android:layout_marginBottom="20dp"-->
-<!--                android:background="@drawable/add_expense_structure"-->
-<!--                android:onClick="gotoAddExpense"-->
-<!--                android:text="Add New Expense"-->
-<!--                android:textAllCaps="true"-->
-<!--                android:textColor="@android:color/white"-->
-<!--                android:textStyle="bold" />-->
-<!--        </LinearLayout>-->
-<!--    </LinearLayout>-->
+    <!--            <Button-->
+    <!--                android:id="@+id/addExpense"-->
+    <!--                android:layout_width="270dp"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_alignParentBottom="true"-->
+    <!--                android:layout_centerHorizontal="true"-->
+    <!--                android:layout_gravity="center"-->
+    <!--                android:layout_marginStart="20dp"-->
+    <!--                android:layout_marginLeft="50dp"-->
+    <!--                android:layout_marginTop="10dp"-->
+    <!--                android:layout_marginEnd="20dp"-->
+    <!--                android:layout_marginRight="50dp"-->
+    <!--                android:layout_marginBottom="20dp"-->
+    <!--                android:background="@drawable/add_expense_structure"-->
+    <!--                android:onClick="gotoAddExpense"-->
+    <!--                android:text="Add New Expense"-->
+    <!--                android:textAllCaps="true"-->
+    <!--                android:textColor="@android:color/white"-->
+    <!--                android:textStyle="bold" />-->
+    <!--        </LinearLayout>-->
+    <!--    </LinearLayout>-->
