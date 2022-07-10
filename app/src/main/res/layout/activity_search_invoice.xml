@@ -174,10 +174,10 @@
                             android:layout_height="35dp"
                             android:text="Sort"
                             android:gravity="center"
-
                             android:layout_gravity="center"
                             android:drawableRight="@drawable/sorting"
                             android:background="@color/white"
+                            android:onClick="clickSort"
                             android:textColor="#266CE4">
 
                         </TextView>

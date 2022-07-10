@@ -406,7 +406,7 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="pin_code_">Pin Code<font color='#F62525'> *</font></string>
     <string name="city_">City<font color='#F62525'> *</font></string>
     <string name="state_">State<font color='#F62525'> *</font></string>
-    <string name="gst_num_">GST Number<font color='#F62525'> *</font></string>
+    <string name="gst_num_">GST Number<font color='#F62525'> </font></string>
     <string name="gst_num">GST Number</string>
     <string name="citye">City</string>
     <string name="statee">State</string>
@@ -468,10 +468,18 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="recent_bills_expense">Recent Bills</string>
     <string name="sort">Sort</string>
     <string name="add_new_expense">Add New Expense</string>
+    <string name="demo">Demo</string>
+    <string name="discount_billing">Discount:</string>
+    <string name="bill_details">Bill Details</string>
+    <string name="amount_billing">Amount:</string>
+    <string name="gst_billing">GST:</string>
+    <string name="total_amount_billing">Total Amount:</string>
+    <string name="view_details">View details</string>
+    <string name="make_bill">Make Bill</string>
     <string name="bill_no_short_bill" translatable="false">Bill No:</string>
     <string name="billed_to" translatable="false">Billed to:</string>
     <string name="description_short_bill" translatable="false">Description</string>
     <string name="items_short_bill" translatable="false">Items:</string>
     <string name="total_savings" translatable="false">TOTAL SAVINGS:</string>
-    <string name="tax_invoice">***TAX INVOICE***</string>
+    <string name="tax_invoice" translatable="false">***TAX INVOICE***</string>
 </resources>

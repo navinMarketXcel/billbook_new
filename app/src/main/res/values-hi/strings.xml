@@ -281,37 +281,37 @@
     <string name="description">Description<font color='#ff0000'>*</font> </string>
     <string name="expense_amount">Amount (₹)<font color='#ff0000'>*</font></string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="make_gst_bills">Make GST Bills</string>
-    <string name="switch_gst_and_non_gst_bills">Switch GST and Non-GST bills</string>
-    <string name="email_address_phone_number_etc">Email Address, Phone Number etc..</string>
-    <string name="contact_details">Contact Details</string>
-    <string name="business_details">Business Details</string>
-    <string name="logo_sign">Logo &amp; Signature</string>
-    <string name="business_name_address_gst_and_more">Business Name, Address, GST and more</string>
-    <string name="logo_and_signature">Logo and Signature</string>
-    <string name="customise_your_bills">Customise your bills</string>
-    <string name="home">Home</string>
-    <string name="profile">Profile</string>
-    <string name="language">Language</string>
-    <string name="choose_language">Choose Language</string>
-    <string name="help">Help</string>
-    <string name="phone_number_">Phone Number<font color='#F62525'> *</font></string>
-    <string name="business_name_">Business Name<font color='#F62525'> *</font></string>
-    <string name="business_name">Business Name</string>
-    <string name="shop_add_">Shop Address<font color='#F62525'> *</font></string>
-    <string name="pin_code_">Pin Code<font color='#F62525'> *</font></string>
-    <string name="city_">City<font color='#F62525'> *</font></string>
-    <string name="state_">State<font color='#F62525'> *</font></string>
-    <string name="gst_num_">GST Number<font color='#F62525'> *</font></string>
-    <string name="gst_num">GST Number</string>
-    <string name="citye">City</string>
-    <string name="statee">State</string>
-    <string name="pin_code">Pin Code</string>
-    <string name="company_logo">Company Logo</string>
-    <string name="shop_add">Shop Address</string>
-    <string name="phone_number">Phone Number</string>
-    <string name="email_">Email Address<font color='#F62525'> *</font></string>
-    <string name="email_add">Email Address</string>
+    <string name="make_gst_bills">GST बिल बनाएं</string>
+    <string name="switch_gst_and_non_gst_bills">GST और Non-GST बिल स्विच करें</string>
+    <string name="email_address_phone_number_etc">ईमेल पता, फोन नंबर आदि...</string>
+    <string name="contact_details">संपर्क विवरण</string>
+    <string name="business_details">व्यवसाय विवरण</string>
+    <string name="logo_sign">लोगो और हस्ताक्षर</string>
+    <string name="business_name_address_gst_and_more">व्यवसाय का नाम, पता, GST और आदि</string>
+    <string name="logo_and_signature">लोगो और हस्ताक्षर</string>
+    <string name="customise_your_bills">अपने बिलों को अनुकूलित करें</string>
+    <string name="home">होम</string>
+    <string name="profile">प्रोफ़ाईल</string>
+    <string name="language">भाषा</string>
+    <string name="choose_language">भाषा चुनें</string>
+    <string name="help">मदद</string>
+    <string name="phone_number_">फोन नंबर<font color='#F62525'> *</font></string>
+    <string name="business_name_">व्यवसाय का नाम<font color='#F62525'> *</font></string>
+    <string name="business_name">व्यवसाय का नाम</string>
+    <string name="shop_add_">दुकान का पता<font color='#F62525'> *</font></string>
+    <string name="pin_code_">पिन कोड<font color='#F62525'> *</font></string>
+    <string name="city_">शहर<font color='#F62525'> *</font></string>
+    <string name="state_">राज्य<font color='#F62525'> *</font></string>
+    <string name="gst_num_">GST नंबर<font color='#F62525'> </font></string>
+    <string name="gst_num">GST नंबर</string>
+    <string name="citye">शहर</string>
+    <string name="statee">राज्य</string>
+    <string name="pin_code">पिन कोड</string>
+    <string name="company_logo">कंपनी लोगो</string>
+    <string name="shop_add">दुकान का पता</string>
+    <string name="phone_number">फोन नंबर</string>
+    <string name="email_">ईमेल पता<font color='#F62525'> *</font></string>
+    <string name="email_add">ईमेल पता</string>
     <string name="save">Save</string>
     <string name="select_language_caps">Select Language</string>
 
@@ -364,4 +364,12 @@
     <string name="recent_bills_expense">Recent Bills</string>
     <string name="sort">Sort</string>
     <string name="add_new_expense">Add New Expense</string>
+    <string name="demo">Demo</string>
+    <string name="discount_billing">Discount:</string>
+    <string name="bill_details">Bill Details</string>
+    <string name="amount_billing">Amount:</string>
+    <string name="gst_billing">GST:</string>
+    <string name="total_amount_billing">Total Amount:</string>
+    <string name="view_details">View details</string>
+    <string name="make_bill">Make Bill</string>
 </resources>

@@ -253,6 +253,7 @@
                     android:layout_marginTop="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
+                    android:maxLength="15"
                     android:background="@drawable/layout_background"
                     android:hint="@string/gst_num"
                     />

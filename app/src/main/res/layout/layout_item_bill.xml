@@ -8,8 +8,8 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     >
-
     <LinearLayout
+        android:id="@+id/itemsLayout"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_weight="1"
@@ -22,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
+            android:id="@+id/items"
             android:fontFamily="@font/inter"
             android:textStyle="bold"
             android:textSize="18sp"
@@ -33,71 +34,46 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_margin="1dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="7"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/layoutBillItem_initial"
         android:orientation="vertical">
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:background="@color/borderOpaque"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/itemNameLayout"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="24dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="#555555"
-            android:layout_height="wrap_content"
-            android:text="@string/item_name_title" />
-        <EditText
-            android:textColor="#0A0A0A"
-            android:id="@+id/itemNameET"
-            style="@style/editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/product_or_service_provided"
-            android:singleLine="false"
-            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
         <LinearLayout
-            android:id="@+id/addPriceLayout"
-            android:layout_margin="10dp"
+            android:layout_margin="1dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="5dp"
+            android:layout_weight="7"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@color/borderOpaque"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/itemNameLayout"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="24dp"
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#555555"
                 android:layout_height="wrap_content"
-                android:id="@+id/priceLblTV"
-                android:text="@string/price" />
+                android:text="@string/item_name_title" />
             <EditText
                 android:textColor="#0A0A0A"
-                android:id="@+id/itemPriceET"
+                android:id="@+id/itemNameET"
                 style="@style/editText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/product_or_service_provided"
                 android:singleLine="false"
@@ -105,191 +81,229 @@
         </LinearLayout>
 
         <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/gstPerLayout"
-            android:paddingLeft="17sp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="5dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/addPriceLayout"
+                android:layout_margin="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#555555"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/priceLblTV"
+                    android:text="@string/price" />
+                <EditText
+                    android:textColor="#0A0A0A"
+                    android:id="@+id/itemPriceET"
+                    style="@style/editText"
+                    android:inputType="number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/product_or_service_provided"
+                    android:singleLine="false"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/gstPerLayout"
+                android:paddingLeft="17sp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="5dp"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/gstPercentageTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:text="@string/enter_gst"
+                    android:layout_gravity="left"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/gstPercentage"
+                    style="@style/mySpinnerForUnit"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_weight="3"
+                    android:layout_gravity="left"
+                    android:background="@drawable/spinnerbg"
+                    android:entries="@array/gstPercentage"
+                    android:fadeScrollbars="false"
+                    android:inputType="phone"
+                    android:maxLength="4"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textSize="11dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/addQuantityLayout"
+                android:layout_width="201dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:layout_width="239dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/qty"
+                    android:textColor="#555555"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/itemQtyET"
+                    style="@style/editText"
+                    android:inputType="number"
+                    android:layout_width="199dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:hint="@string/number_of_units_sold"
+                    android:singleLine="false"
+                    android:textColor="#0A0A0A"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingLeft="17sp"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="26dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/unit"
+                    style="@style/mySpinnerForUnit"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/spinnerbg"
+                    android:entries="@array/measurementUnit"
+                    android:fadeScrollbars="false"
+                    android:inputType="phone"
+                    android:maxLength="4"
+                    android:padding="5dp"
+                    android:singleLine="true"
+                    android:textSize="11dp" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/addimeiNumberLayout"
+                android:layout_width="201dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:layout_width="239dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/imei_serial_number"
+                    android:textColor="#555555"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/imeiNo"
+                    style="@style/editText"
+                    android:layout_width="199dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:hint="@string/placeholder_text"
+                    android:singleLine="false"
+                    android:textColor="#0A0A0A"
+                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingLeft="17sp"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="26dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/btnScan"
+                    android:padding="5dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="scanCode"
+                    android:text="@string/scan"
+                    android:textColor="#555555"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/addItem"
+            android:background="@drawable/add_item_structure"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="50dp"
+            android:text="@string/add_item"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:layout_margin="20dp" />
+        <LinearLayout
+            android:layout_margin="1dp"
+            android:layout_width="match_parent"
             android:layout_weight="1"
-            android:gravity="right"
-            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:paddingRight="20dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/gstPercentageTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:text="@string/enter_gst"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="left"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/gstPercentage"
-                style="@style/mySpinnerForUnit"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_weight="3"
-                android:layout_gravity="left"
-                android:background="@drawable/spinnerbg"
-                android:entries="@array/gstPercentage"
-                android:fadeScrollbars="false"
-                android:inputType="phone"
-                android:maxLength="4"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:textSize="11dp" />
+                android:fontFamily="@font/inter"
+                android:textStyle="bold"
+                android:textSize="10dp"
+                android:textColor="@color/black"
+                android:text="" />
         </LinearLayout>
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:id="@+id/addQuantityLayout"
-            android:layout_width="201dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical"
-            android:paddingTop="5dp">
-
-            <TextView
-                android:layout_width="239dp"
-                android:layout_height="wrap_content"
-                android:text="@string/qty"
-                android:textColor="#555555"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/itemQtyET"
-                style="@style/editText"
-                android:layout_width="199dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:hint="@string/number_of_units_sold"
-                android:singleLine="false"
-                android:textColor="#0A0A0A"
-                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:paddingLeft="17sp"
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="26dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <Spinner
-                android:id="@+id/unit"
-                style="@style/mySpinnerForUnit"
-                android:layout_width="0dp"
-                android:layout_height="35dp"
-                android:layout_weight="3"
-                android:background="@drawable/spinnerbg"
-                android:entries="@array/measurementUnit"
-                android:fadeScrollbars="false"
-                android:inputType="phone"
-                android:maxLength="4"
-                android:padding="5dp"
-                android:singleLine="true"
-                android:textSize="11dp" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:id="@+id/addimeiNumberLayout"
-            android:layout_width="201dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical"
-            android:paddingTop="5dp">
-
-            <TextView
-                android:layout_width="239dp"
-                android:layout_height="wrap_content"
-                android:text="@string/imei_serial_number"
-                android:textColor="#555555"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/imeiNo"
-                style="@style/editText"
-                android:layout_width="199dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:hint="@string/placeholder_text"
-                android:singleLine="false"
-                android:textColor="#0A0A0A"
-                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:paddingLeft="17sp"
-            android:layout_margin="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="26dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
 
 
-            <TextView
-                android:id="@+id/btnScan"
-                android:padding="5dp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="scanCode"
-                android:text="@string/scan"
-                android:textColor="#555555"
-                android:textSize="19sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
 
-    <Button
-        android:id="@+id/addItem"
-        android:background="@drawable/add_item_structure"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="50dp"
-        android:text="@string/add_item"
-        android:textStyle="bold"
-        android:onClick="addItem"
-        android:textAllCaps="true"
-        android:textColor="@color/colorPrimary"
-        android:layout_margin="20dp" />
-    <LinearLayout
-        android:layout_margin="1dp"
-        android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:paddingRight="20dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:fontFamily="@font/inter"
-            android:textStyle="bold"
-            android:textSize="10dp"
-            android:textColor="@color/black"
-            android:text="" />
-    </LinearLayout>
 
 
 </LinearLayout>
