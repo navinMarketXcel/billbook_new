@@ -209,7 +209,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                             + " " + profile.getString("state") + " - " + profile.getString("pincode"));
                     pdfBinding.tvGSTNo.setText(profile.has("gstNo") ? profile.getString("gstNo") : "");
                     pdfBinding.mobileNoRetailer.setText("Mobile No- " + profile.getString("mobileNo"));
-
                     invID = getIntent().getExtras().getInt("id");
 
 //                        Log.i(TAG, "setData: GST => " + isGSTAvailable);
@@ -255,7 +254,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                        // pdfBinding.custGstLayout.setVisibility(View.INVISIBLE);
                     } else {
                        // pdfBinding.custGstLayout.setVisibility(View.VISIBLE);
-                        pdfBinding.customerGst.setText(invoice.getString("GSTNo"));
+                       // pdfBinding.customerGst.setText(invoice.getString("GSTNo"));
                     }
                     pdfBinding.txtInvoiceDate.setText(invoice.getString("invoiceDate"));
                     pdfBinding.txtInvoiceNo.setText("" + invoiceNumber);
@@ -268,6 +267,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     String custName= invoice.getString("customerName");
                     String custNo =invoice.getString("customerMobileNo");
                     String custAdd =invoice.getString("customerAddress");
+                    pdfBinding.customerName.setText(custName);
 
                     if(custNo.isEmpty())
                     {
@@ -424,6 +424,16 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         }
 
     }
+    protected void sharePdf(String Url) {
+        Intent i=new Intent(android.content.Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Bill Share");
+        i.putExtra(android.content.Intent.EXTRA_TEXT, Url);
+        startActivity(Intent.createChooser(i,"Share via"));
+
+    }
+
+
 //    private void loadAndSetCompanyLogo(){
 //        if(imageURL!=null) {
 //            pdfBinding.shopImage.setVisibility(View.VISIBLE);
@@ -642,8 +652,11 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                         JSONObject data = body.getJSONObject("data");
 
-                        if(data.has("pdfLink")&&data.getString("pdfLink")!=null){ createWhatsppsmsToShare(data.getString("pdfLink")); }
-                        else{ createWhatsppsmsToShare(invoice.getString("pdfLink")); }
+                        if(data.has("pdfLink")&&data.getString("pdfLink")!=null){
+                            createWhatsppsmsToShare(data.getString("pdfLink"));
+                        } else{
+                            createWhatsppsmsToShare(invoice.getString("pdfLink"));
+                        }
                     }
                     else{ createWhatsppsmsToShare(invoice.getString("pdfLink")); }
 
@@ -660,8 +673,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
     private void shareOnWhatsApp() {
         try {
-            if (invoice.has("customerMobileNo") && invoice.getString("customerMobileNo") != null
-                    && invoice.has("pdfLink") && invoice.getString("pdfLink") != null && invID > 0) {
+            if (invoice.has("pdfLink") && invoice.getString("pdfLink") != null && invID > 0) {
                 fetchCutlyLinkfromApi();
             } else if (invID < 0) {
                 Util.sendWhatsAppMessageasPDF(invoice.getString("customerMobileNo"), this, pdfFile);
@@ -680,7 +692,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     + invoice.getDouble("totalAmount")
                     + " and your invoice is at " + url;
 
-            Util.sendWhatsAppMessage(invoice.getString("customerMobileNo"), this, smsBody);
+            //Util.sendWhatsAppMessage(invoice.getString("customerMobileNo"), this, smsBody);
+            sharePdf(smsBody);
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -91,7 +91,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
 //                    if(curItems.get(position).getGstType() != null && curItems.get(position).getGstType().equals("CGST/SGST (Local customer)")){
                         if(GSTType.equals("CGST/SGST (Local customer)")){
                     holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
-                            0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));
+                            0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
                     holder.CGSTValue.setVisibility(View.VISIBLE);
                     holder.SGSTValue.setVisibility(View.VISIBLE);
                     holder.IGSTValue.setVisibility(View.GONE);
@@ -99,7 +99,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
                     holder.SGSTValue.setText(Util.formatDecimalValue( gstVlaue / 2));
                 }else {
                     holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
-                            0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
+                            0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
                     holder.CGSTValue.setVisibility(View.GONE);
                     holder.IGSTValue.setVisibility(View.GONE);
                     holder.SGSTValue.setVisibility(View.GONE);
@@ -112,7 +112,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             holder.IGSTValue.setVisibility(View.GONE);
             holder.SGSTValue.setVisibility(View.GONE);
             holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
-                    0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));
+                    0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));
         }
 
     }
