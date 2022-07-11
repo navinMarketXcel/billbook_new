@@ -282,7 +282,7 @@
     <string name="expense_amount">Amount (₹)<font color='#ff0000'>*</font></string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="make_gst_bills">GST बिल बनाएं</string>
-    <string name="switch_gst_and_non_gst_bills">GST और Non-GST बिल स्विच करें</string>
+    <string name="switch_gst_and_non_gst_bills">Non-GST और GST बिल स्विच करें</string>
     <string name="email_address_phone_number_etc">ईमेल पता, फोन नंबर आदि...</string>
     <string name="contact_details">संपर्क विवरण</string>
     <string name="business_details">व्यवसाय विवरण</string>

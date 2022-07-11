@@ -320,14 +320,11 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     } else {
                         shortBillLayoutBinding.productTax.setVisibility(View.GONE);
                         shortBillLayoutBinding.tvGSTNo.setVisibility(View.GONE);
-                        shortBillLayoutBinding.GSTField.setVisibility(View.GONE);
-                        shortBillLayoutBinding.taxAmntField.setVisibility(View.GONE);
-                        shortBillLayoutBinding.invoiceIGSTAmt.setVisibility(View.GONE);
-                        shortBillLayoutBinding.invoiceCGSTAmt.setVisibility(View.GONE);
-                        shortBillLayoutBinding.invoiceSGSTAmt.setVisibility(View.GONE);
-                        shortBillLayoutBinding.invoiceSGST.setVisibility(View.GONE);
-                        shortBillLayoutBinding.invoiceCGST.setVisibility(View.GONE);
-                        shortBillLayoutBinding.invoiceIGST.setVisibility(View.GONE);
+                        shortBillLayoutBinding.GSTField1Layout.setVisibility(View.GONE);
+                        shortBillLayoutBinding.GSTField2Layout.setVisibility(View.GONE);
+                        shortBillLayoutBinding.GSTField3Layout.setVisibility(View.GONE);
+                        shortBillLayoutBinding.GSTField4Layout.setVisibility(View.GONE);
+                        invoiceNumber = getIntent().getExtras().getInt("nonGstBillNo");
                         shortBillLayoutBinding.invoiceType.setText("***Invoice***");
                     }
                     shortBillLayoutBinding.txtInvoiceDate.setText(invoice.getString("invoiceDate"));
@@ -350,7 +347,11 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     }
                     shortBillLayoutBinding.edtMobNo.setText(custNo);
                     shortBillLayoutBinding.edtName.setText(custName);
-                    shortBillLayoutBinding.edtAddress.setText(custAdd);
+                    if(custAdd.isEmpty()){
+                        shortBillLayoutBinding.edtAddressLayout.setVisibility(View.GONE);
+                    }else {
+                        shortBillLayoutBinding.edtAddress.setText(custAdd);
+                    }
                     shortBillLayoutBinding.invoiceItems.setText(getIntent().getExtras().getString("itemsSize"));
                     shortBillLayoutBinding.invoiceItemsQty.setText(getIntent().getExtras().getString("quantityCount"));
                     float totalAfterDiscount = 0, totalAmount = 0;
@@ -361,7 +362,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         totalAfterDiscount = totalAmount;
                     }
                     shortBillLayoutBinding.invoiceNetAmnt.setText(Util.formatDecimalValue(totalAfterDiscount));
-                    shortBillLayoutBinding.invoiceNetAmntTotal.setText(Util.formatDecimalValue(totalAmount));
+                    shortBillLayoutBinding.invoiceNetAmntTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
                     shortBillLayoutBinding.invoiceTotalDiscount.setText(Util.formatDecimalValue(totalAmount - totalAfterDiscount));
                     new getCurrentItemsAsyncTaskShort(MyApplication.getDatabase().invoiceItemDao(), getIntent().getExtras().getLong("idForItem"), PDFActivity.this, isGSTAvailable, recyclerViewShortBillInvoiceProducts, GSTType).execute();
                     if (invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {

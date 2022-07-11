@@ -113,6 +113,7 @@
         <activity
             android:name=".activities.ExpenseActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity android:name=".activities.VerifyGSTActivity" />
         <activity android:name=".activities.AddDistributorActivity" />
@@ -270,6 +271,7 @@
             android:name=".activities.SearchInvoiceActivity"
             android:label="Search Invoice"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.EditProfileActivity"

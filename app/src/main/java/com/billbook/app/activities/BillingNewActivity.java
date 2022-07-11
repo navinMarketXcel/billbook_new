@@ -1772,20 +1772,29 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     public void discVisible(View v)
     {
-        TextView addDisc = findViewById(R.id.addDisc);
-        LinearLayout disc = findViewById(R.id.discountLayout);
-        if(ischeckDisc)
-        {
-            addDisc.setText("Cancel");
-            disc.setVisibility(View.VISIBLE);
-            ischeckDisc=false;
+        try{
+            TextView addDisc = findViewById(R.id.addDisc);
+            LinearLayout disc = findViewById(R.id.discountLayout);
+            if(ischeckDisc)
+            {
+                addDisc.setText("Cancel");
+                disc.setVisibility(View.VISIBLE);
+                ischeckDisc=false;
+            } else if(invoice.getInt("discount") > 0 && getIntent().hasExtra("edit")){
+                binding.addDisc.setText("Update Discount");
+                disc.setVisibility(View.GONE);
+                ischeckDisc=true;
+            }
+            else
+            {
+                addDisc.setText("Add Discount");
+                disc.setVisibility(View.GONE);
+                ischeckDisc=true;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        else
-        {
-            addDisc.setText("Add Discount");
-            disc.setVisibility(View.GONE);
-            ischeckDisc=true;
-        }
+
     }
 
 
@@ -1795,6 +1804,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             try {
                 Log.d(TAG, "loadDataForInvoice: " + invoice);
                 binding.nextBtn.setText("Update Invoice");
+                if(invoice.getInt("discount") > 0){
+                    binding.addDisc.setText("Update Discount");
+                }
                 if (isGSTAvailable)
                     serialNumber = invoice.getInt("gstBillNo");
                 else

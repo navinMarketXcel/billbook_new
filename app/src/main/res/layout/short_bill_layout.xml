@@ -235,6 +235,7 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
+                                android:id="@+id/edtAddressLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -586,6 +587,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
                 android:layout_weight="2"
                 android:orientation="horizontal">
 
@@ -630,6 +632,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/_7sdp"
             android:layout_weight="2"
             android:orientation="horizontal">
 
@@ -674,6 +677,7 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/GSTField1Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
@@ -717,6 +721,7 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/GSTField2Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
@@ -761,6 +766,7 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/GSTField3Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
@@ -804,6 +810,7 @@
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/GSTField4Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
