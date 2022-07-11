@@ -42,53 +42,54 @@
             android:name=".activities.BottomNavigationActivity"
             android:theme="@style/AppTheme.NoActionBar"
 
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.ContactDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar"
 
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.EditMobileNoActivity"
             android:theme="@style/AppTheme.NoActionBar"
 
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.OTPVerifayActivity"
             android:theme="@style/AppTheme.NoActionBar"
 
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.BusinessDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar"
 
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.LogoSignatureActivity"
             android:theme="@style/AppTheme.NoActionBar"
 
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.DayBookActivity"
             android:theme="@style/AppTheme.NoActionBar"
 
-            android:exported="false" />
+            android:exported="true" />
 
         <activity
             android:name=".activities.PDFFormatViewActivity"
 
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.RemotePDFActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.LanguageChooseActivity"
             android:theme="@style/AppTheme.NoActionBar"
 
-            android:exported="false" />
+            android:exported="true" />
 
-        <receiver android:name=".receiver.OtpReceiver">
+        <receiver android:name=".receiver.OtpReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
             </intent-filter>
@@ -98,38 +99,50 @@
 
 
         <activity
+            android:exported="true"
             android:name=".activities.PDFActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
+            android:exported="true"
             android:name=".activities.CancelInvoiceActivityNew"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
+            android:exported="true"
             android:name=".activities.BillingNewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
+            android:exported="true"
             android:name=".activities.AddExpenseActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
+            android:exported="true"
             android:name=".activities.ExpenseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".activities.VerifyGSTActivity" />
-        <activity android:name=".activities.AddDistributorActivity" />
-        <activity android:name=".activities.SelectSenderActivity" />
-        <activity android:name=".activities.SendMarketingSMSActivity" />
-        <activity android:name=".activities.BarGraph" />
-        <activity android:name=".activities.CancelInvoiceActivity" />
+        <activity android:name=".activities.VerifyGSTActivity"
+            android:exported="true"/>
+        <activity android:name=".activities.AddDistributorActivity"
+            android:exported="true"/>
+        <activity android:name=".activities.SelectSenderActivity"
+            android:exported="true"/>
+        <activity android:name=".activities.SendMarketingSMSActivity"
+            android:exported="true"/>
+        <activity android:name=".activities.BarGraph"
+            android:exported="true"/>
+        <activity android:name=".activities.CancelInvoiceActivity"
+            android:exported="true"/>
         <activity
             android:name=".activities.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Launcher"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -137,6 +150,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:exported="true"
             android:name=".activities.HomeActivity"
             android:label="Home"
             android:launchMode="singleTask"
@@ -304,7 +318,7 @@
         <provider
             android:name=".GenericFileProvider"
             android:authorities="${applicationId}.provider"
-            android:exported="false"
+            android:exported="true"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
             <meta-data
@@ -313,7 +327,8 @@
                 tools:replace="android:resource" />
         </provider>
 
-        <receiver android:name=".receivers.BootReceiver">
+        <receiver android:name=".receivers.BootReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -321,7 +336,7 @@
 
         <service
             android:name=".services.LocationService"
-            android:exported="false" />
+            android:exported="true" />
         <service
             android:name=".services.SyncService"
             android:enabled="true" />
