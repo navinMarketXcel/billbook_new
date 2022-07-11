@@ -49,6 +49,7 @@ import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.PdfWriter;
 import com.billbook.app.utils.Util;
 //import com.squareup.picasso.BuildConfig;
+import com.readystatesoftware.chuck.internal.ui.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -96,7 +97,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private ShortBillItemLayoutBinding shortBillItemLayoutBinding;
     private ShortBillLayoutBinding  shortBillLayoutBinding;
     private InvoiceAmountLayoutUpdatedBinding invoiceAmountLayoutUpdatedBinding;
-    private boolean hasCompanyLogo = false, hasSignatureLogo = false;
+    private boolean hasCompanyLogo = false, hasSignatureLogo = false, shortBillPrint = false, longBillPrint = false;
     private boolean loadedCompanyLogo = false, loadedSignatureLogo = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -562,7 +563,11 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.btnPrintBill:
                 Util.postEvents("Print", "Print", this.getApplicationContext());
-                openPDF();
+                if(longBillPrint){
+                    openPDF();
+                } else if (shortBillPrint){
+                    thermalPrinter();
+                }
                 break;
             case R.id.btnShare:
                 Util.postEvents("Share of Whatsapp", "Share of Whatsapp", this.getApplicationContext());
@@ -582,6 +587,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 binding.btnLongPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
                 binding.btnShortPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.pdf_format_structure));
                 binding.btnShortPdf.setTextColor(ContextCompat.getColor(this,R.color.black));
+                longBillPrint = true;
+                if(shortBillPrint){
+                    shortBillPrint = false;
+                }
                 break;
             case R.id.btn_Short_pdf:
                 pdfBinding.scollviewSendPDF.setVisibility(View.GONE);
@@ -590,6 +599,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 binding.btnShortPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
                 binding.btnLongPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.pdf_format_structure));
                 binding.btnLongPdf.setTextColor(ContextCompat.getColor(this,R.color.black));
+                shortBillPrint = true;
+                if(longBillPrint){
+                    longBillPrint = false;
+                }
                 break;
 
         }
@@ -705,6 +718,20 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 DialogUtils.showToast(PDFActivity.this, "Failed upload pdf to server");
             }
         });
+    }
+
+    private void thermalPrinter(){
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH}, MainActivity.PERMISSION_BLUETOOTH);
+//        } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_ADMIN}, MainActivity.PERMISSION_BLUETOOTH_ADMIN);
+//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, MainActivity.PERMISSION_BLUETOOTH_CONNECT);
+//        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, MainActivity.PERMISSION_BLUETOOTH_SCAN);
+//        } else {
+//            // Your code HERE
+        }
     }
 
     //once syncing starts from database (see SyncService.java class line: 120) , after that there will be no use of this function
