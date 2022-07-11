@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.billbook.app"
         minSdkVersion 24
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 48
         versionName "2.1.1"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -63,10 +63,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     implementation 'com.google.android.material:material:1.0.0'
-    //implementation 'com.google.android.material:material:1.4.0'
-
     implementation 'androidx.cardview:cardview:1.0.0'
-//    implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.google.firebase:firebase-core:16.0.6'
@@ -90,7 +87,6 @@ dependencies {
     implementation 'ir.mtajik.android:advancedsmsmanager:1.1.0'
     implementation 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'
     implementation 'com.github.mreram:showcaseview:1.1'
-//    implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.nitin-jaiman:CustomClickableEmailPhoneTextview:3.0'
     implementation 'com.borax12.materialdaterangepicker:library:2.0'
@@ -106,11 +102,8 @@ dependencies {
     //screen pixels
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
-
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-
     implementation 'com.andrewjapar.rangedatepicker:rangedatepicker:0.3'
-
     implementation 'com.google.android.gms:play-services-basement:17.6.0'
     implementation 'com.google.android.gms:play-services-tasks:17.2.1'
     implementation 'com.google.android.gms:play-services-appset:16.0.0'
@@ -120,8 +113,9 @@ dependencies {
     releaseImplementation 'com.readystatesoftware.chuck:library-no-op:1.1.0'
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
-
     implementation 'es.voghdev.pdfviewpager:library:1.1.2'
+    //thermal printer dependency
+    implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:3.2.0'
 
 }
 
