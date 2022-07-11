@@ -131,6 +131,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
         binding.btnLongPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.login_button_structure));
         binding.btnLongPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
+        longBillPrint = true;
         initUI();
         setProfileData();
         setData();
@@ -601,7 +602,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.btn_Long_pdf:
                 shortBillLayoutBinding.shortBill.setVisibility(View.GONE);
-                pdfBinding.scollviewSendPDF.setVisibility(View.VISIBLE);
+                binding.hsv.setVisibility(View.VISIBLE);
                 binding.btnLongPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.login_button_structure));
                 binding.btnLongPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
                 binding.btnShortPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.pdf_format_structure));
@@ -612,7 +613,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 }
                 break;
             case R.id.btn_Short_pdf:
-                pdfBinding.scollviewSendPDF.setVisibility(View.GONE);
+                binding.hsv.setVisibility(View.GONE);
                 shortBillLayoutBinding.shortBill.setVisibility(View.VISIBLE);
                 binding.btnShortPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.login_button_structure));
                 binding.btnShortPdf.setTextColor(ContextCompat.getColor(this,R.color.white));

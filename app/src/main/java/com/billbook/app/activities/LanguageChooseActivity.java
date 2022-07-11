@@ -129,7 +129,7 @@ public class LanguageChooseActivity extends AppCompatActivity {
                 getBaseContext().getResources().getDisplayMetrics());
         Intent intent = new Intent(LanguageChooseActivity.this, BottomNavigationActivity.class);
         startActivity(intent);
-
+        finish();
     }
 
 }

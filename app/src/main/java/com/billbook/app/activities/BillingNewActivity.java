@@ -1773,7 +1773,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     public void discVisible(View v)
     {
-        try{
             TextView addDisc = findViewById(R.id.addDisc);
             LinearLayout disc = findViewById(R.id.discountLayout);
             if(ischeckDisc)
@@ -1781,23 +1780,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 addDisc.setText("Cancel");
                 disc.setVisibility(View.VISIBLE);
                 ischeckDisc=false;
-         }
-            else if(invoice.getInt("discount") > 0 && getIntent().hasExtra("edit")){
-                addDisc.setText("Update Discount");
-                disc.setVisibility(View.GONE);
-                ischeckDisc=true;
-            }
-            else
+         } else
             {
-                addDisc.setText("Add Discount");
+                if(getIntent().hasExtra("edit")){
+                    addDisc.setText("Update Discount");
+                } else {
+                    addDisc.setText("Add Discount");
+                }
                 disc.setVisibility(View.GONE);
                 ischeckDisc=true;
             }
-        }
-        catch (JSONException e) {
-            e.printStackTrace();
-        }
-
     }
 
 
