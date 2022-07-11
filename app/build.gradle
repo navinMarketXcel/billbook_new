@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 android {
-    compileSdkVersion 31
+    compileSdkVersion 30
     defaultConfig {
         applicationId "com.billbook.app"
         minSdkVersion 24
-        targetSdkVersion 31
+        targetSdkVersion 30
         versionCode 48
         versionName "2.1.1"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -115,7 +115,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth-api-phone:17.5.0'
     implementation 'es.voghdev.pdfviewpager:library:1.1.2'
     //thermal printer dependency
-    implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:3.2.0'
+//    implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:3.2.0'
 
 }
 
