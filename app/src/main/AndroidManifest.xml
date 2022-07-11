@@ -318,7 +318,7 @@
         <provider
             android:name=".GenericFileProvider"
             android:authorities="${applicationId}.provider"
-            android:exported="true"
+            android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities">
             <meta-data
