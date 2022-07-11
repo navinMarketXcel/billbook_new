@@ -149,7 +149,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Search"
+                    android:text="@string/search"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:fontFamily="@font/inter"
@@ -179,7 +179,7 @@
                     android:id="@+id/toAndFromDate"
                     android:layout_width="match_parent"
                     android:fontFamily="@font/inter"
-                    android:text="Choose Period"
+                    android:text="@string/choose_period"
                     android:textColor="@color/black"
                     android:layout_marginTop="10dp"
                     android:layout_height="wrap_content">
@@ -276,7 +276,7 @@
                             android:drawableRight="@drawable/ic_baseline_filter_alt_24"
                             android:gravity="center"
                             android:onClick="clickFilter"
-                            android:text="Filter"
+                            android:text="@string/filter"
                             android:textColor="#266CE4"
                             >
 
@@ -289,7 +289,7 @@
                             android:id="@+id/sortTv"
                             android:layout_width="wrap_content"
                             android:layout_height="35dp"
-                            android:text="Sort"
+                            android:text="@string/sort"
                             android:gravity="center"
                             android:onClick="clickSort"
                             android:layout_gravity="center"
@@ -310,7 +310,7 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:onClick="clickSelect"
-                            android:text="Select"
+                            android:text="@string/select"
                             android:textColor="#266CE4"
                             >
 

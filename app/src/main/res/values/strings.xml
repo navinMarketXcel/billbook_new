@@ -120,7 +120,7 @@
     <string name="to">To</string>
     <string name="ledger_detail">Report</string>
     <string name="selling_detail">Selling Detail</string>
-    <string name="discount">Discount Amount (Rs) : </string>
+    <string name="discount">Add Discount</string>
     <string name="category">Category</string>
     <string name="brand">Brand</string>
     <string name="product">Model</string>
@@ -430,7 +430,7 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="enter_otp">Enter OTP</string>
     <string name="otp_sent">OTP sent to 9897767646</string>
     <string name="verify">Verify</string>
-    <string name="select">Select...</string>
+    <string name="select">Select</string>
     <string name="choose_period">Choose Period</string>
     <string name="transaction">Transaction</string>
     <string name="income">Income</string>
@@ -445,6 +445,7 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="my_profile">My Profile</string>
     <string name="help_menu">Help</string>
     <string name="logout">Logout</string>
+    <string name="export_report">Export Report</string>
     <string name="long_format">Long Format</string>
     <string name="short_format">Short Format</string>
     <string name="bill_number">Bill Number:</string>
@@ -484,4 +485,5 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="tax_invoice" translatable="false">***TAX INVOICE***</string>
     <string name="non_gst" translatable="false">Non-GST</string>
     <string name="gst_profile" translatable="false">GST</string>
+    <string name="add_new_item">Add New Item</string>
 </resources>

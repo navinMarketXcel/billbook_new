@@ -614,7 +614,7 @@
 
                             android:layout_height="wrap_content"
 
-                            android:text="Customer Address" />
+                            android:text="@string/enter_address" />
 
 
 
@@ -633,7 +633,7 @@
 
                             android:layout_height="wrap_content"
 
-                            android:hint="Enter Address"
+                            android:hint="@string/ct_enter_address"
 
                             android:singleLine="false"
 
@@ -674,7 +674,7 @@
 
                             android:layout_height="wrap_content"
 
-                            android:text="Customer GST Details" />
+                            android:text="@string/customer_gst" />
 
 
 
@@ -693,7 +693,7 @@
 
                             android:layout_height="wrap_content"
 
-                            android:hint="Enter GST Number"
+                            android:hint="@string/cust_gst_no"
 
                             android:singleLine="false"
 
@@ -980,7 +980,7 @@
 
                                 android:layout_weight="1"
 
-                                android:text="Add New Item" />
+                                android:text="@string/add_new_item" />
 
 
                         </LinearLayout>
@@ -1074,7 +1074,7 @@
 
                                     android:layout_height="20dp"
 
-                                    android:text="Add Discount">
+                                    android:text="@string/discount">
 
 
                                 </TextView>
@@ -1125,7 +1125,7 @@
 
                                     android:textSize="15sp"
 
-                                    android:text="Amount:" />
+                                    android:text="@string/amount" />
 
 
                                 <TextView
@@ -1182,7 +1182,7 @@
 
                                     android:textSize="15sp"
 
-                                    android:text="GST:" />
+                                    android:text="@string/gst" />
 
 
                                 <TextView
@@ -1355,7 +1355,7 @@
 
                                     android:textStyle="bold"
 
-                                    android:text="Total Amount:" />
+                                    android:text="@string/total_amount_billing" />
 
 
                                 <TextView

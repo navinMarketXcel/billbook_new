@@ -1737,6 +1737,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private void checkIsEdit() {
         if (getIntent().hasExtra("edit")) {
             try {
+                //binding.addDisc.setText("Update discount");
                 Button b = findViewById(R.id.addMoreItem);
                 b.setVisibility(View.VISIBLE);
                 binding.viewDetsLay.setVisibility(View.VISIBLE);
@@ -1780,8 +1781,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 addDisc.setText("Cancel");
                 disc.setVisibility(View.VISIBLE);
                 ischeckDisc=false;
-            } else if(invoice.getInt("discount") > 0 && getIntent().hasExtra("edit")){
-                binding.addDisc.setText("Update Discount");
+         }
+            else if(invoice.getInt("discount") > 0 && getIntent().hasExtra("edit")){
+                addDisc.setText("Update Discount");
                 disc.setVisibility(View.GONE);
                 ischeckDisc=true;
             }
@@ -1791,7 +1793,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 disc.setVisibility(View.GONE);
                 ischeckDisc=true;
             }
-        } catch (JSONException e) {
+        }
+        catch (JSONException e) {
             e.printStackTrace();
         }
 
