@@ -279,31 +279,17 @@ public class RemotePDFActivity extends AppCompatActivity  {
     boolean printBtnPressed=false;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void PrintTheWebPage(WebView webView) {
-
-
         //set printBtnPressed true
         printBtnPressed=true;
-
         // Creating  PrintManager instance
-        PrintManager printManager = (PrintManager) this
-                .getSystemService(Context.PRINT_SERVICE);
-
+        PrintManager printManager = (PrintManager) this.getSystemService(Context.PRINT_SERVICE);
         //setting the name of job
         String jobName = getString(R.string.app_name) + " webpage"+webView.getUrl();
-
         // Creating  PrintDocumentAdapter instance
         PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter(jobName);
-
         // Create a print job with name and adapter instance
         assert printManager != null;
-        printJob = printManager.print(jobName, printAdapter,
-                new PrintAttributes.Builder().build());
-
-
-
-
-
-
+        printJob = printManager.print(jobName, printAdapter, new PrintAttributes.Builder().build());
     }
     @Override
     protected void onResume() {

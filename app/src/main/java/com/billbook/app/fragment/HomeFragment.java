@@ -677,14 +677,14 @@ public class HomeFragment extends Fragment
         intent.putExtra("alarm_message", "O'Doyle Rules!");
 
         // In reality, you would want to have a static variable for the request code instead of 192837
-        PendingIntent sender = PendingIntent.getBroadcast(getActivity(), 192837, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent sender = PendingIntent.getBroadcast(getActivity(), 192837, intent, PendingIntent.FLAG_IMMUTABLE);
 // Get the AlarmManager service
         AlarmManager am = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
     /*
     // am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);
     long currentTime = System.currentTimeMillis();
     long oneMinute = 30 * 1000;
-    am.setRepeating(AlarmManager.RTC_WAKEUP, currentTime+oneMinute,1000 * 60 * 60 * 24 , sender);
+    am.setRepeating(AlarmManager.RTC_WAKEUP, currentTime+oneMinute,1000 * 60 * 60 * 24 , sender)
 */
 
         // every day at scheduled time
