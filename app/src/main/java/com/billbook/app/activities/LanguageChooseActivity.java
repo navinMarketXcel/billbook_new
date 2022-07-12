@@ -111,11 +111,15 @@ public class LanguageChooseActivity extends AppCompatActivity {
             imgEnglish.setImageResource(R.drawable.ic_language_selected);
             imgHindi.setImageResource(R.drawable.ic_language_unselected);
             updateLanguage("en");
+            finish();
+
         });
         layoutHindi.setOnClickListener(v -> {
             imgEnglish.setImageResource(R.drawable.ic_language_unselected);
             imgHindi.setImageResource(R.drawable.ic_language_selected);
             updateLanguage("hi");
+            finish();
+
         });
     }
 

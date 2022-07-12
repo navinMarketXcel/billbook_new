@@ -18,15 +18,7 @@ public class OtpReceiver extends BroadcastReceiver {
     public SmsBroadcastListener smsBroadcastListener;
     @Override
     public void onReceive(Context context, Intent intent) {
-//        SmsMessage[] messages = Telephony.Sms.Intents.getMessagesFromIntent(intent);
-//
-//        for(SmsMessage sms: messages)
-//        {
-//            String message = sms.getMessageBody();
-//            String otp = message.split("is")[2];
-//
-//            editText.setText(otp.trim());
-//        }
+
         if(intent.getAction()== SmsRetriever.SMS_RETRIEVED_ACTION)
         {
             Bundle extra = intent.getExtras();
