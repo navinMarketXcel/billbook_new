@@ -12,7 +12,7 @@
         android:id="@+id/tvProductNumber"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight=".7"
+        android:layout_weight=".6"
         android:textSize="13dp"
         android:background="@drawable/card_lined"
         android:ellipsize="end"

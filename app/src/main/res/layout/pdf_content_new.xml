@@ -4,10 +4,7 @@
     android:id="@+id/scollviewSendPDF"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/_15sdp"
-    android:layout_marginBottom="@dimen/_15sdp"
-    android:layout_marginLeft="@dimen/_15sdp"
-    android:layout_marginRight="@dimen/_15sdp">
+  >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,7 +55,7 @@
                                 android:layout_width="50dp"
                                 android:layout_height="50dp"
                                 android:layout_gravity="start|center"
-                                android:background="@drawable/flaticon_pdf_dummy"
+                                android:background="@drawable/ic_user_prof"
                                 android:padding="5dp"
                                 android:visibility="visible" />
 
@@ -283,6 +280,10 @@
                                 android:orientation="horizontal"
                                 android:background="@color/grey_b9b9b9"
                                 android:weightSum="1">
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/material_blue_grey_95" />
 
                                 <TextView
                                     style="@style/textSmall"
@@ -314,7 +315,7 @@
                                 android:weightSum="1">
 
                                 <TextView
-                                    android:id="@+id/customerGst"
+                                    android:id="@+id/customerName"
                                     style="@style/textSmall"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
@@ -407,6 +408,10 @@
                                         android:textColor="@color/color_black"
                                         />
 
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/material_blue_grey_95" />
 
                                 </LinearLayout>
 
@@ -596,6 +601,10 @@
                         android:orientation="horizontal"
                         android:weightSum="11">
 
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/material_blue_grey_95" />
 
                         <TextView
                             android:id="@+id/productNO"
@@ -769,6 +778,10 @@
                             android:textColor="@color/color_black"
                             android:textSize="10dp"
                             android:textStyle="bold" />
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/material_blue_grey_95" />
 
                     </LinearLayout>
 
