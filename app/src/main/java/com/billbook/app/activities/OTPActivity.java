@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -136,13 +140,12 @@ public class OTPActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-
         if(requestCode==REQ_USER)
         {
-            if((requestCode==RESULT_OK)&&(data!=null))
+            if((resultCode==RESULT_OK)&&(data!=null))
             {
                 String message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE);
-                Log.v("Result check","Checking");
+
                 getOtpFromMessage(message);
             }
         }
@@ -152,13 +155,11 @@ public class OTPActivity extends AppCompatActivity {
 
         Pattern otpPattern = Pattern.compile("(|^)\\d{6}");
         Matcher matcher = otpPattern.matcher(message);
-        Log.v("matcher.group(0)",matcher.group(0));
         Log.v("message",message);
         if (matcher.find())
         {
             otpEdt.setText(matcher.group(0));
-
-
+            Log.v("otp",matcher.group(0));
         }
     }
 
