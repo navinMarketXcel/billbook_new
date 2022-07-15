@@ -1496,7 +1496,7 @@
 
             android:layout_width="wrap_content"
 
-            android:text="Make Bill"
+            android:text="@string/make_bill"
 
             android:gravity="center"
 

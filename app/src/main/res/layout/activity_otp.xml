@@ -80,7 +80,7 @@
                 android:fontFamily="@font/inter"
                 android:hint="Enter the OTP"
                 android:maxLength="6"
-                 />
+                android:inputType="number" />
 
 
         <Button
