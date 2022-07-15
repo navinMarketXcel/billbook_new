@@ -741,10 +741,35 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     Toast.makeText(PDFActivity.this, "This device doesn't support Bluetooth ", Toast.LENGTH_LONG).show();
                 } else {
                     if(bluetoothAdapter.isEnabled()){
+                        try{
+                            String shopName, shopAddress, customerGSTNo, customerMobNo, billNo, billTo, billToAdd, billToMobNo, date;
+                            shopName = profile.getString("shopName");
+                            shopAddress = profile.getString("shopAddr") + " " + profile.getString("city")
+                                    + " " + profile.getString("state") + " - " + profile.getString("pincode");
+                            customerGSTNo = profile.has("gstNo") ? profile.getString("gstNo") : "";
+                            if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
+                                billNo = String.valueOf(getIntent().getExtras().getInt("gstBillNo"));
+                            } else {
+                                billNo = String.valueOf(getIntent().getExtras().getInt("nonGstBillNo"));
+                            }
+                            if(invoice.getString("customerName").isEmpty())
+                            {
+                                billTo=getIntent().getExtras().getString("customerName");
+                            }
+                            if(invoice.getString("customerAddress").isEmpty())
+                            {
+                                billToAdd=getIntent().getExtras().getString("customerAddress");
+                            }
+                            if(invoice.getString("customerMobileNo").isEmpty())
+                            {
+                                billToMobNo=getIntent().getExtras().getString("customerMobileNo");
+                            }
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
                         EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32);
                         printer
                                 .printFormattedText(
-                                        "[L]\n" +
                                                 "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
                                                 "[L]\n" +
                                                 "[C]================================\n" +
@@ -771,7 +796,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                                                 "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>"
                                 );
                     } else {
-                        Intent bluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 
                     }
                 }
@@ -818,84 +842,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         });
     }
 
-//    private void thermalPrinter(){
-//        try {
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH}, PDFActivity.PERMISSION_BLUETOOTH);
-//            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_ADMIN}, PDFActivity.PERMISSION_BLUETOOTH_ADMIN);
-//            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, PDFActivity.PERMISSION_BLUETOOTH_CONNECT);
-//            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, PDFActivity.PERMISSION_BLUETOOTH_SCAN);
-//            } else {
-//                if(getIntent().getExtras().getInt("gstBillNo") != 0){
-//                    EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32);
-//                    printer
-//                            .printFormattedText(
-//                                    "[L]\n" +
-//                                            "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
-//                                            "[L]\n" +
-//                                            "[C]================================\n" +
-//                                            "[L]\n" +
-//                                            "[L]<b>BEAUTIFUL SHIRT</b>[R]9.99e\n" +
-//                                            "[L]  + Size : S\n" +
-//                                            "[L]\n" +
-//                                            "[L]<b>AWESOME HAT</b>[R]24.99e\n" +
-//                                            "[L]  + Size : 57/58\n" +
-//                                            "[L]\n" +
-//                                            "[C]--------------------------------\n" +
-//                                            "[R]TOTAL PRICE :[R]34.98e\n" +
-//                                            "[R]TAX :[R]4.23e\n" +
-//                                            "[L]\n" +
-//                                            "[C]================================\n" +
-//                                            "[L]\n" +
-//                                            "[L]<font size='tall'>Customer :</font>\n" +
-//                                            "[L]Raymond DUPONT\n" +
-//                                            "[L]5 rue des girafes\n" +
-//                                            "[L]31547 PERPETES\n" +
-//                                            "[L]Tel : +33801201456\n" +
-//                                            "[L]\n" +
-//                                            "[C]<barcode type='ean13' height='10'>831254784551</barcode>\n" +
-//                                            "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>"
-//                            );
-//                } else{
-//                    EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32);
-//                    printer
-//                            .printFormattedText(
-//                                    "[L]\n" +
-//                                            "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
-//                                            "[L]\n" +
-//                                            "[C]================================\n" +
-//                                            "[L]\n" +
-//                                            "[L]<b>BEAUTIFUL SHIRT</b>[R]9.99e\n" +
-//                                            "[L]  + Size : S\n" +
-//                                            "[L]\n" +
-//                                            "[L]<b>AWESOME HAT</b>[R]24.99e\n" +
-//                                            "[L]  + Size : 57/58\n" +
-//                                            "[L]\n" +
-//                                            "[C]--------------------------------\n" +
-//                                            "[R]TOTAL PRICE :[R]34.98e\n" +
-//                                            "[R]TAX :[R]4.23e\n" +
-//                                            "[L]\n" +
-//                                            "[C]================================\n" +
-//                                            "[L]\n" +
-//                                            "[L]<font size='tall'>Customer :</font>\n" +
-//                                            "[L]Raymond DUPONT\n" +
-//                                            "[L]5 rue des girafes\n" +
-//                                            "[L]31547 PERPETES\n" +
-//                                            "[L]Tel : +33801201456\n" +
-//                                            "[L]\n" +
-//                                            "[C]<barcode type='ean13' height='10'>831254784551</barcode>\n" +
-//                                            "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>"
-//                            );
-//                }
-//            }
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
-//
-//    }
 
     //once syncing starts from database (see SyncService.java class line: 120) , after that there will be no use of this function
     private void saveInvoiceOffline() {
