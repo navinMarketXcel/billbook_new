@@ -60,8 +60,8 @@ public class LanguageChooseActivity extends AppCompatActivity {
     private long userid;
     private JSONObject profile;
     LinearLayout lnHelp,lnYouTube;
-    RelativeLayout layoutEnglish,layoutHindi;
-    ImageView imgEnglish,imgHindi;
+    RelativeLayout layoutEnglish,layoutHindi,layoutMarathi,layoutGujrati;
+    ImageView imgEnglish,imgHindi,imgMarathi,imgGujrati;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +74,10 @@ public class LanguageChooseActivity extends AppCompatActivity {
         layoutHindi = findViewById(R.id.layoutHindi);
         imgEnglish = findViewById(R.id.imgEnglish);
         imgHindi = findViewById(R.id.imgHindi);
+        layoutMarathi = findViewById(R.id.layoutMarathi);
+        layoutGujrati = findViewById(R.id.layoutGujarati);
+        imgMarathi = findViewById(R.id.imgMarathi);
+        imgGujrati = findViewById(R.id.imgGujrati);
 
         try {
             profile = new JSONObject(((MyApplication) getApplication()).getUserDetails());
@@ -90,9 +94,28 @@ public class LanguageChooseActivity extends AppCompatActivity {
     if(MyApplication.getLanguage().equals("hi")){
         imgEnglish.setImageResource(R.drawable.ic_language_unselected);
         imgHindi.setImageResource(R.drawable.ic_language_selected);
-    }else{
+        imgGujrati.setImageResource(R.drawable.ic_language_unselected);
+        imgMarathi.setImageResource(R.drawable.ic_language_unselected);
+    }
+    else if(MyApplication.getLanguage().equals("ma"))
+    {
+        imgEnglish.setImageResource(R.drawable.ic_language_unselected);
+        imgHindi.setImageResource(R.drawable.ic_language_unselected);
+        imgGujrati.setImageResource(R.drawable.ic_language_unselected);
+        imgMarathi.setImageResource(R.drawable.ic_language_selected);
+        }
+    else if(MyApplication.getLanguage().equals("gu"))
+    {
+        imgEnglish.setImageResource(R.drawable.ic_language_unselected);
+        imgHindi.setImageResource(R.drawable.ic_language_unselected);
+        imgGujrati.setImageResource(R.drawable.ic_language_selected);
+        imgMarathi.setImageResource(R.drawable.ic_language_unselected);
+    }
+    else{
         imgEnglish.setImageResource(R.drawable.ic_language_selected);
         imgHindi.setImageResource(R.drawable.ic_language_unselected);
+        imgGujrati.setImageResource(R.drawable.ic_language_unselected);
+        imgMarathi.setImageResource(R.drawable.ic_language_unselected);
     }
 
     }
@@ -121,6 +144,19 @@ public class LanguageChooseActivity extends AppCompatActivity {
             finish();
 
         });
+        layoutMarathi.setOnClickListener(view -> {
+            imgEnglish.setImageResource(R.drawable.ic_language_selected);
+            imgHindi.setImageResource(R.drawable.ic_language_unselected);
+            updateLanguage("ma");
+            finish();
+        });
+        layoutGujrati.setOnClickListener(view -> {
+            imgEnglish.setImageResource(R.drawable.ic_language_selected);
+            imgHindi.setImageResource(R.drawable.ic_language_unselected);
+            updateLanguage("gu");
+            finish();
+        });
+
     }
 
     public void updateLanguage(String lng) {

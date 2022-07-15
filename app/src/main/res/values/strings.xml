@@ -486,4 +486,6 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="non_gst" translatable="false">Non-GST</string>
     <string name="gst_profile" translatable="false">GST</string>
     <string name="add_new_item">Add New Item</string>
+    <string name="gujarati" translatable="false">Gujrati</string>
+    <string name="marathi" translatable="false">Marathi</string>
 </resources>

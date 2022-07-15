@@ -178,13 +178,12 @@
                             android:background="?attr/selectableItemBackground">
 
                             <TextView
-                                style="@style/textRegular"
                                 android:id="@+id/tvTitleEnglish"
+                                style="@style/textRegular"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/english"
-                                android:textColor="@color/title_color"
-                                 />
+                                android:textColor="@color/title_color" />
 
                             <TextView
                                 style="@style/textSmall"
@@ -232,13 +231,92 @@
                                 style="@style/textSmall"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="@dimen/_10sdp"
-                                android:layout_marginTop="@dimen/_2sdp"
                                 android:layout_below="@+id/tvTitleHindi"
-                                android:text="@string/hindi_l"/>
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:text="@string/hindi_l"
+                                android:textSize="@dimen/_10sdp" />
 
                             <ImageView
                                 android:id="@+id/imgHindi"
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_language_unselected" />
+
+                        </RelativeLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_1sdp"
+                            android:layout_marginHorizontal="@dimen/_8sdp"
+                            android:background="@color/settings_line_color"/>
+                        <RelativeLayout
+                            android:id="@+id/layoutMarathi"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:paddingHorizontal="@dimen/_15sdp"
+                            android:background="?attr/selectableItemBackground">
+
+                            <TextView
+                                android:id="@+id/tvTitleMarathi"
+                                style="@style/textRegular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/marathi"
+                                android:textColor="@color/title_color" />
+
+                            <TextView
+                                style="@style/textSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tvTitleMarathi"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:text="@string/marathi"
+                                android:textSize="@dimen/_10sdp" />
+
+                            <ImageView
+                                android:id="@+id/imgMarathi"
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_language_unselected" />
+
+                        </RelativeLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_1sdp"
+                            android:layout_marginHorizontal="@dimen/_8sdp"
+                            android:background="@color/settings_line_color"/>
+                        <RelativeLayout
+                            android:id="@+id/layoutGujarati"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingVertical="@dimen/_8sdp"
+                            android:paddingHorizontal="@dimen/_15sdp"
+                            android:background="?attr/selectableItemBackground">
+
+                            <TextView
+                                android:id="@+id/tvTitleGujrati"
+                                style="@style/textRegular"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/gujarati"
+                                android:textColor="@color/title_color" />
+
+                            <TextView
+                                style="@style/textSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/tvTitleGujrati"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:text="@string/gujarati"
+                                android:textSize="@dimen/_10sdp" />
+
+                            <ImageView
+                                android:id="@+id/imgGujrati"
                                 android:layout_width="@dimen/_15sdp"
                                 android:layout_height="@dimen/_15sdp"
                                 android:layout_alignParentEnd="true"
