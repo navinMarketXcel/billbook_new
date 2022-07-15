@@ -36,7 +36,7 @@ public class ApiClient {
                 return chain.proceed(request);
             });
 
-            client.addInterceptor(new ChuckInterceptor(context));
+           // client.addInterceptor(new ChuckInterceptor(context));
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             client.addInterceptor(loggingInterceptor);

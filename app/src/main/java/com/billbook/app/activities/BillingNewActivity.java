@@ -1152,7 +1152,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             switch (v.getId()) {
                 case R.id.add:
                     if (verifyData()) {
-
                         addItemToDatabase(modelName.getText().toString(),
                                 Float.parseFloat(priceEt.getText().toString())
                                 ,Float.parseFloat(gstPercentage.getSelectedItemPosition() > 0 ? gstPercentage.getSelectedItem().toString() : "0"),
@@ -1399,7 +1398,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     requestObj.put("id", -1);
                     data.put("invoice", requestObj);
                     data.put("items", requestObj.getJSONArray("items"));
-
                     Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
                     intent.putExtra("invoice", requestObj.toString());
                     intent.putExtra("invoiceServer", data.toString());
@@ -1619,6 +1617,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         intent.putExtra("customerMobileNo", isEdit & customerObject.has("mobileNo")? customerObject.getString("mobileNo"): "");
                         intent.putExtra("customerAddress", isEdit & customerObject.has("address")? customerObject.getString("address"): "");
                         intent.putExtra("itemsSize", String.valueOf(invoiceItemsList.size()));
+                        for(int i = 0; i < invoiceItemsList.size();i++){
+                            quantityCount += invoiceItemsList.get(i).getQuantity();
+                        }
                         intent.putExtra("quantityCount", String.valueOf(quantityCount));
                         intent.putExtra("shortBillGstAmt",String.valueOf(Util.formatDecimalValue(shortBillGstAmt)));
                         if(isEdit && idInLocalDb >0) {
@@ -1827,8 +1828,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 for(int i = 0;i<invoiceItemEditModel.size();i++){
                     InvoiceItems curItem = invoiceItemEditModel.get(i);
-                    // addItemToDatabase(curItem);
-                    quantityCount += curItem.getQuantity();
                     addItemToDatabase(curItem.getName(),
                             curItem.getPrice(),
                             curItem.getGst(),

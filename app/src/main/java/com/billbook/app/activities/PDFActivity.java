@@ -1,6 +1,7 @@
 package com.billbook.app.activities;
 
 import android.Manifest;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.billbook.app.adapters.NewInvoiceShortBillInvoiceProductAdapter;
 import com.billbook.app.database.daos.InvoiceItemDao;
@@ -39,6 +41,9 @@ import com.billbook.app.databinding.ShortBillItemLayoutBinding;
 import com.billbook.app.databinding.ShortBillLayoutBinding;
 import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.billbook.app.viewmodel.InvoiceViewModel;
+import com.dantsu.escposprinter.EscPosPrinter;
+import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
+import com.dantsu.escposprinter.textparser.PrinterTextParserImg;
 import com.google.gson.Gson;
 import com.billbook.app.BuildConfig;
 import com.billbook.app.R;
@@ -109,6 +114,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private long localInvoiceId=0;
     private int invoiceNumber;
     private String GSTType = "";
+    private BluetoothAdapter bluetoothAdapter;
     private String imageURL,signatureURL;
     private ActivityPdfBinding binding;
     private PdfContentNewBinding pdfBinding;
@@ -126,6 +132,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         shortBillLayoutBinding = binding.includedLayoutShortBill;
         invoiceAmountLayoutUpdatedBinding = pdfBinding.invoiceAmountLayoutUpdated;
         setContentView(binding.getRoot());
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         //setContentView(R.layout.activity_pdf);
         invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
         invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
@@ -596,7 +603,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 if(longBillPrint){
                     openPDF();
                 } else if (shortBillPrint){
-//                    thermalPrinter();
+                    thermalPrinter();
                 }
                 break;
             case R.id.btnShare:
@@ -717,6 +724,64 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             e.printStackTrace();
         }
     }
+
+    private void thermalPrinter(){
+        try{
+            System.out.println("IN Pdf Activity");
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH}, PDFActivity.PERMISSION_BLUETOOTH);
+            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_ADMIN}, PDFActivity.PERMISSION_BLUETOOTH_ADMIN);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, PDFActivity.PERMISSION_BLUETOOTH_CONNECT);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, PDFActivity.PERMISSION_BLUETOOTH_SCAN);
+            } else {
+                if(bluetoothAdapter == null){
+                    Toast.makeText(PDFActivity.this, "This device doesn't support Bluetooth ", Toast.LENGTH_LONG).show();
+                } else {
+                    if(bluetoothAdapter.isEnabled()){
+                        EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32);
+                        printer
+                                .printFormattedText(
+                                        "[L]\n" +
+                                                "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
+                                                "[L]\n" +
+                                                "[C]================================\n" +
+                                                "[L]\n" +
+                                                "[L]<b>BEAUTIFUL SHIRT</b>[R]9.99e\n" +
+                                                "[L]  + Size : S\n" +
+                                                "[L]\n" +
+                                                "[L]<b>AWESOME HAT</b>[R]24.99e\n" +
+                                                "[L]  + Size : 57/58\n" +
+                                                "[L]\n" +
+                                                "[C]--------------------------------\n" +
+                                                "[R]TOTAL PRICE :[R]34.98e\n" +
+                                                "[R]TAX :[R]4.23e\n" +
+                                                "[L]\n" +
+                                                "[C]================================\n" +
+                                                "[L]\n" +
+                                                "[L]<font size='tall'>Customer :</font>\n" +
+                                                "[L]Raymond DUPONT\n" +
+                                                "[L]5 rue des girafes\n" +
+                                                "[L]31547 PERPETES\n" +
+                                                "[L]Tel : +33801201456\n" +
+                                                "[L]\n" +
+                                                "[C]<barcode type='ean13' height='10'>831254784551</barcode>\n" +
+                                                "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>"
+                                );
+                    } else {
+                        Intent bluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+
+                    }
+                }
+                Log.v("InPDFActivity", "Printing short format");
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
     private void uploadPDF() {
 //        DialogUtils.startProgressDialog(this, "");
         ApiInterface apiService =
