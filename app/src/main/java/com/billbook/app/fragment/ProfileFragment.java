@@ -6,6 +6,7 @@ import static com.billbook.app.utils.Util.getRequestBodyFormData;
 
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -134,12 +135,34 @@ public class ProfileFragment extends Fragment {
             startActivity(intent);
         });
         rlLogout.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), loginPick_activity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            getActivity().finish();
-            MyApplication.saveUserDetails("");
+            DialogUtils.showAlertDialog(getActivity(), "YES", "NO", "Are you sure you want to Logout?", new DialogUtils.DialogClickListener() {
+                @Override
+                public void positiveButtonClick() {
+                    Intent intent = new Intent(getActivity(), loginPick_activity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    getActivity().finish();
+                    MyApplication.saveUserDetails("");
+                    SharedPreferences sharedPref =
+                            getActivity().getSharedPreferences(ProfileFragment.this.getString(R.string.preference_file_key),
+                                    getActivity().MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putBoolean("isGstDialogShown", false);
+                    editor.commit();
+                }
+                @Override
+                public void negativeButtonClick() {
+
+                }
+            });
+//            Intent intent = new Intent(getActivity(), loginPick_activity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+//            getActivity().finish();
+//            MyApplication.saveUserDetails("");
         });
+
+
         switchGst.setOnClickListener(v -> {
             try {
                 if(switchGst.isChecked()){
