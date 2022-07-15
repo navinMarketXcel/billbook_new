@@ -223,8 +223,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         pdfBinding.CGST.setVisibility(View.VISIBLE);
                         pdfBinding.SGST.setVisibility(View.VISIBLE);
                        //pdfBinding.padding3.setVisibility(View.GONE);
-                        pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));
+                       /* pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));*/
                         /*pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));*/
                     } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
@@ -234,8 +234,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                        // pdfBinding.padding2.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.GONE);
                         pdfBinding.SGST.setVisibility(View.GONE);
-                        pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                0, LinearLayout.LayoutParams.WRAP_CONTENT, 4.5f));
+                       /* pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.WRAP_CONTENT, 4.5f));*/
                        /* pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));*/
                     } else {
@@ -245,8 +245,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         //pdfBinding.padding1.setVisibility(View.GONE);
                        // pdfBinding.padding2.setVisibility(View.GONE);
                        // pdfBinding.padding3.setVisibility(View.GONE);
-                        pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
-                                0, LinearLayout.LayoutParams.WRAP_CONTENT, 5.5f));
+                       /* pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                                0, LinearLayout.LayoutParams.WRAP_CONTENT, 5.5f));*/
                        /* pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));*/
                     }
