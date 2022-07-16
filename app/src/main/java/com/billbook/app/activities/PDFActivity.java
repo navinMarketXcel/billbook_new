@@ -17,23 +17,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.billbook.app.adapters.NewInvoiceShortBillInvoiceProductAdapter;
 import com.billbook.app.database.daos.InvoiceItemDao;
 import com.billbook.app.database.models.InvoiceItems;
-import com.billbook.app.database.models.InvoiceModelV2;
 import com.billbook.app.databinding.ActivityPdfBinding;
 import com.billbook.app.databinding.InvoiceAmountLayoutUpdatedBinding;
 import com.billbook.app.databinding.PdfContentNewBinding;
@@ -43,7 +39,6 @@ import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.billbook.app.viewmodel.InvoiceViewModel;
 import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
-import com.dantsu.escposprinter.textparser.PrinterTextParserImg;
 import com.google.gson.Gson;
 import com.billbook.app.BuildConfig;
 import com.billbook.app.R;
@@ -55,7 +50,6 @@ import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.PdfWriter;
 import com.billbook.app.utils.Util;
 //import com.squareup.picasso.BuildConfig;
-import com.readystatesoftware.chuck.internal.ui.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -116,6 +110,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private String GSTType = "";
     private BluetoothAdapter bluetoothAdapter;
     private String imageURL,signatureURL;
+    private String layout = "";
     private ActivityPdfBinding binding;
     private PdfContentNewBinding pdfBinding;
     private ShortBillItemLayoutBinding shortBillItemLayoutBinding;
@@ -143,6 +138,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         setProfileData();
         setData();
         setShortFormatData();
+        generateShortBill();
     }
 
     private void initUI() {
@@ -742,59 +738,12 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 } else {
                     if(bluetoothAdapter.isEnabled()){
                         try{
-                            String shopName, shopAddress, customerGSTNo, customerMobNo, billNo, billTo, billToAdd, billToMobNo, date;
-                            shopName = profile.getString("shopName");
-                            shopAddress = profile.getString("shopAddr") + " " + profile.getString("city")
-                                    + " " + profile.getString("state") + " - " + profile.getString("pincode");
-                            customerGSTNo = profile.has("gstNo") ? profile.getString("gstNo") : "";
-                            if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
-                                billNo = String.valueOf(getIntent().getExtras().getInt("gstBillNo"));
-                            } else {
-                                billNo = String.valueOf(getIntent().getExtras().getInt("nonGstBillNo"));
-                            }
-                            if(invoice.getString("customerName").isEmpty())
-                            {
-                                billTo=getIntent().getExtras().getString("customerName");
-                            }
-                            if(invoice.getString("customerAddress").isEmpty())
-                            {
-                                billToAdd=getIntent().getExtras().getString("customerAddress");
-                            }
-                            if(invoice.getString("customerMobileNo").isEmpty())
-                            {
-                                billToMobNo=getIntent().getExtras().getString("customerMobileNo");
-                            }
+                            EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32);
+                            printer
+                                    .printFormattedText(layout);
                         } catch (Exception e){
                             e.printStackTrace();
                         }
-                        EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32);
-                        printer
-                                .printFormattedText(
-                                                "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
-                                                "[L]\n" +
-                                                "[C]================================\n" +
-                                                "[L]\n" +
-                                                "[L]<b>BEAUTIFUL SHIRT</b>[R]9.99e\n" +
-                                                "[L]  + Size : S\n" +
-                                                "[L]\n" +
-                                                "[L]<b>AWESOME HAT</b>[R]24.99e\n" +
-                                                "[L]  + Size : 57/58\n" +
-                                                "[L]\n" +
-                                                "[C]--------------------------------\n" +
-                                                "[R]TOTAL PRICE :[R]34.98e\n" +
-                                                "[R]TAX :[R]4.23e\n" +
-                                                "[L]\n" +
-                                                "[C]================================\n" +
-                                                "[L]\n" +
-                                                "[L]<font size='tall'>Customer :</font>\n" +
-                                                "[L]Raymond DUPONT\n" +
-                                                "[L]5 rue des girafes\n" +
-                                                "[L]31547 PERPETES\n" +
-                                                "[L]Tel : +33801201456\n" +
-                                                "[L]\n" +
-                                                "[C]<barcode type='ean13' height='10'>831254784551</barcode>\n" +
-                                                "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>"
-                                );
                     } else {
 
                     }
@@ -802,6 +751,103 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 Log.v("InPDFActivity", "Printing short format");
             }
         } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void generateShortBill(){
+        try{
+                localInvoiceId = getIntent().getExtras().getLong("localInvId");
+                invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
+                    try {
+                        invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
+                        String shopName, shopAddress, userMobile, userEmail,  userGSTNo, customerMobNo, billNo, billTo = "", billToAdd = " ", billToMobNo = " ", date;
+                        shopName = profile.getString("shopName");
+                        layout = "[C]<b><font size='big-3'> " + shopName +  "</font></b>\n ";
+                        shopAddress = profile.getString("shopAddr") + " " + profile.getString("city")
+                                + " " + profile.getString("state") + " - " + profile.getString("pincode");
+                        layout += "[L]"+ shopAddress + "\n";
+                        userMobile = profile.getString("mobileNo");
+                        layout += "[C]Phone: "+ userMobile + "\n";
+                        if(profile.has("email") && !profile.getString("email").isEmpty()){
+                            userEmail = profile.getString("email");
+                            layout += "[C]Email: "+ userEmail + "\n";
+                        }
+                        userGSTNo = profile.has("gstNo") ? profile.getString("gstNo") : "";
+                        if(invoice.has("gstType") && profile.has("gstNo") && !(userGSTNo.isEmpty())){
+                            layout += "[C]GSTIN: "+ userGSTNo + "\n";
+                        }
+                        if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
+                            layout += "[C] ***TAX INVOICE***\n";
+                        } else {
+                            layout += "[C] ***INVOICE***\n";
+                        }
+                        layout += "[C]--------------------------------\n";
+                        if(invoice.has("gstType") && !invoice.getString("gstType").isEmpty()){
+                            billNo = String.valueOf(getIntent().getExtras().getInt("gstBillNo"));
+                        } else {
+                            billNo = String.valueOf(getIntent().getExtras().getInt("nonGstBillNo"));
+                        }
+                        layout += "[L]Bill No:"+ billNo;
+                        date = invoice.getString("invoiceDate");
+                        layout += "[R]   Date:"+ date+"\n";
+
+                        if(invoice.getString("customerName").isEmpty())
+                        {
+                            billTo=getIntent().getExtras().getString("customerName");
+                        }
+                        if(!billTo.isEmpty()){
+                            layout += "[L]Billed To:" + billTo + "\n";
+                        } else {
+                            layout += "[L]Billed To: \n";
+                        }
+                        if(invoice.getString("customerAddress").isEmpty())
+                        {
+                            billToAdd=getIntent().getExtras().getString("customerAddress");
+                        }
+                        if(!billToAdd.isEmpty()){
+                            layout += "[L]" + billTo + "\n";
+                        }
+                        if(invoice.getString("customerMobileNo").isEmpty())
+                        {
+                            billToMobNo=getIntent().getExtras().getString("customerMobileNo");
+                        }
+                        if(!billToMobNo.isEmpty()){
+                            layout += "[L]Contact No:" + billToMobNo + "\n";
+                        }
+                        layout += "[L]\n";
+                        layout += "[C]<b>--------------------------------</b>\n";
+                        layout += "[L]Description \n";
+                        layout += "[L]Qty     MRP     Rate     NetAmnt";
+                        if(invoice.has("gstType") && !invoice.getString("gstType").isEmpty()){
+                            layout += "[R]Tax%";
+                        }
+                        layout += "[C]--------------------------------\n";
+
+//                        layout = "[L]  + Size : S\n" +
+//                                "[L]\n" +
+//                                "[L]<b>AWESOME HAT</b>[R]24.99e\n" +
+//                                "[L]  + Size : 57/58\n" +
+//                                "[L]\n" +
+//                                "[C]--------------------------------\n" +
+//                                "[R]TOTAL PRICE :[R]34.98e\n" +
+//                                "[R]TAX :[R]4.23e\n" +
+//                                "[L]\n" +
+//                                "[C]================================\n" +
+//                                "[L]\n" +
+//                                "[L]<font size='tall'>Customer :</font>\n" +
+//                                "[L]Raymond DUPONT\n" +
+//                                "[L]5 rue des girafes\n" +
+//                                "[L]31547 PERPETES\n" +
+//                                "[L]Tel : +33801201456\n" +
+//                                "[L]\n" +
+//                                "[C]<barcode type='ean13' height='10'>831254784551</barcode>\n" +
+//                                "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>";
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                });
+        } catch (Exception e){
             e.printStackTrace();
         }
     }

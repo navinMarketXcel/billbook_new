@@ -66,7 +66,6 @@ public class NewInvoiceShortBillInvoiceProductAdapter extends RecyclerView.Adapt
         holder.productMRP.setText(String.valueOf(Util.formatDecimalValue(curItems.get(position).getPrice())));
         holder.productAmnt.setText(Util.formatDecimalValue( curItems.get(position).getTotalAmount()));
         holder.rate.setText(String.valueOf(Util.formatDecimalValue(curItems.get(position).getGstAmount())));
-        Log.v("Isgst", String.valueOf(this.isGSTAvailable));
         if(this.isGSTAvailable){
             holder.productTax.setText(String.valueOf((int)curItems.get(position).getGst())+"%");
         } else {
