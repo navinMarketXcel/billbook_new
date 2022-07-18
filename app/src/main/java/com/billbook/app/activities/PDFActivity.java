@@ -94,7 +94,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private JSONObject invoice;
     private RecyclerView recyclerViewInvoiceProducts,recyclerViewShortBillInvoiceProducts;
     private List<NewInvoiceModels> items;
-    private List<InvoiceItems> curItems=null;
+    private List<InvoiceItems> curItemsShortUI=null;
     private InvoiceItemsViewModel invoiceItemViewModel;
     private InvoiceViewModel invoiceViewModel;
     private Gson gson = new Gson();
@@ -138,7 +138,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         setProfileData();
         setData();
         setShortFormatData();
-        generateShortBill();
     }
 
     private void initUI() {
@@ -285,7 +284,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         custAdd=getIntent().getExtras().getString("customerAddress");
                     }
 
-                    Log.v("shortformatInvoice", profile.getString("gstNo"));
                     pdfBinding.edtName.setText(custName.equals(null) ?" ":custName+" ");
                     pdfBinding.edtAddress.setText(custAdd.equals(null) ?" ":custAdd+" ");
                     pdfBinding.edtMobNo.setText(custNo.equals(null) ?" ":custNo+" ");
@@ -325,7 +323,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             localInvoiceId = getIntent().getExtras().getLong("localInvId");
             invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
                 try{
-                    Log.v("Inshort", String.valueOf(profile.getString("email").isEmpty()));
                     invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
                     shortBillLayoutBinding.tvVendorName.setText(profile.getString("shopName"));
                     shortBillLayoutBinding.tvStoreAddress.setText(profile.getString("shopAddr") + " " + profile.getString("city")
@@ -353,7 +350,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     }
                     shortBillLayoutBinding.txtInvoiceDate.setText(invoice.getString("invoiceDate"));
                     shortBillLayoutBinding.txtInvoiceNo.setText("" + invoiceNumber);
-                    Log.v("formatInvoice", profile.getString("gstNo"));
                     String custName= invoice.getString("customerName");
                     String custNo =invoice.getString("customerMobileNo");
                     String custAdd =invoice.getString("customerAddress");
@@ -739,8 +735,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     if(bluetoothAdapter.isEnabled()){
                         try{
                             EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32);
-                            printer
-                                    .printFormattedText(layout);
+                            printer.printFormattedText(layout);
                         } catch (Exception e){
                             e.printStackTrace();
                         }
@@ -748,24 +743,24 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
                     }
                 }
-                Log.v("InPDFActivity", "Printing short format");
             }
         } catch(Exception e){
             e.printStackTrace();
         }
     }
 
-    private void generateShortBill(){
+    private void generateShortBill(List<InvoiceItems> invoiceItems){
         try{
                 localInvoiceId = getIntent().getExtras().getLong("localInvId");
                 invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
                     try {
                         invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
-                        String shopName, shopAddress, userMobile, userEmail,  userGSTNo, customerMobNo, billNo, billTo = "", billToAdd = " ", billToMobNo = " ", date;
+                        String shopName, shopAddress, userMobile, userEmail,  userGSTNo, billNo, billTo, billToAdd, billToMobNo, date, items, qty;
+                        boolean isGSTAvailablePrint = false;
                         shopName = profile.getString("shopName");
-                        layout = "[C]<b><font size='big-3'> " + shopName +  "</font></b>\n ";
-                        shopAddress = profile.getString("shopAddr") + " " + profile.getString("city")
-                                + " " + profile.getString("state") + " - " + profile.getString("pincode");
+                        layout = "[C]<b><font size='tall'> " + shopName +  "</font></b>\n";
+                        shopAddress = profile.getString("shopAddr") + "," + profile.getString("city")
+                                + "," + profile.getString("state") + " - " + profile.getString("pincode");
                         layout += "[L]"+ shopAddress + "\n";
                         userMobile = profile.getString("mobileNo");
                         layout += "[C]Phone: "+ userMobile + "\n";
@@ -779,6 +774,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         }
                         if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
                             layout += "[C] ***TAX INVOICE***\n";
+                            isGSTAvailablePrint =true;
                         } else {
                             layout += "[C] ***INVOICE***\n";
                         }
@@ -790,59 +786,89 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         }
                         layout += "[L]Bill No:"+ billNo;
                         date = invoice.getString("invoiceDate");
-                        layout += "[R]   Date:"+ date+"\n";
-
-                        if(invoice.getString("customerName").isEmpty())
+                        layout += "[R] Date:"+ date+"\n";
+                        billTo = invoice.getString("customerName");
+                        billToMobNo =invoice.getString("customerMobileNo");
+                        billToAdd = invoice.getString("customerAddress");
+                        if(billTo.isEmpty())
                         {
-                            billTo=getIntent().getExtras().getString("customerName");
+                            billTo = getIntent().getExtras().getString("customerName");
                         }
-                        if(!billTo.isEmpty()){
+                        if(billTo.length() != 0){
                             layout += "[L]Billed To:" + billTo + "\n";
                         } else {
-                            layout += "[L]Billed To: \n";
+                            layout += "[L]Billed To:\n";
                         }
-                        if(invoice.getString("customerAddress").isEmpty())
+                        if(billToAdd.isEmpty())
                         {
                             billToAdd=getIntent().getExtras().getString("customerAddress");
                         }
                         if(!billToAdd.isEmpty()){
-                            layout += "[L]" + billTo + "\n";
+                            layout += "[L]" + billToAdd + "\n";
                         }
-                        if(invoice.getString("customerMobileNo").isEmpty())
+                        if(billToMobNo.isEmpty())
                         {
                             billToMobNo=getIntent().getExtras().getString("customerMobileNo");
                         }
-                        if(!billToMobNo.isEmpty()){
+                        if(billToMobNo.length() != 0){
                             layout += "[L]Contact No:" + billToMobNo + "\n";
+                        } else {
+                            layout += "[L]Contact No:\n";
                         }
                         layout += "[L]\n";
                         layout += "[C]<b>--------------------------------</b>\n";
                         layout += "[L]Description \n";
-                        layout += "[L]Qty     MRP     Rate     NetAmnt";
+                        layout += "[L]Qty     MRP     Rate     NetAmnt\n";
                         if(invoice.has("gstType") && !invoice.getString("gstType").isEmpty()){
-                            layout += "[R]Tax%";
+                            layout += "[L]   Tax%\n";
                         }
                         layout += "[C]--------------------------------\n";
-
-//                        layout = "[L]  + Size : S\n" +
-//                                "[L]\n" +
-//                                "[L]<b>AWESOME HAT</b>[R]24.99e\n" +
-//                                "[L]  + Size : 57/58\n" +
-//                                "[L]\n" +
-//                                "[C]--------------------------------\n" +
-//                                "[R]TOTAL PRICE :[R]34.98e\n" +
-//                                "[R]TAX :[R]4.23e\n" +
-//                                "[L]\n" +
-//                                "[C]================================\n" +
-//                                "[L]\n" +
-//                                "[L]<font size='tall'>Customer :</font>\n" +
-//                                "[L]Raymond DUPONT\n" +
-//                                "[L]5 rue des girafes\n" +
-//                                "[L]31547 PERPETES\n" +
-//                                "[L]Tel : +33801201456\n" +
-//                                "[L]\n" +
-//                                "[C]<barcode type='ean13' height='10'>831254784551</barcode>\n" +
-//                                "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>";
+                        for(int i = 0; i < invoiceItems.size();i++){
+                            String productName = "", productMRP = "", productQty = "", productRate = "", productNetAmt = "", productTax = "";
+                            productName = invoiceItems.get(i).getName();
+                            if(productName.length() != 0){
+                                layout += "[L]" + productName + "\n";
+                            }
+                            productQty = String.valueOf((int)invoiceItems.get(i).getQuantity());
+                            productMRP = (Util.formatDecimalValue(invoiceItems.get(i).getPrice()));
+                            productRate = (Util.formatDecimalValue((int)invoiceItems.get(i).getGstAmount()));
+                            productNetAmt = Util.formatDecimalValue((int)invoiceItems.get(i).getTotalAmount());
+                            layout += "[L]" + productQty + "    " + productMRP + "    " + productRate + "    " + productNetAmt + "\n";
+                            if(isGSTAvailablePrint){
+                                productTax = String.valueOf((int)invoiceItems.get(i).getGst())+"%";
+                                layout += "[L]" + productTax + "\n";
+                            }
+                        }
+                        layout += "[C]--------------------------------\n";
+                        items = getIntent().getExtras().getString("itemsSize");
+                        qty = getIntent().getExtras().getString("quantityCount");
+                        float totalAfterDiscount = 0, totalAmount = 0;
+                        totalAmount = Float.parseFloat(invoice.getString("totalAmount"));
+                        if (invoice.has("totalAfterDiscount")) {
+                            totalAfterDiscount = (float) invoice.getDouble("totalAfterDiscount");
+                        } else {
+                            totalAfterDiscount = totalAmount;
+                        }
+                        layout += "[L]Items: " + items + "[C]Qty: " + qty + "[R] "+ totalAfterDiscount + "\n";
+                        layout += "[C]--------------------------------\n";
+                        layout += "[L]Total Amount:[R]"+totalAfterDiscount + "\n";
+                        layout += "[C]TOTAL SAVINGS: " + Util.formatDecimalValue(totalAmount - totalAfterDiscount) + "\n";
+                        if(invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailablePrint){
+                            layout += "[C]GST   TAX AMT\n";
+                            layout += "[C]SGST  " + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                            layout += "[C]CGST  " + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                            layout += "[C]IGST  " + "0.0\n";
+                        } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer") && isGSTAvailablePrint){
+                            layout += "[C]GST   TAX AMT\n";
+                            layout += "[C]SGST  " + "0.0\n";
+                            layout += "[C]CGST  " + "0.0\n";
+                            layout += "[C]IGST  " + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                        }
+                        layout += "[C]--------------------------------\n";
+                        layout += "[C]Made with BillBook\n";
+                        layout += "[L]***Thank you for shopping!***";
+                        layout += "[L]" + "\n";
+                        layout += "[L]" + "\n";
                     } catch (Exception e){
                         e.printStackTrace();
                     }
@@ -933,8 +959,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         @Override
         protected void onPostExecute(List<InvoiceItems> invoiceItems) {
             super.onPostExecute(invoiceItems);
-            setDataAfterInvoiceItems(invoiceItems, context, isGSTAvailable, recyclerViewInvoiceProducts, GSTType);
             try {
+                setDataAfterInvoiceItems(invoiceItems, context, isGSTAvailable, recyclerViewInvoiceProducts, GSTType);
                 loadAndSetCompanyLogo();
                 loadAndSetSignatureImage();
                 createPdfWrapper();
@@ -971,8 +997,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         @Override
         protected void onPostExecute(List<InvoiceItems> invoiceItems) {
             super.onPostExecute(invoiceItems);
-            setDataAfterInvoiceItemsShort(invoiceItems, context, isGSTAvailable, recyclerViewShortBillInvoiceProducts, GSTType);
             try {
+                setDataAfterInvoiceItemsShort(invoiceItems, context, isGSTAvailable, recyclerViewShortBillInvoiceProducts, GSTType);
+                generateShortBill(invoiceItems);
                 loadAndSetCompanyLogo();
                 loadAndSetSignatureImage();
                 createPdfWrapper();
@@ -981,7 +1008,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             }
         }
     }
-
 
 
 }
