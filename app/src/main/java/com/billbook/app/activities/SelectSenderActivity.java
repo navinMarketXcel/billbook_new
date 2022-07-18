@@ -28,7 +28,7 @@ public class SelectSenderActivity extends AppCompatActivity {
 
     private void getCustomerData() {
         for (int i = 0; i < 10; i++) {
-            Customer customer = new Customer("Dummy User", "+91909660356" + i, false);
+            Customer customer = new Customer("Dummy User", "+91909660356" + i, false,"hasdfja");
             customers.add(customer);
         }
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, true);

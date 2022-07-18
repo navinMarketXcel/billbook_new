@@ -103,6 +103,7 @@ public class ProfileFragment extends Fragment {
         txtProfileAdd = view.findViewById(R.id.txtProfileAdd);
         ivUserProfile = view.findViewById(R.id.ivUserProfile);
         switchGst = view.findViewById(R.id.switchGst);
+        switchGst.setChecked(false);
         try {
             profile = new JSONObject(((MyApplication) getActivity().getApplication()).getUserDetails());
             userid = profile.getLong("userid");

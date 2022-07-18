@@ -16,6 +16,7 @@
 package com.billbook.app.activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.print.PrintDocumentAdapter;
 import android.print.PrintJob;
 import android.print.PrintManager;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -33,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.billbook.app.R;
@@ -224,6 +227,7 @@ public class RemotePDFActivity extends AppCompatActivity  {
                 Intent intent = new Intent(RemotePDFActivity.this, BottomNavigationActivity.class);
                 startActivity(intent);
                 finish();
+
             }
         });
 

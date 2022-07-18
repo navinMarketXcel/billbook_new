@@ -505,7 +505,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     invoiceData.setUpdatedAt(obj.getString("updatedAt"));
                     invoiceData.setIsActive(obj.getBoolean("is_active"));
                     invoiceData.setId(obj.getInt("id"));
-                    invoiceData.setCustomer(new Customer(cuObj.getString("name"),cuObj.getString("mobileNo"),false));
+                    invoiceData.setCustomer(new Customer(cuObj.getString("name"),cuObj.getString("mobileNo"),false,cuObj.getString("address")));
                     invoiceData.setDiscount(obj.getInt("discount"));
                     List<MasterItem> masterArrayList = new ArrayList<MasterItem>();
                     for(int j=0; j < masterItems.length();j++)
@@ -947,9 +947,10 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             requestInvoice.put("gstBillNo",data.getGstBillNo());
             requestInvoice.put("invoiceDate",data.getInvoiceDate());
             requestInvoice.put("id",data.getId());
-            customer.put("address","");
+            customer.put("address",data.getCustomer().getCustomerAddress());
             customer.put("name",data.getCustomer().getCustomerNameame());
             customer.put("mobileNo",data.getCustomer().getMobileNo());
+            //customer.put("customerAddress",data.getCustomer().getCustomerAddress());
             requestInvoice.put("customer",customer);
             requestInvoice.put("totalAfterDiscount",data.getTotalAfterDiscount());
             requestInvoice.put("pdfLink",data.getPdfLink());
