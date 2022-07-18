@@ -3,6 +3,7 @@ package com.billbook.app.activities;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -595,7 +597,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 if(longBillPrint){
                     openPDF();
                 } else if (shortBillPrint){
-                    thermalPrinter();
+                    TraditionallistDialog();
                 }
                 break;
             case R.id.btnShare:
@@ -635,6 +637,31 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 break;
 
         }
+    }
+
+    public void TraditionallistDialog()
+    {
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(PDFActivity.this);
+        builder.setTitle("Please choose a printer to print the short format bill");
+        String[] options = {"2 inch printer", "3 inch printer"};
+        //Pass the array list in Alert dialog
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0: // Select option task
+                        thermalPrinterTwoInch();
+                        break;
+                    case 1: // Config it as you need here
+                        thermalPrinterThreeInch();
+                        break;
+                }
+            }
+        });
+// create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void fetchCutlyLinkfromApi(){
@@ -717,7 +744,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private void thermalPrinter(){
+    private void thermalPrinterTwoInch(){
+        Log.v("Welcome","Printer");
         try{
             System.out.println("IN Pdf Activity");
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
@@ -735,6 +763,38 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     if(bluetoothAdapter.isEnabled()){
                         try{
                             EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32);
+                            printer.printFormattedText(layout);
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    } else {
+
+                    }
+                }
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    private void thermalPrinterThreeInch(){
+        Log.v("Welcome","Printer");
+        try{
+            System.out.println("IN Pdf Activity");
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH}, PDFActivity.PERMISSION_BLUETOOTH);
+            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_ADMIN}, PDFActivity.PERMISSION_BLUETOOTH_ADMIN);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, PDFActivity.PERMISSION_BLUETOOTH_CONNECT);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, PDFActivity.PERMISSION_BLUETOOTH_SCAN);
+            } else {
+                if(bluetoothAdapter == null){
+                    Toast.makeText(PDFActivity.this, "This device doesn't support Bluetooth ", Toast.LENGTH_LONG).show();
+                } else {
+                    if(bluetoothAdapter.isEnabled()){
+                        try{
+                            EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 70f, 46);
                             printer.printFormattedText(layout);
                         } catch (Exception e){
                             e.printStackTrace();
@@ -818,9 +878,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         layout += "[L]\n";
                         layout += "[C]<b>--------------------------------</b>\n";
                         layout += "[L]Description \n";
-                        layout += "[L]Qty     MRP     Rate     NetAmnt\n";
+                        layout += "[L]Qty         MRP         Rate         NetAmnt\n";
                         if(invoice.has("gstType") && !invoice.getString("gstType").isEmpty()){
-                            layout += "[L]   Tax%\n";
+                            layout += "[L]     Tax%\n";
                         }
                         layout += "[C]--------------------------------\n";
                         for(int i = 0; i < invoiceItems.size();i++){
@@ -833,7 +893,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                             productMRP = (Util.formatDecimalValue(invoiceItems.get(i).getPrice()));
                             productRate = (Util.formatDecimalValue((int)invoiceItems.get(i).getGstAmount()));
                             productNetAmt = Util.formatDecimalValue((int)invoiceItems.get(i).getTotalAmount());
-                            layout += "[L]" + productQty + "    " + productMRP + "    " + productRate + "    " + productNetAmt + "\n";
+                            layout += "[L]" + productQty + "        " + productMRP + "        " + productRate + "        " + productNetAmt + "\n";
                             if(isGSTAvailablePrint){
                                 productTax = String.valueOf((int)invoiceItems.get(i).getGst())+"%";
                                 layout += "[L]" + productTax + "\n";
