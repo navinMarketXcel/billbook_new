@@ -3,6 +3,7 @@ package com.billbook.app.activities;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -111,6 +113,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private BluetoothAdapter bluetoothAdapter;
     private String imageURL,signatureURL;
     private String layout = "";
+    private String layoutThreeInch = "";
     private ActivityPdfBinding binding;
     private PdfContentNewBinding pdfBinding;
     private ShortBillItemLayoutBinding shortBillItemLayoutBinding;
@@ -595,7 +598,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 if(longBillPrint){
                     openPDF();
                 } else if (shortBillPrint){
-                    thermalPrinter();
+                    TraditionallistDialog();
                 }
                 break;
             case R.id.btnShare:
@@ -635,6 +638,31 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 break;
 
         }
+    }
+
+    public void TraditionallistDialog()
+    {
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(PDFActivity.this);
+        builder.setTitle("Please choose a printer to print the short format bill");
+        String[] options = {"2 inch printer", "3 inch printer"};
+        //Pass the array list in Alert dialog
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0: // Select option task
+                        thermalPrinterTwoInch();
+                        break;
+                    case 1: // Config it as you need here
+                        thermalPrinterThreeInch();
+                        break;
+                }
+            }
+        });
+// create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public void fetchCutlyLinkfromApi(){
@@ -717,7 +745,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private void thermalPrinter(){
+    private void thermalPrinterTwoInch(){
+        Log.v("Welcome","Printer");
         try{
             System.out.println("IN Pdf Activity");
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
@@ -748,8 +777,40 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             e.printStackTrace();
         }
     }
+    private void thermalPrinterThreeInch(){
+        Log.v("Welcome","Printer");
+        try{
+            System.out.println("IN Pdf Activity");
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH}, PDFActivity.PERMISSION_BLUETOOTH);
+            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_ADMIN) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_ADMIN}, PDFActivity.PERMISSION_BLUETOOTH_ADMIN);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, PDFActivity.PERMISSION_BLUETOOTH_CONNECT);
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_SCAN}, PDFActivity.PERMISSION_BLUETOOTH_SCAN);
+            } else {
+                if(bluetoothAdapter == null){
+                    Toast.makeText(PDFActivity.this, "This device doesn't support Bluetooth ", Toast.LENGTH_LONG).show();
+                } else {
+                    if(bluetoothAdapter.isEnabled()){
+                        try{
+                            EscPosPrinter printer = new EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 70f, 46);
+                            printer.printFormattedText(layoutThreeInch);
+                        } catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    } else {
 
-    private void generateShortBill(List<InvoiceItems> invoiceItems){
+                    }
+                }
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private void generateShortBillTwoInch(List<InvoiceItems> invoiceItems){
         try{
                 localInvoiceId = getIntent().getExtras().getLong("localInvId");
                 invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
@@ -877,6 +938,134 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             e.printStackTrace();
         }
     }
+    private void generateShortBillThreeInch(List<InvoiceItems> invoiceItems){
+        try{
+            localInvoiceId = getIntent().getExtras().getLong("localInvId");
+            invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
+                try {
+                    invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
+                    String shopName, shopAddress, userMobile, userEmail,  userGSTNo, billNo, billTo, billToAdd, billToMobNo, date, items, qty;
+                    boolean isGSTAvailablePrint = false;
+                    shopName = profile.getString("shopName");
+                    layoutThreeInch = "[C]<b><font size='tall'> " + shopName +  "</font></b>\n";
+                    shopAddress = profile.getString("shopAddr") + "," + profile.getString("city")
+                            + "," + profile.getString("state") + " - " + profile.getString("pincode");
+                    layoutThreeInch += "[L]"+ shopAddress + "\n";
+                    userMobile = profile.getString("mobileNo");
+                    layoutThreeInch += "[C]Phone: "+ userMobile + "\n";
+                    if(profile.has("email") && !profile.getString("email").isEmpty()){
+                        userEmail = profile.getString("email");
+                        layoutThreeInch += "[C]Email: "+ userEmail + "\n";
+                    }
+                    userGSTNo = profile.has("gstNo") ? profile.getString("gstNo") : "";
+                    if(invoice.has("gstType") && profile.has("gstNo") && !(userGSTNo.isEmpty())){
+                        layoutThreeInch += "[C]GSTIN: "+ userGSTNo + "\n";
+                    }
+                    if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
+                        layoutThreeInch += "[C] ***TAX INVOICE***\n";
+                        isGSTAvailablePrint =true;
+                    } else {
+                        layoutThreeInch += "[C] ***INVOICE***\n";
+                    }
+                    layoutThreeInch += "[C]----------------------------------------------\n";
+                    if(invoice.has("gstType") && !invoice.getString("gstType").isEmpty()){
+                        billNo = String.valueOf(getIntent().getExtras().getInt("gstBillNo"));
+                    } else {
+                        billNo = String.valueOf(getIntent().getExtras().getInt("nonGstBillNo"));
+                    }
+                    layoutThreeInch += "[L]Bill No:"+ billNo;
+                    date = invoice.getString("invoiceDate");
+                    layoutThreeInch += "[R] Date:"+ date+"\n";
+                    billTo = invoice.getString("customerName");
+                    billToMobNo =invoice.getString("customerMobileNo");
+                    billToAdd = invoice.getString("customerAddress");
+                    if(billTo.isEmpty())
+                    {
+                        billTo = getIntent().getExtras().getString("customerName");
+                    }
+                    if(billTo.length() != 0){
+                        layoutThreeInch += "[L]Billed To:" + billTo + "\n";
+                    } else {
+                        layoutThreeInch += "[L]Billed To:\n";
+                    }
+                    if(billToAdd.isEmpty())
+                    {
+                        billToAdd=getIntent().getExtras().getString("customerAddress");
+                    }
+                    if(!billToAdd.isEmpty()){
+                        layoutThreeInch += "[L]" + billToAdd + "\n";
+                    }
+                    if(billToMobNo.isEmpty())
+                    {
+                        billToMobNo=getIntent().getExtras().getString("customerMobileNo");
+                    }
+                    if(billToMobNo.length() != 0){
+                        layoutThreeInch += "[L]Contact No:" + billToMobNo + "\n";
+                    } else {
+                        layoutThreeInch += "[L]Contact No:\n";
+                    }
+                    layoutThreeInch += "[L]\n";
+                    layoutThreeInch += "[C]----------------------------------------------\n";
+                    layoutThreeInch += "[L]Description \n";
+                    layoutThreeInch += "[L]Qty     MRP     Rate     NetAmnt\n";
+                    if(invoice.has("gstType") && !invoice.getString("gstType").isEmpty()){
+                        layoutThreeInch += "[L]   Tax%\n";
+                    }
+                    layoutThreeInch += "[C]----------------------------------------------\n";
+                    for(int i = 0; i < invoiceItems.size();i++){
+                        String productName = "", productMRP = "", productQty = "", productRate = "", productNetAmt = "", productTax = "";
+                        productName = invoiceItems.get(i).getName();
+                        if(productName.length() != 0){
+                            layoutThreeInch += "[L]" + productName + "\n";
+                        }
+                        productQty = String.valueOf((int)invoiceItems.get(i).getQuantity());
+                        productMRP = (Util.formatDecimalValue(invoiceItems.get(i).getPrice()));
+                        productRate = (Util.formatDecimalValue((int)invoiceItems.get(i).getGstAmount()));
+                        productNetAmt = Util.formatDecimalValue((int)invoiceItems.get(i).getTotalAmount());
+                        layoutThreeInch += "[L]" + productQty + "    " + productMRP + "    " + productRate + "    " + productNetAmt + "\n";
+                        if(isGSTAvailablePrint){
+                            productTax = String.valueOf((int)invoiceItems.get(i).getGst())+"%";
+                            layoutThreeInch += "[L]" + productTax + "\n";
+                        }
+                    }
+                    layoutThreeInch += "[C]----------------------------------------------\n";
+                    items = getIntent().getExtras().getString("itemsSize");
+                    qty = getIntent().getExtras().getString("quantityCount");
+                    float totalAfterDiscount = 0, totalAmount = 0;
+                    totalAmount = Float.parseFloat(invoice.getString("totalAmount"));
+                    if (invoice.has("totalAfterDiscount")) {
+                        totalAfterDiscount = (float) invoice.getDouble("totalAfterDiscount");
+                    } else {
+                        totalAfterDiscount = totalAmount;
+                    }
+                    layoutThreeInch += "[L]Items: " + items + "[C]Qty: " + qty + "[R] "+ totalAfterDiscount + "\n";
+                    layoutThreeInch += "[C]----------------------------------------------\n";
+                    layoutThreeInch += "[L]Total Amount:[R]"+totalAfterDiscount + "\n";
+                    layoutThreeInch += "[C]TOTAL SAVINGS: " + Util.formatDecimalValue(totalAmount - totalAfterDiscount) + "\n";
+                    if(invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailablePrint){
+                        layoutThreeInch += "[C]GST   TAX AMT\n";
+                        layoutThreeInch += "[C]SGST  " + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                        layoutThreeInch += "[C]CGST  " + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                        layoutThreeInch += "[C]IGST  " + "0.0\n";
+                    } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer") && isGSTAvailablePrint){
+                        layoutThreeInch += "[C]GST   TAX AMT\n";
+                        layoutThreeInch += "[C]SGST  " + "0.0\n";
+                        layoutThreeInch += "[C]CGST  " + "0.0\n";
+                        layoutThreeInch += "[C]IGST  " + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                    }
+                    layoutThreeInch += "[C]----------------------------------------------\n";
+                    layoutThreeInch += "[C]Made with BillBook\n";
+                    layoutThreeInch += "[L]***Thank you for shopping!***";
+                    layoutThreeInch += "[L]" + "\n";
+                    layoutThreeInch += "[L]" + "\n";
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
     private void uploadPDF() {
 //        DialogUtils.startProgressDialog(this, "");
@@ -999,7 +1188,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             super.onPostExecute(invoiceItems);
             try {
                 setDataAfterInvoiceItemsShort(invoiceItems, context, isGSTAvailable, recyclerViewShortBillInvoiceProducts, GSTType);
-                generateShortBill(invoiceItems);
+                generateShortBillTwoInch(invoiceItems);
+                generateShortBillThreeInch(invoiceItems);
                 loadAndSetCompanyLogo();
                 loadAndSetSignatureImage();
                 createPdfWrapper();
