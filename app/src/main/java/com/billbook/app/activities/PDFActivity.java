@@ -327,6 +327,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
                 try{
                     invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
+                    Log.v("Invoi1", String.valueOf(invoice));
                     shortBillLayoutBinding.tvVendorName.setText(profile.getString("shopName"));
                     shortBillLayoutBinding.tvStoreAddress.setText(profile.getString("shopAddr") + " " + profile.getString("city")
                             + " " + profile.getString("state") + " - " + profile.getString("pincode"));
@@ -337,9 +338,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         shortBillLayoutBinding.emailRetailer.setVisibility(View.GONE);
                     }
 
-                    if(getIntent().getExtras().getInt("gstBillNo") != 0){
+                    if(getIntent().getExtras().getInt("gstBillNo") != 0 && profile.has("gstNo")){
                         isGSTAvailable =true;
                         invoiceNumber = getIntent().getExtras().getInt("gstBillNo");
+                        if(!profile.getString("gstNo").isEmpty())
                         shortBillLayoutBinding.tvGSTNo.setText(profile.getString("gstNo"));
                     } else {
                         shortBillLayoutBinding.productTax.setVisibility(View.GONE);
@@ -351,11 +353,13 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         invoiceNumber = getIntent().getExtras().getInt("nonGstBillNo");
                         shortBillLayoutBinding.invoiceType.setText("***Invoice***");
                     }
+                    Log.v("Invoi2", String.valueOf(invoice));
                     shortBillLayoutBinding.txtInvoiceDate.setText(invoice.getString("invoiceDate"));
                     shortBillLayoutBinding.txtInvoiceNo.setText("" + invoiceNumber);
                     String custName= invoice.getString("customerName");
                     String custNo =invoice.getString("customerMobileNo");
                     String custAdd =invoice.getString("customerAddress");
+                    Log.v("Invoi3", String.valueOf(invoice));
                     if(custNo.isEmpty())
                     {
                         custNo=getIntent().getExtras().getString("customerMobileNo");
@@ -370,11 +374,13 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     }
                     shortBillLayoutBinding.edtMobNo.setText(custNo);
                     shortBillLayoutBinding.edtName.setText(custName);
+                    Log.v("Invoi4", String.valueOf(invoice));
                     if(custAdd.isEmpty()){
                         shortBillLayoutBinding.edtAddressLayout.setVisibility(View.GONE);
                     }else {
                         shortBillLayoutBinding.edtAddress.setText(custAdd);
                     }
+                    Log.v("Invoi5", String.valueOf(invoice));
                     shortBillLayoutBinding.invoiceItems.setText(getIntent().getExtras().getString("itemsSize"));
                     shortBillLayoutBinding.invoiceItemsQty.setText(getIntent().getExtras().getString("quantityCount"));
                     float totalAfterDiscount = 0, totalAmount = 0;
@@ -384,6 +390,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     } else {
                         totalAfterDiscount = totalAmount;
                     }
+                    Log.v("Invoi6", String.valueOf(invoice));
                     shortBillLayoutBinding.invoiceNetAmnt.setText(Util.formatDecimalValue(totalAfterDiscount));
                     shortBillLayoutBinding.invoiceNetAmntTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
                     shortBillLayoutBinding.invoiceTotalDiscount.setText(Util.formatDecimalValue(totalAmount - totalAfterDiscount));
@@ -398,6 +405,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     } else {
 
                     }
+                    Log.v("Invoi7", String.valueOf(invoice));
                 }catch (Exception e){
                     e.printStackTrace();
                 }
@@ -1007,7 +1015,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     layoutThreeInch += "[L]\n";
                     layoutThreeInch += "[C]----------------------------------------------\n";
                     layoutThreeInch += "[L]Description \n";
-                    layoutThreeInch += "[L]Qty     MRP     Rate     NetAmnt\n";
+                    layoutThreeInch += "[L]Qty         MRP         Rate         NetAmnt\n";
                     if(invoice.has("gstType") && !invoice.getString("gstType").isEmpty()){
                         layoutThreeInch += "[L]   Tax%\n";
                     }
@@ -1022,7 +1030,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         productMRP = (Util.formatDecimalValue(invoiceItems.get(i).getPrice()));
                         productRate = (Util.formatDecimalValue((int)invoiceItems.get(i).getGstAmount()));
                         productNetAmt = Util.formatDecimalValue((int)invoiceItems.get(i).getTotalAmount());
-                        layoutThreeInch += "[L]" + productQty + "    " + productMRP + "    " + productRate + "    " + productNetAmt + "\n";
+                        layoutThreeInch += "[L]" + productQty + "        " + productMRP + "        " + productRate + "        " + productNetAmt + "\n";
                         if(isGSTAvailablePrint){
                             productTax = String.valueOf((int)invoiceItems.get(i).getGst())+"%";
                             layoutThreeInch += "[L]" + productTax + "\n";
@@ -1038,7 +1046,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     } else {
                         totalAfterDiscount = totalAmount;
                     }
-                    layoutThreeInch += "[L]Items: " + items + "[C]Qty: " + qty + "[R] "+ totalAfterDiscount + "\n";
+                    layoutThreeInch += "[L]Items:    " + items + "[C]Qty:    " + qty + "[R]    "+ totalAfterDiscount + "\n";
                     layoutThreeInch += "[C]----------------------------------------------\n";
                     layoutThreeInch += "[L]Total Amount:[R]"+totalAfterDiscount + "\n";
                     layoutThreeInch += "[C]TOTAL SAVINGS: " + Util.formatDecimalValue(totalAmount - totalAfterDiscount) + "\n";
