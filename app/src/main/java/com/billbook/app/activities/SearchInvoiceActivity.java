@@ -406,6 +406,21 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 sortSheet.dismiss();
             }
         });
+        dateMod = sortBottomSheet.findViewById(R.id.dateMod);
+        dateMod.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View view) {
+                invoicesList= (ArrayList<InvoicesData>)jsonArrayToList(invoices).stream().sorted(Comparator.comparing(InvoicesData::getUpdatedAt)).collect(Collectors.toList());
+                Collections.reverse(invoicesList);
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerViewInvoice.setLayoutManager(layoutManager);
+                recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
+                recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+                sortSheet.dismiss();
+            }
+        });
 
         sortSheet.setContentView(sortBottomSheet);
         sortSheet.show();
