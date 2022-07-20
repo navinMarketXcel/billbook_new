@@ -437,7 +437,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             public void onClick(View v) {
                 ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
                 jsonArrayToList(invoices).stream().forEach(invoice -> {
-                    if(invoice.getGSTNo().length() > 0){
+                    if(invoice.getGstBillNo() > 0){
                         Log.v("Invoicesss", String.valueOf(invoice));
                         nonGstBillList.add(invoice);
                     }
@@ -458,7 +458,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             public void onClick(View v) {
                 ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
                 jsonArrayToList(invoices).stream().forEach(invoice -> {
-                    if(invoice.getGSTNo().length() == 0){
+                    if(invoice.getGstBillNo() == 0){
                         Log.v("Invoicesss", String.valueOf(invoice));
                         nonGstBillList.add(invoice);
                     }
