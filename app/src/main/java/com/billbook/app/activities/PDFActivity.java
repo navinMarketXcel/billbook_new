@@ -338,11 +338,19 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         shortBillLayoutBinding.emailRetailer.setVisibility(View.GONE);
                     }
 
-                    if(getIntent().getExtras().getInt("gstBillNo") != 0 && profile.has("gstNo")){
+                    if(getIntent().getExtras().getInt("gstBillNo") != 0){
                         isGSTAvailable =true;
                         invoiceNumber = getIntent().getExtras().getInt("gstBillNo");
-                        if(!profile.getString("gstNo").isEmpty())
-                        shortBillLayoutBinding.tvGSTNo.setText(profile.getString("gstNo"));
+                        if(profile.has("gstNo")){
+                            if(profile.getString("gstNo").isEmpty()){
+                                shortBillLayoutBinding.tvGSTNo.setVisibility(View.GONE);
+                            } else {
+                                shortBillLayoutBinding.tvGSTNo.setText(profile.getString("gstNo"));
+                            }
+                        } else{
+                            shortBillLayoutBinding.tvGSTNo.setVisibility(View.GONE);
+                        }
+
                     } else {
                         shortBillLayoutBinding.productTax.setVisibility(View.GONE);
                         shortBillLayoutBinding.tvGSTNo.setVisibility(View.GONE);
@@ -923,15 +931,15 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         layout += "[L]Total Amount:[R]"+totalAfterDiscount + "\n";
                         layout += "[C]TOTAL SAVINGS: " + Util.formatDecimalValue(totalAmount - totalAfterDiscount) + "\n";
                         if(invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailablePrint){
-                            layout += "[C]GST   TAX AMT\n";
-                            layout += "[C]SGST  " + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
-                            layout += "[C]CGST  " + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
-                            layout += "[C]IGST  " + "0.0\n";
+                            layout += "[L]GST" +   "[C]TAX AMT\n";
+                            layout += "[L]SGST" + "[C]" + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                            layout += "[L]CGST" + "[C]" + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                            layout += "[L]IGST" + "[C]0.0\n";
                         } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer") && isGSTAvailablePrint){
-                            layout += "[C]GST   TAX AMT\n";
-                            layout += "[C]SGST  " + "0.0\n";
-                            layout += "[C]CGST  " + "0.0\n";
-                            layout += "[C]IGST  " + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                            layout += "[L]GST" + "[C]TAX AMT\n";
+                            layout += "[L]SGST" + "[C]0.0\n";
+                            layout += "[L]CGST" + "[C]0.0\n";
+                            layout += "[L]IGST" + "[C]" + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
                         }
                         layout += "[C]--------------------------------\n";
                         layout += "[C]Made with BillBook\n";
@@ -1051,15 +1059,15 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     layoutThreeInch += "[L]Total Amount:[R]"+totalAfterDiscount + "\n";
                     layoutThreeInch += "[C]TOTAL SAVINGS: " + Util.formatDecimalValue(totalAmount - totalAfterDiscount) + "\n";
                     if(invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailablePrint){
-                        layoutThreeInch += "[C]GST   TAX AMT\n";
-                        layoutThreeInch += "[C]SGST  " + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
-                        layoutThreeInch += "[C]CGST  " + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
-                        layoutThreeInch += "[C]IGST  " + "0.0\n";
+                        layoutThreeInch += "[L]GST" + "[C]TAX AMT\n";
+                        layoutThreeInch += "[L]SGST" + "[C]" + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                        layoutThreeInch += "[L]CGST" + "[C]" + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                        layoutThreeInch += "[L]IGST" + "[C]0.0\n";
                     } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer") && isGSTAvailablePrint){
-                        layoutThreeInch += "[C]GST   TAX AMT\n";
-                        layoutThreeInch += "[C]SGST  " + "0.0\n";
-                        layoutThreeInch += "[C]CGST  " + "0.0\n";
-                        layoutThreeInch += "[C]IGST  " + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                        layoutThreeInch += "[L]GST" + "[C]TAX AMT\n";
+                        layoutThreeInch += "[L]SGST  " + "[C]0.0\n";
+                        layoutThreeInch += "[L]CGST  " + "[C]0.0\n";
+                        layoutThreeInch += "[L]IGST  " + "[C]" + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
                     }
                     layoutThreeInch += "[C]----------------------------------------------\n";
                     layoutThreeInch += "[C]Made with BillBook\n";
