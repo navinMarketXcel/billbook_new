@@ -472,7 +472,7 @@
 
                         <EditText
 
-
+                            android:drawableRight="@drawable/ic_baseline_contacts_24"
                             android:textColor="#0A0A0A"
 
                             android:id="@+id/edtName"
@@ -525,11 +525,10 @@
 
                         <EditText
 
-                            android:drawableRight="@drawable/ic_baseline_contacts_24"
+
 
                             android:id="@+id/edtMobNo"
 
-                            android:onClick="clickButton"
 
                             style="@style/editText"
 

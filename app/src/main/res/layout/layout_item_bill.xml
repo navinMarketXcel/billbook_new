@@ -174,7 +174,7 @@
                 <EditText
                     android:id="@+id/itemQtyET"
                     style="@style/editText"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:layout_width="199dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"

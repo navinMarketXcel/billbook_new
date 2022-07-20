@@ -39,6 +39,7 @@ import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.provider.ContactsContract;
+import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.util.Log;
 import android.view.View;
@@ -205,11 +206,28 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 addItem();
             }
         });
+        binding.edtName.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
+
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    if(event.getX() >= (binding.edtName.getRight() - binding.edtName.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
+                        clickButton();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
 
     //Functions For Checking Contact permissions
-    public void clickButton(View view)
+    public void clickButton()
     {
         // check for contact permission
         if(checkContactPermission())
