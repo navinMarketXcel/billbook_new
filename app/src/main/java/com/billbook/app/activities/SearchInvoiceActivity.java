@@ -362,11 +362,19 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         TextView bill_no,bdate,dateMod;
         BottomSheetDialog sortSheet = new BottomSheetDialog(SearchInvoiceActivity.this,R.style.BottomSheetDialogTheme);
         View sortBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.sort_layout,(LinearLayout)findViewById(R.id.sortLayout));
+        Button bno,dm,bd;
+        bno = sortBottomSheet.findViewById(R.id.bnButton);
+        dm = sortBottomSheet.findViewById(R.id.dmButton);
+        bd = sortBottomSheet.findViewById(R.id.bdButton);
         bill_no = sortBottomSheet.findViewById(R.id.billno);
         bill_no.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
+                bno.setVisibility(View.VISIBLE);
+                dm.setVisibility(View.GONE);
+                bd.setVisibility(View.GONE);
+
 //
                 invoicesList = (ArrayList<InvoicesData>)jsonArrayToList(invoices).stream().sorted(Comparator.comparing(InvoicesData::getNonGstBillNo)).collect(Collectors.toList());
                 for (int i=0;i<invoicesList.size();i++){
@@ -377,6 +385,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 recyclerViewInvoice.setLayoutManager(layoutManager);
                 recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
                 recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+
                 sortSheet.dismiss();
 
             }
@@ -386,6 +395,9 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
+                bno.setVisibility(View.GONE);
+                dm.setVisibility(View.GONE);
+                bd.setVisibility(View.VISIBLE);
 
                 invoicesList= (ArrayList<InvoicesData>)jsonArrayToList(invoices).stream().sorted(Comparator.comparing(InvoicesData::getInvoiceDate)).collect(Collectors.toList());
                 for (int i=0;i<invoicesList.size();i++){
@@ -396,6 +408,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 recyclerViewInvoice.setLayoutManager(layoutManager);
                 recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
                 recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+
                 sortSheet.dismiss();
 
             }
@@ -411,6 +424,9 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
+                bno.setVisibility(View.GONE);
+                dm.setVisibility(View.VISIBLE);
+                bd.setVisibility(View.GONE);
                 invoicesList= (ArrayList<InvoicesData>)jsonArrayToList(invoices).stream().sorted(Comparator.comparing(InvoicesData::getUpdatedAt)).collect(Collectors.toList());
                 Collections.reverse(invoicesList);
                 searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this);
@@ -418,6 +434,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 recyclerViewInvoice.setLayoutManager(layoutManager);
                 recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
                 recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
+
                 sortSheet.dismiss();
             }
         });
