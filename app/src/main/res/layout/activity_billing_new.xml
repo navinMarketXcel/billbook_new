@@ -345,7 +345,7 @@
 
                                 android:layout_width="40dp"
 
-                                android:textSize="14sp"
+                                android:textSize="12sp"
 
                                 android:layout_height="30dp"
 
@@ -357,7 +357,7 @@
 
                                 android:fontFamily="@font/inter"
 
-                                android:gravity="left"
+                                android:gravity="center"
 
                                 android:inputType="number"
 
@@ -419,11 +419,12 @@
 
                                 android:background="@drawable/layout_background"
 
-                                android:textSize="14sp"
+                                android:textSize="12sp"
 
                                 android:fontFamily="@font/inter"
 
-                                android:gravity="left"
+                                android:gravity="center"
+
 
                                 android:inputType="number"
 
@@ -542,7 +543,7 @@
 
                             android:hint="@string/enter_mobile_number_optional"
 
-                            android:singleLine="false"
+                            android:singleLine="true"
 
                             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
@@ -683,7 +684,7 @@
                             android:textColor="#0A0A0A"
 
                             android:id="@+id/edtGST"
-
+                            android:maxLength="15"
                             style="@style/editText"
 
                             android:background="@drawable/layout_background"
@@ -694,7 +695,7 @@
 
                             android:hint="@string/cust_gst_no"
 
-                            android:singleLine="false"
+                            android:singleLine="true"
 
                             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
@@ -1136,6 +1137,7 @@
                                     android:layout_height="wrap_content"
 
                                     android:layout_weight="1"
+                                    android:singleLine="true"
 
                                     android:fontFamily="@font/inter"
 
@@ -1369,7 +1371,7 @@
                                     android:id="@+id/tvTotal"
 
                                     android:textStyle="bold"
-
+                                    android:singleLine="true"
                                     android:layout_gravity="center"
 
                                     android:gravity="right"

@@ -817,7 +817,15 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         viewNew.setText("Add New Item");
         TableRow table = customDialogClass.findViewById(R.id.deleteLayout);
         table.setVisibility(View.GONE);
-        count = invoiceItemsList.size() + 1;
+        if(invoiceItemsList.size() == 0)
+        {
+            count = 0;
+        }
+        else
+        {
+            count = invoiceItemsList.size() + 1;
+        }
+
         binding.billDets.setText("Bill details"+"("+count+")");
         billItemBinding.items.setText("Items"+"("+count+")");
         //additemTv.setText("Add New Item");

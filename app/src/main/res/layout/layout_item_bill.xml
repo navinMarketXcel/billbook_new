@@ -73,6 +73,7 @@
                 android:textColor="#0A0A0A"
                 android:id="@+id/itemNameET"
                 style="@style/editText"
+                android:maxLength="150"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/product_or_service_provided"
