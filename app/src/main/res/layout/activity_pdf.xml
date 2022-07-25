@@ -85,21 +85,17 @@
         android:layout_gravity="center"
         android:background="@drawable/webview_show"
         android:orientation="horizontal">
-        <HorizontalScrollView
-            android:id="@+id/hsv"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:fillViewport="true"
-            android:measureAllChildren="false"
-            android:scrollbars="none" >
-        <include
-            android:id="@+id/includedLayoutPdfContent"
-            layout="@layout/pdf_content_new" />
-        </HorizontalScrollView>
-
+        <LinearLayout
+            android:id="@+id/pdfLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include
+                android:id="@+id/includedLayoutPdfContent"
+                layout="@layout/pdf_content_new" />
+        </LinearLayout>
         <include
             android:id="@+id/includedLayoutShortBill"
+            android:visibility="gone"
             layout="@layout/short_bill_layout" />
 
     </LinearLayout>

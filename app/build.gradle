@@ -114,9 +114,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
     implementation 'com.google.android.gms:play-services-auth-api-phone:18.0.1'
     implementation 'es.voghdev.pdfviewpager:library:1.1.2'
-
    // thermal printer dependency
     implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:3.2.0'
+    // Pdf viewer dependency
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
 }
 

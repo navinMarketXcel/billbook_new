@@ -151,6 +151,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         binding.btnShare.setOnClickListener(this);
         binding.btnLongPdf.setOnClickListener(this);
         binding.btnShortPdf.setOnClickListener(this);
+        pdfBinding.zoomClick.setOnClickListener(this);
     }
 
     public static void setDataAfterInvoiceItems(List<InvoiceItems> invoiceItems,Context context,boolean isGSTAvailable, RecyclerView recyclerViewInvoiceProducts, String GSTType){
@@ -309,6 +310,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
                     if (isGSTAvailable)
                         invoiceAmountLayoutUpdatedBinding.GSTTitle.setText("GST " + (invoice.getString("gstType").equals("CGST/SGST (Local customer)") ? "(SGST/CGST)" : "(IGST)"));
+                    openPDF();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -578,7 +580,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             else
                 saveInvoiceOffline();
 
-            //        openPDF();
+//                    openPDF();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -614,7 +616,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 if(longBillPrint){
                     openPDF();
                 } else if (shortBillPrint){
-                    TraditionallistDialog();
+                    TraditionalListDialog();
                 }
                 break;
             case R.id.btnShare:
@@ -630,7 +632,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.btn_Long_pdf:
                 shortBillLayoutBinding.shortBill.setVisibility(View.GONE);
-                binding.hsv.setVisibility(View.VISIBLE);
+                binding.pdfLayout.setVisibility(View.VISIBLE);
                 binding.btnLongPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.login_button_structure));
                 binding.btnLongPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
                 binding.btnShortPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.pdf_format_structure));
@@ -641,7 +643,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 }
                 break;
             case R.id.btn_Short_pdf:
-                binding.hsv.setVisibility(View.GONE);
+                binding.pdfLayout.setVisibility(View.GONE);
                 shortBillLayoutBinding.shortBill.setVisibility(View.VISIBLE);
                 binding.btnShortPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.login_button_structure));
                 binding.btnShortPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
@@ -652,11 +654,17 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     longBillPrint = false;
                 }
                 break;
-
+            case R.id.zoomClick:
+                Uri uri = FileProvider.getUriForFile(PDFActivity.this, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
+//                  pdfBinding.pdfView.fromUri(uri).enableSwipe(true).load();
+                Intent intentZoom = new Intent(PDFActivity.this, TestPdfActivity.class);
+                intentZoom.putExtra("uri", uri.toString());
+                startActivity(intentZoom);
+                break;
         }
     }
 
-    public void TraditionallistDialog()
+    public void TraditionalListDialog()
     {
         // setup the alert builder
         AlertDialog.Builder builder = new AlertDialog.Builder(PDFActivity.this);
