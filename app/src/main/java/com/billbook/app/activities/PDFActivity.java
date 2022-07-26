@@ -119,7 +119,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private ShortBillItemLayoutBinding shortBillItemLayoutBinding;
     private ShortBillLayoutBinding  shortBillLayoutBinding;
     private InvoiceAmountLayoutUpdatedBinding invoiceAmountLayoutUpdatedBinding;
-    private String vendorName = "MArcn Technology", vendorAddress = "Shop 10,82/86,Abdul Rehman Street", vendorLocation = "MUMBAI-400003(Maharastra)";
+    private String vendorName = "MArcn Technology", vendorAddress = "Shop 10,82/86,Abdul Rehman Street", vendorLocation = "MUMBAI-400003(Maharastra)", billType = "short";
     private boolean hasCompanyLogo = false, hasSignatureLogo = false, shortBillPrint = false, longBillPrint = false;
     private boolean loadedCompanyLogo = false, loadedSignatureLogo = false;
     @Override
@@ -134,9 +134,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         //setContentView(R.layout.activity_pdf);
         invoiceViewModel = ViewModelProviders.of(this).get(InvoiceViewModel.class);
         invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
-        binding.btnLongPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.login_button_structure));
-        binding.btnLongPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
-        longBillPrint = true;
+        binding.btnShortPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.login_button_structure));
+        binding.btnShortPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
+        shortBillPrint = true;
         initUI();
         setProfileData();
         setData();
@@ -310,8 +310,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
                     if (isGSTAvailable)
                         invoiceAmountLayoutUpdatedBinding.GSTTitle.setText("GST " + (invoice.getString("gstType").equals("CGST/SGST (Local customer)") ? "(SGST/CGST)" : "(IGST)"));
-                    openPDF();
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -613,9 +611,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.btnPrintBill:
                 Util.postEvents("Print", "Print", this.getApplicationContext());
-                if(longBillPrint){
+                if(billType.equals("long")){
                     openPDF();
-                } else if (shortBillPrint){
+                } else{
                     TraditionalListDialog();
                 }
                 break;
@@ -637,10 +635,12 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 binding.btnLongPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
                 binding.btnShortPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.pdf_format_structure));
                 binding.btnShortPdf.setTextColor(ContextCompat.getColor(this,R.color.black));
-                longBillPrint = true;
-                if(shortBillPrint){
-                    shortBillPrint = false;
+                Uri urii = FileProvider.getUriForFile(PDFActivity.this, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
+                if (!pdfBinding.pdfView.isRecycled()) {
+                    pdfBinding.pdfView.recycle();
                 }
+                pdfBinding.pdfView.fromUri(urii).load();
+                billType = "long";
                 break;
             case R.id.btn_Short_pdf:
                 binding.pdfLayout.setVisibility(View.GONE);
@@ -649,14 +649,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 binding.btnShortPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
                 binding.btnLongPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.pdf_format_structure));
                 binding.btnLongPdf.setTextColor(ContextCompat.getColor(this,R.color.black));
-                shortBillPrint = true;
-                if(longBillPrint){
-                    longBillPrint = false;
-                }
+                billType = "short";
                 break;
             case R.id.zoomClick:
                 Uri uri = FileProvider.getUriForFile(PDFActivity.this, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
-//                  pdfBinding.pdfView.fromUri(uri).enableSwipe(true).load();
                 Intent intentZoom = new Intent(PDFActivity.this, TestPdfActivity.class);
                 intentZoom.putExtra("uri", uri.toString());
                 startActivity(intentZoom);

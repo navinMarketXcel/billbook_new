@@ -85,6 +85,9 @@
         android:layout_gravity="center"
         android:background="@drawable/webview_show"
         android:orientation="horizontal">
+        <include
+            android:id="@+id/includedLayoutShortBill"
+            layout="@layout/short_bill_layout" />
         <LinearLayout
             android:id="@+id/pdfLayout"
             android:layout_width="match_parent"
@@ -93,10 +96,6 @@
                 android:id="@+id/includedLayoutPdfContent"
                 layout="@layout/pdf_content_new" />
         </LinearLayout>
-        <include
-            android:id="@+id/includedLayoutShortBill"
-            android:visibility="gone"
-            layout="@layout/short_bill_layout" />
 
     </LinearLayout>
 
