@@ -688,6 +688,7 @@
                             <TextView
                                 android:id="@+id/tv_preTax"
                                 android:layout_width="0dp"
+                                android:visibility="gone"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1.5"
                                 android:background="@drawable/card_lined_gray"

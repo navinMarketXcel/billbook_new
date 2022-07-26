@@ -228,6 +228,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         pdfBinding.IGST.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.VISIBLE);
                         pdfBinding.SGST.setVisibility(View.VISIBLE);
+                        pdfBinding.tvPreTax.setVisibility(View.VISIBLE);
                        //pdfBinding.padding3.setVisibility(View.GONE);
                        /* pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));*/
@@ -293,7 +294,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     pdfBinding.edtMobNo.setText(custNo.equals(null) ?" ":custNo+" ");
 //            tvGSTNo.setText(invoice.getString("GSTNo")+" ");
                     invoiceAmountLayoutUpdatedBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
-//                        invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
+                      invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
                     float totalAfterDiscount = 0, totalAmount = 0;
                     totalAmount = Float.parseFloat(invoice.getString("totalAmount"));
                     if (invoice.has("totalAfterDiscount")) {
