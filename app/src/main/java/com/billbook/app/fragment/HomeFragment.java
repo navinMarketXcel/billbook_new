@@ -8,10 +8,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -33,14 +30,10 @@ import com.billbook.app.BuildConfig;
 import com.billbook.app.R;
 import com.billbook.app.activities.BillingNewActivity;
 import com.billbook.app.activities.DayBookActivity;
-import com.billbook.app.activities.EditProfileActivity;
 import com.billbook.app.activities.ExpenseActivity;
-import com.billbook.app.activities.HelpActivity;
 import com.billbook.app.activities.LedgerLoginActivity;
 import com.billbook.app.activities.LoginActivity;
 import com.billbook.app.activities.MyApplication;
-import com.billbook.app.activities.PDFFormatViewActivity;
-import com.billbook.app.activities.RemotePDFActivity;
 import com.billbook.app.activities.SearchInvoiceActivity;
 import com.billbook.app.database.daos.NewInvoiceDao;
 import com.billbook.app.database.models.InvoiceModelV2;
@@ -51,7 +44,7 @@ import com.billbook.app.receivers.AlarmReceiver;
 import com.billbook.app.services.SyncService;
 import com.billbook.app.utils.Constants;
 import com.billbook.app.utils.Util;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -83,7 +76,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import jaiman.nitin.com.customclickableemailphonetextview.ClickPattern;
@@ -241,6 +233,7 @@ public class HomeFragment extends Fragment
         if (!isSheetShown) {
             BottomSheetDialog gstSheet = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
             View bottomSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgst, (LinearLayout) view.findViewById(R.id.bottomSheetContainer));
+
             bottomSheet.findViewById(R.id.yesGSt).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -317,6 +310,9 @@ public class HomeFragment extends Fragment
 
             });
             gstSheet.setContentView(bottomSheet);
+            BottomSheetBehavior<View> bb = BottomSheetBehavior.from((View) bottomSheet.getParent());
+
+            bb.setPeekHeight(getResources().getDisplayMetrics().heightPixels - 500);
             gstSheet.show();
         }
 

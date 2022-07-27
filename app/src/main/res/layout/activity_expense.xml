@@ -78,6 +78,7 @@
                         android:gravity="center_horizontal" />
 
                     <TextView
+                        android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -116,6 +117,7 @@
                         android:gravity="center_horizontal" />
 
                     <TextView
+                        android:textColor="@color/white"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -271,17 +273,19 @@
 
 
     </LinearLayout>
+
     <RelativeLayout
+        android:id="@+id/addExpenseLay"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/addExpenseLay">
+        android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
             android:gravity="bottom"
+            android:orientation="vertical"
             android:padding="5dp">
 
             <TextView
@@ -298,10 +302,10 @@
             </TextView>
 
             <LinearLayout
-                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:background="@color/white"
                 android:gravity="center">
 
                 <Button
