@@ -98,18 +98,35 @@
             android:onClick="verifyOTP"
             android:text="Verify"
             android:textColor="#AFAFAF" />
-
-        <TextView
-            android:id="@+id/btnResend"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Resend OTP"
-            android:fontFamily="@font/inter"
-            android:textColor="#AFAFAF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/btnResend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Resend OTP:"
+                android:fontFamily="@font/inter"
+                android:textColor="#AFAFAF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/timer"
+                android:textSize="18sp"
+                android:fontFamily="@font/inter"
+                android:text=" 30secs" />
+
+        </LinearLayout>
+
+
+
 
 
     </LinearLayout>

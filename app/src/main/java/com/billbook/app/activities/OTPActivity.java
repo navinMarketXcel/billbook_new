@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.os.CountDownTimer;
 import android.os.RemoteException;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -68,6 +70,7 @@ public class OTPActivity extends AppCompatActivity {
     OtpReceiver smsBroadcastReciever;
     private String mobilNo,OTP,referrer_link;
     private EditText otpEdt;
+    CountDownTimer cTimer = null;
     private FirebaseAuth mAuth;
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks;
@@ -76,6 +79,7 @@ public class OTPActivity extends AppCompatActivity {
     private boolean fromEditProfile;
     private TextView etMobNo;
     private Button btnRegister;
+    TextView timer,btnResend;
     private InstallReferrerClient referrerClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +89,10 @@ public class OTPActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         btnRegister=findViewById(R.id.btnRegister);
         etMobNo=findViewById(R.id.etMobNo);
+        timer = findViewById(R.id.timer);
         mAuth = FirebaseAuth.getInstance();
+        btnResend = findViewById(R.id.btnResend);
+
         otpEdt = findViewById(R.id.otpEdt);
         startSmartUserConsent();
 
@@ -123,11 +130,40 @@ public class OTPActivity extends AppCompatActivity {
                 mResendToken = token;
             }
         };
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         otpEdt.addTextChangedListener(loginWatcher);
 
 
+    }
+    void startTimer() {
+        cTimer = new CountDownTimer(30000, 1000) {
+            public void onTick(long millisUntilFinished) {
+                timer.setText(String.valueOf(millisUntilFinished/1000));
+                btnResend.setEnabled(false);
+                btnResend.setTextColor(Color.GRAY);
+
+            }
+            public void onFinish() {
+                cancelTimer();
+                btnResend.setEnabled(true);
+                btnResend.setTextColor(Color.BLUE);
+                btnResend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        resendOTP();
+                        startTimer();
+                    }
+                });
+            }
+        };
+        cTimer.start();
+    }
+
+
+    //cancel timer
+    void cancelTimer() {
+        if(cTimer!=null)
+            cTimer.cancel();
     }
 
     private void startSmartUserConsent()
@@ -232,6 +268,7 @@ public class OTPActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        startTimer();
         etMobNo.setText(getIntent().getExtras().getString("mobileNo"));
 //        startPhoneNumberVerification("+91"+mobilNo);
         registerBroadcastReceiver();
@@ -264,7 +301,7 @@ public class OTPActivity extends AppCompatActivity {
             DialogUtils.showToast(this,"OTP should be of 6 digits");
         }
     }
-    public void resendOTP(View v){
+    public void resendOTP(){
          //call API to do resend OTP
         if(!fromEditProfile)
         Util.postEvents("Registration","Resend OTP",this.getApplicationContext());

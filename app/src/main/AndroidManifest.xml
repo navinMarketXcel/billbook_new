@@ -309,6 +309,7 @@
             android:name=".activities.OTPActivity"
             android:parentActivityName=".activities.LoginActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" /> <!-- <receiver android:name=".receivers.AlarmReceiver"> -->
         <!-- <intent-filter> -->
         <!-- <action android:name="com.marketexcel.mobicloud.AlarmReceiver" /> -->
