@@ -1425,9 +1425,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     intent.putExtra("invoiceServer", data.toString());
                     intent.putExtra("localInvId",localInvoiceId);
                     intent.putExtra("id",-1);
+                    intent.putExtra("itemsSize", String.valueOf(requestObj.getJSONArray("items").length()));
                     intent.putExtra("idForItem",localInvoiceId);
-
-
+                    for(int i = 0; i < invoiceItemsList.size();i++){
+                        quantityCount += invoiceItemsList.get(i).getQuantity();
+                    }
+                    intent.putExtra("quantityCount", String.valueOf(quantityCount));
+                    intent.putExtra("shortBillGstAmt",String.valueOf(Util.formatDecimalValue(shortBillGstAmt)));
                     if (isGSTAvailable) {
                         intent.putExtra("gstBillNo", serialNumber);
                         intent.putExtra("nonGstBillNo", 0);
