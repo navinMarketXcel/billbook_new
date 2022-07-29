@@ -26,7 +26,7 @@
             android:id="@+id/textView"
             android:layout_gravity="center"
             android:gravity="center"
-            android:fontFamily="@font/inter"
+            android:fontFamily="@font/inter_medium"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             android:textSize="25sp"
@@ -38,7 +38,7 @@
         <TextView
             android:layout_gravity="center"
             android:id="@+id/etMobNo"
-            android:fontFamily="@font/inter"
+            android:fontFamily="@font/inter_medium"
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             android:textSize="25sp"
