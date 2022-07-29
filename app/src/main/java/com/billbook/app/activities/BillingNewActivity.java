@@ -20,6 +20,7 @@ import com.billbook.app.database.models.InvoiceItems;
 import com.billbook.app.database.models.InvoiceModelV2;
 import com.billbook.app.databinding.ActivityBillingNewBinding;
 import com.billbook.app.databinding.LayoutItemBillBinding;
+import com.billbook.app.networkcommunication.NetworkType;
 import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.billbook.app.viewmodel.InvoiceViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -139,6 +140,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private boolean ischeckDisc = true;
     private int count = 0;
     private LinearLayout itemslay;
+    private NetworkType nt;
+    private String networkType;
     private TextView viewDets;
     // idInLocalDb = column with name "id" in local db android
 
@@ -151,6 +154,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         //imageButton=findViewById(R.id.button1);
         edtname= findViewById(R.id.edtName);
         edtMobNo= findViewById(R.id.edtMobNo);
+        nt = new NetworkType();
+        networkType = nt.getNetworkClass(this);
+
+        nt = new NetworkType();
         billNo = findViewById(R.id.billNo);
         viewDets = findViewById(R.id.viewDets);
         itemslay=findViewById(R.id.itemsLayout);
@@ -1409,49 +1416,110 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 }
                 if (Util.isNetworkAvailable(this)) {
                     if(!isEdit)
-                        sendInvoice(requestObj);
-                } else {
-                    //there is some use of makeing invoiceid = -1 in backend
-                    invoiceViewModel.updateInvoiceId(localInvoiceId,-1);
-                    DialogUtils.showToast(this, "Invoice saved in offline mode.");
 
+                    {
 
-                    JSONObject data = new JSONObject();
-                    requestObj.put("id", -1);
-                    data.put("invoice", requestObj);
-                    data.put("items", requestObj.getJSONArray("items"));
-                    Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
-                    intent.putExtra("invoice", requestObj.toString());
-                    intent.putExtra("invoiceServer", data.toString());
-                    intent.putExtra("localInvId",localInvoiceId);
-                    intent.putExtra("id",-1);
-                    intent.putExtra("itemsSize", String.valueOf(requestObj.getJSONArray("items").length()));
-                    intent.putExtra("idForItem",localInvoiceId);
-                    for(int i = 0; i < invoiceItemsList.size();i++){
-                        quantityCount += invoiceItemsList.get(i).getQuantity();
-                    }
-                    intent.putExtra("quantityCount", String.valueOf(quantityCount));
-                    intent.putExtra("shortBillGstAmt",String.valueOf(Util.formatDecimalValue(shortBillGstAmt)));
-                    if (isGSTAvailable) {
-                        intent.putExtra("gstBillNo", serialNumber);
-                        intent.putExtra("nonGstBillNo", 0);
-                    } else {
-                        intent.putExtra("gstBillNo", 0);
-                        intent.putExtra("nonGstBillNo", serialNumber);
+                        if(networkType.equals("2G") || networkType.equals("?") )
+
+                        {
+
+                            Toast.makeText(this, "Network is too slow", Toast.LENGTH_SHORT).show();
+
+//                           saveInvoiceToLocalDatabase(requestObj);
+
+                            saveInvoiceOffline(requestObj);
+
+                        }
+
+                        else
+
+                        {
+
+                            sendInvoice(requestObj);
+
+                        }
+
                     }
 
-                    startActivity(intent);
-                    if (!isEdit && isGSTAvailable)
-                        MyApplication.setInvoiceNumber(serialNumber + 1);
-                    else if (!isEdit)
-                        MyApplication.setInvoiceNumberForNonGst(serialNumber + 1);
-                    BillingNewActivity.this.finish();
+                }else {
+                    saveInvoiceOffline(requestObj);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
     }
+    public void saveInvoiceOffline(JSONObject requestObj)
+
+    {
+
+        try {
+
+            //there is some use of makeing invoiceid = -1 in backend
+
+            invoiceViewModel.updateInvoiceId(localInvoiceId,-1);
+
+            DialogUtils.showToast(this, "Invoice saved in offline mode.");
+
+
+
+            JSONObject data = new JSONObject();
+
+            requestObj.put("id", -1);
+
+            data.put("invoice", requestObj);
+
+            data.put("items", requestObj.getJSONArray("items"));
+
+            Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+
+            //intent.putExtra("invoice", requestObj.toString());
+
+            //intent.putExtra("invoiceServer", data.toString());
+
+            intent.putExtra("localInvId",localInvoiceId);
+
+            intent.putExtra("id",-1);
+
+            intent.putExtra("idForItem",localInvoiceId);
+
+
+
+            if (isGSTAvailable) {
+
+                intent.putExtra("gstBillNo", serialNumber);
+
+                intent.putExtra("nonGstBillNo", 0);
+
+            } else {
+
+                intent.putExtra("gstBillNo", 0);
+
+                intent.putExtra("nonGstBillNo", serialNumber);
+
+            }
+
+
+            startActivity(intent);
+
+            if (!isEdit && isGSTAvailable)
+
+                MyApplication.setInvoiceNumber(serialNumber + 1);
+
+            else if (!isEdit)
+
+                MyApplication.setInvoiceNumberForNonGst(serialNumber + 1);
+
+            BillingNewActivity.this.finish();
+
+        } catch (JSONException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
 
     private boolean verify() {
         if (invoiceItemsList.size() == 0 ) {

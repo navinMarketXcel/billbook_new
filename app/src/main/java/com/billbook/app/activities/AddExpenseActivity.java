@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import com.billbook.app.networkcommunication.NetworkType;
 import com.billbook.app.utils.Util;
 import com.google.gson.Gson;
 import com.billbook.app.R;
@@ -154,57 +155,69 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     private void saveExpenseToServer(Expense expense){
         if(Util.isNetworkAvailable(this)) {
-            DialogUtils.startProgressDialog(this, "");
-            ApiInterface apiService =
-                    ApiClient.getClient(this).create(ApiInterface.class);
-            Map<String, String> headerMap = new HashMap<>();
-
-            headerMap.put("Content-Type", "application/json");
-
-            Call<Object> call = null;
-            if (!isEdit) {
-                Util.postEvents("Add Expense","Add Expense",this.getApplicationContext());
-                call = apiService.expenses(headerMap, expense);
+            NetworkType nt = new NetworkType();
+            String check = nt.getNetworkClass(this);
+            if(check.equals("2G")||check.equals("?"))
+            {
+                saveExpenseOffline(expense);
             }
-            else {
-                Util.postEvents("Update Expense","Update Expense",this.getApplicationContext());
+            else
+            {
+                DialogUtils.startProgressDialog(this, "");
+                ApiInterface apiService =
+                        ApiClient.getClient(this).create(ApiInterface.class);
+                Map<String, String> headerMap = new HashMap<>();
 
-                call = apiService.updateExpenses(headerMap, (int) expense.getId(), expense);
-            }
-            call.enqueue(new Callback<Object>() {
-                @Override
-                public void onResponse(Call<Object> call, Response<Object> response) {
-                    DialogUtils.stopProgressDialog();
-                    try {
-                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                        if (!isEdit && body.getBoolean("status") && !body.isNull("data")) {
-                            Log.v("RESP", body.toString());
-                            final Expense expense1 = new Gson().fromJson(body.getJSONObject("data").toString(), Expense.class);
-                            AsyncTask.execute(new Runnable() {
-                                @Override
-                                public void run() {
-                                    MyApplication.getDatabase().getExpModelDao().insertExpense(expense1);
-                                }
-                            });
-                            DialogUtils.showToast(getApplicationContext(),"Expense successfully created");
+                headerMap.put("Content-Type", "application/json");
+
+                Call<Object> call = null;
+                if (!isEdit) {
+                    Util.postEvents("Add Expense","Add Expense",this.getApplicationContext());
+                    call = apiService.expenses(headerMap, expense);
+                }
+                else {
+                    Util.postEvents("Update Expense","Update Expense",this.getApplicationContext());
+
+                    call = apiService.updateExpenses(headerMap, (int) expense.getId(), expense);
+                }
+                call.enqueue(new Callback<Object>() {
+                    @Override
+                    public void onResponse(Call<Object> call, Response<Object> response) {
+                        DialogUtils.stopProgressDialog();
+                        try {
+                            JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                            if (!isEdit && body.getBoolean("status") && !body.isNull("data")) {
+                                Log.v("RESP", body.toString());
+                                final Expense expense1 = new Gson().fromJson(body.getJSONObject("data").toString(), Expense.class);
+                                AsyncTask.execute(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        MyApplication.getDatabase().getExpModelDao().insertExpense(expense1);
+                                    }
+                                });
+                                DialogUtils.showToast(getApplicationContext(),"Expense successfully created");
 //                            AddExpenseActivity.this.finish();
-                        } else if (isEdit && body.getBoolean("status")){
-                            DialogUtils.showToast(getApplicationContext(),"Expense successfully updated");
+                            } else if (isEdit && body.getBoolean("status")){
+                                DialogUtils.showToast(getApplicationContext(),"Expense successfully updated");
 //                            AddExpenseActivity.this.finish();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                }
 
-                @Override
-                public void onFailure(Call<Object> call, Throwable t) {
-                    DialogUtils.stopProgressDialog();
-                    DialogUtils.showToast(AddExpenseActivity.this, "Failed to save expense data");
-                }
-            });
-        }else{
+                    @Override
+                    public void onFailure(Call<Object> call, Throwable t) {
+                        DialogUtils.stopProgressDialog();
+                        DialogUtils.showToast(AddExpenseActivity.this, "Failed to save expense data");
+                    }
+                });
+            }
+            }
+
+
+            else{
         String expenses = MyApplication.getUnSyncedExpenses();
         if(expenses.isEmpty()){
             JSONArray exp= null;
@@ -222,26 +235,83 @@ public class AddExpenseActivity extends AppCompatActivity {
                 }
             },1000);
         }else{
-            try {
-                JSONArray jsonArray =  new JSONArray(expenses);
-                jsonArray.put(new JSONObject(new Gson().toJson(expense)));
-                MyApplication.saveUnSyncedExpenses(jsonArray.toString());
-                DialogUtils.showToast(getApplicationContext(),"Expense saved in offline");
-                Log.v("EXET",MyApplication.getUnSyncedExpenses());
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        AddExpenseActivity.this.finish();
-                    }
-                },1000);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            saveExpenseOffline(expense);
         }
 
         }
     }
+    private void saveExpenseOffline(Expense expense){
+
+        String expenses = MyApplication.getUnSyncedExpenses();
+
+        if(expenses.isEmpty()){
+
+            JSONArray exp= null;
+
+            try {
+
+                exp = new JSONArray().put(new JSONObject(new Gson().toJson(expense)));
+
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+
+            }
+
+            MyApplication.saveUnSyncedExpenses(exp.toString());
+
+            DialogUtils.showToast(getApplicationContext(),"Expense saved in offline");
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+
+                public void run() {
+
+                    AddExpenseActivity.this.finish();
+
+                }
+
+            },1000);
+
+        }
+
+        else{
+
+            try {
+
+                JSONArray jsonArray =  new JSONArray(expenses);
+
+                jsonArray.put(new JSONObject(new Gson().toJson(expense)));
+
+                MyApplication.saveUnSyncedExpenses(jsonArray.toString());
+
+                DialogUtils.showToast(getApplicationContext(),"Expense saved in offline");
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+
+                    public void run() {
+
+                        AddExpenseActivity.this.finish();
+
+                    }
+
+                },1000);
+
+
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+
+            }
+
+
+        }
+
+    }
+
 
     private void getExpenseData(){
         expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
