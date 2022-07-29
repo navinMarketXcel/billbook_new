@@ -289,9 +289,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         custAdd=getIntent().getExtras().getString("customerAddress");
                     }
 
-                    pdfBinding.edtName.setText(custName.equals(null) ?" ":custName+" ");
-                    pdfBinding.edtAddress.setText(custAdd.equals(null) ?" ":custAdd+" ");
-                    pdfBinding.edtMobNo.setText(custNo.equals(null) ?" ":custNo+" ");
+                    pdfBinding.edtName.setText(custName == null ?" ":custName+" ");
+                    pdfBinding.edtAddress.setText(custAdd == null ?" ":custAdd+" ");
+                    pdfBinding.edtMobNo.setText(custNo == null ?" ":custNo+" ");
 //            tvGSTNo.setText(invoice.getString("GSTNo")+" ");
                     invoiceAmountLayoutUpdatedBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
                       invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
@@ -328,7 +328,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
                 try{
                     invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
-                    Log.v("Invoi1", String.valueOf(invoice));
                     shortBillLayoutBinding.tvVendorName.setText(profile.getString("shopName"));
                     shortBillLayoutBinding.tvStoreAddress.setText(profile.getString("shopAddr") + " " + profile.getString("city")
                             + " " + profile.getString("state") + " - " + profile.getString("pincode"));
@@ -381,13 +380,13 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     {
                         custAdd=getIntent().getExtras().getString("customerAddress");
                     }
-                    shortBillLayoutBinding.edtMobNo.setText(custNo);
-                    shortBillLayoutBinding.edtName.setText(custName);
+                    shortBillLayoutBinding.edtMobNo.setText(custNo == null ?" ":custNo);
+                    shortBillLayoutBinding.edtName.setText(custName == null ?" ":custName);
                     Log.v("Invoi4", String.valueOf(invoice));
-                    if(custAdd.isEmpty()){
+                    if(custAdd == null){
                         shortBillLayoutBinding.edtAddressLayout.setVisibility(View.GONE);
                     }else {
-                        shortBillLayoutBinding.edtAddress.setText(custAdd);
+                        shortBillLayoutBinding.edtAddress.setText(custAdd == null?" ":custAdd);
                     }
                     Log.v("Invoi5", String.valueOf(invoice));
                     shortBillLayoutBinding.invoiceItems.setText(getIntent().getExtras().getString("itemsSize"));
