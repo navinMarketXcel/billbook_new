@@ -165,6 +165,8 @@
                     style="@style/textSmall"
                     android:layout_marginTop="@dimen/_7sdp"
                     android:layout_width="match_parent"
+                    android:singleLine="true"
+                    android:maxLength="150"
                     android:layout_height="45dp"
                     android:background="@drawable/layout_background"
                     android:hint="@string/business_name"
@@ -181,6 +183,8 @@
                 <EditText
                     android:id="@+id/etShopAdd"
                     style="@style/textSmall"
+                    android:singleLine="true"
+                    android:maxLength="150"
                     android:layout_marginTop="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
@@ -202,6 +206,8 @@
                     android:layout_marginTop="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
+                    android:inputType="number"
+                    android:maxLength="6"
                     android:background="@drawable/layout_background"
                     android:hint="@string/pin_code"
                     />
@@ -219,6 +225,7 @@
                     android:layout_marginTop="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
+                    android:singleLine="true"
                     android:background="@drawable/layout_background"
                     android:hint="@string/citye"
                     />
@@ -253,6 +260,7 @@
                     android:layout_marginTop="@dimen/_7sdp"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
+                    android:singleLine="true"
                     android:maxLength="15"
                     android:background="@drawable/layout_background"
                     android:hint="@string/gst_num"

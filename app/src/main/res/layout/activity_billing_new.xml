@@ -481,6 +481,7 @@
                             android:id="@+id/edtName"
 
                             style="@style/editText"
+                            android:inputType="textPersonName"
 
                             android:background="@drawable/layout_background"
 
@@ -536,6 +537,7 @@
                             style="@style/editText"
 
                             android:maxLength="10"
+                            android:inputType="number"
 
                             android:background="@drawable/layout_background"
 

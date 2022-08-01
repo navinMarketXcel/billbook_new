@@ -94,6 +94,7 @@
         <androidx.appcompat.widget.AppCompatAutoCompleteTextView
             android:id="@+id/modelName"
             style="@style/editText"
+            android:maxLength="150"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/item_name_d"
@@ -124,11 +125,12 @@
             <EditText
                 android:textColor="#0A0A0A"
                 android:id="@+id/priceEdt"
+                android:inputType="number"
                 style="@style/editText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Enter Price of Product"
-                android:singleLine="false"
+                android:singleLine="true"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </LinearLayout>
 
@@ -193,11 +195,12 @@
             <EditText
                 android:id="@+id/quantity"
                 style="@style/editText"
+                android:inputType="numberDecimal"
                 android:layout_width="199dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:hint="Number of units sold"
-                android:singleLine="false"
+                android:singleLine="true"
                 android:textColor="#0A0A0A"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </LinearLayout>

@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/amount_to_add"
             android:singleLine="false"
-            android:inputType="phone"
+            android:inputType="number"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </LinearLayout>
 
@@ -135,6 +135,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
+                android:maxLength="150"
                 android:hint="@string/description_about_expense"
                 android:textColor="#0A0A0A"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />

@@ -146,7 +146,7 @@ public class OTPActivity extends AppCompatActivity {
             public void onFinish() {
                 cancelTimer();
                 btnResend.setEnabled(true);
-                btnResend.setTextColor(Color.BLUE);
+                btnResend.setTextColor(Color.DKGRAY);
                 btnResend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
