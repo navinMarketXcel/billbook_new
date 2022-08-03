@@ -640,6 +640,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     pdfBinding.pdfView.recycle();
                 }
                 pdfBinding.pdfView.fromUri(urii).load();
+
                 billType = "long";
                 break;
             case R.id.btn_Short_pdf:
