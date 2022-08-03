@@ -1,6 +1,7 @@
 package com.billbook.app.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +25,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -606,6 +609,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -640,7 +644,21 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     pdfBinding.pdfView.recycle();
                 }
                 pdfBinding.pdfView.fromUri(urii).load();
+                pdfBinding.pdfView.setOnTouchListener(new View.OnTouchListener() {
+                    GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
+                    @Override
+                        public boolean onDoubleTap(MotionEvent e){
+                        Toast.makeText(PDFActivity.this,"DOuble tap",Toast.LENGTH_LONG).show();
+                        return super.onDoubleTap(e);
 
+                    }
+
+                    });
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        return false;
+                    }
+                });
                 billType = "long";
                 break;
             case R.id.btn_Short_pdf:

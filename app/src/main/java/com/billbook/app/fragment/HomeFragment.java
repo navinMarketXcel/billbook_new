@@ -233,7 +233,6 @@ public class HomeFragment extends Fragment
         if (!isSheetShown) {
             BottomSheetDialog gstSheet = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
             View bottomSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgst, (LinearLayout) view.findViewById(R.id.bottomSheetContainer));
-
             bottomSheet.findViewById(R.id.yesGSt).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

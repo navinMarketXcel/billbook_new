@@ -7,9 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+
     <LinearLayout
-        android:layout_width="match_parent"
         android:id="@+id/bottomSheetContainer"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/layout_new_background"
         android:orientation="vertical"
@@ -17,18 +18,19 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:text="Make Professional"
-            android:textSize="25sp"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="25sp" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="GST Bills"
-            android:textSize="25sp"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="25sp" />
 
         <LinearLayout
             android:layout_width="307dp"
@@ -56,10 +58,10 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="50dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/login_button_structure"
+            android:background="@drawable/button_click_structure"
+            android:fontFamily="@font/inter"
             android:text="Add GST Number"
             android:textAllCaps="false"
-            android:fontFamily="@font/inter"
             android:textColor="@color/white" />
 
         <Button
@@ -72,11 +74,10 @@
             android:layout_marginRight="50dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/gray_button_background"
+            android:fontFamily="@font/inter"
             android:text="I don't have GST"
             android:textAllCaps="false"
-            android:fontFamily="@font/inter"
             android:textColor="@color/colorPrimary" />
-
 
 
     </LinearLayout>

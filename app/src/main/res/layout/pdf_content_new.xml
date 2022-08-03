@@ -32,10 +32,10 @@
                         android:layout_height="611dp" />
                     <ImageView
                         android:id="@+id/zoomClick"
-                        android:layout_gravity="bottom|right"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:background="@drawable/zoom_frame">
+                        android:layout_gravity="top|right"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/ic_baseline_zoom_in_24">
 
                     </ImageView>
                 </FrameLayout>
