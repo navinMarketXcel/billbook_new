@@ -126,8 +126,8 @@
                         android:layout_margin="10dp"
                         android:layout_marginLeft="20dp"
                         android:elevation="8dp"
-                        app:cardCornerRadius="15dp"
                         android:visibility="visible"
+                        app:cardCornerRadius="15dp"
                         app:contentPadding="4dp">
 
                         <LinearLayout
@@ -235,8 +235,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:elevation="8dp"
-                        app:cardCornerRadius="15dp"
                         android:visibility="visible"
+                        app:cardCornerRadius="15dp"
                         app:contentPadding="4dp">
 
                         <LinearLayout
