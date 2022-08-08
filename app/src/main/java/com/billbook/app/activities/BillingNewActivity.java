@@ -133,7 +133,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     //variables for Checking Contact Permission
     private ImageButton imageButton;
     private EditText edtname;
-    private EditText edtMobNo, billNo;
+    private EditText edtMobNo, billNo,bill_date;
     private TextView additemTv;
     private static final int Contact_code=123;
     private static final int Contact_Pick_code=111;
@@ -159,6 +159,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         nt = new NetworkType();
         billNo = findViewById(R.id.billNo);
+        bill_date = findViewById(R.id.bill_date);
         viewDets = findViewById(R.id.viewDets);
         itemslay=findViewById(R.id.itemsLayout);
         try {
@@ -199,7 +200,17 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     public void setonClick(){
         binding.ivToolBarBack.setOnClickListener(v -> {
-            finish();
+            DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to cancel the bill?", new DialogUtils.DialogClickListener() {
+                @Override
+                public void positiveButtonClick() {
+                    finish();
+                }
+
+                @Override
+                public void negativeButtonClick() {
+
+                }
+            });
         });
         binding.lnHelp.setOnClickListener(v -> {
             Util. startHelpActivity(BillingNewActivity.this);

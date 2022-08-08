@@ -406,6 +406,7 @@
                             <EditText
 
                                 android:id="@+id/bill_date"
+                                android:onClick="showDatePickerDialog"
 
                                 android:layout_width="match_parent"
 
@@ -491,7 +492,7 @@
 
                             android:hint="@string/enter_name_billactivity"
 
-                            android:singleLine="false"
+                            android:singleLine="true"
 
                             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
@@ -543,7 +544,7 @@
 
                             android:layout_width="match_parent"
 
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
 
                             android:hint="@string/enter_mobile_number_optional"
 

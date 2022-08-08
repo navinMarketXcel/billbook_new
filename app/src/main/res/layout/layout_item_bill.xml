@@ -108,7 +108,7 @@
                     android:inputType="number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/product_or_service_provided"
+                    android:hint="@string/enter_rate_if_want"
                     android:singleLine="false"
                     tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
             </LinearLayout>
@@ -198,7 +198,7 @@
                     android:id="@+id/unit"
                     style="@style/mySpinnerForUnit"
                     android:layout_width="0dp"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:background="@drawable/spinnerbg"
                     android:entries="@array/measurementUnit"
@@ -237,7 +237,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:hint="@string/placeholder_text"
-                    android:singleLine="false"
+                    android:singleLine="true"
                     android:textColor="#0A0A0A"
                     tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
             </LinearLayout>
@@ -277,7 +277,7 @@
             android:layout_marginRight="50dp"
             android:text="@string/add_item"
             android:textStyle="bold"
-            android:textAllCaps="true"
+            android:textAllCaps="false"
             android:textColor="@color/colorPrimary"
             android:layout_margin="20dp" />
         <LinearLayout

@@ -239,8 +239,6 @@ public class HomeFragment extends Fragment
                     gstSheet.dismiss();
                     BottomSheetDialog yesGst = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
                     View yesGstSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgstyes, (LinearLayout) view.findViewById(R.id.editGSTyes));
-//                    BottomSheetBehavior behavior = BottomSheetBehavior.from(yesGstSheet);
-//                    behavior.setPeekHeight(250);
                     yesGstSheet.findViewById(R.id.btnUpdGst).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -290,6 +288,8 @@ public class HomeFragment extends Fragment
                         }
                     });
                     yesGst.setContentView(yesGstSheet);
+                    BottomSheetBehavior<View> bb1 = BottomSheetBehavior.from((View) yesGstSheet.getParent());
+                    bb1.setPeekHeight(getResources().getDisplayMetrics().heightPixels);
                     yesGst.show();
 
                 }
@@ -310,7 +310,6 @@ public class HomeFragment extends Fragment
             });
             gstSheet.setContentView(bottomSheet);
             BottomSheetBehavior<View> bb = BottomSheetBehavior.from((View) bottomSheet.getParent());
-
             bb.setPeekHeight(getResources().getDisplayMetrics().heightPixels - 500);
             gstSheet.show();
         }
