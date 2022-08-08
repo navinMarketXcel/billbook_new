@@ -1274,11 +1274,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             binding.GSTLayout.setVisibility(View.GONE);
             binding.AddressLayout.setVisibility(View.GONE);
 //         gstTypeLayout.setVisibility(View.GONE);
-            binding.additionalDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_add_circle, 0);
+            binding.additionalDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
         } else {
             binding.GSTLayout.setVisibility(View.VISIBLE);
             binding.AddressLayout.setVisibility(View.VISIBLE);
-            binding.additionalDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
+            binding.additionalDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_remove_24, 0);
         }
     }
     // toggle function to show and hide discount

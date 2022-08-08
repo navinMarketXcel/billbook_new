@@ -577,7 +577,7 @@
 
                         android:textColor="#266CE4"
 
-                        android:drawableRight="@drawable/ic_add_circle"
+                        android:drawableRight="@drawable/ic_baseline_add_24"
 
                         android:drawablePadding="5dp"
 
