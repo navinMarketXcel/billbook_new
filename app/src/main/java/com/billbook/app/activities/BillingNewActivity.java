@@ -1231,6 +1231,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
+
     public void showDatePickerDialog(View v) {
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
