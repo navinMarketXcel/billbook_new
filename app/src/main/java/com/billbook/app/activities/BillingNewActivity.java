@@ -133,7 +133,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     //variables for Checking Contact Permission
     private ImageButton imageButton;
     private EditText edtname;
-    private EditText edtMobNo, billNo;
+    private EditText edtMobNo, billNo,bill_date;
     private TextView additemTv;
     private static final int Contact_code=123;
     private static final int Contact_Pick_code=111;
@@ -159,6 +159,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         nt = new NetworkType();
         billNo = findViewById(R.id.billNo);
+        bill_date = findViewById(R.id.bill_date);
         viewDets = findViewById(R.id.viewDets);
         itemslay=findViewById(R.id.itemsLayout);
         try {
@@ -199,7 +200,17 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     public void setonClick(){
         binding.ivToolBarBack.setOnClickListener(v -> {
-            finish();
+            DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to cancel the bill?", new DialogUtils.DialogClickListener() {
+                @Override
+                public void positiveButtonClick() {
+                    finish();
+                }
+
+                @Override
+                public void negativeButtonClick() {
+
+                }
+            });
         });
         binding.lnHelp.setOnClickListener(v -> {
             Util. startHelpActivity(BillingNewActivity.this);
@@ -1220,6 +1231,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
+
     public void showDatePickerDialog(View v) {
         final Calendar c = Calendar.getInstance();
         int mYear = c.get(Calendar.YEAR);
@@ -1263,11 +1275,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             binding.GSTLayout.setVisibility(View.GONE);
             binding.AddressLayout.setVisibility(View.GONE);
 //         gstTypeLayout.setVisibility(View.GONE);
-            binding.additionalDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_add_circle, 0);
+            binding.additionalDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_add_24, 0);
         } else {
             binding.GSTLayout.setVisibility(View.VISIBLE);
             binding.AddressLayout.setVisibility(View.VISIBLE);
-            binding.additionalDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_remove_circle, 0);
+            binding.additionalDetails.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_remove_24, 0);
         }
     }
     // toggle function to show and hide discount

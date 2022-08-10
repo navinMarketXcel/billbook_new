@@ -144,6 +144,20 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         setProfileData();
         setData();
         setShortFormatData();
+        setonClick();
+    }
+    public void setonClick(){
+        binding.ivToolBarBack.setOnClickListener(v -> {
+            finish();
+        });
+        binding.lnHelp.setOnClickListener(v -> {
+            Util. startHelpActivity(PDFActivity.this);
+        });
+        binding.lnYouTube.setOnClickListener(v -> {
+            Util. startYoutubeActivity(PDFActivity.this);
+        });
+
+
     }
 
     private void initUI() {

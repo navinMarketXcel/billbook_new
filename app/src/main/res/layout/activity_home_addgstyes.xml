@@ -4,8 +4,6 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/editGSTyes"
-    app:behavior_peekHeight="0dp"
-
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
     android:layout_height="match_parent"
     android:background="@drawable/layout_new_background"
@@ -28,7 +26,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="7"

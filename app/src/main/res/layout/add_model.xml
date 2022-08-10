@@ -257,7 +257,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:hint="Placeholder Text"
-                android:singleLine="false"
+                android:singleLine="true"
                 android:textColor="#0A0A0A"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </LinearLayout>
