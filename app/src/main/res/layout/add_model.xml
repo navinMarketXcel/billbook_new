@@ -115,7 +115,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#555555"
@@ -127,7 +127,7 @@
                 android:id="@+id/priceEdt"
                 android:inputType="number"
                 style="@style/editText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter Price of Product"
                 android:singleLine="true"

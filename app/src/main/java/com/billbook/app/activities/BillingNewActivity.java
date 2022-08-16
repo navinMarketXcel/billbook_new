@@ -2,6 +2,7 @@ package com.billbook.app.activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import androidx.core.app.ActivityCompat;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.core.content.ContextCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
@@ -40,7 +42,10 @@ import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.provider.ContactsContract;
+import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.util.Log;
 import android.view.View;
@@ -191,6 +196,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         searchItemAutoComplete();
         customerNumberAutoComplete();
         setonClick();
+//        onKeyDown(13,);
     }
     public void onClickViewDets(View v)
     {
@@ -211,6 +217,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 }
             });
+
         });
         binding.lnHelp.setOnClickListener(v -> {
             Util. startHelpActivity(BillingNewActivity.this);
@@ -335,6 +342,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         binding.gstTypeLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.gstTitle.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
 
+
+       // billItemBinding.itemPriceET.setWidth(isGSTAvailable ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+
         billItemBinding.gstPercentageTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         billItemBinding.gstPerLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
 //        billItemBinding.hsnLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
@@ -348,6 +358,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         if (isGSTAvailable) {
             billItemBinding.priceLblTV.setText(R.string.price_including_gst);
             billItemBinding.itemPriceET.setHint(R.string.enter_price_including_gst);
+        }
+        else
+        {
+            LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            buttonLayoutParams.setMargins(10, 10, 10, 10);
+
+            billItemBinding.addPriceLayout.setLayoutParams(buttonLayoutParams);
+            billItemBinding.itemPriceET.setLayoutParams(buttonLayoutParams);
         }
 
         // Discount Percentage will have high priority then Discount Amount on recalculation if total price is being edited.
@@ -852,9 +870,18 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void addItem() {
         if (addItemVerify()) {
             Util.postEvents("Add Item", "Add Item", this.getApplicationContext());
+
             count = invoiceItemsList.size() + 1;
-            binding.billDets.setText("Bill details"+"("+count+")");
-            billItemBinding.items.setText("Items"+"("+count+")");
+            if(invoiceItemsList.size() < 0)
+            {
+                count =0;
+            }
+            else
+            {
+                binding.billDets.setText("Bill details"+"("+count+")");
+                billItemBinding.items.setText("Items"+"("+count+")");
+            }
+
             TextView tv1 = findViewById(R.id.items);
             tv1.setVisibility(View.VISIBLE);
             LinearLayout ll = findViewById(R.id.viewDetsLay);
@@ -1058,6 +1085,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             super.onCreate(savedInstanceState);
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             setContentView(R.layout.add_model);
+            LinearLayout ll = findViewById(R.id.addPriceLayout);
+
             yes = (Button) findViewById(R.id.add);
             no = (Button) findViewById(R.id.cancel);
             yes.setOnClickListener(this);
@@ -1084,15 +1113,23 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
             if (isGSTAvailable) {
+                //billItemBinding.itemPriceET.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
                 hsnNo.setVisibility(View.VISIBLE);
                 priceEdtInputLayout.setHint(getString(R.string.enter_price_including_gst));
             } else {
+
+                LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                buttonLayoutParams.setMargins(10, 10, 10, 10);
+
+                ll.setLayoutParams(buttonLayoutParams);
+                priceEt.setLayoutParams(buttonLayoutParams);
                 hsnNo.setVisibility(View.GONE);
                 priceEdtInputLayout.setHint(getString(R.string.enter_price));
             }
 
 
             if (isGSTAvailable) {
+
                 this.gstPercentage.setVisibility(View.VISIBLE);
                 this.gstLabelTV.setVisibility(View.VISIBLE);
             } else {
@@ -1136,8 +1173,18 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             newBillingAdapter.notifyDataSetChanged();
                             calculateDiscount();
                             count = count-1;
-                            binding.billDets.setText("Bills Details"+"("+count+")");
-                            billItemBinding.items.setText("Items"+"("+count+")");
+                            if(count >= 0)
+                            {
+                                count =0;
+                                binding.billDets.setText("Bills Details"+"("+count+")");
+                                billItemBinding.items.setText("Items"+"("+count+")");
+                            }
+                            else
+                            {
+                                count =0;
+                                binding.billDets.setText("Bills Details"+"("+count+")");
+                                billItemBinding.items.setText("Items"+"("+count+")");
+                            }
                             dismiss();
                         }
                         @Override
@@ -1148,6 +1195,85 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 }
             });
+
+        }
+//        @Override
+//        public boolean onKeyDown(int keyCode, KeyEvent event)  {
+//            if (android.os.Build.VERSION.SDK_INT < 5
+//                    && keyCode == KeyEvent.KEYCODE_BACK
+//                    && event.getRepeatCount() == 0) {
+//                DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to cancel the bill?", new DialogUtils.DialogClickListener() {
+//                    @Override
+//                    public void positiveButtonClick() {
+//                        finish();
+//                    }
+//
+//                    @Override
+//                    public void negativeButtonClick() {
+//
+//                    }
+//                });
+//
+//
+//                onBackPressed();
+//            }
+//
+//            return super.onKeyDown(keyCode, event);
+//        }
+//
+//        @Override
+//        public void onBackPressed() {
+//            DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to cancel the bill?", new DialogUtils.DialogClickListener() {
+//                @Override
+//                public void positiveButtonClick() {
+//                    finish();
+//                }
+//
+//                @Override
+//                public void negativeButtonClick() {
+//
+//                }
+//            });
+//
+//        }
+        @Override
+        public boolean onKeyDown(int keyCode, KeyEvent event)  {
+            Toast.makeText(BillingNewActivity.this, "inKeyDownPressed", Toast.LENGTH_SHORT).show();
+            if (keyCode == KeyEvent.KEYCODE_BACK)
+
+            {
+                onBackPressed();
+            }
+
+            return super.onKeyDown(keyCode, event);
+        }
+
+//        @Override
+//        public void onBackPressed() {
+//            // This will be called either automatically for you on 2.0
+//            // or later, or by the code above on earlier versions of the
+//            // platform.
+//            return;
+//        }
+        @Override
+        public void onBackPressed() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(BillingNewActivity.this);
+            Toast.makeText(BillingNewActivity.this, "InOnBcakPressed", Toast.LENGTH_SHORT).show();
+            builder.setMessage("Are you sure you want to exit?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            BillingNewActivity.this.finish();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+//
+            AlertDialog alert = builder.create();
+            alert.show();
 
         }
 

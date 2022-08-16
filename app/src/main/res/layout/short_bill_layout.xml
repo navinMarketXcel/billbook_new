@@ -360,7 +360,7 @@
                             android:id="@+id/productMRP"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1.5"
+                            android:layout_weight="2"
                             android:ellipsize="end"
                             android:gravity="end"
                             android:singleLine="true"
