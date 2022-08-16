@@ -2090,22 +2090,17 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(BillingNewActivity.this);
-        builder.setMessage("Are you sure you want to exit?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        BillingNewActivity.this.finish();
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-//
-        AlertDialog alert = builder.create();
-        alert.show();
+        DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to cancel the bill?", new DialogUtils.DialogClickListener() {
+                @Override
+                public void positiveButtonClick() {
+                    finish();
+                }
+
+                @Override
+                public void negativeButtonClick() {
+
+                }
+            });
     }
 
 }
