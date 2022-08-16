@@ -1236,46 +1236,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //            });
 //
 //        }
-        @Override
-        public boolean onKeyDown(int keyCode, KeyEvent event)  {
-            Toast.makeText(BillingNewActivity.this, "inKeyDownPressed", Toast.LENGTH_SHORT).show();
-            if (keyCode == KeyEvent.KEYCODE_BACK)
 
-            {
-                onBackPressed();
-            }
-
-            return super.onKeyDown(keyCode, event);
-        }
-
-//        @Override
-//        public void onBackPressed() {
-//            // This will be called either automatically for you on 2.0
-//            // or later, or by the code above on earlier versions of the
-//            // platform.
-//            return;
-//        }
-        @Override
-        public void onBackPressed() {
-            AlertDialog.Builder builder = new AlertDialog.Builder(BillingNewActivity.this);
-            Toast.makeText(BillingNewActivity.this, "InOnBcakPressed", Toast.LENGTH_SHORT).show();
-            builder.setMessage("Are you sure you want to exit?")
-                    .setCancelable(false)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            BillingNewActivity.this.finish();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-//
-            AlertDialog alert = builder.create();
-            alert.show();
-
-        }
 
         private void modelNameAutoComplete() {
             try {
@@ -2129,6 +2090,24 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         // isFirstReq == 0, to finish() BillingNewActivity only after evaluating the response in onActivityResult if storage permission isn't allowed i.e after executing StoragePermissionRequestActivity
         if (checkPermission() == false && isFirstReq==0) finish();
     }
-
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(BillingNewActivity.this);
+        builder.setMessage("Are you sure you want to exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        BillingNewActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+//
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
 }
