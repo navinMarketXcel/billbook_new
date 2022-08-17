@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="pass_margin_top">18dp</dimen>
     <dimen name="username_width">250dp</dimen>
@@ -12,7 +12,8 @@
     <dimen name="common_tab_text_size">13.5dp</dimen>
     <dimen name="common_tab_text_marginTop">12dp</dimen>
 
-
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">14sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">14sp</dimen>
     <!--add product-->
     <dimen name="add_product_textview_margin_top">15dp</dimen>
     <dimen name="add_product_layout_margin_top">40dp</dimen>
