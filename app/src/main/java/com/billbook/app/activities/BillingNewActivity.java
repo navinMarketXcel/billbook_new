@@ -1,5 +1,7 @@
 package com.billbook.app.activities;
 
+import static com.billbook.app.activities.MyApplication.context;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.core.content.ContextCompat;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -29,6 +32,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.database.Cursor;
@@ -147,6 +152,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private LinearLayout itemslay;
     private NetworkType nt;
     private String networkType;
+    private String networkSpeed;
     private TextView viewDets;
     // idInLocalDb = column with name "id" in local db android
 
@@ -161,7 +167,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         edtMobNo= findViewById(R.id.edtMobNo);
         nt = new NetworkType();
         networkType = nt.getNetworkClass(this);
-
         nt = new NetworkType();
         billNo = findViewById(R.id.billNo);
         bill_date = findViewById(R.id.bill_date);
@@ -1515,27 +1520,20 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 }
                 if (Util.isNetworkAvailable(this)) {
                     if(!isEdit)
-
                     {
-
+                        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                        NetworkInfo info = cm.getActiveNetworkInfo();
+                        networkSpeed = nt.isConnectionFast(info.getType(),info.getSubtype());
+                        Log.v("speeed of net",networkSpeed);
                         if(networkType.equals("2G") || networkType.equals("?") )
-
                         {
-
                             Toast.makeText(this, "Network is too slow", Toast.LENGTH_SHORT).show();
-
 //                           saveInvoiceToLocalDatabase(requestObj);
-
                             saveInvoiceOffline(requestObj);
-
                         }
-
                         else
-
                         {
-
                             sendInvoice(requestObj);
-
                         }
 
                     }
@@ -2092,22 +2090,17 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(BillingNewActivity.this);
-        builder.setMessage("Are you sure you want to exit?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        BillingNewActivity.this.finish();
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-//
-        AlertDialog alert = builder.create();
-        alert.show();
+        DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to cancel the bill?", new DialogUtils.DialogClickListener() {
+                @Override
+                public void positiveButtonClick() {
+                    finish();
+                }
+
+                @Override
+                public void negativeButtonClick() {
+
+                }
+            });
     }
 
 }
