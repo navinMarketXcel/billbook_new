@@ -252,6 +252,7 @@
                             android:layout_marginHorizontal="@dimen/_8sdp"
                             android:background="@color/settings_line_color"/>
                         <RelativeLayout
+                            android:visibility="gone"
                             android:id="@+id/layoutMarathi"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -286,11 +287,13 @@
 
                         </RelativeLayout>
                         <View
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/_1sdp"
                             android:layout_marginHorizontal="@dimen/_8sdp"
                             android:background="@color/settings_line_color"/>
                         <RelativeLayout
+                            android:visibility="gone"
                             android:id="@+id/layoutGujarati"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
