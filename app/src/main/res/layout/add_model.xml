@@ -61,7 +61,7 @@
 
     <LinearLayout
         android:layout_margin="1dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="7"
         android:paddingRight="10dp"
@@ -69,7 +69,7 @@
         android:orientation="vertical">
 
         <View
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/borderOpaque"/>
     </LinearLayout>
@@ -115,7 +115,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#555555"
@@ -127,7 +127,7 @@
                 android:id="@+id/priceEdt"
                 android:inputType="number"
                 style="@style/editText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter Price of Product"
                 android:singleLine="true"
@@ -286,7 +286,7 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone">
 
@@ -294,9 +294,10 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="10">
 
         <Button
             android:id="@+id/cancel"
