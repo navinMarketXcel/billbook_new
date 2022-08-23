@@ -937,17 +937,23 @@
 
                             </LinearLayout>
 
-
-                            <androidx.recyclerview.widget.RecyclerView
-
-                                android:id="@+id/invoiceItems"
-
-                                android:layout_width="match_parent"
-
+                            <ScrollView
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content">
+                                <androidx.recyclerview.widget.RecyclerView
+
+                                    android:id="@+id/invoiceItems"
+
+                                    android:layout_width="match_parent"
+
+                                    android:layout_height="wrap_content">
 
 
-                            </androidx.recyclerview.widget.RecyclerView>
+                                </androidx.recyclerview.widget.RecyclerView>
+
+                            </ScrollView>
+
+
 
                             <!--<include-->
 
@@ -1410,9 +1416,10 @@
     <LinearLayout
 
         android:weightSum="2"
+        android:layout_margin="10dp"
         android:visibility="gone"
 
-        android:background="@color/white"
+        android:background="#EAEFF2"
 
         android:layout_gravity="bottom"
 
@@ -1422,7 +1429,7 @@
 
         android:layout_alignParentBottom="true"
 
-        android:padding="20dp"
+        android:padding="10dp"
 
         android:layout_width="match_parent"
 

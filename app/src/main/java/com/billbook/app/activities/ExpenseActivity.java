@@ -291,7 +291,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                             @Override
                             public void onFailure(Call<Object> call, Throwable t) {
                                 DialogUtils.showToast(ExpenseActivity.this, "Failed to get expenses");
-                                Util.logErrorApi("/v1/expense/"+id, new JsonObject(), Arrays.toString(t.getStackTrace()), t.toString() , null, ExpenseActivity.this);
+                                Util.logErrorApi("/v1/expense/"+id, new JSONObject(), Arrays.toString(t.getStackTrace()), t.toString() , null, ExpenseActivity.this);
 
                             }
                         });
@@ -325,6 +325,13 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                 Map<String, String> headerMap = new HashMap<>();
 
                 headerMap.put("Content-Type", "application/json");
+                JSONObject getExpenseObject = new JSONObject();
+                try {
+                    getExpenseObject.put("userid", userid);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 
                 Call<Object> call = apiService.expenses(headerMap, userid);
                 call.enqueue(new Callback<Object>() {
@@ -365,12 +372,14 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
 
                             }
                         } catch (JSONException e) {
+                            Util.logErrorApi("expense/" + userid, getExpenseObject, Arrays.toString(e.getStackTrace()), e.toString() , null,ExpenseActivity.this);
                             e.printStackTrace();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Object> call, Throwable t) {
+                        Util.logErrorApi("expense/" + userid, getExpenseObject, Arrays.toString(t.getStackTrace()), t.toString() , null,ExpenseActivity.this);
                         DialogUtils.stopProgressDialog();
                         DialogUtils.showToast(ExpenseActivity.this, "Failed to get expenses");
                     }

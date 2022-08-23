@@ -770,38 +770,48 @@ public class HomeFragment extends Fragment
 
 
     private void getLatestInvoice(String userid) {
-        ApiInterface apiService =
-                ApiClient.getClient(getActivity()).create(ApiInterface.class);
 
-        String token = MyApplication.getUserToken();
-        Map<String, String> headerMap = new HashMap<>();
-        headerMap.put("Authorization", token);
-        Map<String, String> body = new HashMap<>();
-        body.put("userid", userid);
-        Call<Object> call = apiService.getLatestInvoice(headerMap, body);
-        call.enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                final JSONObject body;
-                try {
-                    body = new JSONObject(new Gson().toJson(response.body()));
-                    Log.d(TAG, "Invoice Body::" + body);
-                    if (body.getJSONObject("data").has("nonGstBillNo")) {
-                        gstList = body.getJSONObject("data").getJSONArray("gstBillNo");
-                        nonGstList = body.getJSONObject("data").getJSONArray("nonGstBillNo");
-                        MyApplication.setInvoiceNumber(gstList.getInt(gstList.length() - 1) + 1);
-                        MyApplication.setInvoiceNumberForNonGst(nonGstList.getInt(nonGstList.length() - 1) + 1);
+        try {
+            ApiInterface apiService =
+                    ApiClient.getClient(getActivity()).create(ApiInterface.class);
+
+            String token = MyApplication.getUserToken();
+            Map<String, String> headerMap = new HashMap<>();
+            headerMap.put("Authorization", token);
+            Map<String, String> body = new HashMap<>();
+            body.put("userid", userid);
+            JSONObject getLastInvoiceObject = new JSONObject();
+            getLastInvoiceObject.put("userid", userid);
+
+            Call<Object> call = apiService.getLatestInvoice(headerMap, body);
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    final JSONObject body;
+                    try {
+                        body = new JSONObject(new Gson().toJson(response.body()));
+                        Log.d(TAG, "Invoice Body::" + body);
+                        if (body.getJSONObject("data").has("nonGstBillNo")) {
+                            gstList = body.getJSONObject("data").getJSONArray("gstBillNo");
+                            nonGstList = body.getJSONObject("data").getJSONArray("nonGstBillNo");
+                            MyApplication.setInvoiceNumber(gstList.getInt(gstList.length() - 1) + 1);
+                            MyApplication.setInvoiceNumberForNonGst(nonGstList.getInt(nonGstList.length() - 1) + 1);
+                        }
+                    } catch (JSONException e) {
+                        Util.logErrorApi("getLastInvoiceNumber", getLastInvoiceObject, Arrays.toString(e.getStackTrace()), e.toString() , null,getContext());
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
                 }
 
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-            }
-        });
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    Util.logErrorApi("getLastInvoiceNumber", getLastInvoiceObject, Arrays.toString(t.getStackTrace()), t.toString() , null,getContext());
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -823,6 +833,13 @@ public class HomeFragment extends Fragment
             map.put("gstNo", gstNo);
 
             long userid = profile.getLong("userid");
+
+            JSONObject sendUpdateObject = new JSONObject();
+
+            sendUpdateObject.put("isGST", gstStatus);
+
+            sendUpdateObject.put("userid", userid);
+
 
             JsonObject jsonObject = new JsonParser().parse(map.toString()).getAsJsonObject();
 
@@ -859,7 +876,7 @@ public class HomeFragment extends Fragment
 
                     } catch (JSONException e) {
 
-                        Util.logErrorApi("users/" + userid, jsonObject, Arrays.toString(e.getStackTrace()), e.toString(), null, getActivity());
+                        Util.logErrorApi("users/" + userid, sendUpdateObject, Arrays.toString(e.getStackTrace()), e.toString() , null,getContext());
 
                         DialogUtils.showToast(getActivity(), "Failed update GST");
 
@@ -874,8 +891,7 @@ public class HomeFragment extends Fragment
 
                 public void onFailure(Call<Object> call, Throwable t) {
 
-                    Util.logErrorApi("users/" + userid, jsonObject, Arrays.toString(t.getStackTrace()), t.toString(), null, getActivity());
-
+                    Util.logErrorApi("users/" + userid, sendUpdateObject, Arrays.toString(t.getStackTrace()), t.toString() , null,getContext());
                     DialogUtils.stopProgressDialog();
 
                     DialogUtils.showToast(getActivity(), "Failed update profile to server");

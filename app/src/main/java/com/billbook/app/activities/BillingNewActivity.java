@@ -152,7 +152,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private LinearLayout itemslay;
     private NetworkType nt;
     private String networkType;
-    private String networkSpeed;
+    private String networkSpeed,apiName;
     private TextView viewDets;
     // idInLocalDb = column with name "id" in local db android
 
@@ -1745,122 +1745,130 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     private void sendInvoice(final JSONObject invoice) {
-        DialogUtils.startProgressDialog(this, "");
-        ApiInterface apiService =
-                ApiClient.getClient(this).create(ApiInterface.class);
-        Map<String, String>
-                headerMap = new HashMap<>();
-        JsonParser jsonParser = new JsonParser();
-        JsonObject jsonObject = (JsonObject) jsonParser.parse(invoice.toString());
-        headerMap.put("Content-Type", "application/json");
-        HashMap<String, Object> body = new HashMap();
-        body.put("content", jsonObject);
-        Call<Object> call = null;
-        if (!isEdit) {
-            call = apiService.invoice(jsonObject);
-        } else {
-            try {
-                call = apiService.updateInvoice(headerMap, this.invoice.getLong("id"), jsonObject);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-//        Call<Object> call = apiService.invoice(jsonObject);
-        call.enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                DialogUtils.stopProgressDialog();
-                JSONObject body = null;
+        try {
+            DialogUtils.startProgressDialog(this, "");
+            ApiInterface apiService =
+                    ApiClient.getClient(this).create(ApiInterface.class);
+            Map<String, String>
+                    headerMap = new HashMap<>();
+            JsonParser jsonParser = new JsonParser();
+            JsonObject jsonObject = (JsonObject) jsonParser.parse(invoice.toString());
+            headerMap.put("Content-Type", "application/json");
+            HashMap<String, Object> body = new HashMap();
+            body.put("content", jsonObject);
+            Gson gson = new Gson();
+            String json = gson.toJson(invoice);
+            JSONObject invoiceObject = new JSONObject(json);
+            Call<Object> call = null;
+            if (!isEdit) {
+                apiName = "/v1/invoice/";
+                call = apiService.invoice(jsonObject);
+            } else {
                 try {
-                    body = new JSONObject(new Gson().toJson(response.body()));
-                    Log.v("RESP", body.toString());
-                    if (body.getBoolean("status")) {
-                        JSONObject object = new JSONObject();
-                        JSONObject customerObject = new JSONObject();
-                        if (isEdit) {
-                            object.put("invoice", body.getJSONObject("data").getJSONObject("invoice"));
-                            object.put("items", body.getJSONObject("data").getJSONObject("invoice").getJSONArray("masterItems"));
-                            customerObject =  body.getJSONObject("data").getJSONObject("invoice").getJSONObject("customer");
-                            object.getJSONObject("invoice").put("customerName",customerObject.getString("name"));
-                            object.getJSONObject("invoice").put("customerMobileNo",customerObject.getString("mobileNo"));
-                            object.getJSONObject("invoice").put("customerAddress",
-                                    customerObject.has("address") ? customerObject.getString("address") : "");
-                            if(idInLocalDb >0)
-                                invoiceViewModel.updateIsSync(idInLocalDb);
-                            else
-                                invoiceViewModel.updateIsSync(localInvoiceId);
-
-                        }
-                        else {
-                            invoiceViewModel.updateIsSync(localInvoiceId);
-                        }
-
-                        invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
-
-
-                        Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
-                        intent.putExtra("invoice", invoice.toString());
-                        intent.putExtra("gstBillNo",isEdit ? object.getJSONObject("invoice").getInt("gstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("gstBillNo"));
-                        intent.putExtra("nonGstBillNo",isEdit ? object.getJSONObject("invoice").getInt("nonGstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("nonGstBillNo"));
-                        intent.putExtra("id",isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
-                        intent.putExtra("idForItem", isEdit ? (long) object.getJSONObject("invoice").getInt("id"):localInvoiceId);
-                        intent.putExtra("customerName", isEdit & customerObject.has("name") ? customerObject.getString("name") : "");
-                        intent.putExtra("customerMobileNo", isEdit & customerObject.has("mobileNo")? customerObject.getString("mobileNo"): "");
-                        intent.putExtra("customerAddress", isEdit & customerObject.has("address")? customerObject.getString("address"): "");
-                        intent.putExtra("itemsSize", String.valueOf(invoiceItemsList.size()));
-                        for(int i = 0; i < invoiceItemsList.size();i++){
-                            quantityCount += invoiceItemsList.get(i).getQuantity();
-                        }
-                        intent.putExtra("quantityCount", String.valueOf(quantityCount));
-                        intent.putExtra("shortBillGstAmt",String.valueOf(Util.formatDecimalValue(shortBillGstAmt)));
-                        if(isEdit && idInLocalDb >0) {
-                            intent.putExtra("localInvId", idInLocalDb);
-                        }
-                        else
-                            intent.putExtra("localInvId",localInvoiceId);
-
-                       /* Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
-                        intent.putExtra("invoice", invoice.toString());
-                       // intent.putExtra("shortHtml", body.getJSONObject("data").getString("shortHtml1"));
-                       // intent.putExtra("longHtml", body.getJSONObject("data").getString("longHtml1") );
-                       // intent.putExtra("pdflink", body.getJSONObject("data").getJSONObject("invoice").getString("pdfLink") );
-                        intent.putExtra("invoiceId", body.getJSONObject("data").getJSONObject("invoice").getInt("id") );
-                        if(isEdit && idInLocalDb >0) {
-                            intent.putExtra("localInvId", idInLocalDb);
-                        }
-                        else
-                            intent.putExtra("localInvId",localInvoiceId);*/
-
-                        ///intent.putExtra("invoiceServer", isEdit ? object.toString() : body.getJSONObject("data").toString());
-                        startActivity(intent);
-                        if (!isEdit && isGSTAvailable)
-                            MyApplication.setInvoiceNumber(serialNumber + 1);
-                        else if (!isEdit)
-                            MyApplication.setInvoiceNumberForNonGst(serialNumber + 1);
-                        BillingNewActivity.this.finish();
-
-                    } else {
-                        Util.postEvents("Make Bill Fail", "Make Bill Fail:elseStatus", getApplicationContext());
-                        if(body!=null)
-                            Util.logErrorApi("/v1/invoice", jsonObject, "/invoice => status :false", null, (JsonObject) jsonParser.parse(body.toString()),BillingNewActivity.this);
-                        DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
-                    }
+                    apiName = "/v1/invoice/";
+                    call = apiService.updateInvoice(headerMap, this.invoice.getLong("id"), jsonObject);
                 } catch (JSONException e) {
-                    if(body!=null)
-                        Util.logErrorApi("/v1/invoice", jsonObject, null, Arrays.toString(e.getStackTrace()), (JsonObject) jsonParser.parse(body.toString()), BillingNewActivity.this);
-                    Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
                     e.printStackTrace();
                 }
             }
+//        Call<Object> call = apiService.invoice(jsonObject);
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    DialogUtils.stopProgressDialog();
+                    JSONObject body = null;
+                    try {
+                        body = new JSONObject(new Gson().toJson(response.body()));
+                        Log.v("RESP", body.toString());
+                        if (body.getBoolean("status")) {
+                            JSONObject object = new JSONObject();
+                            JSONObject customerObject = new JSONObject();
+                            if (isEdit) {
+                                object.put("invoice", body.getJSONObject("data").getJSONObject("invoice"));
+                                object.put("items", body.getJSONObject("data").getJSONObject("invoice").getJSONArray("masterItems"));
+                                customerObject =  body.getJSONObject("data").getJSONObject("invoice").getJSONObject("customer");
+                                object.getJSONObject("invoice").put("customerName",customerObject.getString("name"));
+                                object.getJSONObject("invoice").put("customerMobileNo",customerObject.getString("mobileNo"));
+                                object.getJSONObject("invoice").put("customerAddress",
+                                        customerObject.has("address") ? customerObject.getString("address") : "");
+                                if(idInLocalDb >0)
+                                    invoiceViewModel.updateIsSync(idInLocalDb);
+                                else
+                                    invoiceViewModel.updateIsSync(localInvoiceId);
 
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                Util.postEvents("Make Bill Fail", "Make Bill Fail:onFailure", getApplicationContext());
-                Util.logErrorApi("/v1/invoice", jsonObject, Arrays.toString(t.getStackTrace()), null, null,BillingNewActivity.this);
-                DialogUtils.stopProgressDialog();
-                DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
-            }
-        });
+                            }
+                            else {
+                                invoiceViewModel.updateIsSync(localInvoiceId);
+                            }
+
+                            invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
+
+
+                            Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                            intent.putExtra("invoice", invoice.toString());
+                            intent.putExtra("gstBillNo",isEdit ? object.getJSONObject("invoice").getInt("gstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("gstBillNo"));
+                            intent.putExtra("nonGstBillNo",isEdit ? object.getJSONObject("invoice").getInt("nonGstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("nonGstBillNo"));
+                            intent.putExtra("id",isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
+                            intent.putExtra("idForItem", isEdit ? (long) object.getJSONObject("invoice").getInt("id"):localInvoiceId);
+                            intent.putExtra("customerName", isEdit & customerObject.has("name") ? customerObject.getString("name") : "");
+                            intent.putExtra("customerMobileNo", isEdit & customerObject.has("mobileNo")? customerObject.getString("mobileNo"): "");
+                            intent.putExtra("customerAddress", isEdit & customerObject.has("address")? customerObject.getString("address"): "");
+                            intent.putExtra("itemsSize", String.valueOf(invoiceItemsList.size()));
+                            for(int i = 0; i < invoiceItemsList.size();i++){
+                                quantityCount += invoiceItemsList.get(i).getQuantity();
+                            }
+                            intent.putExtra("quantityCount", String.valueOf(quantityCount));
+                            intent.putExtra("shortBillGstAmt",String.valueOf(Util.formatDecimalValue(shortBillGstAmt)));
+                            if(isEdit && idInLocalDb >0) {
+                                intent.putExtra("localInvId", idInLocalDb);
+                            }
+                            else
+                                intent.putExtra("localInvId",localInvoiceId);
+
+                           /* Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                            intent.putExtra("invoice", invoice.toString());
+                           // intent.putExtra("shortHtml", body.getJSONObject("data").getString("shortHtml1"));
+                           // intent.putExtra("longHtml", body.getJSONObject("data").getString("longHtml1") );
+                           // intent.putExtra("pdflink", body.getJSONObject("data").getJSONObject("invoice").getString("pdfLink") );
+                            intent.putExtra("invoiceId", body.getJSONObject("data").getJSONObject("invoice").getInt("id") );
+                            if(isEdit && idInLocalDb >0) {
+                                intent.putExtra("localInvId", idInLocalDb);
+                            }
+                            else
+                                intent.putExtra("localInvId",localInvoiceId);*/
+
+                            ///intent.putExtra("invoiceServer", isEdit ? object.toString() : body.getJSONObject("data").toString());
+                            startActivity(intent);
+                            if (!isEdit && isGSTAvailable)
+                                MyApplication.setInvoiceNumber(serialNumber + 1);
+                            else if (!isEdit)
+                                MyApplication.setInvoiceNumberForNonGst(serialNumber + 1);
+                            BillingNewActivity.this.finish();
+
+                        } else {
+                            Util.postEvents("Make Bill Fail", "Make Bill Fail:elseStatus", getApplicationContext());
+                            if(body!=null)
+                                Util.logErrorApi(apiName + "Make Bill Fail:elseStatus" + networkType, invoiceObject, "status :false", "Failed save invoice server", (JsonObject) jsonParser.parse(body.toString()),BillingNewActivity.this);                            DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
+                        }
+                    } catch (JSONException e) {
+                        if(body!=null)
+                            Util.logErrorApi(apiName + "Make Bill Fail:catch" + networkType, invoiceObject, Arrays.toString(e.getStackTrace()), "Make Bill Fail:catch", (JsonObject) jsonParser.parse(body.toString()), BillingNewActivity.this);                        Util.postEvents("Make Bill Fail", "Make Bill Fail:catch", getApplicationContext());
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    Util.postEvents("Make Bill Fail", "Make Bill Fail:onFailure", getApplicationContext());
+                    Util.logErrorApi(apiName + "Make Bill Fail:onFailure" + networkSpeed, invoiceObject,Arrays.toString(t.getStackTrace()), t.toString() , null,BillingNewActivity.this);
+
+                    DialogUtils.stopProgressDialog();
+                    DialogUtils.showToast(BillingNewActivity.this, "Failed save invoice server");
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
