@@ -175,13 +175,13 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                         e.printStackTrace();
                     }
                 }
-                else{
+//                else{
 //                                Util.postEvents("Edit","Edit",context.getApplicationContext());
 //                                Intent intent = new Intent(context, BillingNewActivity.class);
 //                                intent.putExtra("edit",true);
 //                                intent.putExtra("invoice",requestInvoice.toString());
 //                                context.startActivity(intent);
-                }
+//                }
 
             }
         });

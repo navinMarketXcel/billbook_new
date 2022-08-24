@@ -26,6 +26,7 @@ import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.viewmodel.ExpenseViewModel;
+import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +36,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -52,6 +54,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     private EditText expenseName;
     private String TAG = "Expense";
     private int userid;
+    private String apiNAme = "";
     private Expense expense;
     private boolean isEdit=false;
     private ExpenseViewModel expenseViewModel;
@@ -162,59 +165,74 @@ public class AddExpenseActivity extends AppCompatActivity {
                 saveExpenseOffline(expense);
             }
             else
-            {
-                DialogUtils.startProgressDialog(this, "");
-                ApiInterface apiService =
-                        ApiClient.getClient(this).create(ApiInterface.class);
-                Map<String, String> headerMap = new HashMap<>();
+                try {
+                    {
 
-                headerMap.put("Content-Type", "application/json");
+                        DialogUtils.startProgressDialog(this, "");
+                        ApiInterface apiService =
+                                ApiClient.getClient(this).create(ApiInterface.class);
+                        Map<String, String> headerMap = new HashMap<>();
+                        Gson gson = new Gson();
+                        String json = gson.toJson(expense);
+                        JSONObject expenseObject = new JSONObject(json);
+                        JsonParser jsonParser = new JsonParser();
+                        headerMap.put("Content-Type", "application/json");
 
-                Call<Object> call = null;
-                if (!isEdit) {
-                    Util.postEvents("Add Expense","Add Expense",this.getApplicationContext());
-                    call = apiService.expenses(headerMap, expense);
-                }
-                else {
-                    Util.postEvents("Update Expense","Update Expense",this.getApplicationContext());
+                        Call<Object> call = null;
+                        if (!isEdit) {
+                            apiNAme = "/v1/expense";
+                            Util.postEvents("Add Expense","Add Expense",this.getApplicationContext());
+                            call = apiService.expenses(headerMap, expense);
+                        }
+                        else {
+                            apiNAme = "/v1/expense";
+                            Util.postEvents("Update Expense","Update Expense",this.getApplicationContext());
 
-                    call = apiService.updateExpenses(headerMap, (int) expense.getId(), expense);
-                }
-                call.enqueue(new Callback<Object>() {
-                    @Override
-                    public void onResponse(Call<Object> call, Response<Object> response) {
-                        DialogUtils.stopProgressDialog();
-                        try {
-                            JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                            if (!isEdit && body.getBoolean("status") && !body.isNull("data")) {
-                                Log.v("RESP", body.toString());
-                                final Expense expense1 = new Gson().fromJson(body.getJSONObject("data").toString(), Expense.class);
-                                AsyncTask.execute(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        MyApplication.getDatabase().getExpModelDao().insertExpense(expense1);
+                            call = apiService.updateExpenses(headerMap, (int) expense.getId(), expense);
+                        }
+                        call.enqueue(new Callback<Object>() {
+                            @Override
+                            public void onResponse(Call<Object> call, Response<Object> response) {
+                                DialogUtils.stopProgressDialog();
+                                try {
+                                    JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                                    if (!isEdit && body.getBoolean("status") && !body.isNull("data")) {
+                                        Log.v("RESP", body.toString());
+                                        final Expense expense1 = new Gson().fromJson(body.getJSONObject("data").toString(), Expense.class);
+                                        AsyncTask.execute(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                MyApplication.getDatabase().getExpModelDao().insertExpense(expense1);
+                                            }
+                                        });
+                                        DialogUtils.showToast(getApplicationContext(),"Expense successfully created");
+        //                            AddExpenseActivity.this.finish();
+                                    } else if (isEdit && body.getBoolean("status")){
+                                        DialogUtils.showToast(getApplicationContext(),"Expense successfully updated");
+        //                            AddExpenseActivity.this.finish();
                                     }
-                                });
-                                DialogUtils.showToast(getApplicationContext(),"Expense successfully created");
-//                            AddExpenseActivity.this.finish();
-                            } else if (isEdit && body.getBoolean("status")){
-                                DialogUtils.showToast(getApplicationContext(),"Expense successfully updated");
-//                            AddExpenseActivity.this.finish();
+
+                                } catch (JSONException e) {
+                                    Util.logErrorApi(apiNAme, expenseObject, Arrays.toString(e.getStackTrace()), e.toString() , null,AddExpenseActivity.this);
+
+
+
+                                    e.printStackTrace();
+                                }
                             }
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                            @Override
+                            public void onFailure(Call<Object> call, Throwable t) {
+                                Util.logErrorApi(apiNAme, expenseObject, Arrays.toString(t.getStackTrace()), t.toString() , null,AddExpenseActivity.this);
+                                DialogUtils.stopProgressDialog();
+                                DialogUtils.showToast(AddExpenseActivity.this, "Failed to save expense data");
+                            }
+                        });
                     }
-
-                    @Override
-                    public void onFailure(Call<Object> call, Throwable t) {
-                        DialogUtils.stopProgressDialog();
-                        DialogUtils.showToast(AddExpenseActivity.this, "Failed to save expense data");
-                    }
-                });
-            }
-            }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+        }
 
 
             else{
