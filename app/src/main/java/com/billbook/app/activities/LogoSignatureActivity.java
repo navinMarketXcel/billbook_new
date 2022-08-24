@@ -25,9 +25,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.billbook.app.R;
@@ -47,7 +49,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MediaType;
@@ -63,6 +67,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
     private int SCREEN_WIDTH = 120;
     private final double MAX_FILE_SIZE_LIMIT = 15.0;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 111;
+    final private int REQUEST_CODE_ASK_CAMERA = 112;
     private String picturePath;
     private static final int PERMISSION_REQUEST_CODE = 200;
 
@@ -79,6 +84,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
     File photoFile;
     public final String APP_TAG = "BillBook";
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +111,8 @@ public class LogoSignatureActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        checkPermission();
+        //checkPermission();
+        checkAndRequestPermissions();
         setonClick();
         setUserData();
     }
@@ -239,7 +246,6 @@ public class LogoSignatureActivity extends AppCompatActivity {
         int hasWriteStoragePermission =
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED) {
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (!shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -250,6 +256,8 @@ public class LogoSignatureActivity extends AppCompatActivity {
 
                 requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         REQUEST_CODE_ASK_PERMISSIONS);
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        REQUEST_CODE_ASK_CAMERA);
             }
         }
     }
@@ -427,6 +435,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
                     if (body.getBoolean("status")) {
                         MyApplication.saveUserDetails(body.getJSONObject("data").toString());
                         MyApplication.saveUserToken(body.getJSONObject("data").getString("userToken"));
+                        DialogUtils.showToast(LogoSignatureActivity.this, "Upload logo & signature  successfully");
                         LogoSignatureActivity.this.finish();
                     } else {
                         DialogUtils.showToast(LogoSignatureActivity.this, "Failed update profile to server");
@@ -484,4 +493,34 @@ public class LogoSignatureActivity extends AppCompatActivity {
             }
         });
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean checkAndRequestPermissions() {
+        int permissionSendMessage = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_SMS);
+        int writeexternalpermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        int readexternalpermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+
+        int camerapermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+
+        List<String> listPermissionsNeeded = new ArrayList<>();
+
+        if (writeexternalpermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+
+        if (readexternalpermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if (camerapermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CAMERA);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            requestPermissions(listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), PERMISSION_REQUEST_CODE);
+            return false;
+        }
+        return true;
+    }
+
 }
