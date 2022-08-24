@@ -22,6 +22,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -343,6 +344,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
                     .load(uri)
                     .into(ivSetLogo);
             companyImagePath = uri;
+            Toast.makeText(this, "Image Uploaded Successfully", Toast.LENGTH_SHORT).show();
 
         }else{
             LnBrowseSign.setVisibility(GONE);

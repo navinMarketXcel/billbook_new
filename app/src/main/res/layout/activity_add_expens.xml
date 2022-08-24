@@ -70,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/amount_to_add"
-            android:singleLine="false"
+            android:singleLine="true"
             android:inputType="number"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </LinearLayout>
@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_calendar_today"
                 android:onClick="showDatePickerDialog"
-                android:singleLine="false"
+                android:singleLine="true"
                 tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </LinearLayout>
 

@@ -180,7 +180,7 @@
                android:drawablePadding="@dimen/_5sdp"
                android:drawableStart="@drawable/ic_calendar_today"
                android:focusable="false"
-               android:hint="@string/select"
+               android:text="Today"
                android:inputType="none"
                 />
 

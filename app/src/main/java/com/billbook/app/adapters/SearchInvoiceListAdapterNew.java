@@ -111,33 +111,53 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         Log.v("formatted date",formatedDate);
 
 
-        boolean isGST = data.getGstType().isEmpty()?false:true;
-        holder.tvInvoiceValue.setText(""+(isGST?data.getGstBillNo():data.getNonGstBillNo() ));
-/*
-            JSONObject requestInvoice = requestInvoiceArrayList.getJSONObject(position);
-            boolean isGST = requestInvoice.getString("gstType").isEmpty()?false:true;
-                    holder.tvInvoiceValue.setText(""+(isGST?requestInvoice.getInt("gstBillNo"):requestInvoice.getInt("nonGstBillNo") ));
-            holder.tvInvoiceCustNameValue.setText(requestInvoice.getJSONObject("customer").getString("name"));
-//            holder.tvQuantityValue.setText("" + requestInvoice.getInt("quantity"));
-            if(requestInvoice.has("discount") && requestInvoice.has("totalAfterDiscount")&& requestInvoice.getDouble("discount")!=0 && requestInvoice.getDouble("totalAfterDiscount")!=0)
-                holder.tvTotalAmtValue.setText(Util.formatDecimalValue((float)requestInvoice.getDouble("totalAfterDiscount")));
-            else
-                holder.tvTotalAmtValue.setText(Util.formatDecimalValue((float)requestInvoice.getDouble("totalAmount")));
-//            String sDate1 = requestInvoice.getCreatedAt();
-            String formatedDate = getFormatedDate(requestInvoice.getString("invoiceDate"));
 
-            if(requestInvoice.has("download") && requestInvoice.getBoolean("download")){
-                Log.v("INV ADPA", "position"+position + "download"+true);
-                holder.download.setChecked(true);
+//        try {
+////            JSONObject requestInvoice = requestInvoiceArrayList.getJSONObject(position);
+////
+////            boolean isGST = requestInvoice.getString("gstType").isEmpty()?false:true;
+////
+////            holder.tvInvoiceValue.setText("Invoice No: "+(isGST?requestInvoice.getInt("gstBillNo"):requestInvoice.getInt("nonGstBillNo") ));
+////
+////            holder.tvInvoiceCustNameValue.setText("Customer Name: "+requestInvoice.getJSONObject("customer").getString("name"));
+////
+//////            holder.tvQuantityValue.setText("" + requestInvoice.getInt("quantity"));
+////
+////            if(requestInvoice.has("discount") && requestInvoice.has("totalAfterDiscount")&& requestInvoice.getDouble("discount")!=0 && requestInvoice.getDouble("totalAfterDiscount")!=0)
+////
+////                holder.tvTotalAmtValue.setText("Total Amount: " + Util.formatDecimalValue((float)requestInvoice.getDouble("totalAfterDiscount")));
+////
+////            else
+////
+////                holder.tvTotalAmtValue.setText("Total Amount: " + Util.formatDecimalValue((float)requestInvoice.getDouble("totalAmount")));
+////
+//////            String sDate1 = requestInvoice.getCreatedAt();
+////
+////            String formatedDate = getFormatedDate(requestInvoice.getString("invoiceDate"));
+////
+////
+////            if(requestInvoice.has("download") && requestInvoice.getBoolean("download")){
+////
+////                Log.v("INV ADPA", "position"+position + "download"+true);
+////
+////                holder.download.setChecked(true);
+////
+////
+////            }else{
+////
+////                holder.download.setChecked(false);
+////
+////                Log.v("INV ADPA", "position"+position + "download"+false);
+////
+////
+////            }
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
-            }else{
-                //holder.download.setChecked(false);
-                Log.v("INV ADPA", "position"+position + "download"+false);
 
-            }*/
-
-
-            holder.download.setChecked(data.isSelected());
+        holder.download.setChecked(data.isSelected());
             holder.download.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -175,13 +195,13 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                         e.printStackTrace();
                     }
                 }
-//                else{
-//                                Util.postEvents("Edit","Edit",context.getApplicationContext());
-//                                Intent intent = new Intent(context, BillingNewActivity.class);
-//                                intent.putExtra("edit",true);
-//                                intent.putExtra("invoice",requestInvoice.toString());
-//                                context.startActivity(intent);
-//                }
+                else{
+                                Util.postEvents("Edit","Edit",context.getApplicationContext());
+                                Intent intent = new Intent(context, BillingNewActivity.class);
+                                intent.putExtra("edit",true);
+                                intent.putExtra("invoice",data.getPdfLink());
+                                context.startActivity(intent);
+                }
 
             }
         });

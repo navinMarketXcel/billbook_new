@@ -177,10 +177,6 @@ Button btnSave;
             etPhone.setError( "Invalid phone number");
             return false;
         }
-        else if (etEmail.getText().toString().isEmpty()) {
-            etEmail.setError( "Please enter email id ");
-            return false;
-        }
         return true;
     }
 }
