@@ -93,19 +93,6 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
     private Expense expense;
     private boolean isEdit=false;
     public static ArrayList<Expense> expenses = new ArrayList<>();
-    private SearchView.OnQueryTextListener onQueryTextListener =
-            new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    expenseListAdapter.getFilter().filter(query);
-                    return false;
-                }
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    expenseListAdapter.getFilter().filter(newText);
-                    return false;
-                }
-            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,7 +155,6 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
     private void initSearchUI(SearchView searchView) {
 
         //searchView.setSubmitButtonEnabled(true);
-        searchView.setOnQueryTextListener(onQueryTextListener);
         mSearchAutoComplete =
                 searchView.findViewById(R.id.search_src_text);
         mSearchAutoComplete.setDropDownBackgroundResource(R.drawable.search_bg);
