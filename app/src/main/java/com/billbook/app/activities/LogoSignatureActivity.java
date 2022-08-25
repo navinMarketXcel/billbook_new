@@ -179,14 +179,36 @@ public class LogoSignatureActivity extends AppCompatActivity {
            // openGallery();
         });
         ivDeleteLogo.setOnClickListener(v -> {
-            LnBrowseLogo.setVisibility(View.VISIBLE);
-            LnSetLogo.setVisibility(GONE);
-            deletePic("isCompanyLogo");
+            DialogUtils.showAlertDialog(LogoSignatureActivity.this, "Yes", "No", "Are you sure you want to delete the Logo", new DialogUtils.DialogClickListener() {
+                @Override
+                public void positiveButtonClick() {
+                    LnBrowseLogo.setVisibility(View.VISIBLE);
+                    LnSetLogo.setVisibility(GONE);
+                    deletePic("isCompanyLogo");
+                }
+
+                @Override
+                public void negativeButtonClick() {
+
+                }
+            });
+
         });
         ivDeleteSign.setOnClickListener(v -> {
-            LnBrowseSign.setVisibility(View.VISIBLE);
-            LnSetSign.setVisibility(GONE);
-            deletePic("isSignatureImage");
+            DialogUtils.showAlertDialog(LogoSignatureActivity.this, "Yes", "No", "Are you sure you want to delete the Signature?", new DialogUtils.DialogClickListener() {
+                @Override
+                public void positiveButtonClick() {
+                    LnBrowseSign.setVisibility(View.VISIBLE);
+                    LnSetSign.setVisibility(GONE);
+                    deletePic("isSignatureImage");
+                }
+
+                @Override
+                public void negativeButtonClick() {
+
+                }
+            });
+
         });
         btn_save.setOnClickListener(v -> {
             try {
@@ -352,7 +374,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
                     .load(uri)
                     .into(ivSetLogo);
             companyImagePath = uri;
-            Toast.makeText(this, "Image Uploaded Successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Image Uploaded Successfully", Toast.LENGTH_LONG).show();
 
         }else{
             LnBrowseSign.setVisibility(GONE);
