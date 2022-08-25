@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -82,6 +84,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
     private String invoiceDateStr, networkType;
     private EditText selectDate, expenseAmount, expenseName;
     private RecyclerView expensesRV;
+    private EditText edtSearchExpense;
     private ExpenseListAdapter expenseListAdapter;
     private ExpenseViewModel expenseViewModel;
     private Button sortExpense, cancelExpense;
@@ -114,8 +117,10 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
         networkType = nt.getNetworkClass(this);
         initUI();
         setonClick();
+        setOnTextChangeListener();
     }
     private void initUI(){
+        edtSearchExpense = findViewById(R.id.edtSearchExpense);
         expensesRV = findViewById(R.id.expensesRV);
         try {
             profile = new JSONObject(MyApplication.getUserDetails());
@@ -422,6 +427,17 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
 
 
     }
+    public void setOnTextChangeListener(){
+        edtSearchExpense.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                expenseListAdapter.getFilter().filter(s);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+    }
+
+
 
 
     public void clickExpenseSort(View v)
