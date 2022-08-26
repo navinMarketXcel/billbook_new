@@ -127,8 +127,8 @@ Button btnSave;
                 ApiClient.getClient(this).create(ApiInterface.class);
         Map<String, String> headerMap = new HashMap<>();
 
-        RequestBody email = RequestBody.create(MediaType.parse("multipart/form-data"), etEmail.getText().toString());
-        RequestBody mobileNo = RequestBody.create(MediaType.parse("multipart/form-data"), etPhone.getText().toString());
+        RequestBody email = RequestBody.create(etEmail.getText().toString(),MediaType.parse("multipart/form-data"));
+        RequestBody mobileNo = RequestBody.create(etPhone.getText().toString(),MediaType.parse("multipart/form-data"));
 
         Map<String, RequestBody> map = new HashMap<>();
         map.put("email", email);
