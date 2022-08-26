@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -82,6 +84,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
     private String invoiceDateStr, networkType;
     private EditText selectDate, expenseAmount, expenseName;
     private RecyclerView expensesRV;
+    private EditText edtSearchExpense;
     private ExpenseListAdapter expenseListAdapter;
     private ExpenseViewModel expenseViewModel;
     private Button sortExpense, cancelExpense;
@@ -90,19 +93,6 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
     private Expense expense;
     private boolean isEdit=false;
     public static ArrayList<Expense> expenses = new ArrayList<>();
-    private SearchView.OnQueryTextListener onQueryTextListener =
-            new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    expenseListAdapter.getFilter().filter(query);
-                    return false;
-                }
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    expenseListAdapter.getFilter().filter(newText);
-                    return false;
-                }
-            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +104,10 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
         networkType = nt.getNetworkClass(this);
         initUI();
         setonClick();
+        setOnTextChangeListener();
     }
     private void initUI(){
+        edtSearchExpense = findViewById(R.id.edtSearchExpense);
         expensesRV = findViewById(R.id.expensesRV);
         try {
             profile = new JSONObject(MyApplication.getUserDetails());
@@ -163,7 +155,6 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
     private void initSearchUI(SearchView searchView) {
 
         //searchView.setSubmitButtonEnabled(true);
-        searchView.setOnQueryTextListener(onQueryTextListener);
         mSearchAutoComplete =
                 searchView.findViewById(R.id.search_src_text);
         mSearchAutoComplete.setDropDownBackgroundResource(R.drawable.search_bg);
@@ -291,7 +282,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                             @Override
                             public void onFailure(Call<Object> call, Throwable t) {
                                 DialogUtils.showToast(ExpenseActivity.this, "Failed to get expenses");
-                                Util.logErrorApi("/v1/expense/"+id, new JsonObject(), Arrays.toString(t.getStackTrace()), t.toString() , null, ExpenseActivity.this);
+                                Util.logErrorApi("/v1/expense/"+id, new JSONObject(), Arrays.toString(t.getStackTrace()), t.toString() , null, ExpenseActivity.this);
 
                             }
                         });
@@ -325,6 +316,13 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                 Map<String, String> headerMap = new HashMap<>();
 
                 headerMap.put("Content-Type", "application/json");
+                JSONObject getExpenseObject = new JSONObject();
+                try {
+                    getExpenseObject.put("userid", userid);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 
                 Call<Object> call = apiService.expenses(headerMap, userid);
                 call.enqueue(new Callback<Object>() {
@@ -365,12 +363,14 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
 
                             }
                         } catch (JSONException e) {
+                            Util.logErrorApi("expense/" + userid, getExpenseObject, Arrays.toString(e.getStackTrace()), e.toString() , null,ExpenseActivity.this);
                             e.printStackTrace();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Object> call, Throwable t) {
+                        Util.logErrorApi("expense/" + userid, getExpenseObject, Arrays.toString(t.getStackTrace()), t.toString() , null,ExpenseActivity.this);
                         DialogUtils.stopProgressDialog();
                         DialogUtils.showToast(ExpenseActivity.this, "Failed to get expenses");
                     }
@@ -413,6 +413,17 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
 
 
     }
+    public void setOnTextChangeListener(){
+        edtSearchExpense.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                expenseListAdapter.getFilter().filter(s);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+    }
+
+
 
 
     public void clickExpenseSort(View v)

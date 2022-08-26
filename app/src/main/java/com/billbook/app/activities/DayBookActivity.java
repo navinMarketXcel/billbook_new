@@ -442,6 +442,7 @@ public class DayBookActivity extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("email",email);
+            Log.v("email",email);
             jsonObject.put("startDate",startdate);
             jsonObject.put("endDate",endDate);
             JsonObject req = new JsonParser().parse(jsonObject.toString()).getAsJsonObject();
