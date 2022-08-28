@@ -233,10 +233,7 @@ public class DayBookActivity extends AppCompatActivity {
                                 dayBook.setDate(myFormat.parse(invoices.getJSONObject(i).getString("invoiceDate")));
                                 dayBook.setExpense(false);
                                 dayBookArrayList.add(dayBook);
-                                Log.v("BEFORE TOTALIN::", ""+totalIn);
                                 totalIn =totalIn+dayBook.getAmount();
-                                Log.v("AFTER TOTALIN::", ""+totalIn);
-
                             }
                             JSONArray expenseList = body.getJSONObject("data").getJSONArray("expenseList");
                             SimpleDateFormat myFormat1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -308,8 +305,9 @@ public class DayBookActivity extends AppCompatActivity {
                 calenderRangePicker();
             }else if(menuItem.getItemId()==R.id.m_month){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                startDate.add(Calendar.MONTH, -1);
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                startDate.set(Calendar.DATE, 1);
+                startDate = setDay(startDate);
                 String strDate = myFormat.format(startDate.getTime());
                 String endsDate = myFormat.format(endDate.getTime());
                 getDayBook(strDate,endsDate);
@@ -322,21 +320,48 @@ public class DayBookActivity extends AppCompatActivity {
                 getDayBook(strDate,endsDate);
             }else if(menuItem.getItemId()==R.id.m_week){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                startDate.add(Calendar.DATE, -7);
+                int day = startDate.get(Calendar.DAY_OF_WEEK);
+                switch (day) {
+                    case Calendar.SUNDAY:
+                        startDate.add(Calendar.DATE, -7);
+                        break;
+                    case Calendar.MONDAY:
+                        startDate.add(Calendar.DATE, -0);
+                        break;
+                    case Calendar.TUESDAY:
+                        startDate.add(Calendar.DATE, -1);
+                        break;
+                    case Calendar.WEDNESDAY:
+                        startDate.add(Calendar.DATE, -2);
+                        break;
+                    case Calendar.THURSDAY:
+                        startDate.add(Calendar.DATE, -3);
+                        break;
+                    case Calendar.FRIDAY:
+                        startDate.add(Calendar.DATE, -4);
+                        break;
+                    case Calendar.SATURDAY:
+                        startDate.add(Calendar.DATE, -5);
+                        break;
+                }
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                startDate = setDay(startDate);
                 String strDate = myFormat.format(startDate.getTime());
                 String endsDate = myFormat.format(endDate.getTime());
                 getDayBook(strDate,endsDate);
             }else if(menuItem.getItemId()==R.id.m_quarter){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                startDate.add(Calendar.MONTH, -6);
+                startDate.add(Calendar.MONTH, -2);
+                startDate = setDay(startDate);
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 String strDate = myFormat.format(startDate.getTime());
                 String endsDate = myFormat.format(endDate.getTime());
                 getDayBook(strDate,endsDate);
             }else if(menuItem.getItemId()==R.id.m_year){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                startDate.add(Calendar.YEAR, -1);
+                startDate.set(Calendar.MONTH,00);
+                startDate.set(Calendar.DATE, 1);
+                startDate = setDay(startDate);
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 String strDate = myFormat.format(startDate.getTime());
                 String endsDate = myFormat.format(endDate.getTime());
@@ -348,6 +373,15 @@ public class DayBookActivity extends AppCompatActivity {
         });
         popupMenu.show();
     }
+
+    public Calendar setDay(Calendar startDate){
+        startDate.set(Calendar.HOUR_OF_DAY,00);
+        startDate.set(Calendar.MINUTE, 00);
+        startDate.set(Calendar.SECOND, 00);
+        startDate.set(Calendar.MILLISECOND, 00);
+        return startDate;
+    }
+
     public  void calenderRangePicker(){
 
         BottomSheetDialog gstSheet = new BottomSheetDialog(DayBookActivity.this, R.style.BottomSheetDialogTheme);
