@@ -936,22 +936,14 @@
 
 
                             </LinearLayout>
-
-                            <ScrollView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
                                 <androidx.recyclerview.widget.RecyclerView
 
                                     android:id="@+id/invoiceItems"
-
                                     android:layout_width="match_parent"
 
-                                    android:layout_height="wrap_content">
-
-
+                                    android:layout_height="match_parent">
                                 </androidx.recyclerview.widget.RecyclerView>
 
-                            </ScrollView>
 
 
 
@@ -1093,6 +1085,8 @@
                             </LinearLayout>
 
                             <View
+                                android:id="@+id/bildetsLine"
+                                android:visibility="gone"
 
                                 android:layout_width="wrap_content"
 

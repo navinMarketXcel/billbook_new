@@ -1180,7 +1180,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             count = count-1;
                             if(count >= 0)
                             {
-                                count =0;
                                 binding.billDets.setText("Bills Details"+"("+count+")");
                                 billItemBinding.items.setText("Items"+"("+count+")");
                             }
@@ -1974,10 +1973,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void discVisible(View v)
     {
             TextView addDisc = findViewById(R.id.addDisc);
+            View bildetsLine = findViewById(R.id.bildetsLine);
             LinearLayout disc = findViewById(R.id.discountLayout);
             if(ischeckDisc)
             {
                 addDisc.setText("Cancel");
+                bildetsLine.setVisibility(View.VISIBLE);
                 disc.setVisibility(View.VISIBLE);
                 ischeckDisc=false;
          } else
@@ -1987,6 +1988,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 } else {
                     addDisc.setText("Add Discount");
                 }
+                bildetsLine.setVisibility(View.GONE);
                 disc.setVisibility(View.GONE);
                 ischeckDisc=true;
             }
