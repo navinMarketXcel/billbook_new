@@ -465,8 +465,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         {
                             Log.v("Gst Bills list",gstList.toString());
                             if(gstList.contains(s.toString())){
-
                                 binding.billNo.setError("Bill number already exist");
+
                                 binding.nextBtn.setVisibility(View.GONE);
                             } else{
                                 binding.nextBtn.setVisibility(View.VISIBLE);
@@ -478,6 +478,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             if(nonGstList.contains(s.toString())){
 
                                 binding.billNo.setError("Bill number already exist");
+
                                 binding.nextBtn.setVisibility(View.GONE);
                             } else{
                                 binding.nextBtn.setVisibility(View.VISIBLE);
@@ -499,6 +500,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
             }
         });
+
 
         binding.edtDiscountPercent.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -525,6 +527,23 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     // for autocompletion on search Item (addition of first item)
+    public void showAlertDialog()
+    {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
+        builder1.setMessage("Bill number already exist!");
+        builder1.setCancelable(true);
+
+        builder1.setPositiveButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
     private void searchItemAutoComplete() {
         try {
 //            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,demo);
@@ -1578,6 +1597,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             intent.putExtra("id",-1);
 
             intent.putExtra("idForItem",localInvoiceId);
+            intent.putExtra("isGstAvailable",isGSTAvailable);
 
 
 
@@ -1804,6 +1824,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
                             Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                            intent.putExtra("isGstAvailable",isGSTAvailable);
                             intent.putExtra("invoice", invoice.toString());
                             intent.putExtra("gstBillNo",isEdit ? object.getJSONObject("invoice").getInt("gstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("gstBillNo"));
                             intent.putExtra("nonGstBillNo",isEdit ? object.getJSONObject("invoice").getInt("nonGstBillNo") : body.getJSONObject("data").getJSONObject("invoice").getInt("nonGstBillNo"));
