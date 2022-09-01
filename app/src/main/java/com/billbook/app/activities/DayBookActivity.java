@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -45,6 +46,7 @@ import com.billbook.app.database.models.DayBook;
 import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
+import com.inmobi.media.et;
 
 
 import org.json.JSONArray;
@@ -78,6 +80,8 @@ public class DayBookActivity extends AppCompatActivity {
     final private String TAG = "DayBook";
     private ArrayList<DayBook> dayBookArrayList = new ArrayList<>();
     private int userId =0;
+    String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"};
+    String quart[] = {"Mar-May","JUN-AUG","SEP-NOV","DEC-FEB"};
     private String email;
     private float totalIn=0, totalOut;
     private DayBookAdapter dayBookAdapter;
@@ -130,6 +134,11 @@ public class DayBookActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         dayBookRV.setLayoutManager(mLayoutManager);
         dayBookRV.setItemAnimator(new DefaultItemAnimator());
+        final Calendar c = Calendar.getInstance();
+        String year = String.valueOf(c.get(Calendar.YEAR)).substring(2);
+        int mMonth = c.get(Calendar.MONTH);
+        int mDay = c.get(Calendar.DAY_OF_MONTH);
+        etCalender.setText("Today (" + mDay + " " + months[mMonth] + "'" + year + ")");
         try {
             JSONObject userProfile = new JSONObject(MyApplication.getUserDetails());
             userId = userProfile.getInt("userid");
@@ -306,18 +315,28 @@ public class DayBookActivity extends AppCompatActivity {
             }else if(menuItem.getItemId()==R.id.m_month){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                int month_Number = startDate.get(Calendar.MONTH);
+                String year = String.valueOf(startDate.get(Calendar.YEAR)).substring(2);
                 startDate.set(Calendar.DATE, 1);
                 startDate = setDay(startDate);
                 String strDate = myFormat.format(startDate.getTime());
                 String endsDate = myFormat.format(endDate.getTime());
+                startDateStr = strDate;
+                endDateStr = endsDate;
                 getDayBook(strDate,endsDate);
+                popupMenu.getMenu().findItem(R.id.m_month).setTitle("This Month " + "("+ months[month_Number] +"'"+ year + ")");
             }else if(menuItem.getItemId()==R.id.m_today){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                // startDate.add(Calendar.MONTH, -1);
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                String year = String.valueOf(startDate.get(Calendar.YEAR)).substring(2);
+                int mMonth = startDate.get(Calendar.MONTH);
+                int mDay = startDate.get(Calendar.DAY_OF_MONTH);
                 String strDate = myFormat.format(startDate.getTime());
                 String endsDate = myFormat.format(endDate.getTime());
+                startDateStr = strDate;
+                endDateStr = endsDate;
                 getDayBook(strDate,endsDate);
+                popupMenu.getMenu().findItem(R.id.m_today).setTitle("Today (" + mDay + " " +months[mMonth]  + "'" + year + ")");
             }else if(menuItem.getItemId()==R.id.m_week){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 int day = startDate.get(Calendar.DAY_OF_WEEK);
@@ -346,17 +365,29 @@ public class DayBookActivity extends AppCompatActivity {
                 }
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 startDate = setDay(startDate);
+                int mMonth = startDate.get(Calendar.MONTH);
+                int mDay = startDate.get(Calendar.DAY_OF_MONTH);
+                String year = String.valueOf(startDate.get(Calendar.YEAR)).substring(2);
                 String strDate = myFormat.format(startDate.getTime());
                 String endsDate = myFormat.format(endDate.getTime());
+                startDateStr = strDate;
+                endDateStr = endsDate;
                 getDayBook(strDate,endsDate);
+                popupMenu.getMenu().findItem(R.id.m_week).setTitle("This Week (" + mDay + " " +months[mMonth]  + "'" + year +"-"+ endDate.get(Calendar.DAY_OF_MONTH)+ " " +months[mMonth]  + "'" + year + ")");
             }else if(menuItem.getItemId()==R.id.m_quarter){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 startDate.add(Calendar.MONTH, -2);
                 startDate = setDay(startDate);
+                int quarter = startDate.get(Calendar.MONTH);
+                quarter = (quarter+2)/3;
+                String year = String.valueOf(startDate.get(Calendar.YEAR)).substring(2);
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 String strDate = myFormat.format(startDate.getTime());
                 String endsDate = myFormat.format(endDate.getTime());
+                startDateStr = strDate;
+                endDateStr = endsDate;
                 getDayBook(strDate,endsDate);
+                popupMenu.getMenu().findItem(R.id.m_quarter).setTitle("This Quarter (" + quart[quarter] + ")" +  "'" + year);
             }else if(menuItem.getItemId()==R.id.m_year){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 startDate.set(Calendar.MONTH,00);
@@ -365,7 +396,10 @@ public class DayBookActivity extends AppCompatActivity {
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 String strDate = myFormat.format(startDate.getTime());
                 String endsDate = myFormat.format(endDate.getTime());
+                startDateStr = strDate;
+                endDateStr = endsDate;
                 getDayBook(strDate,endsDate);
+                popupMenu.getMenu().findItem(R.id.m_year).setTitle("This Year (" + endDate.get(Calendar.YEAR) + ")");
             }
             edt.setText(menuItem.getTitle());
             Toast.makeText(DayBookActivity.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
