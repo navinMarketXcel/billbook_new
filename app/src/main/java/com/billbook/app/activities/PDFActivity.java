@@ -29,6 +29,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -263,6 +264,24 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                        /* pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));*/
                     } else {
+                        if(!isGSTAvailable)
+                        {
+                            LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,5.0f);
+                            LinearLayout.LayoutParams prodLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.05f);
+                            LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,2.09f);
+                            LinearLayout.LayoutParams qtyLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.04f);
+                            LinearLayout.LayoutParams rateLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.049f);
+
+                            //buttonLayoutParams.setMargins(10, 10, 10, 10);
+
+                            pdfBinding.amtBill.setLayoutParams(buttonLayoutParams);
+                            pdfBinding.productNumber.setLayoutParams(prodLayoutParams);
+                            pdfBinding.productLabel.setLayoutParams(itemLayoutParams);
+                            pdfBinding.qtyBill.setLayoutParams(qtyLayoutParams);
+                            pdfBinding.rateBill.setLayoutParams(rateLayoutParams);
+//                            TextView tv = findViewById(R.id.tvAmount);
+//                            tv.setLayoutParams(buttonLayoutParams);
+                        }
                         pdfBinding.IGST.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.GONE);
                         pdfBinding.SGST.setVisibility(View.GONE);

@@ -302,7 +302,15 @@ public class DayBookActivity extends AppCompatActivity {
 //            Log.i(TAG, "sendReportBtnClick: Email => " + email);
 //        else
 //            DialogUtils.showToast(DayBookActivity.this,"Please update your email address in profile");
-        sendReport(startDateStr,endDateStr,email);
+        if(email.equals("") || email.isEmpty())
+        {
+            Toast.makeText(this, "Please Update Your Email in Profile Section", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            sendReport(startDateStr,endDateStr,email);
+        }
+
 
     }
 
