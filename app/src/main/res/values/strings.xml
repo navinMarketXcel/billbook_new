@@ -488,4 +488,5 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="add_new_item">Add New Item</string>
     <string name="gujarati" translatable="false">Gujrati</string>
     <string name="marathi" translatable="false">Marathi</string>
+    <string name="select_date">Select Date</string>
 </resources>

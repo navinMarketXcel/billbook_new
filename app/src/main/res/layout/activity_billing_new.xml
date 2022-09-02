@@ -145,7 +145,7 @@
 
                     android:fontFamily="@font/inter"
 
-                    android:text="Help"
+                    android:text="@string/help"
 
                     android:textColor="@color/white">
 
@@ -214,7 +214,7 @@
 
                     android:fontFamily="@font/inter"
 
-                    android:text="Demo"
+                    android:text="@string/demo"
 
                     android:textColor="@color/white">
 
@@ -955,7 +955,7 @@
 
                                     android:fontFamily="@font/inter"
 
-                                    android:text="Bill Details"
+                                    android:text="@string/bill_details"
 
                                     android:textColor="@color/black"
 
@@ -1388,7 +1388,7 @@
 
                 android:onClick="onClickViewDets"
 
-                android:text="View details"
+                android:text="@string/view_details"
 
                 android:textColor="#266CE4"
 

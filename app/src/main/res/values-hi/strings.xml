@@ -276,8 +276,8 @@
     <string name="add_expenses">Add Expenses</string>
     <string name="items">आइटम </string>
     <string name="mobile_noo">Mobile Number</string>
-    <string name="scan"><font color='#266CE4'>Scan</font></string>
-    <string name="share_">Share</string>
+    <string name="scan"><font color='#266CE4'>स्कैन</font></string>
+    <string name="share_">शेयर</string>
     <string name="description">खर्च के बारे में विवरण<font color='#ff0000'>*</font> </string>
     <string name="expense_amount">राशि (₹)<font color='#ff0000'>*</font></string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -374,4 +374,5 @@
     <string name="product_or_service_provided">उत्पाद या सेवा प्रदान की गई</string>
     <string name="number_of_units_sold">बेची गई इकाइयों की संख्या</string>
     <string name="add_new_item">नया आइटम जोड़ें</string>
+    <string name="select_date">तारीख़ चुनें</string>
 </resources>

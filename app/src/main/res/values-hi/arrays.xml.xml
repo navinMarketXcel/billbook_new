@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="today">Today</string>
+    <string name="last_7_Days">Last 7 Days</string>
+    <string name="Last_30_Days">Last 30 Days</string>
+    <string name="this_Month">This Month</string>
+    <string name="last_Month">Last Month</string>
+</resources>

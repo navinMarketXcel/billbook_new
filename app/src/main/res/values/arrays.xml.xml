@@ -49,12 +49,12 @@
         <item>Day</item>
     </string-array>
     <string-array name="dateCalender">
-        <item>Select Date</item>
-        <item>Today</item>
-        <item>Last 7 Days</item>
-        <item>Last 30 Days</item>
-        <item>This Month</item>
-        <item>Last Month</item>
+        <item>@string/select_date</item>
+        <item>@string/today</item>
+        <item>@string/last_7_Days</item>
+        <item>@string/Last_30_Days</item>
+        <item>@string/this_Month</item>
+        <item>@string/last_Month</item>
         <item>Custom Period</item>
     </string-array>
 
@@ -151,4 +151,9 @@
         <item>West bengal</item>
 
     </string-array>
+    <string name="today">Today</string>
+    <string name="last_7_Days">Last 7 Days</string>
+    <string name="Last_30_Days">Last 30 Days</string>
+    <string name="this_Month">This Month</string>
+    <string name="last_Month">Last Month</string>
 </resources>

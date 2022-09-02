@@ -86,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/inter"
-                        android:text="Help">
+                        android:text="@string/help">
 
                     </TextView>
                 </LinearLayout>
@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:fontFamily="@font/inter"
-                        android:text="Demo">
+                        android:text="@string/demo">
 
                     </TextView>
 
@@ -201,7 +201,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
                         android:layout_weight="3"
-                        android:hint="Select Date"
+                        android:hint="@string/select_date"
                         android:background="@drawable/spinnerbg"
                         android:drawableLeft="@drawable/ic_calendar_today"
                         android:drawablePadding="5dp"

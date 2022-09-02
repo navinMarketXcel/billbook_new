@@ -142,7 +142,7 @@
 
                     android:fontFamily="@font/inter"
 
-                    android:text="Help">
+                    android:text="@string/help">
 
 
                 </TextView>
@@ -212,7 +212,7 @@
 
                     android:fontFamily="@font/inter"
 
-                    android:text="Demo">
+                    android:text="@string/demo">
 
 
                 </TextView>
@@ -254,7 +254,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/pdf_format_structure"
-                    android:text="Short Format"
+                    android:text="@string/short_format"
                     android:textColor="@color/black" />
             </LinearLayout>
             <LinearLayout
@@ -273,7 +273,7 @@
                     android:layout_marginRight="130dp"
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/pdf_format_structure"
-                    android:text="Long Format"
+                    android:text="@string/long_format"
                     android:textColor="@color/black" />
             </LinearLayout>
         </LinearLayout>
@@ -357,7 +357,7 @@
             android:layout_gravity="top"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:text="Home"
+            android:text="@string/home"
             android:textStyle="bold"
             android:textColor="@color/white"/>
 
