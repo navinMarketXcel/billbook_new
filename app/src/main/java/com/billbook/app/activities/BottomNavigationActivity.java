@@ -61,7 +61,13 @@ TextView txtToolBarTitle;
         });
     }
 
-    public void addFragment( Fragment frag) {
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+    }
+
+    public void addFragment(Fragment frag) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.add(R.id.fragment_container, frag);

@@ -374,9 +374,9 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 bd.setVisibility(View.GONE);
 
 //
-                invoicesList = (ArrayList<InvoicesData>)jsonArrayToList(invoices).stream().sorted(Comparator.comparing(InvoicesData::getNonGstBillNo)).collect(Collectors.toList());
+                invoicesList = (ArrayList<InvoicesData>)jsonArrayToList(invoices).stream().sorted(Comparator.comparing(InvoicesData::getBillNo)).collect(Collectors.toList());
                 for (int i=0;i<invoicesList.size();i++){
-                    System.out.println(invoicesList.get(i).getTotalAmount());
+                    System.out.println("BillNO:" + invoicesList.get(i).getBillNo() + " ,Amount" + invoicesList.get(i).getTotalAmount());
                 }
                 searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());

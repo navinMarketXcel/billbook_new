@@ -56,6 +56,8 @@ public class InvoicesData {
     @Expose
     public List<MasterItem> masterItems = null;
 
+    public Integer billNo;
+
     public boolean isCheck() {
         return isCheck;
     }
@@ -99,6 +101,9 @@ public class InvoicesData {
     }
 
     public void setGstBillNo(Integer gstBillNo) {
+        if(gstBillNo != 0){
+            this.billNo = gstBillNo;
+        }
         this.gstBillNo = gstBillNo;
     }
 
@@ -107,6 +112,9 @@ public class InvoicesData {
     }
 
     public void setNonGstBillNo(Integer nonGstBillNo) {
+        if(nonGstBillNo != 0){
+            this.billNo = nonGstBillNo;
+        }
         this.nonGstBillNo = nonGstBillNo;
     }
 
@@ -213,4 +221,5 @@ public class InvoicesData {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+    public Integer getBillNo() {return billNo; }
 }
