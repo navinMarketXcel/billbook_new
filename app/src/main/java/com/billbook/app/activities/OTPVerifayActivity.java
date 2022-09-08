@@ -30,7 +30,7 @@ public class OTPVerifayActivity extends AppCompatActivity {
 ImageView ivToolBarBack;
 EditText etOTP;
 Button btnVerify;
-String mobileNumber;
+String mobileNumber, userid;
 TextView txtOTPMobile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ TextView txtOTPMobile;
         etOTP = findViewById(R.id.etOTP);
         btnVerify = findViewById(R.id.btnVerify);
         txtOTPMobile = findViewById(R.id.txtOTPMobile);
+        userid = getIntent().getStringExtra("userid");
 
 
         mobileNumber = getIntent().getExtras().getString("mobileNo");
@@ -58,7 +59,7 @@ TextView txtOTPMobile;
     }
     private boolean verifyData() {
 
-        if (etOTP.getText().toString().isEmpty()) {
+        if (etOTP.getText().toString().isEmpty() || etOTP.getText().toString().length() < 6) {
             etOTP.setError( "Invalid OTP");
             return false;
         }
@@ -72,6 +73,8 @@ TextView txtOTPMobile;
         Map<String, String> req = new HashMap<>();
         req.put("mobileNo", mobileNumber);
         req.put("otp", etOTP.getText().toString());
+        req.put("userid",userid);
+        req.put("updateMobileNo","updateMobileNo");
         headerMap.put("Content-Type", "application/json");
 
         Call<Object> call = apiService.verifyOTP((HashMap<String, String>) req);

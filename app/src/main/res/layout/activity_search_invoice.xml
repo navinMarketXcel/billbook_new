@@ -173,7 +173,7 @@
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/ic_search_white_24dp"
                         style="@style/editText"
-                        android:hint="Enter Mobile No Or Customer Name"
+                        android:hint="@string/enter_contact__no_and_name"
                         android:inputType="text"
                         android:maxLength="10"
                         android:padding="5dp" />

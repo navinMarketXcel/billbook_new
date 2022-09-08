@@ -419,7 +419,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     shortBillLayoutBinding.edtMobNo.setText(custNo == null ?" ":custNo);
                     shortBillLayoutBinding.edtName.setText(custName == null ?" ":custName);
                     Log.v("Invoi4", String.valueOf(invoice));
-                    if(custAdd == null){
+                    if(custAdd == null ||  custAdd.length() == 0){
                         shortBillLayoutBinding.edtAddressLayout.setVisibility(View.GONE);
                     }else {
                         shortBillLayoutBinding.edtAddress.setText(custAdd == null?" ":custAdd);

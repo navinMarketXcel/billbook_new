@@ -74,6 +74,7 @@ Button btnSave;
             e.printStackTrace();
         }
         Log.v("Profile ", profile.toString());
+        etPhone.setEnabled(false);
         setonClick();
         setUserData();
     }
@@ -82,7 +83,13 @@ Button btnSave;
             finish();
         });
         changePhone.setOnClickListener(v -> {
+            finish();
             Intent intent = new Intent(ContactDetailsActivity.this, EditMobileNoActivity.class);
+            try {
+                intent.putExtra("userid",String.valueOf(profile.getLong("userid")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             startActivity(intent);
         });
         btnSave.setOnClickListener(v -> {

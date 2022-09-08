@@ -249,7 +249,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
     }
 
     public void gotoDeleteExpense(Expense data){
-        DialogUtils.showAlertDialog((Activity) ExpenseActivity.this, "Yes", "No", "Are you sure you want to delete this expense", new DialogUtils.DialogClickListener() {
+        DialogUtils.showAlertDialog(ExpenseActivity.this, getResources().getString(R.string.yes), getResources().getString(R.string.no), getResources().getString(R.string.expense_delete_button), new DialogUtils.DialogClickListener() {
             @Override
             public void positiveButtonClick() {
                 Call<Object> call = null;

@@ -2,6 +2,7 @@ package com.billbook.app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ public class EditMobileNoActivity extends AppCompatActivity {
 ImageView ivToolBarBack;
 EditText etPhone;
 Button btnGetOtp;
+String userid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,7 @@ Button btnGetOtp;
         ivToolBarBack = findViewById(R.id.ivToolBarBack);
         etPhone = findViewById(R.id.etPhone);
         btnGetOtp = findViewById(R.id.btnGetOtp);
-
+        userid = getIntent().getStringExtra("userid");
         setonClick();
     }
     public void setonClick(){
@@ -61,9 +63,10 @@ Button btnGetOtp;
                     ApiClient.getClient(this).create(ApiInterface.class);
             Map<String, String> headerMap = new HashMap<>();
             Map<String, String> req = new HashMap<>();
-
+            Log.v("Userid",userid);
             req.put("mobileNo",etPhone.getText().toString());
             req.put("isUpdateMobileNo","true");
+            req.put("userid",userid);
             headerMap.put("Content-Type", "application/json");
 
             Call<Object> call = apiService.getOTP((HashMap<String, String>) req);
@@ -95,9 +98,10 @@ Button btnGetOtp;
     }
     private void startOTPActivity(String otp) {
         try {
-
+            finish();
             Intent intent = new Intent(EditMobileNoActivity.this, OTPVerifayActivity.class);
             intent.putExtra("mobileNo",etPhone.getText().toString());
+            intent.putExtra("userid",userid);
             startActivity(intent);
 
         } catch (Exception e) {

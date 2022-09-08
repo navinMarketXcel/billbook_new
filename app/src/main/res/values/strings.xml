@@ -460,6 +460,9 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="number_of_units_sold">Number of units sold</string>
     <string name="imei_serial_number">IMEI/Serial Number</string>
     <string name="placeholder_text">Placeholder Text</string>
+    <string name= "billing_back_button"> Are you sure you want to cancel bill</string>
+    <string name= "billing_delete_button"> Confirm if you want to delete this bill</string>
+    <string name= "expense_delete_button"> Confirm if you want to delete this expense</string>
     <string name="add_item">Add Item</string>
     <string name="amount_to_add">Amount to add</string>
     <string name="description_about_expense">Description about expense</string>
@@ -489,4 +492,5 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="gujarati" translatable="false">Gujrati</string>
     <string name="marathi" translatable="false">Marathi</string>
     <string name="select_date">Select Date</string>
+    <string name="enter_contact__no_and_name"> Enter Customer Name or Mobile Name</string>
 </resources>

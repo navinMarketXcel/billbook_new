@@ -168,7 +168,7 @@
     <string name="otherCatEnter">कोई अन्य, कृपया बताएं</string>
     <string name="otherCatMSgPopUp">रजिस्ट्रेशन फॉर्म भरने के लिए धन्यवाद, फ़िलहाल हमारे ऐप में आपकी विशिष्ट प्रोडक्ट कैटेगरी नहीं है. इस कैटेगरी को अपनी लिस्ट में शामिल करने के बाद हम निश्चित रूप से आपसे संपर्क करेंगे. </string>
     <string name="registrationSuccess">रजिस्ट्रेशन सफल हुआ</string>
-    <string name="recent_bills">हाल के बिलs</string>
+    <string name="recent_bills">हाल के बिल</string>
     <string name="termsandContion">\t बिल बुक ऐप का इस्तेमाल करके आप निम्नलिखित नियम और शर्तों से बाध्य होने की सहमति दे रहे हैं
  (“सर्विस की शर्तें”).
 
@@ -320,11 +320,13 @@
     <string name="browse">Browse</string>
     <string name="signature">Signature</string>
     <string name="upload_your_signature">Upload your signature</string>
-    <string name="change">Change</string>
+    <string name="change">बदलना</string>
     <string name="edit_number">Edit Number</string>
     <string name="get_otp">Get OTP</string>
     <string name="enter_otp">Enter OTP</string>
     <string name="otp_sent">OTP sent to 9897767646</string>
+    <string name= "billing_delete_button">पुष्टि करें कि क्या आप इस बिल को हटाना चाहते हैं</string>
+    <string name= "expense_delete_button">पुष्टि करें कि क्या आप इस व्यय को हटाना चाहते है</string>
     <string name="verify">Verify</string>
     <string name="select">चुने</string>
     <string name="choose_period">अवधि चुनें</string>
@@ -338,8 +340,9 @@
     <string name="english">English</string>
     <string name="hindi">Hindi</string>
     <string name="hindi_l">हिन्दी</string>
-    <string name="imei_serial_number">IMEI/Serial Number</string>
-    <string name="placeholder_text">Placeholder Text</string>
+    <string name="imei_serial_number">IMEI/क्रमिक संख्या</string>
+    <string name="placeholder_text"> IMEI/क्रमिक संख्या दर्ज करें</string>
+    <string name= "billing_back_button"> क्या आप वाकई बिल रद्द करना चाहते हैं</string>>
     <string name="add_item">आइटम जोड़ें</string>
     <string name="amount_to_add">जोड़ने के लिए राशि</string>
     <string name="description_about_expense">खर्च के बारे में विवरण</string>
@@ -375,4 +378,5 @@
     <string name="number_of_units_sold">बेची गई इकाइयों की संख्या</string>
     <string name="add_new_item">नया आइटम जोड़ें</string>
     <string name="select_date">तारीख़ चुनें</string>
+    <string name="enter_contact__no_and_name"> मोबाइल नंबर या ग्राहक का नाम दर्ज करें</string>
 </resources>

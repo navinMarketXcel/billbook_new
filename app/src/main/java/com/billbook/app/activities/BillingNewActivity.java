@@ -211,7 +211,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     public void setonClick(){
         binding.ivToolBarBack.setOnClickListener(v -> {
-            DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to cancel the bill?", new DialogUtils.DialogClickListener() {
+            DialogUtils.showAlertDialog(BillingNewActivity.this, getResources().getString(R.string.yes), getResources().getString(R.string.no), getResources().getString(R.string.billing_back_button), new DialogUtils.DialogClickListener() {
                 @Override
                 public void positiveButtonClick() {
                     finish();

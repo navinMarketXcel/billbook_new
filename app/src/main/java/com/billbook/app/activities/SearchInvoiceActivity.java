@@ -136,8 +136,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                edtMobileNo.setText("");
                 if(adapterView.getItemAtPosition(i).equals("Custom Period")) {
-
                     BottomSheetDialog gstSheet = new BottomSheetDialog(SearchInvoiceActivity.this, R.style.BottomSheetDialogTheme);
                     View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_date_range_picker,null);
                     CalendarPicker calendarPicker = bottomSheet. findViewById(R.id.calendar_view);
@@ -221,8 +221,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     String endsDate = myFormat1.format(endDate.getTime());
                     getInvoicesCallSearch(strDate,endsDate);
                 }
-
-
             }
 
             @Override
@@ -922,7 +920,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         }
     }
     public void gotodeletebills(InvoicesData data) {
-        DialogUtils.showAlertDialog((Activity) SearchInvoiceActivity.this, "Yes", "No", "Confirm if you want to Delete this bill", new DialogUtils.DialogClickListener() {
+        DialogUtils.showAlertDialog(SearchInvoiceActivity.this, getResources().getString(R.string.yes), getResources().getString(R.string.no), getResources().getString(R.string.billing_delete_button), new DialogUtils.DialogClickListener() {
             @Override
             public void positiveButtonClick() {
                 if (Util.isNetworkAvailable(SearchInvoiceActivity.this)) {
