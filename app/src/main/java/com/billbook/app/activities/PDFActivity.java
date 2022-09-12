@@ -1148,7 +1148,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", pdfFile.getName(), RequestBody.create(MediaType.parse("*/*"), pdfFile));
 
         Call<Object> call = apiService.updateInvoicePdf(headerMap, invID, filePart);
-
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -1224,7 +1223,6 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 setDataAfterInvoiceItems(invoiceItems, context, isGSTAvailable, recyclerViewInvoiceProducts, GSTType);
                 loadAndSetCompanyLogo();
                 loadAndSetSignatureImage();
-                createPdfWrapper();
             } catch (Exception e) {
                 e.printStackTrace();
             }
