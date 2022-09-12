@@ -154,6 +154,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private String networkType;
     private String networkSpeed,apiName;
     private TextView viewDets;
+    private  int countIsEdit =0 ;
     // idInLocalDb = column with name "id" in local db android
 
     @Override
@@ -889,6 +890,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         binding.billDets.setText("Bill details"+"("+count+")");
         billItemBinding.items.setText("Items"+"("+count+")");
         //additemTv.setText("Add New Item");
+        countIsEdit = count;
     }
 
     public void addItem() {
@@ -905,6 +907,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 binding.billDets.setText("Bill details"+"("+count+")");
                 billItemBinding.items.setText("Items"+"("+count+")");
             }
+            countIsEdit = count;
 
             TextView tv1 = findViewById(R.id.items);
             tv1.setVisibility(View.VISIBLE);
@@ -969,7 +972,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     private void getInvoiceItemsFromDatabase(){
-
         invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
         invoiceItemViewModel.getInvoiceItems(localInvoiceId).observe(this, new Observer<List<InvoiceItems>>() {
             @Override
@@ -980,8 +982,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 // invoiceItemsList = invoiceItems;
                 newBillingAdapter = new NewBillingAdapter(invoiceItemsList, BillingNewActivity.this, isGSTAvailable,BillingNewActivity.this);
                 binding.invoiceItems.setAdapter(newBillingAdapter);
-                invoiceItemsList.clear();
                 for(int i =0;i<invoiceItems.size();i++)invoiceItemsList.add(invoiceItems.get(i));
+                invoiceItemsList.clear();
             }
         });
     }
@@ -1964,6 +1966,19 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 isEdit = true;
                 invoice = new JSONObject(getIntent().getStringExtra("invoice"));
                 Log.v("EditINV", invoice.toString());
+                count = invoiceItemEditModel.size() - 1;
+                Log.v("in voice lst",String.valueOf(invoiceItemEditModel));
+                if(invoiceItemEditModel.size() == 0)
+                {
+                    count = 0;
+                }
+                else
+                {
+                    count = invoiceItemEditModel.size() + 1;
+                }
+
+                binding.billDets.setText("Bill details"+"("+count+")");
+                billItemBinding.items.setText("Items"+"("+count+")");
                 isGSTAvailable = !invoice.getString("gstType").isEmpty();
                 if (isGSTAvailable)
                 {

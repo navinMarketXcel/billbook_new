@@ -1082,6 +1082,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
 
 
+
         startActivity(intent);
 
     }

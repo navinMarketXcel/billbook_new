@@ -143,6 +143,7 @@ public class DayBookActivity extends AppCompatActivity {
             JSONObject userProfile = new JSONObject(MyApplication.getUserDetails());
             userId = userProfile.getInt("userid");
             email = userProfile.isNull("email")?null:userProfile.getString("email");
+           // Log.v("email",email);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -302,7 +303,7 @@ public class DayBookActivity extends AppCompatActivity {
 //            Log.i(TAG, "sendReportBtnClick: Email => " + email);
 //        else
 //            DialogUtils.showToast(DayBookActivity.this,"Please update your email address in profile");
-        if(email.equals("") || email.isEmpty())
+        if(email == null || email.isEmpty() )
         {
             Toast.makeText(this, "Please Update Your Email in Profile Section", Toast.LENGTH_LONG).show();
         }
@@ -509,8 +510,11 @@ public class DayBookActivity extends AppCompatActivity {
                             String downloadLink = data.getString("dayBookLink");
                             if(!downloadLink.contains("https://"))
                                 downloadLink = downloadLink.replace("http://", "https://");
-                            String path = data.getString("dayBookLink").split("/")[4];
+                            String path = data.getString("dayBookLink").split("/")[3];
+                            Log.v("path1",path);
+                            //String path = data.getString("dayBookLink");
                             if(downloadLink!=null){
+
                                 List<String>downloadList = new ArrayList<String>();
                                 downloadList.add(downloadLink.toString());
                                 startDownloading(downloadList,path);
