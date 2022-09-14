@@ -887,8 +887,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             count = invoiceItemsList.size() + 1;
         }
 
-        binding.billDets.setText("Bill details"+"("+count+")");
-        billItemBinding.items.setText("Items"+"("+count+")");
+//        binding.billDets.setText("Bill details"+"("+count+")");
+//        billItemBinding.items.setText("Items"+"("+count+")");
         //additemTv.setText("Add New Item");
         countIsEdit = count;
     }
@@ -980,10 +980,15 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 // newBillingAdapter = new NewBillingAdapter(invoiceItems, BillingNewActivity.this, isGSTAvailable);
                 // binding.invoiceItems.setAdapter(newBillingAdapter);
                 // invoiceItemsList = invoiceItems;
+                invoiceItemsList.clear();
+                for(int i =0;i<invoiceItems.size();i++)
+                    invoiceItemsList.add(invoiceItems.get(i));
+                binding.billDets.setText("Bill details"+"("+invoiceItemsList.size()+")");
+                billItemBinding.items.setText("Items"+"("+invoiceItemsList.size()+")");
+
                 newBillingAdapter = new NewBillingAdapter(invoiceItemsList, BillingNewActivity.this, isGSTAvailable,BillingNewActivity.this);
                 binding.invoiceItems.setAdapter(newBillingAdapter);
-                for(int i =0;i<invoiceItems.size();i++)invoiceItemsList.add(invoiceItems.get(i));
-                invoiceItemsList.clear();
+
             }
         });
     }

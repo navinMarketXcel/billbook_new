@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.billbook.app.R;
 import com.billbook.app.activities.BusinessDetailsActivity;
@@ -104,6 +105,24 @@ public class ProfileFragment extends Fragment {
         ivUserProfile = view.findViewById(R.id.ivUserProfile);
         switchGst = view.findViewById(R.id.switchGst);
         switchGst.setChecked(false);
+//        try {
+//            profile = new JSONObject(((MyApplication) getActivity().getApplication()).getUserDetails());
+//            userid = profile.getLong("userid");
+//            Log.v("Profile ", profile.toString());
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+
+        setonClick();
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         try {
             profile = new JSONObject(((MyApplication) getActivity().getApplication()).getUserDetails());
             userid = profile.getLong("userid");
@@ -112,10 +131,7 @@ public class ProfileFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        setonClick();
         setUserData();
-        return view;
     }
 
     public void setonClick(){
@@ -166,12 +182,22 @@ public class ProfileFragment extends Fragment {
 
         switchGst.setOnClickListener(v -> {
             try {
-                if(switchGst.isChecked()){
-                    updateUserAPI("1",true);
-                }else{
+                String gstNo = profile.getString("gstNo");
+                Log.v("gstno",gstNo);
+                if(gstNo.isEmpty())
+                {
+                    switchGst.setChecked(false);
+                    Toast.makeText(getContext(), "Please Update Gst No", Toast.LENGTH_SHORT).show();
                     updateUserAPI("0",false);
                 }
-            } catch (IOException e) {
+                else
+                {
+                    if(switchGst.isChecked()){
+                        updateUserAPI("1",true);
+                    }
+                }
+
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
         });
@@ -194,14 +220,22 @@ public class ProfileFragment extends Fragment {
                         .error(R.drawable.man_new)
                         .into(ivUserProfile);
             }
-            if (profile.has("isGST")) {
-                isGst=profile.getInt("isGST");
-                if(isGst==1){
+            if (profile.has("gstNo")) {
+                String GstNo=profile.getString("gstNo");
+                if(!GstNo.isEmpty()){
                     switchGst.setChecked(true);
                 }else{
                     switchGst.setChecked(false);
                 }
             }
+//            if (profile.has("isGST")) {
+//                isGst=profile.getInt("isGST");
+//                if(isGst==1){
+//                    switchGst.setChecked(true);
+//                }else{
+//                    switchGst.setChecked(false);
+//                }
+//            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
