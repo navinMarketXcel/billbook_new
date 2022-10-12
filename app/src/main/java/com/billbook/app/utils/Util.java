@@ -1,9 +1,12 @@
 package com.billbook.app.utils;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.icu.text.DecimalFormat;
 import android.net.ConnectivityManager;
@@ -20,11 +23,13 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.billbook.app.R;
 import com.billbook.app.activities.BillingNewActivity;
 import com.billbook.app.activities.BottomNavigationActivity;
+import com.billbook.app.activities.LoginActivity;
 import com.billbook.app.activities.MyApplication;
 import com.billbook.app.activities.PDFActivity;
 import com.billbook.app.database.models.Model;
@@ -77,6 +82,45 @@ public class Util {
         else
             return false;
     }
+    public static void dailyLogout(AppCompatActivity sourceActivity)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        String currentDate = sdf.format(c.getTime());
+        System.out.println("currentDate"+currentDate);
+
+        if(currentDate.equals(MyApplication.getScheduleDate())){
+            MyApplication.setLogoutDaily(false);
+        }else{
+            MyApplication.setLogoutDaily(true);
+        }
+
+        int mHours = c.get(Calendar.HOUR_OF_DAY);
+        System.out.println("currentDate mHours"+mHours);
+        if(mHours >= 3 && MyApplication.getLogoutDaily()) {
+            SharedPreferences sharedPref = sourceActivity.getApplicationContext().getSharedPreferences(sourceActivity.getString(R.string.preference_file_key), MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.clear();
+            editor.apply();
+            Intent intentObj = new Intent(sourceActivity, LoginActivity.class);
+            sourceActivity.startActivity(intentObj);
+            sourceActivity.finish();
+            MyApplication.saveScheduleLogOutDate(currentDate);
+            clearAllTables(sourceActivity);
+        }
+    }
+
+    public static void clearAllTables(Context context) {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                MyApplication.getDatabase().clearAllTables();
+            }
+        };
+        thread.start();
+    }
+
 
     public static String getRandamNo() {
         double x = Math.random();

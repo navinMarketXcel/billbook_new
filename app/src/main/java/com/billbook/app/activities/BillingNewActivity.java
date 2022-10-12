@@ -1489,6 +1489,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     public void gotoPDFActivity(View v) {
+        Util.dailyLogout(BillingNewActivity.this);
         startPDFActivity();
     }
 
@@ -1577,13 +1578,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         try {
 
-            //there is some use of makeing invoiceid = -1 in backend
-
             invoiceViewModel.updateInvoiceId(localInvoiceId,-1);
 
             DialogUtils.showToast(this, "Invoice saved in offline mode.");
-
-
 
             JSONObject data = new JSONObject();
 
@@ -2136,6 +2133,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     @Override
     protected void onResume() {
         super.onResume();
+        Util.dailyLogout(BillingNewActivity.this);
         // isFirstReq == 0, to finish() BillingNewActivity only after evaluating the response in onActivityResult if storage permission isn't allowed i.e after executing StoragePermissionRequestActivity
         if (checkPermission() == false && isFirstReq==0) finish();
     }

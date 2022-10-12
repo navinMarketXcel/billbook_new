@@ -92,6 +92,54 @@ public class MyApplication extends Application {
         editor.putString(context.getString(R.string.user_login_token), token);
         editor.commit();
     }
+    public static Boolean getLogout() {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
+        Boolean userLogoutToken = sharedPref.getBoolean("userLogoutToken", true);
+        return userLogoutToken;
+
+    }
+    public static void setLogout(Boolean bool) {
+        SharedPreferences sharedPref =
+                context.getSharedPreferences(context.getString(R.string.preference_file_key),
+                        context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("userLogoutToken", bool);
+        editor.commit();
+    }
+    public static Boolean getLogoutDaily() {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
+        Boolean userLogoutToken = sharedPref.getBoolean("userLogoutTokenDaily", true);
+        return userLogoutToken;
+
+    }
+    public static void saveScheduleLogOutDate(String scheduleDate) {
+        SharedPreferences sharedPref =
+                context.getSharedPreferences(context.getString(R.string.preference_file_key),
+                        context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(context.getString(R.string.schedule_date), scheduleDate);
+        editor.commit();
+    }
+
+    public static String getScheduleDate() {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
+        String scheduleDate = sharedPref.getString(context.getString(R.string.schedule_date), "");
+        return scheduleDate;
+
+    }
+
+    public static void setLogoutDaily(Boolean bool) {
+        SharedPreferences sharedPref =
+                context.getSharedPreferences(context.getString(R.string.preference_file_key),
+                        context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("userLogoutTokenDaily", bool);
+        editor.commit();
+    }
+
 
 
 

@@ -54,6 +54,7 @@
     <string name="ct_enter_address">Customer Address(optional)</string>
     <string name="ct_enter_address_otp">Customer Address</string>
     <string name="enter_city">Enter City Here</string>
+    <string name="schedule_date" translatable="false">scheduleDate</string>
 
     <string name="enter_pinCode">Enter Pin Code Here</string>
     <string name="enter_state">Enter State Here</string>

@@ -53,6 +53,9 @@ import com.billbook.app.networkcommunication.DialogUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -80,6 +83,9 @@ public class OTPActivity extends AppCompatActivity {
     private TextView etMobNo;
     private Button btnRegister;
     TextView timer,btnResend;
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+
     private InstallReferrerClient referrerClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -322,6 +328,12 @@ public class OTPActivity extends AppCompatActivity {
         Intent intent = new Intent(this, BottomNavigationActivity.class);
         intent.putExtra("mobileNo",mobilNo);
         startActivity(intent);
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        String currentDate = sdf.format(c.getTime());
+        MyApplication.setLogoutDaily(false);
+        MyApplication.saveScheduleLogOutDate(currentDate);
+
     }
 
 

@@ -595,6 +595,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onResume() {
         super.onResume();
+        Util.dailyLogout(SearchInvoiceActivity.this);
         try {
             getInvoicesCall();
         } catch (Exception e) {

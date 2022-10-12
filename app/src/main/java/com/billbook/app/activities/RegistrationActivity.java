@@ -31,8 +31,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -50,6 +53,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private ArrayAdapter<String> stateAdpater;
     private JSONArray citiesJSONArray = null;
     private String mobileNoText,OTP, state, city, referrer_link;
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     private ActivityRegistrationBinding binding;
 
@@ -210,6 +214,12 @@ public class RegistrationActivity extends AppCompatActivity {
         Log.i(TAG, "startHomeActivity:");
         Intent intent = new Intent(this, BottomNavigationActivity.class);
         startActivity(intent);
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        String currentDate = sdf.format(c.getTime());
+        MyApplication.setLogoutDaily(false);
+        MyApplication.saveScheduleLogOutDate(currentDate);
+
 
     }
 

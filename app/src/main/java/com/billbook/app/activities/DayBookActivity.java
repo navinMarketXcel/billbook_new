@@ -6,7 +6,10 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Color;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;
@@ -19,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -46,6 +50,8 @@ import com.billbook.app.database.models.DayBook;
 import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.inmobi.media.et;
 
 
@@ -76,6 +82,8 @@ public class DayBookActivity extends AppCompatActivity {
     private TextView startDateTV,endDateTV,totalExpenseTV;
     private RecyclerView dayBookRV;
     private Date starDate,endDate;
+    private int hasWriteStoragePermission, isFirstReq = 1;
+    private final int GRANT_STORAGE_PERMISSION =1;
     private String startDateStr,endDateStr;
     final private String TAG = "DayBook";
     private ArrayList<DayBook> dayBookArrayList = new ArrayList<>();
@@ -98,6 +106,7 @@ public class DayBookActivity extends AppCompatActivity {
         // getSupportActionBar().setDisplayShowHomeEnabled(true);
         //  setTitle("Day Book");
         initUI();
+        internalStoragePermission();
         SimpleDateFormat myFormat1 = new SimpleDateFormat("yyyy-MM-dd");
         startDateStr = myFormat1.format(new Date());
         endDateStr = myFormat1.format(new Date());
@@ -297,6 +306,45 @@ public class DayBookActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    public boolean checkPermission() {
+        hasWriteStoragePermission = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        return hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void internalStoragePermission() {
+        try {
+            if (checkPermission() == true) {
+                return;
+            } else {
+                Intent intent = new Intent(DayBookActivity.this, StoragePermissionRequestActivity.class);
+                startActivityForResult(intent, GRANT_STORAGE_PERMISSION);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        //For Picking A contact and loading it in the editText View
+
+        if (requestCode == GRANT_STORAGE_PERMISSION && resultCode == RESULT_OK && null != data) {
+            if (data.getBooleanExtra("GRANT_STORAGE_PERMISSION", true)) {
+                isFirstReq = 1;
+            } else {
+                isFirstReq = 0;
+                finish();
+            }
+        } else if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            }
+
+        }
+    }
+
     public void sendReportBtnClick(View v){
         Util.postEvents("Export Report","Export Report",this.getApplicationContext());
 //        if(email!=null && !email.isEmpty() && email.contains("@"))
@@ -305,7 +353,10 @@ public class DayBookActivity extends AppCompatActivity {
 //            DialogUtils.showToast(DayBookActivity.this,"Please update your email address in profile");
         if(email == null || email.isEmpty() )
         {
-            Toast.makeText(this, "Please Update Your Email in Profile Section", Toast.LENGTH_LONG).show();
+            downloadDaybook(startDateStr,endDateStr);
+
+            Toast.makeText(this, "Daybook Downloading. Please Update Your Email in your Profile. ", Toast.LENGTH_LONG).show();
+
         }
         else
         {
@@ -503,7 +554,7 @@ public class DayBookActivity extends AppCompatActivity {
                         else{ DialogUtils.showToast(DayBookActivity.this,"Failed to send the email"); }
 
                         if(ActivityCompat.checkSelfPermission(DayBookActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
-                            DialogUtils.showToast(DayBookActivity.this,"Please give permission to storage");
+                            //DialogUtils.showToast(DayBookActivity.this,"Please give permission to storage");
                         }
                         else if(body.has("data")){
                             JSONObject data = body.getJSONObject("data");
@@ -538,4 +589,76 @@ public class DayBookActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+    public void onResume()
+    {
+        super.onResume();
+        if (!checkPermission() && isFirstReq==0) finish();
+        Util.dailyLogout(DayBookActivity.this);
+    }
+
+    public void downloadDaybook(String startdate, String endDate){
+        DialogUtils.startProgressDialog(this, "Sending to email");
+        ApiInterface apiService =
+                ApiClient.getClient(this).create(ApiInterface.class);
+        Map<String, String> headerMap = new HashMap<>();
+
+        headerMap.put("Content-Type", "application/json");
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("email",email);
+            Log.v("email",email);
+            jsonObject.put("startDate",startdate);
+            jsonObject.put("endDate",endDate);
+            JsonObject req = new JsonParser().parse(jsonObject.toString()).getAsJsonObject();
+            Call<Object> call = null;
+            call = apiService.exportDayBook(headerMap,userId,req);
+
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    DialogUtils.stopProgressDialog();
+                    try {
+                        JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+
+//                        if(body.getBoolean("status")){ DialogUtils.showToast(DayBookActivity.this,"Report sent over the email"); }
+//                        else{ DialogUtils.showToast(DayBookActivity.this,"Failed to send the email"); }
+
+                        if(ActivityCompat.checkSelfPermission(DayBookActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                            //DialogUtils.showToast(DayBookActivity.this,"Please give permission to storage");
+                        }
+                        else if(body.has("data")){
+                            JSONObject data = body.getJSONObject("data");
+                            String downloadLink = data.getString("dayBookLink");
+                            if(!downloadLink.contains("https://"))
+                                downloadLink = downloadLink.replace("http://", "https://");
+                            String path = data.getString("dayBookLink").split("/")[3];
+                            Log.v("path1",path);
+                            //String path = data.getString("dayBookLink");
+                            if(downloadLink!=null){
+
+                                List<String>downloadList = new ArrayList<String>();
+                                downloadList.add(downloadLink.toString());
+                                startDownloading(downloadList,path);
+                                DialogUtils.showToast(DayBookActivity.this,"Daybook Downloaded");
+                            }
+                        }
+                        else DialogUtils.showToast(DayBookActivity.this,"Try again later");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    DialogUtils.stopProgressDialog();
+                    DialogUtils.showToast(DayBookActivity.this,"Check Internet Connection");
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

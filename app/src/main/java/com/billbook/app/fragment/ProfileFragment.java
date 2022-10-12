@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -34,6 +35,7 @@ import com.billbook.app.activities.loginPick_activity;
 import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
+import com.billbook.app.utils.Util;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -122,6 +124,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Util.dailyLogout((AppCompatActivity) getActivity());
 
         try {
             profile = new JSONObject(((MyApplication) getActivity().getApplication()).getUserDetails());

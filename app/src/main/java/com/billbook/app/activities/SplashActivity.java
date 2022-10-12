@@ -37,6 +37,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -52,6 +55,7 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
     private String gpsPermission = "";
     private final int REQUEST_CODE_ASK_PERMISSIONS =111;
     private int hasWriteStoragePermission;
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,31 +73,91 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
         updateLanguage(MyApplication.getLanguage());
     }
 
-private void startSplash(){
-    new Handler().postDelayed(new Runnable() {
-        @Override
-        public void run() {
-            try {
-                JSONObject profile = new JSONObject(((MyApplication) getApplication()).getUserDetails());
-                if (profile.has("userToken") && profile.has("shopName")) {
-                   /* Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-                    startActivity(intent);  */
-                    Intent intent = new Intent(SplashActivity.this, BottomNavigationActivity.class);
-                    startActivity(intent);
-                } else {
-                    Intent intent = new Intent(SplashActivity.this, loginPick_activity.class);
-                    startActivity(intent);
-                }
-                SplashActivity.this.finish();
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Intent intent = new Intent(SplashActivity.this, loginPick_activity.class);
-                startActivity(intent);
-                SplashActivity.this.finish();
-            }
+    private void logoutToken() {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        String currentDate = sdf.format(c.getTime());
+        System.out.println("currentDate"+currentDate);
+
+        if(currentDate.equals(MyApplication.getScheduleDate())){
+            MyApplication.setLogoutDaily(false);
+        }else{
+            MyApplication.setLogoutDaily(true);
         }
-    }, 2000);
-}
+
+        int mHours = c.get(Calendar.HOUR_OF_DAY);
+        System.out.println("currentDate mHours"+mHours);
+        if(mHours >= 3 && MyApplication.getLogoutDaily()) {
+            SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.clear();
+            editor.apply();
+            Util.clearAllTables(SplashActivity.this);
+            finish();
+            Intent intentObj = new Intent(SplashActivity.this, LoginActivity.class);
+            startActivity(intentObj);
+            finish();
+            MyApplication.saveScheduleLogOutDate(currentDate);
+        }
+        else {
+            Intent intent = new Intent(SplashActivity.this, BottomNavigationActivity.class);
+            startActivity(intent);
+        }
+
+//        editor.putString(getString(R.string.user_login_token), " ");
+//        editor.commit();
+//    MyApplication.saveGetCategoriesLAST_SYNC_TIMESTAMP(0);
+//    MyApplication.saveGetBrandLAST_SYNC_TIMESTAMP(0);
+//    MyApplication.saveGetProductLAST_SYNC_TIMESTAMP(0);
+//    MyApplication.saveGetInventoryLAST_SYNC_TIMESTAMP(0);
+//    MyApplication.saveGetInvoiceLAST_SYNC_TIMESTAMP(0);
+
+
+
+    }
+
+    private void startSplash(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONObject profile = new JSONObject(((MyApplication) getApplication()).getUserDetails());
+                    if (profile.has("userToken") && profile.has("shopName")) {
+                        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                        Log.v("date in run",date);
+                        logoutToken();
+                 /* if(!MyApplication.getLogout()){
+                      logoutToken();
+                  }*/
+
+//                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+//                    startActivity(intent);
+                    } else {
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(new Date());
+                        String currentDate = sdf.format(c.getTime());
+                        //MyApplication.saveScheduleLogOutDate(currentDate);
+
+                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                        startActivity(intent);
+
+                    }
+                    SplashActivity.this.finish();
+                } catch (JSONException e) {
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(new Date());
+                    String currentDate = sdf.format(c.getTime());
+                    //MyApplication.saveScheduleLogOutDate(currentDate);
+                    e.printStackTrace();
+                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    SplashActivity.this.finish();
+
+                }
+            }
+        }, 2000);
+    }
+
     private void startLocationService() {
         Intent intent1 = new Intent(getApplicationContext(), LocationService.class);
         getApplicationContext().stopService(intent1);

@@ -1,5 +1,7 @@
 package com.billbook.app.fragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -71,6 +74,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -101,6 +105,7 @@ public class HomeFragment extends Fragment
 
     LinearLayout btnSellingDetails, btnBilling, btnManageInventory, btnGetSalesReport, btnSearchInvoice;
     Toolbar mToolbar;
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private NavigationView navigationView;
     private TextView tvName;
     private TextView tvEmail;
@@ -194,6 +199,127 @@ public class HomeFragment extends Fragment
 
 
     }
+    public void forceUserLogout() {
+
+        if(MyApplication.getLogout())
+        {
+            SweetAlertDialog sweetAlertDialog =
+                    new SweetAlertDialog(getActivity(), SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+            sweetAlertDialog.setTitleText("Please logout for better experience");
+            sweetAlertDialog.setConfirmText("Ok");
+            sweetAlertDialog.showCancelButton(true);
+            sweetAlertDialog.setCancelClickListener(null);
+            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+
+                public void onClick(SweetAlertDialog sDialog) {
+                    sDialog.dismiss();
+
+
+                }
+            });
+            sweetAlertDialog.setCancelable(false);
+            sweetAlertDialog.show();
+        }
+
+    }
+
+
+    private void checkVersion() {
+        ApiInterface apiService =
+                ApiClient.getClient(getActivity()).create(ApiInterface.class);
+
+        Map<String, String> headerMap = new HashMap<>();
+
+        Call<Object> call = apiService.getVersionUpdate(headerMap);
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                final JSONObject body;
+                try {
+                    body = new JSONObject(new Gson().toJson(response.body()));
+                    Log.d(TAG, "Version Body::" + body);
+                    if (body.getBoolean("status") && body.has("data") && !body.isNull("data")) {
+                        String versionName= body.getJSONObject("data").getString("versionName");
+
+                        String buildVersion = BuildConfig.VERSION_NAME;
+                        if (!buildVersion.equals(versionName)) {
+                            DialogUtils.showToast(getActivity(), "To continue, please update the app to latest version.");
+                            final String appPackageName = getActivity().getPackageName(); // getPackageName() from Context or Activity object
+                            try {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                            } catch (android.content.ActivityNotFoundException anfe) {
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                logoutToken();
+                            }
+                        } else {
+
+                        }
+                    } else {
+
+                    }
+                } catch (JSONException e) {
+                    Util.logErrorApi("refVersion/", null, Arrays.toString(e.getStackTrace()), e.toString() , null,getActivity());
+                    e.printStackTrace();
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Util.logErrorApi("refVersion/", null, Arrays.toString(t.getStackTrace()), t.toString() , null,getActivity());
+                //startSplash();
+
+            }
+        });
+
+    }
+
+
+
+    private void logoutToken() {
+        SharedPreferences sharedPref =
+                getContext().getSharedPreferences(getString(R.string.preference_file_key),
+                        MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.clear();
+        editor.apply();
+        Util.clearAllTables(getActivity());
+        getActivity().finish();
+        Intent intentObj = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intentObj);
+        getActivity().finish();
+    }
+
+
+    private void forcedLogOut() {
+        Intent intentObj = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intentObj);
+        getActivity().finish();
+        MyApplication.setLogout(false);
+
+    }
+    private void showAlert() {
+        SweetAlertDialog sweetAlertDialog =
+                new SweetAlertDialog(getActivity(), SweetAlertDialog.CUSTOM_IMAGE_TYPE);
+        sweetAlertDialog.setTitleText(getString(R.string.do_u_want_to_logout));
+        sweetAlertDialog.setConfirmText("Yes");
+        sweetAlertDialog.setCancelText("No");
+        sweetAlertDialog.showCancelButton(true);
+        sweetAlertDialog.setCancelClickListener(null);
+        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+            @Override
+
+            public void onClick(SweetAlertDialog sDialog) {
+                sDialog.dismiss();
+                logoutToken();
+            }
+        });
+        sweetAlertDialog.setCancelable(false);
+        sweetAlertDialog.show();
+    }
+
 
 
     private void InMobiInitialization() {
@@ -614,49 +740,7 @@ public class HomeFragment extends Fragment
         }
     }
 
-    private void showAlert() {
-        SweetAlertDialog sweetAlertDialog =
-                new SweetAlertDialog(getActivity(), SweetAlertDialog.CUSTOM_IMAGE_TYPE);
-        sweetAlertDialog.setTitleText(getString(R.string.do_u_want_to_logout));
-        sweetAlertDialog.setConfirmText("Yes");
-        sweetAlertDialog.setCancelText("No");
-        sweetAlertDialog.showCancelButton(true);
-        sweetAlertDialog.setCancelClickListener(null);
-        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-            @Override
 
-            public void onClick(SweetAlertDialog sDialog) {
-                sDialog.dismiss();
-                logoutToken();
-            }
-        });
-        sweetAlertDialog.setCancelable(false);
-        sweetAlertDialog.show();
-    }
-
-    private void logoutToken() {
-
-        SharedPreferences sharedPref =
-                getActivity().getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),
-                        getActivity().MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.clear();
-        editor.apply();
-        getActivity().finish();
-
-//        editor.putString(getString(R.string.user_login_token), " ");
-//        editor.commit();
-//    MyApplication.saveGetCategoriesLAST_SYNC_TIMESTAMP(0);
-//    MyApplication.saveGetBrandLAST_SYNC_TIMESTAMP(0);
-//    MyApplication.saveGetProductLAST_SYNC_TIMESTAMP(0);
-//    MyApplication.saveGetInventoryLAST_SYNC_TIMESTAMP(0);
-//    MyApplication.saveGetInvoiceLAST_SYNC_TIMESTAMP(0);
-
-
-        Intent intentObj = new Intent(getActivity(), LoginActivity.class);
-        startActivity(intentObj);
-        getActivity().finish();
-    }
 
 
     void setAlarm() {
@@ -704,6 +788,9 @@ public class HomeFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
+        checkVersion();
+        Util.dailyLogout((AppCompatActivity) getActivity());
+
 
 
         try {

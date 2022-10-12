@@ -174,6 +174,9 @@ public interface ApiInterface {
     @POST ("invoice")
     Call<Object> invoice(@Body JsonObject body);
 
+    @POST("userMetaData")
+    Call<Object> updateUserMetaData(@HeaderMap Map<String, String> headers,@Body JsonObject object);
+
     @GET ("invoices/{userid}/{page}")
     Call<Object> invoices(@HeaderMap Map<String, String> headers, @Path("userid") int userid,@Path("page") int page);
 

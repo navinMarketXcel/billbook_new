@@ -133,6 +133,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
     protected void onResume() {
         
         super.onResume();
+        Util.dailyLogout(ExpenseActivity.this);
         expenses.clear();
         expenseListAdapter.notifyDataSetChanged();
         getExpenses();
