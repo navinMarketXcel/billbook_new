@@ -26,6 +26,14 @@
             app:srcCompat="@drawable/inverted" />
 
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Version 73 and 2.2.2"
+        android:gravity="center"
+        android:textColor="@color/white">
+
+    </TextView>
 
     <LinearLayout
 

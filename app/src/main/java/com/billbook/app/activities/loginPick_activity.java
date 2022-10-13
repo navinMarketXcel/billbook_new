@@ -28,6 +28,9 @@ import com.otpless.main.OtplessTokenData;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -42,6 +45,7 @@ public class loginPick_activity extends AppCompatActivity {
     private String mobilNo, otp,referrer_link;
     ProgressDialog whatsappDialog;
     private InstallReferrerClient referrerClient;
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,6 +263,11 @@ public class loginPick_activity extends AppCompatActivity {
         intent.putExtra("mobileNo", mobilNo);
         startActivity(intent);
         finish();
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        String currentDate = sdf.format(c.getTime());
+        MyApplication.setLogoutDaily(false);
+        MyApplication.saveScheduleLogOutDate(currentDate);
     }
 
 

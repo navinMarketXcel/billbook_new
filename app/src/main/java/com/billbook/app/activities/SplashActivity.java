@@ -57,6 +57,8 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
     private int hasWriteStoragePermission;
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,45 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
         updateLanguage(MyApplication.getLanguage());
     }
 
+    private void startSplash(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    JSONObject profile = new JSONObject(((MyApplication) getApplication()).getUserDetails());
+                    if (profile.has("userToken") && profile.has("shopName")) {
+                        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+                        logoutToken();
+
+//                        Intent intent = new Intent(SplashActivity.this, BottomNavigationActivity.class);
+//                        startActivity(intent);
+                    } else {
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(new Date());
+                        String currentDate = sdf.format(c.getTime());
+                        //MyApplication.saveScheduleLogOutDate(currentDate);
+
+                        Intent intent = new Intent(SplashActivity.this, loginPick_activity.class);
+                        startActivity(intent);
+
+
+                    }
+                    SplashActivity.this.finish();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Intent intent = new Intent(SplashActivity.this, loginPick_activity.class);
+                    startActivity(intent);
+                    SplashActivity.this.finish();
+                }
+            }
+        }, 2000);
+    }
+    private void startLocationService() {
+        Intent intent1 = new Intent(getApplicationContext(), LocationService.class);
+        getApplicationContext().stopService(intent1);
+        Intent intent = new Intent(getApplicationContext(), LocationService.class);
+        startService(intent);
+    }
     private void logoutToken() {
         Calendar c = Calendar.getInstance();
         c.setTime(new Date());
@@ -94,7 +135,7 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
             editor.apply();
             Util.clearAllTables(SplashActivity.this);
             finish();
-            Intent intentObj = new Intent(SplashActivity.this, LoginActivity.class);
+            Intent intentObj = new Intent(SplashActivity.this, loginPick_activity.class);
             startActivity(intentObj);
             finish();
             MyApplication.saveScheduleLogOutDate(currentDate);
@@ -116,54 +157,7 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
 
     }
 
-    private void startSplash(){
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JSONObject profile = new JSONObject(((MyApplication) getApplication()).getUserDetails());
-                    if (profile.has("userToken") && profile.has("shopName")) {
-                        String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                        Log.v("date in run",date);
-                        logoutToken();
-                 /* if(!MyApplication.getLogout()){
-                      logoutToken();
-                  }*/
 
-//                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
-//                    startActivity(intent);
-                    } else {
-                        Calendar c = Calendar.getInstance();
-                        c.setTime(new Date());
-                        String currentDate = sdf.format(c.getTime());
-                        //MyApplication.saveScheduleLogOutDate(currentDate);
-
-                        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                        startActivity(intent);
-
-                    }
-                    SplashActivity.this.finish();
-                } catch (JSONException e) {
-                    Calendar c = Calendar.getInstance();
-                    c.setTime(new Date());
-                    String currentDate = sdf.format(c.getTime());
-                    //MyApplication.saveScheduleLogOutDate(currentDate);
-                    e.printStackTrace();
-                    Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    SplashActivity.this.finish();
-
-                }
-            }
-        }, 2000);
-    }
-
-    private void startLocationService() {
-        Intent intent1 = new Intent(getApplicationContext(), LocationService.class);
-        getApplicationContext().stopService(intent1);
-        Intent intent = new Intent(getApplicationContext(), LocationService.class);
-        startService(intent);
-    }
 
     private void checkVersion() {
         ApiInterface apiService =
@@ -190,7 +184,7 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
                             } catch (android.content.ActivityNotFoundException anfe) {
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                                MyApplication.setuserMetaDataFlag(true);
+                                logoutToken();
                             }
                         } else {
                             startSplash();
@@ -297,9 +291,9 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
     }
 
     private void gotoLoginScreen() {
-            Intent intentObj = new Intent(SplashActivity.this, loginPick_activity.class);
-            startActivity(intentObj);
-            finish();
+        Intent intentObj = new Intent(SplashActivity.this, loginPick_activity.class);
+        startActivity(intentObj);
+        finish();
     }
 
     private void gotoSyncScreen() {

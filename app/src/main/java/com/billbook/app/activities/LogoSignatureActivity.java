@@ -39,7 +39,7 @@ import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.Util;
 import com.google.android.gms.common.util.IOUtils;
 import com.google.gson.Gson;
-import com.readystatesoftware.chuck.internal.ui.MainActivity;
+
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;

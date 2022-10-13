@@ -32,6 +32,7 @@ import com.billbook.app.activities.BottomNavigationActivity;
 import com.billbook.app.activities.LoginActivity;
 import com.billbook.app.activities.MyApplication;
 import com.billbook.app.activities.PDFActivity;
+import com.billbook.app.activities.loginPick_activity;
 import com.billbook.app.database.models.Model;
 import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
@@ -103,7 +104,7 @@ public class Util {
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.clear();
             editor.apply();
-            Intent intentObj = new Intent(sourceActivity, LoginActivity.class);
+            Intent intentObj = new Intent(sourceActivity, loginPick_activity.class);
             sourceActivity.startActivity(intentObj);
             sourceActivity.finish();
             MyApplication.saveScheduleLogOutDate(currentDate);
