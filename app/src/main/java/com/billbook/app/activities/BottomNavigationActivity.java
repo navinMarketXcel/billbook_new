@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import com.billbook.app.R;
 import com.billbook.app.fragment.HelpFragment;
 import com.billbook.app.fragment.HomeFragment;
 import com.billbook.app.fragment.ProfileFragment;
+import com.billbook.app.model.appmetadata.AppMetaData;
 import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
@@ -44,6 +46,10 @@ import retrofit2.Response;
 
 public class BottomNavigationActivity extends AppCompatActivity {
 TextView txtToolBarTitle;
+private String version_name,deviceVersionName;
+private String mobNo= " ",userId = " ";
+private int versionCode;
+private JSONObject userProfile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +65,30 @@ TextView txtToolBarTitle;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        Toast.makeText(this,
-                "PackageName = " + info.packageName + "\nVersionCode = "
-                        + info.versionCode + "\nVersionName = "
-                        + info.versionName + "\nPermissions = " + info.permissions, Toast.LENGTH_SHORT).show();
-        Log.v("vesion name",info.versionName);
-        Log.v("vesion code",String.valueOf(info.versionCode));
-        sendUserMetaData("9999999999", info.versionName,info.versionCode,"one plus","123" ,"Testing");
+        assert info != null;
+        version_name = info.versionName;
+        versionCode = info.versionCode;
+        Log.v("ver no",String.valueOf(info.versionCode));
+        try {
+            userProfile= new JSONObject (MyApplication.getUserDetails());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+             mobNo = userProfile.getString("mobileNo");
+             userId = userProfile.getString("userid");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        deviceVersionName = android.os.Build.MANUFACTURER+android.os.Build.MODEL;
+        System.out.println("mob no: " +mobNo+ " user id" + userId + "Phone name" +deviceVersionName);
+        if(MyApplication.getUserMetaDataFlag())
+        {
+            getUserMetaData(mobNo);
+        }
+
+
+
 
         bottomNavigationView.setSelectedItemId(R.id.nav_home);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -127,32 +150,85 @@ TextView txtToolBarTitle;
         }
 
     }
-    private void sendUserMetaData(String mobno,String versionName,int versionNo,String deviceVersionName,String userid,String demo) {
-        JsonObject userDataJson = new JsonObject();
-        JsonObject userInfo = new JsonObject();
-        userDataJson.add("mobileNo", new JsonParser().parse(mobno));
-        userDataJson.add("versionNo",new JsonParser().parse(String.valueOf(versionNo)));
-        userDataJson.add("versionName",new JsonParser().parse(versionName));
-        userDataJson.add("deviceVersionName",new JsonParser().parse("one plus"));
-        userInfo.add("userid",new JsonParser().parse(userid));
-        userInfo.add("Demo",new JsonParser().parse(demo));
-        userDataJson.add("userData",userInfo);
+    private void saveUserMetaData(String mobno,String versionName,int versionNo,String deviceVersionName,String userid,String demo) {
+        JSONObject userDataJson = new JSONObject();
+        JSONObject userInfo = new JSONObject();
+        try {
+            userDataJson.put("mobileNo", mobno);
+
+            userDataJson.put("versionNo",versionNo);
+            userDataJson.put("versionName",versionName);
+            userDataJson.put("deviceVersionName",deviceVersionName);
+            userInfo.put("userid",userid);
+            userInfo.put("Demo",demo);
+            userDataJson.put("userData",userInfo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonParser jsonParser = new JsonParser();
+        JsonObject gsonObject = (JsonObject)jsonParser.parse(userDataJson.toString());
 
         String token = MyApplication.getUserToken();
         Map<String, String> headerMap = new HashMap<>();
         headerMap.put("Authorization", token);
         ApiInterface apiService = ApiClient.getClient(this).create(ApiInterface.class);
-        Call<Object> call = apiService.updateUserMetaData(headerMap,userDataJson);
-        call.enqueue(new Callback<Object>() {
+        Call<AppMetaData> call = apiService.updateUserMetaData(headerMap,gsonObject);
+        call.enqueue(new Callback<AppMetaData>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(Call<AppMetaData> call, Response<AppMetaData> response) {
+            System.out.println("saveUserMetaData"+ response.body().getStatus());
+            MyApplication.setuserMetaDataFlag(false);
+            }
 
-            System.out.println("user Meta data obj :"+response);
+            @Override
+            public void onFailure(Call<AppMetaData> call, Throwable t) {
+                // Log error here since request failed
+
+            }
+        });
+    }
+    private void getUserMetaData(String mobNo) {
+        JSONObject userDataJson = new JSONObject();
+        try {
+            userDataJson.put("mobileNo",mobNo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonParser jsonParser = new JsonParser();
+        JsonObject gsonObject = (JsonObject)jsonParser.parse(userDataJson.toString());
+
+        String token = MyApplication.getUserToken();
+        Map<String, String> headerMap = new HashMap<>();
+        headerMap.put("Authorization", token);
+        ApiInterface apiService = ApiClient.getClient(this).create(ApiInterface.class);
+        Call<AppMetaData> call = apiService.getUserMetaData(headerMap,gsonObject);
+        call.enqueue(new Callback<AppMetaData>() {
+            @Override
+            public void onResponse(Call<AppMetaData> call, Response<AppMetaData> response) {
+
+                System.out.println("user Meta data obj getUserMetadata :"+response.body().getData().getMobileNo());
+                if(response.body().getStatus())
+                {
+                    System.out.println("ver name"+version_name + "ver no"+versionCode);
+                    if(version_name.equals(response.body().getData().getVersionName()) && versionCode == response.body().getData().getVersionNo())
+                    {
+                        return;
+
+                    }
+                    else
+                    {
+                        saveUserMetaData(mobNo,version_name,versionCode,deviceVersionName,userId ,"Testing");
+                    }
+                }
+                else
+                {
+                    saveUserMetaData(mobNo,version_name,versionCode,deviceVersionName,userId ,"Testing");
+                }
 
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(Call<AppMetaData> call, Throwable t) {
                 // Log error here since request failed
 
             }

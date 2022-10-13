@@ -1,5 +1,6 @@
 package com.billbook.app.networkcommunication;
 
+import com.billbook.app.model.appmetadata.AppMetaData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.billbook.app.database.models.Brand;
@@ -174,8 +175,11 @@ public interface ApiInterface {
     @POST ("invoice")
     Call<Object> invoice(@Body JsonObject body);
 
-    @POST("userMetaData")
-    Call<Object> updateUserMetaData(@HeaderMap Map<String, String> headers,@Body JsonObject object);
+    @POST("createOrUpdateUserMetaData")
+    Call<AppMetaData> updateUserMetaData(@HeaderMap Map<String, String> headers,@Body JsonObject object);
+
+    @POST("getUserMetaData")
+    Call<AppMetaData> getUserMetaData(@HeaderMap Map<String,String> headers, @Body JsonObject object);
 
     @GET ("invoices/{userid}/{page}")
     Call<Object> invoices(@HeaderMap Map<String, String> headers, @Path("userid") int userid,@Path("page") int page);

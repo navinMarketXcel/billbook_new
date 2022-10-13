@@ -6,8 +6,8 @@ android {
         applicationId "com.billbook.app"
         minSdkVersion 24
         targetSdkVersion 32
-        versionCode 48
-        versionName "2.1.1"
+        versionCode 72
+        versionName "2.2.2"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         buildConfigField("String", "AccountId",AccountId);
@@ -30,8 +30,7 @@ android {
     }
     buildTypes {
         debug{
-           // buildConfigField "String", "BASE_URL", '"https://eb54-202-91-74-9.ngrok.io/v1/"'
-            buildConfigField "String", "BASE_URL", '"https://12a9-2409-4071-e91-8ff-900c-290f-8834-9e15.in.ngrok.io/v1/"'
+            buildConfigField "String", "BASE_URL", '"https://stgapi.thebillbook.com/v1/"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled false
         }

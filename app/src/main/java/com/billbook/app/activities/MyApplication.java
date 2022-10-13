@@ -107,13 +107,7 @@ public class MyApplication extends Application {
         editor.putBoolean("userLogoutToken", bool);
         editor.commit();
     }
-    public static Boolean getLogoutDaily() {
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
-        Boolean userLogoutToken = sharedPref.getBoolean("userLogoutTokenDaily", true);
-        return userLogoutToken;
 
-    }
     public static void saveScheduleLogOutDate(String scheduleDate) {
         SharedPreferences sharedPref =
                 context.getSharedPreferences(context.getString(R.string.preference_file_key),
@@ -138,6 +132,28 @@ public class MyApplication extends Application {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean("userLogoutTokenDaily", bool);
         editor.commit();
+    }
+    public static Boolean getLogoutDaily() {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
+        Boolean userLogoutToken = sharedPref.getBoolean("userLogoutTokenDaily", true);
+        return userLogoutToken;
+
+    }
+    public static void setuserMetaDataFlag(Boolean bool) {
+        SharedPreferences sharedPref =
+                context.getSharedPreferences(context.getString(R.string.preference_file_key),
+                        context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("userMetaDataFlag", bool);
+        editor.commit();
+    }
+    public static Boolean getUserMetaDataFlag() {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
+        Boolean userLogoutToken = sharedPref.getBoolean("userMetaDataFlag", true);
+        return userLogoutToken;
+
     }
 
 
@@ -540,6 +556,7 @@ public class MyApplication extends Application {
         return expenses;
 
     }
+
     public static void saveUnSyncedExpenses(String cats) {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
