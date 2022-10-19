@@ -55,11 +55,11 @@ public class loginPick_activity extends AppCompatActivity {
         setContentView(R.layout.activity_login_pick);
         otpless = OtplessProvider.getInstance(this).init(this::onOtplessResult);
 
+//        phoneButton.setText("Force Crash");
 //        phoneButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                Intent intent=new Intent(loginPick_activity.this,LoginActivity.class);
-//                startActivity(intent);
+//                throw new RuntimeException("Test Crash");
 //            }
 //        });
 //        btnWhatsappLogi.setOnClickListener(new View.OnClickListener() {

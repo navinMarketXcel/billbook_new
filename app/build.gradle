@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 android {
     compileSdkVersion 32
     defaultConfig {
@@ -113,6 +114,10 @@ dependencies {
     implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:3.2.0'
     // Pdf viewer dependency
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation platform('com.google.firebase:firebase-bom:31.0.0')
+
 
 }
 
