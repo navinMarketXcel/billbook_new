@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:weightSum="9"
+    android:weightSum="11"
     >
     <TextView
         android:id="@+id/tvProductNumber"
@@ -78,7 +78,7 @@
         android:layout_width="0dp"
         android:textSize="13sp"
         android:layout_height="match_parent"
-        android:layout_weight="1.5"
+        android:layout_weight="1"
         android:background="@drawable/card_lined"
         android:ellipsize="end"
         android:visibility="gone"

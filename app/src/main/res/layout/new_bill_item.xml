@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:weightSum="2"
     android:id="@+id/editLayout"
     android:background="@drawable/card_structure"
     android:orientation="vertical">
@@ -31,6 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+
                     android:fontFamily="@font/inter"
                     android:textColor="#05944F"
                     android:gravity="right"

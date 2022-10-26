@@ -206,7 +206,7 @@ private JSONObject userProfile;
             @Override
             public void onResponse(Call<AppMetaData> call, Response<AppMetaData> response) {
 
-                System.out.println("user Meta data obj getUserMetadata :"+response.body().getData().getMobileNo());
+               // System.out.println("user Meta data obj getUserMetadata :"+response.body().getData().getMobileNo());
                 if(response.body().getStatus())
                 {
                     System.out.println("ver name"+version_name + "ver no"+versionCode);
@@ -217,12 +217,12 @@ private JSONObject userProfile;
                     }
                     else
                     {
-                        saveUserMetaData(mobNo,version_name,versionCode,deviceVersionName,userId ,"Testing");
+                        //saveUserMetaData(mobNo,version_name,versionCode,deviceVersionName,userId ,"Testing");
                     }
                 }
                 else
                 {
-                    saveUserMetaData(mobNo,version_name,versionCode,deviceVersionName,userId ,"Testing");
+                   // saveUserMetaData(mobNo,version_name,versionCode,deviceVersionName,userId ,"Testing");
                 }
 
             }

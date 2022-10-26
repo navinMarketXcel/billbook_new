@@ -101,16 +101,16 @@ public class AddExpenseActivity extends AppCompatActivity {
             DialogUtils.showToast(this,"Expense name can not be empty");
             return;
         }
-        else if(expenseAmount.getText().toString().isEmpty() || Float.parseFloat(expenseAmount.getText().toString())==0){
+        else if(expenseAmount.getText().toString().isEmpty() || Float.parseFloat(expenseAmount.getText().toString())==0 || expenseAmount.getText().toString().equals("")){
             DialogUtils.showToast(this,"Expense amount can not be 0 or empty");
             return;
         }
-        else if(selectDate.getText().toString().isEmpty()){
+        else if(selectDate.getText().toString().isEmpty() || selectDate.getText().toString().equals("")) {
             DialogUtils.showToast(this,"Expense date can not be empty");
             return;
         }
         Expense expense = new Expense();
-        expense.setAmount(Integer.parseInt(expenseAmount.getText().toString()));
+        expense.setAmount(Integer.parseInt((expenseAmount.toString())));
         expense.setName(expenseName.getText().toString());
         expense.setDate(selectDate.getText().toString());
         expense.setUserid(userid);

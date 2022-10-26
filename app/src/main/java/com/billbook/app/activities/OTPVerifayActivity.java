@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -94,9 +95,10 @@ TextView txtOTPMobile;
                                 JSONObject data = body.getJSONObject("data");
                                 String userToken = data.getString("userToken");
                                 MyApplication.saveUserToken(userToken);
-
+                                
 
                                 gotoContactDetails();
+                                Toast.makeText(OTPVerifayActivity.this, "OTP Verified!", Toast.LENGTH_SHORT).show();
 
                         }
                     } else {

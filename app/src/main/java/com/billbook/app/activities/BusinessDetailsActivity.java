@@ -170,8 +170,8 @@ ImageView ivToolBarBack;
         } else if (etShopAdd.getText().toString().isEmpty()) {
             etShopAdd.setError( "Shop Address can not be empty");
             return false;
-        }else if (etPinCode.getText().toString().isEmpty()) {
-            etPinCode.setError( "PIN code can not be empty");
+        }else if (etPinCode.getText().toString().isEmpty() || etPinCode.getText().length() < 6) {
+            etPinCode.setError( "Please enter a valid Pincode");
             return false;
         }else if (etCity.getText().toString().isEmpty()) {
             etCity.setError( "City can not be empty");

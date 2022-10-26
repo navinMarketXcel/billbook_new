@@ -59,7 +59,8 @@
         <activity
             android:name=".activities.EditMobileNoActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.ContactDetailsActivity"/>
         <activity
             android:name=".activities.OTPVerifayActivity"
             android:exported="true"

@@ -321,6 +321,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                                         data.isActive = false;
                                         page = 1;
                                         getInvoicesCall();
+                                        Toast.makeText(SearchInvoiceActivity.this, "Bills Successfully Deleted.", Toast.LENGTH_LONG).show();
                                     }
 
                                 } catch (JSONException e) {
@@ -819,6 +820,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 //        checkPermission();
         if(hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED){
             startDownloadingInvoices();
+            Toast.makeText(SearchInvoiceActivity.this, "Bills Successfully Downloaded.", Toast.LENGTH_LONG).show();
         }
         else{
             checkPermission(REQUEST_CODE_ASK_PERMISSIONS);
@@ -950,6 +952,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                                         data.isActive = false;
                                         page = 1;
                                         getInvoicesCall();
+                                        Toast.makeText(SearchInvoiceActivity.this, "Bill Successfully Deleted.", Toast.LENGTH_LONG).show();
                                     }
 
                                 } catch (JSONException e) {

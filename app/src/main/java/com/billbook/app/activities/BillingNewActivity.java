@@ -397,7 +397,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                                 substr = substr.substring(0, substr.length() - 1);
 
                             discountPercent = Float.parseFloat(substr);
-                            discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
+                            discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, totalBeforeGST);
                             binding.edtDiscountAmt.setText(String.valueOf(discountAmt));
                             if (discountPercent > 100.00)
                                 setEditTextError(binding.edtDiscountPercent, "Discount should be less than or equal to 100%");
@@ -406,7 +406,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         } else {
                             binding.edtDiscountAmt.getText().clear();
                             discountPercent = 0;
-                            discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
+                            discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, totalBeforeGST);
                         }
                         setTotalAfterDiscount();
                     }
@@ -431,7 +431,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                         if (s.toString().length() > 0) {
                             discountAmt = Float.parseFloat(s.toString());
-                            discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
+                            discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, totalBeforeGST);
                             binding.edtDiscountPercent.setText(discountPercent + "%");
 
                             if (discountAmt > total)
@@ -815,6 +815,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             }
                             if(phoneNumber.length()>10)
                             {
+                                phoneNumber= phoneNumber.replaceAll("//s","");
                                 phoneNumber= phoneNumber.substring(phoneNumber.length()-10);
                             }
                             binding.edtMobNo.setText(phoneNumber);
@@ -1435,12 +1436,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             }
 
             if (discountAmt > 0 && discountPercent == 0) {
-                discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
+                discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, totalBeforeGST);
             } else if (discountPercent > 0 && discountAmt == 0) {
-                discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
+                discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, totalBeforeGST);
             } else {
-                discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, total);
-                discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
+                discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, totalBeforeGST);
+                discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, totalBeforeGST);
             }
 
             if (discountAmt > 0) {

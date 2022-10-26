@@ -173,6 +173,8 @@
                     style="@style/textSmall"
                     android:layout_marginTop="@dimen/_7sdp"
                     android:id="@+id/etOTP"
+                    android:inputType="number"
+                    android:maxLength="6"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:background="@drawable/layout_background"

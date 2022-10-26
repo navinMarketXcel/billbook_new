@@ -176,13 +176,31 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Expense expense = new Expense();
-                expense.setAmount(Integer.parseInt(expenseAmount.getText().toString()));
-                expense.setName(expenseName.getText().toString());
-                expense.setDate(selectDate.getText().toString());
-                expense.setUserid(userid);
-                saveExpenseToServer(expense);
-                addExpenseDialog.dismiss();
+                if((expenseAmount.getText().toString().isEmpty() || Float.parseFloat(expenseAmount.getText().toString())==0 || expenseAmount.getText().toString().equals("")) || (selectDate.getText().toString().isEmpty() || selectDate.getText().toString().equals("")) ){
+                    DialogUtils.showToast(ExpenseActivity.this,"Please Fill the Mandatory fields.");
+                }
+                else
+                {
+                    Expense expense = new Expense();
+                    try {
+                        expense.setAmount(Integer.parseInt((expenseAmount.getText().toString())));
+                    }
+                    catch (NumberFormatException e)
+                    {
+
+                    }
+
+                    expense.setName(expenseName.getText().toString());
+                    expense.setDate(selectDate.getText().toString());
+                    expense.setUserid(userid);
+                    saveExpenseToServer(expense);
+                    addExpenseDialog.dismiss();
+                }
+//                 if(selectDate.getText().toString().isEmpty() || selectDate.getText().toString().equals("")) {
+//                     DialogUtils.showToast(ExpenseActivity.this, "Expense date can not be empty");
+//                     return;
+//                 }
+
             }
         });
         selectDate.setOnClickListener(new View.OnClickListener() {
@@ -222,14 +240,27 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Expense updateExpense = new Expense();
-                updateExpense.setAmount(Integer.parseInt(expenseAmount.getText().toString()));
-                updateExpense.setName(expenseName.getText().toString());
-                updateExpense.setDate(selectDate.getText().toString());
-                updateExpense.setUserid(userid);
-                updateExpense.setId((long) data.getId());
-                saveExpenseToServer(updateExpense);
-                addExpenseDialog.dismiss();
+
+                if((expenseAmount.getText().toString().isEmpty() || Float.parseFloat(expenseAmount.getText().toString())==0 || expenseAmount.getText().toString().equals("")) || (selectDate.getText().toString().isEmpty() || selectDate.getText().toString().equals("")) ){
+                    DialogUtils.showToast(ExpenseActivity.this,"Please Fill the Mandatory fields.");
+                }
+                else
+                {
+                    Expense expense = new Expense();
+                    try {
+                        expense.setAmount(Integer.parseInt((expenseAmount.getText().toString())));
+                    }
+                    catch (NumberFormatException e)
+                    {
+
+                    }
+
+                    expense.setName(expenseName.getText().toString());
+                    expense.setDate(selectDate.getText().toString());
+                    expense.setUserid(userid);
+                    saveExpenseToServer(expense);
+                    addExpenseDialog.dismiss();
+                }
             }
         });
         selectDate.setOnClickListener(new View.OnClickListener() {

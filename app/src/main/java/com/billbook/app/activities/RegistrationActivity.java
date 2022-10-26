@@ -174,10 +174,10 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private boolean validateData() {
-        if (binding.shopNameEdt.getText().toString().isEmpty()) {
+        if (binding.shopNameEdt.getText().toString().isEmpty() || binding.shopNameEdt.getText().equals("")) {
             DialogUtils.showToast(this, "Shop name can not be empty.");
             return false;
-        } else if (binding.shopAddressEdt.getText().toString().isEmpty()) {
+        } else if (binding.shopAddressEdt.getText().toString().isEmpty() || binding.shopAddressEdt.getText().equals("")) {
             DialogUtils.showToast(this, "Shop address can not be empty.");
             return false;
         } else if (binding.mobileNoEdt.getText().toString().isEmpty() || binding.mobileNoEdt.getText().toString().length() < 10) {
