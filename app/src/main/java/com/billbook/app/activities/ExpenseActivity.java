@@ -176,7 +176,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((expenseAmount.getText().toString().isEmpty() || Float.parseFloat(expenseAmount.getText().toString())==0 || expenseAmount.getText().toString().equals("")) || (selectDate.getText().toString().isEmpty() || selectDate.getText().toString().equals("")) ){
+                if((expenseAmount.getText().toString().isEmpty() || Float.parseFloat(expenseAmount.getText().toString())==0 || expenseAmount.getText().toString().equals("")) || (selectDate.getText().toString().isEmpty() || selectDate.getText().toString().equals(""))  || (expenseName.getText().toString().equals(""))){
                     DialogUtils.showToast(ExpenseActivity.this,"Please Fill the Mandatory fields.");
                 }
                 else
@@ -241,7 +241,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
             @Override
             public void onClick(View v) {
 
-                if((expenseAmount.getText().toString().isEmpty() || Float.parseFloat(expenseAmount.getText().toString())==0 || expenseAmount.getText().toString().equals("")) || (selectDate.getText().toString().isEmpty() || selectDate.getText().toString().equals("")) ){
+                if((expenseAmount.getText().toString().isEmpty() || Float.parseFloat(expenseAmount.getText().toString())==0 || expenseAmount.getText().toString().equals("")) || (selectDate.getText().toString().isEmpty() || selectDate.getText().toString().equals("")) || (expenseName.getText().toString().equals(""))){
                     DialogUtils.showToast(ExpenseActivity.this,"Please Fill the Mandatory fields.");
                 }
                 else
