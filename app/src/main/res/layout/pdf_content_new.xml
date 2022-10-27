@@ -76,13 +76,14 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight=".5">
 
-                                <ImageView
+                                <de.hdodenhof.circleimageview.CircleImageView
                                     android:id="@+id/shopImage"
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
+                                    android:layout_width="60dp"
+                                    android:layout_height="60dp"
                                     android:layout_gravity="start|center"
                                     android:background="@drawable/ic_user_prof"
                                     android:padding="5dp"
+                                    android:scaleType="centerCrop"
                                     android:visibility="visible" />
 
                             </LinearLayout>
@@ -188,6 +189,8 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".4"
+                                        android:layout_marginStart="@dimen/_5sdp"
+
                                         android:text="Bill #" />
 
                                     <TextView
@@ -197,6 +200,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".6"
                                         android:gravity="end"
+                                        android:layout_marginEnd="@dimen/_5sdp"
                                         android:text="1298"
                                         android:textColor="@color/color_black" />
 
@@ -215,6 +219,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".4"
+                                        android:layout_marginStart="@dimen/_5sdp"
                                         android:text="Bill Date" />
 
                                     <TextView
@@ -223,6 +228,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".6"
+                                        android:layout_marginEnd="@dimen/_5sdp"
                                         android:gravity="end"
                                         android:text="7/12/2022"
                                         android:textColor="@color/color_black" />
@@ -242,6 +248,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".4"
+                                        android:layout_marginStart="@dimen/_5sdp"
                                         android:text="Bill Type" />
 
                                     <TextView
@@ -250,6 +257,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".6"
                                         android:gravity="end"
+                                        android:layout_marginEnd="@dimen/_5sdp"
                                         android:text="Orignal"
                                         android:textColor="@color/color_black" />
 
@@ -346,6 +354,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".4"
+                                        android:layout_marginStart="@dimen/_5sdp"
                                         android:text="Bill Date"
                                         />
 
@@ -355,7 +364,8 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".6"
                                         android:gravity="end"
-                                        android:text="7/12/2022"
+                                        android:layout_marginEnd="@dimen/_5sdp"
+                                        android:text="N/A"
                                         android:textColor="@color/color_black"
                                         />
 
@@ -374,6 +384,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".4"
+                                        android:layout_marginStart="@dimen/_5sdp"
                                         android:text="Bill Type"
                                         />
 
@@ -384,6 +395,7 @@
                                         android:layout_weight=".6"
                                         android:gravity="end"
                                         android:text="Orignal"
+                                        android:layout_marginEnd="@dimen/_5sdp"
                                         android:textColor="@color/color_black"
                                         />
 
@@ -395,7 +407,7 @@
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
-                                android:background="@color/material_blue_grey_95" />
+                                android:background="@color/black" />
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -609,6 +621,8 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/card_lined"
                     android:layout_height="wrap_content">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -628,7 +642,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:weightSum="9">
+                                android:weightSum="11">
 
                                 <TextView
                                     android:id="@+id/productNumber"
@@ -651,7 +665,7 @@
                                     android:id="@+id/productLabel"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="2"
+                                    android:layout_weight="2.5"
                                     android:background="@drawable/card_lined_gray"
                                     android:ellipsize="end"
                                     android:gravity="start"
@@ -700,7 +714,7 @@
                                 <TextView
                                     android:id="@+id/tv_preTax"
                                     android:layout_width="0dp"
-                                    android:visibility="gone"
+                                    android:visibility="visible"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1.5"
                                     android:background="@drawable/card_lined_gray"

@@ -173,6 +173,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     public static void setDataAfterInvoiceItems(List<InvoiceItems> invoiceItems,Context context,boolean isGSTAvailable, RecyclerView recyclerViewInvoiceProducts, String GSTType){
+        System.out.println("Invoices item:"+invoiceItems.size());
         NewInvoicePurchaseAdapter newInvoicePurchaseAdapter = new NewInvoicePurchaseAdapter(context, invoiceItems, isGSTAvailable,GSTType);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         mLayoutManager.setStackFromEnd(true);
@@ -236,9 +237,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     invID = getIntent().getExtras().getInt("id");
 
 //                        Log.i(TAG, "setData: GST => " + isGSTAvailable);
-                  //  pdfBinding.tvPreTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-                  //  pdfBinding.llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
-                  //  pdfBinding.footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+                    pdfBinding.tvPreTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+                  //pdfBinding.llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);pdfBinding.footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
                    // pdfBinding.paddingLabelGst.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
 
                     if (invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
@@ -248,9 +248,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         pdfBinding.SGST.setVisibility(View.VISIBLE);
                         pdfBinding.tvPreTax.setVisibility(View.VISIBLE);
                        //pdfBinding.padding3.setVisibility(View.GONE);
-                       /* pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                       /*pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));*/
-                        /*pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                       /* pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));*/
                     } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
                         GSTType = "IGST (Central/outstation customer)";
@@ -259,32 +259,34 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                        // pdfBinding.padding2.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.GONE);
                         pdfBinding.SGST.setVisibility(View.GONE);
-                       /* pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
+                       /*pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 4.5f));*/
                        /* pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));*/
                     } else {
                         if(!isGSTAvailable)
                         {
-                            LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,5.0f);
-                            LinearLayout.LayoutParams prodLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.05f);
-                            LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,2.09f);
-                            LinearLayout.LayoutParams qtyLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.04f);
-                            LinearLayout.LayoutParams rateLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.049f);
+                           // LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,5.0f);
+                           // LinearLayout.LayoutParams prodLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.05f);
+                            //LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,2.09f);
+                            //LinearLayout.LayoutParams qtyLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.04f);
+                            //LinearLayout.LayoutParams rateLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.049f);
 
                             //buttonLayoutParams.setMargins(10, 10, 10, 10);
 
-                            pdfBinding.amtBill.setLayoutParams(buttonLayoutParams);
-                            pdfBinding.productNumber.setLayoutParams(prodLayoutParams);
-                            pdfBinding.productLabel.setLayoutParams(itemLayoutParams);
-                            pdfBinding.qtyBill.setLayoutParams(qtyLayoutParams);
-                            pdfBinding.rateBill.setLayoutParams(rateLayoutParams);
+                            //pdfBinding.amtBill.setLayoutParams(buttonLayoutParams);
+                           // pdfBinding.productNumber.setLayoutParams(prodLayoutParams);
+                           // pdfBinding.productLabel.setLayoutParams(itemLayoutParams);
+                           // pdfBinding.qtyBill.setLayoutParams(qtyLayoutParams);
+                           // pdfBinding.rateBill.setLayoutParams(rateLayoutParams);
 //                            TextView tv = findViewById(R.id.tvAmount);
 //                            tv.setLayoutParams(buttonLayoutParams);
                         }
                         pdfBinding.IGST.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.GONE);
                         pdfBinding.SGST.setVisibility(View.GONE);
+                        pdfBinding.llForHeader.setWeightSum(7.0f);
+
                         //pdfBinding.padding1.setVisibility(View.GONE);
                        // pdfBinding.padding2.setVisibility(View.GONE);
                        // pdfBinding.padding3.setVisibility(View.GONE);
@@ -294,7 +296,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                                 0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));*/
                     }
                     if (invoice.getString("GSTNo").isEmpty()) {
-                       // pdfBinding.custGstLayout.setVisibility(View.INVISIBLE);
+                       //pdfBinding.custGstLayout.setVisibility(View.INVISIBLE);
                     } else {
                        // pdfBinding.custGstLayout.setVisibility(View.VISIBLE);
                        // pdfBinding.customerGst.setText(invoice.getString("GSTNo"));
@@ -607,7 +609,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             filepath = docsFolder.getAbsolutePath();
 
                 filepath = filepath + "/" + "Invoice"+ invoiceNumber + "_" + today + ".pdf";
-
+System.out.println("filepath ::"+filepath);
             pdfFile = pdfWriter.exportPDF(filepath);
             if (invID > 0)
                 uploadPDF();
@@ -681,7 +683,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
                     @Override
                         public boolean onDoubleTap(MotionEvent e){
-                        Toast.makeText(PDFActivity.this,"DOuble tap",Toast.LENGTH_LONG).show();
+                        Toast.makeText(PDFActivity.this,"Double tap",Toast.LENGTH_LONG).show();
                         return super.onDoubleTap(e);
 
                     }
@@ -1223,6 +1225,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 setDataAfterInvoiceItems(invoiceItems, context, isGSTAvailable, recyclerViewInvoiceProducts, GSTType);
                 loadAndSetCompanyLogo();
                 loadAndSetSignatureImage();
+                createPdfWrapper();
             } catch (Exception e) {
                 e.printStackTrace();
             }

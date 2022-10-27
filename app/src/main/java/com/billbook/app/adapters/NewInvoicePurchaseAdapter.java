@@ -75,7 +75,8 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             float gstVlaue = curItems.get(position).getTotalAmount() - curItems.get(position).getGstAmount();
             float gst = 1 + (curItems.get(position).getGst() / 100);
             float preTaxSingleValue =  curItems.get(position).getPrice() / gst;
-            holder.tvRate.setText(Util.formatDecimalValue(preTaxSingleValue));
+           // holder.tvRate.setText(Util.formatDecimalValue(preTaxSingleValue));
+            holder.tvRate.setText(Util.formatDecimalValue( curItems.get(position).getPrice()));
             holder.preTaxValue.setText(Util.formatDecimalValue(preTaxSingleValue * curItems.get(position).getQuantity()));
 
             if(this.isGSTAvailable){
@@ -103,7 +104,9 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
                     holder.CGSTValue.setVisibility(View.GONE);
                     holder.IGSTValue.setVisibility(View.GONE);
                     holder.SGSTValue.setVisibility(View.GONE);
-                }
+                            holder.llForHeader.setWeightSum(8.5f);
+
+                        }
             }
         }
         else {
@@ -111,6 +114,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             holder.CGSTValue.setVisibility(View.GONE);
             holder.IGSTValue.setVisibility(View.GONE);
             holder.SGSTValue.setVisibility(View.GONE);
+            holder.llForHeader.setWeightSum(7.0f);
            /* holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                     0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));*/
         }

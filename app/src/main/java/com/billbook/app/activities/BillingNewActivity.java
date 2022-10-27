@@ -3,6 +3,7 @@ package com.billbook.app.activities;
 import static com.billbook.app.activities.MyApplication.context;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -157,6 +158,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private  int countIsEdit =0 ;
     // idInLocalDb = column with name "id" in local db android
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -787,6 +789,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
     }
 
+    @SuppressLint("Range")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -803,9 +806,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     if(cursor1.moveToFirst())
                     {
 
-                        String contactName=cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                        String contactId = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts._ID));
-                        String hasPhone = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+                        @SuppressLint("Range") String contactName=cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                        @SuppressLint("Range") String contactId = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts._ID));
+                        @SuppressLint("Range") String hasPhone = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
                         if (Integer.parseInt(hasPhone) > 0) {
                             Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,  null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId, null, null);
                             String phoneNumber="";

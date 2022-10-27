@@ -157,7 +157,7 @@ public class BillingAddProductActivity extends AppCompatActivity {
         //    if (edtQuantities.getText().toString().trim().equals("")) {
         //      return;
         //    }
-        //
+        //fz
         //    if (count > 0) {
         //      int qty = Integer.parseInt(edtQuantities.getText().toString().trim());
         //      float rate = Integer.parseInt(edtRate.getText().toString().trim());
