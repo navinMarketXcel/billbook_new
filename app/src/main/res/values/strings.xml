@@ -130,7 +130,7 @@
     <string name="bill_no">Enter bill number</string>
     <string name="enter_price">Enter Price </string>
     <string name="price_including_gst">Price including GST<font color='#ff0000'>*</font> </string>
-    <string name="description">Description<font color='#ff0000'></font> </string>
+    <string name="description">Description<font color='#ff0000'>*</font> </string>
     <string name="enter_selling_price">Enter Selling Price</string>
     <string name="price">Price<font color='#ff0000'>*</font></string>
 
