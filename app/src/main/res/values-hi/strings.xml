@@ -16,6 +16,7 @@
     <string name="InVoiceNumberForNonGST">नॉन ज़ीएसटी के लिए इन्वॉइस नंबर</string>
     <string name="showGstPopup">जीएसटी पॉपअप दिखाएं</string>
     <string name="login_user_id">login_user_id</string>
+    <string name="userDetails">UserDetails</string>
     <string name="selected_categories">SelectedCategories</string>
     <string name="isGSTVerified">GSTVerified</string>
     <string name="user_profile">User Profile</string>

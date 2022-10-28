@@ -184,12 +184,14 @@ public class RegistrationActivity extends AppCompatActivity {
             DialogUtils.showToast(this, "Please enter valid mobile number");
             return false;
         } else if (binding.pinCodeEdt.getText().toString().length() < 6 || binding.pinCodeEdt.getError() != null) {
+            DialogUtils.showToast(this, "Invalid Pincode");
             return false;
         } else if (binding.state.getText().toString().isEmpty() || binding.city.getText().toString().isEmpty()) {
 
             DialogUtils.showToast(this, "State or city cannot be empty");
             return false;
-        } else {
+        }
+        else {
             return true;
         }
     }
