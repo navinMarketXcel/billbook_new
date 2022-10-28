@@ -104,6 +104,7 @@ ImageView ivToolBarBack;
             profile.put("state", etState.getText().toString());
             profile.put("city", etCity.getText().toString());
             MyApplication.saveUserDetails(profile.toString());
+            if(etGstNum.getText().toString().isEmpty())MyApplication.setIsGst(false);
 
             updateUserAPI();
 

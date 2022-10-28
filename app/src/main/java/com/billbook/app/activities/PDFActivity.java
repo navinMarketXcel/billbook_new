@@ -259,6 +259,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                        // pdfBinding.padding2.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.GONE);
                         pdfBinding.SGST.setVisibility(View.GONE);
+                        pdfBinding.llForHeader.setWeightSum(9.0f);
+
                        /*pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 4.5f));*/
                        /* pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
@@ -312,7 +314,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     String custName= invoice.getString("customerName");
                     String custNo =invoice.getString("customerMobileNo");
                     String custAdd =invoice.getString("customerAddress");
-                    pdfBinding.customerName.setText(custName);
+                    String GSTNo =invoice.getString("GSTNo");
+
 
                     if(custNo.isEmpty())
                     {
@@ -326,10 +329,20 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     {
                         custAdd=getIntent().getExtras().getString("customerAddress");
                     }
+                   /* if(custName == null)pdfBinding.customerName.setText("Customer Name - N/A ");else pdfBinding.customerName.setText("Customer Name - "+custName);
+                    if(custAdd == null)pdfBinding.customerAdd.setText("Customer Add - N/A ");else pdfBinding.customerAdd.setText("Customer Add - "+custAdd);
+                    if(custNo == null)pdfBinding.cusMobNo.setText("Customer Mobile - N/A ");else pdfBinding.cusMobNo.setText("Customer Mobile - "+custNo);
+                    if(GSTNo == null)pdfBinding.cusGst.setText("Customer GST - N/A ");else pdfBinding.cusGst.setText("Customer GST - "+GSTNo);
+*/
+                    pdfBinding.customerName.setText(custName);
+                    pdfBinding.customerAdd.setText(custAdd);
+                    pdfBinding.cusMobNo.setText(custNo);
+                    pdfBinding.cusGst.setText(GSTNo);
+
 
                     pdfBinding.edtName.setText(custName == null ?" ":custName+" ");
                     pdfBinding.edtAddress.setText(custAdd == null ?" ":custAdd+" ");
-                    pdfBinding.edtMobNo.setText(custNo == null ?" ":custNo+" ");
+                    //pdfBinding.edtMobNo.setText(custNo == null ?" ":custNo+" ");
 //            tvGSTNo.setText(invoice.getString("GSTNo")+" ");
                     invoiceAmountLayoutUpdatedBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
                       invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));

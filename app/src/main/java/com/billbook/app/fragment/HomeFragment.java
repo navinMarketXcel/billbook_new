@@ -144,16 +144,39 @@ public class HomeFragment extends Fragment
         adContainer = (RelativeLayout) view.findViewById(R.id.parent);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
         initUI(view);
-        final SharedPreferences sharedPref = getActivity().getSharedPreferences(
-                getString(R.string.preference_file_key), getActivity().MODE_PRIVATE);
-        isSheetShown = sharedPref.getBoolean("isGstDialogShown", false);
-        bottomSheetDialog(view);
+
         Util.setMeasurementUnits(getActivity());
         try {
             userProfile = new JSONObject(((MyApplication) getActivity().getApplication()).getUserDetails());
+
+            if(userProfile.has("gstNo")){
+                String gstNo = userProfile.getString("gstNo");
+                Log.v(" has gstno",gstNo);
+                if(gstNo.isEmpty() && MyApplication.getHaveGst())
+                {
+                    isSheetShown=true;
+
+                }else{
+                    isSheetShown=false;
+                }
+            }else{
+                if(MyApplication.getHaveGst()){
+                    isSheetShown=true;
+
+                }
+
+            }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        bottomSheetDialog(view);
+
+
+
+
+
         InMobiInitialization();
         VungleInitialization();
         return view;
@@ -356,7 +379,7 @@ public class HomeFragment extends Fragment
 
     private void bottomSheetDialog(View view) {
 
-        if (!isSheetShown) {
+        if (isSheetShown) {
             BottomSheetDialog gstSheet = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
             View bottomSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgst, (LinearLayout) view.findViewById(R.id.bottomSheetContainer));
             bottomSheet.findViewById(R.id.yesGSt).setOnClickListener(new View.OnClickListener() {
@@ -375,23 +398,9 @@ public class HomeFragment extends Fragment
                             gstSheet.dismiss();
 
                             if (verifyGstLength(editGstNum)) {
-                                sendGstUpdateStatus(1, editGstNum.getText().toString(), view);
-
-
+                                sendGstUpdateStatus(1, editGstNum.getText().toString(), view,true);
                                 yesGst.dismiss();
                                 MyApplication.setGSTFilled();
-                                SharedPreferences sharedPref =
-                                        getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
-                                                getActivity().MODE_PRIVATE);
-                                SharedPreferences.Editor editor = sharedPref.edit();
-                                editor.putBoolean("isGstDialogShown", true);
-                                editor.commit();
-//                                }
-//                                else if(!gstCheck)
-//                                {
-//                                    Toast.makeText(getContext(),"Please try to add gst in profile section",Toast.LENGTH_LONG).show();
-//                                }
-
 
                             } else if (!verifyGstLength(editGstNum)) {
                                 editGstNum.setError("GST Number cannot be less than 15 characters");
@@ -404,12 +413,8 @@ public class HomeFragment extends Fragment
                         @Override
                         public void onClick(View view) {
                             yesGst.dismiss();
-                            SharedPreferences sharedPref =
-                                    getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
-                                            getActivity().MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putBoolean("isGstDialogShown", true);
-                            editor.commit();
+
+                            MyApplication.setIsGst(false);
 
                         }
                     });
@@ -424,13 +429,8 @@ public class HomeFragment extends Fragment
                 @Override
                 public void onClick(View view) {
                     gstSheet.dismiss();
-                    SharedPreferences sharedPref =
-                            getActivity().getSharedPreferences(HomeFragment.this.getString(R.string.preference_file_key),
-                                    getActivity().MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putBoolean("isGstDialogShown", true);
-                    editor.commit();
-
+                    MyApplication.setHaveGst(false);
+                    MyApplication.setIsGst(false);
                 }
 
             });
@@ -902,7 +902,7 @@ public class HomeFragment extends Fragment
 
     }
 
-    private void sendGstUpdateStatus(int gstStatus, String gstNo, View view) {
+    private void sendGstUpdateStatus(int gstStatus, String gstNo, View view,Boolean checkGst) {
 
         try {
 
@@ -955,6 +955,8 @@ public class HomeFragment extends Fragment
                             View showgifView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_gstyes, (LinearLayout) view.findViewById(R.id.GSTyes));
                             showGif.setContentView(showgifView);
                             showGif.show();
+                            MyApplication.setIsGst(checkGst);
+
                         } else {
 
                             DialogUtils.showToast(getActivity(), "Failed update GST");

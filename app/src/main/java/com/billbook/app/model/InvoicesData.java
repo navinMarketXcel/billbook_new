@@ -21,16 +21,16 @@ public class InvoicesData {
     public Integer nonGstBillNo;
     @SerializedName("discount")
     @Expose
-    public Integer discount=0;
+    public Double discount=0.0;
     @SerializedName("totalAfterDiscount")
     @Expose
-    public Integer totalAfterDiscount=0;
+    public Double totalAfterDiscount=0.0;
     @SerializedName("GSTNo")
     @Expose
     public String gSTNo;
     @SerializedName("totalAmount")
     @Expose
-    public Integer totalAmount=0;
+    public Double totalAmount=0.0;
     @SerializedName("gstType")
     @Expose
     public String gstType;
@@ -118,19 +118,19 @@ public class InvoicesData {
         this.nonGstBillNo = nonGstBillNo;
     }
 
-    public Integer getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Integer discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 
-    public Integer getTotalAfterDiscount() {
+    public Double getTotalAfterDiscount() {
         return totalAfterDiscount;
     }
 
-    public void setTotalAfterDiscount(Integer totalAfterDiscount) {
+    public void setTotalAfterDiscount(Double totalAfterDiscount) {
         this.totalAfterDiscount = totalAfterDiscount;
     }
 
@@ -142,11 +142,11 @@ public class InvoicesData {
         this.gSTNo = gSTNo;
     }
 
-    public Integer getTotalAmount() {
+    public Double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Integer totalAmount) {
+    public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
 

@@ -149,10 +149,10 @@
         android:gravity="start"
         android:inputType="textMultiLine"
 
-        android:textSize="13dp"
         android:padding="5dp"
         android:singleLine="false"
-        tools:text="120,000,00,0.0000"
+        android:textColor="@color/color_black"
+        android:textSize="13dp"
 
-        android:textColor="@color/color_black" />
+        tools:text="120,000,00,0.0000" />
 </LinearLayout>

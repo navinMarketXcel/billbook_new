@@ -29,6 +29,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
     private boolean isGSTAvailable;
     private List<String> measurementUnitList;
     private String GSTType="";
+    float totalpretaxvalue=0;
     public NewInvoicePurchaseAdapter(Context context, List<InvoiceItems> curItems,boolean isGSTAvailable,String GSTType) {
         this.curItems = curItems;
         this.mContext = context;
@@ -78,7 +79,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
            // holder.tvRate.setText(Util.formatDecimalValue(preTaxSingleValue));
             holder.tvRate.setText(Util.formatDecimalValue( curItems.get(position).getPrice()));
             holder.preTaxValue.setText(Util.formatDecimalValue(preTaxSingleValue * curItems.get(position).getQuantity()));
-
+             totalpretaxvalue=totalpretaxvalue+preTaxSingleValue * curItems.get(position).getQuantity();
             if(this.isGSTAvailable){
 //                if(curItems.get(position).getGstType() != null && curItems.get(position).getGstType().equals("IGST (Central/outstation customer)")) {
                 if(GSTType.equals("IGST (Central/outstation customer)")){
@@ -86,7 +87,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
                     holder.SGSTValue.setVisibility(View.GONE);
                     holder.IGSTValue.setVisibility(View.VISIBLE);
                     holder.IGSTValue.setText(Util.formatDecimalValue(gstVlaue));
-                   /* holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
+                    holder.llForHeader.setWeightSum(9f);                   /* holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                             0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));*/
                 }else
 //                    if(curItems.get(position).getGstType() != null && curItems.get(position).getGstType().equals("CGST/SGST (Local customer)")){
@@ -98,6 +99,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
                     holder.IGSTValue.setVisibility(View.GONE);
                     holder.CGSTValue.setText(Util.formatDecimalValue( gstVlaue / 2));
                     holder.SGSTValue.setText(Util.formatDecimalValue( gstVlaue / 2));
+
                 }else {
                    /* holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                             0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));*/

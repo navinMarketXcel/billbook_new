@@ -163,12 +163,7 @@ public class ProfileFragment extends Fragment {
                     startActivity(intent);
                     getActivity().finish();
                     MyApplication.saveUserDetails("");
-                    SharedPreferences sharedPref =
-                            getActivity().getSharedPreferences(ProfileFragment.this.getString(R.string.preference_file_key),
-                                    getActivity().MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putBoolean("isGstDialogShown", false);
-                    editor.commit();
+                    MyApplication.setHaveGst(true);
                 }
                 @Override
                 public void negativeButtonClick() {
@@ -182,28 +177,39 @@ public class ProfileFragment extends Fragment {
 //            MyApplication.saveUserDetails("");
         });
 
-
         switchGst.setOnClickListener(v -> {
-            try {
-                String gstNo = profile.getString("gstNo");
-                Log.v("gstno",gstNo);
-                if(gstNo.isEmpty())
-                {
-                    switchGst.setChecked(false);
-                    Toast.makeText(getContext(), "Please Update Gst No", Toast.LENGTH_SHORT).show();
-                    updateUserAPI("0",false);
-                }
-                else
-                {
-                    if(switchGst.isChecked()){
-                        updateUserAPI("1",true);
-                    }
-                }
 
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
+            if (profile.has("gstNo")) {
+                String GstNo = null;
+                try {
+                    GstNo = profile.getString("gstNo");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (GstNo.isEmpty()) {
+                    switchGst.setChecked(false);
+                    MyApplication.setIsGst(false);
+                    Toast.makeText(getContext(), "Please Update Gst No", Toast.LENGTH_SHORT).show();
+
+                    return;
+                }
+            }
+
+            if(switchGst.isChecked()){
+                try {
+                    updateUserAPI("1",true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                try {
+                    updateUserAPI("0",false);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
+
     }
 
     private void setUserData() {
@@ -225,20 +231,15 @@ public class ProfileFragment extends Fragment {
             }
             if (profile.has("gstNo")) {
                 String GstNo=profile.getString("gstNo");
-                if(!GstNo.isEmpty()){
+                if(!GstNo.isEmpty() && MyApplication.getIsGst()){
                     switchGst.setChecked(true);
                 }else{
                     switchGst.setChecked(false);
                 }
+            }else{
+                switchGst.setChecked(false);
             }
-//            if (profile.has("isGST")) {
-//                isGst=profile.getInt("isGST");
-//                if(isGst==1){
-//                    switchGst.setChecked(true);
-//                }else{
-//                    switchGst.setChecked(false);
-//                }
-//            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

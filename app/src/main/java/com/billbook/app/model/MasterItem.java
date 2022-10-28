@@ -19,13 +19,13 @@ public class MasterItem {
     public Integer measurementId;
     @SerializedName("price")
     @Expose
-    public Integer price;
+    public Double price;
     @SerializedName("gstType")
     @Expose
     public String gstType;
     @SerializedName("gstAmount")
     @Expose
-    public Integer gstAmount;
+    public Double gstAmount;
     @SerializedName("gst")
     @Expose
     public Integer gst;
@@ -37,7 +37,7 @@ public class MasterItem {
     public String imei;
     @SerializedName("totalAmount")
     @Expose
-    public Integer totalAmount;
+    public Double totalAmount;
     @SerializedName("invoiceid")
     @Expose
     public Integer invoiceid;
@@ -86,11 +86,11 @@ public class MasterItem {
         this.measurementId = measurementId;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -102,11 +102,11 @@ public class MasterItem {
         this.gstType = gstType;
     }
 
-    public Integer getGstAmount() {
+    public Double getGstAmount() {
         return gstAmount;
     }
 
-    public void setGstAmount(Integer gstAmount) {
+    public void setGstAmount(Double gstAmount) {
         this.gstAmount = gstAmount;
     }
 
@@ -134,11 +134,11 @@ public class MasterItem {
         this.imei = imei;
     }
 
-    public Integer getTotalAmount() {
+    public Double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Integer totalAmount) {
+    public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
 

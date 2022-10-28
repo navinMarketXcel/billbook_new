@@ -521,8 +521,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     JSONObject cuObj = jsonArray.getJSONObject(i).getJSONObject("customer");
                     masterItems = jsonArray.getJSONObject(i).getJSONArray("masterItems");
                     System.out.println(masterItems);
-                    invoiceData.setTotalAmount(obj.getInt("totalAmount"));
-                    invoiceData.setTotalAfterDiscount(obj.getInt("totalAfterDiscount"));
+                    invoiceData.setTotalAmount(obj.getDouble("totalAmount"));
+                    invoiceData.setTotalAfterDiscount(obj.getDouble("totalAfterDiscount"));
                     invoiceData.setNonGstBillNo(obj.getInt("nonGstBillNo"));
                     invoiceData.setGstBillNo(obj.getInt("gstBillNo"));
                     invoiceData.setGSTNo(obj.getString("GSTNo"));
@@ -537,7 +537,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     invoiceData.setIsActive(obj.getBoolean("is_active"));
                     invoiceData.setId(obj.getInt("id"));
                     invoiceData.setCustomer(new Customer(cuObj.getString("name"),cuObj.getString("mobileNo"),false,cuObj.getString("address")));
-                    invoiceData.setDiscount(obj.getInt("discount"));
+                    invoiceData.setDiscount(obj.getDouble("discount"));
                     List<MasterItem> masterArrayList = new ArrayList<MasterItem>();
                     for(int j=0; j < masterItems.length();j++)
                     {
@@ -547,10 +547,11 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         master.setName(masterObject.getString("name"));
                         master.setId(masterObject.getInt("id"));
                         master.setGst(masterObject.getInt("gst"));
+                        master.setGstAmount(masterObject.getDouble("gstAmount"));
                         master.setGstType(masterObject.getString("gstType"));
-                        master.setTotalAmount(masterObject.getInt("totalAmount"));
+                        master.setTotalAmount(masterObject.getDouble("totalAmount"));
                         master.setInvoiceid(masterObject.getInt("invoiceid"));
-                        master.setPrice(masterObject.getInt("price"));
+                        master.setPrice(masterObject.getDouble("price"));
                         master.setQuantity(masterObject.getInt("quantity"));
                         masterArrayList.add(master);
                     }
@@ -992,7 +993,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         JSONArray masterItems = new JSONArray();
         JSONObject customer = new JSONObject();
         try {
-
             requestInvoice.put("totalAmount",data.getTotalAmount());
             requestInvoice.put("gstBillNo",data.getGstBillNo());
             requestInvoice.put("invoiceDate",data.getInvoiceDate());
@@ -1027,8 +1027,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             }
             requestInvoice.put("masterItems",masterItems);
 
-            Log.v("request invoice",requestInvoice.toString());
-            System.out.println("request invoice in editBills"+requestInvoice);
 //            requestInvoice.setTotalAfterDiscount(obj.getInt("totalAfterDiscount"));
 //            requestInvoice.setNonGstBillNo(obj.getInt("nonGstBillNo"));
 //            requestInvoice.setGstBillNo(obj.getInt("gstBillNo"));

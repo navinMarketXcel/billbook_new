@@ -191,11 +191,11 @@
                                         android:layout_weight=".4"
                                         android:layout_marginStart="@dimen/_5sdp"
 
-                                        android:text="Bill #" />
+                                        android:text=" Bill Number #     " />
 
                                     <TextView
                                         android:id="@+id/txtInvoiceNo"
-                                        style="@style/textSmallBold"
+                                        style="@style/textRegularBold"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".6"
@@ -224,7 +224,7 @@
 
                                     <TextView
                                         android:id="@+id/txtInvoiceDate"
-                                        style="@style/textSmallBold"
+                                        style="@style/textRegularBold"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".6"
@@ -252,7 +252,7 @@
                                         android:text="Bill Type" />
 
                                     <TextView
-                                        style="@style/textSmallBold"
+                                        style="@style/textRegularBold"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".6"
@@ -294,6 +294,12 @@
                         </LinearLayout>
 
 
+
+
+
+
+
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
@@ -306,25 +312,27 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
-                                android:layout_weight="1"
+                                android:layout_weight="2"
                                 >
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:orientation="horizontal"
+
                                     android:background="@color/grey_b9b9b9"
                                     android:weightSum="1">
-                                    <View
+                                    <!--<View
                                         android:layout_width="1dp"
                                         android:layout_height="match_parent"
-                                        android:background="@color/material_blue_grey_95" />
+                                        android:background="@color/material_blue_grey_95" />-->
 
                                     <TextView
                                         style="@style/textSmall"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight=".4"
-                                        android:text="Bill To"
+                                        android:layout_marginStart="@dimen/_5sdp"
+                                        android:text="Bill To               "
                                         />
 
                                     <TextView
@@ -350,19 +358,20 @@
 
                                     <TextView
                                         android:id="@+id/customerName"
-                                        style="@style/textSmall"
+                                        style="@style/textRegularBold"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight=".4"
+                                        android:layout_weight=".5"
                                         android:layout_marginStart="@dimen/_5sdp"
-                                        android:text="Bill Date"
+                                        android:text="N/A"
                                         />
 
                                     <TextView
-                                        style="@style/textSmallBold"
+                                        android:id="@+id/customerAdd"
+                                        style="@style/textRegularBold"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
+                                        android:layout_weight=".5"
                                         android:gravity="end"
                                         android:layout_marginEnd="@dimen/_5sdp"
                                         android:text="N/A"
@@ -379,22 +388,22 @@
                                     android:weightSum="1">
 
                                     <TextView
-                                        android:id="@+id/edtMobNo"
-                                        style="@style/textSmall"
+                                        android:id="@+id/cusMobNo"
+                                        style="@style/textRegularBold"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight=".4"
+                                        android:layout_weight=".5"
                                         android:layout_marginStart="@dimen/_5sdp"
-                                        android:text="Bill Type"
-                                        />
+                                        android:text="N/A"                                        />
 
                                     <TextView
-                                        style="@style/textSmallBold"
+                                        android:id="@+id/cusGst"
+                                        style="@style/textRegularBold"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
+                                        android:layout_weight=".5"
                                         android:gravity="end"
-                                        android:text="Orignal"
+                                        android:text="N/A"
                                         android:layout_marginEnd="@dimen/_5sdp"
                                         android:textColor="@color/color_black"
                                         />
@@ -404,11 +413,14 @@
 
 
                             </LinearLayout>
+<!--
                             <View
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
                                 android:background="@color/black" />
+-->
 
+<!--
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
@@ -433,6 +445,8 @@
                                             android:layout_height="wrap_content"
                                             android:layout_weight=".4"
                                             android:text="Ship to"
+                                            android:layout_marginStart="@dimen/_5sdp"
+
                                             />
 
                                         <TextView
@@ -446,10 +460,12 @@
                                             android:textColor="@color/color_black"
                                             />
 
+&lt;!&ndash;
                                         <View
                                             android:layout_width="1dp"
                                             android:layout_height="match_parent"
                                             android:background="@color/material_blue_grey_95" />
+&ndash;&gt;
 
                                     </LinearLayout>
 
@@ -460,6 +476,7 @@
 
 
                             </LinearLayout>
+-->
 
 
                         </LinearLayout>

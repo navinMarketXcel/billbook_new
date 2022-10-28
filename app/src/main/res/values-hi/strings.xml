@@ -379,4 +379,5 @@
     <string name="add_new_item">नया आइटम जोड़ें</string>
     <string name="select_date">तारीख़ चुनें</string>
     <string name="enter_contact__no_and_name"> मोबाइल नंबर या ग्राहक का नाम दर्ज करें</string>
+    <string name="customer_mobile">ग्राहक मोबाइल नंबर</string>
 </resources>

@@ -494,4 +494,5 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="marathi" translatable="false">Marathi</string>
     <string name="select_date">Select Date</string>
     <string name="enter_contact__no_and_name"> Enter Customer Name or Mobile Name</string>
+    <string name="customer_mobile">Customer Mobile</string>
 </resources>
