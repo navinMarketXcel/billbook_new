@@ -354,7 +354,6 @@ public class DayBookActivity extends AppCompatActivity {
         if(email == null || email.isEmpty() )
         {
             downloadDaybook(startDateStr,endDateStr);
-
             Toast.makeText(this, "Daybook Downloading. Please Update Your Email in your Profile. ", Toast.LENGTH_LONG).show();
 
         }
@@ -606,7 +605,7 @@ public class DayBookActivity extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("email",email);
-            Log.v("email",email);
+//            Log.v("email",email);
             jsonObject.put("startDate",startdate);
             jsonObject.put("endDate",endDate);
             JsonObject req = new JsonParser().parse(jsonObject.toString()).getAsJsonObject();

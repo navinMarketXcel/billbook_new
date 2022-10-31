@@ -16,6 +16,8 @@
     <string name="InVoiceNumberForNonGST">InVoiceNumberNonGST</string>
     <string name="showGstPopup">ShowGstPopup</string>
     <string name="login_user_id">LoginUserId</string>
+    <string name="userDetails">UserDetails</string>
+
     <string name="selected_categories">SelectedCategories</string>
     <string name="isGSTVerified">GSTVerified</string>
     <string name="user_profile">User Profile</string>

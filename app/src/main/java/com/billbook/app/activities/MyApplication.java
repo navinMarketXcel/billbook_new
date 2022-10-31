@@ -253,13 +253,13 @@ public class MyApplication extends Application {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(context.getString(R.string.login_user_id), user);
+        editor.putString(context.getString(R.string.userDetails), user);
         editor.commit();
     }
     public static String getUserDetails() {
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
-        String userId = sharedPref.getString(context.getString(R.string.login_user_id), "");
+        String userId = sharedPref.getString(context.getString(R.string.userDetails), "");
         return userId;
     }
 

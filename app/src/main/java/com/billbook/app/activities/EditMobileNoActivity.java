@@ -48,6 +48,11 @@ String userid;
             if(verifyData())getOTP();
         });
     }
+
+    @Override
+        public void onBackPressed() {
+        finish();
+    }
     private boolean verifyData() {
 
         if (etPhone.getText().toString().isEmpty() || etPhone.getText().toString().length() < 10) {

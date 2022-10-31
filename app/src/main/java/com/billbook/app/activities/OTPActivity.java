@@ -377,6 +377,7 @@ public class OTPActivity extends AppCompatActivity {
                                         int k = newData.intValue();
                                         ((MyApplication) getApplication()).setShowGstPopup(k);
                                     }
+                                    MyApplication.setHaveGst(true);
                                         gotoHomeScreen();
                                 }else {
                                     gotoRegistration();

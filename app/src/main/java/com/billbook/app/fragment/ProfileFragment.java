@@ -194,6 +194,14 @@ public class ProfileFragment extends Fragment {
                     return;
                 }
             }
+            else
+            {
+                switchGst.setChecked(false);
+                MyApplication.setIsGst(false);
+                Toast.makeText(getContext(), "Please Update Gst No", Toast.LENGTH_SHORT).show();
+
+                return;
+            }
 
             if(switchGst.isChecked()){
                 try {

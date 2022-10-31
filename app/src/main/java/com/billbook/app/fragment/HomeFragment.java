@@ -152,6 +152,7 @@ public class HomeFragment extends Fragment
             if(userProfile.has("gstNo")){
                 String gstNo = userProfile.getString("gstNo");
                 Log.v(" has gstno",gstNo);
+                System.out.println( "gstno :"+ MyApplication.getHaveGst() );
                 if(gstNo.isEmpty() && MyApplication.getHaveGst())
                 {
                     isSheetShown=true;
@@ -159,8 +160,11 @@ public class HomeFragment extends Fragment
                 }else{
                     isSheetShown=false;
                 }
-            }else{
+            }
+            else{
+                System.out.println( "gstno :"+ MyApplication.getHaveGst() );
                 if(MyApplication.getHaveGst()){
+
                     isSheetShown=true;
 
                 }
