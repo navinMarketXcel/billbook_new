@@ -169,6 +169,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
         expenseName= view.findViewById(R.id.expenseName);
         expenseAmount = view.findViewById(R.id.expenseAmount);
         String date;
+        isEdit=false;
         DateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
         date = formatter.format(new Date());
         selectDate.setText(date);
@@ -589,6 +590,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                 headerMap.put("Content-Type", "application/json");
 
                 Call<Object> call = null;
+
                 if (!isEdit) {
                     Util.postEvents("Add Expense","Add Expense",this.getApplicationContext());
                     call = apiService.expenses(headerMap, expense);
