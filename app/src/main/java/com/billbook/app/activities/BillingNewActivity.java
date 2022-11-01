@@ -144,7 +144,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     //variables for Checking Contact Permission
     private ImageButton imageButton;
     private EditText edtname;
-    private EditText edtScan;
     private EditText edtMobNo, billNo,bill_date;
     private TextView additemTv;
     private static final int Contact_code=123;
@@ -430,8 +429,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             @Override
             public void afterTextChanged(Editable s) {
                 try {
-                    System.out.println("txt amount :"+s.toString());
                     if (getCurrentFocus() == binding.edtDiscountAmt) {
+
                         if (s.toString().length() > 0) {
                             discountAmt = Float.parseFloat(s.toString());
                             discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, totalBeforeGST);
@@ -445,7 +444,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             binding.edtDiscountPercent.getText().clear();
                             discountAmt = 0;
                             discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
-
                         }
                         setTotalAfterDiscount();
                     }
@@ -820,7 +818,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             }
                             if(phoneNumber.length()>10)
                             {
-                                phoneNumber= phoneNumber.replaceAll("//s","");
+                                phoneNumber= phoneNumber.replaceAll("[^a-zA-Z0-9]","");
                                 phoneNumber= phoneNumber.substring(phoneNumber.length()-10);
                             }
                             binding.edtMobNo.setText(phoneNumber);
@@ -1349,10 +1347,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             } else if (quantityEt.getText().toString().isEmpty() || Float.parseFloat(quantityEt.getText().toString()) == 0) {
                 DialogUtils.showToast(c, "Please enter quantity");
                 return false;
-            } else if (isGSTAvailable && gstPercentage.getSelectedItemPosition() == 0) {
-                DialogUtils.showToast(c, "Please select GST %");
-                return false;
-            }
+           }
+            //else if (isGSTAvailable && gstPercentage.getSelectedItemPosition() == 0) {
+//                DialogUtils.showToast(c, "Please select GST %");
+//                return false;
+//            }
             return true;
         }
     }
@@ -2018,6 +2017,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     public void discVisible(View v)
     {
+
             TextView addDisc = findViewById(R.id.addDisc);
             View bildetsLine = findViewById(R.id.bildetsLine);
             LinearLayout disc = findViewById(R.id.discountLayout);
@@ -2138,16 +2138,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
     public void scanCode(View v) {
-       /* if(v.getId()==R.id.ivScan){
-            edtScan= billItemBinding.imeiNo;
-
-        }else{
-            edtScan= billItemBinding.imeiNo;
-
-        }*/
         Util.postEvents("Scan Button", "Scan Button", this.getApplicationContext());
 
-       new IntentIntegrator(this).setOrientationLocked(false)
+        new IntentIntegrator(this).setOrientationLocked(false)
                 .initiateScan(); // `this` is the current Activity
     }
 
