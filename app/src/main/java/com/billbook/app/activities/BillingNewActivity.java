@@ -818,7 +818,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             }
                             if(phoneNumber.length()>10)
                             {
-                                phoneNumber= phoneNumber.replaceAll("//s","");
+                                phoneNumber= phoneNumber.replaceAll("[^a-zA-Z0-9]","");
                                 phoneNumber= phoneNumber.substring(phoneNumber.length()-10);
                             }
                             binding.edtMobNo.setText(phoneNumber);
@@ -1344,10 +1344,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             } else if (quantityEt.getText().toString().isEmpty() || Float.parseFloat(quantityEt.getText().toString()) == 0) {
                 DialogUtils.showToast(c, "Please enter quantity");
                 return false;
-            } else if (isGSTAvailable && gstPercentage.getSelectedItemPosition() == 0) {
-                DialogUtils.showToast(c, "Please select GST %");
-                return false;
-            }
+           }
+            //else if (isGSTAvailable && gstPercentage.getSelectedItemPosition() == 0) {
+//                DialogUtils.showToast(c, "Please select GST %");
+//                return false;
+//            }
             return true;
         }
     }
@@ -2014,6 +2015,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     public void discVisible(View v)
     {
+
             TextView addDisc = findViewById(R.id.addDisc);
             View bildetsLine = findViewById(R.id.bildetsLine);
             LinearLayout disc = findViewById(R.id.discountLayout);
@@ -2032,6 +2034,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 }
                 bildetsLine.setVisibility(View.GONE);
                 disc.setVisibility(View.GONE);
+                binding.edtDiscountAmt.setText("0");
+                binding.edtDiscountPercent.setText("0");
                 ischeckDisc=true;
             }
     }
