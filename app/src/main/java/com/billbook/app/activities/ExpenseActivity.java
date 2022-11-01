@@ -595,17 +595,11 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
 
                 if (!isEdit) {
                     Util.postEvents("Add Expense","Add Expense",this.getApplicationContext());
-                    System.out.println("Chk add expense request ::"+expense);
                     call = apiService.expenses(headerMap, expense);
                 }
                 else {
                     Util.postEvents("Update Expense","Update Expense",this.getApplicationContext());
-                    System.out.println("Chk update expense request ::"+expense.getId());
-
                     call = apiService.updateExpenses(headerMap, (int) expense.getId(), expense);
-                    //{"amount":56,"expenseDate":"31-Oct-2022","id":0,"name":"test ","userid":235582}
-                    // {"amount":105,"expenseDate":"13-Oct-2022","id":0,"name":"ghbnn","userid":235582}
-
                 }
                 call.enqueue(new Callback<Object>() {
                     @Override

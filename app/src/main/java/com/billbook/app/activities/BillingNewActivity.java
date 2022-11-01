@@ -144,6 +144,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     //variables for Checking Contact Permission
     private ImageButton imageButton;
     private EditText edtname;
+    private EditText edtScan;
     private EditText edtMobNo, billNo,bill_date;
     private TextView additemTv;
     private static final int Contact_code=123;
@@ -429,8 +430,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             @Override
             public void afterTextChanged(Editable s) {
                 try {
+                    System.out.println("txt amount :"+s.toString());
                     if (getCurrentFocus() == binding.edtDiscountAmt) {
-
                         if (s.toString().length() > 0) {
                             discountAmt = Float.parseFloat(s.toString());
                             discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, totalBeforeGST);
@@ -444,6 +445,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             binding.edtDiscountPercent.getText().clear();
                             discountAmt = 0;
                             discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
+
                         }
                         setTotalAfterDiscount();
                     }
@@ -847,9 +849,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             } else {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 if (billItemBinding.layoutBillItemInitial.getVisibility() == View.VISIBLE) {
-                    billItemBinding.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
-//                } else if (BottomSheetClass.isShowing()) {
-//                    BottomSheetClass..setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
+                   // billItemBinding.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
+                    billItemBinding.imeiNo.setText(result.getContents());
+            } else if (customDialogClass.isShowing()) {
+                   // customDialogClass.imeiNo.setText("");
+                    customDialogClass.imeiNo.setText(result.getContents());
+                    //customDialogClass.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
                 }
             }
 
@@ -1068,8 +1073,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
             //additemTv.setText("Update Item");
             editPosition = position;
-            new BottomSheetClass(this, invoiceItemsList.get(position),measurementUnitTypeList).show();
-
+            customDialogClass =    new BottomSheetClass(this, invoiceItemsList.get(position),measurementUnitTypeList);
+            customDialogClass.show();
         } else {
 
             DialogUtils.showAlertDialog(this, "Yes", "No", "Are you sure you want to delete?", new DialogUtils.DialogClickListener() {
@@ -1471,7 +1476,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 float totalAfterDiscount = total - discountAmt;
                 binding.tvTotal.setText("₹"+Util.formatDecimalValue(totalAfterDiscount));
                 binding.tvTotalFinal.setText("₹"+Util.formatDecimalValue(totalAfterDiscount));
-                System.out.println("in set totalafterdisc"+totalAfterDiscount);
                 setEditTextError(binding.edtDiscountAmt, "");
                 setEditTextError(binding.edtDiscountPercent, "");
             }
@@ -2030,8 +2034,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 } else {
                     addDisc.setText("Add Discount");
                 }
+
+                binding.edtDiscountPercent.getText().clear();
+                binding.edtDiscountAmt.getText().clear();
                 bildetsLine.setVisibility(View.GONE);
                 disc.setVisibility(View.GONE);
+                discountAmt = 0;
+                discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
+
                 ischeckDisc=true;
             }
     }
@@ -2128,9 +2138,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
     public void scanCode(View v) {
+       /* if(v.getId()==R.id.ivScan){
+            edtScan= billItemBinding.imeiNo;
+
+        }else{
+            edtScan= billItemBinding.imeiNo;
+
+        }*/
         Util.postEvents("Scan Button", "Scan Button", this.getApplicationContext());
 
-        new IntentIntegrator(this).setOrientationLocked(false)
+       new IntentIntegrator(this).setOrientationLocked(false)
                 .initiateScan(); // `this` is the current Activity
     }
 

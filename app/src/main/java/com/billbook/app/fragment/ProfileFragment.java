@@ -272,8 +272,6 @@ public class ProfileFragment extends Fragment {
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     if (body.getBoolean("status")) {
-
-
                         MyApplication.saveUserDetails(body.getJSONObject("data").toString());
                         MyApplication.saveUserToken(body.getJSONObject("data").getString("userToken"));
                         MyApplication.setIsGst(checkGst);

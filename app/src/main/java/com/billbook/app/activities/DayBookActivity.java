@@ -89,7 +89,8 @@ public class DayBookActivity extends AppCompatActivity {
     private ArrayList<DayBook> dayBookArrayList = new ArrayList<>();
     private int userId =0;
     String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"};
-    String quart[] = {"Mar-May","JUN-AUG","SEP-NOV","DEC-FEB"};
+    //String quart[] = {"Mar-May","JUN-AUG","SEP-NOV","DEC-FEB"};
+    String quart[] = {"APR-JUN","JUL-SEP","OCT-DEC","JAN-MAR"};
     private String email;
     private float totalIn=0, totalOut;
     private DayBookAdapter dayBookAdapter;
@@ -435,7 +436,7 @@ public class DayBookActivity extends AppCompatActivity {
                 popupMenu.getMenu().findItem(R.id.m_week).setTitle("This Week (" + mDay + " " +months[mMonth]  + "'" + year +"-"+ endDate.get(Calendar.DAY_OF_MONTH)+ " " +months[mMonth]  + "'" + year + ")");
             }else if(menuItem.getItemId()==R.id.m_quarter){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                startDate.add(Calendar.MONTH, -2);
+                startDate.add(Calendar.MONTH, -3);
                 startDate = setDay(startDate);
                 int quarter = startDate.get(Calendar.MONTH);
                 quarter = (quarter+2)/3;

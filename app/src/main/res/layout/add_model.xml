@@ -479,7 +479,7 @@
                     />
             </com.google.android.material.textfield.TextInputLayout>
             <ImageView
-
+               android:id="@+id/ivScan"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:padding="5dp"

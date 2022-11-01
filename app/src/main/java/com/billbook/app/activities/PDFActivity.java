@@ -1168,9 +1168,12 @@ System.out.println("filepath ::"+filepath);
             public void onResponse(Call<Object> call, Response<Object> response) {
 //                DialogUtils.stopProgressDialog();
                 try {
+
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+
                     Log.v("RESP", body.toString());
                     if (body.getBoolean("status")) {
+                        if(body.has("data"))
                         invoice.put("pdfLink", body.getJSONObject("data").getJSONObject("invoice").getString("pdfLink"));
                     } else {
                         DialogUtils.showToast(PDFActivity.this, "Failed upload pdf to server");
@@ -1278,7 +1281,7 @@ System.out.println("filepath ::"+filepath);
                 generateShortBillThreeInch(invoiceItems);
                 loadAndSetCompanyLogo();
                 loadAndSetSignatureImage();
-                createPdfWrapper();
+              //  createPdfWrapper();
             } catch (Exception e) {
                 e.printStackTrace();
             }
