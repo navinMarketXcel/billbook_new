@@ -876,9 +876,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         Util.postEvents("Add More Item", "Add More Item", this.getApplicationContext());
         customDialogClass = new BottomSheetClass(this, null,measurementUnitTypeList);
         additemTv = findViewById(R.id.additemTv);
-
         customDialogClass.show();
         TextView viewNew = customDialogClass.findViewById(R.id.additemTv);
+        Button button = customDialogClass.findViewById(R.id.add);
         viewNew.setText("Add New Item");
         TableRow table = customDialogClass.findViewById(R.id.deleteLayout);
         table.setVisibility(View.GONE);
@@ -895,11 +895,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //        billItemBinding.items.setText("Items"+"("+count+")");
         //additemTv.setText("Add New Item");
         countIsEdit = count;
+
     }
 
     public void addItem() {
         if (addItemVerify()) {
             Util.postEvents("Add Item", "Add Item", this.getApplicationContext());
+            Toast.makeText(this, "Item successfully Added!", Toast.LENGTH_SHORT).show();
 
             count = invoiceItemsList.size() + 1;
             if(invoiceItemsList.size() < 0)
@@ -912,7 +914,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 billItemBinding.items.setText("Items"+"("+count+")");
             }
             countIsEdit = count;
-
             TextView tv1 = findViewById(R.id.items);
             tv1.setVisibility(View.VISIBLE);
             LinearLayout ll = findViewById(R.id.viewDetsLay);
@@ -940,16 +941,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     billItemBinding.imeiNo.getText().toString(),
                     billItemBinding.unit.getSelectedItemPosition(),-1);
 
+
             binding.cardItemList.setVisibility(View.VISIBLE);
             billItemBinding.layoutBillItemInitial.setVisibility(View.GONE);
 //            binding.tvTotal.setText(billItemBinding.itemPriceET.getText().toString());
-//
+
         }
 
-
-    }
-    public void deleteItem()
-    {
 
     }
 
@@ -1321,6 +1319,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                                 imeiNo.getText().toString(),
                                 imeiNo.getText().toString(),
                                 measurementUnitSpinner.getSelectedItemPosition(),-1);
+                        Toast.makeText(c, "Item successfully Added!", Toast.LENGTH_SHORT).show();
 
                         dismiss();
                     }
