@@ -818,7 +818,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             }
                             if(phoneNumber.length()>10)
                             {
-                                phoneNumber= phoneNumber.replaceAll("[^a-zA-Z0-9]","");
+                                phoneNumber= phoneNumber.replaceAll("[//D]","");
+                                phoneNumber= phoneNumber.replaceAll("[//s]","");
                                 phoneNumber= phoneNumber.substring(phoneNumber.length()-10);
                             }
                             binding.edtMobNo.setText(phoneNumber);
