@@ -136,8 +136,10 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                System.out.println("click postion"+i);
                 edtMobileNo.setText("");
                 if(adapterView.getItemAtPosition(i).equals("Custom Period")) {
+                    dateSpinner.setSelection(0);
                     BottomSheetDialog gstSheet = new BottomSheetDialog(SearchInvoiceActivity.this, R.style.BottomSheetDialogTheme);
                     View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_date_range_picker,null);
                     CalendarPicker calendarPicker = bottomSheet. findViewById(R.id.calendar_view);
@@ -229,6 +231,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             }
         });
         setonClick();
+
+
     }
     public void setonClick(){
         ImageView iv = findViewById(R.id.ivToolBarBack);

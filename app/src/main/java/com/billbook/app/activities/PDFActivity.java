@@ -801,9 +801,16 @@ System.out.println("filepath ::"+filepath);
 
     public void createWhatsppsmsToShare(String url){
         try{
+            Double totalAmount,totalAfterDiscount;
+            totalAmount = Double.parseDouble(invoice.getString("totalAmount"));
+            if (invoice.has("totalAfterDiscount")) {
+                totalAfterDiscount =  invoice.getDouble("totalAfterDiscount");
+            } else {
+                totalAfterDiscount = totalAmount;
+            }
             String smsBody = "Dear user"
                     + ", Your total payable amount is "
-                    + invoice.getDouble("totalAmount")
+                    + totalAfterDiscount
                     + " and your invoice is at " + url;
 
             //Util.sendWhatsAppMessage(invoice.getString("customerMobileNo"), this, smsBody);
