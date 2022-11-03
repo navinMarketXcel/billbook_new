@@ -850,7 +850,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                    // billItemBinding.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
                     billItemBinding.imeiNo.setText(result.getContents());
             } else if (customDialogClass.isShowing()) {
-                   // customDialogClass.imeiNo.setText("");
                     customDialogClass.imeiNo.setText(result.getContents());
                     //customDialogClass.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
                 }
