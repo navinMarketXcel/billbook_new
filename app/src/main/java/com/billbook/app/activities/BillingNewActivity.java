@@ -1101,7 +1101,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         private TableRow deleteRow;
         private EditText priceEt, quantityEt, imeiNo, hsnNo;
         private AutoCompleteTextView modelName;
-        private TextView gstLabelTV;
+        private TextView gstLabelTV,priceLblTVBs;
         private Spinner gstPercentage, measurementUnitSpinner;
         private TextInputLayout priceEdtInputLayout;
         private InvoiceItems newInvoiceModel;
@@ -1127,6 +1127,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             no = (Button) findViewById(R.id.cancel);
             yes.setOnClickListener(this);
             no.setOnClickListener(this);
+            priceLblTVBs = findViewById(R.id.priceLblTVBs);
             deleteRow = findViewById(R.id.deleteLayout);
             modelName = findViewById(R.id.modelName);
             priceEt = findViewById(R.id.priceEdt);
@@ -1138,6 +1139,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             measurementUnitSpinner = findViewById(R.id.unit);
             priceEdtInputLayout = findViewById(R.id.priceEdtInputLayout);
             additemTv = findViewById(R.id.additemTv);
+            if(isGSTAvailable)
+            {
+                priceLblTVBs.setText("Price after GST");
+
+            }
             additemTv.setText("Update Item");
             modelName.setAdapter(modelAdapter);
 

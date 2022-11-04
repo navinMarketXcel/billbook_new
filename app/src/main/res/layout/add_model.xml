@@ -120,7 +120,7 @@
                 android:textStyle="bold"
                 android:textColor="#555555"
                 android:layout_height="wrap_content"
-                android:id="@+id/priceLblTV"
+                android:id="@+id/priceLblTVBs"
                 android:text="@string/price" />
             <EditText
                 android:textColor="#0A0A0A"
