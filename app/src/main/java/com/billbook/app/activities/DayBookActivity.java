@@ -62,6 +62,8 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -372,6 +374,7 @@ public class DayBookActivity extends AppCompatActivity {
         popupMenu.setOnMenuItemClickListener(menuItem -> {
             if(menuItem.getItemId()==R.id.m_custom){
                 calenderRangePicker();
+
             }else if(menuItem.getItemId()==R.id.m_month){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
@@ -434,9 +437,17 @@ public class DayBookActivity extends AppCompatActivity {
                 endDateStr = endsDate;
                 getDayBook(strDate,endsDate);
                 popupMenu.getMenu().findItem(R.id.m_week).setTitle("This Week (" + mDay + " " +months[mMonth]  + "'" + year +"-"+ endDate.get(Calendar.DAY_OF_MONTH)+ " " +months[mMonth]  + "'" + year + ")");
-            }else if(menuItem.getItemId()==R.id.m_quarter){
+            }
+            else if(menuItem.getItemId()==R.id.m_quarter){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                startDate.add(Calendar.MONTH, -2);
+                startDate.add(Calendar.MONTH, -4);
+                LocalDate myLocal = null;
+                int quarter1 =0;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    myLocal = LocalDate.now();
+                     quarter1 = myLocal.get(IsoFields.QUARTER_OF_YEAR);
+                    Log.v("quater check",String.valueOf(quarter1));
+                }
                 startDate = setDay(startDate);
                 int quarter = startDate.get(Calendar.MONTH);
                 quarter = (quarter+2)/3;
@@ -447,7 +458,7 @@ public class DayBookActivity extends AppCompatActivity {
                 startDateStr = strDate;
                 endDateStr = endsDate;
                 getDayBook(strDate,endsDate);
-                popupMenu.getMenu().findItem(R.id.m_quarter).setTitle("This Quarter (" + quart1[quarter] + ")" +  "'" + year);
+                popupMenu.getMenu().findItem(R.id.m_quarter).setTitle("This Quarter (" + quart1[quarter1-2] + ")" +  "'" + year);
             }else if(menuItem.getItemId()==R.id.m_year){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 startDate.set(Calendar.MONTH,00);
