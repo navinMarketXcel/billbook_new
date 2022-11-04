@@ -282,83 +282,91 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
     public void deleteBulkBills(View v)
     {
-        InvoicesData data = new InvoicesData();
-        System.out.println(invoicesList.size());
-        for(int i=0;i<invoicesList.size();i++)
-        {
-            System.out.println("in delete bills"+invoicesList.get(i).isSelected());
+        Boolean isSelected=false;
+        for (int i=0;i<invoicesList.size();i++){
+            if(invoicesList.get(i).isSelected()) {
+                isSelected=true;
+            }
         }
-        DialogUtils.showAlertDialog((Activity) SearchInvoiceActivity.this, "Yes", "No", "Confirm if you want to Delete all these bill", new DialogUtils.DialogClickListener() {
-            @Override
-            public void positiveButtonClick() {
 
-                if (Util.isNetworkAvailable(SearchInvoiceActivity.this)) {
-                    final ProgressDialog progressDialog = DialogUtils.startProgressDialog(SearchInvoiceActivity.this, "");
-                    ApiInterface apiService =
-                            ApiClient.getClient(SearchInvoiceActivity.this).create(ApiInterface.class);
+        if(isSelected) {
+            InvoicesData data = new InvoicesData();
+            System.out.println(invoicesList.size());
+            for (int i = 0; i < invoicesList.size(); i++) {
+                System.out.println("in delete bills" + invoicesList.get(i).isSelected());
+            }
+            DialogUtils.showAlertDialog((Activity) SearchInvoiceActivity.this, "Yes", "No", "Confirm if you want to Delete all these bill", new DialogUtils.DialogClickListener() {
+                @Override
+                public void positiveButtonClick() {
 
-                    String token = MyApplication.getUserToken();
-                    Map<String, String> headerMap = new HashMap<>();
-                    headerMap.put("Authorization", token);
-                    Call<Object> call = null;
-                    try {
-                        JSONObject inv = new JSONObject();
-                        JSONArray invoiceIds = new JSONArray();
-                        for(int i =0;i<invoicesList.size();i++)
-                        {
-                            if(invoicesList.get(i).isSelected)
-                            {
-                                invoiceIds.put(invoicesList.get(i).getId());
+                    if (Util.isNetworkAvailable(SearchInvoiceActivity.this)) {
+                        final ProgressDialog progressDialog = DialogUtils.startProgressDialog(SearchInvoiceActivity.this, "");
+                        ApiInterface apiService =
+                                ApiClient.getClient(SearchInvoiceActivity.this).create(ApiInterface.class);
+
+                        String token = MyApplication.getUserToken();
+                        Map<String, String> headerMap = new HashMap<>();
+                        headerMap.put("Authorization", token);
+                        Call<Object> call = null;
+                        try {
+                            JSONObject inv = new JSONObject();
+                            JSONArray invoiceIds = new JSONArray();
+                            for (int i = 0; i < invoicesList.size(); i++) {
+                                if (invoicesList.get(i).isSelected) {
+                                    invoiceIds.put(invoicesList.get(i).getId());
+                                }
                             }
-                        }
-                        inv.put("invoiceIDs",invoiceIds);
-                        JsonObject jsonObject = new JsonParser().parse(inv.toString()).getAsJsonObject();
-                        call = apiService.deleteSearchBills(headerMap, jsonObject);
-                        call.enqueue(new Callback<Object>() {
-                            @Override
-                            public void onResponse(Call<Object> call, Response<Object> response) {
-                                final JSONObject body;
-                                try {
-                                    body = new JSONObject(new Gson().toJson(response.body()));
+                            inv.put("invoiceIDs", invoiceIds);
+                            JsonObject jsonObject = new JsonParser().parse(inv.toString()).getAsJsonObject();
+                            call = apiService.deleteSearchBills(headerMap, jsonObject);
+                            call.enqueue(new Callback<Object>() {
+                                @Override
+                                public void onResponse(Call<Object> call, Response<Object> response) {
+                                    final JSONObject body;
+                                    try {
+                                        body = new JSONObject(new Gson().toJson(response.body()));
 
-                                    if (body.getBoolean("status")) {
-                                        data.isActive = false;
-                                        page = 1;
-                                        getInvoicesCall();
-                                        Toast.makeText(SearchInvoiceActivity.this, "Bills Successfully Deleted.", Toast.LENGTH_LONG).show();
+                                        if (body.getBoolean("status")) {
+                                            data.isActive = false;
+                                            page = 1;
+                                            getInvoicesCall();
+                                            Toast.makeText(SearchInvoiceActivity.this, "Bills Successfully Deleted.", Toast.LENGTH_LONG).show();
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+
                                     }
+                                    progressDialog.dismiss();
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
 
                                 }
-                                progressDialog.dismiss();
 
+                                @Override
+                                public void onFailure(Call<Object> call, Throwable t) {
+                                    progressDialog.dismiss();
+                                }
+                            });
+                        } catch (JSONException e) {
+                            progressDialog.dismiss();
+                            e.printStackTrace();
+                        }
 
-                            }
-
-                            @Override
-                            public void onFailure(Call<Object> call, Throwable t) {
-                                progressDialog.dismiss();
-                            }
-                        });
-                    } catch (JSONException e) {
-                        progressDialog.dismiss();
-                        e.printStackTrace();
+                    } else {
+                        Toast.makeText(SearchInvoiceActivity.this, SearchInvoiceActivity.this.getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
                     }
-
-                } else {
-                    Toast.makeText(SearchInvoiceActivity.this, SearchInvoiceActivity.this.getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
                 }
-            }
 
-            @Override
-            public void negativeButtonClick() {
+                @Override
+                public void negativeButtonClick() {
 
-            }
-        });
+                }
+            });
 
+        }else{
+            Toast.makeText(SearchInvoiceActivity.this, "Please select Bill", Toast.LENGTH_LONG).show();
 
+        }
     }
     public void clickSort(View v)
     {
@@ -823,12 +831,22 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     public void downloadInvoice(View v) {
         // check to see if we have permission to storage
 //        checkPermission();
-        if(hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED){
-            startDownloadingInvoices();
-            Toast.makeText(SearchInvoiceActivity.this, "Bills Successfully Downloaded.", Toast.LENGTH_LONG).show();
-        }
-        else{
-            checkPermission(REQUEST_CODE_ASK_PERMISSIONS);
+        Boolean isSelected=false;
+        for (int i=0;i<invoicesList.size();i++){
+            if(invoicesList.get(i).isSelected()) {
+                isSelected=true;
+            }
+            }
+        if(isSelected) {
+            if (hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED) {
+                startDownloadingInvoices();
+                Toast.makeText(SearchInvoiceActivity.this, "Bills Successfully Downloaded.", Toast.LENGTH_LONG).show();
+            } else {
+                checkPermission(REQUEST_CODE_ASK_PERMISSIONS);
+            }
+        }else{
+            Toast.makeText(SearchInvoiceActivity.this, "Please select Bill", Toast.LENGTH_LONG).show();
+
         }
     }
 
