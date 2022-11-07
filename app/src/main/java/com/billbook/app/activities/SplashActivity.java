@@ -83,10 +83,10 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
                     JSONObject profile = new JSONObject(((MyApplication) getApplication()).getUserDetails());
                     if (profile.has("userToken") && profile.has("shopName")) {
                         String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-                        logoutToken();
+                        //logoutToken();
 
-//                        Intent intent = new Intent(SplashActivity.this, BottomNavigationActivity.class);
-//                        startActivity(intent);
+                        Intent intent = new Intent(SplashActivity.this, BottomNavigationActivity.class);
+                        startActivity(intent);
                     } else {
                         Calendar c = Calendar.getInstance();
                         c.setTime(new Date());
@@ -115,47 +115,17 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
         startService(intent);
     }
     private void logoutToken() {
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-        String currentDate = sdf.format(c.getTime());
-        System.out.println("currentDate"+currentDate);
-
-        if(currentDate.equals(MyApplication.getScheduleDate())){
-            MyApplication.setLogoutDaily(false);
-        }else{
-            MyApplication.setLogoutDaily(true);
-        }
-
-        int mHours = c.get(Calendar.HOUR_OF_DAY);
-        System.out.println("currentDate mHours"+mHours);
-        if(mHours >= 3 && MyApplication.getLogoutDaily()) {
-            SharedPreferences sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.clear();
-            editor.apply();
-            Util.clearAllTables(SplashActivity.this);
-            finish();
-            Intent intentObj = new Intent(SplashActivity.this, loginPick_activity.class);
-            startActivity(intentObj);
-            finish();
-            MyApplication.saveScheduleLogOutDate(currentDate);
-        }
-        else {
-            Intent intent = new Intent(SplashActivity.this, BottomNavigationActivity.class);
-            startActivity(intent);
-        }
-
-//        editor.putString(getString(R.string.user_login_token), " ");
-//        editor.commit();
-//    MyApplication.saveGetCategoriesLAST_SYNC_TIMESTAMP(0);
-//    MyApplication.saveGetBrandLAST_SYNC_TIMESTAMP(0);
-//    MyApplication.saveGetProductLAST_SYNC_TIMESTAMP(0);
-//    MyApplication.saveGetInventoryLAST_SYNC_TIMESTAMP(0);
-//    MyApplication.saveGetInvoiceLAST_SYNC_TIMESTAMP(0);
-
-
-
+        SharedPreferences sharedPref =
+                getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),
+                        MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.clear();
+        editor.apply();
+        MyApplication.saveUserDetails("");
+        Util.clearAllTables(SplashActivity.this);
+        finish();
     }
+
 
 
 
@@ -175,9 +145,11 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
                     Log.d(TAG, "Version Body::" + body);
                     if (body.getBoolean("status") && body.has("data") && !body.isNull("data")) {
                         String versionName= body.getJSONObject("data").getString("versionName");
-
+                        int verisonNo = body.getJSONObject("data").getInt("versionNo");
                         String buildVersion = BuildConfig.VERSION_NAME;
-                        if (!buildVersion.equals(versionName)) {
+                        int buildCode = BuildConfig.VERSION_CODE;
+                        if (!buildVersion.equals(versionName) || ((buildCode != verisonNo)))
+                        {
                             DialogUtils.showToast(SplashActivity.this, "To continue, please update the app to latest version.");
                             final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
                             try {
@@ -185,6 +157,7 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
                             } catch (android.content.ActivityNotFoundException anfe) {
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
                                 logoutToken();
+                                Util.clearAllTables(SplashActivity.this);
                             }
                         } else {
                             startSplash();

@@ -252,6 +252,7 @@ public class HomeFragment extends Fragment
     }
 
 
+
     private void checkVersion() {
         ApiInterface apiService =
                 ApiClient.getClient(getActivity()).create(ApiInterface.class);
@@ -277,7 +278,7 @@ public class HomeFragment extends Fragment
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
                             } catch (android.content.ActivityNotFoundException anfe) {
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                                logoutToken();
+                               // forcedLogOut();
                             }
                         } else {
 

@@ -161,6 +161,7 @@ public class ProfileFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), loginPick_activity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                    Util.clearAllTables(getActivity());
                     getActivity().finish();
                     MyApplication.saveUserDetails("");
                     MyApplication.setHaveGst(true);

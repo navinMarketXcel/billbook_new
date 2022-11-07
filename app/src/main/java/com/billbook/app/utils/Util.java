@@ -85,31 +85,31 @@ public class Util {
     }
     public static void dailyLogout(AppCompatActivity sourceActivity)
     {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-        String currentDate = sdf.format(c.getTime());
-        System.out.println("currentDate"+currentDate);
-
-        if(currentDate.equals(MyApplication.getScheduleDate())){
-            MyApplication.setLogoutDaily(false);
-        }else{
-            MyApplication.setLogoutDaily(true);
-        }
-
-        int mHours = c.get(Calendar.HOUR_OF_DAY);
-        System.out.println("currentDate mHours"+mHours);
-        if(mHours >= 3 && MyApplication.getLogoutDaily()) {
-            SharedPreferences sharedPref = sourceActivity.getApplicationContext().getSharedPreferences(sourceActivity.getString(R.string.preference_file_key), MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.clear();
-            editor.apply();
-            Intent intentObj = new Intent(sourceActivity, loginPick_activity.class);
-            sourceActivity.startActivity(intentObj);
-            sourceActivity.finish();
-            MyApplication.saveScheduleLogOutDate(currentDate);
-            clearAllTables(sourceActivity);
-        }
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//        Calendar c = Calendar.getInstance();
+//        c.setTime(new Date());
+//        String currentDate = sdf.format(c.getTime());
+//        System.out.println("currentDate"+currentDate);
+//
+//        if(currentDate.equals(MyApplication.getScheduleDate())){
+//            MyApplication.setLogoutDaily(false);
+//        }else{
+//            MyApplication.setLogoutDaily(true);
+//        }
+//
+//        int mHours = c.get(Calendar.HOUR_OF_DAY);
+//        System.out.println("currentDate mHours"+mHours);
+//        if(mHours >= 3 && MyApplication.getLogoutDaily()) {
+//            SharedPreferences sharedPref = sourceActivity.getApplicationContext().getSharedPreferences(sourceActivity.getString(R.string.preference_file_key), MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sharedPref.edit();
+//            editor.clear();
+//            editor.apply();
+//            Intent intentObj = new Intent(sourceActivity, loginPick_activity.class);
+//            sourceActivity.startActivity(intentObj);
+//            sourceActivity.finish();
+//            MyApplication.saveScheduleLogOutDate(currentDate);
+//            clearAllTables(sourceActivity);
+//        }
     }
 
     public static void clearAllTables(Context context) {
