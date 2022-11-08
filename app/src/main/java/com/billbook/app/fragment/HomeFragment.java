@@ -176,11 +176,6 @@ public class HomeFragment extends Fragment
             e.printStackTrace();
         }
         bottomSheetDialog(view);
-
-
-
-
-
         InMobiInitialization();
         VungleInitialization();
         return view;
@@ -712,6 +707,7 @@ public class HomeFragment extends Fragment
                 Util.postEvents("Billing", "Billing", getActivity().getApplicationContext());
                 intent = new Intent(getActivity(), BillingNewActivity.class);
                 try {
+
                     intent.putExtra("gstBillNoList", gstList.toString());
                     intent.putExtra("nonGstBillNoList", nonGstList.toString());
                 } catch (Exception e) {
@@ -795,9 +791,6 @@ public class HomeFragment extends Fragment
         super.onResume();
         checkVersion();
         Util.dailyLogout((AppCompatActivity) getActivity());
-
-
-
         try {
             userProfile = new JSONObject(MyApplication.getUserDetails());
 //            updateDrawerProfileImg();
@@ -884,10 +877,12 @@ public class HomeFragment extends Fragment
                         body = new JSONObject(new Gson().toJson(response.body()));
                         Log.d(TAG, "Invoice Body::" + body);
                         if (body.getJSONObject("data").has("nonGstBillNo")) {
-                            gstList = body.getJSONObject("data").getJSONArray("gstBillNo");
-                            nonGstList = body.getJSONObject("data").getJSONArray("nonGstBillNo");
-                            MyApplication.setInvoiceNumber(gstList.getInt(gstList.length() - 1) + 1);
-                            MyApplication.setInvoiceNumberForNonGst(nonGstList.getInt(nonGstList.length() - 1) + 1);
+//                            gstList = body.getJSONObject("data").getJSONArray("gstBillNo");
+//                            nonGstList = body.getJSONObject("data").getJSONArray("nonGstBillNo");
+//                            MyApplication.setInvoiceNumber(gstList.getInt(gstList.length() - 1) + 1);
+//                            MyApplication.setInvoiceNumberForNonGst(nonGstList.getInt(nonGstList.length() - 1) + 1);
+                            MyApplication.setInvoiceNumber(body.getJSONObject("data").getInt("gstBillNo")+1);
+                            MyApplication.setInvoiceNumberForNonGst(body.getJSONObject("data").getInt("nonGstBillNo")+1);
                         }
                     } catch (JSONException e) {
                         Util.logErrorApi("getLastInvoiceNumber", getLastInvoiceObject, Arrays.toString(e.getStackTrace()), e.toString() , null,getContext());
