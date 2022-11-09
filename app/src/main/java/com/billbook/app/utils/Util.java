@@ -218,7 +218,6 @@ public class Util {
     }
 
     public static boolean isValidEmail(CharSequence inputStr) {
-
         String expression =
                 "^[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$";
         Pattern pattern = Pattern.compile(expression);

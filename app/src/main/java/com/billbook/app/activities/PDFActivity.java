@@ -238,8 +238,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
 //                        Log.i(TAG, "setData: GST => " + isGSTAvailable);
                     pdfBinding.tvPreTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-                  //pdfBinding.llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);pdfBinding.footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
-                   // pdfBinding.paddingLabelGst.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+                    //pdfBinding.llForHeader.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);pdfBinding.footer.setWeightSum(isGSTAvailable ? (float) 10.5 : 9);
+                    // pdfBinding.paddingLabelGst.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
 
                     if (invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
                         GSTType = "CGST/SGST (Local customer)";
@@ -247,7 +247,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         pdfBinding.CGST.setVisibility(View.VISIBLE);
                         pdfBinding.SGST.setVisibility(View.VISIBLE);
                         pdfBinding.tvPreTax.setVisibility(View.VISIBLE);
-                       //pdfBinding.padding3.setVisibility(View.GONE);
+                        //pdfBinding.padding3.setVisibility(View.GONE);
                        /*pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));*/
                        /* pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
@@ -255,8 +255,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
                         GSTType = "IGST (Central/outstation customer)";
                         pdfBinding.IGST.setVisibility(View.VISIBLE);
-                       // pdfBinding.padding1.setVisibility(View.GONE);
-                       // pdfBinding.padding2.setVisibility(View.GONE);
+                        // pdfBinding.padding1.setVisibility(View.GONE);
+                        // pdfBinding.padding2.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.GONE);
                         pdfBinding.SGST.setVisibility(View.GONE);
                         pdfBinding.llForHeader.setWeightSum(9.0f);
@@ -268,8 +268,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     } else {
                         if(!isGSTAvailable)
                         {
-                           // LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,5.0f);
-                           // LinearLayout.LayoutParams prodLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.05f);
+                            // LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,5.0f);
+                            // LinearLayout.LayoutParams prodLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.05f);
                             //LinearLayout.LayoutParams itemLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,2.09f);
                             //LinearLayout.LayoutParams qtyLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.04f);
                             //LinearLayout.LayoutParams rateLayoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT,1.049f);
@@ -277,10 +277,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                             //buttonLayoutParams.setMargins(10, 10, 10, 10);
 
                             //pdfBinding.amtBill.setLayoutParams(buttonLayoutParams);
-                           // pdfBinding.productNumber.setLayoutParams(prodLayoutParams);
-                           // pdfBinding.productLabel.setLayoutParams(itemLayoutParams);
-                           // pdfBinding.qtyBill.setLayoutParams(qtyLayoutParams);
-                           // pdfBinding.rateBill.setLayoutParams(rateLayoutParams);
+                            // pdfBinding.productNumber.setLayoutParams(prodLayoutParams);
+                            // pdfBinding.productLabel.setLayoutParams(itemLayoutParams);
+                            // pdfBinding.qtyBill.setLayoutParams(qtyLayoutParams);
+                            // pdfBinding.rateBill.setLayoutParams(rateLayoutParams);
 //                            TextView tv = findViewById(R.id.tvAmount);
 //                            tv.setLayoutParams(buttonLayoutParams);
                         }
@@ -290,18 +290,18 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         pdfBinding.llForHeader.setWeightSum(7.0f);
 
                         //pdfBinding.padding1.setVisibility(View.GONE);
-                       // pdfBinding.padding2.setVisibility(View.GONE);
-                       // pdfBinding.padding3.setVisibility(View.GONE);
+                        // pdfBinding.padding2.setVisibility(View.GONE);
+                        // pdfBinding.padding3.setVisibility(View.GONE);
                        /* pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 5.5f));*/
                        /* pdfBinding.paddingLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.MATCH_PARENT, 5.5f));*/
                     }
                     if (invoice.getString("GSTNo").isEmpty()) {
-                       //pdfBinding.custGstLayout.setVisibility(View.INVISIBLE);
+                        //pdfBinding.custGstLayout.setVisibility(View.INVISIBLE);
                     } else {
-                       // pdfBinding.custGstLayout.setVisibility(View.VISIBLE);
-                       // pdfBinding.customerGst.setText(invoice.getString("GSTNo"));
+                        // pdfBinding.custGstLayout.setVisibility(View.VISIBLE);
+                        // pdfBinding.customerGst.setText(invoice.getString("GSTNo"));
                     }
                     pdfBinding.txtInvoiceDate.setText(invoice.getString("invoiceDate"));
                     pdfBinding.txtInvoiceNo.setText("" + invoiceNumber);
@@ -345,7 +345,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     //pdfBinding.edtMobNo.setText(custNo == null ?" ":custNo+" ");
 //            tvGSTNo.setText(invoice.getString("GSTNo")+" ");
                     invoiceAmountLayoutUpdatedBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
-                      invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
+                    invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
                     float totalAfterDiscount = 0, totalAmount = 0;
                     totalAmount = Float.parseFloat(invoice.getString("totalAmount"));
                     if (invoice.has("totalAfterDiscount")) {
@@ -450,7 +450,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         totalAfterDiscount = totalAmount;
                     }
                     Log.v("Invoi6", String.valueOf(invoice));
-                    shortBillLayoutBinding.invoiceNetAmnt.setText(Util.formatDecimalValue(totalAfterDiscount));
+                    shortBillLayoutBinding.invoiceNetAmnt.setText(Util.formatDecimalValue(totalAmount));
+                    //shortBillLayoutBinding.invoiceNetAmnt.setText(Util.formatDecimalValue(totalAfterDiscount));
                     shortBillLayoutBinding.invoiceNetAmntTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
                     shortBillLayoutBinding.invoiceTotalDiscount.setText(Util.formatDecimalValue(totalAmount - totalAfterDiscount));
                     new getCurrentItemsAsyncTaskShort(MyApplication.getDatabase().invoiceItemDao(), getIntent().getExtras().getLong("idForItem"), PDFActivity.this, isGSTAvailable, recyclerViewShortBillInvoiceProducts, GSTType).execute();
@@ -468,7 +469,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                    });
+            });
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -503,7 +504,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     }
 
 
-//    private void loadAndSetCompanyLogo(){
+    //    private void loadAndSetCompanyLogo(){
 //        if(imageURL!=null) {
 //            pdfBinding.shopImage.setVisibility(View.VISIBLE);
 //            Picasso.get()
@@ -621,8 +622,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     new PdfWriter(PDFActivity.this, (ViewGroup) findViewById(R.id.ll_root));
             filepath = docsFolder.getAbsolutePath();
 
-                filepath = filepath + "/" + "Invoice"+ invoiceNumber + "_" + today + ".pdf";
-System.out.println("filepath ::"+filepath);
+            filepath = filepath + "/" + "Invoice"+ invoiceNumber + "_" + today + ".pdf";
+            System.out.println("filepath ::"+filepath);
             pdfFile = pdfWriter.exportPDF(filepath);
             if (invID > 0)
                 uploadPDF();
@@ -694,12 +695,12 @@ System.out.println("filepath ::"+filepath);
                 pdfBinding.pdfView.fromUri(urii).load();
                 pdfBinding.pdfView.setOnTouchListener(new View.OnTouchListener() {
                     GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
-                    @Override
+                        @Override
                         public boolean onDoubleTap(MotionEvent e){
-                        Toast.makeText(PDFActivity.this,"Double tap",Toast.LENGTH_LONG).show();
-                        return super.onDoubleTap(e);
+                            Toast.makeText(PDFActivity.this,"Double tap",Toast.LENGTH_LONG).show();
+                            return super.onDoubleTap(e);
 
-                    }
+                        }
 
                     });
                     @Override
@@ -906,128 +907,129 @@ System.out.println("filepath ::"+filepath);
 
     private void generateShortBillTwoInch(List<InvoiceItems> invoiceItems){
         try{
-                localInvoiceId = getIntent().getExtras().getLong("localInvId");
-                invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
-                    try {
-                        invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
-                        String shopName, shopAddress, userMobile, userEmail,  userGSTNo, billNo, billTo, billToAdd, billToMobNo, date, items, qty;
-                        boolean isGSTAvailablePrint = false;
-                        shopName = profile.getString("shopName");
-                        layout = "[C]<b><font size='tall'> " + shopName +  "</font></b>\n";
-                        shopAddress = profile.getString("shopAddr") + "," + profile.getString("city")
-                                + "," + profile.getString("state") + " - " + profile.getString("pincode");
-                        layout += "[L]"+ shopAddress + "\n";
-                        userMobile = profile.getString("mobileNo");
-                        layout += "[C]Phone: "+ userMobile + "\n";
-                        if(profile.has("email") && !profile.getString("email").isEmpty()){
-                            userEmail = profile.getString("email");
-                            layout += "[C]Email: "+ userEmail + "\n";
-                        }
-                        userGSTNo = profile.has("gstNo") ? profile.getString("gstNo") : "";
-                        if(invoice.has("gstType") && profile.has("gstNo") && !(userGSTNo.isEmpty())){
-                            layout += "[C]GSTIN: "+ userGSTNo + "\n";
-                        }
-                        if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
-                            layout += "[C] ***TAX INVOICE***\n";
-                            isGSTAvailablePrint =true;
-                        } else {
-                            layout += "[C] ***INVOICE***\n";
-                        }
-                        layout += "[C]--------------------------------\n";
-                        if(invoice.has("gstType") && !invoice.getString("gstType").isEmpty()){
-                            billNo = String.valueOf(getIntent().getExtras().getInt("gstBillNo"));
-                        } else {
-                            billNo = String.valueOf(getIntent().getExtras().getInt("nonGstBillNo"));
-                        }
-                        layout += "[L]Bill No:"+ billNo;
-                        date = invoice.getString("invoiceDate");
-                        layout += "[R] Date:"+ date+"\n";
-                        billTo = invoice.getString("customerName");
-                        billToMobNo =invoice.getString("customerMobileNo");
-                        billToAdd = invoice.getString("customerAddress");
-                        if(billTo.isEmpty())
-                        {
-                            billTo = getIntent().getExtras().getString("customerName");
-                        }
-                        if(billTo.length() != 0){
-                            layout += "[L]Billed To:" + billTo + "\n";
-                        } else {
-                            layout += "[L]Billed To:\n";
-                        }
-                        if(billToAdd.isEmpty())
-                        {
-                            billToAdd=getIntent().getExtras().getString("customerAddress");
-                        }
-                        if(!billToAdd.isEmpty()){
-                            layout += "[L]" + billToAdd + "\n";
-                        }
-                        if(billToMobNo.isEmpty())
-                        {
-                            billToMobNo=getIntent().getExtras().getString("customerMobileNo");
-                        }
-                        if(billToMobNo.length() != 0){
-                            layout += "[L]Contact No:" + billToMobNo + "\n";
-                        } else {
-                            layout += "[L]Contact No:\n";
-                        }
-                        layout += "[L]\n";
-                        layout += "[C]<b>--------------------------------</b>\n";
-                        layout += "[L]Description \n";
-                        layout += "[L]Qty     MRP     Rate     NetAmnt\n";
-                        if(invoice.has("gstType") && !invoice.getString("gstType").isEmpty()){
-                            layout += "[L]   Tax%\n";
-                        }
-                        layout += "[C]--------------------------------\n";
-                        for(int i = 0; i < invoiceItems.size();i++){
-                            String productName = "", productMRP = "", productQty = "", productRate = "", productNetAmt = "", productTax = "";
-                            productName = invoiceItems.get(i).getName();
-                            if(productName.length() != 0){
-                                layout += "[L]" + productName + "\n";
-                            }
-                            productQty = String.valueOf((int)invoiceItems.get(i).getQuantity());
-                            productMRP = (Util.formatDecimalValue(invoiceItems.get(i).getPrice()));
-                            productRate = (Util.formatDecimalValue((int)invoiceItems.get(i).getGstAmount()));
-                            productNetAmt = Util.formatDecimalValue((int)invoiceItems.get(i).getTotalAmount());
-                            layout += "[L]" + productQty + "    " + productMRP + "    " + productRate + "    " + productNetAmt + "\n";
-                            if(isGSTAvailablePrint){
-                                productTax = String.valueOf((int)invoiceItems.get(i).getGst())+"%";
-                                layout += "[L]" + productTax + "\n";
-                            }
-                        }
-                        layout += "[C]--------------------------------\n";
-                        items = getIntent().getExtras().getString("itemsSize");
-                        qty = getIntent().getExtras().getString("quantityCount");
-                        float totalAfterDiscount = 0, totalAmount = 0;
-                        totalAmount = Float.parseFloat(invoice.getString("totalAmount"));
-                        if (invoice.has("totalAfterDiscount")) {
-                            totalAfterDiscount = (float) invoice.getDouble("totalAfterDiscount");
-                        } else {
-                            totalAfterDiscount = totalAmount;
-                        }
-                        layout += "[L]Items: " + items + "[C]Qty: " + qty + "[R] "+ totalAfterDiscount + "\n";
-                        layout += "[C]--------------------------------\n";
-                        layout += "[L]Total Amount:[R]"+totalAfterDiscount + "\n";
-                        layout += "[C]TOTAL SAVINGS: " + Util.formatDecimalValue(totalAmount - totalAfterDiscount) + "\n";
-                        if(invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailablePrint){
-                            layout += "[L]GST" +   "[C]TAX AMT\n";
-                            layout += "[L]SGST" + "[C]" + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
-                            layout += "[L]CGST" + "[C]" + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
-                            layout += "[L]IGST" + "[C]0.0\n";
-                        } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer") && isGSTAvailablePrint){
-                            layout += "[L]GST" + "[C]TAX AMT\n";
-                            layout += "[L]SGST" + "[C]0.0\n";
-                            layout += "[L]CGST" + "[C]0.0\n";
-                            layout += "[L]IGST" + "[C]" + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
-                        }
-                        layout += "[C]--------------------------------\n";
-                        layout += "[C]Made with BillBook\n";
-                        layout += "[L]***Thank you for shopping!***";
-                        layout += "[L]" + "\n";
-                        layout += "[L]" + "\n";
-                    } catch (Exception e){
-                        e.printStackTrace();
+            localInvoiceId = getIntent().getExtras().getLong("localInvId");
+            invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
+                try {
+                    invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
+                    String shopName, shopAddress, userMobile, userEmail,  userGSTNo, billNo, billTo, billToAdd, billToMobNo, date, items, qty;
+                    boolean isGSTAvailablePrint = false;
+                    shopName = profile.getString("shopName");
+                    layout = "[C]<b><font size='tall'> " + shopName +  "</font></b>\n";
+                    shopAddress = profile.getString("shopAddr") + "," + profile.getString("city")
+                            + "," + profile.getString("state") + " - " + profile.getString("pincode");
+                    layout += "[L]"+ shopAddress + "\n";
+                    userMobile = profile.getString("mobileNo");
+                    layout += "[C]Phone: "+ userMobile + "\n";
+                    if(profile.has("email") && !profile.getString("email").isEmpty()){
+                        userEmail = profile.getString("email");
+                        layout += "[C]Email: "+ userEmail + "\n";
                     }
-                });
+                    userGSTNo = profile.has("gstNo") ? profile.getString("gstNo") : "";
+                    if(invoice.has("gstType") && profile.has("gstNo") && !(userGSTNo.isEmpty())){
+                        layout += "[C]GSTIN: "+ userGSTNo + "\n";
+                    }
+                    if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
+                        layout += "[C] ***TAX INVOICE***\n";
+                        isGSTAvailablePrint =true;
+                    } else {
+                        layout += "[C] ***INVOICE***\n";
+                    }
+                    layout += "[C]--------------------------------\n";
+                    if(invoice.has("gstType") && !invoice.getString("gstType").isEmpty()){
+                        billNo = String.valueOf(getIntent().getExtras().getInt("gstBillNo"));
+                    } else {
+                        billNo = String.valueOf(getIntent().getExtras().getInt("nonGstBillNo"));
+                    }
+                    layout += "[L]Bill No:"+ billNo;
+                    date = invoice.getString("invoiceDate");
+                    layout += "[R] Date:"+ date+"\n";
+                    billTo = invoice.getString("customerName");
+                    billToMobNo =invoice.getString("customerMobileNo");
+                    billToAdd = invoice.getString("customerAddress");
+                    if(billTo.isEmpty())
+                    {
+                        billTo = getIntent().getExtras().getString("customerName");
+                    }
+                    if(billTo.length() != 0){
+                        layout += "[L]Billed To:" + billTo + "\n";
+                    } else {
+                        layout += "[L]Billed To:\n";
+                    }
+                    if(billToAdd.isEmpty())
+                    {
+                        billToAdd=getIntent().getExtras().getString("customerAddress");
+                    }
+                    if(!billToAdd.isEmpty()){
+                        layout += "[L]" + billToAdd + "\n";
+                    }
+                    if(billToMobNo.isEmpty())
+                    {
+                        billToMobNo=getIntent().getExtras().getString("customerMobileNo");
+                    }
+                    if(billToMobNo.length() != 0){
+                        layout += "[L]Contact No:" + billToMobNo + "\n";
+                    } else {
+                        layout += "[L]Contact No:\n";
+                    }
+                    layout += "[L]\n";
+                    layout += "[C]<b>--------------------------------</b>\n";
+                    layout += "[L]Description \n";
+                    layout += "[L]Qty     MRP     Rate     NetAmnt\n";
+                    if(invoice.has("gstType") && !invoice.getString("gstType").isEmpty()){
+                        layout += "[L]   Tax%\n";
+                    }
+                    layout += "[C]--------------------------------\n";
+                    for(int i = 0; i < invoiceItems.size();i++){
+                        String productName = "", productMRP = "", productQty = "", productRate = "", productNetAmt = "", productTax = "";
+                        productName = invoiceItems.get(i).getName();
+                        if(productName.length() != 0){
+                            layout += "[L]" + productName + "\n";
+                        }
+                        productQty = String.valueOf((int)invoiceItems.get(i).getQuantity());
+                        productMRP = (Util.formatDecimalValue(invoiceItems.get(i).getPrice()));
+                        productRate = (Util.formatDecimalValue((int)invoiceItems.get(i).getGstAmount()));
+                        productNetAmt = Util.formatDecimalValue((int)invoiceItems.get(i).getTotalAmount());
+                        layout += "[L]" + productQty + "    " + productMRP + "    " + productRate + "    " + productNetAmt + "\n";
+                        if(isGSTAvailablePrint){
+                            productTax = String.valueOf((int)invoiceItems.get(i).getGst())+"%";
+                            layout += "[L]" + productTax + "\n";
+                        }
+                    }
+                    layout += "[C]--------------------------------\n";
+                    items = getIntent().getExtras().getString("itemsSize");
+                    qty = getIntent().getExtras().getString("quantityCount");
+                    float totalAfterDiscount = 0, totalAmount = 0;
+                    totalAmount = Float.parseFloat(invoice.getString("totalAmount"));
+                    if (invoice.has("totalAfterDiscount")) {
+                        totalAfterDiscount = (float) invoice.getDouble("totalAfterDiscount");
+                    } else {
+                        totalAfterDiscount = totalAmount;
+                    }
+                    layout += "[L]Items: " + items + "[C]Qty: " + qty + "[R] "+ totalAmount + "\n";
+                   // layout += "[L]Items: " + items + "[C]Qty: " + qty + "[R] "+ totalAfterDiscount + "\n";
+                    layout += "[C]--------------------------------\n";
+                    layout += "[L]Total Amount:[R]"+totalAfterDiscount + "\n";
+                    layout += "[C]TOTAL SAVINGS: " + Util.formatDecimalValue(totalAmount - totalAfterDiscount) + "\n";
+                    if(invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailablePrint){
+                        layout += "[L]GST" +   "[C]TAX AMT\n";
+                        layout += "[L]SGST" + "[C]" + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                        layout += "[L]CGST" + "[C]" + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                        layout += "[L]IGST" + "[C]0.0\n";
+                    } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer") && isGSTAvailablePrint){
+                        layout += "[L]GST" + "[C]TAX AMT\n";
+                        layout += "[L]SGST" + "[C]0.0\n";
+                        layout += "[L]CGST" + "[C]0.0\n";
+                        layout += "[L]IGST" + "[C]" + getIntent().getExtras().getString("shortBillGstAmt") + "\n";
+                    }
+                    layout += "[C]--------------------------------\n";
+                    layout += "[C]Made with BillBook\n";
+                    layout += "[L]***Thank you for shopping!***";
+                    layout += "[L]" + "\n";
+                    layout += "[L]" + "\n";
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            });
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -1132,7 +1134,8 @@ System.out.println("filepath ::"+filepath);
                     } else {
                         totalAfterDiscount = totalAmount;
                     }
-                    layoutThreeInch += "[L]Items:    " + items + "[C]Qty:    " + qty + "[R]    "+ totalAfterDiscount + "\n";
+                    layoutThreeInch += "[L]Items:    " + items + "[C]Qty:    " + qty + "[R]    "+ totalAmount + "\n";
+                   // layoutThreeInch += "[L]Items:    " + items + "[C]Qty:    " + qty + "[R]    "+ totalAfterDiscount + "\n";
                     layoutThreeInch += "[C]----------------------------------------------\n";
                     layoutThreeInch += "[L]Total Amount:[R]"+totalAfterDiscount + "\n";
                     layoutThreeInch += "[C]TOTAL SAVINGS: " + Util.formatDecimalValue(totalAmount - totalAfterDiscount) + "\n";
@@ -1181,7 +1184,7 @@ System.out.println("filepath ::"+filepath);
                     Log.v("RESP", body.toString());
                     if (body.getBoolean("status")) {
                         if(body.has("data"))
-                        invoice.put("pdfLink", body.getJSONObject("data").getJSONObject("invoice").getString("pdfLink"));
+                            invoice.put("pdfLink", body.getJSONObject("data").getJSONObject("invoice").getString("pdfLink"));
                     } else {
                         DialogUtils.showToast(PDFActivity.this, "Failed upload pdf to server");
                     }
@@ -1288,7 +1291,7 @@ System.out.println("filepath ::"+filepath);
                 generateShortBillThreeInch(invoiceItems);
                 loadAndSetCompanyLogo();
                 loadAndSetSignatureImage();
-              //  createPdfWrapper();
+                //  createPdfWrapper();
             } catch (Exception e) {
                 e.printStackTrace();
             }
