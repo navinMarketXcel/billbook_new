@@ -342,9 +342,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         //binding.GSTError.setVisibility(showGstPopup != 2 ? serialNumber < 3 ? View.VISIBLE : View.GONE : View.GONE);
 
         binding.gstType.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-        binding.tvAmountBeforeTax.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.tvAmountGST.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-        binding.amtBeforeTaxLabelTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.taxLabelTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.GSTTypeLblTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.gstTypeLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
