@@ -185,33 +185,49 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                     String strDate = myFormat1.format(startDate.getTime());
                     String endsDate = myFormat1.format(endDate.getTime());
+                    page=1;
                     getInvoicesCallSearch(strDate,endsDate);
                 }
                 else if (adapterView.getItemAtPosition(i).equals("Last 30 Days"))
                 {
                     Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                    startDate.add(Calendar.MONTH, -1);
+                    startDate.add(Calendar.DATE, -30);
                     Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                     String strDate = myFormat1.format(startDate.getTime());
                     String endsDate = myFormat1.format(endDate.getTime());
+                    page=1;
                     getInvoicesCallSearch(strDate,endsDate);
                 }
                 else if (adapterView.getItemAtPosition(i).equals("This Month"))
                 {
+                    Calendar calendar = Calendar.getInstance();
+                    int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                    int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+
+
                     Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                    startDate.add(Calendar.MONTH, -1);
+                    startDate.add(Calendar.DATE, -currentDay);
                     Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                     String strDate = myFormat1.format(startDate.getTime());
                     String endsDate = myFormat1.format(endDate.getTime());
+                    page=1;
                     getInvoicesCallSearch(strDate,endsDate);
                 }
                 else if (adapterView.getItemAtPosition(i).equals("Last Month"))
                 {
+                    Calendar calendar = Calendar.getInstance();
+                    int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                    int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+                    int daysLeft = lastDay - currentDay;
+
                     Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                     startDate.add(Calendar.MONTH, -1);
                     Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    endDate.add(Calendar.DATE,-currentDay);
                     String strDate = myFormat1.format(startDate.getTime());
                     String endsDate = myFormat1.format(endDate.getTime());
+                    page=1;
                     getInvoicesCallSearch(strDate,endsDate);
                 }
                 else if (adapterView.getItemAtPosition(i).equals("Today"))
@@ -221,7 +237,17 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                     String strDate = myFormat1.format(startDate.getTime());
                     String endsDate = myFormat1.format(endDate.getTime());
+                    page=1;
                     getInvoicesCallSearch(strDate,endsDate);
+                }else if (adapterView.getItemAtPosition(i).equals("Select Date"))
+                {
+                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    // startDate.add(Calendar.MONTH, -1);
+                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                    String strDate = myFormat1.format(startDate.getTime());
+                    String endsDate = myFormat1.format(endDate.getTime());
+                    page=1;
+                   // getInvoicesCall();
                 }
             }
 
