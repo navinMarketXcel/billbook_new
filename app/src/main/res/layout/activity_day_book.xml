@@ -145,7 +145,7 @@
        android:layout_width="match_parent"
        android:orientation="vertical"
        android:layout_alignParentTop="true"
-
+       android:layout_above="@+id/expRe"
        android:layout_height="wrap_content">
 <LinearLayout
     android:layout_width="match_parent"
@@ -242,6 +242,7 @@
         android:layout_height="wrap_content"></Button>
        <LinearLayout
            android:id="@+id/lnContent"
+
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_marginStart="@dimen/_7sdp"
@@ -292,8 +293,6 @@
                android:layout_height="match_parent"
                />
        </LinearLayout>
-
-
        <LinearLayout
            android:id="@+id/lnNoRecordFound"
            android:visibility="gone"
@@ -311,17 +310,17 @@
 
        </LinearLayout>
 
-
-
    </LinearLayout>
-
         <RelativeLayout
+            android:id="@+id/expRe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:gravity="bottom"
             android:background="@color/white"
             android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginBottom="@dimen/_7sdp">
+            android:layout_marginBottom="@dimen/_7sdp"
+            tools:ignore="NotSibling">
 
             <View
                 android:id="@+id/viewLine"
@@ -382,6 +381,8 @@
 
             </LinearLayout>
         </RelativeLayout>
+
+
     </RelativeLayout>
 
     </RelativeLayout>

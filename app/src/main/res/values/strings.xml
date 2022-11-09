@@ -135,6 +135,7 @@
     <string name="description">Description<font color='#ff0000'>*</font> </string>
     <string name="enter_selling_price">Enter Selling Price</string>
     <string name="price">Price<font color='#ff0000'>*</font></string>
+    <string name="enter_price_including_gst_bs">Enter Price including GST<font color='#ff0000'>*</font> </string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
 

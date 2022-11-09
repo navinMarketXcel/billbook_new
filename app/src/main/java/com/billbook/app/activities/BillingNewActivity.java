@@ -1141,7 +1141,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             additemTv = findViewById(R.id.additemTv);
             if(isGSTAvailable)
             {
-                priceLblTVBs.setText("Price after GST");
+                priceLblTVBs.setText(R.string.enter_price_including_gst_bs);
 
             }
             additemTv.setText("Update Item");

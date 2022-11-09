@@ -199,6 +199,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/txtResend"
                     android:layout_marginTop="@dimen/_20sdp"
                     style="@style/textSmallBold"
