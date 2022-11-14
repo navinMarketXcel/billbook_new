@@ -1817,9 +1817,12 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             JSONObject object = new JSONObject();
                             JSONObject customerObject = new JSONObject();
                             if (isEdit) {
-                                object.put("invoice", body.getJSONObject("data").getJSONObject("invoice"));
-                                object.put("items", body.getJSONObject("data").getJSONObject("invoice").getJSONArray("masterItems"));
-                                customerObject =  body.getJSONObject("data").getJSONObject("invoice").getJSONObject("customer");
+                                object.put("invoice", body.getJSONObject("data"));
+                                object.put("items", body.getJSONObject("data").getJSONArray("masterItems"));
+
+//                                object.put("invoice", body.getJSONObject("data").getJSONObject("invoice"));
+//                                object.put("items", body.getJSONObject("data").getJSONObject("invoice").getJSONArray("masterItems"));
+                                customerObject =  body.getJSONObject("data").getJSONObject("customer");
                                 object.getJSONObject("invoice").put("customerName",customerObject.getString("name"));
                                 object.getJSONObject("invoice").put("customerMobileNo",customerObject.getString("mobileNo"));
                                 object.getJSONObject("invoice").put("customerAddress",
@@ -1832,9 +1835,22 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             }
                             else {
                                 invoiceViewModel.updateIsSync(localInvoiceId);
+                                object.put("invoice", body.getJSONObject("data"));
+                               // object.put("items", body.getJSONObject("data").getJSONArray("masterItems"));
                             }
 
+                            Log.v("object 1840",object.toString());
                             invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : body.getJSONObject("data").getJSONObject("invoice").getInt("id"));
+
+
+//                            //invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : object.getJSONObject("invoice").getJSONObject("data").getInt("id"));
+//                          //invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getJSONObject("invoice").getInt("id") : object.getJSONObject("data").getJSONObject("invoice").getInt("id"));
+//
+//                             invoiceViewModel.updateInvoiceId(localInvoiceId,isEdit ? object.getInt("id") : body.getJSONObject("data").getInt("id"));
+//                            //int edit_id=object.getJSONObject("invoice").getInt("id");
+//                            int make_id=body.getJSONObject("data").getJSONObject("invoice").getInt("id");
+//                           // Log.v("edit_id",String.valueOf(edit_id));
+//                            Log.v("make_id",String.valueOf(make_id));
 
 
                             Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);

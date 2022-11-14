@@ -207,7 +207,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
 
                     Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                    startDate.add(Calendar.DATE, -currentDay);
+                    startDate.add(Calendar.DATE, -currentDay+1);
                     Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                     String strDate = myFormat1.format(startDate.getTime());
                     String endsDate = myFormat1.format(endDate.getTime());

@@ -12,7 +12,7 @@
     <string name="invoicesOffline">invoicesOffline</string>
     <string name="user_login_token">UserLoginToken</string>
     <string name="showGST">ज़ीएसटी दिखाएं</string>
-    <string name="enter_price_including_gst_bs">Enter Price including GST<font color='#ff0000'>*</font> </string>
+    <string name="enter_price_including_gst_bs">Price including GST<font color='#ff0000'>*</font> </string>
     <string name="InVoiceNumber">इन्वॉइस नंबर</string>
     <string name="InVoiceNumberForNonGST">नॉन ज़ीएसटी के लिए इन्वॉइस नंबर</string>
     <string name="showGstPopup">जीएसटी पॉपअप दिखाएं</string>
