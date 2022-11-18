@@ -368,7 +368,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         else
         {
             LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            buttonLayoutParams.setMargins(10, 10, 10, 10);
+            buttonLayoutParams.setMargins(15, 0, 10, 0);
+           billItemBinding.priceLblTV.setLayoutParams(buttonLayoutParams);
 
             billItemBinding.addPriceLayout.setLayoutParams(buttonLayoutParams);
             billItemBinding.itemPriceET.setLayoutParams(buttonLayoutParams);
@@ -1159,7 +1160,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             } else {
 
                 LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                buttonLayoutParams.setMargins(10, 10, 10, 10);
+                buttonLayoutParams.setMargins(17, 0, 10, 0);
 
                 ll.setLayoutParams(buttonLayoutParams);
                 priceEt.setLayoutParams(buttonLayoutParams);
