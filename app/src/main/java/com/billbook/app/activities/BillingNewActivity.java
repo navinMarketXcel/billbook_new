@@ -1160,9 +1160,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             } else {
 
                 LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                buttonLayoutParams.setMargins(20, 0, 10, 0);
+                buttonLayoutParams.setMargins(15, 0, 10, 0);
 
                 ll.setLayoutParams(buttonLayoutParams);
+                priceLblTVBs.setLayoutParams(buttonLayoutParams);
                 priceEt.setLayoutParams(buttonLayoutParams);
                 hsnNo.setVisibility(View.GONE);
                 priceEdtInputLayout.setHint(getString(R.string.enter_price));

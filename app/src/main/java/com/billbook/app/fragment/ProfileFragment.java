@@ -238,6 +238,10 @@ public class ProfileFragment extends Fragment {
                         .error(R.drawable.man_new)
                         .into(ivUserProfile);
             }
+            else
+            {
+                ivUserProfile.setBackground(getResources().getDrawable(R.drawable.store));
+            }
             if (profile.has("gstNo")) {
                 String GstNo=profile.getString("gstNo");
                 if(!GstNo.isEmpty() && MyApplication.getIsGst()){

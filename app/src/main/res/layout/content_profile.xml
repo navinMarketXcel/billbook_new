@@ -35,8 +35,7 @@
                         android:id="@+id/ivUserProfile"
                         android:layout_width="@dimen/_80sdp"
                         android:layout_height="@dimen/_80sdp"
-                        android:padding="@dimen/_5sdp"
-                        android:src="@drawable/ic_user" />
+                        android:padding="@dimen/_5sdp" />
                     <!-- android:background="@drawable/eclipse"-->
 
                 </LinearLayout>
