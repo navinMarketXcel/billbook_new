@@ -515,7 +515,6 @@
 
                         android:layout_marginTop="10dp"
 
-                        android:layout_marginBottom="10dp"
 
                         android:drawableRight="@drawable/ic_baseline_add_24"
 
@@ -545,7 +544,10 @@
                         android:layout_width="match_parent"
 
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="10dp"
+
 
                         android:orientation="vertical"
 
@@ -600,7 +602,9 @@
 
                         android:id="@+id/GSTLayout"
 
-                        android:layout_margin="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_width="match_parent"
 
                         android:layout_height="wrap_content"
