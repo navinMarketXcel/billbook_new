@@ -1,6 +1,7 @@
 package com.billbook.app.activities;
 
 import static com.billbook.app.activities.MyApplication.context;
+import static com.google.android.datatransport.runtime.dagger.internal.InstanceFactory.create;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -120,6 +121,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private Date invoiceDate;
     private Gson gson = new Gson();
     private List<String> gstTypeList, measurementUnitTypeList;
+    private JSONArray gstList1, nonGstList1;
+    private ArrayList<String> gstList2, nonGstList2;
     private JSONObject profile;
     private ArrayList<String> gstList, nonGstList;
     private boolean isGSTAvailable;
@@ -153,6 +156,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private LinearLayout itemslay;
     private NetworkType nt;
     private String networkType;
+    String gstListString;
+    String nonGstListString;
     private String networkSpeed,apiName;
     private TextView viewDets;
     private  int countIsEdit =0 ;
@@ -452,6 +457,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             }
         });
 
+
+
         binding.billNo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -465,6 +472,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                         if(isGSTAvailable)
                         {
+
                             Log.v("Gst Bills list",gstList.toString());
                             if(gstList.contains(s.toString())){
                                 binding.billNo.setError("Bill number already exist");
@@ -527,6 +535,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //        });
 
     }
+
 
     // for autocompletion on search Item (addition of first item)
     public void showAlertDialog()

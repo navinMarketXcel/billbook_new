@@ -75,6 +75,7 @@ import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -795,6 +796,7 @@ public class HomeFragment extends Fragment
             userProfile = new JSONObject(MyApplication.getUserDetails());
 //            updateDrawerProfileImg();
             getLatestInvoice(userProfile.getString("userid"));
+            getLatestBillNumbers(userProfile.getString("userid"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -852,7 +854,54 @@ public class HomeFragment extends Fragment
 //            e.fillInStackTrace();
 //        }
 //    }
+private void getLatestBillNumbers(String userid) {
 
+    try {
+        ApiInterface apiService =
+                ApiClient.getClient(getActivity()).create(ApiInterface.class);
+
+
+        String token = MyApplication.getUserToken();
+        Map<String, String> headerMap = new HashMap<>();
+        headerMap.put("Authorization", token);
+        Map<String, String> body = new HashMap<>();
+        body.put("userid", userid);
+        JSONObject getLastInvoiceObject = new JSONObject();
+        getLastInvoiceObject.put("userid", userid);
+
+        Call<Object> call = apiService.getBillNumbners(headerMap, body);
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                final JSONObject body;
+                try {
+
+                    body = new JSONObject(new Gson().toJson(response.body()));
+                    Log.d(TAG, "Invoice Body::" + body);
+                    if (body.getJSONObject("data").has("nonGstBillNo")) {
+                        gstList = body.getJSONObject("data").getJSONArray("gstBillNo");
+                        nonGstList = body.getJSONObject("data").getJSONArray("nonGstBillNo");
+                        Log.v("gstList1",gstList.toString());
+                        Log.v("NongstList1",nonGstList.toString());
+//
+                    }
+                } catch (JSONException e) {
+                    Util.logErrorApi("getLastInvoiceNumber", getLastInvoiceObject, Arrays.toString(e.getStackTrace()), e.toString() , null,getContext());
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Util.logErrorApi("getLastInvoiceNumber", getLastInvoiceObject, Arrays.toString(t.getStackTrace()), t.toString() , null,getContext());
+            }
+        });
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
+
+}
 
     private void getLatestInvoice(String userid) {
 

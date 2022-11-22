@@ -301,6 +301,7 @@
                                 android:id="@+id/billNo"
 
                                 android:layout_width="40dp"
+                                android:editable="false"
 
                                 android:layout_height="30dp"
 

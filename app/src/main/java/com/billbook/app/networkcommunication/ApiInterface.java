@@ -146,6 +146,9 @@ public interface ApiInterface {
     @POST("getLastInvoiceNumber")
     Call<Object> getLatestInvoice(@HeaderMap Map<String, String> headers,@Body Map<String, String> body);
 
+    @POST("getBillNumbers")
+    Call<Object> getBillNumbners(@HeaderMap Map<String, String> headers,@Body Map<String, String> body);
+
     @GET("user/state/")
     Call<ArrayList<String>> getStates(@HeaderMap Map<String, String> headers);
 
