@@ -27,6 +27,7 @@
 
     </LinearLayout>
     <TextView
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Version 76 and 2.2.4"

@@ -144,11 +144,37 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
                     body = new JSONObject(new Gson().toJson(response.body()));
                     Log.d(TAG, "Version Body::" + body);
                     if (body.getBoolean("status") && body.has("data") && !body.isNull("data")) {
-                        String versionName= body.getJSONObject("data").getString("versionName");
-                        int verisonNo = body.getJSONObject("data").getInt("versionNo");
+                       HashMap<Integer,String> verHashMap = new HashMap<>();
+                       String JsonString = body.getJSONObject("data").getString("versionNoArray");
+                        Log.v("JsonString",JsonString);
+//                        JSONParser parser = new JSONParser();
+//                        JSONObject json = (JSONObject) parser.parse(stringToParse);
+                        JSONArray jsonNoArray = new JSONArray(JsonString);
+
+                        Log.v("jsonNoArray",jsonNoArray.toString());
+                        JSONArray versionArray = body.getJSONObject("data").getJSONArray("versionNoArray");
+                        JSONObject versionNameArray = body.getJSONObject("data").getJSONObject("versionNameArray");
+                        Log.v("versionNoArray",versionArray.toString());
+                        Log.v("versionNameArray",versionNameArray.toString());
+                        for(int i=0;i < versionArray.length();i++)
+                        {
+                            if(i==0)
+                            {
+                                verHashMap.put(versionArray.getInt(i),versionNameArray.getString("vn1"));
+                                Log.v("versionNameArray1",versionNameArray.getString("vn1"));
+                            }
+                            else
+                            {
+                                verHashMap.put(versionArray.getInt(i),versionNameArray.getString("vn2"));
+                                Log.v("versionNameArray2",versionNameArray.getString("vn2"));
+
+                            }
+
+                        }
+                        Log.v("hasMap",verHashMap.toString());
                         String buildVersion = BuildConfig.VERSION_NAME;
                         int buildCode = BuildConfig.VERSION_CODE;
-                        if (!buildVersion.equals(versionName) || ((buildCode != verisonNo)))
+                        if (!verHashMap.containsValue(buildVersion) ||  (!verHashMap.containsKey(buildCode)))
                         {
                             DialogUtils.showToast(SplashActivity.this, "To continue, please update the app to latest version.");
                             final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object

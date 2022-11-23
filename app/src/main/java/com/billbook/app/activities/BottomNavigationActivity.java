@@ -209,6 +209,7 @@ private JSONObject userProfile;
                // System.out.println("user Meta data obj getUserMetadata :"+response.body().getData().getMobileNo());
                 if(response.body().getStatus())
                 {
+                    Log.v("response of meta",response.body().toString());
                     System.out.println("ver name"+version_name + "ver no"+versionCode);
                     if(version_name.equals(response.body().getData().getVersionName()) && versionCode == response.body().getData().getVersionNo())
                     {
@@ -217,12 +218,12 @@ private JSONObject userProfile;
                     }
                     else
                     {
-                        //saveUserMetaData(mobNo,version_name,versionCode,deviceVersionName,userId ,"Testing");
+                        saveUserMetaData(mobNo,version_name,versionCode,deviceVersionName,userId ,"Testing");
                     }
                 }
                 else
                 {
-                   // saveUserMetaData(mobNo,version_name,versionCode,deviceVersionName,userId ,"Testing");
+                    saveUserMetaData(mobNo,version_name,versionCode,deviceVersionName,userId ,"Testing");
                 }
 
             }
