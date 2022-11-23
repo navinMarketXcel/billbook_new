@@ -41,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -145,31 +146,32 @@ public class SplashActivity extends AppCompatActivity implements WebserviceRespo
                     Log.d(TAG, "Version Body::" + body);
                     if (body.getBoolean("status") && body.has("data") && !body.isNull("data")) {
                        HashMap<Integer,String> verHashMap = new HashMap<>();
-                       String JsonString = body.getJSONObject("data").getString("versionNoArray");
-                        Log.v("JsonString",JsonString);
-//                        JSONParser parser = new JSONParser();
-//                        JSONObject json = (JSONObject) parser.parse(stringToParse);
-                        JSONArray jsonNoArray = new JSONArray(JsonString);
+                       String stringVersionNoArray = body.getJSONObject("data").getString("versionNoArray");
+                       String stringVersionNameArray = body.getJSONObject("data").getString("versionNameArray");
 
-                        Log.v("jsonNoArray",jsonNoArray.toString());
-                        JSONArray versionArray = body.getJSONObject("data").getJSONArray("versionNoArray");
-                        JSONObject versionNameArray = body.getJSONObject("data").getJSONObject("versionNameArray");
-                        Log.v("versionNoArray",versionArray.toString());
-                        Log.v("versionNameArray",versionNameArray.toString());
-                        for(int i=0;i < versionArray.length();i++)
+                        JSONObject jsonObjVersionNoArray = new JSONObject(stringVersionNoArray);
+                        JSONObject jsonObjVersionNameArray = new JSONObject(stringVersionNameArray);
+                        Iterator x = jsonObjVersionNoArray.keys();
+                        Iterator y = jsonObjVersionNameArray.keys();
+                        JSONArray jsonNoArrayVersionNo = new JSONArray();
+                        JSONArray jsonNoArrayVersionName = new JSONArray();
+
+                        while (x.hasNext()){
+                            String key = (String) x.next();
+                            jsonNoArrayVersionNo.put(jsonObjVersionNoArray.get(key));
+                        }
+                        while (y.hasNext()){
+                            String key = (String) y.next();
+                            jsonNoArrayVersionName.put(jsonObjVersionNameArray.get(key));
+                        }
+
+
+                        Log.v("jsonNoArray",jsonNoArrayVersionNo.toString());
+                        Log.v("stringVersionNameArray",jsonNoArrayVersionName.toString());
+
+                        for(int i=0;i < jsonNoArrayVersionNo.length();i++)
                         {
-                            if(i==0)
-                            {
-                                verHashMap.put(versionArray.getInt(i),versionNameArray.getString("vn1"));
-                                Log.v("versionNameArray1",versionNameArray.getString("vn1"));
-                            }
-                            else
-                            {
-                                verHashMap.put(versionArray.getInt(i),versionNameArray.getString("vn2"));
-                                Log.v("versionNameArray2",versionNameArray.getString("vn2"));
-
-                            }
-
+                            verHashMap.put(Integer.parseInt(jsonNoArrayVersionNo.getString(i)),jsonNoArrayVersionName.getString(i));
                         }
                         Log.v("hasMap",verHashMap.toString());
                         String buildVersion = BuildConfig.VERSION_NAME;
