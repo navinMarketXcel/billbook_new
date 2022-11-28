@@ -30,7 +30,7 @@
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Version 76 and 2.2.4"
+        android:text="Version 77 and 2.2.5"
         android:gravity="center"
         android:textColor="@color/white">
 
