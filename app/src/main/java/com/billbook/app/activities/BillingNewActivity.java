@@ -192,7 +192,39 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         }
         View view = binding.getRoot();
         setContentView(view);
-        isGSTAvailable = MyApplication.getIsGst();
+
+        boolean medit = getIntent().hasExtra("edit");
+        if(medit)
+        {
+            isEdit = true;
+            int gstBillNo = 0;
+            try {
+                invoice = new JSONObject(getIntent().getStringExtra("invoice"));
+                gstBillNo = invoice.getInt("gstBillNo");
+                if(gstBillNo>0)
+                {
+                    isGSTAvailable=true;
+                    Log.v("gstBillNo in if load", String.valueOf(gstBillNo));
+                }
+                else
+                {
+                    isGSTAvailable = false;
+                    Log.v("gstBillNo load", String.valueOf(gstBillNo));
+                }
+            }
+
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+        else
+        {
+            isEdit = false;
+            isGSTAvailable = MyApplication.getIsGst();
+        }
+        Log.v("isedit in oncre", String.valueOf(medit));
+        Log.v("isgst avail oncr", String.valueOf(isGSTAvailable));
         if(!isEdit){
             localInvoiceId = MyApplication.getLocalInvoiceId();
             MyApplication.setLocalInvoiceId(localInvoiceId+1);
@@ -348,7 +380,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         binding.gstType.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.tvAmountGST.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-        binding.taxLabelTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+        Log.v("isGstAvail", String.valueOf(isGSTAvailable));
+       binding.taxLabelTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.GSTTypeLblTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.gstTypeLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.gstTitle.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
@@ -1011,7 +1044,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             profile = new JSONObject(MyApplication.getUserDetails());
             if (profile.has("isGST") && profile.getString("isGST").equals(1)  && !isEdit) {
                 gstNo = profile.getString("gstNo");
-                isGSTAvailable = true;
+                //isGSTAvailable = true;
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -2018,7 +2051,19 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                 binding.billDets.setText("Bill details"+"("+count+")");
                 billItemBinding.items.setText("Items"+"("+count+")");
-                isGSTAvailable = !invoice.getString("gstType").isEmpty();
+                int gstBillNo = invoice.getInt("gstBillNo");
+                if(gstBillNo>0)
+                {
+                    isGSTAvailable=true;
+                    Log.v("gstBillNo in if", String.valueOf(gstBillNo));
+                }
+                else
+                {
+                    isGSTAvailable = false;
+                    Log.v("gstBillNo", String.valueOf(gstBillNo));
+                }
+
+              //  isGSTAvailable = !invoice.getString("gstType").isEmpty();
                 if (isGSTAvailable)
                 {
                     String gg = invoice.getString("gstType");
@@ -2082,6 +2127,17 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         if (getIntent().hasExtra("edit")) {
             try {
                 Log.d(TAG, "loadDataForInvoice: " + invoice);
+                int gstBillNo = invoice.getInt("gstBillNo");
+                if(gstBillNo>0)
+                {
+                    isGSTAvailable=true;
+                    Log.v("gstBillNo in if load", String.valueOf(gstBillNo));
+                }
+                else
+                {
+                    isGSTAvailable = false;
+                    Log.v("gstBillNo load", String.valueOf(gstBillNo));
+                }
                 binding.nextBtn.setText("Update Invoice");
                 if(invoice.getInt("discount") > 0){
                     binding.addDisc.setText("Update Discount");
