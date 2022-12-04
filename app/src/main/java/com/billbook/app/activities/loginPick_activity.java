@@ -215,9 +215,15 @@ public class loginPick_activity extends AppCompatActivity {
                                     }else {
                                         gotoRegistration();
                                     }
-                                    whatsappDialog.hide();
+                                    if(whatsappDialog.isShowing())
+                                    {
+                                        whatsappDialog.hide();
+                                    }
                                 } else {
-                                    whatsappDialog.hide();
+                                    if(whatsappDialog.isShowing())
+                                    {
+                                        whatsappDialog.hide();
+                                    }
                                     DialogUtils.showToast(loginPick_activity.this, "Failed to sign in!");
                                 }
                             } catch (JSONException e) {

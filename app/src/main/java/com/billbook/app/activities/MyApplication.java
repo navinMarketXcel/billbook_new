@@ -1,6 +1,8 @@
 package com.billbook.app.activities;
 
 import android.app.Application;
+
+import androidx.multidex.MultiDex;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.Room;
 import androidx.room.migration.Migration;
@@ -511,6 +513,7 @@ public class MyApplication extends Application {
                 .build();
         context = getApplicationContext();
         formStateList();
+        MultiDex.install(context);
     }
 
     private void formStateList() {

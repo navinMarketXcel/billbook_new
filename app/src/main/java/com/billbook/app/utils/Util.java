@@ -288,19 +288,24 @@ public class Util {
 
 
     public static void sendWhatsAppMessageasPDF(String number, Context context, File file) {
-        Intent sendIntent = new Intent("android.intent.action.MAIN");
-        context.startActivity(Intent.createChooser(sendIntent, "Share Invoice By"));
-        sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
-        sendIntent.putExtra("jid", "91" + number + "@s.whatsapp.net");
-        sendIntent.putExtra("test", "test whatsapp.net");//phone number without "+" prefix
-        sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        sendIntent.setType("application/pdf");
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "test");
-        Uri uri =
-                FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider",
-                        file);
-        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        context.startActivity(sendIntent);
+
+        try {
+            Intent sendIntent = new Intent("android.intent.action.MAIN");
+            context.startActivity(Intent.createChooser(sendIntent, "Share Invoice By"));
+            sendIntent.setComponent(new ComponentName("com.whatsapp", "com.whatsapp.Conversation"));
+            sendIntent.putExtra("jid", "91" + number + "@s.whatsapp.net");
+            sendIntent.putExtra("test", "test whatsapp.net");//phone number without "+" prefix
+            sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            sendIntent.setType("application/pdf");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, "test");
+            Uri uri =
+                    FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider",
+                            file);
+            sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+            context.startActivity(sendIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }

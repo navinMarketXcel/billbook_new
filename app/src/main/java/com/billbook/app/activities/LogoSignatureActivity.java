@@ -306,14 +306,16 @@ public class LogoSignatureActivity extends AppCompatActivity {
 
            // File file = new File(Environment.getExternalStorageDirectory().getPath(), "photo.jpg");
             //Uri selectedImage = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", imgDir);
-
-            Uri selectedImage = Uri.fromFile(photoFile);
-           // Uri selectedImage = data.getData();
-            System.out.println("selectedImage"+selectedImage);
+            if(photoFile!=null)
+            {
+                Uri selectedImage = Uri.fromFile(photoFile);
+                // Uri selectedImage = data.getData();
+                System.out.println("selectedImage"+selectedImage);
                 lnSave.setVisibility(View.VISIBLE);
                 setImage(selectedImage);
-
-        }else  if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
+            }
+        }
+        else  if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
             {
                 Uri selectedImage = data.getData();
                 System.out.println("selectedImage gallery "+selectedImage);
@@ -346,14 +348,20 @@ public class LogoSignatureActivity extends AppCompatActivity {
 
                     cursor.close(); // close cursor
 
-                    File selectedImageFile = new File(path);
-
-                    if (selectedImageFile.exists() && Util.checkFileSizeInMB(selectedImageFile, MAX_FILE_SIZE_LIMIT)) {
+                    if(path!=null)
+                    {
+                        File selectedImageFile = new File(path);
+                        if (selectedImageFile.exists() && Util.checkFileSizeInMB(selectedImageFile, MAX_FILE_SIZE_LIMIT))
+                        {
 //                launchImageEditActivity(selectedImage);
-                        lnSave.setVisibility(View.VISIBLE);
-                        setImage(selectedImage);
-                    } else {
-                        DialogUtils.showToast(LogoSignatureActivity.this, "Max file size limit " + (int) MAX_FILE_SIZE_LIMIT + "MB");
+                            lnSave.setVisibility(View.VISIBLE);
+                            setImage(selectedImage);
+
+                        }
+                        else
+                        {
+                            DialogUtils.showToast(LogoSignatureActivity.this, "Max file size limit " + (int) MAX_FILE_SIZE_LIMIT + "MB");
+                        }
                     }
 
                 }
