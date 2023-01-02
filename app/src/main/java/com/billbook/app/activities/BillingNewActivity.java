@@ -381,13 +381,13 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         binding.gstType.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.tvAmountGST.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         Log.v("isGstAvail", String.valueOf(isGSTAvailable));
-       binding.taxLabelTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+        binding.taxLabelTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.GSTTypeLblTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.gstTypeLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         binding.gstTitle.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
 
 
-       // billItemBinding.itemPriceET.setWidth(isGSTAvailable ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+        // billItemBinding.itemPriceET.setWidth(isGSTAvailable ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
 
         billItemBinding.gstPercentageTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         billItemBinding.gstPerLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
@@ -407,7 +407,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         {
             LinearLayout.LayoutParams buttonLayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             buttonLayoutParams.setMargins(15, 0, 10, 0);
-           billItemBinding.priceLblTV.setLayoutParams(buttonLayoutParams);
+            billItemBinding.priceLblTV.setLayoutParams(buttonLayoutParams);
 
             billItemBinding.addPriceLayout.setLayoutParams(buttonLayoutParams);
             billItemBinding.itemPriceET.setLayoutParams(buttonLayoutParams);
@@ -889,9 +889,9 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             } else {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 if (billItemBinding.layoutBillItemInitial.getVisibility() == View.VISIBLE) {
-                   // billItemBinding.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
+                    // billItemBinding.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
                     billItemBinding.imeiNo.setText(result.getContents());
-            } else if (customDialogClass.isShowing()) {
+                } else if (customDialogClass.isShowing()) {
                     customDialogClass.imeiNo.setText(result.getContents());
                     //customDialogClass.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
                 }
@@ -1394,7 +1394,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             } else if (quantityEt.getText().toString().isEmpty() || Float.parseFloat(quantityEt.getText().toString()) == 0) {
                 DialogUtils.showToast(c, "Please enter quantity");
                 return false;
-           }
+            }
             //else if (isGSTAvailable && gstPercentage.getSelectedItemPosition() == 0) {
 //                DialogUtils.showToast(c, "Please select GST %");
 //                return false;
@@ -1631,62 +1631,66 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     {
 
         try {
+            if(localInvoiceId!=0)
+            {
+                invoiceViewModel.updateInvoiceId(localInvoiceId,-1);
+                DialogUtils.showToast(this, "Invoice saved in offline mode.");
+                JSONObject data = new JSONObject();
+                requestObj.put("id", -1);
 
-            invoiceViewModel.updateInvoiceId(localInvoiceId,-1);
+                data.put("invoice", requestObj);
 
-            DialogUtils.showToast(this, "Invoice saved in offline mode.");
+                data.put("items", requestObj.getJSONArray("items"));
 
-            JSONObject data = new JSONObject();
+                Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
 
-            requestObj.put("id", -1);
+                //intent.putExtra("invoice", requestObj.toString());
 
-            data.put("invoice", requestObj);
+                //intent.putExtra("invoiceServer", data.toString());
 
-            data.put("items", requestObj.getJSONArray("items"));
+                intent.putExtra("localInvId",localInvoiceId);
 
-            Intent intent = new Intent(BillingNewActivity.this, PDFActivity.class);
+                intent.putExtra("id",-1);
 
-            //intent.putExtra("invoice", requestObj.toString());
-
-            //intent.putExtra("invoiceServer", data.toString());
-
-            intent.putExtra("localInvId",localInvoiceId);
-
-            intent.putExtra("id",-1);
-
-            intent.putExtra("idForItem",localInvoiceId);
-            intent.putExtra("isGstAvailable",isGSTAvailable);
+                intent.putExtra("idForItem",localInvoiceId);
+                intent.putExtra("isGstAvailable",isGSTAvailable);
 
 
 
-            if (isGSTAvailable) {
+                if (isGSTAvailable) {
 
-                intent.putExtra("gstBillNo", serialNumber);
+                    intent.putExtra("gstBillNo", serialNumber);
 
-                intent.putExtra("nonGstBillNo", 0);
+                    intent.putExtra("nonGstBillNo", 0);
 
-            } else {
+                } else {
 
-                intent.putExtra("gstBillNo", 0);
+                    intent.putExtra("gstBillNo", 0);
 
-                intent.putExtra("nonGstBillNo", serialNumber);
+                    intent.putExtra("nonGstBillNo", serialNumber);
+
+                }
+
+
+                startActivity(intent);
+
+                if (!isEdit && isGSTAvailable)
+
+                    MyApplication.setInvoiceNumber(serialNumber + 1);
+
+                else if (!isEdit)
+
+                    MyApplication.setInvoiceNumberForNonGst(serialNumber + 1);
+
+                BillingNewActivity.this.finish();
+            }
+            else
+            {
 
             }
 
-
-            startActivity(intent);
-
-            if (!isEdit && isGSTAvailable)
-
-                MyApplication.setInvoiceNumber(serialNumber + 1);
-
-            else if (!isEdit)
-
-                MyApplication.setInvoiceNumberForNonGst(serialNumber + 1);
-
-            BillingNewActivity.this.finish();
-
-        } catch (JSONException e) {
+        }
+        catch (JSONException e) {
 
             e.printStackTrace();
 
@@ -1880,7 +1884,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             else {
                                 invoiceViewModel.updateIsSync(localInvoiceId);
                                 object.put("invoice", body.getJSONObject("data"));
-                               // object.put("items", body.getJSONObject("data").getJSONArray("masterItems"));
+                                // object.put("items", body.getJSONObject("data").getJSONArray("masterItems"));
                             }
 
                             Log.v("object 1840",object.toString());
@@ -2063,7 +2067,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     Log.v("gstBillNo", String.valueOf(gstBillNo));
                 }
 
-              //  isGSTAvailable = !invoice.getString("gstType").isEmpty();
+                //  isGSTAvailable = !invoice.getString("gstType").isEmpty();
                 if (isGSTAvailable)
                 {
                     String gg = invoice.getString("gstType");
@@ -2093,32 +2097,32 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void discVisible(View v)
     {
 
-            TextView addDisc = findViewById(R.id.addDisc);
-            View bildetsLine = findViewById(R.id.bildetsLine);
-            LinearLayout disc = findViewById(R.id.discountLayout);
-            if(ischeckDisc)
-            {
-                addDisc.setText("Cancel");
-                bildetsLine.setVisibility(View.VISIBLE);
-                disc.setVisibility(View.VISIBLE);
-                ischeckDisc=false;
-         } else
-            {
-                if(getIntent().hasExtra("edit")){
-                    addDisc.setText("Update Discount");
-                } else {
-                    addDisc.setText("Add Discount");
-                }
-
-                binding.edtDiscountPercent.getText().clear();
-                binding.edtDiscountAmt.getText().clear();
-                bildetsLine.setVisibility(View.GONE);
-                disc.setVisibility(View.GONE);
-                discountAmt = 0;
-                discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
-
-                ischeckDisc=true;
+        TextView addDisc = findViewById(R.id.addDisc);
+        View bildetsLine = findViewById(R.id.bildetsLine);
+        LinearLayout disc = findViewById(R.id.discountLayout);
+        if(ischeckDisc)
+        {
+            addDisc.setText("Cancel");
+            bildetsLine.setVisibility(View.VISIBLE);
+            disc.setVisibility(View.VISIBLE);
+            ischeckDisc=false;
+        } else
+        {
+            if(getIntent().hasExtra("edit")){
+                addDisc.setText("Update Discount");
+            } else {
+                addDisc.setText("Add Discount");
             }
+
+            binding.edtDiscountPercent.getText().clear();
+            binding.edtDiscountAmt.getText().clear();
+            bildetsLine.setVisibility(View.GONE);
+            disc.setVisibility(View.GONE);
+            discountAmt = 0;
+            discountPercent = Util.calculateDiscountPercentFromAmt(discountAmt, total);
+
+            ischeckDisc=true;
+        }
     }
 
 
@@ -2146,7 +2150,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     serialNumber = invoice.getInt("gstBillNo");
                 else
                     serialNumber = invoice.getInt("nonGstBillNo");
-               // binding.billNo.setText(String.valueOf(serialNumber));
+                // binding.billNo.setText(String.valueOf(serialNumber));
 //                bill_no.setEnabled(false);
                 invoiceIdIfEdit = invoice.getInt("id");
                 localInvoiceId = invoiceIdIfEdit;
@@ -2240,16 +2244,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     @Override
     public void onBackPressed() {
         DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to cancel the bill?", new DialogUtils.DialogClickListener() {
-                @Override
-                public void positiveButtonClick() {
-                    finish();
-                }
+            @Override
+            public void positiveButtonClick() {
+                finish();
+            }
 
-                @Override
-                public void negativeButtonClick() {
+            @Override
+            public void negativeButtonClick() {
 
-                }
-            });
+            }
+        });
     }
 
 }

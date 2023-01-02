@@ -37,6 +37,7 @@ import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.Util;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -165,10 +166,32 @@ public class ProfileFragment extends Fragment {
                     getActivity().finish();
                     MyApplication.saveUserDetails("");
                     MyApplication.setHaveGst(true);
+                    ApiInterface apiService =
+                            ApiClient.getClient(getActivity()).create(ApiInterface.class);
+                    Map<String, String> headerMap = new HashMap<>();
+                    Call<Object> call = null;
+                    call = apiService.logoutUser(headerMap, new JsonObject());
+                    call.enqueue(new Callback<Object>() {
+                        @Override
+                        public void onResponse(Call<Object> call, Response<Object> response) {
+                            try {
+                                JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+                                String res = body.getString("msg");
+                                Log.v("res of logout user",res);
+                                Toast.makeText(getContext(),res,Toast.LENGTH_SHORT).show();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Object> call, Throwable t) {
+
+                        }
+                    });
                 }
                 @Override
                 public void negativeButtonClick() {
-
                 }
             });
 //            Intent intent = new Intent(getActivity(), loginPick_activity.class);

@@ -55,7 +55,7 @@ public class loginPick_activity extends AppCompatActivity {
         setContentView(R.layout.activity_login_pick);
         otpless = OtplessProvider.getInstance(this).init(this::onOtplessResult);
 
-       // phoneButton.setText("Force Crash");
+        // phoneButton.setText("Force Crash");
 //        phoneButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -114,21 +114,21 @@ public class loginPick_activity extends AppCompatActivity {
 
         });
 
-        }
-        public void whatsButtonClick(View v)
-        {
-            if (Util.isNetworkAvailable(getApplicationContext())) {
-                    whatsappDialog = new ProgressDialog(loginPick_activity.this);
-                    whatsappDialog.setMessage("Please wait, signing you in!");
-                    whatsappDialog.setCancelable(false);
-                    whatsappDialog.setInverseBackgroundForced(false);
-                    whatsappDialog.show();
-                    getSignupUrl();
-                } else {
-                    DialogUtils.showToast(loginPick_activity.this, getString(R.string.no_internet));
+    }
+    public void whatsButtonClick(View v)
+    {
+        if (Util.isNetworkAvailable(getApplicationContext())) {
+            whatsappDialog = new ProgressDialog(loginPick_activity.this);
+            whatsappDialog.setMessage("Please wait, signing you in!");
+            whatsappDialog.setCancelable(false);
+            whatsappDialog.setInverseBackgroundForced(false);
+            whatsappDialog.show();
+            getSignupUrl();
+        } else {
+            DialogUtils.showToast(loginPick_activity.this, getString(R.string.no_internet));
 
-                }
         }
+    }
     private void setReferrerLink(String referrerUrl) {
         this.referrer_link = referrerUrl;
     }
@@ -170,7 +170,11 @@ public class loginPick_activity extends AppCompatActivity {
     private void onOtplessResult(@Nullable OtplessTokenData response) {
         if (response == null) return;
         if(response.getToken() == null){
-            whatsappDialog.hide();
+            if(whatsappDialog.isShowing())
+            {
+                whatsappDialog.hide();
+            }
+
             return;
         }
         //Send this token to your backend end api to fetch user details from otpless service

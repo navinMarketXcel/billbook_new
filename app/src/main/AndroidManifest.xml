@@ -72,7 +72,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.LogoSignatureActivity"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.DayBookActivity"
@@ -311,6 +311,7 @@
             android:name=".activities.OTPActivity"
             android:parentActivityName=".activities.LoginActivity"
             android:screenOrientation="portrait"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" /> <!-- <receiver android:name=".receivers.AlarmReceiver"> -->
         <!-- <intent-filter> -->

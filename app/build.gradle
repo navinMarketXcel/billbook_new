@@ -7,8 +7,8 @@ android {
         applicationId "com.billbook.app"
         minSdkVersion 24
         targetSdkVersion 32
-        versionCode 77
-        versionName "2.2.5"
+        versionCode 74
+        versionName "2.2.2"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         buildConfigField("String", "AccountId",AccountId);
@@ -110,16 +110,15 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
     implementation 'com.google.android.gms:play-services-auth-api-phone:18.0.1'
     implementation 'es.voghdev.pdfviewpager:library:1.1.2'
-   // thermal printer dependency
+    // thermal printer dependency
     implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:3.2.0'
     // Pdf viewer dependency
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
-    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-crashlytics:18.3.1'
     implementation platform('com.google.firebase:firebase-bom:31.0.0')
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
 }
-
 

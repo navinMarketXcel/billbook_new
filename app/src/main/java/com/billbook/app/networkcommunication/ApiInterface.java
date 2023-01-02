@@ -54,6 +54,9 @@ public interface ApiInterface {
     @GET("category_list/")
     Call<ArrayList<Category>> getCategoriesWithoutHeader(@HeaderMap Map<String, String> headers, @Query("page") int page, @Query("limit") int limit, @Query("date") long date);
 
+    @PUT("logoutUser")
+    Call<Object> logoutUser(@HeaderMap Map<String, String> headers,@Body JsonObject object);
+
 
     @GET("brand/")
     Call<BrandResponse> getBrands(@HeaderMap Map<String, String> headers, @Query("page") int page, @Query("limit") int limit, @Query("date") long date);
