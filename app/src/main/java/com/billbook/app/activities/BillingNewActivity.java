@@ -9,6 +9,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.annotation.NonNull;
@@ -324,7 +327,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private void pickContactIntent()
     {
         Intent intent=new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        startActivityForResult(intent,Contact_Pick_code);
+       // startActivityForResult(intent,Contact_Pick_code);
+        contactPickerResultLauncher.launch(intent);
     }
 
     @Override
@@ -823,7 +827,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 return;
             } else {
                 Intent intent = new Intent(BillingNewActivity.this, StoragePermissionRequestActivity.class);
-                startActivityForResult(intent, GRANT_STORAGE_PERMISSION);
+              //  startActivityForResult(intent, GRANT_STORAGE_PERMISSION);
+                storagePermissionResultLauncher.launch(intent);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -831,62 +836,75 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     @SuppressLint("Range")
+    ActivityResultLauncher<Intent> contactPickerResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    try {
+                        Intent data = result.getData();
+
+                        Cursor cursor1,cursor2;
+                        Uri uri=data.getData();
+                        cursor1=getContentResolver().query(uri,null,null,null,null);
+                        if(cursor1.moveToFirst())
+                        {
+
+                            @SuppressLint("Range") String contactName=cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                            @SuppressLint("Range") String contactId = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts._ID));
+                            @SuppressLint("Range") String hasPhone = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+                            if (Integer.parseInt(hasPhone) > 0) {
+                                Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,  null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId, null, null);
+                                String phoneNumber="";
+                                while(phones.moveToNext())
+                                { //iterate over all contact phone numbers
+                                    phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                                }
+                                if(phoneNumber.length()>10)
+                                {
+                                    phoneNumber= phoneNumber.replaceAll("[^0-9]","");
+                                    phoneNumber= phoneNumber.replaceAll("[//s]","");
+                                    phoneNumber= phoneNumber.substring(phoneNumber.length()-10);
+                                }
+                                binding.edtMobNo.setText(phoneNumber);
+                                phones.close();
+                            }
+                            binding.edtName.setText(contactName);
+                        }
+                        cursor1.close();
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+            });
+
+    ActivityResultLauncher<Intent> storagePermissionResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    if (data.getBooleanExtra("GRANT_STORAGE_PERMISSION", true)) {
+                        isFirstReq = 1;
+                    } else {
+                        isFirstReq = 0;
+                        finish();
+                    }
+                }else{
+                    Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+
+                }
+
+
+            });
+
+    @SuppressLint("Range")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        //For Picking A contact and loading it in the editText View
-        try{
-            if(resultCode==RESULT_OK)
-            {
-                if(requestCode==Contact_Pick_code)
-                {
-                    Cursor cursor1,cursor2;
-                    Uri uri=data.getData();
-                    cursor1=getContentResolver().query(uri,null,null,null,null);
-                    if(cursor1.moveToFirst())
-                    {
-
-                        @SuppressLint("Range") String contactName=cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                        @SuppressLint("Range") String contactId = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts._ID));
-                        @SuppressLint("Range") String hasPhone = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-                        if (Integer.parseInt(hasPhone) > 0) {
-                            Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,  null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + contactId, null, null);
-                            String phoneNumber="";
-                            while(phones.moveToNext())
-                            { //iterate over all contact phone numbers
-                                phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                            }
-                            if(phoneNumber.length()>10)
-                            {
-                                phoneNumber= phoneNumber.replaceAll("[^0-9]","");
-                                phoneNumber= phoneNumber.replaceAll("[//s]","");
-                                phoneNumber= phoneNumber.substring(phoneNumber.length()-10);
-                            }
-                            binding.edtMobNo.setText(phoneNumber);
-                            phones.close();
-                        }
-                        binding.edtName.setText(contactName);
-                    }
-                    cursor1.close();
-                }
-            }
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-        }
-        if (requestCode == GRANT_STORAGE_PERMISSION && resultCode == RESULT_OK && null != data) {
-            if (data.getBooleanExtra("GRANT_STORAGE_PERMISSION", true)) {
-                isFirstReq = 1;
-            } else {
-                isFirstReq = 0;
-                finish();
-            }
-        } else if (result != null) {
-            if (result.getContents() == null) {
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
-            } else {
+         if (result != null) {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 if (billItemBinding.layoutBillItemInitial.getVisibility() == View.VISIBLE) {
                     // billItemBinding.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
@@ -895,8 +913,6 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     customDialogClass.imeiNo.setText(result.getContents());
                     //customDialogClass.imeiNo.setText(billItemBinding.imeiNo.getText().toString().isEmpty() ? result.getContents() : billItemBinding.imeiNo.getText().toString() + "," + result.getContents());
                 }
-            }
-
         }
     }
 

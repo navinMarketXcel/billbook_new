@@ -1,12 +1,15 @@
 package com.billbook.app.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -178,20 +181,6 @@ public class OTPActivity extends AppCompatActivity {
         client.startSmsUserConsent(null);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==REQ_USER)
-        {
-            if((resultCode==RESULT_OK)&&(data!=null))
-            {
-                String message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE);
-
-                getOtpFromMessage(message);
-            }
-        }
-    }
 
     private void getOtpFromMessage(String message) {
 
@@ -210,7 +199,8 @@ public class OTPActivity extends AppCompatActivity {
         smsBroadcastReciever.smsBroadcastListener = new OtpReceiver.SmsBroadcastListener() {
             @Override
             public void onSuccess(Intent intent) {
-                startActivityForResult(intent,REQ_USER);
+                    someActivityResultLauncher.launch(intent);
+
                 Log.v("In success","sucess");
             }
 
@@ -223,7 +213,18 @@ public class OTPActivity extends AppCompatActivity {
         registerReceiver(smsBroadcastReciever,intentFilter);
 
     }
+    // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    // There are no request codes
+                    Intent data = result.getData();
+                    String message = data.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE);
 
+                    getOtpFromMessage(message);
+                }
+            });
     private TextWatcher loginWatcher= new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

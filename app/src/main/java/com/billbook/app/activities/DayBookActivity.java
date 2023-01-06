@@ -1,6 +1,7 @@
 package com.billbook.app.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DownloadManager;
 import android.content.Context;
@@ -9,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -39,6 +42,7 @@ import android.widget.Toast;
 
 import com.andrewjapar.rangedatepicker.CalendarPicker;
 import com.billbook.app.utils.Util;
+import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.gson.Gson;
@@ -320,14 +324,37 @@ public class DayBookActivity extends AppCompatActivity {
                 return;
             } else {
                 Intent intent = new Intent(DayBookActivity.this, StoragePermissionRequestActivity.class);
-                startActivityForResult(intent, GRANT_STORAGE_PERMISSION);
+              //  startActivityForResult(intent, GRANT_STORAGE_PERMISSION);
+                someActivityResultLauncher.launch(intent);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    @Override
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+
+                    if (data.getBooleanExtra("GRANT_STORAGE_PERMISSION", true)) {
+                        isFirstReq = 1;
+                    } else {
+                        isFirstReq = 0;
+                        finish();
+                    }
+                } else {
+                        Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+                    }
+
+
+
+            });
+
+
+
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -346,7 +373,7 @@ public class DayBookActivity extends AppCompatActivity {
             }
 
         }
-    }
+    }*/
 
     public void sendReportBtnClick(View v){
         Util.postEvents("Export Report","Export Report",this.getApplicationContext());

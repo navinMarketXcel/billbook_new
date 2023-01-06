@@ -5,6 +5,7 @@ import static android.view.View.GONE;
 import static com.billbook.app.utils.Util.getRequestBodyFormData;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
@@ -37,6 +40,7 @@ import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.Util;
+import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.gms.common.util.IOUtils;
 import com.google.gson.Gson;
 
@@ -115,6 +119,9 @@ public class LogoSignatureActivity extends AppCompatActivity {
         checkAndRequestPermissions();
         setonClick();
         setUserData();
+
+
+
     }
     private void setUserData() {
 
@@ -224,14 +231,14 @@ public class LogoSignatureActivity extends AppCompatActivity {
             Util. startYoutubeActivity(LogoSignatureActivity.this);
         });
     }
-    public void openGallery() {
+   /* public void openGallery() {
         Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         i.setType("image/*");
         String[] mimeTypes = {"image/jpeg", "image/png", "image/jpg"};
         i.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivityForResult(i, RESULT_LOAD_IMAGE);
-    }
+    }*/
     private void selectImage() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(LogoSignatureActivity.this);
@@ -248,14 +255,18 @@ public class LogoSignatureActivity extends AppCompatActivity {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
                     if (intent.resolveActivity(getPackageManager()) != null) {
                         // Start the image capture intent to take photo
-                        startActivityForResult(intent, RESULT_LOAD_IMAGE_CAMERA);
+                       // startActivityForResult(intent, RESULT_LOAD_IMAGE_CAMERA);
+                        cameraResultLauncher.launch(intent);
+
                     }
 
                 }
                 else if (options[item].equals("Choose from Gallery"))
                 {
                     Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent, RESULT_LOAD_IMAGE);
+                   // startActivityForResult(intent, RESULT_LOAD_IMAGE);
+                    galleryResultLauncher.launch(intent);
+
                 }
                 else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -299,6 +310,80 @@ public class LogoSignatureActivity extends AppCompatActivity {
 
         return file;
     }
+
+    ActivityResultLauncher<Intent> cameraResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    if(photoFile!=null)
+                    {
+                        Uri selectedImage = Uri.fromFile(photoFile);
+                        // Uri selectedImage = data.getData();
+                        System.out.println("selectedImage"+selectedImage);
+                        lnSave.setVisibility(View.VISIBLE);
+                        setImage(selectedImage);
+                    }
+                }
+            });
+    ActivityResultLauncher<Intent> galleryResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                        Uri selectedImage = data.getData();
+                        System.out.println("selectedImage gallery "+selectedImage);
+                        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(selectedImage,
+                                filePathColumn, null, null, null);
+
+                        if (cursor == null || cursor.getCount() < 1) {
+                            if (cursor != null) {
+                                DialogUtils.showToast(LogoSignatureActivity.this, "Unable to select image");
+//                    Log.d(TAG, "onActivityResult: NUll cursor....." + cursor.getCount());
+                            } else {
+                                DialogUtils.showToast(LogoSignatureActivity.this, "Unable to select image");
+//                    Log.d(TAG, "onActivityResult: Cursor is null");
+                            }
+                            return; // no cursor or no record. DO YOUR ERROR HANDLING
+                        }
+
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+
+                        if (columnIndex < 0) // no column index
+                        {
+                            DialogUtils.showToast(LogoSignatureActivity.this, "Not supported application");
+//                Log.d(TAG, "onActivityResult: Column index going brr....");
+                            return; // DO YOUR ERROR HANDLING
+                        }
+                        else {
+                            String path = cursor.getString(columnIndex);
+
+                            cursor.close(); // close cursor
+
+                            if(path!=null)
+                            {
+                                File selectedImageFile = new File(path);
+                                if (selectedImageFile.exists() && Util.checkFileSizeInMB(selectedImageFile, MAX_FILE_SIZE_LIMIT))
+                                {
+//                launchImageEditActivity(selectedImage);
+                                    lnSave.setVisibility(View.VISIBLE);
+                                    setImage(selectedImage);
+
+                                }
+                                else
+                                {
+                                    DialogUtils.showToast(LogoSignatureActivity.this, "Max file size limit " + (int) MAX_FILE_SIZE_LIMIT + "MB");
+                                }
+                            }
+
+                        }
+
+                }
+            });
+
+
+/*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -371,7 +456,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
 
 
 
-}
+}*/
 
 
     private void setImage(Uri uri) {

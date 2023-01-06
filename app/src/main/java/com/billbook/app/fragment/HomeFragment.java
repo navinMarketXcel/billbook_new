@@ -578,8 +578,13 @@ public class HomeFragment extends Fragment
     }
 
     private int toPixelUnits(int dipUnit) {
-        float density = getResources().getDisplayMetrics().density;
-        return Math.round(dipUnit * density);
+        try {
+            float density = getResources().getDisplayMetrics().density;
+            return Math.round(dipUnit * density);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 
