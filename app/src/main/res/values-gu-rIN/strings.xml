@@ -1,0 +1,990 @@
+<resources>
+    <string name="username">વપરાશકર્તાનામ</string>
+    <string name="passward">પાસવર્ડ</string>
+    <string name="yes">હા</string>
+    <string name="no">ના</string>
+    <string name="alert">ચેતવણી</string>
+    <string name="expense_date">તિથિ</string>
+    <string name="preference_file_key">માર્કેટએક્સેલએપપ્રિફ</string>
+    <string name="invoicesOffline">ઓફલાઇનઇન્વોઇસેસ</string>
+    <string name="user_login_token">વપરાશકર્તાપ્રવેશટોકન</string>
+    <string name="showGST">જીએસટીબતાવો</string>
+    <string name="InVoiceNumber">અવાજનંબરમાં</string>
+    <string name="InVoiceNumberForNonGST">વોઇસનંબરમાંનોનજીએસટી</string>
+    <string name="showGstPopup">જીએસટીબતાવોપોપઅપ </string>
+    <string name="login_user_id">પ્રવેશવપરાશકર્તાId</string>
+    <string name="userDetails">વપરાશકર્તા વિગતો</string>
+    <string name="selected_categories">પસંદકરેલકોટેગોરીઝ</string>
+    <string name="isGSTVerified">જીએસટીચકાસાયેલ</string>
+    <string name="user_profile">વપરાશકર્તા રૂપરેખા</string>
+    <string name="profileShopName">વ્યવસાય/દુકાનનું નામ એન્ટર કરો</string>
+    <string name="profileShopAddress">વ્યવસાય/દુકાનનું સરનામું દાખલ કરો</string>
+    <string name="Setting">સુયોજિતકરીરહ્યાછીએ</string>
+    <string name="title_activity_dummy">ડમીએક્ટિવિટી</string>
+    <string name="shop_details">દુકાન વિગતો</string>
+    <string name="add_product">મોડેલ ઉમેરો</string>
+    <string name="billing">બિલીંગ</string>
+    <string name="categories">વર્ગો</string>
+    <string name="Products">મોડેલો</string>
+    <string name="brands">બ્રાન્ડ્સ</string>
+    <string name="manage_inventory">ખર્ચ</string>
+    <string name="no_internet">ઈન્ટરનેટ જોડાણ ચકાસો</string>
+    <string name="expenses">ખર્ચાઓ</string>
+    <string name="add_expenses">ખર્ચ ઉમેરો</string>
+    <string name="select_category">વર્ગ પસંદ કરો</string>
+    <string name="select_brand">બ્રાન્ડ પસંદ કરો</string>
+    <string name="select_product">મોડેલ પસંદ કરો</string>
+    <string name="product_count">મોડેલ ગણતરી</string>
+    <string name="select_distributor">ડિસ્ટ્રીબ્યુટર પસંદ કરો</string>
+    <string name="product_price">ખરીદીની કિંમત</string>
+    <string name="selling_price">વેચાણ કિંમત</string>
+    <string name="do_u_want_to_logout">શું તમે ખરેખર બહાર નીકળવા માંગો છો?</string>
+    <string name="todays_sell">આજનું"સ વેચાણ"</string>
+    <string name="yesterdays_sell">ગઈકાલનું વેચાણ</string>
+    <string name="Rs">\20B9પર</string>
+    <string name="enter_name">ગ્રાહકનું નામ (વૈકલ્પિક)</string>
+    <string name="enter_username">વપરાશકર્તાનામ અંહિ દાખલ કરો</string>
+    <string name="enter_msg_hint">માર્કેટિંગ માટે મોકલવાનો સંદેશ એન્ટર કરો</string>
+    <string name="enter_address">સરનામું અંહિ દાખલ કરો</string>
+    <string name="ct_enter_address">ગ્રાહકનું સરનામું (વૈકલ્પિક)</string>
+    <string name="ct_enter_address_otp">ગ્રાહક સરનામું</string>
+    <string name="enter_city">શહેરમાં અંહિ દાખલ કરો</string>
+    <string name="schedule_date" translatable="false">સુનિશ્ચિતથયેલતારીખ</string>
+    <string name="enter_pinCode">અહીં પિન કોડ દાખલ કરો</string>
+    <string name="enter_state">સ્થિતિ અહિંયા દાખલ કરો</string>
+    <string name="enter_mob_no">મોબાઇલ નંબર દાખલ કરો</string>
+    <string name="enter_mob_no_otp">મોબાઇલ નંબર (વૈકલ્પિક)</string>
+    <string name="enter_ur_mob_no">તમારો મોબાઇલ નંબર દાખલ કરો</string>
+    <string name="enter_contact__no">સંપર્ક નંબર દાખલ કરો</string>
+    <string name="enter_rate_if_want">એકમ કિંમત એન્ટર કરો</string>
+    <string name="enter_quantities">એકમો વેચાયા</string>
+    <string name="hsnNo">HSN કોડ</string>
+    <string name="enter_hsnNo">HSN કોડ (વૈકલ્પિક)</string>
+    <string name="qty">જથ્થો</string>
+    <string name="current_invoice_id">ઈનવોઈસ_id</string>
+    <string name="name_of_models_services">બિલિંગ માટેની વસ્તુઓ</string>
+    <string name="details_of_receiver_bill">ગ્રાહકની | વિગતો બિલ</string>
+    <string name="invoice_no">ઈનવોઈસ નંબર</string>
+    <string name="invoice_date">ઈનવોઈસ તારીખ</string>
+    <string name="items">વસ્તુઓ</string>
+    <string name="name">ગ્રાહક નામ</string>
+    <string name="IMEI_enter">પ્રોડક્ટની IMEI/S.No (વૈકલ્પિક)</string>
+    <string name="nameAndemail">નામ અને ઈ-મેઈલ</string>
+    <string name="address">સરનામું</string>
+    <string name="discountBilling">ડિસ્કાઉન્ટ</string>
+    <string name="city_without_asterisk">શહેર</string>
+    <string name="city">શહેર</string>
+    <string name="state_without_asterisk">રાજ્ય</string>
+    <string name="state">રાજ્ય</string>
+    <string name="scan">સ્કેન કરો</string>
+    <string name="mobile_no">સંપર્ક નંબર</string>
+    <string name="mobile_noo">મોબાઇલ નંબર</string>
+    <string name="paymentValue1">રકમ</string>
+    <string name="paymentMethod1Title">ચુકવણી મોડ રકમ</string>
+    <string name="customer_gst">ગ્રાહક જી.એસ.ટી.</string>
+    <string name="paymentMethod">ચુકવણી સ્થિતિ૧</string>
+    <string name="paymentMethod1">ચૂકવણીની સ્થિતિ૨</string>
+    <string name="enter_gst">જીએસટી %</string>
+    <string name="select_gst_type">જીએસટી પ્રકાર</string>
+    <string name="select_gst_percenatge">જીએસટી %</string>
+    <string name="enter_igst">IGST દાખલ કરો</string>
+    <string name="amount_before_tax_rs">જીએસટી પહેલાની રકમ (રૂ.) :</string>
+    <string name="sgst">એસજીએસટી :</string>
+    <string name="gst">જીએસટી (રૂ.) :</string>
+    <string name="gst_dt">જીએસટી વિગતો</string>
+    <string name="kgst">કેજીએસટી :</string>
+    <string name="total_rs">કુલ (રૂ):</string>
+    <string name="DiscountEnterPercentage">ટકા %</string>
+    <string name="DiscountEnterPrice">રકમ (રૂ.)</string>
+    <string name="submit">મોકલો</string>
+    <string name="enter_product_name">ઉત્પાદનનું નામ અહીં દાખલ કરો</string>
+    <string name="title_activity_send_pdf">PDF પ્રવૃત્તિ મોકલો</string>
+    <string name="print">છાપો</string>
+    <string name="share_">ભાગ</string>
+    <string name="share">Whatsapp પર શેર કરો</string>
+    <string name="sms">SMS</string>
+    <string name="close">બંધ કરો</string>
+    <string name="filter">ફિલ્ટર</string>
+    <string name="from">તરફથી</string>
+    <string name="to">પ્રતિ</string>
+    <string name="ledger_detail">અહેવાલ</string>
+    <string name="selling_detail">વેચાણ વિગત</string>
+    <string name="discount">ડિસ્કાઉન્ટ ઉમેરો</string>
+    <string name="category">વર્ગ</string>
+    <string name="brand">બ્રાન્ડ</string>
+    <string name="product">મોડેલ</string>
+    <string name="enter_count">ગણતરી દાખલ કરો</string>
+    <string name="enter_price_including_gst">એન્ટર કરો જીએસટી સહિતની કિંમત</string>
+    <string name="bill_no">બિલ નંબર દાખલ કરો</string>
+    <string name="enter_price">કિંમત એન્ટર કરો</string>
+    <string name="price_including_gst">જીએસટી સહિતના ભાવ</string>
+    <string name="description">વર્ણન</string>
+    <string name="enter_selling_price">વેચાણ કિંમત એન્ટર કરો</string>
+    <string name="price">કિંમત</string>
+    <string name="enter_price_including_gst_bs">જીએસટી સહિતના ભાવ</string>
+    <string name="navigation_drawer_open">શોધખોળ ડ્રોઅર ખોલો</string>
+    <string name="navigation_drawer_close">શોધખોળ ડ્રોઅર બંધ કરો</string>
+    <string name="nav_header_title">એન્ડ્રોઇડ સ્ટુડિયો</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">શોધખોળ હેડર</string>
+    <string name="email">ઈ-મેઈલ સરનામું દાખલ કરો (વૈકલ્પિક)</string>
+    <string name="getsalesreport">ઈ-મેઈલ સરનામું દાખલ કરો (વૈકલ્પિક)</string>
+    <string name="reset_password_screen">પાસવર્ડ બદલો</string>
+    <string name="pswd_error">નવા પાસવર્ડમાં જગ્યા વિનાના 6-25 અક્ષરો હોવા જોઈએ</string>
+    <string name="error_blank_old_password">મહેરબાની કરીને વર્તમાન પાસવર્ડ દાખલ કરો</string>
+    <string name="error_blank_new_password">મહેરબાની કરીને નવો પાસવર્ડ દાખલ કરો</string>
+    <string name="error_blank_confirm_password">કૃપા કરીને પુષ્ટિ પાસવર્ડ દાખલ કરો</string>
+    <string name="error_match_password">નવો પાસવર્ડ અને ખાતરી પાસવર્ડ બંધબેસતો નથી</string>
+    <string name="prompt_confirm_password">ખાતરી પાસવર્ડ</string>
+    <string name="prompt_new_password">નવો પાસવર્ડ</string>
+    <string name="prompt_old_password">વર્તમાન પાસવર્ડ</string>
+    <string name="sync_warning_home">તમારા ડેટાને સિન્ક કરવા માટે કૃપા કરીને ઇન્ટરનેટ ચાલુ કરો</string>
+    <string name="sync_warning_expense">કેટલાક ખર્ચાઓનો સમન્વય કરવાનો છે. કૃપા કરીને તમારું ઇન્ટરનેટ ચકાસો અને કાર્યક્રમ ફરીથી શરૂ કરો</string>
+    <string name="search">શોધવું</string>
+    <string name="invoice_details">ઈનવોઈસ વિગતો</string>
+    <string name="inv_pref">ઈનવોઈસ</string>
+    <string name="amount">રકમ</string>
+    <string name="expense_amount">રકમ (₹)</string>
+    <string name="enter_amount">રકમ દાખલ કરો</string>
+    <string name="changePass">મોકલો</string>
+    <string name="selectdate">તારીખ પસંદ કરો</string>
+    <string name="search_invoice">શોધ બીલો</string>
+    <string name="sales_report">દિવસની ચોપડી</string>
+    <string name="send_SMS">SMS મોકલો</string>
+    <string name="other">અન્ય</string>
+    <string name="please_enter_category">કૃપા કરીને કેટેગરી એન્ટર કરો</string>
+    <string name="please_enter_brand">કૃપા કરીને એન્ટર કરો બ્રાન્ડ</string>
+    <string name="please_enter_product">કૃપા કરીને એન્ટર કરો પ્રૉડક્ટ</string>
+    <string name="product_added_successfuly">પ્રોડક્ટ સફળતાપૂર્વક ઉમેરાયી</string>
+    <string name="category_added_successfuly">વર્ગ સફળતાપૂર્વક ઉમેરાયો</string>
+    <string name="brand_added_successfuly">બ્રાન્ડ સફળતાપૂર્વક ઉમેરાયી</string>
+    <string name="shopName">વ્યવસાય/દુકાનનું નામ દાખલ કરો</string>
+    <string name="shopNameEnt">વ્યવસાય/દુકાનનું નામ</string>
+    <string name="item_name">પ્રોડક્ટ/સેવાનું નામ</string>
+    <string name="item_name_d">પ્રોડક્ટ/સેવાનું નામ</string>
+    <string name="item_name_title">વસ્તુ નામ</string>
+    <string name="shopAddress">વ્યવસાય/દુકાનનું સરનામું દાખલ કરો</string>
+    <string name="shopAddressEnt">વ્યવસાય/દુકાનનું સરનામું</string>
+    <string name="landLineNo">લેન્ડ લાઇન નંબર દાખલ કરો</string>
+    <string name="mobileNo">મોબાઇલ નંબર દાખલ કરો</string>
+    <string name="pinCode">વ્યક્તિગત ઓળખ નંબર</string>
+    <string name="secondaryMobileNo">ગૌણ મોબાઇલ નંબર દાખલ કરો</string>
+    <string name="firstName">પ્રથમ નામ દાખલ કરો</string>
+    <string name="lastName">છેલ્લું નામ દાખલ કરો</string>
+    <string name="gstNumber">જીએસટી નંબર દાખલ કરો</string>
+    <string name="otpEnter">ઓટીપી દાખલ કરો</string>
+    <string name="memberCode">મેમ્બર કોડ દાખલ કરો</string>
+    <string name="otherCatEnter">અન્ય કોઈ પણ કૃપા કરીને સ્પષ્ટ કરો.</string>
+    <string name="otherCatMSgPopUp">રજિસ્ટ્રેશન ફોર્મ ભરવા બદલ આભાર</string>
+    <string name="registrationSuccess">રજિસ્ટ્રેશન સફળ.</string>
+    <string name="recent_bills">તાજેતરનાં બિલો</string>
+<string name="dist_name">ડિસ્ટ્રીબ્યુટર નામ</string>
+<string name="dist_address">સરનામું</string>
+<string name="dist_gst">જીએસટી નંબર</string>
+<string name="dist_contact">મોબાઇલ નંબર</string>
+<string name="top_selling_brand">ટોપ સેલિંગ બ્રાન્ડ</string>
+<string name="top_selling_products">ટોપ સેલિંગ પ્રોડક્ટ્સ</string>
+<string name="relationshipManager">રિલેશનશિપ મેનેજરનું નામ દાખલ કરો</string>
+<string name="cust_gst_no">ગ્રાહક જીએસટી નંબર (વૈકલ્પિક)</string>
+<string name="enter_additional_details">વધારાની વિગતો દાખલ કરો</string>
+<string name="enter_banking_branch_or_other_details">બેંકિંગમાં પ્રવેશ કરો</string>
+<string name="storage_permission_label">તમારા બિલો અને ફોન પરના ખર્ચને સેવ કરવા માટે અમને સંગ્રહ પરવાનગીની જરૂર છે</string>
+<string name="permission_button_text">પરવાનગી આપો</string>
+<string name="termsandcondition">ઉપયોગની શરતો</string>
+<string name="privacy_policy"></string>
+<string name="tncmessage">ચાલુ રાખીને તમે આ માટે સંમત થાઓ છો</string>
+<string name="hello_blank_fragment">હલો ખાલી ટુકડો</string>
+<string name="make_gst_bills">જીએસટી બિલ બનાવો</string>
+<string name="switch_gst_and_non_gst_bills">નોન-જીએસટી અને જીએસટી બિલ સ્વિચ કરો</string>
+<string name="email_address_phone_number_etc">ઈ-મેઈલ સરનામું</string>
+<string name="contact_details">સંપર્ક વિગતો</string>
+<string name="business_details">વ્યવસાય વિગતો</string>
+<string name="logo_sign">લોગો અને સહી</string>
+<string name="business_name_address_gst_and_more">વ્યવસાય નામ</string>
+<string name="logo_and_signature">લોગો અને સહી</string>
+<string name="customise_your_bills">તમારા બીલોને કસ્ટમાઇઝ કરો</string>
+<string name="home">ઘર</string>
+<string name="profile">પ્રોફાઇલ</string>
+<string name="language">ભાષા</string>
+<string name="choose_language">ભાષા પસંદ કરો</string>
+<string name="help">મદદ</string>
+<string name="phone_number_">ફોન નંબર</string>
+<string name="business_name_">વ્યવસાય નામ</string>
+<string name="business_name">વ્યવસાય નામ</string>
+<string name="shop_add_">દુકાન સરનામું</string>
+<string name="pin_code_">પિન કોડ</string>
+<string name="city_">શહેર</string>
+<string name="state_">રાજ્ય</string>
+<string name="gst_num_">જીએસટી નંબર</string>
+<string name="gst_num">જીએસટી નંબર</string>
+<string name="citye">શહેર</string>
+<string name="statee">રાજ્ય</string>
+<string name="pin_code">પિન કોડ</string>
+<string name="company_logo">કંપનીનો લોગો</string>
+<string name="shop_add">દુકાન સરનામું</string>
+<string name="phone_number">ફોન નંબર</string>
+<string name="email_">ફોન નંબર</string>
+<string name="email_add">ફોન નંબર</string>
+<string name="save">સંગ્રહો</string>
+<string name="select_language_caps">ભાષા પસંદ કરો</string>
+<string name="upload_your_logo">તમારો લોગો અપલોડ કરો</string>
+<string name="max_file_size_1_mb">મહત્તમ ફાઈલ માપ ૧ MB</string>
+<string name="browse">બ્રાઉઝ કરો</string>
+<string name="signature">સહી</string>
+<string name="upload_your_signature">તમારી સહી અપલોડ કરો</string>
+<string name="change">ફેરફાર</string>
+<string name="edit_number">નંબરમાં ફેરફાર કરો</string>
+<string name="get_otp">ઓટીપી મેળવો</string>
+<string name="enter_otp">ઓટીપી દાખલ કરો</string>
+<string name="otp_sent">9897767646 પર મોકલાયેલ ઓટીપી</string>
+<string name="verify">ચકાસો</string>
+<string name="select">પસંદ કરો</string>
+<string name="choose_period">સમયગાળો પસંદ કરો</string>
+<string name="transaction">વ્યવહાર</string>
+<string name="income">આવક</string>
+<string name="expense">ખર્ચ</string>
+<string name="date">તિથિ</string>
+<string name="daybook">ડેબુક</string>
+<string name="net_income">ચોખ્ખી આવક</string>
+<string name="english">અંગ્રેજી</string>
+<string name="hindi">નથી</string>
+<string name="hindi_l">હિંદી</string>
+<string name="home_menue">ઘર</string>
+<string name="my_profile">મારી પ્રોફાઇલ</string>
+<string name="help_menu">મદદ</string>
+<string name="logout">બહાર નીકળો</string>
+<string name="export_report">અહેવાલ નિકાસ કરો</string>
+<string name="long_format">લાંબુ બંધારણ</string>
+<string name="short_format">ટૂંકુ બંધારણ</string>
+<string name="bill_number">બિલ નંબર:</string>
+<string name="bill_date">બિલ તારીખ:</string>
+<string name="customer_name">ગ્રાહક નામ</string>
+<string name="enter_name_billactivity">નામ દાખલ કરો</string>
+<string name="customer_mobile_number">ગ્રાહક મોબાઇલ નંબર</string>
+<string name="enter_mobile_number_optional">મોબાઇલ નંબર દાખલ કરો (વૈકલ્પિક)</string>
+<string name="additional_customer_details">વધારાના ગ્રાહકની વિગતો</string>
+<string name="gst_type">  જીએસટી પ્રકાર</string>
+<string name="product_or_service_provided">પૂરી પાડવામાં આવેલ પ્રોડક્ટ અથવા સેવા</string>
+<string name="number_of_units_sold">વેચાયેલ એકમોની સંખ્યા</string>
+<string name="imei_serial_number">IMEI/શ્રેણી નંબર</string>
+<string name="placeholder_text">પ્લેસહોલ્ડર લખાણ</string>
+<string name= "billing_back_button">શું તમે ખરેખર બિલને રદ કરવા માંગો છો</string>
+<string name= "billing_delete_button">જો તમે આ બિલને ડિલીટ કરવા માંગો છો તો તેની પુષ્ટિ કરો</string>
+<string name= "expense_delete_button">ખાતરી કરો કે જો તમે આ ખર્ચ કાઢી નાંખવા માંગો છો</string>
+<string name="add_item">વસ્તુ ઉમેરો</string>
+<string name="amount_to_add">ઉમેરવા માટે રકમ</string>
+<string name="description_about_expense">ખર્ચ વિશેનું વર્ણન</string>
+<string name="cancel">રદ્દ</string>
+<string name="add">ઉમેરો</string>
+<string name="search_expense">શોધવું</string>
+<string name="recent_bills_expense">તાજેતરનાં બિલો </string>
+<string name="sort">પ્રકાર</string>
+<string name="add_new_expense">નવો ખર્ચ ઉમેરો</string>
+<string name="demo">ડેમો</string>
+<string name="discount_billing">  ડિસ્કાઉન્ટ</string>
+<string name="bill_details">બિલ વિગતો</string>
+<string name="amount_billing">રકમ:</string>
+<string name="gst_billing">જીએસટી:</string>
+<string name="total_amount_billing">કુલ જથ્થો:</string>
+<string name="view_details">વિગતો જુઓ</string>
+<string name="make_bill">બિલ બનાવો</string>
+<string name="bill_no_short_bill" translatable="false">બિલ નંબર:</string>
+<string name="billed_to" translatable="false">આના પર બિલ થયેલ છે:</string>
+<string name="description_short_bill" translatable="false">વર્ણન</string>
+<string name="items_short_bill" translatable="false">વસ્તુઓ:</string>
+<string name="total_savings" translatable="false">કુલ બચત:</string>
+<string name="tax_invoice" translatable="false">ટેક્સ ઈનવોઈસ***</string>
+<string name="non_gst" translatable="false">નોન-જી.એસ.ટી.</string>
+<string name="gst_profile" translatable="false">જી.એસ.ટી</string>
+<string name="add_new_item">નવી વસ્તુ ઉમેરો</string>
+<string name="gujarati" translatable="false">ગુજરાતી</string>
+<string name="marathi" translatable="false">મરાઠી</string>
+<string name="select_date">મરાઠી</string>
+<string name="enter_contact__no_and_name">ગ્રાહકનું નામ અથવા મોબાઇલ નામ દાખલ કરો</string>
+<string name="customer_mobile">ગ્રાહક મોબાઇલ</string>
+    </resources>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </resources>

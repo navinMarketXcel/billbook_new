@@ -485,7 +485,12 @@ public class DayBookActivity extends AppCompatActivity {
                 startDateStr = strDate;
                 endDateStr = endsDate;
                 getDayBook(strDate,endsDate);
-                popupMenu.getMenu().findItem(R.id.m_quarter).setTitle("This Quarter (" + quart1[quarter1-2] + ")" +  "'" + year);
+                int quatValue = quarter1-2;
+                if(quatValue<0)
+                {
+                    quarter1 = 3;
+                }
+                popupMenu.getMenu().findItem(R.id.m_quarter).setTitle("This Quarter (" + quart1[quarter1] + ")" +  "'" + year);
             }else if(menuItem.getItemId()==R.id.m_year){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 startDate.set(Calendar.MONTH,00);

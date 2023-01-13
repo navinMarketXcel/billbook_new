@@ -147,13 +147,13 @@ public class LanguageChooseActivity extends AppCompatActivity {
         layoutMarathi.setOnClickListener(view -> {
             imgEnglish.setImageResource(R.drawable.ic_language_selected);
             imgHindi.setImageResource(R.drawable.ic_language_unselected);
-            updateLanguage("ma");
+            updateLanguage("ma-rIn");
             finish();
         });
         layoutGujrati.setOnClickListener(view -> {
             imgEnglish.setImageResource(R.drawable.ic_language_selected);
             imgHindi.setImageResource(R.drawable.ic_language_unselected);
-            updateLanguage("gu");
+            updateLanguage("gu-rIN");
             finish();
         });
 

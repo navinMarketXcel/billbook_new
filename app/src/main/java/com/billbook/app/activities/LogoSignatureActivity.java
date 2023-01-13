@@ -248,24 +248,28 @@ public class LogoSignatureActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Take Photo"))
                 {
-                    photoFileName=String.valueOf(System.currentTimeMillis());
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    photoFile = getPhotoFileUri(photoFileName);
-                    Uri fileProvider = FileProvider.getUriForFile(LogoSignatureActivity.this, LogoSignatureActivity.this.getApplicationContext().getPackageName() + ".provider", photoFile);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
-                    if (intent.resolveActivity(getPackageManager()) != null) {
-                        // Start the image capture intent to take photo
-                       // startActivityForResult(intent, RESULT_LOAD_IMAGE_CAMERA);
-                        cameraResultLauncher.launch(intent);
+
+
+                        photoFileName = String.valueOf(System.currentTimeMillis());
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        photoFile = getPhotoFileUri(photoFileName);
+                        Uri fileProvider = FileProvider.getUriForFile(LogoSignatureActivity.this, LogoSignatureActivity.this.getApplicationContext().getPackageName() + ".provider", photoFile);
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+                        if (intent.resolveActivity(getPackageManager()) != null) {
+                            // Start the image capture intent to take photo
+                            // startActivityForResult(intent, RESULT_LOAD_IMAGE_CAMERA);
+                            cameraResultLauncher.launch(intent);
 
                     }
 
                 }
                 else if (options[item].equals("Choose from Gallery"))
                 {
-                    Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                   // startActivityForResult(intent, RESULT_LOAD_IMAGE);
-                    galleryResultLauncher.launch(intent);
+
+
+                        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        // startActivityForResult(intent, RESULT_LOAD_IMAGE);
+                        galleryResultLauncher.launch(intent);
 
                 }
                 else if (options[item].equals("Cancel")) {

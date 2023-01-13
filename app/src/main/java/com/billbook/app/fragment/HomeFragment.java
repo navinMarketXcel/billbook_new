@@ -512,7 +512,7 @@ public class HomeFragment extends Fragment
     }
 
     private void createBannerAd() {
-        Log.v("Inmobi createBannerAd", "In mobi banner createBannerAd");
+       // Log.v("Inmobi createBannerAd", "In mobi banner createBannerAd");
         mBannerAd1 = new InMobiBanner(getActivity(), placementId1);
 
         int width = toPixelUnits(320);
