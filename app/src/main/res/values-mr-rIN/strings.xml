@@ -40,7 +40,6 @@
     <string name="product_price">खरेदी किंमत</string>
     <string name="selling_price">विक्री किंमत</string>
     <string name="do_u_want_to_logout">तुला खरंच लॉगआऊट करायचं आहे का?</string>
-    <string name="todays_sell">आज '''ची विक्री</string>
     <string name="yesterdays_sell">कालची विक्री</string>
     <string name="Rs">\u20B9</string>
     <string name="enter_name">ग्राहकाचे नाव (वैकल्पिक)</string>
@@ -194,7 +193,6 @@
 <string name="termsandcondition">वापराच्या अटी</string>
 <string name="privacy_policy"></string>
 <string name="tncmessage">पुढे चालू ठेवून आपण सहमत आहात</string>
-<string-array name="dayFilter_array"></string>
 <string name="hello_blank_fragment">नमस्ते कोरा तुकडा</string>
 <string name="make_gst_bills">जीएसटी विधेयके बनवा</string>
 <string name="switch_gst_and_non_gst_bills">जीएसटी आणि जीएसटीची बिले स्विच करा</string>
