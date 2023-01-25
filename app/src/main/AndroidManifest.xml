@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.billbook.app">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- optional - for better targeting of ads, ACCESS_WIFI_STATE and  CHANGE_WIFI_STATE -->
+<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> &lt;!&ndash; optional - for better targeting of ads, ACCESS_WIFI_STATE and  CHANGE_WIFI_STATE &ndash;&gt;-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- <uses-permission android:name="android.permission.SEND_SMS" /> -->

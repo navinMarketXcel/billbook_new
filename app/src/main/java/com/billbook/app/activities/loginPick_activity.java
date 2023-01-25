@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
@@ -118,15 +120,32 @@ public class loginPick_activity extends AppCompatActivity {
     public void whatsButtonClick(View v)
     {
         if (Util.isNetworkAvailable(getApplicationContext())) {
-            whatsappDialog = new ProgressDialog(loginPick_activity.this);
-            whatsappDialog.setMessage("Please wait, signing you in!");
-            whatsappDialog.setCancelable(false);
-            whatsappDialog.setInverseBackgroundForced(false);
-            whatsappDialog.show();
-            getSignupUrl();
+            if(isAppInstalled("com.whatsapp"))
+            {
+                whatsappDialog = new ProgressDialog(loginPick_activity.this);
+                whatsappDialog.setMessage("Please wait, signing you in!");
+                whatsappDialog.setCancelable(false);
+                whatsappDialog.setInverseBackgroundForced(false);
+                whatsappDialog.show();
+                getSignupUrl();
+            }
+
+            else
+            {
+                Toast.makeText(this,"Please Install Whatsapp!",Toast.LENGTH_LONG).show();
+            }
         } else {
             DialogUtils.showToast(loginPick_activity.this, getString(R.string.no_internet));
 
+        }
+    }
+    private boolean isAppInstalled(String packageName) {
+        try {
+            getPackageManager().getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
+            return true;
+        }
+        catch (PackageManager.NameNotFoundException ignored) {
+            return false;
         }
     }
     private void setReferrerLink(String referrerUrl) {
@@ -170,10 +189,14 @@ public class loginPick_activity extends AppCompatActivity {
     private void onOtplessResult(@Nullable OtplessTokenData response) {
         if (response == null) return;
         if(response.getToken() == null){
-            if(whatsappDialog.isShowing())
+            if(whatsappDialog!=null)
             {
-                whatsappDialog.hide();
+                if(whatsappDialog.isShowing())
+                {
+                    whatsappDialog.hide();
+                }
             }
+
 
             return;
         }
@@ -219,12 +242,12 @@ public class loginPick_activity extends AppCompatActivity {
                                     }else {
                                         gotoRegistration();
                                     }
-                                    if(whatsappDialog.isShowing())
+                                    if(whatsappDialog!=null && whatsappDialog.isShowing())
                                     {
                                         whatsappDialog.hide();
                                     }
                                 } else {
-                                    if(whatsappDialog.isShowing())
+                                    if(whatsappDialog!=null &&whatsappDialog.isShowing())
                                     {
                                         whatsappDialog.hide();
                                     }

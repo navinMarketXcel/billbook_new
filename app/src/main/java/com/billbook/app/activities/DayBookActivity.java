@@ -427,7 +427,8 @@ public class DayBookActivity extends AppCompatActivity {
                 endDateStr = endsDate;
                 getDayBook(strDate,endsDate);
                 popupMenu.getMenu().findItem(R.id.m_today).setTitle("Today (" + mDay + " " +months[mMonth]  + "'" + year + ")");
-            }else if(menuItem.getItemId()==R.id.m_week){
+            }
+            else if(menuItem.getItemId()==R.id.m_week){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 int day = startDate.get(Calendar.DAY_OF_WEEK);
                 switch (day) {
@@ -467,31 +468,55 @@ public class DayBookActivity extends AppCompatActivity {
             }
             else if(menuItem.getItemId()==R.id.m_quarter){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                startDate.add(Calendar.MONTH, -4);
-                LocalDate myLocal = null;
-                int quarter1 =0;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                    myLocal = LocalDate.now();
-                     quarter1 = myLocal.get(IsoFields.QUARTER_OF_YEAR);
-                    Log.v("quater check",String.valueOf(quarter1));
-                }
-                startDate = setDay(startDate);
-                int quarter = startDate.get(Calendar.MONTH);
-                quarter = (quarter+2)/3;
-                String year = String.valueOf(startDate.get(Calendar.YEAR)).substring(2);
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+                DateFormat dateFormat = new SimpleDateFormat("MM");
+                Date date = new Date();
+                String year = String.valueOf(startDate.get(Calendar.YEAR)).substring(2);
+                Log.v("Month",dateFormat.format(date));
+                String month= dateFormat.format(date);
+                if(month.equals("01") || month.equals("02") || month.equals("03"))
+                {
+                    startDate.set(Calendar.MONTH, 0);
+                    startDate.set(Calendar.DATE,1);
+                    endDate.set(Calendar.MONTH,2);
+                    endDate.set(Calendar.DATE,31);
+                    popupMenu.getMenu().findItem(R.id.m_quarter).setTitle("This Quarter (" + quart1[3] + ")" +  "'" + year);
+                    Log.v("quater check",String.valueOf( quart1[3]));
+                }
+                else if(month.equals("04") || month.equals("05") || month.equals("06"))
+                {
+
+                    startDate.set(Calendar.MONTH, 3);
+                    startDate.set(Calendar.DATE,1);
+                    endDate.set(Calendar.MONTH,5);
+                    endDate.set(Calendar.DATE,31);
+                    popupMenu.getMenu().findItem(R.id.m_quarter).setTitle("This Quarter (" + quart1[0] + ")" +  "'" + year);
+                    Log.v("quater check",String.valueOf( quart1[0]));
+                }else if(month.equals("07") || month.equals("08") || month.equals("09"))
+                {
+                    startDate.set(Calendar.MONTH, 6);
+                    startDate.set(Calendar.DATE,1);
+                    endDate.set(Calendar.MONTH,8);
+                    endDate.set(Calendar.DATE,31);
+                    popupMenu.getMenu().findItem(R.id.m_quarter).setTitle("This Quarter (" + quart1[1] + ")" +  "'" + year);
+                    Log.v("quater check",String.valueOf( quart1[1]));
+                }else if(month.equals("10") || month.equals("11") || month.equals("12") )
+                {
+                    startDate.set(Calendar.MONTH, 9);
+                    startDate.set(Calendar.DATE,1);
+                    endDate.set(Calendar.MONTH,11);
+                    endDate.set(Calendar.DATE,31);
+                    popupMenu.getMenu().findItem(R.id.m_quarter).setTitle("This Quarter (" + quart1[2] + ")" +  "'" + year);
+                    Log.v("quater check",String.valueOf( quart1[2]));
+                }
                 String strDate = myFormat.format(startDate.getTime());
                 String endsDate = myFormat.format(endDate.getTime());
                 startDateStr = strDate;
                 endDateStr = endsDate;
                 getDayBook(strDate,endsDate);
-                int quatValue = quarter1-2;
-                if(quatValue<0)
-                {
-                    quarter1 = 3;
-                }
-                popupMenu.getMenu().findItem(R.id.m_quarter).setTitle("This Quarter (" + quart1[quarter1] + ")" +  "'" + year);
-            }else if(menuItem.getItemId()==R.id.m_year){
+
+            }
+            else if(menuItem.getItemId()==R.id.m_year){
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 startDate.set(Calendar.MONTH,00);
                 startDate.set(Calendar.DATE, 1);
@@ -505,7 +530,6 @@ public class DayBookActivity extends AppCompatActivity {
                 popupMenu.getMenu().findItem(R.id.m_year).setTitle("This Year (" + endDate.get(Calendar.YEAR) + ")");
             }
             edt.setText(menuItem.getTitle());
-            Toast.makeText(DayBookActivity.this, "You Clicked " + menuItem.getTitle(), Toast.LENGTH_SHORT).show();
             return true;
         });
         popupMenu.show();
@@ -702,6 +726,5 @@ public class DayBookActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
 
 }

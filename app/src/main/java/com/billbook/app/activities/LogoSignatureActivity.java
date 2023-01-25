@@ -176,14 +176,35 @@ public class LogoSignatureActivity extends AppCompatActivity {
             finish();
         });
         btnPickLogo.setOnClickListener(v -> {
-            whereToShowImage=1;
+            boolean flag = checkAndRequestPermissions();
+            Log.v("chcking permissiom", String.valueOf(flag));
+           if(flag)
+           {
+
+               whereToShowImage=1;
+               selectImage();
+
+           }
+           else
+           {
+               checkPermission();
+           }
+
            // openGallery();
-            selectImage();
+
         });
         btnPickSign.setOnClickListener(v -> {
-            whereToShowImage=0;
-            selectImage();
-           // openGallery();
+            boolean flag = checkAndRequestPermissions();
+            if(flag)
+            {
+                whereToShowImage=0;
+                selectImage();
+
+            }
+            else
+            {
+                checkPermission();
+            }
         });
         ivDeleteLogo.setOnClickListener(v -> {
             DialogUtils.showAlertDialog(LogoSignatureActivity.this, "Yes", "No", "Are you sure you want to delete the Logo", new DialogUtils.DialogClickListener() {
@@ -279,7 +300,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
         });
         builder.show();
     }
-    private void checkPermission() {
+    private boolean checkPermission() {
         int hasWriteStoragePermission =
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (hasWriteStoragePermission != PackageManager.PERMISSION_GRANTED) {
@@ -288,6 +309,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.CAMERA},
                                 REQUEST_CODE_ASK_PERMISSIONS);
+
                     }
                 }
 
@@ -296,7 +318,9 @@ public class LogoSignatureActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.CAMERA},
                         REQUEST_CODE_ASK_CAMERA);
             }
+            return false;
         }
+        return true;
     }
     public File getPhotoFileUri(String fileName) {
         // Get safe storage directory for photos

@@ -1162,6 +1162,7 @@
                                     android:layout_height="40dp"
 
                                     android:layout_gravity="center"
+                                    android:inputType="numberDecimal"
 
                                     android:layout_margin="2dp"
 
@@ -1202,6 +1203,7 @@
                                     android:layout_height="wrap_content"
 
                                     android:layout_gravity="center"
+                                    android:inputType="numberDecimal"
 
                                     android:layout_margin="2dp"
 

@@ -30,5 +30,8 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="_15spText">15sp</dimen>
+    <dimen name="_17spText">17sp</dimen>
+    <dimen name="_12spText">12sp</dimen>
 
 </resources>

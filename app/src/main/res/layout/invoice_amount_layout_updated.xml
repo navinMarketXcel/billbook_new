@@ -17,6 +17,7 @@
         android:weightSum="5">
 
         <TextView
+            android:textSize="@dimen/_17spText"
             android:id="@+id/tvAmountHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -32,6 +33,7 @@
 
         <TextView
             android:id="@+id/tvAmountBeforeTax"
+            android:textSize="@dimen/_17spText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -157,6 +159,7 @@
         <TextView
             android:id="@+id/GSTTitle"
             android:layout_width="0dp"
+            android:textSize="@dimen/_17spText"
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:background="@drawable/card_lined"
@@ -169,6 +172,7 @@
 
         <TextView
             android:id="@+id/totalGST"
+            android:textSize="@dimen/_17spText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -197,6 +201,7 @@
             android:background="@drawable/card_lined"
             android:gravity="center"
             android:padding="5dp"
+            android:textSize="@dimen/_17spText"
             android:text="DISCOUNT"
             android:textColor="@color/color_black"
             android:textStyle="bold" />
@@ -207,6 +212,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:background="@drawable/card_lined"
+            android:textSize="@dimen/_17spText"
             android:gravity="center"
             android:padding="5dp"
             android:text="0"
@@ -228,6 +234,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="TOTAL"
+            android:textSize="@dimen/_17spText"
 
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
@@ -240,6 +247,7 @@
             android:background="@drawable/card_lined"
             android:gravity="center"
             android:padding="5dp"
+            android:textSize="@dimen/_17spText"
             android:text="Total"
             android:textColor="@color/colorPrimaryDark" />
 
@@ -293,6 +301,7 @@
             android:background="@drawable/card_lined"
             android:gravity="right|bottom"
             android:padding="5dp"
+            android:textSize="@dimen/_17spText"
             android:visibility="visible"
             android:text="Signature"
             android:textColor="@color/color_black"
@@ -351,6 +360,7 @@
             android:layout_marginTop="10dp"
             android:gravity="left"
             android:padding="5dp"
+            android:textSize="@dimen/_17spText"
             android:singleLine="false"
             android:text="Terms and Conditions"
             android:textColor="@color/color_black"
@@ -364,6 +374,7 @@
             android:layout_marginTop="10dp"
             android:gravity="left"
             android:padding="5dp"
+            android:textSize="@dimen/_15spText"
             android:singleLine="false"
             android:text="1. Good once sold can not be taken back.\n2. All disputes are subject to state jurisdiction.\n3. Software generated bill so signature is not required"
             android:textColor="@color/color_black"
