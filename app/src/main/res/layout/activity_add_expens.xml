@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/selectDateq"
                 android:text="@string/expense_date" />
-            <EditText
+            <TextView
                 android:textColor="#0A0A0A"
                 android:id="@+id/selectDate"
                 style="@style/editText"

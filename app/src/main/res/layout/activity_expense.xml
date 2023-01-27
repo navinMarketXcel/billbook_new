@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        xmlns:custom="http://schemas.android.com/apk/res-auto"
         tools:context=".activities.ExpenseActivity">
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -166,11 +165,11 @@
 
                     <EditText
                         android:id="@+id/edtSearchExpense"
+                        style="@style/editText"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/ic_search_white_24dp"
-                        style="@style/editText"
                         android:hint="Search through expenses"
                         android:inputType="text"
                         android:maxLength="10"
@@ -221,19 +220,21 @@
                             android:layout_gravity="right"
                             android:gravity="right"
                             android:orientation="horizontal">
+
                             <Button
                                 android:id="@+id/sortExpense"
                                 android:layout_width="wrap_content"
                                 android:layout_height="35dp"
-                                android:text="@string/sort"
-                                android:onClick="clickExpenseSort"
                                 android:layout_gravity="center"
-                                android:drawableLeft="@drawable/sorting"
-                                android:textStyle="bold"
-                                android:background="@color/white"
-                                android:textSize="13sp"
                                 android:layout_marginRight="10dp"
-                                android:textColor="#266CE4">
+                                android:background="@color/white"
+                                android:drawableLeft="@drawable/sorting"
+                                android:onClick="clickExpenseSort"
+                                android:text="@string/sort"
+                                android:textColor="#266CE4"
+                                android:textSize="13sp"
+                                android:textStyle="bold"
+                                tools:ignore="TouchTargetSizeCheck">
 
                             </Button>
                         </LinearLayout>

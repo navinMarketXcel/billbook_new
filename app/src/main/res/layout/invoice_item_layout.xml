@@ -14,7 +14,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:textSize="13dp"
+        android:textSize="@dimen/_15spText"
         android:background="@drawable/card_lined"
         android:ellipsize="end"
         android:gravity="start"
@@ -23,22 +23,62 @@
         android:textColor="@color/color_black"
 
         />
-    <TextView
-        android:id="@+id/tvProductName"
+<!--    <TextView-->
+<!--                android:id="@+id/tvProductName"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:textSize="13dp"-->
+<!--                android:layout_weight="2.5"-->
+<!--                android:background="@drawable/card_lined"-->
+<!--                android:ellipsize="end"-->
+<!--                android:gravity="start"-->
+<!--                android:padding="5dp"-->
+<!--                android:singleLine="false"-->
+<!--                android:inputType="textMultiLine"-->
+<!--                android:text="PRODUCT"-->
+<!--                android:textColor="@color/color_black"-->
+
+<!--                />-->
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:layout_weight="2.5"
-        android:textSize="13dp"
-        android:background="@drawable/card_lined"
-        android:ellipsize="end"
-        android:gravity="start"
-        android:padding="5dp"
-        android:singleLine="false"
-        android:inputType="textMultiLine"
-        android:text="PRODUCT"
-        android:textColor="@color/color_black"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tvProductName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/_15spText"
+            android:layout_weight="1"
+            android:background="@drawable/card_lined"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:padding="5dp"
+            android:singleLine="false"
+            android:inputType="textMultiLine"
+            android:text="PRODUCT"
+            android:textColor="@color/color_black"
 
-        />
+            />
+        <TextView
+            android:id="@+id/imeiNoOnBill"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/_15spText"
+            android:layout_weight="1"
+            android:background="@drawable/card_lined"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:padding="5dp"
+            android:singleLine="false"
+            android:inputType="textMultiLine"
+            android:text="IMEI:"
+            android:textColor="@color/color_black"
+
+            />
+
+    </LinearLayout>
+
 
 
     <TextView
@@ -50,7 +90,7 @@
         android:ellipsize="end"
         android:inputType="textMultiLine"
         android:gravity="start"
-        android:textSize="13dp"
+        android:textSize="@dimen/_15spText"
         android:padding="5dp"
         android:singleLine="false"
         android:text="QTY"
@@ -63,7 +103,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:textSize="13dp"
+        android:textSize="@dimen/_15spText"
         android:background="@drawable/card_lined"
         android:ellipsize="end"
         android:inputType="textMultiLine"
@@ -91,7 +131,7 @@
     <TextView
         android:id="@+id/SGSTValue"
         android:layout_width="0dp"
-        android:textSize="13dp"
+        android:textSize="@dimen/_15spText"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:background="@drawable/card_lined"
@@ -115,7 +155,7 @@
         android:gravity="start"
         android:inputType="textMultiLine"
 
-        android:textSize="13dp"
+        android:textSize="@dimen/_15spText"
         android:padding="5dp"
         android:singleLine="false"
         android:text="CGST"
@@ -152,7 +192,7 @@
         android:padding="5dp"
         android:singleLine="false"
         android:textColor="@color/color_black"
-        android:textSize="13dp"
+        android:textSize="@dimen/_15spText"
 
         tools:text="120,000,00,0.0000" />
 </LinearLayout>

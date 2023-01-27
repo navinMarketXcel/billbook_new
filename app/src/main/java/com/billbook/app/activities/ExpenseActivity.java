@@ -82,7 +82,8 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
     private int userid;
     private Date invoiceDate;
     private String invoiceDateStr, networkType;
-    private EditText selectDate, expenseAmount, expenseName;
+    private EditText expenseAmount, expenseName;
+    private TextView selectDate;
     private RecyclerView expensesRV;
     private EditText edtSearchExpense;
     private ExpenseListAdapter expenseListAdapter;

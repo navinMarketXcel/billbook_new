@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.billbook.app.networkcommunication.NetworkType;
 import com.billbook.app.utils.Util;
@@ -31,6 +32,7 @@ import com.google.gson.JsonParser;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -50,7 +52,8 @@ import retrofit2.Response;
 public class AddExpenseActivity extends AppCompatActivity {
     private String invoiceDateStr;
     private Date invoiceDate;
-    private EditText selectDate,expenseAmount;
+    private EditText expenseAmount;
+    private TextView selectDate;
     private EditText expenseName;
     private String TAG = "Expense";
     private int userid;
