@@ -10,6 +10,10 @@ public class InvoicesData {
     @SerializedName("id")
     @Expose
     public Integer id;
+    @SerializedName("imei")
+    @Expose
+    public String imei;
+
     @SerializedName("invoiceDate")
     @Expose
     public String invoiceDate;
@@ -55,6 +59,7 @@ public class InvoicesData {
     @SerializedName("masterItems")
     @Expose
     public List<MasterItem> masterItems = null;
+
 
     public Integer billNo;
 
@@ -106,6 +111,15 @@ public class InvoicesData {
         }
         this.gstBillNo = gstBillNo;
     }
+
+    public String getImei() {
+        return imei;
+    }
+
+    public void setImei(String imei) {
+        this.imei = imei;
+    }
+
 
     public Integer getNonGstBillNo() {
         return nonGstBillNo;

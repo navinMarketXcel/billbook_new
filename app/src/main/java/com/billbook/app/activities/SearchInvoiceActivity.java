@@ -562,6 +562,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     invoiceData.setTotalAmount(obj.getDouble("totalAmount"));
                     invoiceData.setTotalAfterDiscount(obj.getDouble("totalAfterDiscount"));
                     invoiceData.setNonGstBillNo(obj.getInt("nonGstBillNo"));
+
+
                     invoiceData.setGstBillNo(obj.getInt("gstBillNo"));
                     invoiceData.setGSTNo(obj.getString("GSTNo"));
                     if(obj.has("pdfLink")){
@@ -591,6 +593,13 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         master.setInvoiceid(masterObject.getInt("invoiceid"));
                         master.setPrice(masterObject.getDouble("price"));
                         master.setQuantity(masterObject.getInt("quantity"));
+                        try {
+                            master.setImei(masterObject.getString("imei"));
+                        }
+                        catch(Exception e)
+                        {
+                            e.printStackTrace();
+                        }
                         masterArrayList.add(master);
                     }
                     invoiceData.setMasterItems(masterArrayList);
@@ -1070,6 +1079,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 masterObject.put("id",data.getMasterItems().get(i).id);
                 masterObject.put("quantity",data.getMasterItems().get(i).quantity);
                 masterObject.put("gst",data.getMasterItems().get(i).gst);
+                masterObject.put("imei",data.getMasterItems().get(i).imei);
                 masterItems.put(masterObject);
 
             }
@@ -1128,6 +1138,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         intent.putExtra("gstBillNoList",gstNoList);
         intent.putExtra("nonGstBillNoList",NongstNoList);
         intent.putExtra("invoice",requestInvoice.toString());
+        Log.v("request invoice SA",requestInvoice.toString());
 
 
 

@@ -62,6 +62,8 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
 
         holder.tvProductName.setText(curItems.get(position).getName());
        holder.tvProductNumber.setText(String.valueOf(position+1));
+       holder.imeinoOnBill.setText("IMEI: " + curItems.get(position).getImei());
+
         String qtyString = String.valueOf(curItems.get(position).getQuantity());
         if(curItems.get(position).getMeasurementId() > -1){
             qtyString += " " + measurementUnitList.get(curItems.get(position).getMeasurementId());
@@ -134,7 +136,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tvProductNumber,tvProductName, SGSTValue, CGSTValue, IGSTValue, tvQTY, tvRate, tvAmount, preTaxValue;
+        TextView tvProductNumber,tvProductName, SGSTValue, CGSTValue, IGSTValue, tvQTY, tvRate, tvAmount, preTaxValue,imeinoOnBill;
         LinearLayout llForHeader;
 
         public MyViewHolder(View itemView) {
@@ -150,6 +152,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             IGSTValue = (TextView) itemView.findViewById(R.id.IGSTValue);
             CGSTValue = (TextView) itemView.findViewById(R.id.CGSTValue);
             tvAmount = (TextView) itemView.findViewById(R.id.tvAmount);
+            imeinoOnBill = (TextView) itemView.findViewById(R.id.imeiNoOnBill);
 //            if (showGst)
            /* tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                     0, LinearLayout.LayoutParams.MATCH_PARENT, 3f));*/

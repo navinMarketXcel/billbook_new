@@ -83,6 +83,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import jaiman.nitin.com.customclickableemailphonetextview.ClickPattern;
@@ -323,7 +324,7 @@ public class HomeFragment extends Fragment
                         if (!verHashMap.containsValue(buildVersion) ||  (!verHashMap.containsKey(buildCode)))
                         {
                             DialogUtils.showToast(getActivity(), "To continue, please update the app to latest version.");
-                            final String appPackageName = getActivity().getPackageName(); // getPackageName() from Context or Activity object
+                            final String appPackageName = requireActivity().getPackageName(); // getPackageName() from Context or Activity object
                             try {
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
                             } catch (android.content.ActivityNotFoundException anfe) {
