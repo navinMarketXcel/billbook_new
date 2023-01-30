@@ -63,6 +63,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
         holder.tvProductName.setText(curItems.get(position).getName());
        holder.tvProductNumber.setText(String.valueOf(position+1));
        holder.imeinoOnBill.setText("IMEI: " + curItems.get(position).getImei());
+       holder.hsnOnBill.setText("HSN No: "+curItems.get(position).getSerial_no());
 
         String qtyString = String.valueOf(curItems.get(position).getQuantity());
         if(curItems.get(position).getMeasurementId() > -1){
@@ -83,6 +84,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             holder.preTaxValue.setText(Util.formatDecimalValue(preTaxSingleValue * curItems.get(position).getQuantity()));
              totalpretaxvalue=totalpretaxvalue+preTaxSingleValue * curItems.get(position).getQuantity();
             if(this.isGSTAvailable){
+                holder.hsnOnBill.setVisibility(View.VISIBLE);
 //                if(curItems.get(position).getGstType() != null && curItems.get(position).getGstType().equals("IGST (Central/outstation customer)")) {
                 if(GSTType.equals("IGST (Central/outstation customer)")){
                     holder.CGSTValue.setVisibility(View.GONE);
@@ -114,6 +116,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             }
         }
         else {
+            holder.hsnOnBill.setVisibility(View.GONE);
             holder.tvRate.setText(Util.formatDecimalValue( curItems.get(position).getPrice()));
             holder.CGSTValue.setVisibility(View.GONE);
             holder.IGSTValue.setVisibility(View.GONE);
@@ -136,7 +139,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tvProductNumber,tvProductName, SGSTValue, CGSTValue, IGSTValue, tvQTY, tvRate, tvAmount, preTaxValue,imeinoOnBill;
+        TextView tvProductNumber,tvProductName, SGSTValue, CGSTValue, IGSTValue, tvQTY, tvRate, tvAmount, preTaxValue,imeinoOnBill,hsnOnBill;
         LinearLayout llForHeader;
 
         public MyViewHolder(View itemView) {
@@ -153,6 +156,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
             CGSTValue = (TextView) itemView.findViewById(R.id.CGSTValue);
             tvAmount = (TextView) itemView.findViewById(R.id.tvAmount);
             imeinoOnBill = (TextView) itemView.findViewById(R.id.imeiNoOnBill);
+            hsnOnBill = (TextView) itemView.findViewById(R.id.HsnNoOnBill);
 //            if (showGst)
            /* tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                     0, LinearLayout.LayoutParams.MATCH_PARENT, 3f));*/

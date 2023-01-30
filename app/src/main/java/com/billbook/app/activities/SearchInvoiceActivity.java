@@ -595,6 +595,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         master.setQuantity(masterObject.getInt("quantity"));
                         try {
                             master.setImei(masterObject.getString("imei"));
+                            master.setSerialNo(masterObject.getString("serial_no"));
                         }
                         catch(Exception e)
                         {
@@ -1080,6 +1081,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 masterObject.put("quantity",data.getMasterItems().get(i).quantity);
                 masterObject.put("gst",data.getMasterItems().get(i).gst);
                 masterObject.put("imei",data.getMasterItems().get(i).imei);
+                masterObject.put("serial_no",data.getMasterItems().get(i).serialNo);
                 masterItems.put(masterObject);
 
             }

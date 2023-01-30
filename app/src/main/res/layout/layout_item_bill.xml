@@ -105,7 +105,7 @@
                     android:textColor="#0A0A0A"
                     android:id="@+id/itemPriceET"
                     style="@style/editText"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="@string/enter_rate_if_want"
@@ -264,6 +264,38 @@
                     android:textSize="19sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/hsnLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/hsnTv"
+                android:layout_height="wrap_content"
+                android:text="@string/hsnNo"
+                android:textColor="#555555"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/HsnNoET"
+                style="@style/editText"
+                android:maxLength="8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:hint="@string/placeholder_text"
+                android:singleLine="true"
+                android:textColor="#0A0A0A"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
         </LinearLayout>
 
         <Button

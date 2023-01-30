@@ -83,6 +83,8 @@ public class InvoiceItems {
     @ColumnInfo(name="is_sync")
     private int isSync;
 
+
+
     public InvoiceItems(int measurementId, String name, float quantity, float price, String gstType, float gstAmount, float gst, boolean is_active, int user, String serial_no, String imei, float totalAmount, int invoiceid,int isSync, Integer databaseid,long localInvoiceId, long id) {
         this.measurementId = measurementId+1;
         this.name = name;

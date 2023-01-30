@@ -45,7 +45,9 @@
         <item>Month</item>
         <item>Gm</item>
         <item>Box</item>
+        <item>Hrs</item>
         <item>Day</item>
+
     </string-array>
     <string-array name="dateCalender">
         <item>@string/select_date</item>

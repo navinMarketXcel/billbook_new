@@ -395,7 +395,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         billItemBinding.gstPercentageTV.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
         billItemBinding.gstPerLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
-//        billItemBinding.hsnLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
+       billItemBinding.hsnLayout.setVisibility(isGSTAvailable ? View.VISIBLE : View.GONE);
 
         Spinner spinner = (Spinner) billItemBinding.unit;
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -920,7 +920,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void getMeasurementUnit(){
         try{
             List<String>onlineMeasurementUnit = MyApplication.getMeasurementUnits();
-            if(onlineMeasurementUnit!=null)measurementUnitTypeList = onlineMeasurementUnit;
+            if(onlineMeasurementUnit!=null)
+                measurementUnitTypeList = onlineMeasurementUnit;
         }
         catch (Exception e){
             e.printStackTrace();
@@ -998,7 +999,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     Float.parseFloat(billItemBinding.itemQtyET.getText().toString()),
                     true,
                     billItemBinding.imeiNo.getText().toString(),
-                    billItemBinding.imeiNo.getText().toString(),
+                    billItemBinding.HsnNoET.getText().toString(),
                     billItemBinding.unit.getSelectedItemPosition(),-1);
 
 
@@ -1158,9 +1159,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         private TableRow deleteRow;
         private EditText priceEt, quantityEt, imeiNo, hsnNo;
         private AutoCompleteTextView modelName;
-        private TextView gstLabelTV,priceLblTVBs;
+        private TextView gstLabelTV,priceLblTVBs,hsnTv;
         private Spinner gstPercentage, measurementUnitSpinner;
         private TextInputLayout priceEdtInputLayout;
+        private LinearLayout hsnLay;
         private InvoiceItems newInvoiceModel;
         private List<String> measureUnitTypeList;
         private int pos;
@@ -1179,6 +1181,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             requestWindowFeature(Window.FEATURE_NO_TITLE);
             setContentView(R.layout.add_model);
             LinearLayout ll = findViewById(R.id.addPriceLayout);
+            LinearLayout hsnLay = findViewById(R.id.hsnLayout);
 
             yes = (Button) findViewById(R.id.add);
             no = (Button) findViewById(R.id.cancel);
@@ -1191,8 +1194,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             quantityEt = findViewById(R.id.quantity);
             gstPercentage = findViewById(R.id.gstPercentage);
             imeiNo = findViewById(R.id.imeiNo);
+            hsnNo = findViewById(R.id.HsnNoET);
             gstLabelTV = findViewById(R.id.gstLabelTV);
-            hsnNo = findViewById(R.id.hsnNo);
             measurementUnitSpinner = findViewById(R.id.unit);
             priceEdtInputLayout = findViewById(R.id.priceEdtInputLayout);
             additemTv = findViewById(R.id.additemTv);
@@ -1213,7 +1216,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
             if (isGSTAvailable) {
                 //billItemBinding.itemPriceET.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-                hsnNo.setVisibility(View.VISIBLE);
+                assert hsnLay != null;
+                hsnLay.setVisibility(View.VISIBLE);
                 priceEdtInputLayout.setHint(getString(R.string.enter_price_including_gst));
             } else {
 
@@ -1223,7 +1227,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 ll.setLayoutParams(buttonLayoutParams);
                 priceLblTVBs.setLayoutParams(buttonLayoutParams);
                 priceEt.setLayoutParams(buttonLayoutParams);
-                hsnNo.setVisibility(View.GONE);
+                assert hsnLay != null;
+                hsnLay.setVisibility(View.GONE);
                 priceEdtInputLayout.setHint(getString(R.string.enter_price));
             }
 
@@ -1384,7 +1389,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                                 Float.parseFloat(quantityEt.getText().toString()),
                                 this.newInvoiceModel == null ? true : false,
                                 imeiNo.getText().toString(),
-                                imeiNo.getText().toString(),
+                                hsnNo.getText().toString(),
                                 measurementUnitSpinner.getSelectedItemPosition(),-1);
                         Toast.makeText(c, "Item successfully Added!", Toast.LENGTH_SHORT).show();
 

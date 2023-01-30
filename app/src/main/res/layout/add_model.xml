@@ -125,7 +125,7 @@
             <EditText
                 android:textColor="#0A0A0A"
                 android:id="@+id/priceEdt"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 style="@style/editText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -284,6 +284,38 @@
                 android:textSize="19sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:visibility="visible"
+        android:id="@+id/hsnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:paddingTop="5dp">
+
+        <TextView
+
+            android:id="@+id/hsnTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hsnNo"
+            android:textColor="#555555"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/HsnNoET"
+            style="@style/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:maxLength="8"
+            android:hint="@string/placeholder_text"
+            android:singleLine="true"
+            android:textColor="#0A0A0A"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -493,26 +525,7 @@
         </TableRow>
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            >
 
-            <EditText
-                android:id="@+id/hsnNo"
-                android:textSize="11dp"
-                android:inputType="number"
-                android:maxLength="8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/enter_hsnNo"
-                android:singleLine="true" />
-        </com.google.android.material.textfield.TextInputLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

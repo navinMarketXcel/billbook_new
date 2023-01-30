@@ -76,6 +76,23 @@
             android:textColor="@color/color_black"
 
             />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/HsnNoOnBill"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/_15spText"
+            android:layout_weight="1"
+            android:background="@drawable/card_lined"
+            android:ellipsize="end"
+            android:gravity="start"
+            android:padding="5dp"
+            android:singleLine="false"
+            android:inputType="textMultiLine"
+            android:text="Hsn:"
+            android:textColor="@color/color_black"
+
+            />
 
     </LinearLayout>
 
