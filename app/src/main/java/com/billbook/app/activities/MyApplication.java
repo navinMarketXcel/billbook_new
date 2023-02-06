@@ -6,6 +6,8 @@ import androidx.multidex.MultiDex;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.Room;
 import androidx.room.migration.Migration;
+
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -17,6 +19,7 @@ import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.Constants;
+import com.clevertap.android.sdk.CleverTapAPI;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 
@@ -35,7 +38,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MyApplication extends Application {
-    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+    public static CleverTapAPI cleverTapAPI;
+    static final Migration MIGRATION_2_3 = new Migration(2, 3)
+    {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
             database.execSQL("ALTER TABLE Invoice "
@@ -514,6 +519,9 @@ public class MyApplication extends Application {
         context = getApplicationContext();
         formStateList();
         MultiDex.install(context);
+        CleverTapAPI clevertapDefaultInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
+        cleverTapAPI = CleverTapAPI.getDefaultInstance(getApplicationContext());
+        cleverTapAPI.createNotificationChannel(getApplicationContext(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
     }
 
     private void formStateList() {

@@ -813,9 +813,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     + ", Your total payable amount is "
                     + totalAfterDiscount
                     + " and your invoice is at " + url;
-
-            //Util.sendWhatsAppMessage(invoice.getString("customerMobileNo"), this, smsBody);
             sharePdf(smsBody);
+            //Util.sendWhatsAppMessage(invoice.getString("customerMobileNo"), this, smsBody);
         }catch (Exception e){
             e.printStackTrace();
         }

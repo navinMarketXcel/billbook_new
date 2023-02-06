@@ -1409,7 +1409,17 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             if (modelName.getText().toString().isEmpty()) {
                 DialogUtils.showToast(c, "Please enter item name");
                 return false;
-            } else if (priceEt.getText().toString().isEmpty() || Float.parseFloat(priceEt.getText().toString()) == 0) {
+            }
+            else if(priceEt.getText().toString().equals("."))
+            {
+                DialogUtils.showToast(c, "Please enter Valid amount");
+                return false;
+            } else if((quantityEt.getText().toString().equals(".")))
+            {
+                DialogUtils.showToast(c, "Please enter Valid Quantity");
+                return false;
+            }
+            else if (priceEt.getText().toString().isEmpty() || Float.parseFloat(priceEt.getText().toString()) == 0) {
                 DialogUtils.showToast(c, "Please enter price");
                 return false;
             } else if (quantityEt.getText().toString().isEmpty() || Float.parseFloat(quantityEt.getText().toString()) == 0) {
@@ -1582,7 +1592,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 requestObj.put("userid", profile.getString("userid"));
                 requestObj.put("invoiceDate", invoiceDateStr);
                 requestObj.put("totalAmountBeforeGST", totalBeforeGST);
-                requestObj.put("discount", Float.parseFloat(Util.formatDecimalValue(discountPercent)));
+                try {
+                    requestObj.put("discount", Float.parseFloat(Util.formatDecimalValue(discountPercent)));
+                }
+                catch (Exception e)
+                {
+                    requestObj.put("discount", 0);
+                }
+               // requestObj.put("discount", Float.parseFloat(Util.formatDecimalValue(discountPercent)));
                 requestObj.put("totalAfterDiscount", total-discountAmt);
                 requestObj.put("totalAmount", total);
 
@@ -1739,17 +1756,32 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         if (billItemBinding.itemNameET.getText().toString().isEmpty()) {
             DialogUtils.showToast(this, "Please enter item name");
             return false;
-        } else if (billItemBinding.itemPriceET.getText().toString().isEmpty() || Float.parseFloat(billItemBinding.itemPriceET.getText().toString()) == 0) {
+        }
+        else if((billItemBinding.itemQtyET.getText().toString().equals(".")))
+        {
+            DialogUtils.showToast(this, "Please enter Valid quantity");
+            return false;
+        }
+        else if(billItemBinding.itemPriceET.getText().toString().equals("."))
+        {
+            DialogUtils.showToast(this, "Please enter Valid price");
+            return false;
+        }
+        else if (billItemBinding.itemPriceET.getText().toString().isEmpty() || Float.parseFloat(billItemBinding.itemPriceET.getText().toString()) == 0 ) {
             DialogUtils.showToast(this, "Please enter price");
             return false;
-        } else if (billItemBinding.itemQtyET.getText().toString().isEmpty() || Float.parseFloat(billItemBinding.itemQtyET.getText().toString()) == 0) {
+        }
+        else if (billItemBinding.itemQtyET.getText().toString().isEmpty() || Float.parseFloat(billItemBinding.itemQtyET.getText().toString()) ==0 ) {
+            Log.v("quantity verify",(billItemBinding.itemQtyET.getText().toString()));
             DialogUtils.showToast(this, "Please enter quantity");
             return false;
 //        } else if (isGSTAvailable && billItemBinding.gstPercentage.getSelectedItemPosition() == 0) {
 //            DialogUtils.showToast(this, "Please select GST %");
 //            return false;
         }
+
         return true;
+
     }
 
     void saveInvoiceToLocalDatabase(JSONObject invoice){

@@ -3,6 +3,7 @@ package com.billbook.app.fragment;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,6 +49,7 @@ import com.billbook.app.receivers.AlarmReceiver;
 import com.billbook.app.services.SyncService;
 import com.billbook.app.utils.Constants;
 import com.billbook.app.utils.Util;
+import com.clevertap.android.sdk.CleverTapAPI;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
@@ -129,6 +131,7 @@ public class HomeFragment extends Fragment
     private long placementId2 = Long.parseLong(BuildConfig.PlacementId2);
     private String placementId3 = BuildConfig.VunglePlacement;
     private Button register;
+
     private Button wathcDemo, helpLine;
     RelativeLayout adContainer;
 
@@ -190,6 +193,9 @@ public class HomeFragment extends Fragment
         super.onCreate(savedInstanceState);
         updateGST();
         ClickPattern phone = new ClickPattern();
+//         clevertapDefaultInstance = CleverTapAPI.getDefaultInstance(getActivity());
+//         cleverTapAPI = CleverTapAPI.getDefaultInstance(getActivity());
+//        cleverTapAPI.createNotificationChannel(getActivity(),"YourChannelId","Your Channel Name","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
 
 
         /**
@@ -770,6 +776,10 @@ public class HomeFragment extends Fragment
 
                 break;
             case R.id.btnBilling:
+
+                CleverTapAPI cleverTapAPI = CleverTapAPI.getDefaultInstance(getActivity());
+                CleverTapAPI.createNotificationChannel(getActivity(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
+                cleverTapAPI.pushEvent("Clicked Billing");
                 Util.postEvents("Billing", "Billing", getActivity().getApplicationContext());
                 intent = new Intent(getActivity(), BillingNewActivity.class);
                 try {
@@ -1243,11 +1253,20 @@ private void getLatestBillNumbers(String userid) {
     }
 
     public void startYoutubeActivity(View v) {
-        Util.postEvents("Watch Demo", "Watch Demo", getActivity().getApplicationContext());
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://www.youtube.com/playlist?list=PLFuhsI7LfH3VFoH8oTfozpUlITI6fy7U8"));
-        intent.setPackage("com.google.android.youtube");
-        startActivity(intent);
+        boolean installed = appInstallOrNot("com.youtube");
+        if(installed)
+        {
+            Util.postEvents("Watch Demo", "Watch Demo", getActivity().getApplicationContext());
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://www.youtube.com/playlist?list=PLFuhsI7LfH3VFoH8oTfozpUlITI6fy7U8"));
+            intent.setPackage("com.google.android.youtube");
+            startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(getActivity(), "Please Install Youtube", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private void sendEvent() {

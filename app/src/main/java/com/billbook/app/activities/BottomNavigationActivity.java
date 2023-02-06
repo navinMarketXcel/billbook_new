@@ -252,10 +252,20 @@ private JSONObject userProfile;
 
     }
     public void startYoutubeActivity(View v){
-        Util.postEvents("Watch Demo","Watch Demo",this.getApplicationContext());
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://www.youtube.com/playlist?list=PLFuhsI7LfH3VFoH8oTfozpUlITI6fy7U8"));
-        intent.setPackage("com.google.android.youtube");
-        startActivity(intent);
+//        boolean installed = appInstallOrNot("com.google.android.youtube");
+//        Log.v("bool value", String.valueOf(installed));
+//        if(installed)
+//        {
+            Util.postEvents("Watch Demo","Watch Demo",this.getApplicationContext());
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://www.youtube.com/playlist?list=PLFuhsI7LfH3VFoH8oTfozpUlITI6fy7U8"));
+            intent.setPackage("com.google.android.youtube");
+            startActivity(intent);
+//        }
+//        else
+//        {
+//            Toast.makeText(BottomNavigationActivity.this,"Please Install Youtube", Toast.LENGTH_SHORT).show();
+//        }
+
     }
 }
