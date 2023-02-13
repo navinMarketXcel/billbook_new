@@ -2,6 +2,10 @@ package com.billbook.app.utils;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import static com.billbook.app.activities.MyApplication.context;
+
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
@@ -460,6 +464,7 @@ public class Util {
         PackageManager packageManager = context.getPackageManager();
         boolean app;
         try {
+
             packageManager.getPackageInfo(url,PackageManager.GET_ACTIVITIES);
             app=true;
         }
@@ -471,12 +476,51 @@ public class Util {
         return app;
 
     }
+    protected static boolean isAppInstalled(String packageName,Context context) {
+        Intent mIntent = context.getApplicationContext().getPackageManager().getLaunchIntentForPackage(packageName);
+        if (mIntent != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+//    public static void startYoutubeActivity(Context context) {
+//        String packageName = "com.google.android.youtube";
+//        boolean isYoutubeInstalled = isAppInstalled(packageName,context);
+//        if(isYoutubeInstalled)
+//        {
+//            Log.v("installed home", String.valueOf(isYoutubeInstalled));
+//            Util.postEvents("Watch Demo", "Watch Demo", context.getApplicationContext());
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            intent.setData(Uri.parse("https://www.youtube.com/playlist?list=PLFuhsI7LfH3VFoH8oTfozpUlITI6fy7U8"));
+//            intent.setPackage("com.google.android.youtube");
+//            context.startActivity(intent);
+//        }
+//        else
+//        {
+//            Log.v("installed home", String.valueOf(isYoutubeInstalled));
+//            Toast.makeText(context.getApplicationContext(), "Please Install Youtube", Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
+
     public static void startYoutubeActivity(Context context){
-        Util.postEvents("Watch Demo","Watch Demo",context.getApplicationContext());
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://www.youtube.com/playlist?list=PLFuhsI7LfH3VFoH8oTfozpUlITI6fy7U8"));
-        intent.setPackage("com.google.android.youtube");
-        context.startActivity(intent);
+        boolean installed = appInstallOrNot("com.google.android.youtube",context);
+        Log.v("installed", String.valueOf(installed));
+        if(!installed)
+        {
+            Util.postEvents("Watch Demo", "Watch Demo", context.getApplicationContext());
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse("https://www.youtube.com/playlist?list=PLFuhsI7LfH3VFoH8oTfozpUlITI6fy7U8"));
+            intent.setPackage("com.google.android.youtube");
+            context.startActivity(intent);
+        }
+        else
+        {
+            Toast.makeText(context.getApplicationContext(), "Please Install Youtube", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

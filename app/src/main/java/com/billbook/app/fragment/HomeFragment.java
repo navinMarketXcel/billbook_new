@@ -124,6 +124,7 @@ public class HomeFragment extends Fragment
     private String expString;
     InMobiBanner mBannerAd1;
     public boolean isSheetShown;
+    CleverTapAPI cleverTapAPI;
     VungleBanner vungleBanner;
     private JSONArray gstList, nonGstList;
     // replace with actual placementId from InMobi
@@ -149,6 +150,7 @@ public class HomeFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         register = view.findViewById(R.id.btnRegister);
         adContainer = (RelativeLayout) view.findViewById(R.id.parent);
+        cleverTapAPI = CleverTapAPI.getDefaultInstance(requireActivity());
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(getContext());
         initUI(view);
 
@@ -193,8 +195,12 @@ public class HomeFragment extends Fragment
         super.onCreate(savedInstanceState);
         updateGST();
         ClickPattern phone = new ClickPattern();
-//         clevertapDefaultInstance = CleverTapAPI.getDefaultInstance(getActivity());
-//         cleverTapAPI = CleverTapAPI.getDefaultInstance(getActivity());
+
+       // cleverTapAPI = CleverTapAPI.getDefaultInstance(requireActivity());
+          CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
+          CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.DEBUG);
+          cleverTapAPI = CleverTapAPI.getDefaultInstance(getActivity());
+
 //        cleverTapAPI.createNotificationChannel(getActivity(),"YourChannelId","Your Channel Name","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
 
 
@@ -424,7 +430,7 @@ public class HomeFragment extends Fragment
         }
         try {
             // replace empty string with account Id of InMobi
-            InMobiSdk.init(getActivity(), BuildConfig.AccountId, consentObject, new SdkInitializationListener() {
+            InMobiSdk.init(requireActivity(), BuildConfig.AccountId, consentObject, new SdkInitializationListener() {
                 @Override
                 public void onInitializationComplete(@Nullable Error error) {
                     if (null != error) {
@@ -447,14 +453,14 @@ public class HomeFragment extends Fragment
     private void bottomSheetDialog(View view) {
 
         if (isSheetShown) {
-            BottomSheetDialog gstSheet = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
-            View bottomSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgst, (LinearLayout) view.findViewById(R.id.bottomSheetContainer));
+            BottomSheetDialog gstSheet = new BottomSheetDialog(requireActivity(), R.style.BottomSheetDialogTheme);
+            View bottomSheet = LayoutInflater.from(requireActivity().getApplicationContext()).inflate(R.layout.activity_home_addgst, (LinearLayout) view.findViewById(R.id.bottomSheetContainer));
             bottomSheet.findViewById(R.id.yesGSt).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     gstSheet.dismiss();
-                    BottomSheetDialog yesGst = new BottomSheetDialog(getActivity(), R.style.BottomSheetDialogTheme);
-                    View yesGstSheet = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_addgstyes, (LinearLayout) view.findViewById(R.id.editGSTyes));
+                    BottomSheetDialog yesGst = new BottomSheetDialog(requireActivity(), R.style.BottomSheetDialogTheme);
+                    View yesGstSheet = LayoutInflater.from(requireActivity().getApplicationContext()).inflate(R.layout.activity_home_addgstyes, (LinearLayout) view.findViewById(R.id.editGSTyes));
                     yesGstSheet.findViewById(R.id.btnUpdGst).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -777,10 +783,21 @@ public class HomeFragment extends Fragment
                 break;
             case R.id.btnBilling:
 
-                CleverTapAPI cleverTapAPI = CleverTapAPI.getDefaultInstance(getActivity());
-                CleverTapAPI.createNotificationChannel(getActivity(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
-                cleverTapAPI.pushEvent("Clicked Billing");
-                Util.postEvents("Billing", "Billing", getActivity().getApplicationContext());
+                //cleverTapAPI = CleverTapAPI.getDefaultInstance(requireActivity().getApplicationContext());
+                cleverTapAPI.createNotificationChannel(requireActivity(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
+
+                HashMap<String, Object> profileUpdate = new HashMap<String, Object>();
+
+                try {
+                    profileUpdate.put("Phone",userProfile.getString("mobileNo") );
+                    Log.v("mob no",userProfile.getString("mobileNo"));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                cleverTapAPI.pushEvent("Clicked Billing ");
+                cleverTapAPI.onUserLogin(profileUpdate);
+                cleverTapAPI.pushProfile(profileUpdate);
+                Util.postEvents("Billing", "Billing", requireActivity().getApplicationContext());
                 intent = new Intent(getActivity(), BillingNewActivity.class);
                 try {
 
@@ -1251,9 +1268,18 @@ private void getLatestBillNumbers(String userid) {
         return app;
 
     }
+    protected boolean isAppInstalled(String packageName) {
+        Intent mIntent = requireActivity().getPackageManager().getLaunchIntentForPackage(packageName);
+        if (mIntent != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     public void startYoutubeActivity(View v) {
-        boolean installed = appInstallOrNot("com.youtube");
+        boolean installed = appInstallOrNot("com.google.android.youtube");
         if(installed)
         {
             Util.postEvents("Watch Demo", "Watch Demo", getActivity().getApplicationContext());

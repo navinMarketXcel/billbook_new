@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.core.content.ContextCompat;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import com.billbook.app.databinding.LayoutItemBillBinding;
 import com.billbook.app.networkcommunication.NetworkType;
 import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.billbook.app.viewmodel.InvoiceViewModel;
+import com.clevertap.android.sdk.CleverTapAPI;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -161,6 +163,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private String networkType;
     String gstListString;
     String nonGstListString;
+    CleverTapAPI cleverTapAPI;
     private String networkSpeed,apiName;
     private TextView viewDets;
     private  int countIsEdit =0 ;
@@ -170,6 +173,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cleverTapAPI = CleverTapAPI.getDefaultInstance(getApplicationContext());
         binding = ActivityBillingNewBinding.inflate(getLayoutInflater());
         billItemBinding = binding.includedLayoutItemBill;
         invoiceItemViewModel = ViewModelProviders.of(this).get(InvoiceItemsViewModel.class);
@@ -1574,6 +1578,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     public void gotoPDFActivity(View v) {
+        cleverTapAPI.createNotificationChannel(getApplicationContext(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
+        cleverTapAPI.pushEvent("Clicked Make Bill ");
         Util.dailyLogout(BillingNewActivity.this);
         startPDFActivity();
     }

@@ -244,6 +244,7 @@ public class LoginActivity extends AppCompatActivity {
                     token.clear();
                     token.put("mobileNo",String.valueOf(body.getJSONObject("data").getString("mobileNo")));
                     token.put("otp",String.valueOf(body.getJSONObject("data").getString("otp")));
+                    token.put("loginType","Whatsapp");
                     Call<Object> call = apiServiceOtpLessCreds.verifyOTP((HashMap<String, String>) token);
                     call.enqueue(new Callback<Object>() {
                         @Override
@@ -430,6 +431,7 @@ public class LoginActivity extends AppCompatActivity {
         Map<String, String> headerMap = new HashMap<>();
         Map<String, String> req = new HashMap<>();
         req.put("mobileNo",edtUsername.getText().toString());
+        req.put("loginType","Otp Generated");
         headerMap.put("Content-Type", "application/json");
 
         Call<Object> call = apiService.getOTP((HashMap<String, String>) req);

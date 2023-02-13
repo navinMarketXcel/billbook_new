@@ -203,6 +203,7 @@ public class loginPick_activity extends AppCompatActivity {
         //Send this token to your backend end api to fetch user details from otpless service
         HashMap<String,String> token = new HashMap<>();
         token.put("token",response.getToken());
+        token.put("loginType","Whatsapp");
         ApiInterface apiServiceOtpLessCreds =
                 ApiClient.getClient(this).create(ApiInterface.class);
         Call<Object> whats_url = apiServiceOtpLessCreds.getUserDetails(token);
@@ -217,6 +218,7 @@ public class loginPick_activity extends AppCompatActivity {
                     token.clear();
                     token.put("mobileNo",String.valueOf(body.getJSONObject("data").getString("mobileNo")));
                     token.put("otp",String.valueOf(body.getJSONObject("data").getString("otp")));
+                    token.put("loginType","Whatsapp");
                     Call<Object> call = apiServiceOtpLessCreds.verifyOTP((HashMap<String, String>) token);
                     call.enqueue(new Callback<Object>() {
                         @Override

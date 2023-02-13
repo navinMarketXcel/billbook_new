@@ -347,6 +347,7 @@ public class OTPActivity extends AppCompatActivity {
             Map<String, String> req = new HashMap<>();
             req.put("mobileNo", mobilNo);
             req.put("otp", otpEdt.getText().toString());
+            req.put("loginType","Otp Verified");
             headerMap.put("Content-Type", "application/json");
 
             Call<Object> call = apiService.verifyOTP((HashMap<String, String>) req);

@@ -444,7 +444,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
             Util. startHelpActivity(ExpenseActivity.this);
         });
         youTube.setOnClickListener(v -> {
-            Util. startYoutubeActivity(ExpenseActivity.this);
+            Util. startYoutubeActivity(this);
         });
 
 

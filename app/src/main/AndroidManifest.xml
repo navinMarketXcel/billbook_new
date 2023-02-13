@@ -30,7 +30,6 @@
 
 
     <application
-
         android:name=".activities.MyApplication"
         android:allowBackup="false"
         android:debuggable="false"
@@ -46,6 +45,12 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon,android:allowBackup,android:roundIcon"
         tools:targetApi="honeycomb">
+        <meta-data
+            android:name="CLEVERTAP_ACCOUNT_ID"
+            android:value="TEST-56R-K6Z-576Z"/>
+        <meta-data
+            android:name="CLEVERTAP_TOKEN"
+            android:value="TEST-163-265"/>
         <activity
             android:name=".activities.TestPdfActivity"
             android:exported="false"

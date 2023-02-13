@@ -519,9 +519,8 @@ public class MyApplication extends Application {
         context = getApplicationContext();
         formStateList();
         MultiDex.install(context);
-        CleverTapAPI clevertapDefaultInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
         cleverTapAPI = CleverTapAPI.getDefaultInstance(getApplicationContext());
-        cleverTapAPI.createNotificationChannel(getApplicationContext(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
+        //cleverTapAPI.createNotificationChannel(getApplicationContext(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
     }
 
     private void formStateList() {
