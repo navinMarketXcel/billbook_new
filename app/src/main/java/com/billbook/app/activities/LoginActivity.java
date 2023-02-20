@@ -440,6 +440,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<Object> call, Response<Object> response) {
                 DialogUtils.stopProgressDialog();
                 try {
+                    MyApplication.cleverTapAPI.pushEvent("Otp Received");
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     startOTPActivity(body.getJSONObject("data").getString("otp"));
                 } catch (JSONException e) {

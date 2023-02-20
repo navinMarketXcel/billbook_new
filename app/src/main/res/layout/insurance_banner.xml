@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:weightSum="2"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/banner_structure">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/insurance_vector">
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_margin="1dp"
+            android:weightSum="3"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:scaleType="fitCenter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <TextView
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#14148B"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                style="@style/textRegularBold"
+                android:textStyle="bold"
+                android:text="Keep your life,vehicle and shop secured">
+
+            </TextView>
+
+            <Button
+                android:layout_weight="1"
+                android:layout_margin="3dp"
+                android:layout_width="125dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_height="35dp"
+                android:background="@drawable/banner_button"
+                android:text="Know More"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                style="@style/textRegularBold"
+                android:textColor="#8B59EE">
+
+            </Button>
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/tc"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="8sp"
+                android:text="This is only an expression of interest for buying insurance. TC apply">
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

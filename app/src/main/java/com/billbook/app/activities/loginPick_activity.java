@@ -122,12 +122,14 @@ public class loginPick_activity extends AppCompatActivity {
         if (Util.isNetworkAvailable(getApplicationContext())) {
             if(isAppInstalled("com.whatsapp"))
             {
+                MyApplication.cleverTapAPI.pushEvent("Whatsapp  clicked");
                 whatsappDialog = new ProgressDialog(loginPick_activity.this);
                 whatsappDialog.setMessage("Please wait, signing you in!");
                 whatsappDialog.setCancelable(false);
                 whatsappDialog.setInverseBackgroundForced(false);
                 whatsappDialog.show();
                 getSignupUrl();
+
             }
 
             else
@@ -280,6 +282,7 @@ public class loginPick_activity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 whatsappDialog.hide();
+                MyApplication.cleverTapAPI.pushEvent("Whatsapp  Failed");
                 DialogUtils.stopProgressDialog();
                 DialogUtils.showToast(loginPick_activity.this,"Failed to sign in!");
             }
@@ -294,6 +297,7 @@ public class loginPick_activity extends AppCompatActivity {
         finish();
     }
     public void gotoHomeScreen() {
+        MyApplication.cleverTapAPI.pushEvent("Whatsapp  Successful");
         Intent intent = new Intent(this, BottomNavigationActivity.class);
         intent.putExtra("mobileNo", mobilNo);
         startActivity(intent);
@@ -308,6 +312,7 @@ public class loginPick_activity extends AppCompatActivity {
 
     public void PhoneonClick(View v)
     {
+        MyApplication.cleverTapAPI.pushEvent("Phone Number  Login");
         Intent intent=new Intent(loginPick_activity.this,LoginActivity.class);
         startActivity(intent);
     }

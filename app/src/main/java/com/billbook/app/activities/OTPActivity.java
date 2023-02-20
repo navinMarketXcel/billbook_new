@@ -319,13 +319,16 @@ public class OTPActivity extends AppCompatActivity {
 
 
     public void gotoRegistration() {
+        MyApplication.cleverTapAPI.pushEvent("Login  Successful");
         Intent intent = new Intent(this, RegistrationActivity.class);
         intent.putExtra("mobileNo",mobilNo);
         intent.putExtra("otp",OTP);
         intent.putExtra("referrer_link", referrer_link);
         startActivity(intent);
+
     }
     public void gotoHomeScreen() {
+        MyApplication.cleverTapAPI.pushEvent("Login  Successful");
         Intent intent = new Intent(this, BottomNavigationActivity.class);
         intent.putExtra("mobileNo",mobilNo);
         startActivity(intent);

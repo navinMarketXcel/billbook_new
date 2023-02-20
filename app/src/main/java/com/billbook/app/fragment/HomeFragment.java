@@ -789,14 +789,16 @@ public class HomeFragment extends Fragment
                 HashMap<String, Object> profileUpdate = new HashMap<String, Object>();
 
                 try {
-                    profileUpdate.put("Phone",userProfile.getString("mobileNo") );
+                    profileUpdate.put("Phone","+91"+ userProfile.getString("mobileNo") );
+                    profileUpdate.put("Identity",userProfile.getString("userid") );
+
                     Log.v("mob no",userProfile.getString("mobileNo"));
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
                 cleverTapAPI.pushEvent("Clicked Billing ");
                 cleverTapAPI.onUserLogin(profileUpdate);
-                cleverTapAPI.pushProfile(profileUpdate);
+                //cleverTapAPI.pushProfile(profileUpdate);
                 Util.postEvents("Billing", "Billing", requireActivity().getApplicationContext());
                 intent = new Intent(getActivity(), BillingNewActivity.class);
                 try {
