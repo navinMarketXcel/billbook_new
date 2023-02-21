@@ -58,11 +58,13 @@ public class NewInvoiceShortBillInvoiceProductAdapter extends RecyclerView.Adapt
                 (curItems.get(position).getImei().length()>0?" ,IMEI/Serial Number - "+curItems.get(position).getImei():""));*/
 
         holder.productDescription.setText(curItems.get(position).getName());
-        String qtyString = String.valueOf((int)curItems.get(position).getQuantity());
+        String qtyString = String.valueOf(curItems.get(position).getQuantity());
         if(curItems.get(position).getMeasurementId() > -1){
             qtyString += " " + measurementUnitList.get(curItems.get(position).getMeasurementId());
         }
+        //holder.invoiceItemsQty.setText(String.valueOf(curItems.get(position).getQuantity()));
         holder.productLabel.setText(qtyString);
+       // holder.invoiceItemsQty.setText(qtyString);
         holder.productMRP.setText(String.valueOf(Util.formatDecimalValue(curItems.get(position).getPrice())));
         holder.productAmnt.setText(Util.formatDecimalValue( curItems.get(position).getTotalAmount()));
         holder.rate.setText(String.valueOf(Util.formatDecimalValue(curItems.get(position).getGstAmount())));
@@ -84,11 +86,12 @@ public class NewInvoiceShortBillInvoiceProductAdapter extends RecyclerView.Adapt
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView productDescription, productLabel, productMRP, rate, productAmnt, productTax;
+        TextView productDescription, productLabel, productMRP, rate, productAmnt, productTax,invoiceItemsQty;
         LinearLayout llForHeader;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            invoiceItemsQty = itemView.findViewById(R.id.invoiceItemsQty);
             llForHeader = itemView.findViewById(R.id.llForHeader);
             productDescription = itemView.findViewById(R.id.productDescription);
             productMRP = itemView.findViewById(R.id.productMRP);

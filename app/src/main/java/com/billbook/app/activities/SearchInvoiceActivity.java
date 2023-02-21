@@ -588,11 +588,12 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         master.setId(masterObject.getInt("id"));
                         master.setGst(masterObject.getInt("gst"));
                         master.setGstAmount(masterObject.getDouble("gstAmount"));
+                        master.setMeasurementId(masterObject.getInt("measurementId"));
                         master.setGstType(masterObject.getString("gstType"));
                         master.setTotalAmount(masterObject.getDouble("totalAmount"));
                         master.setInvoiceid(masterObject.getInt("invoiceid"));
                         master.setPrice(masterObject.getDouble("price"));
-                        master.setQuantity(masterObject.getInt("quantity"));
+                        master.setQuantity(masterObject.getDouble("quantity"));
                         try {
                             master.setImei(masterObject.getString("imei"));
                             master.setSerialNo(masterObject.getString("serial_no"));
@@ -1072,6 +1073,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
                 masterObject.put("name",data.getMasterItems().get(i).name);
                 masterObject.put("invoiceid",data.getMasterItems().get(i).invoiceid);
+                masterObject.put("measurementId",data.getMasterItems().get(i).measurementId);
                 masterObject.put("totalAmount",data.getMasterItems().get(i).totalAmount);
                 masterObject.put("price",data.getMasterItems().get(i).price);
                 masterObject.put("gstAmount",data.getMasterItems().get(i).gstAmount);

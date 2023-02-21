@@ -132,7 +132,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private ArrayList<String> gstList, nonGstList;
     private boolean isGSTAvailable;
     private String gstNo;
-    private int editPosition = -1, quantityCount = 0;
+    private int editPosition = -1;
+           private float quantityCount = 0;
     private int invoiceIdIfEdit = -1;
     private int serialNumber = 0;
     private int hasWriteStoragePermission, isFirstReq = 1;

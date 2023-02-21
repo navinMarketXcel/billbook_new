@@ -32,7 +32,7 @@ android {
     }
     buildTypes {
         debug{
-            buildConfigField "String", "BASE_URL", '"https://stgapi.thebillbook.com/v1/"'
+            buildConfigField "String", "BASE_URL", '"https://fa88-2405-201-d029-f8e7-48fa-df5a-b3d1-2077.in.ngrok.io/v1/"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled false
 
