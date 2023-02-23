@@ -13,7 +13,7 @@ public class MasterItem {
     public String name;
     @SerializedName("quantity")
     @Expose
-    public Integer quantity;
+    public Double quantity;
     @SerializedName("measurementId")
     @Expose
     public Integer measurementId;
@@ -70,11 +70,11 @@ public class MasterItem {
         this.name = name;
     }
 
-    public Integer getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
