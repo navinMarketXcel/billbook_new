@@ -13,6 +13,7 @@ import com.billbook.app.R;
 import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
+import com.billbook.app.utils.Util;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -45,6 +46,7 @@ String userid;
             finish();
         });
         btnGetOtp.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Get OTP Edit Mobile");
             if(verifyData())getOTP();
         });
     }

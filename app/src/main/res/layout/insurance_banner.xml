@@ -42,6 +42,7 @@
             </TextView>
 
             <Button
+                android:id="@+id/knowMore"
                 android:layout_weight="1"
                 android:layout_margin="3dp"
                 android:layout_width="125dp"

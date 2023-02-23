@@ -50,6 +50,7 @@ import com.billbook.app.services.SyncService;
 import com.billbook.app.utils.Constants;
 import com.billbook.app.utils.Util;
 import com.clevertap.android.sdk.CleverTapAPI;
+
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
@@ -110,6 +111,8 @@ public class HomeFragment extends Fragment
     }
 
     LinearLayout btnSellingDetails, btnBilling, btnManageInventory, btnGetSalesReport, btnSearchInvoice;
+    Button knowMore;
+    LinearLayout bannerLayout;
     Toolbar mToolbar;
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     private NavigationView navigationView;
@@ -134,11 +137,12 @@ public class HomeFragment extends Fragment
     private Button register;
 
     private Button wathcDemo, helpLine;
+    private LinearLayout insuranceBanner;
     RelativeLayout adContainer;
 
 
   /*  @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -148,6 +152,7 @@ public class HomeFragment extends Fragment
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        insuranceBanner = view.findViewById(R.id.banner);
         register = view.findViewById(R.id.btnRegister);
         adContainer = (RelativeLayout) view.findViewById(R.id.parent);
         cleverTapAPI = CleverTapAPI.getDefaultInstance(requireActivity());
@@ -195,13 +200,11 @@ public class HomeFragment extends Fragment
         super.onCreate(savedInstanceState);
         updateGST();
         ClickPattern phone = new ClickPattern();
-
-       // cleverTapAPI = CleverTapAPI.getDefaultInstance(requireActivity());
           CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
           CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.DEBUG);
           cleverTapAPI = CleverTapAPI.getDefaultInstance(getActivity());
 
-//        cleverTapAPI.createNotificationChannel(getActivity(),"YourChannelId","Your Channel Name","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
+
 
 
         /**
@@ -236,6 +239,20 @@ public class HomeFragment extends Fragment
 //    customPartialyClickableTextview.addClickPattern("weblink",weblink);
 
 
+    }
+    public void cleverTapProfile()
+    {
+        HashMap<String, Object> profileUpdate = new HashMap<String, Object>();
+
+        try {
+            profileUpdate.put("Phone","+91"+ userProfile.getString("mobileNo") );
+            profileUpdate.put("Identity",userProfile.getString("userid") );
+
+            Log.v("mob no",userProfile.getString("mobileNo"));
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        cleverTapAPI.onUserLogin(profileUpdate);
     }
     public void forceUserLogout() {
 
@@ -458,12 +475,15 @@ public class HomeFragment extends Fragment
             bottomSheet.findViewById(R.id.yesGSt).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Util.pushEvent("Clicked on I have GST Number");
                     gstSheet.dismiss();
                     BottomSheetDialog yesGst = new BottomSheetDialog(requireActivity(), R.style.BottomSheetDialogTheme);
                     View yesGstSheet = LayoutInflater.from(requireActivity().getApplicationContext()).inflate(R.layout.activity_home_addgstyes, (LinearLayout) view.findViewById(R.id.editGSTyes));
                     yesGstSheet.findViewById(R.id.btnUpdGst).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            Util.pushEvent("Clicked on Update GST Number");
+
 //                            BottomSheetDialog showGif =new BottomSheetDialog(getActivity(),R.style.BottomSheetDialogTheme);
 //                            View showgifView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_gstyes,(LinearLayout)view.findViewById(R.id.GSTyes));
 
@@ -486,7 +506,7 @@ public class HomeFragment extends Fragment
                         @Override
                         public void onClick(View view) {
                             yesGst.dismiss();
-
+                            Util.pushEvent("Clicked on Cancel GST Number");
                             MyApplication.setIsGst(false);
 
                         }
@@ -501,6 +521,7 @@ public class HomeFragment extends Fragment
             bottomSheet.findViewById(R.id.noGSt).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Util.pushEvent("Clicked on I Don't have GST Number");
                     gstSheet.dismiss();
                     MyApplication.setHaveGst(false);
                     MyApplication.setIsGst(false);
@@ -661,6 +682,8 @@ public class HomeFragment extends Fragment
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        bannerLayout = view.findViewById(R.id.bannerLayout);
+        knowMore = view.findViewById(R.id.knowMore);
         btnManageInventory = view.findViewById(R.id.btnManageInventory);
         btnBilling = view.findViewById(R.id.btnBilling);
         btnSellingDetails = view.findViewById(R.id.btnSellingDetails);
@@ -677,8 +700,9 @@ public class HomeFragment extends Fragment
         //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(false);
 
         btnBilling.setOnClickListener(this);
+        bannerLayout.setOnClickListener(this);
+        knowMore.setOnClickListener(this);
         btnManageInventory.setOnClickListener(this);
-
         btnSellingDetails.setOnClickListener(this);
         btnGetSalesReport.setOnClickListener(this);
         btnSearchInvoice.setOnClickListener(this);
@@ -775,34 +799,27 @@ public class HomeFragment extends Fragment
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.knowMore:
+                Util.pushEvent("Clicked on Know More Insurance Banner");
+                Uri uri = Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSflNi8MPYYULr0wVOVrcsjUMWG1-Grqbe4Caj61cfrFoX45SQ/viewform"); // missing 'http://' will cause crashed
+                String URL = "https://docs.google.com/forms/d/e/1FAIpQLSflNi8MPYYULr0wVOVrcsjUMWG1-Grqbe4Caj61cfrFoX45SQ/viewform" ;
+                Intent intentNew = new Intent(Intent.ACTION_VIEW);
+                intentNew.setData(Uri.parse(URL));
+                startActivity(intentNew);
+                break;
             case R.id.btnManageInventory:
+                Util.pushEvent(" Clicked On Expense");
                 Util.postEvents("Expense", "Expense", getActivity().getApplicationContext());
                 Intent intent = new Intent(getActivity(), ExpenseActivity.class);
                 startActivity(intent);
-
                 break;
             case R.id.btnBilling:
-
                 //cleverTapAPI = CleverTapAPI.getDefaultInstance(requireActivity().getApplicationContext());
                 cleverTapAPI.createNotificationChannel(requireActivity(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
-
-                HashMap<String, Object> profileUpdate = new HashMap<String, Object>();
-
-                try {
-                    profileUpdate.put("Phone","+91"+ userProfile.getString("mobileNo") );
-                    profileUpdate.put("Identity",userProfile.getString("userid") );
-
-                    Log.v("mob no",userProfile.getString("mobileNo"));
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-                cleverTapAPI.pushEvent("Clicked Billing ");
-                cleverTapAPI.onUserLogin(profileUpdate);
-                //cleverTapAPI.pushProfile(profileUpdate);
+                Util.pushEvent("Clicked Billing");
                 Util.postEvents("Billing", "Billing", requireActivity().getApplicationContext());
                 intent = new Intent(getActivity(), BillingNewActivity.class);
                 try {
-
                     intent.putExtra("gstBillNoList", gstList.toString());
                     intent.putExtra("nonGstBillNoList", nonGstList.toString());
                 } catch (Exception e) {
@@ -811,11 +828,13 @@ public class HomeFragment extends Fragment
                 startActivity(intent);
                 break;
             case R.id.btnSellingDetails:
+
                 intent = new Intent(getActivity(), LedgerLoginActivity.class);
                 intent.putExtra("startReportActivity", false);
                 startActivity(intent);
                 break;
             case R.id.btnSearchInvoice:
+                Util.pushEvent("Clicked On Search Bills");
                 Util.postEvents("Search Bills", "Search Bills", getActivity().getApplicationContext());
                 intent = new Intent(getActivity(), SearchInvoiceActivity.class);
                 try {
@@ -827,6 +846,7 @@ public class HomeFragment extends Fragment
                 startActivity(intent);
                 break;
             case R.id.btnGetSalesReport:
+                Util.pushEvent("Clicked On Daybook");
                 Util.postEvents("Day Book", "Day Book", getActivity().getApplicationContext());
                 intent = new Intent(getActivity(), DayBookActivity.class);
                 intent.putExtra("startReportActivity", true);
@@ -884,6 +904,7 @@ public class HomeFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
+        cleverTapProfile();
         checkVersion();
         Util.dailyLogout((AppCompatActivity) getActivity());
         try {
@@ -891,6 +912,7 @@ public class HomeFragment extends Fragment
 //            updateDrawerProfileImg();
             getLatestInvoice(userProfile.getString("userid"));
             getLatestBillNumbers(userProfile.getString("userid"));
+            getBanner();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -997,6 +1019,42 @@ private void getLatestBillNumbers(String userid) {
 
 }
 
+private void getBanner()
+{
+    ApiInterface apiService = ApiClient.getClient(getActivity()).create(ApiInterface.class);
+    Map<String, String> headerMap = new HashMap<>();
+    Call<Object> call = apiService.getConfig(headerMap);
+    call.enqueue(new Callback<Object>() {
+
+        @Override
+        public void onResponse(Call<Object> call, Response<Object> response) {
+            final JSONObject body;
+            try {
+                body = new JSONObject(new Gson().toJson(response.body()));
+                Log.d(TAG, "Version Body::" + body);
+                String bannerCode = (String) body.getJSONObject("data").getJSONObject("bannerCode").getString("code1");
+                Log.v("banner code", bannerCode);
+                if(bannerCode.equals("true"))
+                {
+                    insuranceBanner.setVisibility(View.VISIBLE);
+                }
+                else {
+                    insuranceBanner.setVisibility(View.GONE);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        public void onFailure(Call<Object> call, Throwable t) {
+
+        }
+
+    });
+}
+
     private void getLatestInvoice(String userid) {
 
         try {
@@ -1098,6 +1156,7 @@ private void getLatestBillNumbers(String userid) {
                             View showgifView = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.activity_home_gstyes, (LinearLayout) view.findViewById(R.id.GSTyes));
                             showGif.setContentView(showgifView);
                             showGif.show();
+                            Util.pushEvent("GST Added Successfully from BottomSheet");
                             MyApplication.setIsGst(checkGst);
 
                         } else {
@@ -1245,12 +1304,14 @@ private void getLatestBillNumbers(String userid) {
     }
 
     public void startHelpActivity(View v) {
+        Util.pushEvent("Clicked On Home activity Whatsapp Help");
         boolean installed = appInstallOrNot("com.whatsapp");
         String mobNo = "9289252155";
         if (installed) {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + "+91" + mobNo));
             startActivity(intent);
+            Util.pushEvent("Clicked On Home activity Whatsapp Help");
         } else {
             Toast.makeText(getActivity(), "Please Install Whatsapp", Toast.LENGTH_SHORT).show();
         }
@@ -1281,19 +1342,26 @@ private void getLatestBillNumbers(String userid) {
     }
 
     public void startYoutubeActivity(View v) {
-        boolean installed = appInstallOrNot("com.google.android.youtube");
-        if(installed)
-        {
-            Util.postEvents("Watch Demo", "Watch Demo", getActivity().getApplicationContext());
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://www.youtube.com/playlist?list=PLFuhsI7LfH3VFoH8oTfozpUlITI6fy7U8"));
-            intent.setPackage("com.google.android.youtube");
-            startActivity(intent);
-        }
-        else
-        {
-            Toast.makeText(getActivity(), "Please Install Youtube", Toast.LENGTH_SHORT).show();
-        }
+        Util.pushEvent("Clicked on Youtube Demo on Billing ");
+        Util. startYoutubeActivity(getActivity());
+//        Util.pushEvent("Clicked On Home activity Youtube Demo");
+//        boolean installed = appInstallOrNot("com.google.android.youtube");
+//        if(!installed)
+//        {
+//            Util.pushEvent("Clicked On Home activity Youtube Demo");
+//
+//            Util.postEvents("Watch Demo", "Watch Demo", getActivity().getApplicationContext());
+//            Intent intent = new Intent(Intent.ACTION_VIEW);
+//            intent.setData(Uri.parse("https://www.youtube.com/playlist?list=PLFuhsI7LfH3VFoH8oTfozpUlITI6fy7U8"));
+//            intent.setPackage("com.google.android.youtube");
+//            startActivity(intent);
+//            Util.pushEvent("Clicked On Home activity Youtube Demo");
+//
+//        }
+//        else
+//        {
+//            Toast.makeText(getActivity(), "Please Install Youtube", Toast.LENGTH_SHORT).show();
+//        }
 
     }
 

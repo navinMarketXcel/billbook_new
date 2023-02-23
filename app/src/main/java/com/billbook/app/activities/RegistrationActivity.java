@@ -198,6 +198,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void registerUser(View view) {
         if (validateData()) {
+            MyApplication.cleverTapAPI.pushEvent("Clicked Register");
             Map<String, String> headerMap = new HashMap<>();
             headerMap.put("shopName",binding.shopNameEdt.getText().toString());
             headerMap.put("shopAddr",binding.shopAddressEdt.getText().toString());
@@ -214,6 +215,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void startHomeActivity() {
         Log.i(TAG, "startHomeActivity:");
+        MyApplication.cleverTapAPI.pushEvent("Registration successful");
         Intent intent = new Intent(this, BottomNavigationActivity.class);
         startActivity(intent);
         Calendar c = Calendar.getInstance();
@@ -310,6 +312,7 @@ public class RegistrationActivity extends AppCompatActivity {
                     String userToken = data.getString("userToken");
                     MyApplication.saveUserDetails(data.toString());
                     MyApplication.saveUserToken(userToken);
+
 
                     if (body.getJSONObject("data").has("isGST"))
                         MyApplication.setShowGstPopup((Integer) data.get("isGST"));

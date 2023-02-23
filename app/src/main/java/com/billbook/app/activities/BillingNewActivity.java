@@ -258,23 +258,29 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     public void setonClick(){
         binding.ivToolBarBack.setOnClickListener(v -> {
+
+            Util.pushEvent("Clicked Back Button ToolBar");
             DialogUtils.showAlertDialog(BillingNewActivity.this, getResources().getString(R.string.yes), getResources().getString(R.string.no), getResources().getString(R.string.billing_back_button), new DialogUtils.DialogClickListener() {
                 @Override
                 public void positiveButtonClick() {
+                    Util.pushEvent("Clicked on YES from Back Button ToolBar");
                     finish();
                 }
 
                 @Override
                 public void negativeButtonClick() {
+                    Util.pushEvent("Clicked on NO from Back Button ToolBar");
 
                 }
             });
 
         });
         binding.lnHelp.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Whatsapp Help on Billing");
             Util. startHelpActivity(BillingNewActivity.this);
         });
         binding.lnYouTube.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Youtube Demo on Billing ");
             Util. startYoutubeActivity(BillingNewActivity.this);
         });
         billItemBinding.addItem.setOnClickListener(new View.OnClickListener() {
@@ -286,6 +292,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         binding.edtName.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
+                Util.pushEvent("Contact Picker Clicked");
                 final int DRAWABLE_LEFT = 0;
                 final int DRAWABLE_TOP = 1;
                 final int DRAWABLE_RIGHT = 2;
@@ -938,6 +945,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     public void addMoreItem(View view) {
+        Util.pushEvent("Add More Item From BottomSheet Clicked");
         Util.postEvents("Add More Item", "Add More Item", this.getApplicationContext());
         customDialogClass = new BottomSheetClass(this, null,measurementUnitTypeList);
         additemTv = findViewById(R.id.additemTv);
@@ -965,6 +973,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     public void addItem() {
         if (addItemVerify()) {
+            Util.pushEvent("Added Item Successfully");
             Util.postEvents("Add Item", "Add Item", this.getApplicationContext());
             Toast.makeText(this, "Item successfully Added!", Toast.LENGTH_SHORT).show();
 
@@ -1579,12 +1588,17 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     public void gotoPDFActivity(View v) {
         cleverTapAPI.createNotificationChannel(getApplicationContext(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
-        cleverTapAPI.pushEvent("Clicked Make Bill ");
+        Util.pushEvent("Clicked Make Bill");
+
+
+//        cleverTapAPI.pushEvent("bill detials",jsonObject);
+
         Util.dailyLogout(BillingNewActivity.this);
         startPDFActivity();
     }
 
     private void startPDFActivity() {
+        Util.pushEvent("Make Bill Successful");
         String eventName = isEdit ? "Make Bill Edit" : "Make Bill";
         if (verify()) {
 
@@ -2155,7 +2169,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     public void discVisible(View v)
     {
-
+        Util.pushEvent("Clicked on Discount");
         TextView addDisc = findViewById(R.id.addDisc);
         View bildetsLine = findViewById(R.id.bildetsLine);
         LinearLayout disc = findViewById(R.id.discountLayout);
@@ -2287,6 +2301,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
 
     public void scanCode(View v) {
+        Util.pushEvent("Clicked on scan");
         Util.postEvents("Scan Button", "Scan Button", this.getApplicationContext());
 
         new IntentIntegrator(this).setOrientationLocked(false)

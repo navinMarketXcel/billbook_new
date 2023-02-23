@@ -80,9 +80,11 @@ Button btnSave;
     }
     public void setonClick(){
         ivToolBarBack.setOnClickListener(v -> {
+            Util.pushEvent("Clicked On Back Fom ToolBar in Contact Details");
             finish();
         });
         changePhone.setOnClickListener(v -> {
+            Util.pushEvent("Clicked On Change");
             Intent intent = new Intent(ContactDetailsActivity.this, EditMobileNoActivity.class);
             try {
                 intent.putExtra("userid",String.valueOf(profile.getLong("userid")));
@@ -92,7 +94,16 @@ Button btnSave;
             startActivity(intent);
         });
         btnSave.setOnClickListener(v -> {
+            Util.pushEvent("Clicked On Save in Contact Details");
             if(verifyData()) updateUserProfile();
+            HashMap<String, Object> profileUpdate = new HashMap<String, Object>();
+            try {
+                profileUpdate.put("Phone", profile.getString("mobileNo") );
+                profileUpdate.put("Email", profile.getString("email") );
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            MyApplication.cleverTapAPI.pushProfile(profileUpdate);
         });
         lnHelp.setOnClickListener(v -> {
             Util. startHelpActivity(ContactDetailsActivity.this);

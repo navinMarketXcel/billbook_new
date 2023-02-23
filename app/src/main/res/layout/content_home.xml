@@ -15,9 +15,22 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@drawable/layout_new_background">
+        <LinearLayout
+            android:id="@+id/bannerLayout"
+            android:layout_margin="10dp"
+            android:background="#F5F5F5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include
+                android:id="@+id/banner"
+                layout="@layout/insurance_banner"/>
+        </LinearLayout>
 
 
         <RelativeLayout
+            android:layout_below="@+id/bannerLayout"
+            android:id="@+id/contentHome"
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,15 +50,8 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:context=".activities.HomeActivity"
                 tools:showIn="@layout/activity_home">
-                <LinearLayout
-                    android:layout_margin="10dp"
-                    android:background="#F5F5F5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"/>
-                <include
-                    android:id="@+id/banner"
-                    layout="@layout/insurance_banner"/>
+
+
 
                 <LinearLayout
 
@@ -67,7 +73,6 @@
                             android:id="@+id/btnBilling"
                             android:layout_width="@dimen/common_tab_width"
                             android:layout_height="@dimen/common_tab_width"
-
                             android:gravity="center"
                             android:orientation="vertical">
 
@@ -107,6 +112,7 @@
                             android:orientation="vertical">
 
                             <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/expenseIv"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
                                 app:srcCompat="@drawable/expense_small" />

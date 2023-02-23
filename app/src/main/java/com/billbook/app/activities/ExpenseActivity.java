@@ -164,6 +164,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
     }
 
     public void gotoAddExpense(View v){
+       Util.pushEvent("Clicked on Add New Expense");
         BottomSheetDialog addExpenseDialog = new BottomSheetDialog(ExpenseActivity.this,R.style.BottomSheetDialogTheme);
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_add_expens,findViewById(R.id.addExpenseLayout));
         selectDate = view.findViewById(R.id.selectDate);
@@ -223,6 +224,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
         });
     }
     public void gotoEditExpense(Expense data){
+       Util.pushEvent("Clicked on Edit Expense");
         BottomSheetDialog addExpenseDialog = new BottomSheetDialog(ExpenseActivity.this,R.style.BottomSheetDialogTheme);
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_add_expens,findViewById(R.id.addExpenseLayout));
         selectDate = view.findViewById(R.id.selectDate);
@@ -243,6 +245,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               Util.pushEvent("Clicked on save after Editing Expense");
 
                 if((expenseAmount.getText().toString().isEmpty() || Float.parseFloat(expenseAmount.getText().toString())==0 || expenseAmount.getText().toString().equals("")) || (selectDate.getText().toString().isEmpty() || selectDate.getText().toString().equals("")) || (expenseName.getText().toString().equals(""))){
                     DialogUtils.showToast(ExpenseActivity.this,"Please Fill the Mandatory fields.");
@@ -288,6 +291,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
         DialogUtils.showAlertDialog(ExpenseActivity.this, getResources().getString(R.string.yes), getResources().getString(R.string.no), getResources().getString(R.string.expense_delete_button), new DialogUtils.DialogClickListener() {
             @Override
             public void positiveButtonClick() {
+                Util.pushEvent("Deleted expense successfully");
                 Call<Object> call = null;
                 Map<String, String> headerMap = new HashMap<>();
                 headerMap.put("Content-Type", "application/json");
@@ -452,6 +456,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
     public void setOnTextChangeListener(){
         edtSearchExpense.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
+               Util.pushEvent("Clicked on search expense");
                 expenseListAdapter.getFilter().filter(s);
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -464,11 +469,13 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
 
     public void clickExpenseSort(View v)
     {
+       Util.pushEvent("Clicked on Sort Expense");
                 BottomSheetDialog sortExpenseSheet = new BottomSheetDialog(ExpenseActivity.this,R.style.BottomSheetDialogTheme);
                 View sortBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.expense_sort_layout,(LinearLayout)findViewById(R.id.sortExpenseLayout));
                 sortBottomSheet.findViewById(R.id.btnCanelExpense).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                       Util.pushEvent("Clicked on Cancel Sort Expense");
                         sortExpenseSheet.dismiss();
                     }
                 });
@@ -476,6 +483,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View view) {
+                       Util.pushEvent("Clicked on Sort Expense by Date");
                         TextView btn_Date = sortBottomSheet.findViewById(R.id.edate);
 //                        btn_Date.setBackground(ContextCompat.getDrawable(ExpenseActivity.this, R.drawable.sort_screen));
                         ArrayList<Expense> sortDateExpense = (ArrayList<Expense>) expenses.stream().sorted(Comparator.comparing(Expense::getDate)).collect(Collectors.toList());
@@ -492,6 +500,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View view) {
+                       Util.pushEvent("Clicked on Sort Expense by Name");
                         TextView btn_Name = sortBottomSheet.findViewById(R.id.eName);
 //                        btn_Name.setBackground(ContextCompat.getDrawable(ExpenseActivity.this, R.drawable.sort_screen));
                         ArrayList<Expense> sortNameExpense = (ArrayList<Expense>) expenses.stream().sorted(Comparator.comparing(Expense::getName)).collect(Collectors.toList());
@@ -508,6 +517,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View view) {
+                       Util.pushEvent("Clicked on Sort Expense by Low to High");
                         TextView btn_LtoH = sortBottomSheet.findViewById(R.id.eName);
 //                        btn_LtoH.setBackground(ContextCompat.getDrawable(ExpenseActivity.this, R.drawable.sort_screen));
                         ArrayList<Expense> sortLtoHExpense = (ArrayList<Expense>) expenses.stream().sorted(Comparator.comparing(Expense::getAmount)).collect(Collectors.toList());
@@ -524,6 +534,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                     @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onClick(View view) {
+                       Util.pushEvent("Clicked on Sort Expense by High To Low");
                         TextView btn_HtoL = sortBottomSheet.findViewById(R.id.eName);
 //                        btn_HtoL.setBackground(ContextCompat.getDrawable(ExpenseActivity.this, R.drawable.sort_screen));
                         ArrayList<Expense> sortHtoLExpense = (ArrayList<Expense>) expenses.stream().sorted(Comparator.comparing(Expense::getAmount)).collect(Collectors.toList());
@@ -698,9 +709,11 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
     @Override
     public void callback(String action, Expense data, Integer position) {
         if(action.equals("edit")){
+           Util.pushEvent("Clicked on Edit Expense");
             gotoEditExpense(data);
         }
         if(action.equals("delete")){
+           Util.pushEvent("Clicked on Delete Expense");
             gotoDeleteExpense(data);
         }
 

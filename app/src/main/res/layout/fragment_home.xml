@@ -10,6 +10,7 @@
     tools:openDrawer="start">
 
 
+
         <include layout="@layout/content_home" />
 
 

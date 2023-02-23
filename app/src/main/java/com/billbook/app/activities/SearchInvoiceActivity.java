@@ -133,12 +133,14 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
         dateSpinner = findViewById(R.id.dateSpinner);
+        HashMap<String, Object> spinnerClicked = new HashMap<String, Object>();
         dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                System.out.println("click postion"+i);
                 edtMobileNo.setText("");
                 if(adapterView.getItemAtPosition(i).equals("Custom Period")) {
+                    spinnerClicked.put("Spinner Clicked","Clicked On Custom Period in Search Invoices");
+                  //  Util.pushEvent("Clicked On Custom Period in Search Invoices");
 //                    dateSpinner.setSelection(0);
                     BottomSheetDialog gstSheet = new BottomSheetDialog(SearchInvoiceActivity.this, R.style.BottomSheetDialogTheme);
                     View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_date_range_picker,null);
@@ -180,6 +182,9 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
                 if(adapterView.getItemAtPosition(i).equals("Last 7 Days"))
                 {
+                    //Util.pushEvent("Clicked On Last 7 Days in Search Invoices");
+                    spinnerClicked.put("Spinner Clicked","Clicked On Last 7 Days in Search Invoices");
+
                     Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                     startDate.add(Calendar.DATE, -7);
                     Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
@@ -190,6 +195,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 }
                 else if (adapterView.getItemAtPosition(i).equals("Last 30 Days"))
                 {
+//                    Util.pushEvent("Clicked On Last 30 Days in Search Invoices");
+                    spinnerClicked.put("Spinner Clicked","Clicked On Last 30 Days in Search Invoices");
                     Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                     startDate.add(Calendar.DATE, -30);
                     Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
@@ -200,6 +207,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 }
                 else if (adapterView.getItemAtPosition(i).equals("This Month"))
                 {
+//                    Util.pushEvent("Clicked On This Month in Search Invoices");
+                    spinnerClicked.put("Spinner Clicked","Clicked On This Month in Search Invoices");
                     Calendar calendar = Calendar.getInstance();
                     int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
                     int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -216,6 +225,9 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 }
                 else if (adapterView.getItemAtPosition(i).equals("Last Month"))
                 {
+
+//                    Util.pushEvent("Clicked On Last Month in Search Invoices");
+                    spinnerClicked.put("Spinner Clicked","Clicked On Last Month in Search Invoices");
                     Calendar calendar = Calendar.getInstance();
                     int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
                     int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -232,6 +244,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 }
                 else if (adapterView.getItemAtPosition(i).equals("Today"))
                 {
+//                    Util.pushEvent("Clicked On Today in Search Invoices");
+                    spinnerClicked.put("Spinner Clicked","Clicked On Today in Search Invoices");
                     Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                     // startDate.add(Calendar.MONTH, -1);
                     Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
@@ -249,6 +263,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     page=1;
                    // getInvoicesCall();
                 }
+                MyApplication.cleverTapAPI.pushEvent("Search Invoices Spinner Clicked",spinnerClicked);
             }
 
             @Override
@@ -278,6 +293,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
     public void clickSelect(View v)
     {
+        
+        Util.pushEvent("Clicked On Select in Search Invoices");
         TextView selecttv= findViewById(R.id.selectTv);
         TextView sortTv = findViewById(R.id.sortTv);
         TextView filterTv = findViewById(R.id.filterTv);
@@ -308,6 +325,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
     public void deleteBulkBills(View v)
     {
+        
+        Util.pushEvent("Deleted Multiple Bills");
         Boolean isSelected=false;
         for (int i=0;i<invoicesList.size();i++){
             if(invoicesList.get(i).isSelected()) {
@@ -396,6 +415,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     }
     public void clickSort(View v)
     {
+
+        HashMap<String, Object>  sortClicked = new HashMap<String, Object>();
         TextView bill_no,bdate,dateMod;
         BottomSheetDialog sortSheet = new BottomSheetDialog(SearchInvoiceActivity.this,R.style.BottomSheetDialogTheme);
         View sortBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.sort_layout,(LinearLayout)findViewById(R.id.sortLayout));
@@ -408,6 +429,10 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
+//                Util.pushEvent("Clicked on Sort by Bill No");
+                sortClicked.put("Sort Clicked","Clicked on Sort by Bill No");
+                MyApplication.cleverTapAPI.pushEvent("Sort Clicked in Search Invoices",sortClicked);
+                Log.v("sortClicked",sortClicked.toString());
                 bno.setVisibility(View.VISIBLE);
                 dm.setVisibility(View.GONE);
                 bd.setVisibility(View.GONE);
@@ -432,6 +457,10 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
+//                Util.pushEvent("Clicked on Sort by Bill Date");
+                sortClicked.put("Sort Clicked ","Clicked on Sort by Bill Date");
+                MyApplication.cleverTapAPI.pushEvent("Sort Clicked in Search Invoices",sortClicked);
+                Log.v("sortClicked",sortClicked.toString());
                 bno.setVisibility(View.GONE);
                 dm.setVisibility(View.GONE);
                 bd.setVisibility(View.VISIBLE);
@@ -453,6 +482,9 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         sortBottomSheet.findViewById(R.id.canelSort).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sortClicked.put("Sort Clicked","Clicked on Cancel");
+                MyApplication.cleverTapAPI.pushEvent("Sort Clicked in Search Invoices",sortClicked);
+                Log.v("sortClicked",sortClicked.toString());
                 sortSheet.dismiss();
             }
         });
@@ -461,6 +493,11 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
+//                Util.pushEvent("Clicked on Sort by Bill Modified");
+                sortClicked.put("Sort Clicked","Clicked on Sort by Bill Modified");
+                MyApplication.cleverTapAPI.pushEvent("Sort Clicked in Search Invoices",sortClicked);
+                Log.v("sortClicked",sortClicked.toString());
+
                 bno.setVisibility(View.GONE);
                 dm.setVisibility(View.VISIBLE);
                 bd.setVisibility(View.GONE);
@@ -476,11 +513,14 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             }
         });
 
+
+
         sortSheet.setContentView(sortBottomSheet);
         sortSheet.show();
     }
 
     public void clickFilter(View v){
+        Util.pushEvent("Clicked On Filter in Search Invoices");
         TextView gstBills, nonGstBills, allBills;
         BottomSheetDialog filterSheet = new BottomSheetDialog(SearchInvoiceActivity.this,R.style.BottomSheetDialogTheme);
         View filterBottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.searchbill_filter_sort,(LinearLayout)findViewById(R.id.filter_Layout));
@@ -489,6 +529,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
+                Util.pushEvent("Clicked on Filter by GST Bill No");
                 ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
                 jsonArrayToList(invoices).stream().forEach(invoice -> {
                     if(invoice.getGstBillNo() > 0){
@@ -510,6 +551,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
+                Util.pushEvent("Clicked on Filter by Non GST Bill No");
                 ArrayList<InvoicesData> nonGstBillList = new ArrayList<>();
                 jsonArrayToList(invoices).stream().forEach(invoice -> {
                     if(invoice.getGstBillNo() == 0){
@@ -701,6 +743,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSearch:
+                Util.pushEvent("Clicked On Search in Search Invoices");
                 if (!edtMobileNo.getText().toString().trim().isEmpty() || (to!=null&from!=null)) {
                     Map<String, String> body = new HashMap<>();
                     body.put("userid",userid+"");
@@ -865,6 +908,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         DialogUtils.showToast(this,"Downloading started");
     }
     public void downloadInvoice(View v) {
+        Util.pushEvent("Clicked On Download Bill in Search Invoices");
         // check to see if we have permission to storage
 //        checkPermission();
         Boolean isSelected=false;
@@ -874,6 +918,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             }
             }
         if(isSelected) {
+            Util.pushEvent(" Downloaded Multiple Bills in Search Invoices");
             if (hasWriteStoragePermission == PackageManager.PERMISSION_GRANTED) {
                 startDownloadingInvoices();
                 Toast.makeText(SearchInvoiceActivity.this, "Bills Successfully Downloaded.", Toast.LENGTH_LONG).show();
@@ -982,6 +1027,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         }
     }
     public void gotodeletebills(InvoicesData data) {
+        Util.pushEvent("Clicked On Delete bill");
         DialogUtils.showAlertDialog(SearchInvoiceActivity.this, getResources().getString(R.string.yes), getResources().getString(R.string.no), getResources().getString(R.string.billing_delete_button), new DialogUtils.DialogClickListener() {
             @Override
             public void positiveButtonClick() {
@@ -1046,6 +1092,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     }
     public void goToEditBills(InvoicesData data)
     {
+        Util.pushEvent("Clicked On Edit Bill in Search Invoices");
 
         JSONObject requestInvoice = new JSONObject();
         JSONArray masterItems = new JSONArray();

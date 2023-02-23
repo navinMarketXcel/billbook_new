@@ -97,14 +97,17 @@ private JSONObject userProfile;
                 switch (menuItem.getItemId())
                 {
                     case R.id.nav_home:
+                        Util.pushEvent("Clicked on Home");
                         txtToolBarTitle.setText(R.string.home);
                         replaceFragment(new HomeFragment());
                         return true;
                     case R.id.nav_my_profile:
+                        Util.pushEvent("Clicked on Profile");
                         txtToolBarTitle.setText(R.string.profile);
                         replaceFragment(new ProfileFragment());
                         return true;
                     case R.id.nav_help:
+                        Util.pushEvent("Clicked on Help");
                         txtToolBarTitle.setText(R.string.help);
                         replaceFragment(new HelpFragment());
                        // startActivity(new Intent(getApplicationContext(),HelpActivity.class));

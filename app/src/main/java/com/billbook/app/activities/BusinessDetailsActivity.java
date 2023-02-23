@@ -65,15 +65,19 @@ ImageView ivToolBarBack;
     }
     public void setonClick(){
         ivToolBarBack.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on back from Toolbar in Business Details");
             finish();
         });
         btnSave.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Save in Business Details");
             if(verifyData())updateUserProfile();
         });
         lnHelp.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Whatsapp Help from Toolbar in Business Details");
            Util. startHelpActivity(BusinessDetailsActivity.this);
         });
         lnYouTube.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Youtube Demo from Toolbar in Business Details");
            Util. startYoutubeActivity(BusinessDetailsActivity.this);
         });
     }

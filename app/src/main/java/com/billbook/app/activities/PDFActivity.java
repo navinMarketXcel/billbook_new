@@ -111,6 +111,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private JSONObject profile;
     private boolean isGSTAvailable;
     private int invID = -1;
+    private HashMap<String,Object> printerType;
     private long localInvoiceId=0;
     private int invoiceNumber;
     private String GSTType = "";
@@ -663,6 +664,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnPrintBill:
+                MyApplication.cleverTapAPI.pushEvent("Clicked on Print");
                 Util.postEvents("Print", "Print", this.getApplicationContext());
                 if(billType.equals("long")){
                     openPDF();
@@ -671,10 +673,12 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 }
                 break;
             case R.id.btnShare:
+                MyApplication.cleverTapAPI.pushEvent("Clicked on Share");
                 Util.postEvents("Share of Whatsapp", "Share of Whatsapp", this.getApplicationContext());
                 shareOnWhatsApp();
                 break;
             case R.id.btnHome:
+                MyApplication.cleverTapAPI.pushEvent("Clicked on Home");
                 Util.postEvents("Close", "Close", this.getApplicationContext());
                 Log.v("Home", "Clicked");
                 Intent intent = new Intent(this, BottomNavigationActivity.class);
@@ -682,6 +686,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 this.finish();
                 break;
             case R.id.btn_Long_pdf:
+                MyApplication.cleverTapAPI.pushEvent("Clicked on Long Format");
                 shortBillLayoutBinding.shortBill.setVisibility(View.GONE);
                 binding.pdfLayout.setVisibility(View.VISIBLE);
                 binding.btnLongPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.login_button_structure));
@@ -738,14 +743,20 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                printerType = new HashMap<>();
                 switch (which) {
                     case 0: // Select option task
                         thermalPrinterTwoInch();
+                        printerType.put("printerType"," 2 inch Was Chosen");
                         break;
                     case 1: // Config it as you need here
+                        printerType.put("printerType"," 3 inch Was Chosen");
                         thermalPrinterThreeInch();
                         break;
+
                 }
+                MyApplication.cleverTapAPI.pushEvent("Printer Type",printerType);
+                Log.v("pribterType",printerType.toString());
             }
         });
 // create and show the alert dialog
@@ -840,6 +851,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     private void thermalPrinterTwoInch(){
+       // MyApplication.cleverTapAPI.pushEvent("Clicked on 2 inch printer");
         Log.v("Welcome","Printer");
         try{
             System.out.println("IN Pdf Activity");
@@ -872,6 +884,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         }
     }
     private void thermalPrinterThreeInch(){
+       // MyApplication.cleverTapAPI.pushEvent("Clicked on 3 inch printer");
         Log.v("Welcome","Printer");
         try{
             System.out.println("IN Pdf Activity");

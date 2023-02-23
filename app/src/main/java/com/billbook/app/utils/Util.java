@@ -149,6 +149,10 @@ public class Util {
 
         return gstAmount;
     }
+    public static void pushEvent(String message)
+    {
+        MyApplication.cleverTapAPI.pushEvent(message);
+    }
 
     public static float calculateDiscountPercentFromAmt(float discountAmt, float total){
 

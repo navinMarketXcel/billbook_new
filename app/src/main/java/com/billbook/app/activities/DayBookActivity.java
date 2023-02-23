@@ -94,6 +94,7 @@ public class DayBookActivity extends AppCompatActivity {
     final private String TAG = "DayBook";
     private ArrayList<DayBook> dayBookArrayList = new ArrayList<>();
     private int userId =0;
+
     String months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"};
     String quart[] = {"Mar-May","JUN-AUG","SEP-NOV","DEC-FEB"};
     String quart1[] = {"APR-JUN","JUL-SEP","OCT-DEC","JAN-MAR"};
@@ -104,6 +105,7 @@ public class DayBookActivity extends AppCompatActivity {
     RelativeLayout bottomSheetContainer;
     EditText etCalender;
     ImageView ivToolBarBack;
+    LinearLayout lnHelp,lnYouTube;
     SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +124,7 @@ public class DayBookActivity extends AppCompatActivity {
         endDateTV.setText("End Date - "+myFormat1.format(new Date()));
         etCalender.setOnClickListener(v -> {
             try {
+
                 optionsPopupMenu(etCalender);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -129,6 +132,12 @@ public class DayBookActivity extends AppCompatActivity {
         });
         ivToolBarBack.setOnClickListener(v -> {
             finish();
+        });
+        lnHelp.setOnClickListener(v -> {
+            Util. startHelpActivity(DayBookActivity.this);
+        });
+        lnYouTube.setOnClickListener(v -> {
+            Util. startYoutubeActivity(DayBookActivity.this);
         });
     }
     @Override
@@ -147,6 +156,8 @@ public class DayBookActivity extends AppCompatActivity {
         etCalender = findViewById(R.id.etCalender);
         bottomSheetContainer = findViewById(R.id.bottomSheet);
         ivToolBarBack = findViewById(R.id.ivToolBarBack);
+        lnHelp= findViewById(R.id.lnHelp);
+        lnYouTube= findViewById(R.id.lnYouTube);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         dayBookRV.setLayoutManager(mLayoutManager);
         dayBookRV.setItemAnimator(new DefaultItemAnimator());
@@ -376,6 +387,7 @@ public class DayBookActivity extends AppCompatActivity {
     }*/
 
     public void sendReportBtnClick(View v){
+        Util.pushEvent("Clicked on export report");
         Util.postEvents("Export Report","Export Report",this.getApplicationContext());
 //        if(email!=null && !email.isEmpty() && email.contains("@"))
 //            Log.i(TAG, "sendReportBtnClick: Email => " + email);
@@ -384,12 +396,15 @@ public class DayBookActivity extends AppCompatActivity {
         if(email == null || email.isEmpty() )
         {
             downloadDaybook(startDateStr,endDateStr);
+            Util.pushEvent("Report downloaded");
             Toast.makeText(this, "Daybook Downloading. Please Update Your Email in your Profile. ", Toast.LENGTH_LONG).show();
 
         }
         else
         {
             sendReport(startDateStr,endDateStr,email);
+            Util.pushEvent("Report sent over mail and downloaded");
+
         }
 
 
@@ -397,12 +412,19 @@ public class DayBookActivity extends AppCompatActivity {
 
     public void optionsPopupMenu(EditText edt){
         PopupMenu popupMenu = new PopupMenu(DayBookActivity.this, edt);
+        HashMap<String, Object>  spinnerDaybook = new HashMap<String, Object>();
         popupMenu.getMenuInflater().inflate(R.menu.custom_picker, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(menuItem -> {
             if(menuItem.getItemId()==R.id.m_custom){
+                spinnerDaybook.put("Clicked Spinner","Clicked on Custom Period in Daybook");
+                Log.v("spinner in cust",spinnerDaybook.toString());
+               // Util.pushEvent("Clicked on Custom Period in Daybook");
                 calenderRangePicker();
 
-            }else if(menuItem.getItemId()==R.id.m_month){
+            }
+            else if(menuItem.getItemId()==R.id.m_month){
+                spinnerDaybook.put("Clicked Spinner","Clicked on This Month in Daybook");
+                // Util.pushEvent("Clicked on This Month in Daybook");
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 int month_Number = startDate.get(Calendar.MONTH);
@@ -415,7 +437,12 @@ public class DayBookActivity extends AppCompatActivity {
                 endDateStr = endsDate;
                 getDayBook(strDate,endsDate);
                 popupMenu.getMenu().findItem(R.id.m_month).setTitle("This Month " + "("+ months[month_Number] +"'"+ year + ")");
-            }else if(menuItem.getItemId()==R.id.m_today){
+
+            }
+            else if(menuItem.getItemId()==R.id.m_today){
+               // Util.pushEvent("Clicked on Today in Daybook");
+                spinnerDaybook.put("Clicked Spinner","Clicked on Today in Daybook");
+
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 String year = String.valueOf(startDate.get(Calendar.YEAR)).substring(2);
@@ -429,6 +456,8 @@ public class DayBookActivity extends AppCompatActivity {
                 popupMenu.getMenu().findItem(R.id.m_today).setTitle("Today (" + mDay + " " +months[mMonth]  + "'" + year + ")");
             }
             else if(menuItem.getItemId()==R.id.m_week){
+//                Util.pushEvent("Clicked on this Week in Daybook");
+                spinnerDaybook.put("Clicked Spinner","Clicked on This Week in Daybook");
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 int day = startDate.get(Calendar.DAY_OF_WEEK);
                 switch (day) {
@@ -467,6 +496,8 @@ public class DayBookActivity extends AppCompatActivity {
                 popupMenu.getMenu().findItem(R.id.m_week).setTitle("This Week (" + mDay + " " +months[mMonth]  + "'" + year +"-"+ endDate.get(Calendar.DAY_OF_MONTH)+ " " +months[mMonth]  + "'" + year + ")");
             }
             else if(menuItem.getItemId()==R.id.m_quarter){
+//                Util.pushEvent("Clicked on Quater in Daybook");
+                spinnerDaybook.put("Clicked Spinner","Clicked on This Quater in Daybook");
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 DateFormat dateFormat = new SimpleDateFormat("MM");
@@ -517,6 +548,8 @@ public class DayBookActivity extends AppCompatActivity {
 
             }
             else if(menuItem.getItemId()==R.id.m_year){
+//                Util.pushEvent("Clicked on This Year in Daybook");
+                spinnerDaybook.put(" Clicked Spinner","Clicked on This Year in Daybook");
                 Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
                 startDate.set(Calendar.MONTH,00);
                 startDate.set(Calendar.DATE, 1);
@@ -529,6 +562,9 @@ public class DayBookActivity extends AppCompatActivity {
                 getDayBook(strDate,endsDate);
                 popupMenu.getMenu().findItem(R.id.m_year).setTitle("This Year (" + endDate.get(Calendar.YEAR) + ")");
             }
+
+            MyApplication.cleverTapAPI.pushEvent("Daybook Spinner Clicked",spinnerDaybook);
+            Log.v("spinner",spinnerDaybook.toString());
             edt.setText(menuItem.getTitle());
             return true;
         });

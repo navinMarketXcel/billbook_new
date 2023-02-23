@@ -295,6 +295,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             public void onClick(View v) {
 
                 Util.postEvents("Save","Save",context.getApplicationContext());
+                Util.pushEvent("Clicked on Save Invoice in Search Invoices");
 
 
                 Intent i = new Intent(Intent.ACTION_VIEW);
@@ -359,7 +360,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
                 @Override
 
                 public void onClick(View v) {
-
+                    Util.pushEvent("Clicked on Delete Invoice in Search Invoices");
 
                     billCallback.callback("delete",data,position);
 

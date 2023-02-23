@@ -143,25 +143,31 @@ public class ProfileFragment extends Fragment {
 
     public void setonClick(){
         rlContact.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Contact Details");
             Intent intent = new Intent(getActivity(), ContactDetailsActivity.class);
             startActivity(intent);
         });
         rlBusiness.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Business Details");
             Intent intent = new Intent(getActivity(), BusinessDetailsActivity.class);
             startActivity(intent);
         });
         rlLogoSign.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on LogoSignature");
             Intent intent = new Intent(getActivity(), LogoSignatureActivity.class);
             startActivity(intent);
         });
         rlChangeLanguage.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Language");
             Intent intent = new Intent(getActivity(), LanguageChooseActivity.class);
             startActivity(intent);
         });
         rlLogout.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Logout");
             DialogUtils.showAlertDialog(getActivity(), "YES", "NO", "Are you sure you want to Logout?", new DialogUtils.DialogClickListener() {
                 @Override
                 public void positiveButtonClick() {
+                    Util.pushEvent("Clicked on YES for logout");
                     Intent intent = new Intent(getActivity(), loginPick_activity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -195,6 +201,7 @@ public class ProfileFragment extends Fragment {
                 }
                 @Override
                 public void negativeButtonClick() {
+                    Util.pushEvent("Clicked on No for logout");
                 }
             });
 //            Intent intent = new Intent(getActivity(), loginPick_activity.class);
@@ -206,6 +213,7 @@ public class ProfileFragment extends Fragment {
 
 
         switchGst.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on GST Toggle");
 
             if (profile.has("gstNo")) {
                 String GstNo = null;

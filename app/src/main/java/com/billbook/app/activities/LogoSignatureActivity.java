@@ -240,15 +240,18 @@ public class LogoSignatureActivity extends AppCompatActivity {
         });
         btn_save.setOnClickListener(v -> {
             try {
+                Util.pushEvent("Clicked on Save In Logo Signature");
                 updateUserAPI();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
         lnHelp.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Whatsapp Help from Toolbar in LogoSignature");
             Util. startHelpActivity(LogoSignatureActivity.this);
         });
         lnYouTube.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Youtube Demo from Toolbar in Business Details");
             Util. startYoutubeActivity(LogoSignatureActivity.this);
         });
     }
