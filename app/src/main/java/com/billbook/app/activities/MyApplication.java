@@ -504,6 +504,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         ActivityLifecycleCallback.register(this);
+        CleverTapAPI.createNotificationChannel(getApplicationContext(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
+
         super.onCreate();
         if(firebaseAnalytics==null)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);

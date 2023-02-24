@@ -111,6 +111,7 @@ public class HomeFragment extends Fragment
     }
 
     LinearLayout btnSellingDetails, btnBilling, btnManageInventory, btnGetSalesReport, btnSearchInvoice;
+    ImageView banner;
     Button knowMore;
     LinearLayout bannerLayout;
     Toolbar mToolbar;
@@ -137,7 +138,7 @@ public class HomeFragment extends Fragment
     private Button register;
 
     private Button wathcDemo, helpLine;
-    private LinearLayout insuranceBanner;
+    private ImageView insuranceBanner;
     RelativeLayout adContainer;
 
 
@@ -205,8 +206,6 @@ public class HomeFragment extends Fragment
           cleverTapAPI = CleverTapAPI.getDefaultInstance(getActivity());
 
 
-
-
         /**
          * set Functionality for what will happen on click of that pattern
          * In this example pattern is phone
@@ -215,10 +214,8 @@ public class HomeFragment extends Fragment
             @Override
             public void onClick() {
                 //Toast.makeText(HomeActivity.this, "phone clicked", Toast.LENGTH_LONG).show();
-
                 PackageManager packageManager = getActivity().getPackageManager();
                 Intent i = new Intent(Intent.ACTION_VIEW);
-
                 try {
                     String url = "https://api.whatsapp.com/send?phone=" + "919319595452" + "&text=" + URLEncoder.encode("HelpLine Message : ", "UTF-8");
                     i.setPackage("com.whatsapp");
@@ -683,8 +680,9 @@ public class HomeFragment extends Fragment
             e.printStackTrace();
         }
         bannerLayout = view.findViewById(R.id.bannerLayout);
-        knowMore = view.findViewById(R.id.knowMore);
+        //knowMore = view.findViewById(R.id.knowMore);
         btnManageInventory = view.findViewById(R.id.btnManageInventory);
+        banner = view.findViewById(R.id.banner);
         btnBilling = view.findViewById(R.id.btnBilling);
         btnSellingDetails = view.findViewById(R.id.btnSellingDetails);
         btnGetSalesReport = view.findViewById(R.id.btnGetSalesReport);
@@ -701,7 +699,7 @@ public class HomeFragment extends Fragment
 
         btnBilling.setOnClickListener(this);
         bannerLayout.setOnClickListener(this);
-        knowMore.setOnClickListener(this);
+        banner.setOnClickListener(this);
         btnManageInventory.setOnClickListener(this);
         btnSellingDetails.setOnClickListener(this);
         btnGetSalesReport.setOnClickListener(this);
@@ -799,9 +797,9 @@ public class HomeFragment extends Fragment
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.knowMore:
+            case R.id.banner:
                 Util.pushEvent("Clicked on Know More Insurance Banner");
-                Uri uri = Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSflNi8MPYYULr0wVOVrcsjUMWG1-Grqbe4Caj61cfrFoX45SQ/viewform"); // missing 'http://' will cause crashed
+                Uri uri = Uri.parse("https://forms.gle/GJpHgTGzgtSx1974A"); // missing 'http://' will cause crashed
                 String URL = "https://docs.google.com/forms/d/e/1FAIpQLSflNi8MPYYULr0wVOVrcsjUMWG1-Grqbe4Caj61cfrFoX45SQ/viewform" ;
                 Intent intentNew = new Intent(Intent.ACTION_VIEW);
                 intentNew.setData(Uri.parse(URL));
@@ -815,7 +813,6 @@ public class HomeFragment extends Fragment
                 break;
             case R.id.btnBilling:
                 //cleverTapAPI = CleverTapAPI.getDefaultInstance(requireActivity().getApplicationContext());
-                cleverTapAPI.createNotificationChannel(requireActivity(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
                 Util.pushEvent("Clicked Billing");
                 Util.postEvents("Billing", "Billing", requireActivity().getApplicationContext());
                 intent = new Intent(getActivity(), BillingNewActivity.class);
@@ -1032,9 +1029,11 @@ private void getBanner()
             try {
                 body = new JSONObject(new Gson().toJson(response.body()));
                 Log.d(TAG, "Version Body::" + body);
-                String bannerCode = (String) body.getJSONObject("data").getJSONObject("bannerCode").getString("code1");
-                Log.v("banner code", bannerCode);
-                if(bannerCode.equals("true"))
+
+                String bannerCode = (String) body.getJSONObject("data").getString("bannerCode");
+                JSONObject codeValueArray = new JSONObject(bannerCode);
+                String codeValue = codeValueArray.getString("code1");
+                if(codeValue.equals("true"))
                 {
                     insuranceBanner.setVisibility(View.VISIBLE);
                 }

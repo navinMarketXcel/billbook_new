@@ -20,6 +20,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
 
+
     <queries>
 
         <!-- Camera -->
@@ -47,10 +48,10 @@
         tools:targetApi="honeycomb">
         <meta-data
             android:name="CLEVERTAP_ACCOUNT_ID"
-            android:value="TEST-56R-K6Z-576Z"/>
+            android:value="46R-K6Z-576Z"/>
         <meta-data
             android:name="CLEVERTAP_TOKEN"
-            android:value="TEST-163-265"/>
+            android:value="163-264"/>
         <activity
             android:name=".activities.TestPdfActivity"
             android:exported="false"
@@ -396,8 +397,15 @@
         </service>
 
         <service
-            android:exported="false"
+            android:exported="true"
             android:name=".services.FcmMessageListenerService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name="com.clevertap.android.sdk.pushnotification.fcm.FcmMessageListenerService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
