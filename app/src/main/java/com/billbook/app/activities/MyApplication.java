@@ -504,6 +504,10 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         ActivityLifecycleCallback.register(this);
+        cleverTapAPI = CleverTapAPI.getDefaultInstance(getApplicationContext());
+        CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.INFO);
+        CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
+        CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.DEBUG);
         CleverTapAPI.createNotificationChannel(getApplicationContext(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
 
         super.onCreate();
@@ -523,8 +527,8 @@ public class MyApplication extends Application {
         context = getApplicationContext();
         formStateList();
         MultiDex.install(context);
-        cleverTapAPI = CleverTapAPI.getDefaultInstance(getApplicationContext());
-        //cleverTapAPI.createNotificationChannel(getApplicationContext(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
+
+        //CleverTapAPI.createNotificationChannel(getApplicationContext(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
     }
 
     private void formStateList() {

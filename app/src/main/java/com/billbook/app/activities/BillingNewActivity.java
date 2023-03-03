@@ -1588,7 +1588,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
 
     public void gotoPDFActivity(View v) {
-        cleverTapAPI.createNotificationChannel(getApplicationContext(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
+        //cleverTapAPI.createNotificationChannel(getApplicationContext(),"test","test","Your Channel Description", NotificationManager.IMPORTANCE_MAX,true);
         Util.pushEvent("Clicked Make Bill");
 
 

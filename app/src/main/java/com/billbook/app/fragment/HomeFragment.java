@@ -201,8 +201,9 @@ public class HomeFragment extends Fragment
         super.onCreate(savedInstanceState);
         updateGST();
         ClickPattern phone = new ClickPattern();
-          CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
-          CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.DEBUG);
+//          CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.INFO);
+//          CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.VERBOSE);
+//          CleverTapAPI.setDebugLevel(CleverTapAPI.LogLevel.DEBUG);
           cleverTapAPI = CleverTapAPI.getDefaultInstance(getActivity());
 
 
