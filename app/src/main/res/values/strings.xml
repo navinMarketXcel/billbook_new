@@ -439,7 +439,7 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="transaction">Transaction</string>
     <string name="income">Income</string>
     <string name="expense">Expense</string>
-    <string name="date">Date</string>
+    <string name="date">Date: </string>
     <string name="daybook">Daybook</string>
     <string name="net_income">Net Income</string>
     <string name="english">English</string>
@@ -496,6 +496,7 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="gujarati" translatable="false">Gujrati</string>
     <string name="marathi" translatable="false">Marathi</string>
     <string name="select_date">Select Date</string>
+    <string name="all_bills" translatable="false">All Bills</string>
     <string name="enter_contact__no_and_name"> Enter Customer Name or Mobile Name</string>
     <string name="customer_mobile">Customer Mobile</string>
 </resources>

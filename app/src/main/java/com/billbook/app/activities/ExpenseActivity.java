@@ -198,6 +198,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                     expense.setDate(selectDate.getText().toString());
                     expense.setUserid(userid);
                     saveExpenseToServer(expense);
+                    Util.pushEvent("Clicked on Add in Add new expense");
                     addExpenseDialog.dismiss();
                 }
 //                 if(selectDate.getText().toString().isEmpty() || selectDate.getText().toString().equals("")) {
@@ -220,6 +221,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
             @Override
             public void onClick(View v) {
                 addExpenseDialog.dismiss();
+                Util.pushEvent("Clicked on Cancel in Add new expense");
             }
         });
     }

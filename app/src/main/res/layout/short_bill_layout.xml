@@ -171,6 +171,9 @@
 
                                 <TextView
                                     android:layout_width="0dp"
+                                    android:gravity="end"
+                                    android:layout_gravity="end"
+                                    android:fontFamily="@font/inter_bold"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="4"
                                     android:text="@string/date"

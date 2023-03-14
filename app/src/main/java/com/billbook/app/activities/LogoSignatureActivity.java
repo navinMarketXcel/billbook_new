@@ -150,6 +150,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
                         .placeholder(R.drawable.man_new)
                         .error(R.drawable.man_new)
                         .into(ivSetLogo);
+
             }
 
             if (profile.has("signatureImage")) {
@@ -176,30 +177,27 @@ public class LogoSignatureActivity extends AppCompatActivity {
             finish();
         });
         btnPickLogo.setOnClickListener(v -> {
+
             boolean flag = checkAndRequestPermissions();
             Log.v("chcking permissiom", String.valueOf(flag));
            if(flag)
            {
-
                whereToShowImage=1;
                selectImage();
-
            }
            else
            {
                checkPermission();
            }
 
-           // openGallery();
-
         });
         btnPickSign.setOnClickListener(v -> {
+
             boolean flag = checkAndRequestPermissions();
             if(flag)
             {
                 whereToShowImage=0;
                 selectImage();
-
             }
             else
             {
@@ -507,6 +505,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
                     .load(uri)
                     .into(ivSetSign);
             signatureImagePath=uri;
+            Toast.makeText(this, "Image Uploaded Successfully", Toast.LENGTH_LONG).show();
         }
     }
     private void updateUserAPI() throws IOException {
@@ -575,7 +574,8 @@ public class LogoSignatureActivity extends AppCompatActivity {
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                DialogUtils.stopProgressDialog();
+
+                DialogUtils.stopProgressDialog(LogoSignatureActivity.this);
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     if (body.getBoolean("status")) {
@@ -595,7 +595,10 @@ public class LogoSignatureActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                DialogUtils.stopProgressDialog();
+//                if (!LogoSignatureActivity.this.isFinishing() && DialogUtils._pd!=null) {
+//                    DialogUtils.stopProgressDialog();
+//                }
+                DialogUtils.stopProgressDialog(LogoSignatureActivity.this);
                 DialogUtils.showToast(LogoSignatureActivity.this, "Failed update profile to server");
             }
         });
@@ -615,7 +618,10 @@ public class LogoSignatureActivity extends AppCompatActivity {
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                DialogUtils.stopProgressDialog();
+//                if (!LogoSignatureActivity.this.isFinishing() && DialogUtils._pd!=null) {
+//                    DialogUtils.stopProgressDialog();
+//                }
+                DialogUtils.stopProgressDialog(LogoSignatureActivity.this);
                 try {
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     Log.v("RESP", body.toString());
@@ -634,7 +640,10 @@ public class LogoSignatureActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                DialogUtils.stopProgressDialog();
+//                if (!LogoSignatureActivity.this.isFinishing() && DialogUtils._pd!=null) {
+//                    DialogUtils.stopProgressDialog();
+//                }
+                DialogUtils.stopProgressDialog(LogoSignatureActivity.this);
                 DialogUtils.showToast(LogoSignatureActivity.this, "Failed update profile to server");
             }
         });

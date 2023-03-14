@@ -195,8 +195,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             profile = new JSONObject(MyApplication.getUserDetails());
             Log.v("profile", String.valueOf(profile));
             if(profile.has("additionalData") && profile.getString("additionalData").length()!=0){
-                invoiceAmountLayoutUpdatedBinding.tvAdditionalDetails.setVisibility(View.VISIBLE);
-                invoiceAmountLayoutUpdatedBinding.tvAdditionalDetails.setText(profile.getString("additionalData"));
+                pdfBinding.tvAdditionalDetails.setVisibility(View.VISIBLE);
+                pdfBinding.tvAdditionalDetails.setText(profile.getString("additionalData"));
             }
             imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;
             signatureURL = profile.has("signatureImage") ? profile.getString("signatureImage").replaceAll("\\/","/") : null;
@@ -217,16 +217,16 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     invoice = new JSONObject(new Gson().toJson(invoiceModelV2));
                     if (invoice.has("gstType") && !invoice.getString("gstType").isEmpty()) {
                         isGSTAvailable = true;
-                        invoiceAmountLayoutUpdatedBinding.gstTotalLayout.setVisibility(View.VISIBLE);
-                        invoiceAmountLayoutUpdatedBinding.totalAmountBeforeTaxLayout.setVisibility(View.VISIBLE);
+                        TextView taxorBillTv = findViewById(R.id.taxorBillTv);
+                        taxorBillTv.setText("Tax Invoice");
+                        pdfBinding.gstTotalLayout.setVisibility(View.VISIBLE);
+                        pdfBinding.totalAmountBeforeTaxLayout.setVisibility(View.VISIBLE);
                         invoiceNumber = getIntent().getExtras().getInt("gstBillNo");
 
                     } else {
                         isGSTAvailable = false;
-                        TextView taxorBillTv = findViewById(R.id.taxorBillTv);
-                        taxorBillTv.setText("Bill");
-                        invoiceAmountLayoutUpdatedBinding.gstTotalLayout.setVisibility(View.GONE);
-                        invoiceAmountLayoutUpdatedBinding.totalAmountBeforeTaxLayout.setVisibility(View.GONE);
+                        pdfBinding.gstTotalLayout.setVisibility(View.GONE);
+                        pdfBinding.totalAmountBeforeTaxLayout.setVisibility(View.VISIBLE);
                         invoiceNumber = getIntent().getExtras().getInt("nonGstBillNo");
                     }
 
@@ -288,6 +288,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         pdfBinding.IGST.setVisibility(View.GONE);
                         pdfBinding.CGST.setVisibility(View.GONE);
                         pdfBinding.SGST.setVisibility(View.GONE);
+                        pdfBinding.HsnNoOnBillHeader.setVisibility(View.GONE);
                         pdfBinding.llForHeader.setWeightSum(7.0f);
 
                         //pdfBinding.padding1.setVisibility(View.GONE);
@@ -310,7 +311,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     if (isGSTAvailable)
                         gst = Float.parseFloat(invoice.getString("totalAmount")) -
                                 Float.parseFloat(invoice.getString("totalAmountBeforeGST"));
-                    invoiceAmountLayoutUpdatedBinding.totalGST.setText(Util.formatDecimalValue(gst));
+                    pdfBinding.totalCGST.setText(Util.formatDecimalValue(gst/2));
+                    pdfBinding.totalSGST.setText(Util.formatDecimalValue(gst/2));
                     Log.v("CustomerName", String.valueOf(invoice));
                     String custName= invoice.getString("customerName");
                     String custNo =invoice.getString("customerMobileNo");
@@ -345,8 +347,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     pdfBinding.edtAddress.setText(custAdd == null ?" ":custAdd+" ");
                     //pdfBinding.edtMobNo.setText(custNo == null ?" ":custNo+" ");
 //            tvGSTNo.setText(invoice.getString("GSTNo")+" ");
-                    invoiceAmountLayoutUpdatedBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
-                    invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
+                    pdfBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
+                    pdfBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
                     float totalAfterDiscount = 0, totalAmount = 0;
                     totalAmount = Float.parseFloat(invoice.getString("totalAmount"));
                     if (invoice.has("totalAfterDiscount")) {
@@ -354,15 +356,19 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     } else {
                         totalAfterDiscount = totalAmount;
                     }
-                    invoiceAmountLayoutUpdatedBinding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
-                    invoiceAmountLayoutUpdatedBinding.tvDiscount.setText(Util.formatDecimalValue(totalAmount - totalAfterDiscount));
+                    pdfBinding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
+                    pdfBinding.tvDiscount.setText(Util.formatDecimalValue(totalAmount - totalAfterDiscount));
                     new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(), getIntent().getExtras().getLong("idForItem"), PDFActivity.this, isGSTAvailable, recyclerViewInvoiceProducts, GSTType).execute();
 
 //                        items = gson.fromJson(invoice.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
 //                        }.getType());
 
                     if (isGSTAvailable)
-                        invoiceAmountLayoutUpdatedBinding.GSTTitle.setText("GST " + (invoice.getString("gstType").equals("CGST/SGST (Local customer)") ? "(SGST/CGST)" : "(IGST)"));
+                    {
+//                        pdfBinding.CGSTTitle.setText("GST " + (invoice.getString("gstType").equals("CGST/SGST (Local customer)") ? "(SGST/CGST)" : "(IGST)"));
+//                        pdfBinding.SGSTTitle.setText("GST " + (invoice.getString("gstType").equals("CGST/SGST (Local customer)") ? "(SGST/CGST)" : "(IGST)"));
+
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -531,14 +537,11 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     private void loadAndSetSignatureImage() {
 
         if (signatureURL != null) {
-            invoiceAmountLayoutUpdatedBinding.tvSignature.setVisibility(View.GONE);
-            invoiceAmountLayoutUpdatedBinding.ivSignature.setVisibility(View.VISIBLE);
-            invoiceAmountLayoutUpdatedBinding.tvSignatureIfImage.setVisibility(View.VISIBLE);
 //                signatureText.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             Picasso.get()
                     .load(signatureURL)
                     .resize(250, 100)
-                    .into(invoiceAmountLayoutUpdatedBinding.ivSignature, new com.squareup.picasso.Callback() {
+                    .into(pdfBinding.ivSignature, new com.squareup.picasso.Callback() {
                         @Override
                         public void onSuccess() {
 //                            try {

@@ -51,6 +51,7 @@
     </string-array>
     <string-array name="dateCalender">
         <item>@string/select_date</item>
+        <item>@string/all_bills</item>
         <item>@string/today</item>
         <item>@string/last_7_Days</item>
         <item>@string/Last_30_Days</item>

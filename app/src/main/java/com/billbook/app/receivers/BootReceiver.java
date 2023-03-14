@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.util.Log;
 
 import java.util.Calendar;
 
@@ -26,9 +28,18 @@ public class BootReceiver extends BroadcastReceiver {
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.setAction("com.marketexcel.marketexcelapp.AlarmReceiver");
         intent.putExtra("alarm_message", "O'Doyle Rules!");
+        int pendingFlags;
 
         // In reality, you would want to have a static variable for the request code instead of 192837
-        PendingIntent sender = PendingIntent.getBroadcast(context, 192837, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            pendingFlags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
+        }
+        else {
+            pendingFlags = PendingIntent.FLAG_UPDATE_CURRENT;
+        }
+
+        PendingIntent sender = PendingIntent.getBroadcast(context, 192837, intent, pendingFlags);
+        Log.v("pending flags", String.valueOf(pendingFlags));
 
         // Get the AlarmManager service
         AlarmManager am = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);

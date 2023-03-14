@@ -51,6 +51,8 @@ import com.billbook.app.utils.OnDownloadClick;
 import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.gson.Gson;
 import com.billbook.app.R;
 import com.billbook.app.adapters.SearchInvoiceListAdapterNew;
@@ -138,44 +140,73 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 edtMobileNo.setText("");
+                if(adapterView.getItemAtPosition(i).equals("All Bills"))
+                {
+                    getInvoicesCall();
+                }
                 if(adapterView.getItemAtPosition(i).equals("Custom Period")) {
                     spinnerClicked.put("Spinner Clicked","Clicked On Custom Period in Search Invoices");
-                  //  Util.pushEvent("Clicked On Custom Period in Search Invoices");
-//                    dateSpinner.setSelection(0);
-                    BottomSheetDialog gstSheet = new BottomSheetDialog(SearchInvoiceActivity.this, R.style.BottomSheetDialogTheme);
-                    View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_date_range_picker,null);
-                    CalendarPicker calendarPicker = bottomSheet. findViewById(R.id.calendar_view);
-                    TextView txtFrom=bottomSheet. findViewById(R.id.txtFrom);
-                    TextView txtTo=bottomSheet. findViewById(R.id.txtTo);
-                    String startDates = "",endDates="";
-                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-                    startDate.add(Calendar.MONTH, -6);
-                    calendarPicker. setRangeDate(startDate.getTime(),endDate.getTime() );
-                    calendarPicker.setMode(CalendarPicker.SelectionMode.RANGE);
-                    calendarPicker.scrollToDate(startDate.getTime());
-                    calendarPicker.setOnRangeSelectedListener((Date date, Date date2, String s1, String s2) -> {
-                                txtFrom.setText(s1);
-                                txtTo.setText(s2);
-                                //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                    MaterialDatePicker datePicker =
+                            MaterialDatePicker.Builder.dateRangePicker()
+                                    .setSelection(new Pair(MaterialDatePicker.thisMonthInUtcMilliseconds(),
+                                            MaterialDatePicker.todayInUtcMilliseconds()))
+                                    .setTitleText("Select dates")
+                                    .build();
+                    datePicker.show(getSupportFragmentManager(), "date");
 
-                                String strDate = myFormat1.format(date);
-                                String endsDate = myFormat1.format(date2);
-                                getInvoicesCallSearch(strDate,endsDate);
-                                gstSheet.dismiss();
-                                return null;
-                            }
-
-
-                    );
-                    calendarPicker.setOnStartSelectedListener((date, s) ->
-                    {
-                        txtFrom.setText(s);
-                        txtTo.setText("-");
-                        return null;
+                    datePicker.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>) selection -> {
+                        Long startDate = selection.first;
+                        Long endDate = selection.second;
+                        String startDateString = SimpleDateFormat.getDateInstance().format(startDate);
+                        String endDateString = SimpleDateFormat.getDateInstance().format(endDate);
+                        String date = "Start: " + startDateString + " End: " + endDateString;
+                        Toast.makeText(SearchInvoiceActivity.this, date, Toast.LENGTH_LONG).show();
+                        String strDate = myFormat1.format(startDate);
+                        String endsDate = myFormat1.format(endDate);
+                        getInvoicesCallSearch(strDate,endsDate);
                     });
-                    gstSheet.setContentView(bottomSheet);
-                    gstSheet.show();
+
+
+
+
+
+
+                    //  Util.pushEvent("Clicked On Custom Period in Search Invoices");
+//                    dateSpinner.setSelection(0);
+//                    BottomSheetDialog gstSheet = new BottomSheetDialog(SearchInvoiceActivity.this, R.style.BottomSheetDialogTheme);
+//                    View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_date_range_picker,null);
+//                    CalendarPicker calendarPicker = bottomSheet. findViewById(R.id.calendar_view);
+//                    TextView txtFrom=bottomSheet. findViewById(R.id.txtFrom);
+//                    TextView txtTo=bottomSheet. findViewById(R.id.txtTo);
+//                    String startDates = "",endDates="";
+//                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+//                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+//                    startDate.add(Calendar.MONTH, -6);
+//                    calendarPicker. setRangeDate(startDate.getTime(),endDate.getTime() );
+//                    calendarPicker.setMode(CalendarPicker.SelectionMode.RANGE);
+//                    calendarPicker.scrollToDate(startDate.getTime());
+//                    calendarPicker.setOnRangeSelectedListener((Date date, Date date2, String s1, String s2) -> {
+//                                txtFrom.setText(s1);
+//                                txtTo.setText(s2);
+//                                //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+//
+//                                String strDate = myFormat1.format(date);
+//                                String endsDate = myFormat1.format(date2);
+//                                getInvoicesCallSearch(strDate,endsDate);
+//                                gstSheet.dismiss();
+//                                return null;
+//                            }
+//
+//
+//                    );
+//                    calendarPicker.setOnStartSelectedListener((date, s) ->
+//                    {
+//                        txtFrom.setText(s);
+//                        txtTo.setText("-");
+//                        return null;
+//                    });
+//                    gstSheet.setContentView(bottomSheet);
+//                    gstSheet.show();
 
                 }
 

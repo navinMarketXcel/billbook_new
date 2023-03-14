@@ -476,7 +476,6 @@ public class Util {
         {
             app=false;
         }
-
         return app;
 
     }

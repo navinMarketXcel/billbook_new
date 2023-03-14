@@ -62,8 +62,8 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
 
         holder.tvProductName.setText(curItems.get(position).getName());
        holder.tvProductNumber.setText(String.valueOf(position+1));
-       holder.imeinoOnBill.setText("IMEI: " + curItems.get(position).getImei());
-       holder.hsnOnBill.setText("HSN No: "+curItems.get(position).getSerial_no());
+       holder.imeinoOnBill.setText( curItems.get(position).getImei());
+       holder.hsnOnBill.setText(curItems.get(position).getSerial_no());
 
         String qtyString = String.valueOf(curItems.get(position).getQuantity());
         if(curItems.get(position).getMeasurementId() > -1){

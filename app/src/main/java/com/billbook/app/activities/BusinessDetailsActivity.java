@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -71,6 +72,7 @@ ImageView ivToolBarBack;
         btnSave.setOnClickListener(v -> {
             Util.pushEvent("Clicked on Save in Business Details");
             if(verifyData())updateUserProfile();
+            Toast.makeText(BusinessDetailsActivity.this, "Business Details Uploaded Successfully", Toast.LENGTH_SHORT).show();
         });
         lnHelp.setOnClickListener(v -> {
             Util.pushEvent("Clicked on Whatsapp Help from Toolbar in Business Details");

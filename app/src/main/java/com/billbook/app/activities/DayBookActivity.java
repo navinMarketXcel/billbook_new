@@ -19,6 +19,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,6 +46,8 @@ import com.billbook.app.utils.Util;
 import com.google.android.gms.auth.api.phone.SmsRetriever;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -107,6 +110,7 @@ public class DayBookActivity extends AppCompatActivity {
     ImageView ivToolBarBack;
     LinearLayout lnHelp,lnYouTube;
     SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -419,7 +423,32 @@ public class DayBookActivity extends AppCompatActivity {
                 spinnerDaybook.put("Clicked Spinner","Clicked on Custom Period in Daybook");
                 Log.v("spinner in cust",spinnerDaybook.toString());
                // Util.pushEvent("Clicked on Custom Period in Daybook");
-                calenderRangePicker();
+                //calenderRangePicker();
+                MaterialDatePicker datePicker =
+                        MaterialDatePicker.Builder.dateRangePicker()
+                                .setSelection(new Pair(MaterialDatePicker.thisMonthInUtcMilliseconds(),
+                                        MaterialDatePicker.todayInUtcMilliseconds()))
+                                .setTitleText("Select dates")
+                                .build();
+                datePicker.show(getSupportFragmentManager(), "date");
+
+
+                datePicker.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>) selection -> {
+                    Long startDate = selection.first;
+                    Long endDate = selection.second;
+                    String startDateString = SimpleDateFormat.getDateInstance().format(startDate);
+                    String endDateString = SimpleDateFormat.getDateInstance().format(endDate);
+                    String date = "Start: " + startDateString + " End: " + endDateString;
+                    Toast.makeText(DayBookActivity.this, date, Toast.LENGTH_LONG).show();
+                    String strDate = myFormat.format(startDate);
+                    String endsDate = myFormat.format(endDate);
+                    popupMenu.getMenu().findItem(R.id.m_custom).setTitle("Custom period" + date);
+                    getDayBook(strDate,endsDate);
+                   
+                });
+
+
+
 
             }
             else if(menuItem.getItemId()==R.id.m_month){
@@ -580,41 +609,61 @@ public class DayBookActivity extends AppCompatActivity {
     }
 
     public  void calenderRangePicker(){
+        MaterialDatePicker datePicker =
+                MaterialDatePicker.Builder.dateRangePicker()
+                        .setSelection(new Pair(MaterialDatePicker.thisMonthInUtcMilliseconds(),
+                                MaterialDatePicker.todayInUtcMilliseconds()))
+                        .setTitleText("Select dates")
+                        .build();
+        datePicker.show(getSupportFragmentManager(), "date");
 
-        BottomSheetDialog gstSheet = new BottomSheetDialog(DayBookActivity.this, R.style.BottomSheetDialogTheme);
-        View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_date_range_picker,null);
-        CalendarPicker calendarPicker = bottomSheet. findViewById(R.id.calendar_view);
-        TextView txtFrom=bottomSheet. findViewById(R.id.txtFrom);
-        TextView txtTo=bottomSheet. findViewById(R.id.txtTo);
-        String startDates = "",endDates="";
-        Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-        Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-        startDate.add(Calendar.MONTH, -6);
-        calendarPicker. setRangeDate(startDate.getTime(),endDate.getTime() );
-        calendarPicker.setMode(CalendarPicker.SelectionMode.RANGE);
-        calendarPicker.scrollToDate(startDate.getTime());
-        calendarPicker.setOnRangeSelectedListener((Date date, Date date2, String s1, String s2) -> {
-                    txtFrom.setText(s1);
-                    txtTo.setText(s2);
-                    //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-
-                    String strDate = myFormat.format(date);
-                    String endsDate = myFormat.format(date2);
-                    getDayBook(strDate,endsDate);
-                    gstSheet.dismiss();
-                    return null;
-                }
-
-
-        );
-        calendarPicker.setOnStartSelectedListener((date, s) ->
-        {
-            txtFrom.setText(s);
-            txtTo.setText("-");
-            return null;
+        datePicker.addOnPositiveButtonClickListener((MaterialPickerOnPositiveButtonClickListener<Pair<Long, Long>>) selection -> {
+            Long startDate = selection.first;
+            Long endDate = selection.second;
+            String startDateString = SimpleDateFormat.getDateInstance().format(startDate);
+            String endDateString = SimpleDateFormat.getDateInstance().format(endDate);
+            String date = "Start: " + startDateString + " End: " + endDateString;
+            Toast.makeText(DayBookActivity.this, date, Toast.LENGTH_SHORT).show();
+            String strDate = myFormat.format(startDate);
+            String endsDate = myFormat.format(endDate);
+            getDayBook(strDate,endsDate);
         });
-        gstSheet.setContentView(bottomSheet);
-        gstSheet.show();
+
+
+//        BottomSheetDialog gstSheet = new BottomSheetDialog(DayBookActivity.this, R.style.BottomSheetDialogTheme);
+//        View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_date_range_picker,null);
+//        CalendarPicker calendarPicker = bottomSheet. findViewById(R.id.calendar_view);
+//        TextView txtFrom=bottomSheet. findViewById(R.id.txtFrom);
+//        TextView txtTo=bottomSheet. findViewById(R.id.txtTo);
+//        String startDates = "",endDates="";
+//        Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+//        Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
+//        startDate.add(Calendar.MONTH, -6);
+//        calendarPicker. setRangeDate(startDate.getTime(),endDate.getTime() );
+//        calendarPicker.setMode(CalendarPicker.SelectionMode.RANGE);
+//        calendarPicker.scrollToDate(startDate.getTime());
+//        calendarPicker.setOnRangeSelectedListener((Date date, Date date2, String s1, String s2) -> {
+//                    txtFrom.setText(s1);
+//                    txtTo.setText(s2);
+//                    //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+//
+//                    String strDate = myFormat.format(date);
+//                    String endsDate = myFormat.format(date2);
+//                    getDayBook(strDate,endsDate);
+//                    gstSheet.dismiss();
+//                    return null;
+//                }
+//
+//
+//        );
+//        calendarPicker.setOnStartSelectedListener((date, s) ->
+//        {
+//            txtFrom.setText(s);
+//            txtTo.setText("-");
+//            return null;
+//        });
+//        gstSheet.setContentView(bottomSheet);
+//        gstSheet.show();
     }
     public void startDownloading(List<String> downloadLink, String path){
         for(int i = 0;i<downloadLink.size();i++){

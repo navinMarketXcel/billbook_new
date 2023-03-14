@@ -3,24 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
+    android:background="@color/white"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <RelativeLayout
+        android:background="@drawable/card_lined"
+
         android:id="@+id/scollviewSendPDF"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:background="@drawable/card_lined"
+
+
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:padding="1dp"
             android:weightSum="10">
             <ScrollView
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <FrameLayout
@@ -91,7 +97,7 @@
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:layout_weight="1.7"
+                                android:layout_weight="2.5"
                                 android:gravity="start"
                                 android:orientation="vertical">
 
@@ -105,8 +111,9 @@
                                     android:gravity="start"
                                     android:marqueeRepeatLimit="marquee_forever"
                                     android:scrollHorizontally="true"
+                                    android:singleLine="true"
                                     android:text="Tushar Electronics"
-                                    android:textColor="@color/colorPrimaryDark"
+                                    android:textColor="#0A0A0A"
                                     android:textSize="27sp"
                                     android:textStyle="bold" />
 
@@ -119,7 +126,7 @@
                                     android:text="JM Road, Pune 53"
                                     android:textColor="@color/color_black"
                                     android:textSize="15sp"
-                                    android:textStyle="bold" />
+                                    />
 
                                 <TextView
                                     android:id="@+id/mobileNoRetailer"
@@ -129,7 +136,7 @@
                                     android:text="Mobile No"
                                     android:textColor="@color/color_black"
                                     android:textSize="@dimen/_15spText"
-                                    android:textStyle="bold" />
+                                     />
 
                                 <TextView
                                     android:id="@+id/tvGSTNo"
@@ -139,308 +146,102 @@
                                     android:text="GST NO"
                                     android:textColor="@color/color_black"
                                     android:textSize="@dimen/_15spText"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight=".7"
-                                android:gravity="end|bottom">
-
+                                    />
                                 <TextView
                                     android:id="@+id/taxorBillTv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:gravity="center"
+                                    android:gravity="right"
+                                    android:textAllCaps="true"
+                                    android:layout_gravity="right"
                                     android:text="Invoice "
-                                    android:textColor="@color/colorPrimaryDark"
+                                    android:textColor="#0A0A0A"
                                     android:textSize="20sp"
                                     android:textStyle="bold" />
-
                             </LinearLayout>
+
 
                         </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/material_blue_grey_95" />
+                            android:background="#E2E2E2" />
+
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:orientation="horizontal"
                             android:weightSum="2">
 
                             <LinearLayout
-                                android:layout_width="wrap_content"
+
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
+                                android:layout_weight=".5"
                                 android:orientation="vertical">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1">
-
-                                    <TextView
-                                        style="@style/textSmall"
-                                        android:layout_width="0dp"
-                                        android:textSize="@dimen/_15spText"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".4"
-                                        android:layout_marginStart="@dimen/_5sdp"
-
-                                        android:text=" Bill Number #     " />
-
-                                    <TextView
-                                        android:id="@+id/txtInvoiceNo"
-                                        style="@style/textRegularBold"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:gravity="end"
-                                        android:layout_marginEnd="@dimen/_5sdp"
-                                        android:text="1298"
-                                        android:textColor="@color/color_black" />
-
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="horizontal"
-                                    android:padding="2dp"
-                                    android:weightSum="1">
-
-                                    <TextView
-                                        style="@style/textSmall"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".4"
-                                        android:textSize="@dimen/_15spText"
-                                        android:layout_marginStart="@dimen/_5sdp"
-                                        android:text="Bill Date" />
-
-                                    <TextView
-                                        android:id="@+id/txtInvoiceDate"
-                                        style="@style/textRegularBold"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:layout_marginEnd="@dimen/_5sdp"
-                                        android:gravity="end"
-                                        android:text="7/12/2022"
-                                        android:textColor="@color/color_black" />
-
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="horizontal"
-                                    android:padding="2dp"
-                                    android:weightSum="1">
-
-                                    <TextView
-                                        style="@style/textSmall"
-                                        android:layout_width="0dp"
-                                        android:textSize="@dimen/_15spText"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".4"
-                                        android:layout_marginStart="@dimen/_5sdp"
-                                        android:text="Bill Type" />
-
-                                    <TextView
-                                        style="@style/textRegularBold"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:gravity="end"
-                                        android:layout_marginEnd="@dimen/_5sdp"
-                                        android:text="Orignal"
-                                        android:textColor="@color/color_black" />
-
-
-                                </LinearLayout>
-
-
-                            </LinearLayout>
-
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/material_blue_grey_95" />
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
                                     android:background="@color/grey_b9b9b9"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1">
-
-
+                                    android:layout_height="match_parent">
+                                    <TextView
+                                        android:textStyle="bold"
+                                        style="@style/textSmall"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight=".4"
+                                        android:layout_marginStart="@dimen/_5sdp"
+                                        android:text="Bill Details"
+                                        />
                                 </LinearLayout>
 
-
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-
-
-
-
-
-
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/material_blue_grey_95" />
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:weightSum="2">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_weight="2"
-                                >
                                 <LinearLayout
+                                    android:layout_margin="5dp"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:orientation="horizontal"
+                                    android:orientation="vertical">
+                                    <LinearLayout
 
-                                    android:background="@color/grey_b9b9b9"
-                                    android:weightSum="1">
-                                    <!--<View
-                                        android:layout_width="1dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                        android:background="@color/material_blue_grey_95" />-->
-
-                                    <TextView
-                                        style="@style/textSmall"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".4"
-                                        android:layout_marginStart="@dimen/_5sdp"
-                                        android:text="Bill To               "
-                                        />
-
-                                    <TextView
-                                        style="@style/textSmallBold"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".6"
-                                        android:visibility="invisible"
-                                        android:gravity="end"
-                                        android:text="1298"
-                                        android:textColor="@color/color_black"
-                                        />
+                                        android:orientation="horizontal"
+                                        android:weightSum="1">
 
 
-                                </LinearLayout>
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="horizontal"
-                                    android:padding="2dp"
-                                    android:weightSum="1">
+                                        <TextView
+                                            style="@style/textSmall"
+                                            android:layout_width="0dp"
+                                            android:textSize="@dimen/_15spText"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".4"
+                                            android:layout_marginStart="@dimen/_5sdp"
 
-                                    <TextView
-                                        android:id="@+id/customerName"
-                                        style="@style/textRegularBold"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".5"
-                                        android:layout_marginStart="@dimen/_5sdp"
-                                        android:text="N/A"
-                                        />
+                                            android:text=" Bill Number #     " />
 
-                                    <TextView
-                                        android:id="@+id/customerAdd"
-                                        style="@style/textRegularBold"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".5"
-                                        android:gravity="end"
-                                        android:layout_marginEnd="@dimen/_5sdp"
-                                        android:text="N/A"
-                                        android:textColor="@color/color_black"
-                                        />
+                                        <TextView
+                                            android:id="@+id/txtInvoiceNo"
+                                            style="@style/textRegularBold"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".6"
+                                            android:gravity="end"
+                                            android:textStyle="bold"
+                                            android:layout_marginEnd="@dimen/_5sdp"
+                                            android:text="1298"
+                                            android:textColor="@color/color_black" />
 
 
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:orientation="horizontal"
-                                    android:padding="2dp"
-                                    android:weightSum="1">
+                                    </LinearLayout>
 
-                                    <TextView
-                                        android:id="@+id/cusMobNo"
-                                        style="@style/textRegularBold"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".5"
-                                        android:layout_marginStart="@dimen/_5sdp"
-                                        android:text="N/A"                                        />
-
-                                    <TextView
-                                        android:id="@+id/cusGst"
-                                        style="@style/textRegularBold"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight=".5"
-                                        android:gravity="end"
-                                        android:text="N/A"
-                                        android:layout_marginEnd="@dimen/_5sdp"
-                                        android:textColor="@color/color_black"
-                                        />
-
-
-                                </LinearLayout>
-
-
-                            </LinearLayout>
-<!--
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/black" />
--->
-
-<!--
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="match_parent">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:background="@color/grey_b9b9b9"
-                                    android:weightSum="1">
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:orientation="horizontal"
-                                        android:background="@color/grey_b9b9b9"
+                                        android:padding="2dp"
                                         android:weightSum="1">
 
                                         <TextView
@@ -448,156 +249,168 @@
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_weight=".4"
-                                            android:text="Ship to"
+                                            android:textSize="@dimen/_15spText"
                                             android:layout_marginStart="@dimen/_5sdp"
-
-                                            />
+                                            android:text="Bill Date" />
 
                                         <TextView
-                                            style="@style/textSmallBold"
+                                            android:id="@+id/txtInvoiceDate"
+                                            style="@style/textRegularBold"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".6"
+                                            android:layout_marginEnd="@dimen/_5sdp"
+                                            android:gravity="end"
+                                            android:textStyle="bold"
+                                            android:text="7/12/2022"
+                                            android:textColor="@color/color_black" />
+
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="horizontal"
+                                        android:padding="2dp"
+                                        android:weightSum="1">
+
+                                        <TextView
+                                            style="@style/textSmall"
+                                            android:layout_width="0dp"
+                                            android:textSize="@dimen/_15spText"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".4"
+                                            android:layout_marginStart="@dimen/_5sdp"
+                                            android:text="Bill Type" />
+
+                                        <TextView
+                                            style="@style/textRegularBold"
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
                                             android:layout_weight=".6"
                                             android:gravity="end"
-                                            android:visibility="invisible"
-                                            android:text="1298"
-                                            android:textColor="@color/color_black"
-                                            />
+                                            android:layout_marginEnd="@dimen/_5sdp"
+                                            android:text="Orignal"
+                                            android:textStyle="bold"
+                                            android:textColor="@color/color_black" />
 
-&lt;!&ndash;
-                                        <View
-                                            android:layout_width="1dp"
-                                            android:layout_height="match_parent"
-                                            android:background="@color/material_blue_grey_95" />
-&ndash;&gt;
 
                                     </LinearLayout>
-
-
-
 
                                 </LinearLayout>
 
 
+
+
+
                             </LinearLayout>
--->
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#E2E2E2" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1.5">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_weight="2"
+                                    >
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="horizontal"
+
+                                        android:background="@color/grey_b9b9b9"
+                                        android:weightSum="1">
+                                        <!--<View
+                                            android:layout_width="1dp"
+                                            android:layout_height="match_parent"
+                                            android:background="@color/material_blue_grey_95" />-->
+
+                                        <TextView
+                                            android:textStyle="bold"
+                                            style="@style/textSmall"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".4"
+                                            android:layout_marginStart="@dimen/_5sdp"
+                                            android:text="Bill To               "
+                                            />
 
 
+
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_margin="5dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical"
+                                        android:padding="2dp"
+                                        android:weightSum="4">
+
+                                        <TextView
+                                            android:id="@+id/customerName"
+                                            style="@style/textRegularBold"
+                                            android:textStyle="bold"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="0dp"
+                                            android:layout_weight="1"
+
+                                            android:text="N/A"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/cusMobNo"
+                                            style="@style/textRegularBold"
+                                            android:textStyle="bold"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="0dp"
+                                            android:layout_weight="1"
+                                            android:text="N/A"                                        />
+                                        <TextView
+                                            android:id="@+id/customerAdd"
+                                            style="@style/textRegularBold"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="0dp"
+                                            android:layout_weight="1"
+
+                                            android:layout_marginEnd="@dimen/_5sdp"
+                                            android:text="N/A"
+                                            android:textColor="@color/color_black"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/cusGst"
+                                            style="@style/textRegularBold"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="0dp"
+                                            android:layout_weight="1"
+
+                                            android:text="N/A"
+                                            android:layout_marginEnd="@dimen/_5sdp"
+                                            android:textColor="@color/color_black"
+                                            />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="#E2E2E2" />
                         </LinearLayout>
-
-
-                        <!--
-                                            <LinearLayout
-                                                android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:weightSum="2">
-
-                                                <LinearLayout
-                                                    android:layout_width="wrap_content"
-                                                    android:layout_height="wrap_content"
-                                                    android:layout_weight="1"
-                                                    android:orientation="vertical">
-
-                                                    <LinearLayout
-                                                        android:layout_width="match_parent"
-                                                        android:layout_height="match_parent"
-                                                        android:background="@color/grey_b9b9b9"
-                                                        android:orientation="horizontal"
-                                                        android:padding="2dp"
-                                                        android:weightSum="1">
-
-                                                        <TextView
-                                                            style="@style/textSmallBold"
-                                                            android:layout_width="0dp"
-                                                            android:layout_height="wrap_content"
-                                                            android:layout_weight=".4"
-                                                            android:text="Bill To"
-                                                            android:textColor="@color/color_black" />
-
-
-                                                    </LinearLayout>
-
-                                                    <LinearLayout
-                                                        android:layout_width="match_parent"
-                                                        android:layout_height="match_parent"
-                                                        android:orientation="vertical"
-                                                        android:padding="2dp"
-                                                        android:weightSum="1">
-
-                                                        <TextView
-                                                            android:layout_width="match_parent"
-                                                            android:layout_height="wrap_content"
-                                                            android:text="Bill Date"
-                                                            android:textColor="@color/color_black"
-                                                            android:textSize="14sp"
-                                                            android:textStyle="bold" />
-
-                                                        <TextView
-                                                            android:id="@+id/edtMobNo"
-                                                            android:layout_width="match_parent"
-                                                            android:layout_height="wrap_content"
-                                                            android:text="678909"
-                                                            android:textColor="@color/color_black"
-                                                            android:textSize="14sp"
-                                                            android:textStyle="bold" />
-
-                                                        <TextView
-                                                            android:id="@+id/customer_gst"
-                                                            android:layout_width="match_parent"
-                                                            android:layout_height="wrap_content"
-                                                            android:text="Bill Date"
-                                                            android:textColor="@color/color_black"
-                                                            android:textSize="14sp"
-                                                            android:textStyle="bold" />
-
-
-                                                    </LinearLayout>
-
-
-                                                </LinearLayout>
-
-                                                <View
-                                                    android:layout_width="1dp"
-                                                    android:layout_height="match_parent"
-                                                    android:background="@color/material_blue_grey_95" />
-
-                                                <LinearLayout
-                                                    android:layout_width="0dp"
-                                                    android:layout_height="match_parent"
-                                                    android:layout_weight="1">
-
-                                                    <LinearLayout
-                                                        android:layout_width="match_parent"
-                                                        android:layout_height="wrap_content"
-                                                        android:background="@color/grey_b9b9b9"
-                                                        android:orientation="horizontal"
-                                                        android:padding="2dp"
-                                                        android:weightSum="1">
-
-                                                        <TextView
-                                                            style="@style/textSmallBold"
-                                                            android:layout_width="0dp"
-                                                            android:layout_height="wrap_content"
-                                                            android:layout_weight=".4"
-                                                            android:text="Ship to"
-                                                            android:textColor="@color/color_black" />
-
-
-                                                    </LinearLayout>
-
-
-                                                </LinearLayout>
-
-                                                <View
-                                                    android:layout_width="1dp"
-                                                    android:layout_height="match_parent"
-                                                    android:background="@color/material_blue_grey_95" />
-
-                                            </LinearLayout>
-                        -->
-
-
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#E2E2E2" />
                     </LinearLayout>
+
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -610,20 +423,16 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/card_lined"
                         android:orientation="vertical">
-
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:weightSum="2">
-
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:orientation="vertical">
-
 
                             </LinearLayout>
 
@@ -631,7 +440,6 @@
                                 android:layout_width="1dp"
                                 android:layout_height="match_parent"
                                 android:background="@color/material_blue_grey_95" />
-
                         </LinearLayout>
 
 
@@ -663,7 +471,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:weightSum="11">
+                                android:weightSum="12">
 
                                 <TextView
                                     android:id="@+id/productNumber"
@@ -677,7 +485,7 @@
                                     android:textSize="@dimen/_12spText"
                                     android:singleLine="true"
                                     android:textAllCaps="true"
-                                    android:text="Product No"
+                                    android:text="No"
                                     android:textColor="@color/color_black"
                                     android:textStyle="bold"
 
@@ -694,7 +502,7 @@
                                     android:textSize="@dimen/_12spText"
                                     android:singleLine="true"
                                     android:textAllCaps="true"
-                                    android:text="Item Name"
+                                    android:text="Product/Service Name"
                                     android:textColor="@color/color_black"
                                     android:textStyle="bold"
 
@@ -711,6 +519,23 @@
                                     android:padding="5dp"
                                     android:singleLine="true"
                                     android:text="QTY"
+                                    android:textSize="@dimen/_12spText"
+                                    android:textColor="@color/color_black"
+                                    android:textStyle="bold"
+
+                                    />
+                                <TextView
+                                    android:visibility="visible"
+                                    android:id="@+id/HsnNoOnBillHeader"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/card_lined_gray"
+                                    android:ellipsize="end"
+                                    android:gravity="start"
+                                    android:padding="5dp"
+                                    android:singleLine="true"
+                                    android:text="HSN NO"
                                     android:textSize="@dimen/_12spText"
                                     android:textColor="@color/color_black"
                                     android:textStyle="bold"
@@ -913,9 +738,379 @@
                     </LinearLayout>
 
                 </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    >
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
+                        <LinearLayout
+                            android:id="@+id/totalAmountBeforeTaxLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="5">
+
+                            <TextView
+                                android:textSize="@dimen/_17spText"
+                                android:id="@+id/tvAmountHeader"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="Sub Total"
+                                android:textColor="@color/color_black"
+
+
+                                />
+
+                            <TextView
+                                android:id="@+id/tvAmountBeforeTax"
+                                android:textSize="@dimen/_17spText"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="2"
+
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="Amount"
+
+                                android:textColor="@color/color_black" />
+
+
+                        </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#E2E2E2" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            android:weightSum="5">
+
+                            <TextView
+                                android:id="@+id/tvGSTHeader"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="CGST"
+                                android:textColor="@color/color_black"
+                                android:textStyle="bold"
+
+                                />
+
+                            <TextView
+                                android:id="@+id/tvGST"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="GST"
+                                android:textColor="@color/color_black"
+
+                                />
 
 
 
+                        </LinearLayout>
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            android:weightSum="5">
+
+                            <TextView
+                                android:id="@+id/tvSGSTHeader"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="SGST"
+                                android:textColor="@color/color_black"
+                                android:textStyle="bold"
+
+                                />
+
+                            <TextView
+                                android:id="@+id/tvSGST"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="GST"
+
+                                android:textColor="@color/color_black" />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:id="@+id/tvIGSTHeader"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="4"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="IGST"
+                                android:textColor="@color/color_black"
+
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvIGST"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="IGST"
+
+                                android:textColor="@color/color_black" />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/gstTotalLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="visible"
+                            android:weightSum="5">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/CGSTTitle"
+                                    android:layout_width="0dp"
+                                    android:textSize="@dimen/_17spText"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="3"
+
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="CGST"
+
+                                    android:textColor="@color/color_black"
+                                    />
+
+                                <TextView
+                                    android:id="@+id/totalCGST"
+                                    android:textSize="@dimen/_17spText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="0"
+
+                                    android:textColor="@color/color_black" />
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/SGSTTitle"
+                                    android:layout_width="0dp"
+                                    android:textSize="@dimen/_17spText"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="3"
+
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="SGST"
+
+                                    android:textColor="@color/color_black"
+                                    />
+
+                                <TextView
+                                    android:id="@+id/totalSGST"
+                                    android:textSize="@dimen/_17spText"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="2"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="0"
+
+                                    android:textColor="@color/color_black" />
+                            </LinearLayout>
+
+
+
+
+
+                        </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#E2E2E2" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="visible"
+                            android:weightSum="5">
+
+                            <TextView
+                                android:id="@+id/tvDiscountHeader"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="3"
+
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:textSize="@dimen/_17spText"
+                                android:text="DISCOUNT"
+                                android:textColor="@color/color_black"
+                                />
+
+                            <TextView
+                                android:id="@+id/tvDiscount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+
+                                android:textSize="@dimen/_17spText"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="0"
+                                android:textColor="@color/color_black" />
+                        </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#E2E2E2" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="visible"
+                            android:weightSum="5">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="3"
+
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="TOTAL"
+                                android:textSize="@dimen/_17spText"
+
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvTotal"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:textStyle="bold"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:textSize="@dimen/_17spText"
+                                android:text="Total"
+                                android:textColor="@color/black" />
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:weightSum="5">
+
+                    <ImageView
+
+                        android:id="@+id/ivSignature"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:tag="Signature image"
+                        android:contentDescription="Signature Image"
+                        android:visibility="gone" />
+                    <TextView
+                        android:id="@+id/tv_signature"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:gravity="left|bottom"
+                        android:padding="5dp"
+                        android:textSize="@dimen/_17spText"
+                        android:visibility="visible"
+                        android:text="Signature"
+                        android:textColor="@color/color_black"
+                        android:textStyle="bold" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@drawable/card_lined_gray">
+
+                    </View>
+
+
+
+                    <TextView
+                        android:id="@+id/tv_additionalDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:gravity="start|bottom"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:paddingTop="50dp"
+                        android:paddingBottom="10dp"
+                        android:visibility="gone"
+                        tools:text="Additional Details \n Find shop here"
+                        android:textColor="@color/color_black"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -937,6 +1132,7 @@
                 </LinearLayout>
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

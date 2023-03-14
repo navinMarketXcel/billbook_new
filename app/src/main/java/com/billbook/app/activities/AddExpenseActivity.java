@@ -261,6 +261,12 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         }
     }
+    @Override
+    protected void onDestroy() {
+        DialogUtils.stopProgressDialog();
+        super.onDestroy();
+    }
+
     private void saveExpenseOffline(Expense expense){
 
         String expenses = MyApplication.getUnSyncedExpenses();

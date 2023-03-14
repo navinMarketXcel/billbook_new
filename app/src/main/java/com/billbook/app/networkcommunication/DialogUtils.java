@@ -43,11 +43,18 @@ public class DialogUtils {
     }
 
     public static void stopProgressDialog() {
-        if (_pd != null) {
+        if (_pd != null && _pd.isShowing() ) {
             _pd.dismiss();
             _pd = null;
         }
     }
+    public static void stopProgressDialog(Activity activity) {
+        if (_pd != null &&( !activity.isFinishing() || !activity.isDestroyed())) {
+            _pd.dismiss();
+            _pd = null;
+        }
+    }
+
 
 
     public static void showToast(Context context, String text) {
@@ -121,5 +128,7 @@ public class DialogUtils {
         public void negativeButtonClick();
 
     }
+
+
 
 }

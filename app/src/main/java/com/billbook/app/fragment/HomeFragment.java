@@ -2,6 +2,7 @@ package com.billbook.app.fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -290,79 +291,60 @@ public class HomeFragment extends Fragment
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 final JSONObject body;
-//                try {
-//                    body = new JSONObject(new Gson().toJson(response.body()));
-//                    Log.d(TAG, "Version Body::" + body);
-//                    if (body.getBoolean("status") && body.has("data") && !body.isNull("data")) {
-//                        String versionName= body.getJSONObject("data").getString("versionName");
-//
-//                        String buildVersion = BuildConfig.VERSION_NAME;
-//                        if (!buildVersion.equals(versionName)) {
-//                            DialogUtils.showToast(getActivity(), "To continue, please update the app to latest version.");
-//                            final String appPackageName = getActivity().getPackageName(); // getPackageName() from Context or Activity object
-//                            try {
-//                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-//                            } catch (android.content.ActivityNotFoundException anfe) {
-//                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-//                               // forcedLogOut();
-//                            }
-//                        } else {
-//
-//                        }
-//                    } else {
-//
-//                    }
-//                }
                 try {
-                    body = new JSONObject(new Gson().toJson(response.body()));
-                    Log.d(TAG, "Version Body::" + body);
-                    if (body.getBoolean("status") && body.has("data") && !body.isNull("data")) {
-                        HashMap<Integer,String> verHashMap = new HashMap<>();
-                        String stringVersionNoArray = body.getJSONObject("data").getString("versionNoArray");
-                        String stringVersionNameArray = body.getJSONObject("data").getString("versionNameArray");
+                    Activity activity = getActivity();
+                    if(activity!=null && isAdded())
+                    {
+                        body = new JSONObject(new Gson().toJson(response.body()));
+                        Log.d(TAG, "Version Body::" + body);
+                        if (body.getBoolean("status") && body.has("data") && !body.isNull("data")) {
+                            HashMap<Integer,String> verHashMap = new HashMap<>();
+                            String stringVersionNoArray = body.getJSONObject("data").getString("versionNoArray");
+                            String stringVersionNameArray = body.getJSONObject("data").getString("versionNameArray");
 
-                        JSONObject jsonObjVersionNoArray = new JSONObject(stringVersionNoArray);
-                        JSONObject jsonObjVersionNameArray = new JSONObject(stringVersionNameArray);
-                        Iterator x = jsonObjVersionNoArray.keys();
-                        Iterator y = jsonObjVersionNameArray.keys();
-                        JSONArray jsonNoArrayVersionNo = new JSONArray();
-                        JSONArray jsonNoArrayVersionName = new JSONArray();
+                            JSONObject jsonObjVersionNoArray = new JSONObject(stringVersionNoArray);
+                            JSONObject jsonObjVersionNameArray = new JSONObject(stringVersionNameArray);
+                            Iterator x = jsonObjVersionNoArray.keys();
+                            Iterator y = jsonObjVersionNameArray.keys();
+                            JSONArray jsonNoArrayVersionNo = new JSONArray();
+                            JSONArray jsonNoArrayVersionName = new JSONArray();
 
-                        while (x.hasNext()){
-                            String key = (String) x.next();
-                            jsonNoArrayVersionNo.put(jsonObjVersionNoArray.get(key));
-                        }
-                        while (y.hasNext()){
-                            String key = (String) y.next();
-                            jsonNoArrayVersionName.put(jsonObjVersionNameArray.get(key));
-                        }
+                            while (x.hasNext()){
+                                String key = (String) x.next();
+                                jsonNoArrayVersionNo.put(jsonObjVersionNoArray.get(key));
+                            }
+                            while (y.hasNext()){
+                                String key = (String) y.next();
+                                jsonNoArrayVersionName.put(jsonObjVersionNameArray.get(key));
+                            }
 
 
-                        Log.v("jsonNoArray",jsonNoArrayVersionNo.toString());
-                        Log.v("stringVersionNameArray",jsonNoArrayVersionName.toString());
+                            Log.v("jsonNoArray",jsonNoArrayVersionNo.toString());
+                            Log.v("stringVersionNameArray",jsonNoArrayVersionName.toString());
 
-                        for(int i=0;i < jsonNoArrayVersionNo.length();i++)
-                        {
-                            verHashMap.put(Integer.parseInt(jsonNoArrayVersionNo.getString(i)),jsonNoArrayVersionName.getString(i));
-                        }
-                        Log.v("hasMap",verHashMap.toString());
-                        String buildVersion = BuildConfig.VERSION_NAME;
-                        int buildCode = BuildConfig.VERSION_CODE;
-                        if (!verHashMap.containsValue(buildVersion) ||  (!verHashMap.containsKey(buildCode)))
-                        {
-                            DialogUtils.showToast(getActivity(), "To continue, please update the app to latest version.");
-                            final String appPackageName = requireActivity().getPackageName(); // getPackageName() from Context or Activity object
-                            try {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                            } catch (android.content.ActivityNotFoundException anfe) {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                               // logoutToken();
+                            for(int i=0;i < jsonNoArrayVersionNo.length();i++)
+                            {
+                                verHashMap.put(Integer.parseInt(jsonNoArrayVersionNo.getString(i)),jsonNoArrayVersionName.getString(i));
+                            }
+                            Log.v("hasMap",verHashMap.toString());
+                            String buildVersion = BuildConfig.VERSION_NAME;
+                            int buildCode = BuildConfig.VERSION_CODE;
+                            if (!verHashMap.containsValue(buildVersion) ||  (!verHashMap.containsKey(buildCode)))
+                            {
+                                DialogUtils.showToast(getActivity(), "To continue, please update the app to latest version.");
+                                final String appPackageName = requireActivity().getPackageName(); // getPackageName() from Context or Activity object
+                                try {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                } catch (android.content.ActivityNotFoundException anfe) {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                    // logoutToken();
+                                }
+                            } else {
+
                             }
                         } else {
 
                         }
-                    } else {
-
                     }
                 }
 
