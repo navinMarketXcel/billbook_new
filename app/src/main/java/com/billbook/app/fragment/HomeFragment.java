@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment
     private Button register;
 
     private Button wathcDemo, helpLine;
-    private ImageView insuranceBanner;
+    private LinearLayout insuranceBanner;
     RelativeLayout adContainer;
 
 
@@ -154,7 +154,7 @@ public class HomeFragment extends Fragment
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        insuranceBanner = view.findViewById(R.id.banner);
+        insuranceBanner = view.findViewById(R.id.bannerLayout);
         register = view.findViewById(R.id.btnRegister);
         adContainer = (RelativeLayout) view.findViewById(R.id.parent);
         cleverTapAPI = CleverTapAPI.getDefaultInstance(requireActivity());

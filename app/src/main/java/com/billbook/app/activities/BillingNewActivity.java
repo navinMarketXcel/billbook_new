@@ -524,11 +524,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                             Log.v("Gst Bills list",gstList.toString());
                             if(gstList.contains(s.toString())){
-                                binding.billNo.setError("Bill number already exist");
+                               // binding.billNo.setError("Bill number already exist");
+                                binding.llWarning.setVisibility(View.VISIBLE);
+                                binding.billNo.setBackground(getResources().getDrawable(R.drawable.warning_layout));
+//                                Toast.makeText(BillingNewActivity.this, "Warning: This Bill Number Already Exists", Toast.LENGTH_LONG).show();
 
-                                binding.nextBtn.setVisibility(View.GONE);
+                               // binding.nextBtn.setVisibility(View.GONE);
                             } else{
-                                binding.nextBtn.setVisibility(View.VISIBLE);
+                                //binding.nextBtn.setVisibility(View.VISIBLE);
+                                binding.llWarning.setVisibility(View.GONE);
+                                binding.billNo.setBackground(getResources().getDrawable(R.drawable.layout_background));
                             }
                         }
                         else
@@ -536,11 +541,17 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                             Log.v("Non Gst Bills list",nonGstList.toString());
                             if(nonGstList.contains(s.toString())){
 
-                                binding.billNo.setError("Bill number already exist");
+                                //binding.billNo.setError("Bill number already exist");
+                              //  Toast.makeText(BillingNewActivity.this, "Warning: This Bill Number Already Exists", Toast.LENGTH_LONG).show();
+                                binding.llWarning.setVisibility(View.VISIBLE);
+                                binding.billNo.setBackground(getResources().getDrawable(R.drawable.warning_layout));
 
-                                binding.nextBtn.setVisibility(View.GONE);
+
+                                //binding.nextBtn.setVisibility(View.GONE);
                             } else{
-                                binding.nextBtn.setVisibility(View.VISIBLE);
+                                binding.llWarning.setVisibility(View.GONE);
+                                binding.billNo.setBackground(getResources().getDrawable(R.drawable.layout_background));
+                                //binding.nextBtn.setVisibility(View.VISIBLE);
                             }
                         }
                     }
@@ -687,6 +698,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private void fetchMeasurementIdApiCall(HashMap<String, String> req, Spinner unit) {
         ApiInterface apiService = ApiClient.getClient(this).create(ApiInterface.class);
         Call call = apiService.fetchMeasurementIdForItem((HashMap<String, String>) req);
+        Log.v("req measurement",req.toString());
 
         call.enqueue(new Callback() {
             @Override
@@ -695,6 +707,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                     JSONObject data = body.getJSONObject("data");
                     JSONArray items = data.getJSONArray("items");
+
                     if(items.length()>0) {
                         JSONObject obj = items.getJSONObject(0);
                         int index = obj.getInt("measurementId");
@@ -1274,6 +1287,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         HashMap<String, String> req = new HashMap<>();
                         req.put("userid", profile.getString("userid"));
                         req.put("name", itemAdapter.getItem(position));
+                        Log.v("name of item",itemAdapter.getItem(position));
                         fetchMeasurementIdApiCall(req, measurementUnitSpinner);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1625,11 +1639,11 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 requestObj.put("totalAmount", total);
 
                 if (isGSTAvailable) {
-                    requestObj.put("gstBillNo", serialNumber);
+                    requestObj.put("gstBillNo", binding.billNo.getText().toString());
                     requestObj.put("nonGstBillNo", 0);
                 } else {
                     requestObj.put("gstBillNo", 0);
-                    requestObj.put("nonGstBillNo", serialNumber);
+                    requestObj.put("nonGstBillNo", binding.billNo.getText().toString());
                 }
                 if (isGSTAvailable)
                     requestObj.put("gstType", gstTypeList.get(binding.gstType.getSelectedItemPosition()));
@@ -2151,14 +2165,14 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                         binding.gstType.setSelection(1);
                     serialNumber = invoice.getInt("gstBillNo");
                     binding.billNo.setText(String.valueOf(serialNumber));
-                    binding.billNo.setEnabled(false);
+                    //binding.billNo.setEnabled(false);
                     Log.v("serialGst", String.valueOf(invoice.getInt("gstBillNo")));
                 }
                 else
                 {
                     serialNumber = invoice.getInt("nonGstBillNo");
                     binding.billNo.setText(String.valueOf(serialNumber));
-                    binding.billNo.setEnabled(false);
+                   // binding.billNo.setEnabled(false);
                     Log.v("serialNonGst", String.valueOf(invoice.getInt("nonGstBillNo")));
                 }
 

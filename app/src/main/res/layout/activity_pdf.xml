@@ -233,14 +233,16 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:layout_margin="10dp"
+            android:weightSum="3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             >
 
             <LinearLayout
-                android:layout_width="@dimen/_250sdp"
-                android:layout_weight="1.2"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -249,16 +251,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="2dp"
                     android:background="@drawable/pdf_format_structure"
                     android:text="@string/short_format"
                     android:textColor="@color/black" />
             </LinearLayout>
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
@@ -266,16 +265,32 @@
 
                 <Button
                     android:id="@+id/btn_Long_pdf"
-                    android:layout_width="145dp"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="130dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="2dp"
                     android:background="@drawable/pdf_format_structure"
                     android:text="@string/long_format"
                     android:textColor="@color/black" />
             </LinearLayout>
+<!--            <LinearLayout-->
+
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_weight="1"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <Button-->
+<!--                    android:visibility="gone"-->
+<!--                    android:id="@+id/btn_Long_2_pdf"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="@dimen/_30sdp"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:background="@drawable/pdf_format_structure"-->
+<!--                    android:text="@string/long_format_2"-->
+<!--                    android:textColor="@color/black" />-->
+<!--            </LinearLayout>-->
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -296,53 +311,164 @@
                 android:id="@+id/includedLayoutPdfContent"
                 layout="@layout/pdf_content_new" />
         </LinearLayout>
+<!--        <LinearLayout-->
+<!--            android:id="@+id/pdfLayoutOld"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            <include-->
+<!--                android:id="@+id/includedLayoutPdfContentOld"-->
+<!--                layout="@layout/pdf_content_old" />-->
+<!--        </LinearLayout>-->
 
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginBottom="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="4">
+
         <LinearLayout
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/btnShare"
-                android:background="@drawable/add_item_structure"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:paddingStart="@dimen/_30sdp"
-                android:paddingEnd="@dimen/_30sdp"
-                android:drawableLeft="@drawable/share_icon"
-                android:text="@string/share_"
+            android:id="@+id/btnPrintBill"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/add_item_structure"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/document">
+
+            </ImageView>
+            <TextView
+                android:text="Print"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimary"
-                android:layout_margin="20dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
         </LinearLayout>
         <LinearLayout
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="wrap_content">
-            <Button
-                android:id="@+id/btnPrintBill"
-                android:background="@drawable/add_item_structure"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:paddingStart="@dimen/_30sdp"
-                android:paddingEnd="@dimen/_30sdp"
-                android:drawableLeft="@drawable/document"
-                android:layout_marginRight="20dp"
-                android:text="@string/print"
+            android:id="@+id/btnWhatsappShare"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/add_item_structure"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:src="@drawable/whatsapp_vector">
+
+            </ImageView>
+            <TextView
+                android:text="Share on Whatsapp"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimary"
-                android:layout_margin="20dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/btnShare"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/add_item_structure"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/share_icon">
+
+            </ImageView>
+            <TextView
+                android:text="Print"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+
+        </LinearLayout>
+
+<!--        <Button-->
+<!--            android:layout_weight="1"-->
+<!--            android:id="@+id/btnPrintBill"-->
+<!--            android:background="@drawable/add_item_structure"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:gravity="center"-->
+<!--            android:drawableLeft="@drawable/document"-->
+<!--            android:layout_marginRight="20dp"-->
+<!--            android:text="@string/print"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/colorPrimary"-->
+<!--            android:layout_margin="20dp" />-->
+<!--        <Button-->
+<!--            android:layout_weight="2"-->
+<!--            android:id="@+id/whtasappShare"-->
+<!--            android:background="@drawable/add_item_structure"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:paddingStart="@dimen/_30sdp"-->
+<!--            android:paddingEnd="@dimen/_30sdp"-->
+<!--            android:drawableLeft="@drawable/document"-->
+<!--            android:layout_marginRight="20dp"-->
+<!--            android:text="@string/print"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/colorPrimary"-->
+<!--            android:layout_margin="20dp" />-->
+<!--        <Button-->
+<!--            android:layout_weight="1"-->
+<!--            android:id="@+id/btnShare"-->
+<!--            android:background="@drawable/add_item_structure"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginLeft="20dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:layout_marginRight="20dp"-->
+<!--            android:drawableLeft="@drawable/share_icon"-->
+<!--            android:text="@string/share_"-->
+<!--            android:textStyle="bold"-->
+<!--            android:textColor="@color/colorPrimary"-->
+<!--            android:layout_margin="20dp" />-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="@dimen/_150sdp"-->
+<!--            android:layout_height="wrap_content">-->
+<!--            -->
+<!--        </LinearLayout>-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="@dimen/_150sdp"-->
+<!--            android:layout_height="wrap_content">-->
+<!--           -->
+<!--        </LinearLayout>-->
     </LinearLayout>
     <LinearLayout
         android:gravity="center"

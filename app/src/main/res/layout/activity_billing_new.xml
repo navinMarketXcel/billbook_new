@@ -294,37 +294,50 @@
                                 android:text="@string/bill_number"
 
                                 android:textSize="16sp" />
+                                <EditText
+                                    android:layout_weight="0.2"
+                                    android:id="@+id/billNo"
+
+                                    android:layout_width="40dp"
+                                    android:editable="false"
+
+                                    android:layout_height="30dp"
+
+                                    android:layout_gravity="center"
+
+                                    android:layout_marginLeft="8dp"
+
+                                    android:background="@drawable/layout_background"
+
+                                    android:fontFamily="@font/inter"
+
+                                    android:gravity="center"
+
+                                    android:inputType="number"
+
+                                    android:textSize="12sp"
+
+                                    android:textStyle="bold"
+
+                                    tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+<!--                                <TextView-->
+<!--                                    android:layout_weight=".3"-->
+<!--                                    android:layout_width="match_parent"-->
+<!--                                    android:layout_height="match_parent"-->
+<!--                                    android:text="Bill Number Exists"-->
+<!--                                    android:textSize="12sp">-->
+<!--                                    -->
+<!--                                </TextView>-->
 
 
-                            <EditText
 
-                                android:id="@+id/billNo"
 
-                                android:layout_width="40dp"
-                                android:editable="false"
 
-                                android:layout_height="30dp"
-
-                                android:layout_gravity="center"
-
-                                android:layout_marginLeft="8dp"
-
-                                android:background="@drawable/layout_background"
-
-                                android:fontFamily="@font/inter"
-
-                                android:gravity="center"
-
-                                android:inputType="number"
-
-                                android:textSize="12sp"
-
-                                android:textStyle="bold"
-
-                                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
 
                         </LinearLayout>
+
 
 
                         <LinearLayout
@@ -397,6 +410,36 @@
 
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/llWarning"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2">
+                        <TextView
+                            android:padding="5dp"
+                            android:fontFamily="@font/inter"
+
+                            android:textColor="@color/black"
+                            android:gravity="start"
+                            android:textStyle="bold"
+                            android:layout_gravity="start"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Bill Number Already Exists"
+                            android:textSize="12sp"/>
+                        <TextView
+                            android:gravity="end"
+                            android:layout_gravity="end"
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Bill Number Exists"
+                            android:textSize="0sp"/>
+
+                    </LinearLayout>
 
 
                     <LinearLayout
@@ -419,6 +462,8 @@
                             android:layout_height="wrap_content"
 
                             android:text="@string/customer_name"
+                            android:fontFamily="@font/inter"
+
 
                             android:textColor="#555555"
 

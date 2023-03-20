@@ -159,6 +159,7 @@ public class OTPActivity extends AppCompatActivity {
                 btnResend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Util.pushEvent("Clicked on Resend Otp on Onboarding");
                         resendOTP();
                         startTimer();
                     }

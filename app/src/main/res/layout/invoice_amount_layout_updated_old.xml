@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llForHeader"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_lined"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/totalAmountBeforeTaxLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <TextView
+            android:textSize="@dimen/_17spText"
+            android:id="@+id/tvAmountHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@drawable/card_lined"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="TOTAL AMOUNT BEFORE TAX"
+            android:textColor="@color/color_black"
+            android:textStyle="bold"
+
+            />
+
+        <TextView
+            android:id="@+id/tvAmountBeforeTax"
+            android:textSize="@dimen/_17spText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@drawable/card_lined"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Amount"
+
+            android:textColor="@color/color_black" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/tvGSTHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="CGST"
+            android:textColor="@color/color_black"
+            android:textStyle="bold"
+
+            />
+
+        <TextView
+            android:id="@+id/tvGST"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="GST"
+            android:textColor="@color/color_black"
+
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/tvSGSTHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="SGST"
+            android:textColor="@color/color_black"
+            android:textStyle="bold"
+
+            />
+
+        <TextView
+            android:id="@+id/tvSGST"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="GST"
+
+            android:textColor="@color/color_black" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvIGSTHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="IGST"
+            android:textColor="@color/color_black"
+
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvIGST"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="IGST"
+
+            android:textColor="@color/color_black" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/gstTotalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/GSTTitle"
+            android:layout_width="0dp"
+            android:textSize="@dimen/_17spText"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/card_lined"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="GST"
+
+            android:textColor="@color/color_black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/totalGST"
+            android:textSize="@dimen/_17spText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@drawable/card_lined"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="0"
+
+            android:textColor="@color/color_black" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:weightSum="5">
+
+        <TextView
+            android:id="@+id/tvDiscountHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:background="@drawable/card_lined"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textSize="@dimen/_17spText"
+            android:text="DISCOUNT"
+            android:textColor="@color/color_black"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvDiscount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@drawable/card_lined"
+            android:textSize="@dimen/_17spText"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="0"
+            android:textColor="@color/color_black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:weightSum="5">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@drawable/card_lined"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="TOTAL"
+            android:textSize="@dimen/_17spText"
+
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@drawable/card_lined"
+            android:gravity="center"
+            android:padding="5dp"
+            android:textSize="@dimen/_17spText"
+            android:text="Total"
+            android:textColor="@color/colorPrimaryDark" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:weightSum="5">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="5dp"
+            android:background="@color/white"
+            android:gravity="left"
+            android:padding="5dp"
+            android:textColor="@color/color_black"
+
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            android:gravity="right"
+            android:padding="50dp"
+            android:text="Signature"
+
+            android:textColor="@color/color_black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_lined"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:weightSum="5">
+
+
+
+        <TextView
+            android:id="@+id/tv_signature"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="4"
+            android:background="@drawable/card_lined"
+            android:gravity="right|bottom"
+            android:padding="5dp"
+            android:textSize="@dimen/_17spText"
+            android:visibility="visible"
+            android:text="Signature"
+            android:textColor="@color/color_black"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_signature"
+            android:layout_width="250dp"
+            android:layout_gravity="end"
+            android:layout_height="100dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:tag="Signature image"
+            android:contentDescription="Signature Image"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_signatureIfImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:background="@drawable/card_lined"
+            android:gravity="right|bottom"
+            android:padding="5dp"
+            android:text="Signature"
+            android:textColor="@color/color_black"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_additionalDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:background="@drawable/card_lined"
+            android:gravity="start|bottom"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="50dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
+            tools:text="Additional Details \n Find shop here"
+            android:textColor="@color/color_black"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_lined"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:weightSum="5">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:gravity="left"
+            android:padding="5dp"
+            android:textSize="@dimen/_17spText"
+            android:singleLine="false"
+            android:text="Terms and Conditions"
+            android:textColor="@color/color_black"
+            android:textStyle="bold"
+
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:gravity="left"
+            android:padding="5dp"
+            android:textSize="@dimen/_15spText"
+            android:singleLine="false"
+            android:text="1. Good once sold can not be taken back.\n2. All disputes are subject to state jurisdiction.\n3. Software generated bill so signature is not required"
+            android:textColor="@color/color_black"
+            android:textStyle="normal"
+            android:visibility="visible" />
+    </LinearLayout>
+
+</LinearLayout>

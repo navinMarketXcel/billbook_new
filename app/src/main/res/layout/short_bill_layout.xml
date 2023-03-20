@@ -39,6 +39,17 @@
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
                     <TextView
+
+                        android:textStyle="bold"
+                        android:id="@+id/invoiceType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
+                        android:text="@string/tax_invoice"
+                        android:textColor="@color/color_black"
+                        android:textSize="14dp" />
+                    <TextView
                         android:id="@+id/tvVendorName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -91,6 +102,7 @@
                 </LinearLayout>
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,27 +114,12 @@
                     android:orientation="vertical">
 
 
-                    <TextView
-                        android:id="@+id/invoiceType"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:gravity="center"
-                        android:text="@string/tax_invoice"
-                        android:textColor="@color/color_black"
-                        android:textSize="14dp" />
-                    <View
-                        android:layout_width="@dimen/_70sdp"
-                        android:layout_height="@dimen/_1sdp"
-                        android:textAlignment="center"
-                        android:layout_gravity="center"
-                        android:background="@color/material_blue_grey_95"></View>
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_25sdp"
-                        android:background="@drawable/dash_line"
-                        android:layerType="software" />
+                        android:layout_height="3dp"
+                        android:background="@drawable/dotted_view" />
+
 
                     <LinearLayout
 
@@ -144,6 +141,7 @@
                                 android:padding="5dp">
 
                                 <TextView
+
                                     android:layout_width="50dp"
                                     android:layout_height="wrap_content"
                                     android:text="@string/bill_no_short_bill"
@@ -249,7 +247,7 @@
 
                                 <TextView
                                     android:id="@+id/edtAddress"
-                                    android:layout_width="0dp"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="6"
                                     android:inputType="textMultiLine"
@@ -302,12 +300,42 @@
 
                             </LinearLayout>
 
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:gravity="center_vertical"
+                            android:weightSum="10">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="GSTIN:"
+                                android:textColor="@color/color_black"
+                                android:textSize="@dimen/_10sdp" />
+
+                            <TextView
+                                android:id="@+id/edtGSTIN"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:inputType="phone"
+                                android:gravity="left"
+                                android:maxLength="10"
+                                android:layout_gravity="start"
+                                android:singleLine="false"
+                                android:textColor="@color/color_black"
+                                android:textSize="@dimen/_10sdp" />
+
+
                         </LinearLayout>
                         <View
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_10sdp"
-                            android:background="@drawable/dash_line"
-                            android:layerType="software" />
+                            android:layout_height="5dp"
+                            android:background="@drawable/dotted_view" />
 
                     </LinearLayout>
 
@@ -360,16 +388,19 @@
 
 
                         <TextView
-                            android:id="@+id/productMRP"
+                            android:id="@+id/productTax"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:ellipsize="end"
                             android:gravity="start"
                             android:singleLine="true"
-                            android:text="MRP"
+                            android:text="Tax%"
+                            android:textAllCaps="true"
+                            android:textColor="@color/color_black"
                             android:textSize="@dimen/_9sdp"
-                            android:textColor="@color/color_black" />
+
+                            />
 
                         <TextView
                             android:id="@+id/tv_preTax"
@@ -429,14 +460,14 @@
 
                         <TextView
                             android:id="@+id/productAmnt"
-                            android:layout_width="@dimen/_1sdp"
+                            android:layout_width="3dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2.5"
                             android:ellipsize="end"
                             android:gravity="start"
                             android:textSize="@dimen/_9sdp"
                             android:singleLine="true"
-                            android:text="NetAmnt"
+                            android:text="PreTaxAmnt"
                             android:textColor="@color/color_black" />
                     </LinearLayout>
                     <LinearLayout
@@ -448,26 +479,24 @@
 
 
                         <TextView
-                            android:id="@+id/productTax"
+                            android:id="@+id/hsnProduct"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="2.5"
                             android:ellipsize="end"
                             android:gravity="start"
                             android:singleLine="true"
-                            android:text="Tax%"
+                            android:text="HSN No"
                             android:textAllCaps="true"
                             android:textColor="@color/color_black"
                             android:textSize="@dimen/_9sdp"
 
                             />
                     </LinearLayout>
-
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_10sdp"
-                        android:background="@drawable/dash_line"
-                        android:layerType="software" />
+                        android:layout_height="5dp"
+                        android:background="@drawable/dotted_view" />
 
 
                     <LinearLayout
@@ -493,9 +522,8 @@
                 android:orientation="vertical">
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_10sdp"
-                    android:background="@drawable/dash_line"
-                    android:layerType="software" />
+                    android:layout_height="5dp"
+                    android:background="@drawable/dotted_view" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -506,26 +534,30 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:layout_gravity="end"
+                        android:gravity="end"
                         android:orientation="horizontal"
                         android:weightSum="15">
 
                         <TextView
+                            android:textStyle="bold"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:text="@string/items_short_bill"
                             android:textColor="@color/color_black"
-                            android:textSize="@dimen/_9sdp" />
+                            android:textSize="15sp" />
 
                         <TextView
                             android:id="@+id/invoiceItems"
+                            android:textStyle="bold"
                             android:layout_width="39dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1.5"
                             android:padding="5dp"
                             android:text="1"
                             android:textColor="@color/color_black"
-                            android:textSize="@dimen/_9sdp" />
+                            android:textSize="15sp" />
 
 
                     </LinearLayout>
@@ -541,27 +573,30 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
+                            android:textStyle="bold"
                             android:text="Qty:"
                             android:textColor="@color/color_black"
-                            android:textSize="@dimen/_9sdp" />
+                            android:textSize="15sp" />
 
                         <TextView
                             android:id="@+id/invoiceItemsQty"
-                            android:layout_width="39dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1.5"
                             android:padding="5dp"
                             android:text="1"
+                            android:textStyle="bold"
                             android:textColor="@color/color_black"
-                            android:textSize="@dimen/_9sdp" />
+                            android:textSize="15sp" />
 
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="0"
                         android:orientation="horizontal"
                         android:weightSum="15">
 
@@ -584,9 +619,8 @@
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_10sdp"
-                android:background="@drawable/dash_line"
-                android:layerType="software" />
+                android:layout_height="5dp"
+                android:background="@drawable/dotted_view" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -602,13 +636,16 @@
                     android:weightSum="10">
 
                     <TextView
+
                         android:layout_width="115dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:text="Total Amount"
+                        android:text="Sub Total"
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10sdp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/_17spText">
+
+                    </TextView>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -619,72 +656,72 @@
                     android:weightSum="10">
 
                     <TextView
-                        android:id="@+id/invoiceNetAmntTotal"
-                        android:layout_width="181dp"
+                        android:id="@+id/invoiceNetSubTotal"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="6"
                         android:text="1000.00"
-                        android:gravity="center"
-                        android:textStyle="bold"
+                        android:gravity="end"
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_10sdp" />
-
+                        android:textSize="@dimen/_11sdp" />
                 </LinearLayout>
             </LinearLayout>
+
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/_7sdp"
-            android:layout_weight="2"
-            android:orientation="horizontal">
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="@dimen/_7sdp"-->
+<!--            android:layout_weight="2"-->
+<!--            android:orientation="horizontal">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:weightSum="10">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:padding="5dp"-->
+<!--                android:weightSum="10">-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:gravity="end"
-                    android:text="@string/total_savings"
-                    android:textStyle="bold"
-                    android:textColor="@color/color_black"
-                    android:textSize="@dimen/_12sdp" />
+<!--                <TextView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="6"-->
+<!--                    android:gravity="end"-->
+<!--                    android:text="@string/total_savings"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/color_black"-->
+<!--                    android:textSize="@dimen/_12sdp" />-->
 
 
-            </LinearLayout>
+<!--            </LinearLayout>-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:weightSum="10">
-                <TextView
-                    android:id="@+id/invoiceTotalDiscount"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="6"
-                    android:text="200.00"
-                    android:textStyle="bold"
-                    android:textColor="@color/color_black"
-                    android:textSize="@dimen/_12sdp" />
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:padding="5dp"-->
+<!--                android:weightSum="10">-->
+<!--                <TextView-->
+<!--                    android:id="@+id/invoiceTotalDiscount"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="6"-->
+<!--                    android:text="200.00"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="@color/color_black"-->
+<!--                    android:textSize="@dimen/_12sdp" />-->
 
-            </LinearLayout>
-        </LinearLayout>
+<!--            </LinearLayout>-->
+<!--        </LinearLayout>-->
         <LinearLayout
             android:id="@+id/GSTField1Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -697,7 +734,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:gravity="end"
+                    android:gravity="start"
                     android:text="GST"
                     android:textColor="@color/color_black"
                     android:textSize="@dimen/_11sdp" />
@@ -711,13 +748,14 @@
                 android:weightSum="10">
 
                 <TextView
+                    android:visibility="gone"
                     android:id="@+id/taxAmntField"
                     android:layout_width="181dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:padding="5dp"
                     android:text="TAX AMT"
-                    android:gravity="start"
+                    android:gravity="end"
                     android:textColor="@color/color_black"
                     android:textSize="@dimen/_11sdp" />
 
@@ -741,7 +779,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:gravity="end"
+                    android:gravity="start"
                     android:text="SGST"
                     android:textColor="@color/color_black"
                     android:textSize="@dimen/_11sdp" />
@@ -757,12 +795,12 @@
 
                 <TextView
                     android:id="@+id/invoiceSGSTAmt"
-                    android:layout_width="181dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:padding="5dp"
                     android:text="00.00"
-                    android:gravity="start"
+                    android:gravity="end"
                     android:textColor="@color/color_black"
                     android:textSize="@dimen/_11sdp" />
 
@@ -786,7 +824,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:gravity="end"
+                    android:gravity="start"
                     android:text="CGST"
                     android:textColor="@color/color_black"
                     android:textSize="@dimen/_11sdp" />
@@ -801,12 +839,12 @@
 
                 <TextView
                     android:id="@+id/invoiceCGSTAmt"
-                    android:layout_width="181dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:padding="5dp"
                     android:text="00.00"
-                    android:gravity="start"
+                    android:gravity="end"
                     android:textColor="@color/color_black"
                     android:textSize="@dimen/_11sdp" />
 
@@ -830,7 +868,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:gravity="end"
+                    android:gravity="start"
                     android:text="IGST"
                     android:textColor="@color/color_black"
                     android:textSize="@dimen/_11sdp" />
@@ -845,27 +883,205 @@
 
                 <TextView
                     android:id="@+id/invoiceIGSTAmt"
-                    android:layout_width="181dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:padding="5dp"
                     android:text="00.00"
-                    android:gravity="start"
+                    android:gravity="end"
                     android:textColor="@color/color_black"
                     android:textSize="@dimen/_11sdp" />
 
             </LinearLayout>
         </LinearLayout>
-        <View
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_10sdp"
-            android:background="@drawable/dash_line"
-            android:layerType="software" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible"
+            android:weightSum="5">
+
+            <View
+                android:id="@+id/viewSubtotal"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/dotted_view" />
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/totalDiscLL">
+                <TextView
+                    android:id="@+id/tvBeforeDiscountHeaderSF"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:singleLine="false"
+                    android:textSize="@dimen/_17spText"
+                    android:text="Total Before Discount"
+                    android:textColor="@color/color_black"
+                    />
+
+                <TextView
+                    android:id="@+id/tvBeforeDiscountSf"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textSize="@dimen/_17spText"
+                    android:gravity="end"
+                    android:padding="5dp"
+                    android:text="0"
+                    android:textColor="@color/color_black" />
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tvDiscountHeadersf"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="start"
+                    android:padding="5dp"
+                    android:textSize="@dimen/_17spText"
+                    android:text="Discount"
+                    android:textColor="@color/color_black"
+                    />
+
+                <TextView
+                    android:id="@+id/invoiceTotalDiscount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textSize="@dimen/_17spText"
+                    android:gravity="end"
+                    android:padding="5dp"
+                    android:text="0"
+                    android:textColor="@color/color_black" />
+
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/dotted_view" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <TextView
+                        android:layout_width="115dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="Total Amount"
+                        android:textColor="@color/color_black"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <TextView
+                        android:id="@+id/invoiceNetAmntTotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:text="1000.00"
+                        android:gravity="end"
+                        android:textColor="@color/color_black"
+                        android:textSize="17sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@drawable/dotted_view" />
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="5dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TERMS &amp; CONDITIONS"
+                android:textColor="@color/color_black"
+                android:textSize="17sp">
+
+            </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="5dp"
+                android:textSize="@dimen/_15spText"
+                android:singleLine="false"
+                android:text="1. Item once purchased cannot be return."
+                android:textColor="@color/color_black"
+                 />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="5dp"
+                android:textSize="@dimen/_15spText"
+                android:singleLine="false"
+                android:text="2. In case of a damaged product or item received please contact our toll-free number-1800-328-XXXX"
+                android:textColor="@color/color_black"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="5dp"
+                android:textSize="@dimen/_15spText"
+                android:singleLine="false"
+                android:text="3. The product carries only manufacturer’s warranty and no return or exchange will be entertained"
+                android:textColor="@color/color_black"
+                />
+
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -876,15 +1092,15 @@
                     android:gravity="center"
                     android:text="Made with BillBook"
                     android:textColor="@color/color_black"
-                    android:textSize="14sp" />
+                    android:textSize="17sp" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:paddingTop="@dimen/_7sdp"
+                    android:layout_marginTop="5dp"
                     android:text="***Thank you for your shopping***"
                     android:textColor="@color/color_black"
-                    android:textSize="14sp" />
+                    android:textSize="17sp" />
 
             </LinearLayout>
         </LinearLayout>

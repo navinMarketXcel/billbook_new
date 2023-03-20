@@ -326,7 +326,9 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
     {
         
         Util.pushEvent("Clicked On Select in Search Invoices");
+        LinearLayout rootll = findViewById(R.id.rootll);
         TextView selecttv= findViewById(R.id.selectTv);
+        View viewFilter = findViewById(R.id.viewFilter);
         TextView sortTv = findViewById(R.id.sortTv);
         TextView filterTv = findViewById(R.id.filterTv);
         Button delete = findViewById(R.id.deleteButton);
@@ -335,17 +337,28 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         {
             download.setVisibility(View.GONE);
             delete.setVisibility(View.GONE);
-            sortTv.setVisibility(View.VISIBLE);
-            filterTv.setVisibility(View.VISIBLE);
-            selecttv.setText("Select");
+            rootll.setVisibility(View.VISIBLE);
+
+            //sortTv.setVisibility(View.VISIBLE);
+
+//            filterTv.setVisibility(View.VISIBLE);
+//            filterIv.setVisibility(View.VISIBLE);
+//            sortIv.setVisibility(View.VISIBLE);
+//            viewFilter.setVisibility(View.VISIBLE);
+
+            selecttv.setText("Select Bills");
             isCheckFlag=false;
         }
         else
         {
             download.setVisibility(View.VISIBLE);
             delete.setVisibility(View.VISIBLE);
-            sortTv.setVisibility(View.GONE);
-            filterTv.setVisibility(View.GONE);
+            rootll.setVisibility(View.GONE);
+//            sortTv.setVisibility(View.GONE);
+//            viewFilter.setVisibility(View.GONE);
+//            filterTv.setVisibility(View.GONE);
+//            filterIv.setVisibility(View.GONE);
+//            sortIv.setVisibility(View.GONE);
             selecttv.setText("Cancel");
             isCheckFlag=true;
 

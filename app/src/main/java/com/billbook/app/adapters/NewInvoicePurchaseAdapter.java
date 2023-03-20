@@ -91,8 +91,10 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
                     holder.SGSTValue.setVisibility(View.GONE);
                     holder.IGSTValue.setVisibility(View.VISIBLE);
                     holder.IGSTValue.setText(Util.formatDecimalValue(gstVlaue));
-                    holder.llForHeader.setWeightSum(9f);                   /* holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
+                    holder.llForHeader.setWeightSum(10f);
+                    /* holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                             0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));*/
+
                 }else
 //                    if(curItems.get(position).getGstType() != null && curItems.get(position).getGstType().equals("CGST/SGST (Local customer)")){
                         if(GSTType.equals("CGST/SGST (Local customer)")){
@@ -140,7 +142,7 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvProductNumber,tvProductName, SGSTValue, CGSTValue, IGSTValue, tvQTY, tvRate, tvAmount, preTaxValue,imeinoOnBill,hsnOnBill;
-        LinearLayout llForHeader;
+        LinearLayout llForHeader,getLlForHeaderItem;
 
         public MyViewHolder(View itemView) {
             super(itemView);

@@ -434,7 +434,7 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="enter_otp">Enter OTP</string>
     <string name="otp_sent">OTP sent to 9897767646</string>
     <string name="verify">Verify</string>
-    <string name="select">Select</string>
+    <string name="select">Select Bills</string>
     <string name="choose_period">Choose Period</string>
     <string name="transaction">Transaction</string>
     <string name="income">Income</string>
@@ -450,7 +450,8 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="help_menu">Help</string>
     <string name="logout">Logout</string>
     <string name="export_report">Export Report</string>
-    <string name="long_format">Long Format</string>
+    <string name="long_format">Long Format-1</string>
+    <string name="long_format_2" translatable="false">Long Format-2</string>
     <string name="short_format">Short Format</string>
     <string name="bill_number">Bill Number:</string>
     <string name="bill_date">Bill Date:</string>

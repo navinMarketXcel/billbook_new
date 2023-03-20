@@ -288,64 +288,64 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
 
 
-        holder.saveInv.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View v) {
-
-                Util.postEvents("Save","Save",context.getApplicationContext());
-                Util.pushEvent("Clicked on Save Invoice in Search Invoices");
-
-
-                Intent i = new Intent(Intent.ACTION_VIEW);
-
-                if( data.getPdfLink()!=null && !data.getPdfLink().isEmpty()) {
-
-                    String pdfLink = data.getPdfLink();
-
-
-                    if(pdfLink.contains("http://")){
-
-                        pdfLink = pdfLink.replace("http://", "https://");
-
-                    }
-
-
-                    i.setData(Uri.parse(pdfLink));
-
-                    try{
-
-                        context.startActivity(i);
-
-                    }catch(Exception e){
-
-                        DialogUtils.showToast(context, "Browser not installed");
-
-                        e.printStackTrace();
-
-                    }
-
-                }
-
-                else{
-
-//                                Util.postEvents("Edit","Edit",context.getApplicationContext());
-
-//                                Intent intent = new Intent(context, BillingNewActivity.class);
-
-//                                intent.putExtra("edit",true);
-
-//                                intent.putExtra("invoice",requestInvoice.toString());
-
-//                                context.startActivity(intent);
-
-                }
-
-
-            }
-
-        });
+//        holder.saveInv.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//
+//            public void onClick(View v) {
+//
+//                Util.postEvents("Save","Save",context.getApplicationContext());
+//                Util.pushEvent("Clicked on Save Invoice in Search Invoices");
+//
+//
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//
+//                if( data.getPdfLink()!=null && !data.getPdfLink().isEmpty()) {
+//
+//                    String pdfLink = data.getPdfLink();
+//
+//
+//                    if(pdfLink.contains("http://")){
+//
+//                        pdfLink = pdfLink.replace("http://", "https://");
+//
+//                    }
+//
+//
+//                    i.setData(Uri.parse(pdfLink));
+//
+//                    try{
+//
+//                        context.startActivity(i);
+//
+//                    }catch(Exception e){
+//
+//                        DialogUtils.showToast(context, "Browser not installed");
+//
+//                        e.printStackTrace();
+//
+//                    }
+//
+//                }
+//
+//                else{
+//
+////                                Util.postEvents("Edit","Edit",context.getApplicationContext());
+//
+////                                Intent intent = new Intent(context, BillingNewActivity.class);
+//
+////                                intent.putExtra("edit",true);
+//
+////                                intent.putExtra("invoice",requestInvoice.toString());
+//
+////                                context.startActivity(intent);
+//
+//                }
+//
+//
+//            }
+//
+//        });
 
 
         if (data.getIsActive()) {
@@ -379,6 +379,12 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
                 }
 
+            });
+            holder.itemLyaout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
             });
 
             //holder.edit.setVisibility(View.VISIBLE);
@@ -485,7 +491,8 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
         private CardView card_view;
 
-        private LinearLayout llMain,searchItem;
+        private LinearLayout llMain,itemLyaout;
+        private Button searchItem;
 
         private SearchInvoiceItemClickListener searchInvoiceItemClickListener;
 
@@ -510,13 +517,15 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             cancelInvBItn = view.findViewById(R.id.cancelInvBItn);
 
             searchItem = view.findViewById(R.id.searchItem);
+            itemLyaout = view.findViewById(R.id.itemLayout);
+
 
 
             this.searchInvoiceItemClickListener = searchInvoiceItemClickListener;
 
             download =view.findViewById(R.id.download);
 
-            saveInv.setOnClickListener(this);
+            //saveInv.setOnClickListener(this);
 
         }
 

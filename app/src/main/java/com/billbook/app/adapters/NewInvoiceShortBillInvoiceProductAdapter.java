@@ -65,13 +65,20 @@ public class NewInvoiceShortBillInvoiceProductAdapter extends RecyclerView.Adapt
         //holder.invoiceItemsQty.setText(String.valueOf(curItems.get(position).getQuantity()));
         holder.productLabel.setText(qtyString);
        // holder.invoiceItemsQty.setText(qtyString);
-        holder.productMRP.setText(String.valueOf(Util.formatDecimalValue(curItems.get(position).getPrice())));
-        holder.productAmnt.setText(Util.formatDecimalValue( curItems.get(position).getTotalAmount()));
-        holder.rate.setText(String.valueOf(Util.formatDecimalValue(curItems.get(position).getGstAmount())));
+        //holder.productMRP.setText(String.valueOf(Util.formatDecimalValue(curItems.get(position).getPrice())));
+        float gst = 1 + (curItems.get(position).getGst() / 100);
+        float preTaxSingleValue =  curItems.get(position).getPrice() / gst;
+        holder.productAmnt.setText(Util.formatDecimalValue(preTaxSingleValue * curItems.get(position).getQuantity()));
+
+        holder.rate.setText(String.valueOf(Util.formatDecimalValue(curItems.get(position).getPrice())));
+        holder.imei.setText(curItems.get(position).getImei());
+
         if(this.isGSTAvailable){
             holder.productTax.setText(String.valueOf((int)curItems.get(position).getGst())+"%");
+            holder.hsnItemLaySf.setText(curItems.get(position).getSerial_no());
         } else {
             holder.productTax.setVisibility(View.GONE);
+            holder.hsnItemLaySf.setVisibility(View.GONE);
         }
     }
 
@@ -86,15 +93,16 @@ public class NewInvoiceShortBillInvoiceProductAdapter extends RecyclerView.Adapt
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView productDescription, productLabel, productMRP, rate, productAmnt, productTax,invoiceItemsQty;
+        TextView productDescription, productLabel, productMRP, rate, productAmnt, productTax,invoiceItemsQty,imei,hsnItemLaySf;
         LinearLayout llForHeader;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            imei = itemView.findViewById(R.id.imei);
+            hsnItemLaySf = itemView.findViewById(R.id.hsnItemLaySf);
             invoiceItemsQty = itemView.findViewById(R.id.invoiceItemsQty);
             llForHeader = itemView.findViewById(R.id.llForHeader);
             productDescription = itemView.findViewById(R.id.productDescription);
-            productMRP = itemView.findViewById(R.id.productMRP);
             productLabel = itemView.findViewById(R.id.productLabel);
             rate = itemView.findViewById(R.id.rate);
             productAmnt = itemView.findViewById(R.id.productAmnt);
