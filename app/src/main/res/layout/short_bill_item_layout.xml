@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:id="@+id/editLayout"
     android:orientation="vertical">
     <LinearLayout
@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="left|center_vertical"
-            android:paddingLeft="2dp"
             android:text="@string/description_short_bill"
             android:textColor="@color/color_black"
             android:textSize="@dimen/_9sdp" />

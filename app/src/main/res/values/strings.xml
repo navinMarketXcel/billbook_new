@@ -450,7 +450,7 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="help_menu">Help</string>
     <string name="logout">Logout</string>
     <string name="export_report">Export Report</string>
-    <string name="long_format">Long Format-1</string>
+    <string name="long_format">Long Format</string>
     <string name="long_format_2" translatable="false">Long Format-2</string>
     <string name="short_format">Short Format</string>
     <string name="bill_number">Bill Number:</string>

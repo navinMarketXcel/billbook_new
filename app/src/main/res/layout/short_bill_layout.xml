@@ -160,30 +160,21 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:layout_gravity="end"
+                                android:gravity="right"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:orientation="horizontal"
-                                android:padding="5dp"
-                                android:weightSum="10">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:gravity="end"
-                                    android:layout_gravity="end"
-                                    android:fontFamily="@font/inter_bold"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="4"
-                                    android:text="@string/date"
-                                    android:textColor="@color/color_black"
-                                    android:textSize="@dimen/_10sdp" />
+                                android:padding="5dp">
 
                                 <TextView
                                     android:id="@+id/txtInvoiceDate"
-                                    android:layout_width="0dp"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="6"
+
                                     android:text="22-03-2018"
+                                    android:singleLine="true"
                                     android:textColor="@color/color_black"
                                     android:textSize="@dimen/_10sdp" />
 
@@ -324,7 +315,7 @@
                                 android:layout_height="match_parent"
                                 android:inputType="phone"
                                 android:gravity="left"
-                                android:maxLength="10"
+                                android:maxLength="15"
                                 android:layout_gravity="start"
                                 android:singleLine="false"
                                 android:textColor="@color/color_black"
@@ -358,7 +349,6 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:gravity="left|center_vertical"
-                        android:paddingLeft="2dp"
                         android:text="@string/description_short_bill"
                         android:textColor="@color/color_black"
                         android:textSize="@dimen/_10sdp" />

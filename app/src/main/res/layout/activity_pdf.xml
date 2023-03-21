@@ -234,7 +234,7 @@
 
         <LinearLayout
             android:layout_margin="10dp"
-            android:weightSum="3"
+            android:weightSum="2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -402,7 +402,7 @@
 
             </ImageView>
             <TextView
-                android:text="Print"
+                android:text="Share"
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimary"
                 android:layout_width="wrap_content"
