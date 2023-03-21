@@ -33,5 +33,6 @@
     <dimen name="_15spText">15sp</dimen>
     <dimen name="_17spText">17sp</dimen>
     <dimen name="_12spText">12sp</dimen>
+    <dimen name="_13spText">13sp</dimen>
 
 </resources>

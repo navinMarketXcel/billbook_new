@@ -89,8 +89,10 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
                 if(GSTType.equals("IGST (Central/outstation customer)")){
                     holder.CGSTValue.setVisibility(View.GONE);
                     holder.SGSTValue.setVisibility(View.GONE);
+//                    holder.SGSTTaxLabel.setVisibility(View.GONE);
+//                    holder.CGSTTaxLabel.setVisibility(View.GONE);
                     holder.IGSTValue.setVisibility(View.VISIBLE);
-                    holder.IGSTValue.setText(Util.formatDecimalValue(gstVlaue));
+                    holder.IGSTValue.setText(Util.formatDecimalValue(gstVlaue)+"\n"+(float)curItems.get(position).getGst()+"%");
                     holder.llForHeader.setWeightSum(10f);
                     /* holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                             0, LinearLayout.LayoutParams.MATCH_PARENT, 4.5f));*/
@@ -101,10 +103,12 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
                     /*holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
                             0, LinearLayout.LayoutParams.MATCH_PARENT, 3.5f));*/
                     holder.CGSTValue.setVisibility(View.VISIBLE);
+//                    holder.CGSTTaxLabel.setText((((float)curItems.get(position).getGst()))/2+"%");
+//                    holder.SGSTTaxLabel.setText((((float)curItems.get(position).getGst()))/2+"%");
                     holder.SGSTValue.setVisibility(View.VISIBLE);
                     holder.IGSTValue.setVisibility(View.GONE);
-                    holder.CGSTValue.setText(Util.formatDecimalValue( gstVlaue / 2));
-                    holder.SGSTValue.setText(Util.formatDecimalValue( gstVlaue / 2));
+                    holder.CGSTValue.setText(Util.formatDecimalValue( gstVlaue / 2)+"\n"+(float)curItems.get(position).getGst()/2+"%");
+                    holder.SGSTValue.setText(Util.formatDecimalValue( gstVlaue / 2)+"\n"+(float)curItems.get(position).getGst()/2+"%");
 
                 }else {
                    /* holder.tvProductName.setLayoutParams(new LinearLayout.LayoutParams(
@@ -112,12 +116,16 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
                     holder.CGSTValue.setVisibility(View.GONE);
                     holder.IGSTValue.setVisibility(View.GONE);
                     holder.SGSTValue.setVisibility(View.GONE);
+//                            holder.SGSTTaxLabel.setVisibility(View.GONE);
+//                            holder.CGSTTaxLabel.setVisibility(View.GONE);
                             holder.llForHeader.setWeightSum(8.5f);
 
                         }
             }
         }
         else {
+//            holder.SGSTTaxLabel.setVisibility(View.GONE);
+//            holder.CGSTTaxLabel.setVisibility(View.GONE);
             holder.hsnOnBill.setVisibility(View.GONE);
             holder.tvRate.setText(Util.formatDecimalValue( curItems.get(position).getPrice()));
             holder.CGSTValue.setVisibility(View.GONE);
@@ -141,12 +149,14 @@ public class NewInvoicePurchaseAdapter extends RecyclerView.Adapter<NewInvoicePu
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView tvProductNumber,tvProductName, SGSTValue, CGSTValue, IGSTValue, tvQTY, tvRate, tvAmount, preTaxValue,imeinoOnBill,hsnOnBill;
+        TextView tvProductNumber,tvProductName, SGSTValue, CGSTValue, IGSTValue, tvQTY, tvRate, tvAmount, preTaxValue,imeinoOnBill,hsnOnBill,SGSTTaxLabel,CGSTTaxLabel;
         LinearLayout llForHeader,getLlForHeaderItem;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             llForHeader = itemView.findViewById(R.id.llForHeader);
+//            SGSTTaxLabel = itemView.findViewById(R.id.SGSTTaxLabel);
+//            CGSTTaxLabel = itemView.findViewById(R.id.CGSTTaxLabel);
             tvProductName = (TextView) itemView.findViewById(R.id.tvProductName);
             tvQTY = (TextView) itemView.findViewById(R.id.tvQTY);
             preTaxValue = itemView.findViewById(R.id.tv_preTaxValue);

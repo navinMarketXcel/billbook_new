@@ -77,6 +77,7 @@ public class NewInvoiceShortBillInvoiceProductAdapter extends RecyclerView.Adapt
             holder.productTax.setText(String.valueOf((int)curItems.get(position).getGst())+"%");
             holder.hsnItemLaySf.setText(curItems.get(position).getSerial_no());
         } else {
+            holder.llForHeader.setWeightSum(3.0f);
             holder.productTax.setVisibility(View.GONE);
             holder.hsnItemLaySf.setVisibility(View.GONE);
         }
@@ -94,7 +95,7 @@ public class NewInvoiceShortBillInvoiceProductAdapter extends RecyclerView.Adapt
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView productDescription, productLabel, productMRP, rate, productAmnt, productTax,invoiceItemsQty,imei,hsnItemLaySf;
-        LinearLayout llForHeader;
+        LinearLayout llForHeader,editLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);

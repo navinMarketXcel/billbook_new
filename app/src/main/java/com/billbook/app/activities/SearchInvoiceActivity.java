@@ -328,13 +328,16 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         Util.pushEvent("Clicked On Select in Search Invoices");
         LinearLayout rootll = findViewById(R.id.rootll);
         TextView selecttv= findViewById(R.id.selectTv);
-        View viewFilter = findViewById(R.id.viewFilter);
-        TextView sortTv = findViewById(R.id.sortTv);
-        TextView filterTv = findViewById(R.id.filterTv);
         Button delete = findViewById(R.id.deleteButton);
         Button download = findViewById(R.id.downloadAll);
+        Button iv = findViewById(R.id.searchItem);
+        Button iv2 = findViewById(R.id.cancelInvBItn);
+
         if(isCheckFlag)
         {
+
+            iv.setVisibility(View.VISIBLE);
+            iv2.setVisibility(View.VISIBLE);
             download.setVisibility(View.GONE);
             delete.setVisibility(View.GONE);
             rootll.setVisibility(View.VISIBLE);
@@ -351,6 +354,8 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         }
         else
         {
+            iv.setVisibility(View.GONE);
+            iv2.setVisibility(View.GONE);
             download.setVisibility(View.VISIBLE);
             delete.setVisibility(View.VISIBLE);
             rootll.setVisibility(View.GONE);

@@ -397,10 +397,11 @@ xmlns:tools="http://schemas.android.com/tools"
 
                                             <TextView
                                                 android:id="@+id/cusGst"
-                                                style="@style/textRegularBold"
+                                                android:textStyle="bold"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="0dp"
                                                 android:layout_weight="1"
+                                                android:textSize="@dimen/_13ssp"
                                                 android:text="N/A"
                                                 android:textColor="@color/color_black"
                                                 />
@@ -884,66 +885,319 @@ xmlns:tools="http://schemas.android.com/tools"
                                 android:visibility="visible"
                                 android:weightSum="5">
                                 <LinearLayout
-                                    android:id="@+id/cgstLL"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-                                    <TextView
-                                        android:id="@+id/CGSTTitle"
-                                        android:layout_width="0dp"
-                                        android:textSize="@dimen/_17spText"
-                                        android:layout_height="match_parent"
-                                        android:layout_weight="3"
-                                        android:gravity="center"
-                                        android:padding="5dp"
-                                        android:text="CGST"
-
-                                        android:textColor="@color/color_black"
-                                        />
-
-                                    <TextView
-                                        android:id="@+id/totalCGST"
-                                        android:textSize="@dimen/_17spText"
-                                        android:layout_width="0dp"
+                                    android:orientation="vertical"
+                                    android:id="@+id/sgstcsgtLL">
+                                    <LinearLayout
+                                        android:id="@+id/cgstLL1.5"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="2"
-                                        android:gravity="center"
-                                        android:padding="5dp"
-                                        android:text="0"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:id="@+id/CGSTTitle1.5"
+                                            android:layout_width="0dp"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="3"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="CGST @1.5%"
 
-                                        android:textColor="@color/color_black" />
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:id="@+id/sgstLL"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-                                    <TextView
-                                        android:id="@+id/SGSTTitle"
-                                        android:layout_width="0dp"
-                                        android:textSize="@dimen/_17spText"
-                                        android:layout_height="match_parent"
-                                        android:layout_weight="3"
+                                            android:textColor="@color/color_black"
+                                            />
 
-                                        android:gravity="center"
-                                        android:padding="5dp"
-                                        android:text="SGST"
+                                        <TextView
+                                            android:id="@+id/totalCGST1.5"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="2"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="0"
 
-                                        android:textColor="@color/color_black"
-                                        />
-
-                                    <TextView
-                                        android:id="@+id/totalSGST"
-                                        android:textSize="@dimen/_17spText"
-                                        android:layout_width="0dp"
+                                            android:textColor="@color/color_black" />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:id="@+id/sgstLL1.5"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="2"
-                                        android:gravity="center"
-                                        android:padding="5dp"
-                                        android:text="0"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:id="@+id/SGSTTitle1.5"
+                                            android:layout_width="0dp"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="3"
 
-                                        android:textColor="@color/color_black" />
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="SGST @1.5%"
+
+                                            android:textColor="@color/color_black"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/totalSGST1.5"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="2"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="0"
+
+                                            android:textColor="@color/color_black" />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:id="@+id/cgstLL2.5"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:id="@+id/CGSTTitle2.5"
+                                            android:layout_width="0dp"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="3"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="CGST @2.5%"
+
+                                            android:textColor="@color/color_black"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/totalCGST2.5"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="2"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="0"
+
+                                            android:textColor="@color/color_black" />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:id="@+id/sgstLL2.5"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:id="@+id/SGSTTitle2.5"
+                                            android:layout_width="0dp"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="3"
+
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="SGST @2.5%"
+
+                                            android:textColor="@color/color_black"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/totalSGST2.5"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="2"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="0"
+
+                                            android:textColor="@color/color_black" />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:id="@+id/cgstLL6.0"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:id="@+id/CGSTTitle6.0"
+                                            android:layout_width="0dp"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="3"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="CGST @6%"
+
+                                            android:textColor="@color/color_black"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/totalCGST6.0"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="2"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="0"
+
+                                            android:textColor="@color/color_black" />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:id="@+id/sgstLL6.0"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:id="@+id/SGSTTitle6.0"
+                                            android:layout_width="0dp"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="3"
+
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="SGST @6%"
+
+                                            android:textColor="@color/color_black"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/totalSGST6.0"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="2"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="0"
+
+                                            android:textColor="@color/color_black" />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:id="@+id/cgstLL9.0"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:id="@+id/CGSTTitle9.0"
+                                            android:layout_width="0dp"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="3"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="CGST @9%"
+
+                                            android:textColor="@color/color_black"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/totalCGST9.0"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="2"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="0"
+
+                                            android:textColor="@color/color_black" />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:id="@+id/sgstLL9.0"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:id="@+id/SGSTTitle9.0"
+                                            android:layout_width="0dp"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="3"
+
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="SGST @9%"
+
+                                            android:textColor="@color/color_black"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/totalSGST9.0"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="2"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="0"
+
+                                            android:textColor="@color/color_black" />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:id="@+id/cgstLL14"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:id="@+id/CGSTTitle"
+                                            android:layout_width="0dp"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="3"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="CGST @14%"
+
+                                            android:textColor="@color/color_black"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/totalCGST"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="2"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="0"
+
+                                            android:textColor="@color/color_black" />
+                                    </LinearLayout>
+                                    <LinearLayout
+                                        android:id="@+id/sgstLL14"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal">
+                                        <TextView
+                                            android:id="@+id/SGSTTitle"
+                                            android:layout_width="0dp"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_height="match_parent"
+                                            android:layout_weight="3"
+
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="SGST @14%"
+
+                                            android:textColor="@color/color_black"
+                                            />
+
+                                        <TextView
+                                            android:id="@+id/totalSGST"
+                                            android:textSize="@dimen/_17spText"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="2"
+                                            android:gravity="center"
+                                            android:padding="5dp"
+                                            android:text="0"
+
+                                            android:textColor="@color/color_black" />
+                                    </LinearLayout>
+
                                 </LinearLayout>
+
+
                                 <LinearLayout
                                     android:id="@+id/isgtLL"
                                     android:layout_width="match_parent"

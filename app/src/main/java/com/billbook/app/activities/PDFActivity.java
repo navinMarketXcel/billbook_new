@@ -126,6 +126,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
     //private PdfContentOldBinding pdfContentOldBinding;
     private ShortBillItemLayoutBinding shortBillItemLayoutBinding;
     private ShortBillLayoutBinding  shortBillLayoutBinding;
+
     private InvoiceAmountLayoutUpdatedBinding invoiceAmountLayoutUpdatedBinding;
     private String vendorName = "MArcn Technology", vendorAddress = "Shop 10,82/86,Abdul Rehman Street", vendorLocation = "MUMBAI-400003(Maharastra)", billType = "short";
     private boolean hasCompanyLogo = false, hasSignatureLogo = false, shortBillPrint = false, longBillPrint = false;
@@ -181,8 +182,78 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    public static void setDataAfterInvoiceItems(List<InvoiceItems> invoiceItems,Context context,boolean isGSTAvailable, RecyclerView recyclerViewInvoiceProducts, String GSTType){
+    public void setDataAfterInvoiceItems(List<InvoiceItems> invoiceItems,Context context,boolean isGSTAvailable, RecyclerView recyclerViewInvoiceProducts, String GSTType){
         System.out.println("Invoices item:"+invoiceItems.size());
+        float taxSlab5=0,taxSlab3=0,taxSlab12=0,taxSlab18=0,taxSlab28=0;
+        if(isGSTAvailable)
+        {
+            for(int i=0;i<invoiceItems.size();i++)
+            {
+
+                if(invoiceItems.get(i).getGst()==3)
+                    taxSlab3=(taxSlab3+invoiceItems.get(i).getTotalAmount())-invoiceItems.get(i).getGstAmount();
+                else if (invoiceItems.get(i).getGst()==5)
+                    taxSlab5=(taxSlab5+invoiceItems.get(i).getTotalAmount())-invoiceItems.get(i).getGstAmount();
+                else if (invoiceItems.get(i).getGst()==12)
+                    taxSlab12=(taxSlab12+invoiceItems.get(i).getTotalAmount())-invoiceItems.get(i).getGstAmount();
+                else if (invoiceItems.get(i).getGst()==18)
+                    taxSlab18=taxSlab18+invoiceItems.get(i).getGstAmount();
+                else if (invoiceItems.get(i).getGst()==28)
+                    taxSlab28=taxSlab28+invoiceItems.get(i).getGstAmount();
+
+            }
+
+            Log.v("tax slabs",taxSlab3+" "+taxSlab5+" "+taxSlab12+" "+taxSlab18+" "+taxSlab28);
+        }
+        if(taxSlab3>0)
+        {
+            pdfBinding.totalCGST15.setText(""+Util.formatDecimalValue(taxSlab3/2));
+            pdfBinding.totalSGST15.setText(""+Util.formatDecimalValue(taxSlab3/2));
+        }
+        else {
+            pdfBinding.cgstLL15.setVisibility(View.GONE);
+            pdfBinding.sgstLL15.setVisibility(View.GONE);
+        }
+        if(taxSlab5>0)
+        {
+            pdfBinding.totalCGST25.setText(""+Util.formatDecimalValue(taxSlab5/2));
+            pdfBinding.totalSGST25.setText(""+Util.formatDecimalValue(taxSlab5/2));
+        }
+        else {
+            pdfBinding.totalCGST25.setVisibility(View.GONE);
+            pdfBinding.totalSGST25.setVisibility(View.GONE);
+        }
+        if(taxSlab12>0)
+        {
+            pdfBinding.totalCGST60.setText(""+Util.formatDecimalValue(taxSlab12/2));
+            pdfBinding.totalSGST60.setText(""+Util.formatDecimalValue(taxSlab12/2));
+        }
+        else {
+            pdfBinding.cgstLL60.setVisibility(View.GONE);
+            pdfBinding.sgstLL60.setVisibility(View.GONE);
+        }
+        if(taxSlab18>0)
+        {
+            pdfBinding.totalCGST90.setText(""+Util.formatDecimalValue(taxSlab18/2));
+            pdfBinding.totalSGST90.setText(""+Util.formatDecimalValue(taxSlab18/2));
+        }
+        else {
+            pdfBinding.cgstLL90.setVisibility(View.GONE);
+            pdfBinding.sgstLL90.setVisibility(View.GONE);
+        }
+        if(taxSlab28>0)
+        {
+            pdfBinding.totalCGST.setText(""+Util.formatDecimalValue(taxSlab28/2));
+            pdfBinding.totalSGST.setText(""+Util.formatDecimalValue(taxSlab28/2));
+        }
+        else {
+            pdfBinding.cgstLL14.setVisibility(View.GONE);
+            pdfBinding.sgstLL14.setVisibility(View.GONE);
+        }
+        Log.v("tax slabs 2",taxSlab3+" "+taxSlab5+" "+taxSlab12+" "+taxSlab18+" "+taxSlab28);
+
+
+
         NewInvoicePurchaseAdapter newInvoicePurchaseAdapter = new NewInvoicePurchaseAdapter(context, invoiceItems, isGSTAvailable,GSTType);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         mLayoutManager.setStackFromEnd(true);
@@ -190,7 +261,75 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
         recyclerViewInvoiceProducts.setAdapter(newInvoicePurchaseAdapter);
     }
 
-    public static void setDataAfterInvoiceItemsShort(List<InvoiceItems> invoiceItems,Context context,boolean isGSTAvailable, RecyclerView recyclerViewShortBillInvoiceProducts, String GSTType){
+    public void setDataAfterInvoiceItemsShort(List<InvoiceItems> invoiceItems,Context context,boolean isGSTAvailable, RecyclerView recyclerViewShortBillInvoiceProducts, String GSTType){
+        System.out.println("Invoices item:"+invoiceItems.size());
+        float taxSlab5=0,taxSlab3=0,taxSlab12=0,taxSlab18=0,taxSlab28=0;
+        if(isGSTAvailable)
+        {
+            for(int i=0;i<invoiceItems.size();i++)
+            {
+
+                if(invoiceItems.get(i).getGst()==3)
+                    taxSlab3=(taxSlab3+invoiceItems.get(i).getTotalAmount())-invoiceItems.get(i).getGstAmount();
+                else if (invoiceItems.get(i).getGst()==5)
+                    taxSlab5=(taxSlab5+invoiceItems.get(i).getTotalAmount())-invoiceItems.get(i).getGstAmount();
+                else if (invoiceItems.get(i).getGst()==12)
+                    taxSlab12=(taxSlab12+invoiceItems.get(i).getTotalAmount())-invoiceItems.get(i).getGstAmount();
+                else if (invoiceItems.get(i).getGst()==18)
+                    taxSlab18=taxSlab18+invoiceItems.get(i).getGstAmount();
+                else if (invoiceItems.get(i).getGst()==28)
+                    taxSlab28=taxSlab28+invoiceItems.get(i).getGstAmount();
+
+            }
+
+            Log.v("tax slabs",taxSlab3+" "+taxSlab5+" "+taxSlab12+" "+taxSlab18+" "+taxSlab28);
+        }
+        if(taxSlab3>0)
+        {
+            shortBillLayoutBinding.totalCGST15.setText(""+Util.formatDecimalValue(taxSlab3/2));
+            shortBillLayoutBinding.totalSGST15.setText(""+Util.formatDecimalValue(taxSlab3/2));
+        }
+        else {
+            shortBillLayoutBinding.cgstLL15.setVisibility(View.GONE);
+            shortBillLayoutBinding.sgstLL15.setVisibility(View.GONE);
+        }
+        if(taxSlab5>0)
+        {
+            shortBillLayoutBinding.totalCGST25.setText(""+Util.formatDecimalValue(taxSlab5/2));
+            shortBillLayoutBinding.totalSGST25.setText(""+Util.formatDecimalValue(taxSlab5/2));
+        }
+        else {
+            shortBillLayoutBinding.totalCGST25.setVisibility(View.GONE);
+            shortBillLayoutBinding.totalSGST25.setVisibility(View.GONE);
+        }
+        if(taxSlab12>0)
+        {
+            shortBillLayoutBinding.totalCGST60.setText(""+Util.formatDecimalValue(taxSlab12/2));
+            shortBillLayoutBinding.totalSGST60.setText(""+Util.formatDecimalValue(taxSlab12/2));
+        }
+        else {
+            shortBillLayoutBinding.cgstLL60.setVisibility(View.GONE);
+            shortBillLayoutBinding.sgstLL60.setVisibility(View.GONE);
+        }
+        if(taxSlab18>0)
+        {
+            shortBillLayoutBinding.totalCGST90.setText(""+Util.formatDecimalValue(taxSlab18/2));
+            shortBillLayoutBinding.totalSGST90.setText(""+Util.formatDecimalValue(taxSlab18/2));
+        }
+        else {
+            shortBillLayoutBinding.cgstLL90.setVisibility(View.GONE);
+            shortBillLayoutBinding.sgstLL90.setVisibility(View.GONE);
+        }
+        if(taxSlab28>0)
+        {
+            shortBillLayoutBinding.totalCGST.setText(""+Util.formatDecimalValue(taxSlab28/2));
+            shortBillLayoutBinding.totalSGST.setText(""+Util.formatDecimalValue(taxSlab28/2));
+        }
+        else {
+            shortBillLayoutBinding.cgstLL14.setVisibility(View.GONE);
+            shortBillLayoutBinding.sgstLL14.setVisibility(View.GONE);
+        }
+        Log.v("tax slabs 2",taxSlab3+" "+taxSlab5+" "+taxSlab12+" "+taxSlab18+" "+taxSlab28);
         NewInvoiceShortBillInvoiceProductAdapter newInvoiceShortBillInvoiceProductAdapter = new NewInvoiceShortBillInvoiceProductAdapter(context, invoiceItems, isGSTAvailable,GSTType);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         mLayoutManager.setStackFromEnd(true);
@@ -219,6 +358,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
     private void setData() {
         try {
+
             localInvoiceId = getIntent().getExtras().getLong("localInvId");
             invoiceViewModel.getCurrentInvoice(localInvoiceId).observe(this, invoiceModelV2 -> {
                 try {
@@ -253,6 +393,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
                     if (invoice.getString("gstType").equals("CGST/SGST (Local customer)") && isGSTAvailable) {
                         GSTType = "CGST/SGST (Local customer)";
+
                         //pdfBinding.llForHeader.setWeightSum(12f);
                         pdfBinding.IGST.setVisibility(View.GONE);
                         pdfBinding.isgtLL.setVisibility(View.GONE);
@@ -261,6 +402,9 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         pdfBinding.CGST.setVisibility(View.VISIBLE);
                         pdfBinding.SGST.setVisibility(View.VISIBLE);
                         pdfBinding.tvPreTax.setVisibility(View.VISIBLE);
+                       // Log.v("taxslab5", String.valueOf(PDFActivity.taxSlab5));
+                        checkTaxSlabs();
+
                         //pdfBinding.padding3.setVisibility(View.GONE);
                        /*pdfBinding.productLabel.setLayoutParams(new LinearLayout.LayoutParams(
                                 0, LinearLayout.LayoutParams.WRAP_CONTENT, 3.5f));*/
@@ -271,8 +415,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         //pdfBinding.llForHeader.setWeightSum(10f);
                         pdfBinding.IGST.setVisibility(View.VISIBLE);
                         pdfBinding.isgtLL.setVisibility(View.VISIBLE);
-                        pdfBinding.cgstLL.setVisibility(View.GONE);
-                        pdfBinding.sgstLL.setVisibility(View.GONE);
+                        pdfBinding.sgstcsgtLL.setVisibility(View.GONE);
+                        //pdfBinding.sgstLL.setVisibility(View.GONE);
 
                         // pdfBinding.padding1.setVisibility(View.GONE);
                         // pdfBinding.padding2.setVisibility(View.GONE);
@@ -326,19 +470,22 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         // pdfBinding.customerGst.setText(invoice.getString("GSTNo"));
                     }
 
-                    DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    DateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
-                    String inputDateStr=invoice.getString("invoiceDate");
-                    Date date = inputFormat.parse(inputDateStr);
-                    String outputDateStr = outputFormat.format(date);
-                    pdfBinding.txtInvoiceDate.setText(outputDateStr);
+//                    DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                    DateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+//                    String inputDateStr=invoice.getString("invoiceDate");
+//                    Date date = inputFormat.parse(inputDateStr);
+//                    String outputDateStr = outputFormat.format(date);
+                    pdfBinding.txtInvoiceDate.setText(Util.formatDate(invoice.getString("invoiceDate")));
                     pdfBinding.txtInvoiceNo.setText("" + invoiceNumber);
                     float gst = 0;
                     if (isGSTAvailable)
                         gst = Float.parseFloat(invoice.getString("totalAmount")) -
                                 Float.parseFloat(invoice.getString("totalAmountBeforeGST"));
-                    pdfBinding.totalCGST.setText(Util.formatDecimalValue(gst/2));
-                    pdfBinding.totalSGST.setText(Util.formatDecimalValue(gst/2));
+
+//                    pdfBinding.totalCGST.setText(Util.formatDecimalValue(gst/2));
+//                    pdfBinding.totalSGST.setText(Util.formatDecimalValue(gst/2));
+
+
                     pdfBinding.tvIGST.setText(Util.formatDecimalValue(gst));
                     Log.v("CustomerName", String.valueOf(invoice));
                     String custName= invoice.getString("customerName");
@@ -367,8 +514,19 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     pdfBinding.customerName.setText(custName);
                     pdfBinding.customerAdd.setText(custAdd);
                     pdfBinding.cusMobNo.setText(custNo);
-                    pdfBinding.cusGst.setText(GSTNo);
-                    shortBillLayoutBinding.edtGSTIN.setText(GSTNo);
+                    if(GSTNo.isEmpty())
+                    {
+                        pdfBinding.cusGst.setVisibility(View.GONE);
+                        pdfBinding.cusGst.setVisibility(View.GONE);
+                        shortBillLayoutBinding.tvgstIn.setVisibility(View.GONE);
+                        shortBillLayoutBinding.edtGSTIN.setVisibility(View.GONE);
+                    }
+                    else {
+                        pdfBinding.cusGst.setText(GSTNo);
+                        shortBillLayoutBinding.edtGSTIN.setText(GSTNo);
+
+                    }
+
 
 
                     pdfBinding.edtName.setText(custName == null ?" ":custName+" ");
@@ -376,6 +534,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     //pdfBinding.edtMobNo.setText(custNo == null ?" ":custNo+" ");
 //            tvGSTNo.setText(invoice.getString("GSTNo")+" ");
                     pdfBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
+                    Log.v("totalAmountBeforeGST", String.valueOf(invoice.getDouble("totalAmountBeforeGST")));
                     pdfBinding.tvTotal.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmount")));
                     float totalAfterDiscount = 0, totalAmount = 0;
                     totalAmount = Float.parseFloat(invoice.getString("totalAmount"));
@@ -388,9 +547,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                     shortBillLayoutBinding.tvBeforeDiscountSf.setText(Util.formatDecimalValue(totalAmount));
 
                     pdfBinding.tvTotal.setText(Util.formatDecimalValue(totalAfterDiscount));
-                    pdfBinding.tvDiscount.setText(Util.formatDecimalValue(totalAmount - totalAfterDiscount));
-                    shortBillLayoutBinding.invoiceTotalDiscount.setText(Util.formatDecimalValue(totalAmount - totalAfterDiscount));
+                    pdfBinding.tvDiscount.setText("- "+Util.formatDecimalValue(totalAmount - totalAfterDiscount));
+                    shortBillLayoutBinding.invoiceTotalDiscount.setText("- "+Util.formatDecimalValue(totalAmount - totalAfterDiscount));
                     new getCurrentItemsAsyncTask(MyApplication.getDatabase().invoiceItemDao(), getIntent().getExtras().getLong("idForItem"), PDFActivity.this, isGSTAvailable, recyclerViewInvoiceProducts, GSTType).execute();
+
 
 //                        items = gson.fromJson(invoice.getJSONArray("items").toString(), new TypeToken<List<NewInvoiceModels>>() {
 //                        }.getType());
@@ -409,6 +569,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             e.printStackTrace();
         }
 
+
+    }
+    private void checkTaxSlabs()
+    {
 
     }
 
@@ -445,22 +609,22 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         shortBillLayoutBinding.viewSubtotal.setVisibility(View.GONE);
                         shortBillLayoutBinding.productTax.setVisibility(View.GONE);
                         shortBillLayoutBinding.tvGSTNo.setVisibility(View.GONE);
-                        shortBillLayoutBinding.GSTField1Layout.setVisibility(View.GONE);
-                        shortBillLayoutBinding.GSTField2Layout.setVisibility(View.GONE);
-                        shortBillLayoutBinding.GSTField3Layout.setVisibility(View.GONE);
+                        shortBillLayoutBinding.sgstcsgtLL.setVisibility(View.GONE);
+
                         shortBillLayoutBinding.GSTField4Layout.setVisibility(View.GONE);
                         shortBillLayoutBinding.llForHeaderTax.setVisibility(View.GONE);
+                        shortBillLayoutBinding.llForHeader.setWeightSum(3.0f);
 
                         invoiceNumber = getIntent().getExtras().getInt("nonGstBillNo");
                         shortBillLayoutBinding.invoiceType.setText("***Invoice***");
                     }
                     Log.v("Invoi2", String.valueOf(invoice));
-                    DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    DateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
-                    String inputDateStr=invoice.getString("invoiceDate");
-                    Date date = inputFormat.parse(inputDateStr);
-                    String outputDateStr = outputFormat.format(date);
-                    shortBillLayoutBinding.txtInvoiceDate.setText(outputDateStr);
+//                    DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+//                    DateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+//                    String inputDateStr=invoice.getString("invoiceDate");
+//                    Date date = inputFormat.parse(inputDateStr);
+//                    String outputDateStr = outputFormat.format(date);
+                    shortBillLayoutBinding.txtInvoiceDate.setText("Date: "+Util.formatDate(invoice.getString("invoiceDate")));
                     shortBillLayoutBinding.txtInvoiceNo.setText("" + invoiceNumber);
                     String custName= invoice.getString("customerName");
                     String custNo =invoice.getString("customerMobileNo");
@@ -509,16 +673,14 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         if (isGSTAvailable)
                             gst = Float.parseFloat(invoice.getString("totalAmount")) -
                                     Float.parseFloat(invoice.getString("totalAmountBeforeGST"));
-                        shortBillLayoutBinding.invoiceSGSTAmt.setText(Util.formatDecimalValue(gst/2));
-                        shortBillLayoutBinding.invoiceCGSTAmt.setText(Util.formatDecimalValue(gst/2));
                         shortBillLayoutBinding.totalDiscLL.setVisibility(View.VISIBLE);
                         shortBillLayoutBinding.GSTField4Layout.setVisibility(View.GONE);
                     } else if (invoice.getString("gstType").equals("IGST (Central/outstation customer)") && isGSTAvailable) {
                         GSTType = "IGST (Central/outstation customer)";
                         shortBillLayoutBinding.invoiceIGSTAmt.setText(getIntent().getExtras().getString("shortBillGstAmt"));
                         shortBillLayoutBinding.totalDiscLL.setVisibility(View.VISIBLE);
-                        shortBillLayoutBinding.GSTField2Layout.setVisibility(View.GONE);
-                        shortBillLayoutBinding.GSTField3Layout.setVisibility(View.GONE);
+                        shortBillLayoutBinding.sgstcsgtLL.setVisibility(View.GONE);
+
 
 
 

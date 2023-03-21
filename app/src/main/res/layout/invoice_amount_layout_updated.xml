@@ -52,7 +52,7 @@
             android:padding="5dp"
             android:textSize="@dimen/_15spText"
             android:singleLine="false"
-            android:text="1. Item once purchased cannot be return.\n2. Item once purchased cannot be return. In case of a damaged product or item received please contact our toll-free number-1800-328-XXXX.\n3. The product carries only manufacturer’s warranty and no return or exchange will be entertained."
+            android:text="1. Item once purchased cannot be return.\n2.The product carries only manufacturer's warranty (if applicable) and no return or exchange will be entertained..\n3. The product of a damaged product or item received please contact.."
             android:textColor="@color/color_black"
             android:textStyle="normal"
             android:visibility="visible" />

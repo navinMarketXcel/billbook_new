@@ -372,7 +372,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         DateFormat formatter =
                 new SimpleDateFormat("yyyy-MM-dd");
         invoiceDateStr = formatter.format(new Date());
-        binding.billDate.setText(invoiceDateStr);
+        binding.billDate.setText(Util.formatDate(invoiceDateStr));
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         binding.invoiceItems.setLayoutManager(mLayoutManager);
@@ -1488,7 +1488,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     DateFormat formatter =
                             new SimpleDateFormat("yyyy-MM-dd");
                     invoiceDateStr = formatter.format(invoiceDate);
-                    binding.billDate.setText(invoiceDateStr);
+                    binding.billDate.setText(Util.formatDate(invoiceDateStr));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -2230,7 +2230,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     isGSTAvailable = false;
                     Log.v("gstBillNo load", String.valueOf(gstBillNo));
                 }
-                binding.nextBtn.setText("Update Invoice");
+                binding.nextBtn.setText("Update Bill");
                 if(invoice.getInt("discount") > 0){
                     binding.addDisc.setText("Update Discount");
                 }

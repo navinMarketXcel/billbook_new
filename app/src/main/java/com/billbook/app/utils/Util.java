@@ -346,6 +346,22 @@ public class Util {
         }
         return dateToday;
     }
+    public static String formatDate(String string)
+    {
+        String outputDateStr="";
+        try{
+            DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+            String inputDateStr=string;
+            Date date = inputFormat.parse(inputDateStr);
+            outputDateStr = outputFormat.format(date);
+        }
+        catch (Exception e)
+        {
+
+        }
+        return outputDateStr;
+    }
 
     public static String formatDecimalValue(float val) {
         String pattern = "##,##,###.##";

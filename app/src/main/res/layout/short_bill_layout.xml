@@ -303,6 +303,7 @@
                             android:weightSum="10">
 
                             <TextView
+                                android:id="@+id/tvgstIn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="GSTIN:"
@@ -358,14 +359,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:weightSum="11">
+                        android:weightSum="4">
 
 
                         <TextView
                             android:id="@+id/productLabel"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2.5"
+                            android:layout_weight="1"
                             android:ellipsize="end"
                             android:gravity="start"
                             android:textSize="@dimen/_9sdp"
@@ -381,7 +382,7 @@
                             android:id="@+id/productTax"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:ellipsize="end"
                             android:gravity="start"
                             android:singleLine="true"
@@ -392,25 +393,12 @@
 
                             />
 
-                        <TextView
-                            android:id="@+id/tv_preTax"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".5"
-                            android:ellipsize="end"
-                            android:gravity="start"
-                            android:padding="5dp"
-                            android:singleLine="true"
-                            android:text=""
-                            android:textSize="12dp"
-                            android:textColor="@color/color_black"
-                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/rate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:ellipsize="end"
                             android:gravity="start"
                             android:textSize="@dimen/_9sdp"
@@ -418,41 +406,14 @@
                             android:text="Rate"
                             android:textColor="@color/color_black"/>
 
-                        <TextView
-                            android:id="@+id/CGST"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".5"
-                            android:ellipsize="end"
-                            android:gravity="start"
-                            android:textSize="12dp"
-                            android:padding="5dp"
-                            android:singleLine="true"
-                            android:text=""
-                            android:textColor="@color/color_black"
-                            android:textStyle="bold"
 
-                            />
 
-                        <TextView
-                            android:id="@+id/IGST"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:gravity="start"
-                            android:padding="5dp"
-                            android:textSize="12dp"
-                            android:singleLine="true"
-                            android:text=""
-                            android:textColor="@color/color_black"
-                            android:textStyle="bold"
-                            />
 
                         <TextView
                             android:id="@+id/productAmnt"
                             android:layout_width="3dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2.5"
+                            android:layout_weight="1"
                             android:ellipsize="end"
                             android:gravity="start"
                             android:textSize="@dimen/_9sdp"
@@ -623,37 +584,27 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal"
-                    android:weightSum="10">
-
+                    android:weightSum="2">
                     <TextView
-
-                        android:layout_width="115dp"
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
+                        android:layout_weight="1"
                         android:text="Sub Total"
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_17spText">
-
+                        android:textSize="@dimen/_15spText">
                     </TextView>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
-
                     <TextView
+                        android:padding="5dp"
                         android:id="@+id/invoiceNetSubTotal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="6"
+                        android:layout_weight="1"
                         android:text="1000.00"
                         android:gravity="end"
                         android:textColor="@color/color_black"
-                        android:textSize="@dimen/_11sdp" />
+                        android:textSize="@dimen/_15spText" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -751,94 +702,318 @@
 
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
-            android:id="@+id/GSTField2Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:orientation="vertical"
+            android:id="@+id/sgstcsgtLL">
             <LinearLayout
+                android:id="@+id/cgstLL1.5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:weightSum="10">
-
+                android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/invoiceSGST"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:gravity="start"
-                    android:text="SGST"
-                    android:textColor="@color/color_black"
-                    android:textSize="@dimen/_11sdp" />
-            </LinearLayout>
-
-            <LinearLayout
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:weightSum="10">
-
-                <TextView
-                    android:id="@+id/invoiceSGSTAmt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
+                    android:id="@+id/CGSTTitle1.5"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="left"
                     android:padding="5dp"
-                    android:text="00.00"
-                    android:gravity="end"
-                    android:textColor="@color/color_black"
-                    android:textSize="@dimen/_11sdp" />
+                    android:text="CGST @1.5%"
 
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/GSTField3Layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:weightSum="10">
+                    android:textColor="@color/color_black"
+                    />
 
                 <TextView
-                    android:id="@+id/invoiceCGST"
-                    android:layout_width="match_parent"
+                    android:id="@+id/totalCGST1.5"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:gravity="start"
-                    android:text="CGST"
-                    android:textColor="@color/color_black"
-                    android:textSize="@dimen/_11sdp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:weightSum="10">
-
-                <TextView
-                    android:id="@+id/invoiceCGSTAmt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
+                    android:layout_weight="2"
+                    android:gravity="right"
                     android:padding="5dp"
-                    android:text="00.00"
-                    android:gravity="end"
-                    android:textColor="@color/color_black"
-                    android:textSize="@dimen/_11sdp" />
+                    android:text="0"
 
+                    android:textColor="@color/color_black" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/sgstLL1.5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/SGSTTitle1.5"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:text="SGST @1.5%"
+
+                    android:textColor="@color/color_black"
+                    />
+
+                <TextView
+                    android:id="@+id/totalSGST1.5"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:text="0"
+
+                    android:textColor="@color/color_black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cgstLL2.5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/CGSTTitle2.5"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:text="CGST @2.5%"
+
+                    android:textColor="@color/color_black"
+                    />
+
+                <TextView
+                    android:id="@+id/totalCGST2.5"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:text="0"
+
+                    android:textColor="@color/color_black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/sgstLL2.5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/SGSTTitle2.5"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:text="SGST @2.5%"
+
+                    android:textColor="@color/color_black"
+                    />
+
+                <TextView
+                    android:id="@+id/totalSGST2.5"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:text="0"
+
+                    android:textColor="@color/color_black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cgstLL6.0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/CGSTTitle6.0"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:text="CGST @6%"
+
+                    android:textColor="@color/color_black"
+                    />
+
+                <TextView
+                    android:id="@+id/totalCGST6.0"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:text="0"
+
+                    android:textColor="@color/color_black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/sgstLL6.0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/SGSTTitle6.0"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:text="SGST @6%"
+
+                    android:textColor="@color/color_black"
+                    />
+
+                <TextView
+                    android:id="@+id/totalSGST6.0"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:text="0"
+
+                    android:textColor="@color/color_black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cgstLL9.0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/CGSTTitle9.0"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:text="CGST @9%"
+
+                    android:textColor="@color/color_black"
+                    />
+
+                <TextView
+                    android:id="@+id/totalCGST9.0"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:text="0"
+
+                    android:textColor="@color/color_black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/sgstLL9.0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/SGSTTitle9.0"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:text="SGST @9%"
+
+                    android:textColor="@color/color_black"
+                    />
+
+                <TextView
+                    android:id="@+id/totalSGST9.0"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:text="0"
+
+                    android:textColor="@color/color_black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/cgstLL14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/CGSTTitle"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:text="CGST @14%"
+
+                    android:textColor="@color/color_black"
+                    />
+
+                <TextView
+                    android:id="@+id/totalCGST"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:text="0"
+
+                    android:textColor="@color/color_black" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/sgstLL14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/SGSTTitle"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+
+                    android:gravity="left"
+                    android:padding="5dp"
+                    android:text="SGST @14%"
+
+                    android:textColor="@color/color_black"
+                    />
+
+                <TextView
+                    android:id="@+id/totalSGST"
+                    android:textSize="@dimen/_15spText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:text="0"
+
+                    android:textColor="@color/color_black" />
+            </LinearLayout>
+
         </LinearLayout>
         <LinearLayout
             android:id="@+id/GSTField4Layout"
@@ -861,7 +1036,7 @@
                     android:gravity="start"
                     android:text="IGST"
                     android:textColor="@color/color_black"
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/_15spText" />
             </LinearLayout>
 
             <LinearLayout
@@ -878,9 +1053,10 @@
                     android:layout_weight="4"
                     android:padding="5dp"
                     android:text="00.00"
+
                     android:gravity="end"
                     android:textColor="@color/color_black"
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/_15spText" />
 
             </LinearLayout>
         </LinearLayout>
@@ -911,7 +1087,7 @@
                     android:gravity="start"
                     android:padding="5dp"
                     android:singleLine="false"
-                    android:textSize="@dimen/_17spText"
+                    android:textSize="@dimen/_15spText"
                     android:text="Total Before Discount"
                     android:textColor="@color/color_black"
                     />
@@ -921,7 +1097,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:textSize="@dimen/_17spText"
+                    android:textSize="@dimen/_15spText"
                     android:gravity="end"
                     android:padding="5dp"
                     android:text="0"
@@ -940,7 +1116,7 @@
                     android:layout_weight="3"
                     android:gravity="start"
                     android:padding="5dp"
-                    android:textSize="@dimen/_17spText"
+                    android:textSize="@dimen/_15spText"
                     android:text="Discount"
                     android:textColor="@color/color_black"
                     />
@@ -950,7 +1126,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:textSize="@dimen/_17spText"
+                    android:textSize="@dimen/_15spText"
                     android:gravity="end"
                     android:padding="5dp"
                     android:text="0"
@@ -967,44 +1143,31 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_margin="5dp"
                 android:layout_weight="2"
+                android:gravity="center"
+                android:layout_gravity="center"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
 
                     <TextView
-                        android:layout_width="115dp"
+                        android:layout_gravity="center"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
+                        android:layout_weight="1"
                         android:text="Total Amount"
                         android:textColor="@color/color_black"
                         android:textSize="17sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
-
                     <TextView
                         android:id="@+id/invoiceNetAmntTotal"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="6"
+                        android:layout_weight="1"
                         android:text="1000.00"
                         android:gravity="end"
                         android:textColor="@color/color_black"
                         android:textSize="17sp" />
 
-                </LinearLayout>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
@@ -1024,13 +1187,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="5dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TERMS &amp; CONDITIONS"
                 android:textColor="@color/color_black"
-                android:textSize="17sp">
+                android:textSize="@dimen/_15spText"
+                >
 
             </TextView>
             <TextView
@@ -1038,7 +1205,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:padding="5dp"
-                android:textSize="@dimen/_15spText"
+                android:textSize="@dimen/_13spText"
                 android:singleLine="false"
                 android:text="1. Item once purchased cannot be return."
                 android:textColor="@color/color_black"
@@ -1048,9 +1215,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:padding="5dp"
-                android:textSize="@dimen/_15spText"
+                android:textSize="@dimen/_13spText"
                 android:singleLine="false"
-                android:text="2. In case of a damaged product or item received please contact our toll-free number-1800-328-XXXX"
+                android:text="2. The product carries only manufacturer's warranty (if applicable) and no return or exchange will be entertained."
                 android:textColor="@color/color_black"
                 />
             <TextView
@@ -1058,9 +1225,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="left"
                 android:padding="5dp"
-                android:textSize="@dimen/_15spText"
+                android:textSize="@dimen/_13spText"
                 android:singleLine="false"
-                android:text="3. The product carries only manufacturer’s warranty and no return or exchange will be entertained"
+                android:text="3. The product of a damaged product or item received please contact."
                 android:textColor="@color/color_black"
                 />
 
