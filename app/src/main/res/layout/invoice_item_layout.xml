@@ -18,7 +18,7 @@
         android:textSize="@dimen/_15spText"
         android:background="@drawable/card_lined"
         android:ellipsize="end"
-        android:gravity="center"
+        android:gravity="start"
         android:padding="5dp"
         android:singleLine="false"
         android:textColor="@color/color_black"
