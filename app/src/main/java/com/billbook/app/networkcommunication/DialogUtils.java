@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.util.Log;
 import android.util.TypedValue;
@@ -126,6 +127,46 @@ public class DialogUtils {
         public void positiveButtonClick();
 
         public void negativeButtonClick();
+
+    }
+    public static void showAlertDialogOkCancel(final Activity activity, String positiveText, String negativeText,
+                                               String message,String title, final DialogClickListener dialogClickListener) {
+
+        final Dialog dialog = new Dialog(activity);
+        // dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.layout_alert_view_ok_cancel);
+
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextView txtTitle = (TextView) dialog.findViewById(R.id.txtTitle);
+        txtTitle.setText(title);
+        TextView messageTextView = (TextView) dialog.findViewById(R.id.txtMessage);
+        messageTextView.setText(message);
+        dialog.setCancelable(true);
+        final Button positiveButton = (Button) dialog.findViewById(R.id.btnOk);
+        Button negativeButton = (Button) dialog.findViewById(R.id.btnCancel);
+        positiveButton.setText(positiveText);
+        negativeButton.setText(negativeText);
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                positiveButton.setEnabled(false);
+                dialogClickListener.positiveButtonClick();
+                dialog.dismiss();
+
+            }
+        });
+
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogClickListener.negativeButtonClick();
+                dialog.dismiss();
+
+            }
+        });
+        dialog.show();
 
     }
 

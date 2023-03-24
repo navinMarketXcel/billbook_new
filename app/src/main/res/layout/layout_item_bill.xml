@@ -69,7 +69,7 @@
                 android:textColor="#555555"
                 android:layout_height="wrap_content"
                 android:text="@string/item_name_title" />
-            <EditText
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:textColor="#0A0A0A"
                 android:id="@+id/itemNameET"
                 style="@style/editText"
@@ -233,6 +233,8 @@
                 <EditText
                     android:id="@+id/imeiNo"
                     style="@style/editText"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                    android:inputType="textFilter"
                     android:layout_width="199dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
@@ -289,6 +291,7 @@
                 android:id="@+id/HsnNoET"
                 style="@style/editText"
                 android:maxLength="8"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"

@@ -12,6 +12,8 @@
     <color name="grey">#4b4b4b</color>
     <color name="grey_f6f6f6">#F6F6F6</color>
     <color name="red">#FF0000</color>
+    <color name="no_color">#1D4489</color>
+    <color name="red_2">#E11900</color>
     <color name="income">#05944F</color>
     <color name="mdtp_accent_color">#1d4388</color>
     <color name="mdtp_accent_color_dark">#1e4388</color>

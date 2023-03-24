@@ -115,10 +115,11 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
     private SearchInvoiceItemClickListener invoiceItemClickListener;
 
     private Boolean ischeck;
+    private Boolean checkSelect;
 
     public BillCallback billCallback;
 
-    public SearchInvoiceListAdapterNew(Context context, ArrayList<InvoicesData> categoryArrayList, SearchInvoiceItemClickListener invoiceItemClickListener, Boolean ischeck,BillCallback billCallback) {
+    public SearchInvoiceListAdapterNew(Context context, ArrayList<InvoicesData> categoryArrayList, SearchInvoiceItemClickListener invoiceItemClickListener, Boolean ischeck,BillCallback billCallback,boolean checkSelect) {
 
         this.context = context;
 
@@ -129,6 +130,8 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         this.billCallback = billCallback;
 
         this.invoiceItemClickListener = invoiceItemClickListener;
+        this.checkSelect = checkSelect;
+        Log.v("checkSelect", String.valueOf(checkSelect));
 
     }
 
@@ -172,6 +175,25 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
         {
 
             holder.download.setVisibility(View.GONE);
+
+        }
+        if(checkSelect)
+
+        {
+
+
+            holder.buttonLay.setVisibility(View.VISIBLE);
+
+
+        }
+
+        else
+
+        {
+
+            holder.buttonLay.setVisibility(View.GONE);
+
+
 
         }
 
@@ -349,8 +371,16 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
 
         if (data.getIsActive()) {
+            if(checkSelect)
+            {
+                holder.cancelInvBItn.setVisibility(View.VISIBLE);
+            }
+            else {
 
-            holder.cancelInvBItn.setVisibility(View.VISIBLE);
+                holder.cancelInvBItn.setVisibility(View.GONE);
+            }
+
+
 
             Util.postEvents("Cancel","Cancel",context.getApplicationContext());
 
@@ -419,7 +449,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
         }
 
-        holder.tvInvoiceDateValue.setText(formatedDate);
+        holder.tvInvoiceDateValue.setText(Util.formatDate(formatedDate));
 
     }
 
@@ -491,7 +521,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
 
         private CardView card_view;
 
-        private LinearLayout llMain,itemLyaout;
+        private LinearLayout llMain,itemLyaout,buttonLay;
         private Button searchItem;
 
         private SearchInvoiceItemClickListener searchInvoiceItemClickListener;
@@ -503,6 +533,7 @@ public class SearchInvoiceListAdapterNew extends RecyclerView.Adapter<SearchInvo
             super(view);
 
             tvInvoiceValue = view.findViewById(R.id.tvInvoiceValue);
+            buttonLay = view.findViewById(R.id.buttonLay);
 
             tvInvoiceCustNameValue = view.findViewById(R.id.tvInvoiceCustNameValue);
 

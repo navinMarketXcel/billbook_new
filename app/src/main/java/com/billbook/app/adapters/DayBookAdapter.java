@@ -47,7 +47,7 @@ public class DayBookAdapter extends RecyclerView.Adapter<DayBookAdapter.MyViewHo
            // holder.sale_income.setText(Util.formatDecimalValue((float)dayBook.getAmount()));
             holder.sale_income.setText(context.getResources().getString(R.string.Rs)+" "+Util.formatDecimalValue((float)dayBook.getAmount()));
         }
-        holder.date.setText(myFormat1.format(dayBook.getDate()));
+        holder.date.setText(Util.formatDate(myFormat1.format(dayBook.getDate())));
 
 
     }

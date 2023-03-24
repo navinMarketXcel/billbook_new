@@ -174,6 +174,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         cleverTapAPI = CleverTapAPI.getDefaultInstance(getApplicationContext());
         binding = ActivityBillingNewBinding.inflate(getLayoutInflater());
         billItemBinding = binding.includedLayoutItemBill;
@@ -189,6 +190,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
         viewDets = findViewById(R.id.viewDets);
         itemslay=findViewById(R.id.itemsLayout);
         try {
+
             gstBllNo = getIntent().hasExtra("gstBillNoList")?getIntent().getExtras().getString("gstBillNoList"): String.valueOf(1);
             nonGstBillNo =getIntent().hasExtra("nonGstBillNoList")? getIntent().getExtras().getString("nonGstBillNoList"): String.valueOf(1);
             gstBllNo = gstBllNo.substring(1, gstBllNo.length() - 1);
@@ -260,20 +262,36 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     public void setonClick(){
         binding.ivToolBarBack.setOnClickListener(v -> {
 
-            Util.pushEvent("Clicked Back Button ToolBar");
-            DialogUtils.showAlertDialog(BillingNewActivity.this, getResources().getString(R.string.yes), getResources().getString(R.string.no), getResources().getString(R.string.billing_back_button), new DialogUtils.DialogClickListener() {
-                @Override
-                public void positiveButtonClick() {
-                    Util.pushEvent("Clicked on YES from Back Button ToolBar");
-                    finish();
-                }
+            if(isEdit){
+                DialogUtils.showAlertDialogOkCancel(BillingNewActivity.this, getResources().getString(R.string.edit_yes), getResources().getString(R.string.edit_no), getResources().getString(R.string.edit_bill),getResources().getString(R.string.edit_bill_title), new DialogUtils.DialogClickListener() {
+                    @Override
+                    public void positiveButtonClick() {
+                        Util.pushEvent("Clicked on YES from Back Button ToolBar");
+                        finish();
+                    }
 
-                @Override
-                public void negativeButtonClick() {
-                    Util.pushEvent("Clicked on NO from Back Button ToolBar");
+                    @Override
+                    public void negativeButtonClick() {
+                        Util.pushEvent("Clicked on NO from Back Button ToolBar");
 
-                }
-            });
+                    }
+                });
+            }else{
+                DialogUtils.showAlertDialogOkCancel(BillingNewActivity.this, getResources().getString(R.string.quit_yes), getResources().getString(R.string.quit_no), getResources().getString(R.string.quit_bill),getResources().getString(R.string.quit_bill_title), new DialogUtils.DialogClickListener() {
+                    @Override
+                    public void positiveButtonClick() {
+                        Util.pushEvent("Clicked on YES from Back Button ToolBar");
+                        finish();
+                    }
+
+                    @Override
+                    public void negativeButtonClick() {
+                        Util.pushEvent("Clicked on NO from Back Button ToolBar");
+
+                    }
+                });
+            }
+
 
         });
         binding.lnHelp.setOnClickListener(v -> {
@@ -453,7 +471,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
                             discountPercent = Float.parseFloat(substr);
                             discountAmt = Util.calculateDiscountAmtFromPercent(discountPercent, totalBeforeGST);
-                            binding.edtDiscountAmt.setText(String.valueOf(discountAmt));
+                            binding.edtDiscountAmt.setText((Util.formatDecimalValue(discountAmt)));
                             if (discountPercent > 100.00)
                                 setEditTextError(binding.edtDiscountPercent, "Discount should be less than or equal to 100%");
                             else
@@ -580,19 +598,19 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             }
         });
 
-//        billItemBinding.itemNameET.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                try {
-//                    HashMap<String,String> req = new HashMap<>();
-//                    req.put("userid", profile.getString("userid"));
-//                    req.put("name", itemAdapter.getItem(position));
-//                    fetchMeasurementIdApiCall(req,billItemBinding.unit);
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+        billItemBinding.itemNameET.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    HashMap<String,String> req = new HashMap<>();
+                    req.put("userid", profile.getString("userid"));
+                    req.put("name", itemAdapter.getItem(position));
+                    fetchMeasurementIdApiCall(req,billItemBinding.unit);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
@@ -618,7 +636,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private void searchItemAutoComplete() {
         try {
 //            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,demo);
-//            billItemBinding.itemNameET.setAdapter(itemAdapter);
+           billItemBinding.itemNameET.setAdapter(itemAdapter);
 
             Map<String, String> req = new HashMap<>();
             req.put("userid", profile.getString("userid"));
@@ -632,7 +650,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     try{
-                        //billItemBinding.itemNameET.showDropDown();
+                        billItemBinding.itemNameET.showDropDown();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -643,7 +661,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     try {
                         if (s.length() > 2) {
                             req.put("name", s.toString());
-                            //searchItemApiCall(call, (HashMap<String, String>) req,billItemBinding.itemNameET);
+                            searchItemApiCall(call, (HashMap<String, String>) req,billItemBinding.itemNameET);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -730,8 +748,8 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
     private void customerNumberAutoComplete(){
         try {
-//            ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,demo);
-//            billItemBinding.itemNameET.setAdapter(itemAdapter);
+            //ArrayAdapter<String> itemAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,demo);
+            billItemBinding.itemNameET.setAdapter(itemAdapter);
 
             Map<String, String> req = new HashMap<>();
             req.put("userid", profile.getString("userid"));
@@ -745,7 +763,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     try{
-                        //binding.edtName.showDropDown();
+                        binding.edtName.showDropDown();
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -756,7 +774,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     try {
                         if (s.length() > 2) {
                             req.put("customerName", s.toString());
-                            //searchCustomerApiCall(call, (HashMap<String, String>) req,binding.edtName);
+                            searchCustomerApiCall(call, (HashMap<String, String>) req,binding.edtName);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1531,7 +1549,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
             total = total + newInvoiceModel.getTotalAmount();
         else
             total = total - newInvoiceModel.getTotalAmount();
-        binding.tvTotal.setText("₹"+Util.formatDecimalValue(total));
+        binding.tvTotal.setText("₹"+(Util.formatDecimalValue(total)));
 
 
     }
@@ -1831,7 +1849,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     invoice.has("totalAmount") ? (float) invoice.getDouble("totalAmount") : 0,
                     invoice.has("userid") ? invoice.getInt("userid") : 0,
                     invoice.has("invoiceDate") ? invoice.getString("invoiceDate") : "",
-                    invoice.has("totalAmountBeforeGST") ? invoice.getInt("totalAmountBeforeGST") : 0,
+                    invoice.has("totalAmountBeforeGST") ? (float) invoice.getDouble("totalAmountBeforeGST") : 0,
                     invoice.has("gstBillNo") ? invoice.getInt("gstBillNo") : 0,
                     invoice.has("nonGstBillNo") ? invoice.getInt("nonGstBillNo") : 0,
                     invoice.has("gstType") ? invoice.getString("gstType") : "",
@@ -1866,7 +1884,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                 currInvoiceToUpdate.setTotalAmount(invoice.has("totalAmount") ? (float) invoice.getDouble("totalAmount") : 0);
                 currInvoiceToUpdate.setUserid(invoice.has("userid") ? invoice.getInt("userid") : 0);
                 currInvoiceToUpdate.setInvoiceDate(invoice.has("invoiceDate") ? invoice.getString("invoiceDate") : "");
-                currInvoiceToUpdate.setTotalAmountBeforeGST(invoice.has("totalAmountBeforeGST") ? invoice.getInt("totalAmountBeforeGST") : 0);
+                currInvoiceToUpdate.setTotalAmountBeforeGST(invoice.has("totalAmountBeforeGST") ? (float) invoice.getDouble("totalAmountBeforeGST") : 0);
                 currInvoiceToUpdate.setGstBillNo(invoice.has("gstBillNo") ? invoice.getInt("gstBillNo") : 0);
                 currInvoiceToUpdate.setNonGstBillNo(invoice.has("nonGstBillNo") ? invoice.getInt("nonGstBillNo") : 0);
                 currInvoiceToUpdate.setGstType(invoice.has("gstType") ? invoice.getString("gstType") : "");
@@ -2123,6 +2141,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     private void checkIsEdit() {
         if (getIntent().hasExtra("edit")) {
             try {
+
                 //binding.addDisc.setText("Update discount");
                 Button b = findViewById(R.id.addMoreItem);
                 b.setVisibility(View.VISIBLE);
@@ -2218,6 +2237,7 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 
         if (getIntent().hasExtra("edit")) {
             try {
+
                 Log.d(TAG, "loadDataForInvoice: " + invoice);
                 int gstBillNo = invoice.getInt("gstBillNo");
                 if(gstBillNo>0)
@@ -2242,8 +2262,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
 //                bill_no.setEnabled(false);
                 invoiceIdIfEdit = invoice.getInt("id");
                 localInvoiceId = invoiceIdIfEdit;
-                invoiceDateStr = Util.getFormatedDate(invoice.getString("invoiceDate"));
+                invoiceDateStr = Util.formatDate(invoice.getString("invoiceDate"));
                 binding.billDate.setText(invoiceDateStr);
+                invoiceDateStr = Util.getFormatedDate(binding.billDate.getText().toString());
+
 //                bill_date.setEnabled(false);
 
                 binding.edtName.setText(invoice.getJSONObject("customer").getString("name"));
@@ -2299,10 +2321,10 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
                     totalDiscount = total - (float) invoice.getDouble("totalAfterDiscount");
                     discountAmt = totalDiscount;
                 }
-                binding.edtDiscountPercent.setText(discountPercentLocal + "%");
-                binding.edtDiscountAmt.setText(String.valueOf(totalDiscount));
+                binding.edtDiscountPercent.setText(Util.formatDecimalValue(discountPercentLocal) + "%");
+                binding.edtDiscountAmt.setText(Util.formatDecimalValue(totalDiscount));
                 binding.tvTotal.setText("₹"+Util.formatDecimalValue(total - totalDiscount));
-                binding.tvTotalFinal.setText("₹"+Util.formatDecimalValue(invoice.getInt("totalAfterDiscount")));
+                binding.tvTotalFinal.setText("₹"+Util.formatDecimalValue((float)invoice.getDouble("totalAfterDiscount")));
                 //binding.tvAmountGST.setText(Util.formatDecimalValue(invoice.getInt("gstAmount")));
                 binding.cardItemList.setVisibility(View.VISIBLE);
                 billItemBinding.layoutBillItemInitial.setVisibility(View.GONE);
@@ -2332,14 +2354,16 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     @Override
     public void onBackPressed() {
-        DialogUtils.showAlertDialog(BillingNewActivity.this, "Yes", "No", "Are you sure you want to cancel the bill?", new DialogUtils.DialogClickListener() {
+        DialogUtils.showAlertDialogOkCancel(BillingNewActivity.this, getResources().getString(R.string.quit_yes), getResources().getString(R.string.quit_no), getResources().getString(R.string.quit_bill),getResources().getString(R.string.quit_bill_title), new DialogUtils.DialogClickListener() {
             @Override
             public void positiveButtonClick() {
+                Util.pushEvent("Clicked on YES from Back Button ToolBar");
                 finish();
             }
 
             @Override
             public void negativeButtonClick() {
+                Util.pushEvent("Clicked on NO from Back Button ToolBar");
 
             }
         });

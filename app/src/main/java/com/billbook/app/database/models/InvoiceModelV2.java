@@ -86,7 +86,7 @@ public class InvoiceModelV2 {
 
     @SerializedName("totalAmountBeforeGST")
     @ColumnInfo(name="totalAmountBeforeGST")
-    private long totalAmountBeforeGST;
+    private double totalAmountBeforeGST;
 
     @SerializedName("updatedAt")
     @ColumnInfo(name = "updated_at")
@@ -105,7 +105,7 @@ public class InvoiceModelV2 {
     @ColumnInfo(name = "pdf_path")
     private String pdfPath="";
 
-    public InvoiceModelV2(long id, long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, float totalAmount, Integer userid, String invoiceDate, long totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync, String pdfPath, float discount, float totalAfterDiscount) {
+    public InvoiceModelV2(long id, long invoiceId, String customerName, String customerMobileNo, String customerAddress, String GSTNo, float totalAmount, Integer userid, String invoiceDate, double totalAmountBeforeGST, int gstBillNo, int nonGstBillNo, String gstType, String updatedAt, String createdAt, int isSync, String pdfPath, float discount, float totalAfterDiscount) {
         this.id = id;
         this.invoiceId = invoiceId;
         this.customerName = customerName;
@@ -167,7 +167,7 @@ public class InvoiceModelV2 {
         return invoiceDate;
     }
 
-    public long getTotalAmountBeforeGST() {
+    public double getTotalAmountBeforeGST() {
         return totalAmountBeforeGST;
     }
 
@@ -250,7 +250,7 @@ public class InvoiceModelV2 {
         this.invoiceDate = invoiceDate;
     }
 
-    public void setTotalAmountBeforeGST(long totalAmountBeforeGST) {
+    public void setTotalAmountBeforeGST(double totalAmountBeforeGST) {
         this.totalAmountBeforeGST = totalAmountBeforeGST;
     }
 

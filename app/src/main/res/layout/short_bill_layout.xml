@@ -242,7 +242,6 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="6"
                                     android:inputType="textMultiLine"
-                                    android:maxLength="50"
                                     android:gravity="start"
                                     android:layout_gravity="center"
                                     android:singleLine="false"
@@ -1019,46 +1018,150 @@
             android:id="@+id/GSTField4Layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:orientation="vertical">
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/igst3ll"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/invoiceIGST3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="IGST@3"
+                    android:textColor="@color/color_black"
+                    android:textSize="@dimen/_15spText" />
+                <TextView
+                    android:id="@+id/invoiceIGSTAmt3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="00.00"
+                    android:gravity="end"
+                    android:textColor="@color/color_black"
+                    android:textSize="@dimen/_15spText" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/igst5ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:padding="5dp"
-                android:weightSum="10">
+                android:weightSum="2">
 
                 <TextView
-                    android:id="@+id/invoiceIGST"
-                    android:layout_width="match_parent"
+                    android:id="@+id/invoiceIGST5"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
+                    android:layout_weight="1"
                     android:gravity="start"
-                    android:text="IGST"
+                    android:text="IGST@5"
+                    android:textColor="@color/color_black"
+                    android:textSize="@dimen/_15spText" />
+                <TextView
+                    android:id="@+id/invoiceIGSTAmt5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="00.00"
+                    android:gravity="end"
                     android:textColor="@color/color_black"
                     android:textSize="@dimen/_15spText" />
             </LinearLayout>
-
             <LinearLayout
+                android:id="@+id/igst12ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:weightSum="10">
+                android:padding="5dp"
+                android:weightSum="2">
 
                 <TextView
-                    android:id="@+id/invoiceIGSTAmt"
-                    android:layout_width="match_parent"
+                    android:id="@+id/invoiceIGST12"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:padding="5dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="IGST@12"
+                    android:textColor="@color/color_black"
+                    android:textSize="@dimen/_15spText" />
+                <TextView
+                    android:id="@+id/invoiceIGSTAmt12"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="00.00"
-
                     android:gravity="end"
                     android:textColor="@color/color_black"
                     android:textSize="@dimen/_15spText" />
-
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/igst18ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/invoiceIGST18"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="IGST@18"
+                    android:textColor="@color/color_black"
+                    android:textSize="@dimen/_15spText" />
+                <TextView
+                    android:id="@+id/invoiceIGSTAmt18"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="00.00"
+                    android:gravity="end"
+                    android:textColor="@color/color_black"
+                    android:textSize="@dimen/_15spText" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/igst28ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/invoiceIGST28"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="IGST@28"
+                    android:textColor="@color/color_black"
+                    android:textSize="@dimen/_15spText" />
+                <TextView
+                    android:id="@+id/invoiceIGSTAmt28"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="00.00"
+                    android:gravity="end"
+                    android:textColor="@color/color_black"
+                    android:textSize="@dimen/_15spText" />
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -1249,7 +1352,7 @@
                     android:gravity="center"
                     android:text="Made with BillBook"
                     android:textColor="@color/color_black"
-                    android:textSize="17sp" />
+                    android:textSize="15sp" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -1257,7 +1360,7 @@
                     android:layout_marginTop="5dp"
                     android:text="***Thank you for your shopping***"
                     android:textColor="@color/color_black"
-                    android:textSize="17sp" />
+                    android:textSize="15sp" />
 
             </LinearLayout>
         </LinearLayout>

@@ -239,23 +239,6 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             >
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
-                    android:id="@+id/btn_Short_pdf"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="2dp"
-                    android:background="@drawable/pdf_format_structure"
-                    android:text="@string/short_format"
-                    android:textColor="@color/black" />
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -273,6 +256,24 @@
                     android:text="@string/long_format"
                     android:textColor="@color/black" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btn_Short_pdf"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="2dp"
+                    android:background="@drawable/pdf_format_structure"
+                    android:text="@string/short_format"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
 <!--            <LinearLayout-->
 
 <!--                android:layout_width="0dp"-->
@@ -297,10 +298,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="14dp"
+
         android:layout_gravity="center"
         android:background="@drawable/webview_show"
         android:orientation="horizontal">
         <include
+            android:visibility="gone"
             android:id="@+id/includedLayoutShortBill"
             layout="@layout/short_bill_layout" />
         <LinearLayout
@@ -396,8 +399,8 @@
             android:orientation="vertical">
             <ImageView
                 android:padding="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
                 android:src="@drawable/share_icon">
 
             </ImageView>

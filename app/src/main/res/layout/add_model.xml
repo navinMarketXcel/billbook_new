@@ -123,6 +123,7 @@
                 android:id="@+id/priceLblTVBs"
                 android:text="@string/price" />
             <EditText
+
                 android:textColor="#0A0A0A"
                 android:id="@+id/priceEdt"
                 android:inputType="numberDecimal"
@@ -251,6 +252,8 @@
                 android:textStyle="bold" />
 
             <EditText
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                android:inputType="textFilter"
                 android:id="@+id/imeiNo"
                 style="@style/editText"
                 android:layout_width="199dp"
@@ -308,6 +311,7 @@
         <EditText
             android:id="@+id/HsnNoET"
             style="@style/editText"
+            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="left"

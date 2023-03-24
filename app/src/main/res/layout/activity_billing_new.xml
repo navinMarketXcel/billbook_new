@@ -472,7 +472,7 @@
                             android:textStyle="bold" />
 
 
-                        <EditText
+                        <androidx.appcompat.widget.AppCompatAutoCompleteTextView
 
                             android:id="@+id/edtName"
                             style="@style/editText"
@@ -687,6 +687,8 @@
                             android:id="@+id/edtGST"
 
                             style="@style/editText"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                            android:inputType="textFilter"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
 

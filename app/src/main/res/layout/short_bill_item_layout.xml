@@ -11,6 +11,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:layout_marginBottom="3dp"
             android:id="@+id/productDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -20,6 +21,7 @@
             android:textColor="@color/color_black"
             android:textSize="@dimen/_9sdp" />
         <TextView
+            android:layout_marginBottom="3dp"
             android:id="@+id/imei"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,6 +33,7 @@
 
         <LinearLayout
             android:id="@+id/llForHeader"
+            android:layout_marginBottom="2dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"

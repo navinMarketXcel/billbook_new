@@ -324,6 +324,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
     public void clickSelect(View v)
     {
+        boolean checkSelect;
         
         Util.pushEvent("Clicked On Select in Search Invoices");
         LinearLayout rootll = findViewById(R.id.rootll);
@@ -335,6 +336,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
         if(isCheckFlag)
         {
+            checkSelect = true;
 
             iv.setVisibility(View.VISIBLE);
             iv2.setVisibility(View.VISIBLE);
@@ -354,6 +356,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         }
         else
         {
+            checkSelect= false;
             iv.setVisibility(View.GONE);
             iv2.setVisibility(View.GONE);
             download.setVisibility(View.VISIBLE);
@@ -368,7 +371,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
             isCheckFlag=true;
 
         }
-        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag,SearchInvoiceActivity.this);
+        searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag,SearchInvoiceActivity.this,checkSelect);
         recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
     }
 
@@ -491,7 +494,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 for (int i=0;i<invoicesList.size();i++){
                     System.out.println("BillNO:" + invoicesList.get(i).getBillNo() + " ,Amount" + invoicesList.get(i).getTotalAmount());
                 }
-                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this);
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this,true);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerViewInvoice.setLayoutManager(layoutManager);
                 recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
@@ -518,7 +521,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 for (int i=0;i<invoicesList.size();i++){
                     System.out.println(invoicesList.get(i).getInvoiceDate());
                 }
-                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this);
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this,true);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerViewInvoice.setLayoutManager(layoutManager);
                 recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
@@ -552,7 +555,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                 bd.setVisibility(View.GONE);
                 invoicesList= (ArrayList<InvoicesData>)jsonArrayToList(invoices).stream().sorted(Comparator.comparing(InvoicesData::getUpdatedAt)).collect(Collectors.toList());
                 Collections.reverse(invoicesList);
-                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this);
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this,true);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerViewInvoice.setLayoutManager(layoutManager);
                 recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
@@ -587,7 +590,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     }
                 });
                 Log.v("NonGSTBILLS", String.valueOf(nonGstBillList));
-                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,nonGstBillList,null,isCheckFlag,SearchInvoiceActivity.this);
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,nonGstBillList,null,isCheckFlag,SearchInvoiceActivity.this,true);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerViewInvoice.setLayoutManager(layoutManager);
                 recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
@@ -609,7 +612,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     }
                 });
                 Log.v("GSTBILLS", String.valueOf(nonGstBillList));
-                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,nonGstBillList,null,isCheckFlag,SearchInvoiceActivity.this);
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,nonGstBillList,null,isCheckFlag,SearchInvoiceActivity.this,true);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerViewInvoice.setLayoutManager(layoutManager);
                 recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
@@ -621,7 +624,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         allBills.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this);
+                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList,null,isCheckFlag,SearchInvoiceActivity.this,true);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerViewInvoice.setLayoutManager(layoutManager);
                 recyclerViewInvoice.setItemAnimator(new DefaultItemAnimator());
@@ -836,7 +839,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
                                 Log.d(TAG, "Invoice Body::" + body);
                                 invoicesList =jsonArrayToList(invoices);
-                                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag,SearchInvoiceActivity.this);
+                                searchInvoiceListAdapter = new SearchInvoiceListAdapterNew(SearchInvoiceActivity.this,invoicesList, SearchInvoiceActivity.this,isCheckFlag,SearchInvoiceActivity.this,true);
                                 recyclerViewInvoice.setAdapter(searchInvoiceListAdapter);
                                 searchInvoiceListAdapter.notifyDataSetChanged();
                                 if(invoicesList.size()==0)

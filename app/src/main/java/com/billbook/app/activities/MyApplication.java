@@ -270,6 +270,23 @@ public class MyApplication extends Application {
         String userId = sharedPref.getString(context.getString(R.string.userDetails), "");
         return userId;
     }
+    public static void isFirstBill(Boolean firstBill)
+    {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("firstBill", firstBill);
+        editor.commit();
+
+    }
+    public static boolean getIsFirstBill()
+    {
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.preference_file_key), context.MODE_PRIVATE);
+        Boolean FirstBill = sharedPref.getBoolean("firstBill", false);
+        return FirstBill;
+
+    }
 
     public static int getUserID() {
         SharedPreferences sharedPref = context.getSharedPreferences(

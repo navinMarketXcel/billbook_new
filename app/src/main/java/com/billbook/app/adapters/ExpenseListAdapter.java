@@ -44,7 +44,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
     @Override
     public void onBindViewHolder(ExpenseListAdapter.MyViewHolder holder, final int position) {
         holder.expenseAmountTV.setText(Util.formatDecimalValue( (float) expenseArrayListFiltered.get(position).getAmount()));
-        holder.expenseDateTV.setText(""+expenseArrayListFiltered.get(position).getDate());
+        holder.expenseDateTV.setText(""+Util.formatDate(expenseArrayListFiltered.get(position).getDate()));
         holder.expenseNameTV.setText(""+expenseArrayListFiltered.get(position).getName());
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -20,6 +20,7 @@
 
     <LinearLayout
         android:padding="2dp"
+        android:weightSum="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -36,6 +37,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingTop="15dp"
@@ -98,7 +100,7 @@
         </LinearLayout>
 
         <LinearLayout
-
+            android:id="@+id/buttonLay"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_width="match_parent"
@@ -106,6 +108,7 @@
             android:orientation="horizontal"
             android:layout_weight="1.4">
             <Button
+
                 android:id="@+id/searchItem"
                 android:layout_marginRight="4dp"
                 android:background="@drawable/edit_invoice"
