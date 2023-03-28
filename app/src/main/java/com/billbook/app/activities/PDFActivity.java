@@ -953,6 +953,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 this.finish();
                 break;
             case R.id.btnWhatsappShare:
+                Util.pushEvent("Clicked on Whatsapp Share");
                 shareOnWhatsApp(2);
                 break;
             case R.id.btn_Long_pdf:
@@ -1616,7 +1617,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
 
                         }
-                    }, 1000);
+                    }, 4000);
                 }
                 else {
                     createPdfWrapper();

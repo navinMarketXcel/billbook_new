@@ -113,7 +113,7 @@ public class AddExpenseActivity extends AppCompatActivity {
             return;
         }
         Expense expense = new Expense();
-        expense.setAmount(Integer.parseInt((expenseAmount.toString())));
+        expense.setAmount(Float.parseFloat((expenseAmount.toString())));
         expense.setName(expenseName.getText().toString());
         expense.setDate(selectDate.getText().toString());
         expense.setUserid(userid);

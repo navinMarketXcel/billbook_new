@@ -187,7 +187,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                 {
                     Expense expense = new Expense();
                     try {
-                        expense.setAmount(Integer.parseInt((expenseAmount.getText().toString())));
+                        expense.setAmount(Float.parseFloat((expenseAmount.getText().toString())));
                     }
                     catch (NumberFormatException e)
                     {
@@ -256,7 +256,7 @@ public class ExpenseActivity extends AppCompatActivity implements ExpenseCallBac
                 {
                     Expense expense = new Expense();
                     try {
-                        expense.setAmount(Integer.parseInt((expenseAmount.getText().toString())));
+                        expense.setAmount(Float.parseFloat((expenseAmount.getText().toString())));
                     }
                     catch (NumberFormatException e)
                     {

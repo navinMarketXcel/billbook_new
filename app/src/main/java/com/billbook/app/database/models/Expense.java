@@ -19,7 +19,7 @@ public class Expense implements Serializable {
     private String name;
     @SerializedName("amount")
     @ColumnInfo(name = "amount")
-    private int amount;
+    private float amount;
     @SerializedName("expenseDate")
     @ColumnInfo(name = "expenseDate")
     private String expenseDate;
@@ -49,11 +49,11 @@ public class Expense implements Serializable {
         this.name = name;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 

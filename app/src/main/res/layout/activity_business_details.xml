@@ -161,6 +161,7 @@
                      />
 
                 <EditText
+
                     android:id="@+id/etBusiness"
                     style="@style/textSmall"
                     android:layout_marginTop="@dimen/_7sdp"
@@ -255,6 +256,8 @@
                     android:layout_marginTop="@dimen/_7sdp"
                     app:layout_constraintTop_toBottomOf="@+id/phoneLayout" />
                 <EditText
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                    android:inputType="textFilter"
                     android:id="@+id/etGstNum"
                     style="@style/textSmall"
                     android:layout_marginTop="@dimen/_7sdp"

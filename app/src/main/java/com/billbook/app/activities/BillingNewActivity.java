@@ -2354,19 +2354,36 @@ public class BillingNewActivity extends AppCompatActivity implements NewBillingA
     }
     @Override
     public void onBackPressed() {
-        DialogUtils.showAlertDialogOkCancel(BillingNewActivity.this, getResources().getString(R.string.quit_yes), getResources().getString(R.string.quit_no), getResources().getString(R.string.quit_bill),getResources().getString(R.string.quit_bill_title), new DialogUtils.DialogClickListener() {
-            @Override
-            public void positiveButtonClick() {
-                Util.pushEvent("Clicked on YES from Back Button ToolBar");
-                finish();
-            }
+        if(isEdit){
+            DialogUtils.showAlertDialogOkCancel(BillingNewActivity.this, getResources().getString(R.string.edit_yes), getResources().getString(R.string.edit_no), getResources().getString(R.string.edit_bill),getResources().getString(R.string.edit_bill_title), new DialogUtils.DialogClickListener() {
+                @Override
+                public void positiveButtonClick() {
+                    Util.pushEvent("Clicked on YES from Back Button ToolBar");
+                    finish();
+                }
 
-            @Override
-            public void negativeButtonClick() {
-                Util.pushEvent("Clicked on NO from Back Button ToolBar");
+                @Override
+                public void negativeButtonClick() {
+                    Util.pushEvent("Clicked on NO from Back Button ToolBar");
 
-            }
-        });
+                }
+            });
+        }else{
+            DialogUtils.showAlertDialogOkCancel(BillingNewActivity.this, getResources().getString(R.string.quit_yes), getResources().getString(R.string.quit_no), getResources().getString(R.string.quit_bill),getResources().getString(R.string.quit_bill_title), new DialogUtils.DialogClickListener() {
+                @Override
+                public void positiveButtonClick() {
+                    Util.pushEvent("Clicked on YES from Back Button ToolBar");
+                    finish();
+                }
+
+                @Override
+                public void negativeButtonClick() {
+                    Util.pushEvent("Clicked on NO from Back Button ToolBar");
+
+                }
+            });
+        }
+
     }
 
 }

@@ -4,6 +4,8 @@ import static com.billbook.app.utils.Util.getRequestBodyFormData;
 
 import android.content.ContentResolver;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,8 +73,12 @@ ImageView ivToolBarBack;
         });
         btnSave.setOnClickListener(v -> {
             Util.pushEvent("Clicked on Save in Business Details");
-            if(verifyData())updateUserProfile();
-            Toast.makeText(BusinessDetailsActivity.this, "Business Details Uploaded Successfully", Toast.LENGTH_SHORT).show();
+            if(verifyData())
+            {
+                updateUserProfile();
+                Toast.makeText(BusinessDetailsActivity.this, "Business Details Uploaded Successfully", Toast.LENGTH_SHORT).show();
+            }
+
         });
         lnHelp.setOnClickListener(v -> {
             Util.pushEvent("Clicked on Whatsapp Help from Toolbar in Business Details");
@@ -170,20 +176,50 @@ ImageView ivToolBarBack;
         });
     }
     private boolean verifyData() {
+//        TextWatcher verifyWatcher = new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//                if (etBusiness.getText().toString().startsWith(" ")) {
+//                    etBusiness.setText("");
+//
+//                } else if (etShopAdd.getText().toString().startsWith(" ")) {
+//                    etShopAdd.setText("");
+//
+//                }
+//               else if (etCity.getText().toString().startsWith(" ")) {
+//                    etCity.setText("");
+//
+//                }else if ((etState.getText().toString().startsWith(" "))) {
+//                    etState.setText("");
+//
+//                }
+//            }
+//        };
 
-        if (etBusiness.getText().toString().isEmpty()) {
+        if (removeSpace(etBusiness.getText().toString())) {
             etBusiness.setError( "Shop Name can not be empty");
             return false;
-        } else if (etShopAdd.getText().toString().isEmpty()) {
+        } else if (removeSpace(etShopAdd.getText().toString())) {
             etShopAdd.setError( "Shop Address can not be empty");
             return false;
         }else if (etPinCode.getText().toString().isEmpty() || etPinCode.getText().length() < 6) {
             etPinCode.setError( "Please enter a valid Pincode");
             return false;
-        }else if (etCity.getText().toString().isEmpty()) {
+        }else if (removeSpace(etCity.getText().toString())) {
             etCity.setError( "City can not be empty");
             return false;
-        }else if (etState.getText().toString().isEmpty()) {
+        }else if (removeSpace(etState.getText().toString())) {
             etState.setError( "State can not be empty");
             return false;
         }else if (etGstNum.getText().toString().length()<15 &&etGstNum.getText().toString().length()!=0 ) {
@@ -191,5 +227,14 @@ ImageView ivToolBarBack;
             return false;
         }
         return true;
+    }
+   public static Boolean removeSpace(String str)
+    {
+        str = str.replaceAll("\\s","");
+        if(str.length()>0)
+            return false;
+        else
+            return true;
+
     }
 }
