@@ -319,6 +319,7 @@
                         android:layout_height="@dimen/_1sdp"
                         android:background="@color/Silver" />
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_7sdp"
@@ -372,6 +373,7 @@
 
                     </LinearLayout>
                     <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
                         android:background="@color/Silver" />

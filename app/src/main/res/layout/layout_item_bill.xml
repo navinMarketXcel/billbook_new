@@ -233,7 +233,7 @@
                 <EditText
                     android:id="@+id/imeiNo"
                     style="@style/editText"
-                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,"
                     android:inputType="textFilter"
                     android:layout_width="199dp"
                     android:layout_height="wrap_content"

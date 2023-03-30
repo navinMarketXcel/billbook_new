@@ -252,7 +252,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,"
                 android:inputType="textFilter"
                 android:id="@+id/imeiNo"
                 style="@style/editText"
