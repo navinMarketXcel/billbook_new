@@ -7,9 +7,9 @@ android {
         applicationId "com.billbook.app"
         minSdkVersion 24
         targetSdkVersion 32
-        versionCode 86
-        versionName "2.2.6"
-        buildToolsVersion "30.0.3"
+        versionCode 81
+        versionName "2.2.5"
+        buildToolsVersion "26.0.1"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         buildConfigField("String", "AccountId",AccountId);

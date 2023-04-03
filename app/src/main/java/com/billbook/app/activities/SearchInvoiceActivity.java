@@ -331,25 +331,14 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         TextView selecttv= findViewById(R.id.selectTv);
         Button delete = findViewById(R.id.deleteButton);
         Button download = findViewById(R.id.downloadAll);
-        Button iv = findViewById(R.id.searchItem);
-        Button iv2 = findViewById(R.id.cancelInvBItn);
 
         if(isCheckFlag)
         {
             checkSelect = true;
-
-            iv.setVisibility(View.VISIBLE);
-            iv2.setVisibility(View.VISIBLE);
             download.setVisibility(View.GONE);
             delete.setVisibility(View.GONE);
             rootll.setVisibility(View.VISIBLE);
 
-            //sortTv.setVisibility(View.VISIBLE);
-
-//            filterTv.setVisibility(View.VISIBLE);
-//            filterIv.setVisibility(View.VISIBLE);
-//            sortIv.setVisibility(View.VISIBLE);
-//            viewFilter.setVisibility(View.VISIBLE);
 
             selecttv.setText("Select Bills");
             isCheckFlag=false;
@@ -357,16 +346,10 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         else
         {
             checkSelect= false;
-            iv.setVisibility(View.GONE);
-            iv2.setVisibility(View.GONE);
+
             download.setVisibility(View.VISIBLE);
             delete.setVisibility(View.VISIBLE);
             rootll.setVisibility(View.GONE);
-//            sortTv.setVisibility(View.GONE);
-//            viewFilter.setVisibility(View.GONE);
-//            filterTv.setVisibility(View.GONE);
-//            filterIv.setVisibility(View.GONE);
-//            sortIv.setVisibility(View.GONE);
             selecttv.setText("Cancel");
             isCheckFlag=true;
 

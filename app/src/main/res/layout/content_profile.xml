@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
     android:focusableInTouchMode="true">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@drawable/layout__background_drawable">
 
 
@@ -432,6 +432,7 @@
 
                     </LinearLayout>
                     <View
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
                         android:background="@color/Silver" />
