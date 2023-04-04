@@ -34,6 +34,8 @@ import com.billbook.app.activities.LoginActivity;
 import com.billbook.app.activities.LogoSignatureActivity;
 import com.billbook.app.activities.MyApplication;
 import com.billbook.app.activities.SplashActivity;
+import com.billbook.app.activities.TermsAndConditionActivity;
+import com.billbook.app.activities.TermsAndConditionsNewActivity;
 import com.billbook.app.activities.loginPick_activity;
 import com.billbook.app.networkcommunication.ApiClient;
 import com.billbook.app.networkcommunication.ApiInterface;
@@ -83,7 +85,7 @@ public class ProfileFragment extends Fragment {
         return fragment;
     }
 
-    RelativeLayout rlContact,rlBusiness,rlLogoSign,rlChangeLanguage,rlLogout;
+    RelativeLayout rlContact,rlBusiness,rlLogoSign,rlChangeLanguage,rlLogout,tcrl;
     TextView txtProfileName,txtProfileAdd;
     de.hdodenhof.circleimageview.CircleImageView ivUserProfile;
     Switch switchGst;
@@ -101,6 +103,7 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        tcrl = view.findViewById(R.id.tcrl);
         rlContact =  view.findViewById(R.id.rlContact);
         rlBusiness =  view.findViewById(R.id.rlBusiness);
         rlLogoSign =  view.findViewById(R.id.rlLogoSign);
@@ -142,6 +145,11 @@ public class ProfileFragment extends Fragment {
     }
 
     public void setonClick(){
+        tcrl.setOnClickListener(v -> {
+            Util.pushEvent("Clicked on Terms and Conditions");
+            Intent intent = new Intent(getActivity(), TermsAndConditionsNewActivity.class);
+            startActivity(intent);
+        });
         rlContact.setOnClickListener(v -> {
             Util.pushEvent("Clicked on Contact Details");
             Intent intent = new Intent(getActivity(), ContactDetailsActivity.class);

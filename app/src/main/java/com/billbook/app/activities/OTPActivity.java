@@ -243,7 +243,6 @@ public class OTPActivity extends AppCompatActivity {
 
 
 
-
             }
             else
             {

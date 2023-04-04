@@ -252,7 +252,7 @@ public class DayBookActivity extends AppCompatActivity {
             call.enqueue(new Callback<Object>() {
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
-                    DialogUtils.stopProgressDialog();
+                    DialogUtils.stopProgressDialog(DayBookActivity.this);
                     try {
                         JSONObject body = new JSONObject(new Gson().toJson(response.body()));
 

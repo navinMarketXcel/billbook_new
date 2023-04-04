@@ -139,7 +139,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
        // pdfContentOldBinding = binding.includedLayoutPdfContentOld;
         pdfBinding = binding.includedLayoutPdfContent;
         shortBillLayoutBinding = binding.includedLayoutShortBill;
-        invoiceAmountLayoutUpdatedBinding = pdfBinding.invoiceAmountLayoutUpdated;
+
         setContentView(binding.getRoot());
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         //setContentView(R.layout.activity_pdf);
@@ -381,8 +381,20 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             profile = new JSONObject(MyApplication.getUserDetails());
             Log.v("profile", String.valueOf(profile));
             if(profile.has("additionalData") && profile.getString("additionalData").length()!=0){
+                pdfBinding.bankDets.setVisibility(View.VISIBLE);
                 pdfBinding.tvAdditionalDetails.setVisibility(View.VISIBLE);
                 pdfBinding.tvAdditionalDetails.setText(profile.getString("additionalData"));
+                shortBillLayoutBinding.bankDets.setVisibility(View.VISIBLE);
+                shortBillLayoutBinding.tvAdditionalDetails.setVisibility(View.VISIBLE);
+                shortBillLayoutBinding.tvAdditionalDetails.setText(profile.getString("additionalData"));
+            }
+            if(profile.has("tnc") && profile.getString("tnc").length()!=0)
+            {
+                pdfBinding.tncTv.setText(profile.getString("tnc"));
+                shortBillLayoutBinding.tncTv.setText(profile.getString("tnc"));
+                shortBillLayoutBinding.tncTv2.setVisibility(View.GONE);
+                shortBillLayoutBinding.tncTv3.setVisibility(View.GONE);
+
             }
             imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;
             signatureURL = profile.has("signatureImage") ? profile.getString("signatureImage").replaceAll("\\/","/") : null;
@@ -877,22 +889,17 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             PdfWriter pdfWriter =
                     new PdfWriter(PDFActivity.this, (ViewGroup) findViewById(R.id.ll_root));
             filepath = docsFolder.getAbsolutePath();
-//            PdfWriter pdfWriter1 =
-//                    new PdfWriter(PDFActivity.this, (ViewGroup) findViewById(R.id.ll_root_old));
-//            filepath1 = docsFolder.getAbsolutePath();
 
             filepath = filepath + "/" + "Invoice"+ invoiceNumber + "_" + today + ".pdf";
-           //filepath1 = filepath1 + "/" + "Invoice"+ invoiceNumber + "_" + today + ".pdf";
-            System.out.println("filepath ::"+filepath);
-          //  System.out.println("filepath ::"+filepath1);
+
+//            System.out.println("filepath ::"+filepath);
+
             pdfFile = pdfWriter.exportPDF(filepath);
-           // pdfFile1 = pdfWriter1.exportPDF(filepath1);
             if (invID > 0)
                 uploadPDF();
             else
                 saveInvoiceOffline();
 
-//                    openPDF();
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -965,11 +972,15 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 binding.btnLongPdf.setTextColor(ContextCompat.getColor(this,R.color.white));
                 binding.btnShortPdf.setBackground(ContextCompat.getDrawable(this,R.drawable.pdf_format_structure));
                 binding.btnShortPdf.setTextColor(ContextCompat.getColor(this,R.color.black));
-                Uri urii = FileProvider.getUriForFile(PDFActivity.this, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
-                if (!pdfBinding.pdfView.isRecycled()) {
-                    pdfBinding.pdfView.recycle();
+                if(pdfFile!=null)
+                {
+                    Uri urii = FileProvider.getUriForFile(PDFActivity.this, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
+                    if (!pdfBinding.pdfView.isRecycled()) {
+                        pdfBinding.pdfView.recycle();
+                    }
+                    pdfBinding.pdfView.fromUri(urii).load();
                 }
-                pdfBinding.pdfView.fromUri(urii).load();
+
                 pdfBinding.pdfView.setOnTouchListener(new View.OnTouchListener() {
                     GestureDetector gd = new GestureDetector(getApplicationContext(), new GestureDetector.SimpleOnGestureListener(){
                         @Override
@@ -1031,10 +1042,14 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                 billType = "short";
                 break;
             case R.id.zoomClick:
-                Uri uri = FileProvider.getUriForFile(PDFActivity.this, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
-                Intent intentZoom = new Intent(PDFActivity.this, TestPdfActivity.class);
-                intentZoom.putExtra("uri", uri.toString());
-                startActivity(intentZoom);
+                if(pdfFile!=null)
+                {
+                    Uri uri = FileProvider.getUriForFile(PDFActivity.this, BuildConfig.APPLICATION_ID + ".provider", pdfFile);
+                    Intent intentZoom = new Intent(PDFActivity.this, TestPdfActivity.class);
+                    intentZoom.putExtra("uri", uri.toString());
+                    startActivity(intentZoom);
+                }
+
                 break;
 //            case R.id.zoomClickOld:
 //                Uri uriOld = FileProvider.getUriForFile(PDFActivity.this, BuildConfig.APPLICATION_ID + ".provider", pdfFile1);

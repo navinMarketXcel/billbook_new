@@ -39,7 +39,7 @@ import retrofit2.Response;
 
 public class BusinessDetailsActivity extends AppCompatActivity {
 ImageView ivToolBarBack;
-    EditText etBusiness,etPinCode,etShopAdd,etCity,etState,etGstNum;
+    EditText etBusiness,etPinCode,etShopAdd,etCity,etState,etGstNum,tv_additional;
     private JSONObject profile;
     private long userid;
     Button btnSave;
@@ -50,6 +50,7 @@ ImageView ivToolBarBack;
         setContentView(R.layout.activity_business_details);
         ivToolBarBack = findViewById(R.id.ivToolBarBack);
         btnSave = findViewById(R.id.btnSave);
+        tv_additional = findViewById(R.id.tv_additionalDetails);
         etBusiness = findViewById(R.id.etBusiness);
         etShopAdd = findViewById(R.id.etShopAdd);
         etPinCode = findViewById(R.id.etPinCode);
@@ -99,6 +100,7 @@ ImageView ivToolBarBack;
             etState.setText(profile.has("state") ? profile.getString("state") : "");
             etGstNum.setText(profile.has("gstNo") ? profile.getString("gstNo") : "");
             userid = profile.getLong("userid");
+            tv_additional.setText(profile.has("additionalData") ? profile.getString("additionalData") : "");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -115,6 +117,7 @@ ImageView ivToolBarBack;
             profile.put("gstNo", etGstNum.getText().toString());
             profile.put("state", etState.getText().toString());
             profile.put("city", etCity.getText().toString());
+            //profile.put("additionalData",tv_additional.getText().toString());
             MyApplication.saveUserDetails(profile.toString());
             if(etGstNum.getText().toString().isEmpty())MyApplication.setIsGst(false);
 
@@ -138,6 +141,8 @@ ImageView ivToolBarBack;
         map.put("pincode", getRequestBodyFormData(etPinCode.getText().toString()));
         map.put("state", getRequestBodyFormData(etState.getText().toString()));
         map.put("city", getRequestBodyFormData(etCity.getText().toString()));
+        map.put("additionalData", getRequestBodyFormData(tv_additional.getText().toString()));
+
 
         File profileFile = null, companyFile = null, signatureFile = null;
         MultipartBody.Part profileFilePart = null, companyFilePart = null, signatureFilePart = null;

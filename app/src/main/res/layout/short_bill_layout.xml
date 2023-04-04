@@ -1304,6 +1304,7 @@
 
             </TextView>
             <TextView
+                android:id="@+id/tncTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -1314,6 +1315,7 @@
                 android:textColor="@color/color_black"
                  />
             <TextView
+                android:id="@+id/tncTv2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -1324,6 +1326,7 @@
                 android:textColor="@color/color_black"
                 />
             <TextView
+                android:id="@+id/tncTv3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
@@ -1333,6 +1336,31 @@
                 android:text="3. The product of a damaged product or item received please contact."
                 android:textColor="@color/color_black"
                 />
+            <TextView
+                android:padding="5dp"
+                android:gravity="left"
+                android:visibility="gone"
+                android:id="@+id/bankDets"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:text="Bank Details"
+                android:textSize="@dimen/_15spText"
+                android:textColor="@color/black">
+
+            </TextView>
+            <TextView
+
+                android:id="@+id/tv_additionalDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:textAllCaps="true"
+                android:paddingBottom="10dp"
+                android:visibility="gone"
+                tools:text="Additional Details \n Find shop here"
+                android:textColor="@color/black"/>
 
         </LinearLayout>
 
