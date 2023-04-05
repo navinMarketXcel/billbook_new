@@ -409,7 +409,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="Add Your Default TnC Here"
+                                    android:text="Add Your Own TnC Here"
                                     android:textColor="@color/grey" />
 
                             </LinearLayout>
