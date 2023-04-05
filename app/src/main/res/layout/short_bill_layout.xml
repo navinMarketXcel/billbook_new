@@ -1287,14 +1287,17 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/tncLL"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="5dp">
+           >
             <TextView
+                android:id="@+id/tncTvHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TERMS &amp; CONDITIONS"
@@ -1311,58 +1314,39 @@
                 android:padding="5dp"
                 android:textSize="@dimen/_13spText"
                 android:singleLine="false"
-                android:text="1. Item once purchased cannot be return."
                 android:textColor="@color/color_black"
                  />
-            <TextView
-                android:id="@+id/tncTv2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:padding="5dp"
-                android:textSize="@dimen/_13spText"
-                android:singleLine="false"
-                android:text="2. The product carries only manufacturer's warranty (if applicable) and no return or exchange will be entertained."
-                android:textColor="@color/color_black"
-                />
-            <TextView
-                android:id="@+id/tncTv3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="left"
-                android:padding="5dp"
-                android:textSize="@dimen/_13spText"
-                android:singleLine="false"
-                android:text="3. The product of a damaged product or item received please contact."
-                android:textColor="@color/color_black"
-                />
-            <TextView
-                android:padding="5dp"
-                android:gravity="left"
-                android:visibility="gone"
-                android:id="@+id/bankDets"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAllCaps="true"
-                android:text="Bank Details"
-                android:textSize="@dimen/_15spText"
-                android:textColor="@color/black">
-
-            </TextView>
-            <TextView
-
-                android:id="@+id/tv_additionalDetails"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:textAllCaps="true"
-                android:paddingBottom="10dp"
-                android:visibility="gone"
-                tools:text="Additional Details \n Find shop here"
-                android:textColor="@color/black"/>
-
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/bankDets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="left"
+            android:padding="5dp"
+            android:text="Bank Details"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_15spText"
+            android:visibility="gone">
+
+        </TextView>
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/tv_additionalDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:textAllCaps="true"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
+            tools:text="Additional Details \n Find shop here"
+            android:textColor="@color/black"/>
 
         <LinearLayout
             android:layout_width="match_parent"

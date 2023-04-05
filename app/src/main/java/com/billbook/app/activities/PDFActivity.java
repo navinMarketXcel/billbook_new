@@ -390,10 +390,10 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
             }
             if(profile.has("tnc") && profile.getString("tnc").length()!=0)
             {
+                pdfBinding.tncTvHeader.setVisibility(View.VISIBLE);
+                shortBillLayoutBinding.tncLL.setVisibility(View.VISIBLE);
                 pdfBinding.tncTv.setText(profile.getString("tnc"));
                 shortBillLayoutBinding.tncTv.setText(profile.getString("tnc"));
-                shortBillLayoutBinding.tncTv2.setVisibility(View.GONE);
-                shortBillLayoutBinding.tncTv3.setVisibility(View.GONE);
 
             }
             imageURL = profile.has("companyLogo") ? profile.getString("companyLogo") : null;

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -189,7 +190,9 @@ public class loginPick_activity extends AppCompatActivity {
         otpless.openOtpless(request);
     }
     private void onOtplessResult(@Nullable OtplessTokenData response) {
+
         if (response == null) return;
+        Log.v("respone",response.toString());
         if(response.getToken() == null){
             if(whatsappDialog!=null)
             {

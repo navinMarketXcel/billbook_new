@@ -401,7 +401,7 @@ Bill Book (including, but not limited to, any prior versions of the Terms of Ser
     <string name="switch_gst_and_non_gst_bills">Switch Non-GST and GST bills</string>
     <string name="email_address_phone_number_etc">Email Address, Phone Number etc..</string>
     <string name="contact_details">Contact Details</string>
-    <string name="business_details">Business Details</string>
+    <string name="business_details">Business And Bank Details</string>
     <string name="logo_sign">Logo &amp; Signature</string>
     <string name="business_name_address_gst_and_more">Business Name, Address, GST and more</string>
     <string name="logo_and_signature">Logo and Signature</string>
