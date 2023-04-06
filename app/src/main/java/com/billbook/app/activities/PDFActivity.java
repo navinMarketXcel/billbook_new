@@ -1632,7 +1632,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
 
                         }
-                    }, 4000);
+                    }, 2000);
                 }
                 else {
                     createPdfWrapper();

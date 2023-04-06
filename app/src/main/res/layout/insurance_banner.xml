@@ -15,7 +15,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/insurance_banner">
+            android:src="@drawable/insurance">
 
         </ImageView>
 <!--        <FrameLayout-->
