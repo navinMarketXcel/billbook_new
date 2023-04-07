@@ -41,7 +41,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:icon,android:allowBackup,android:roundIcon"
+        tools:replace="android:icon,android:allowBackup,android:roundIcon,android:usesCleartextTraffic,android:theme"
         tools:targetApi="honeycomb">
         <activity
             android:name=".activities.TermsAndConditionsNewActivity"

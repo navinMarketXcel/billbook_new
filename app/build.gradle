@@ -9,7 +9,7 @@ android {
         targetSdkVersion 32
         versionCode 81
         versionName "2.2.5"
-        buildToolsVersion "26.0.1"
+        buildToolsVersion "30.0.3"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         buildConfigField("String", "AccountId",AccountId);
@@ -146,6 +146,9 @@ dependencies {
     implementation 'androidx.work:work-runtime:2.7.1'
 
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+
+    //payu
+    implementation 'in.payu:payu-checkout-pro:1.8.2'
 
 }
 
