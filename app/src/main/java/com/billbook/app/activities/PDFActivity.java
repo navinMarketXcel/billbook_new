@@ -47,6 +47,7 @@ import com.billbook.app.viewmodel.InvoiceItemsViewModel;
 import com.billbook.app.viewmodel.InvoiceViewModel;
 import com.dantsu.escposprinter.EscPosPrinter;
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections;
+
 import com.google.gson.Gson;
 import com.billbook.app.BuildConfig;
 import com.billbook.app.R;
@@ -578,8 +579,8 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
 
 
 
-                    pdfBinding.edtName.setText(custName == null ?" ":custName+" ");
-                    pdfBinding.edtAddress.setText(custAdd == null ?" ":custAdd+" ");
+//                    pdfBinding.edtName.setText(custName == null ?" ":custName+" ");
+//                    pdfBinding.edtAddress.setText(custAdd == null ?" ":custAdd+" ");
                     //pdfBinding.edtMobNo.setText(custNo == null ?" ":custNo+" ");
 //            tvGSTNo.setText(invoice.getString("GSTNo")+" ");
                     pdfBinding.tvAmountBeforeTax.setText(Util.formatDecimalValue((float) invoice.getDouble("totalAmountBeforeGST")));
@@ -979,6 +980,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                         pdfBinding.pdfView.recycle();
                     }
                     pdfBinding.pdfView.fromUri(urii).load();
+
                 }
 
                 pdfBinding.pdfView.setOnTouchListener(new View.OnTouchListener() {
@@ -1625,8 +1627,7 @@ public class PDFActivity extends AppCompatActivity implements View.OnClickListen
                                 if (!pdfBinding.pdfView.isRecycled()) {
                                     pdfBinding.pdfView.recycle();
                                 }
-                                pdfBinding.pdfView.fromUri(urii).load();
-                            } catch (FileNotFoundException e) {
+                                pdfBinding.pdfView.fromUri(urii).load();                            } catch (FileNotFoundException e) {
                                 throw new RuntimeException(e);
                             }
 

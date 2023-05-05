@@ -136,6 +136,14 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
         dateSpinner = findViewById(R.id.dateSpinner);
         HashMap<String, Object> spinnerClicked = new HashMap<String, Object>();
+        sortingBills();
+        setonClick();
+
+
+    }
+    public void sortingBills()
+    {
+        HashMap<String, Object> spinnerClicked = new HashMap<String, Object>();
         dateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -171,42 +179,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
 
 
-                    //  Util.pushEvent("Clicked On Custom Period in Search Invoices");
-//                    dateSpinner.setSelection(0);
-//                    BottomSheetDialog gstSheet = new BottomSheetDialog(SearchInvoiceActivity.this, R.style.BottomSheetDialogTheme);
-//                    View bottomSheet = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_date_range_picker,null);
-//                    CalendarPicker calendarPicker = bottomSheet. findViewById(R.id.calendar_view);
-//                    TextView txtFrom=bottomSheet. findViewById(R.id.txtFrom);
-//                    TextView txtTo=bottomSheet. findViewById(R.id.txtTo);
-//                    String startDates = "",endDates="";
-//                    Calendar startDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-//                    Calendar endDate = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault());
-//                    startDate.add(Calendar.MONTH, -6);
-//                    calendarPicker. setRangeDate(startDate.getTime(),endDate.getTime() );
-//                    calendarPicker.setMode(CalendarPicker.SelectionMode.RANGE);
-//                    calendarPicker.scrollToDate(startDate.getTime());
-//                    calendarPicker.setOnRangeSelectedListener((Date date, Date date2, String s1, String s2) -> {
-//                                txtFrom.setText(s1);
-//                                txtTo.setText(s2);
-//                                //  DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-//
-//                                String strDate = myFormat1.format(date);
-//                                String endsDate = myFormat1.format(date2);
-//                                getInvoicesCallSearch(strDate,endsDate);
-//                                gstSheet.dismiss();
-//                                return null;
-//                            }
-//
-//
-//                    );
-//                    calendarPicker.setOnStartSelectedListener((date, s) ->
-//                    {
-//                        txtFrom.setText(s);
-//                        txtTo.setText("-");
-//                        return null;
-//                    });
-//                    gstSheet.setContentView(bottomSheet);
-//                    gstSheet.show();
+
 
                 }
 
@@ -292,7 +265,7 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                     String strDate = myFormat1.format(startDate.getTime());
                     String endsDate = myFormat1.format(endDate.getTime());
                     page=1;
-                   // getInvoicesCall();
+                    // getInvoicesCall();
                 }
                 MyApplication.cleverTapAPI.pushEvent("Search Invoices Spinner Clicked",spinnerClicked);
             }
@@ -302,9 +275,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
             }
         });
-        setonClick();
-
-
     }
     public void setonClick(){
         ImageView iv = findViewById(R.id.ivToolBarBack);
@@ -920,25 +890,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
                         }
 
             }
-/*
-                try {
-                if(invoices.getJSONObject(i).has("download") && invoices.getJSONObject(i).getBoolean("download")) {
-                    DownloadManager.Request r = null;
-                    if (invoices.getJSONObject(i).getString("pdfLink") != null && invoices.getJSONObject(i).getString("pdfLink").startsWith("http")) {
-                        String downloadLink = invoices.getJSONObject(i).getString("pdfLink");
-                        if(!downloadLink.contains("https://"))
-                            downloadLink = downloadLink.replace("http://", "https://");
-                        r = new DownloadManager.Request(Uri.parse(downloadLink));
-                        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Invoice_" + invoices.getJSONObject(i).getLong("id") + ".pdf");
-                        r.allowScanningByMediaScanner();
-                        r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                        DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-                        dm.enqueue(r);
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }*/
 
         }
         DialogUtils.showToast(this,"Downloading started");
@@ -1170,41 +1121,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
 
             }
             requestInvoice.put("masterItems",masterItems);
-
-//            requestInvoice.setTotalAfterDiscount(obj.getInt("totalAfterDiscount"));
-//            requestInvoice.setNonGstBillNo(obj.getInt("nonGstBillNo"));
-//            requestInvoice.setGstBillNo(obj.getInt("gstBillNo"));
-//            requestInvoice.setGSTNo(obj.getString("GSTNo"));
-//            if(obj.has("pdfLink")){
-//                requestInvoice.setPdfLink(obj.getString("pdfLink"));
-//            } else {
-//                requestInvoice.setPdfLink(null);
-//            }
-//            requestInvoice.setInvoiceDate(obj.getString("invoiceDate"));
-//            requestInvoice.setGstType(obj.getString("gstType"));
-//            requestInvoice.setUpdatedAt(obj.getString("updatedAt"));
-//            requestInvoice.setIsActive(obj.getBoolean("is_active"));
-//            requestInvoice.setId(obj.getInt("id"));
-//            requestInvoice.setCustomer(new Customer(cuObj.getString("name"),cuObj.getString("mobileNo"),false));
-            //            "id":1413223,
-//                    "name":"car",
-//                    "quantity":11,
-//                    "measurementId":1,
-//                    "price":123,
-//                    "gstType":"CGST\/SGST (Local customer)",
-//                    "gstAmount":1353,
-//                    "gst":0,
-//                    "serial_no":"",
-//                    "imei":"",
-//                    "totalAmount":1353,
-//                    "invoiceid":365285,
-//                    "userId":187739,
-//                    "is_active":true,
-//                    "createdAt":"2022-06-10T12:13:44.000Z",
-//                    "updatedAt":"2022-06-10T12:13:44.000Z"
-
-
-
         }
         catch (Exception e)
         {
@@ -1225,10 +1141,6 @@ public class SearchInvoiceActivity extends AppCompatActivity implements View.OnC
         intent.putExtra("nonGstBillNoList",NongstNoList);
         intent.putExtra("invoice",requestInvoice.toString());
         Log.v("request invoice SA",requestInvoice.toString());
-
-
-
-
 
         startActivity(intent);
 

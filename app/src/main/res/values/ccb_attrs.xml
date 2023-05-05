@@ -8,13 +8,11 @@
         <attr name="innerCircleColor" format="string" />
         <attr name="textColor" format="string" />
         <attr name="circleBorderColor" format="string" />
-
         <attr name="outerCircleRadius" format="dimension" />
         <attr name="innerCircleRadius" format="dimension" />
         <attr name="textSize" format="dimension" />
         <attr name="borderThickness" format="dimension" />
         <attr name="tickThickness" format="dimension" />
-
         <attr name="textLeftPadding" format="dimension" />
         <attr name="text" format="string" />
 

@@ -73,7 +73,6 @@ Button btnSave;
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.v("Profile ", profile.toString());
         etPhone.setEnabled(false);
         setonClick();
         setUserData();

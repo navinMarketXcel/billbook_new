@@ -188,24 +188,24 @@ public class ProfileFragment extends Fragment {
                     Map<String, String> headerMap = new HashMap<>();
                     Call<Object> call = null;
                     call = apiService.logoutUser(headerMap, new JsonObject());
-                    call.enqueue(new Callback<Object>() {
-                        @Override
-                        public void onResponse(Call<Object> call, Response<Object> response) {
-                            try {
-                                JSONObject body = new JSONObject(new Gson().toJson(response.body()));
-                                String res = body.getString("msg");
-                                Log.v("res of logout user",res);
-                                Toast.makeText(getContext(),res,Toast.LENGTH_SHORT).show();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Object> call, Throwable t) {
-
-                        }
-                    });
+//                    call.enqueue(new Callback<Object>() {
+//                        @Override
+//                        public void onResponse(Call<Object> call, Response<Object> response) {
+//                            try {
+//                                JSONObject body = new JSONObject(new Gson().toJson(response.body()));
+//                                String res = body.getString("msg");
+//                                Log.v("res of logout user",res);
+//                                Toast.makeText(getContext(),res,Toast.LENGTH_SHORT).show();
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<Object> call, Throwable t) {
+//
+//                        }
+//                    });
                 }
                 @Override
                 public void negativeButtonClick() {

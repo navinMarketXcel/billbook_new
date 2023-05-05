@@ -253,14 +253,6 @@ public class LogoSignatureActivity extends AppCompatActivity {
             Util. startYoutubeActivity(LogoSignatureActivity.this);
         });
     }
-   /* public void openGallery() {
-        Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        i.setType("image/*");
-        String[] mimeTypes = {"image/jpeg", "image/png", "image/jpg"};
-        i.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-        i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivityForResult(i, RESULT_LOAD_IMAGE);
-    }*/
     private void selectImage() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(LogoSignatureActivity.this);
@@ -278,8 +270,6 @@ public class LogoSignatureActivity extends AppCompatActivity {
                         Uri fileProvider = FileProvider.getUriForFile(LogoSignatureActivity.this, LogoSignatureActivity.this.getApplicationContext().getPackageName() + ".provider", photoFile);
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
                         if (intent.resolveActivity(getPackageManager()) != null) {
-                            // Start the image capture intent to take photo
-                            // startActivityForResult(intent, RESULT_LOAD_IMAGE_CAMERA);
                             cameraResultLauncher.launch(intent);
 
                     }
@@ -324,12 +314,8 @@ public class LogoSignatureActivity extends AppCompatActivity {
         return true;
     }
     public File getPhotoFileUri(String fileName) {
-        // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
 
-        // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
             Log.d(APP_TAG, "failed to create directory");
         }
@@ -412,80 +398,7 @@ public class LogoSignatureActivity extends AppCompatActivity {
             });
 
 
-/*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_LOAD_IMAGE_CAMERA && resultCode == RESULT_OK) {
 
-           // File file = new File(Environment.getExternalStorageDirectory().getPath(), "photo.jpg");
-            //Uri selectedImage = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", imgDir);
-            if(photoFile!=null)
-            {
-                Uri selectedImage = Uri.fromFile(photoFile);
-                // Uri selectedImage = data.getData();
-                System.out.println("selectedImage"+selectedImage);
-                lnSave.setVisibility(View.VISIBLE);
-                setImage(selectedImage);
-            }
-        }
-        else  if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK) {
-            {
-                Uri selectedImage = data.getData();
-                System.out.println("selectedImage gallery "+selectedImage);
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                Cursor cursor = getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-
-                if (cursor == null || cursor.getCount() < 1) {
-                    if (cursor != null) {
-                        DialogUtils.showToast(LogoSignatureActivity.this, "Unable to select image");
-//                    Log.d(TAG, "onActivityResult: NUll cursor....." + cursor.getCount());
-                    } else {
-                        DialogUtils.showToast(LogoSignatureActivity.this, "Unable to select image");
-//                    Log.d(TAG, "onActivityResult: Cursor is null");
-                    }
-                    return; // no cursor or no record. DO YOUR ERROR HANDLING
-                }
-
-                cursor.moveToFirst();
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-
-                if (columnIndex < 0) // no column index
-                {
-                    DialogUtils.showToast(LogoSignatureActivity.this, "Not supported application");
-//                Log.d(TAG, "onActivityResult: Column index going brr....");
-                    return; // DO YOUR ERROR HANDLING
-                }
-                else {
-                    String path = cursor.getString(columnIndex);
-
-                    cursor.close(); // close cursor
-
-                    if(path!=null)
-                    {
-                        File selectedImageFile = new File(path);
-                        if (selectedImageFile.exists() && Util.checkFileSizeInMB(selectedImageFile, MAX_FILE_SIZE_LIMIT))
-                        {
-//                launchImageEditActivity(selectedImage);
-                            lnSave.setVisibility(View.VISIBLE);
-                            setImage(selectedImage);
-
-                        }
-                        else
-                        {
-                            DialogUtils.showToast(LogoSignatureActivity.this, "Max file size limit " + (int) MAX_FILE_SIZE_LIMIT + "MB");
-                        }
-                    }
-
-                }
-            }
-
-        }
-
-
-
-}*/
 
 
     private void setImage(Uri uri) {
