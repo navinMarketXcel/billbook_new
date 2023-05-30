@@ -22,11 +22,8 @@ import com.billbook.app.networkcommunication.ApiInterface;
 import com.billbook.app.networkcommunication.DialogUtils;
 import com.billbook.app.utils.Util;
 import com.google.gson.Gson;
-import com.otpless.main.IntentType;
-import com.otpless.main.Otpless;
-import com.otpless.main.OtplessIntentRequest;
-import com.otpless.main.OtplessProvider;
-import com.otpless.main.OtplessTokenData;
+import com.otpless.views.OtplessManager;
+import com.otpless.views.WhatsappLoginButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,11 +40,11 @@ import retrofit2.Response;
 public class loginPick_activity extends AppCompatActivity {
 
     private Button phoneButton;
-    private Otpless otpless;
     private Button btnWhatsappLogi;
     private String mobilNo, otp,referrer_link;
     ProgressDialog whatsappDialog;
     private InstallReferrerClient referrerClient;
+    private String waid = "";
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
@@ -56,7 +53,8 @@ public class loginPick_activity extends AppCompatActivity {
         phoneButton=findViewById(R.id.btnLoginPhone);
         btnWhatsappLogi =findViewById(R.id.btnWhatsappLogi);
         setContentView(R.layout.activity_login_pick);
-        otpless = OtplessProvider.getInstance(this).init(this::onOtplessResult);
+        OtplessManager.getInstance().init(this);
+
 
         // phoneButton.setText("Force Crash");
 //        phoneButton.setOnClickListener(new View.OnClickListener() {
@@ -116,8 +114,24 @@ public class loginPick_activity extends AppCompatActivity {
 
 
         });
+        whatsappLogin();
 
     }
+    public void whatsappLogin()
+    {
+
+        WhatsappLoginButton button = (WhatsappLoginButton) findViewById(R.id.btnWhatsappLogi);
+        button.setResultCallback((data) -> {
+            if (data != null && data.getWaId() != null)
+            {
+                waid = data.getWaId();
+                onOtplessResult();
+            }
+
+// Send the waId to your server and pass the waId in getUserDetail API to retrieve the users whatsapp mobile number and name.
+// Handle the signup/signin process here
+    });
+}
     public void whatsButtonClick(View v)
     {
         if (Util.isNetworkAvailable(getApplicationContext())) {
@@ -169,7 +183,7 @@ public class loginPick_activity extends AppCompatActivity {
                     } else {
                         JSONObject body = new JSONObject(new Gson().toJson(response.body()));
                         JSONObject data = body.getJSONObject("data");
-                        initiateOtplessFlow(data.getString("url"));
+//                        initiateOtplessFlow(data.getString("url"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -183,31 +197,31 @@ public class loginPick_activity extends AppCompatActivity {
             }
         });
     }
-    private void initiateOtplessFlow(String intentUri) {
-        final OtplessIntentRequest request = new OtplessIntentRequest(intentUri)
-                .setLoadingText("Please wait...");
-        request.setIntentType(IntentType.TEXT);
-        otpless.openOtpless(request);
-    }
-    private void onOtplessResult(@Nullable OtplessTokenData response) {
+//    private void initiateOtplessFlow(String intentUri) {
+//        final OtplessIntentRequest request = new OtplessIntentRequest(intentUri)
+//                .setLoadingText("Please wait...");
+//        request.setIntentType(IntentType.TEXT);
+//        otpless.openOtpless(request);
+//    }
+    private void onOtplessResult() {
 
-        if (response == null) return;
-        Log.v("respone",response.toString());
-        if(response.getToken() == null){
-            if(whatsappDialog!=null)
-            {
-                if(whatsappDialog.isShowing())
-                {
-                    whatsappDialog.hide();
-                }
-            }
-
-
-            return;
-        }
+//        if (response == null) return;
+//        Log.v("respone",response.toString());
+//        if(response.getToken() == null){
+//            if(whatsappDialog!=null)
+//            {
+//                if(whatsappDialog.isShowing())
+//                {
+//                    whatsappDialog.hide();
+//                }
+//            }
+//
+//
+//            return;
+//        }
         //Send this token to your backend end api to fetch user details from otpless service
         HashMap<String,String> token = new HashMap<>();
-        token.put("token",response.getToken());
+        token.put("waId",waid);
         token.put("loginType","Whatsapp");
         ApiInterface apiServiceOtpLessCreds =
                 ApiClient.getClient(this).create(ApiInterface.class);
@@ -275,7 +289,7 @@ public class loginPick_activity extends AppCompatActivity {
                         }
                     });
                 } catch (JSONException e) {
-                    whatsappDialog.hide();
+                    //whatsappDialog.hide();
                     DialogUtils.stopProgressDialog();
                     DialogUtils.showToast(loginPick_activity.this, "URL Expired! Please try again.");
                     e.printStackTrace();
@@ -284,7 +298,7 @@ public class loginPick_activity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                whatsappDialog.hide();
+               // whatsappDialog.hide();
                 Util.pushEvent("Whatsapp  Failed");
                 DialogUtils.stopProgressDialog();
                 DialogUtils.showToast(loginPick_activity.this,"Failed to sign in!");

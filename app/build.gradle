@@ -7,7 +7,7 @@ android {
         applicationId "com.billbook.app"
         minSdkVersion 24
         targetSdkVersion 32
-        versionCode 88
+        versionCode 90
         versionName "2.2.7"
         buildToolsVersion "30.0.3"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -32,7 +32,7 @@ android {
     }
     buildTypes {
         debug{
-            buildConfigField "String", "BASE_URL", '"https://api.thebillbook.com/v1/"'
+            buildConfigField "String", "BASE_URL", '"https://stgapi.thebillbook.com/v1/"'
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             minifyEnabled false
 
@@ -149,6 +149,7 @@ dependencies {
 
     //payu
     implementation 'in.payu:payu-checkout-pro:1.8.2'
+    implementation 'com.github.otpless-tech:otpless-android-sdk:1.1.6'
 
 }
 

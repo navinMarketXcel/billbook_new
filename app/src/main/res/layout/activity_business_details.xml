@@ -64,7 +64,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:gravity="right"
+                    android:gravity="center"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -113,7 +113,6 @@
                         android:id="@+id/lnHelp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
                         android:layout_marginEnd="@dimen/_5sdp"
                         android:background="@drawable/app_bar_structure"
                         android:orientation="horizontal"
@@ -123,9 +122,8 @@
                             android:id="@+id/helpLine"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_gravity="right"
-                            android:layout_marginRight="5dp"
+                            android:layout_gravity="center"
+
                             android:background="@drawable/icons8_whatsapp_144"
                             android:gravity="center_horizontal" />
 
