@@ -3,7 +3,7 @@
     <declare-styleable name="CircleCheckbox">
         <attr name="showOuterCircle" format="boolean" />
 
-        <attr name="tickColor" format="string" />
+        <attr name="tickColor2" format="string" />
         <attr name="outerCircleColor" format="string" />
         <attr name="innerCircleColor" format="string" />
         <attr name="textColor" format="string" />

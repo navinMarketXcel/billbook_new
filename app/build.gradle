@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.billbook.app"
         minSdkVersion 24
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 90
         versionName "2.2.7"
         buildToolsVersion "30.0.3"

@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Bill Book</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="app_name" translatable="false">Bill Book</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="title_activity_home" translatable="false">HomeActivity</string>
     <string name="username">Username</string>
     <string name="passward">Password</string>
     <string name="yes">Yes</string>
@@ -53,7 +53,7 @@
     <string name="selling_price">Selling Price</string>
 
     <string name="do_u_want_to_logout">Do You Really Want To Logout ?</string>
-    <string name="todays_sell">Today"'"s Sell</string>
+    <string name="todays_sell" translatable="false">Today"'"s Sell</string>
     <string name="yesterdays_sell">Yesterdays Sell</string>
     <string name="Rs">\u20B9</string>
     <string name="enter_name">Customer Name (Optional)</string>
@@ -222,7 +222,7 @@
 
     <string name="registrationSuccess">Registration successful.</string>
     <string name="recent_bills">Recent Bills</string>
-    <string name="termsandContion">\tBy using the Bill Book app you are agreeing to be bound by the following terms
+    <string name="termsandContion" translatable="false">\tBy using the Bill Book app you are agreeing to be bound by the following terms
 and conditions (“Terms of Service”).
 
 \n\Bill Book is a product of H. S. India LLP. Ltd. Bill Book reserves the right
